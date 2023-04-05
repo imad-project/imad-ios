@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             if splash{
-                MainView()
+                MenuTabView()
             }else{
                 SplashView()
             }

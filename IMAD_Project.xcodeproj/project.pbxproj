@@ -20,6 +20,9 @@
 		81A1ECE729DC40D50001A366 /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECE629DC40D50001A366 /* CustomData.swift */; };
 		81A1ECEA29DC44370001A366 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 81A1ECE929DC44370001A366 /* Kingfisher */; };
 		81A1ECED29DD1F9F0001A366 /* GenreFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECEC29DD1F9F0001A366 /* GenreFilter.swift */; };
+		81A1ECF229DD3BBC0001A366 /* MenuTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF129DD3BBC0001A366 /* MenuTabView.swift */; };
+		81A1ECF729DD59760001A366 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF629DD59760001A366 /* CustomTabView.swift */; };
+		81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF829DD6BE70001A366 /* Tab.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +58,9 @@
 		81A1ECE429DC3FA30001A366 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		81A1ECE629DC40D50001A366 /* CustomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomData.swift; sourceTree = "<group>"; };
 		81A1ECEC29DD1F9F0001A366 /* GenreFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreFilter.swift; sourceTree = "<group>"; };
+		81A1ECF129DD3BBC0001A366 /* MenuTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTabView.swift; sourceTree = "<group>"; };
+		81A1ECF629DD59760001A366 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
+		81A1ECF829DD6BE70001A366 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +112,7 @@
 		8103093F29D1BDEF0021717B /* IMAD_Project */ = {
 			isa = PBXGroup;
 			children = (
+				81A1ECEF29DD3B840001A366 /* Menu */,
 				81A1ECEB29DD1F8D0001A366 /* Filter */,
 				81A1ECE129DC20730001A366 /* Set */,
 				81A1ECDE29DACB430001A366 /* Main */,
@@ -164,8 +171,18 @@
 			isa = PBXGroup;
 			children = (
 				81A1ECEC29DD1F9F0001A366 /* GenreFilter.swift */,
+				81A1ECF829DD6BE70001A366 /* Tab.swift */,
 			);
 			path = Filter;
+			sourceTree = "<group>";
+		};
+		81A1ECEF29DD3B840001A366 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				81A1ECF129DD3BBC0001A366 /* MenuTabView.swift */,
+				81A1ECF629DD59760001A366 /* CustomTabView.swift */,
+			);
+			path = Menu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,8 +324,11 @@
 				81A1ECE729DC40D50001A366 /* CustomData.swift in Sources */,
 				81A1ECED29DD1F9F0001A366 /* GenreFilter.swift in Sources */,
 				81A1ECE329DC207F0001A366 /* ColorSet.swift in Sources */,
+				81A1ECF229DD3BBC0001A366 /* MenuTabView.swift in Sources */,
 				8103094329D1BDEF0021717B /* ContentView.swift in Sources */,
 				8103094129D1BDEF0021717B /* IMAD_ProjectApp.swift in Sources */,
+				81A1ECF729DD59760001A366 /* CustomTabView.swift in Sources */,
+				81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */,
 				81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */,
 				81A1ECE029DACB720001A366 /* SplashView.swift in Sources */,
 			);

@@ -10,7 +10,7 @@ import Kingfisher
 
 struct MainView: View {
     
-    @State var filterSelect = false //필터 선택
+    @Binding var filterSelect:Bool 
     
     var body: some View {
         ZStack{
@@ -26,12 +26,6 @@ struct MainView: View {
                     }
                 }
             }
-            .blur(radius: filterSelect ? 20:0)  //블러처리
-            .allowsHitTesting(filterSelect ? false : true)  //터치방지
-            if filterSelect{
-                filterSelectView
-                
-            }
         }
         .background{
             LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
@@ -43,7 +37,7 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        MainView(filterSelect: .constant(false))
     }
 }
 
@@ -139,7 +133,10 @@ extension MainView{
                 }
                 Spacer()
                 Button {
-                    filterSelect.toggle()
+                    withAnimation(.easeIn(duration: 0.05)){
+                        filterSelect.toggle()
+                    }
+                    
                 } label: {
                     Image(systemName: "slider.horizontal.3")
                         .font(.title3)
@@ -168,34 +165,5 @@ extension MainView{
             
         }
     }
-    var filterSelectView:some View{
-        VStack{
-            Text("장르")
-                .font(.title3)
-                .bold().padding(.top,70)
-                
-                .padding(.bottom,50)
-            ScrollView {
-                LazyVStack{
-                    ForEach(GenerFilter.allCases,id:\.self){
-                        Text($0.generName)
-                            .padding(10)
-                    }
-                }
-                
-            }
-            .foregroundColor(.white)
-
-            Button {
-                filterSelect = false
-            } label: {
-                Image(systemName: "xmark")
-                    .background(Color.white.clipShape(Circle()).frame(width: 50,height: 50).shadow(radius: 10))
-                    .padding(.bottom,100)
-                    .foregroundColor(.black)
-
-            }
-            
-        }.foregroundColor(.white)
-    }
+    
 }
