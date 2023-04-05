@@ -16,6 +16,10 @@
 		8103095E29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103095D29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift */; };
 		81A1ECE029DACB720001A366 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECDF29DACB720001A366 /* SplashView.swift */; };
 		81A1ECE329DC207F0001A366 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECE229DC207F0001A366 /* ColorSet.swift */; };
+		81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECE429DC3FA30001A366 /* MainView.swift */; };
+		81A1ECE729DC40D50001A366 /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECE629DC40D50001A366 /* CustomData.swift */; };
+		81A1ECEA29DC44370001A366 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 81A1ECE929DC44370001A366 /* Kingfisher */; };
+		81A1ECED29DD1F9F0001A366 /* GenreFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECEC29DD1F9F0001A366 /* GenreFilter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +52,9 @@
 		8103095D29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMAD_ProjectUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		81A1ECDF29DACB720001A366 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		81A1ECE229DC207F0001A366 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
+		81A1ECE429DC3FA30001A366 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		81A1ECE629DC40D50001A366 /* CustomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomData.swift; sourceTree = "<group>"; };
+		81A1ECEC29DD1F9F0001A366 /* GenreFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81A1ECEA29DC44370001A366 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +106,7 @@
 		8103093F29D1BDEF0021717B /* IMAD_Project */ = {
 			isa = PBXGroup;
 			children = (
+				81A1ECEB29DD1F8D0001A366 /* Filter */,
 				81A1ECE129DC20730001A366 /* Set */,
 				81A1ECDE29DACB430001A366 /* Main */,
 				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
@@ -137,6 +146,7 @@
 			children = (
 				8103094229D1BDEF0021717B /* ContentView.swift */,
 				81A1ECDF29DACB720001A366 /* SplashView.swift */,
+				81A1ECE429DC3FA30001A366 /* MainView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -145,8 +155,17 @@
 			isa = PBXGroup;
 			children = (
 				81A1ECE229DC207F0001A366 /* ColorSet.swift */,
+				81A1ECE629DC40D50001A366 /* CustomData.swift */,
 			);
 			path = Set;
+			sourceTree = "<group>";
+		};
+		81A1ECEB29DD1F8D0001A366 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				81A1ECEC29DD1F9F0001A366 /* GenreFilter.swift */,
+			);
+			path = Filter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +184,9 @@
 			dependencies = (
 			);
 			name = IMAD_Project;
+			packageProductDependencies = (
+				81A1ECE929DC44370001A366 /* Kingfisher */,
+			);
 			productName = IMAD_Project;
 			productReference = 8103093D29D1BDEF0021717B /* IMAD_Project.app */;
 			productType = "com.apple.product-type.application";
@@ -237,6 +259,9 @@
 				Base,
 			);
 			mainGroup = 8103093429D1BDEF0021717B;
+			packageReferences = (
+				81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 8103093E29D1BDEF0021717B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -279,9 +304,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81A1ECE729DC40D50001A366 /* CustomData.swift in Sources */,
+				81A1ECED29DD1F9F0001A366 /* GenreFilter.swift in Sources */,
 				81A1ECE329DC207F0001A366 /* ColorSet.swift in Sources */,
 				8103094329D1BDEF0021717B /* ContentView.swift in Sources */,
 				8103094129D1BDEF0021717B /* IMAD_ProjectApp.swift in Sources */,
+				81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */,
 				81A1ECE029DACB720001A366 /* SplashView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,6 +526,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N676ZFA7W8;
@@ -518,6 +547,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N676ZFA7W8;
@@ -609,6 +639,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		81A1ECE929DC44370001A366 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8103093529D1BDEF0021717B /* Project object */;
 }

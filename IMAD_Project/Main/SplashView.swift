@@ -11,7 +11,7 @@ struct SplashView: View {
     @State var logo = false
     var body: some View {
         ZStack{
-            logo ? Color.customIndigo.ignoresSafeArea() :
+            
             Color.white.ignoresSafeArea()
             Image("logoName")
                 .resizable()

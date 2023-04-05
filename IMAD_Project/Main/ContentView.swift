@@ -14,13 +14,13 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             if splash{
-                Text("메인화면")
+                MainView()
             }else{
                 SplashView()
             }
         }.onAppear{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                withAnimation(.easeOut(duration: 1.0)){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                withAnimation(.easeOut(duration: 1.5)){
                     splash = true
                 }
             }
