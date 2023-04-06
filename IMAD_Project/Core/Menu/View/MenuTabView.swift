@@ -10,18 +10,18 @@ import Kingfisher
 
 struct MenuTabView: View {
     
-    @State var mode:Tab = .home
+    //@State var mode:Tab = .home
     @State var selectFilter = false //필터 선택
-    
+    @StateObject var vm = TabViewModel()
     
     var body: some View {
         ZStack{
             Color.black.ignoresSafeArea()
             ZStack(alignment: .bottom){
-                TabView(selection: $mode){
+                TabView(selection: $vm.tab){
                     MainView(filterSelect: $selectFilter)
                         .tag(Tab.home)
-                    Text("sada")
+                    CommunityView()
                         .tag(Tab.community)
                     Text("dasd")
                         .tag(Tab.notification)
@@ -33,7 +33,6 @@ struct MenuTabView: View {
                 
             }
             .blur(radius: selectFilter ? 20:0, opaque: false) //블러처리
-            //.blur(radius: selectFilter ? 10:0)
             .allowsHitTesting(selectFilter ? false : true)  //터치 비활성화
             if selectFilter{
                 filterSelectView
@@ -64,7 +63,7 @@ extension MenuTabView{
                         if tab.name != ""{
                             Button {
                                 withAnimation(.easeIn(duration: 0.2)){
-                                    mode = tab
+                                    vm.tab = tab
                                 }
                             } label: {
                                 Image(systemName: tab.name)
@@ -74,10 +73,10 @@ extension MenuTabView{
                         }else{
                             Button {
                                 withAnimation(.easeIn(duration: 0.2)){
-                                    mode = tab
+                                    vm.tab = tab
                                 }
                             } label: {
-                                KFImage(URL(string: CustomData.instance.moviePoster))
+                                KFImage(URL(string: CustomData.instance.community.image))
                                     .resizable()
                                     .frame(width: 30,height: 30)
                                     .clipShape(Circle())
@@ -98,7 +97,7 @@ extension MenuTabView{
                     .frame(width: 30,height: 3)
                     .padding(.leading,35)
                     .padding(.bottom,65)
-                    .offset(x:indicatorOffset(width: width)+3)
+                    .offset(x:vm.indicatorOffset(width: width)+3)
             }
             
         }
@@ -112,32 +111,12 @@ extension MenuTabView{
         
         
     }
-    func indicatorOffset(width:CGFloat)->CGFloat{
-        let index = CGFloat(getIndex())
-        if index == 0{return 0}
-        let buttonWidth = width/CGFloat(Tab.allCases.count)
-        
-        return index * buttonWidth
-        
-    }
-    func getIndex() ->Int{
-        switch mode {
-        case .home:
-            return 0
-        case .community:
-            return 1
-        case .notification:
-            return 2
-        case .profile:
-            return 3
-        }
-    }
+    
     var filterSelectView:some View{
         VStack{
             Text("장르")
                 .font(.title3)
                 .bold().padding(.top,70)
-            
                 .padding(.bottom,50)
             ScrollView {
                 LazyVStack{
@@ -166,4 +145,5 @@ extension MenuTabView{
             .ignoresSafeArea()
     }
 }
+
 

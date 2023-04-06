@@ -21,6 +21,7 @@ struct MainView: View {
                             filer
                             thumnail
                             movieList
+                            Spacer().frame(height: 100)
                         }
                         .foregroundColor(.white)
                     }
@@ -79,7 +80,7 @@ extension MainView{
             .bold()
             .padding(.leading)
             HStack{
-                KFImage(URL(string: CustomData.instance.moviePoster)!)
+                KFImage(URL(string: CustomData.instance.community.image)!)
                     .resizable()
                     .frame(width: 250,height: 250)
                     .cornerRadius(20)
@@ -110,7 +111,7 @@ extension MainView{
                             
                             
                     }.font(.caption)
-                    Text("1918년 제1차 세계 대전 말 뉴올리언즈. 80세의 외모를 가진 사내 아이가 태어난다. 그의 이름은 벤자민 버튼. 생김새때문에 양로원에 버려져 노인들과 함께 지내던 그는 시간이 지날수록 젊어진다는 것을 알게 된다. 12살이 되며 60대의 외모를 가지게 된 어느 날, 5살 소녀 데이지를 만난 후 그녀의 푸른 눈동자를 잊지 못하게 된다. 점차 중년이 되어 세상으로 나간 벤자민은 숙녀가 된 데이지와 만나 만남과 헤어짐을 반복하다 비로소 둘은 사랑에 빠지게 된다. 하지만 벤자민은 날마다 젊어지고 데이지는 점점 늙어가는데…")
+                    Text(CustomData.instance.community.content)
                         .font(.caption)
                         .frame(height: 70)
                 }.padding(3)
@@ -151,8 +152,8 @@ extension MainView{
             Section(header:genreHeader(name: item.generName)){
                 ScrollView(.horizontal){
                     HStack(spacing: 0){
-                    ForEach(0...10,id:\.self){ item in
-                            KFImage(URL(string: CustomData.instance.movieList.first!)!)
+                        ForEach(CustomData.instance.movieList.shuffled(),id:\.self){ item in
+                        KFImage(URL(string: item)!)
                                 .resizable()
                                 .frame(width: 150,height: 200)
                                 .cornerRadius(15)

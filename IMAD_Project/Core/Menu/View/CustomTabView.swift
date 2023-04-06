@@ -30,7 +30,7 @@ struct CustomTabView: View {
                             Button {
                                 currentTab = tab
                             } label: {
-                                KFImage(URL(string: CustomData.instance.moviePoster))
+                                KFImage(URL(string: CustomData.instance.community.image))
                                        .resizable()
                                        .frame(width: 30,height: 30)
                                        .clipShape(Circle())
