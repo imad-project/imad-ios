@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommunityView: View {
     @StateObject var vm = CommunityTabViewModel()
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         ZStack{
             VStack(spacing: 0) {
@@ -17,21 +18,27 @@ struct CommunityView: View {
                         Group{
                             List(CustomData.instance.movieList.shuffled(),id: \.self){ item in
                                 CommunityListRowView(image: item,community: CustomData.instance.community)
-                                    .listRowBackground(Color.white)
+                                    .listRowBackground(Color.clear)
                             }
                             .tag(CommunityFilter.free)
                             List(CustomData.instance.movieList.shuffled(),id: \.self){ item in
                                 CommunityListRowView(image: item,community: CustomData.instance.community)
-                                    .listRowBackground(Color.white)
+                                    .listRowBackground(Color.clear)
                             }
                             .tag(CommunityFilter.question)
                             List(CustomData.instance.movieList.shuffled(),id: \.self){ item in
                                 CommunityListRowView(image: item,community: CustomData.instance.community)
-                                    .listRowBackground(Color.white)
+                                    .listRowBackground(Color.clear)
                             }
                             .tag(CommunityFilter.debate)
                         }
-                        .background(.white)
+                        .background{
+                            if colorScheme == .dark {
+                                LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
+                            }else{
+                                Color.white
+                            }
+                        }
                         .listStyle(.plain)
                         .scrollContentBackground(.hidden)   //리스트 배경 없음
                         .padding(.bottom,50)
@@ -42,7 +49,11 @@ struct CommunityView: View {
             }
             .ignoresSafeArea()
             .background{
-                LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
+                if colorScheme == .dark {
+                    LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
+                }else{
+                    Color.white
+                }
             }
         }
        
@@ -73,11 +84,15 @@ extension CommunityView{
             category
             
         }
-        .foregroundColor(.white)
+        .foregroundColor(.indigoNotPrimary)
         .padding(.vertical)
         .padding(.top,30)
         .background{
-            LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
+            if colorScheme == .dark {
+                Color.white
+            }else{
+                LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
+            }
         }
         
     }

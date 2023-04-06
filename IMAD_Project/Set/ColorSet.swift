@@ -11,4 +11,5 @@ import SwiftUI
 extension Color{
     static let customIndigo = Color("indigo")
     static let indigoPrimary = Color("indigoPrimary")
+    static let indigoNotPrimary = Color("indigoNotPrimary")
 }

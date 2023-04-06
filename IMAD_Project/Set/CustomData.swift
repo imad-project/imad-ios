@@ -23,6 +23,11 @@ class CustomData{
     "https://i.namu.wiki/i/KqzJaLGbenad2hkTTY1uNtQRk7MhHVY1Y4yWFtKTuukEm22Tq78YQbdtK5SSKH2COPCCbkPMFBy4SCA7IJ9K7FRiCMEFgcynWW00bGckzIFYg0XXh3YAJFg7SW7nFHjs6ioKpoBRRkyMB2miD8NZqg.webp",
     "https://i.namu.wiki/i/1xh_6ayTSr2KwQPf03LPZVqeeEEjC_w6y7RYdmPwBwdqzpwAXwz3RRiExNr7gwGJ-qJR1qLp_TswzUIPpzlXI3zo1HMhhInx7sOp5WGE45VbZg7F8Cou-lDyVivR9Ji1xhkXg7r_kZth83-NUgHUUw.webp"
     ]
-    
+    let notification = [
+        Notific(icon: "bubble.left", content: "회원님에 게시물에 댓글이 달렸습니다"),
+        Notific(icon: "bell", content: "회원님에 게시물에 새로운 추천이 있습니다"),
+        Notific(icon: "envelope", content: "개발자의 편지 - 오늘의 새로운 영화!")
+    ]
+   
     
 }

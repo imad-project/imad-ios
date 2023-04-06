@@ -23,7 +23,7 @@ struct MenuTabView: View {
                         .tag(Tab.home)
                     CommunityView()
                         .tag(Tab.community)
-                    Text("dasd")
+                    NotificationView()
                         .tag(Tab.notification)
                     Text("asd")
                         .tag(Tab.profile)

@@ -36,7 +36,7 @@ struct CommunityListRowView: View {
                 .cornerRadius(20)
         }
         .frame(maxHeight: 100)
-        .foregroundColor(.customIndigo)
+        .foregroundColor(.indigoPrimary)
     }
 }
 
