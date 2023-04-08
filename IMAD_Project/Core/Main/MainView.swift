@@ -14,7 +14,7 @@ struct MainView: View {
     
     var body: some View {
         ZStack{
-            ScrollView{
+            ScrollView(showsIndicators: false){
                 VStack(spacing:0){
                     LazyVStack(pinnedViews: [.sectionHeaders]) {
                         Section(header: header) {
@@ -119,7 +119,7 @@ extension MainView{
         }
     }
     var filer:some View{
-        ScrollView(.horizontal){
+        ScrollView(.horizontal,showsIndicators: false){
             HStack{
                 Group{
                     Text("시리즈")
@@ -150,7 +150,7 @@ extension MainView{
     var movieList:some View{
         ForEach(GenerFilter.allCases,id:\.self){ item in
             Section(header:genreHeader(name: item.generName)){
-                ScrollView(.horizontal){
+                ScrollView(.horizontal,showsIndicators: false){
                     HStack(spacing: 0){
                         ForEach(CustomData.instance.movieList.shuffled(),id:\.self){ item in
                         KFImage(URL(string: item)!)
