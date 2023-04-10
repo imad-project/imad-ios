@@ -59,8 +59,16 @@ struct ProfileView: View {
             }
             Spacer()
         }
-        .background(Color.white)
-        .foregroundColor(.customIndigo)
+        .background{
+            VStack{
+                LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
+                    .frame(height: UIScreen.main.bounds.height/2 + 30)
+                    .shadow(radius: 20)
+                Spacer()
+            }
+            
+        }
+        .foregroundColor(.white)
         .ignoresSafeArea()
     }
     func getPercentage(geo:GeometryProxy) -> Double{
@@ -84,7 +92,7 @@ extension ProfileView{
                     .font(.title)
                     .bold()
                     .padding(.leading)
-                    .foregroundColor(.customIndigo)
+                    .foregroundColor(.white)
                 Spacer()
                 KFImage(URL(string: CustomData.instance.movieList.first!))
                     .resizable()
@@ -97,6 +105,7 @@ extension ProfileView{
         }
         .padding(.vertical)
         .padding(.top,30)
+        
 //        .background{
 //            if colorScheme == .dark {
 //                Color.white
