@@ -8,19 +8,37 @@
 import SwiftUI
 
 struct SplashView: View {
+    
+    @State var phase:CGFloat = 0.0
     @State var logo = false
+    
     var body: some View {
         ZStack{
-            
             Color.white.ignoresSafeArea()
-            Image("logoName")
-                .resizable()
-                .scaledToFill()
-                .frame(width: logo ? 5000: 200,height: 100)
-                .opacity(logo ? 0:1.0)
+            Wave(progress: 0.3, phase: phase).fill(Color.customIndigo)
+                .onAppear{
+                    withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
+                        self.phase = .pi * 2
+                    }
+                }
+                .ignoresSafeArea()
+            Wave(progress: 0.31, phase:0).fill(Color.customIndigo.opacity(0.5))
+                .shadow(radius: 20)
+            VStack{
+                Image("logoName")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 200,height: 100)
+                    .opacity(logo ? 1.0:0.0)
+                Text("아이매드")
+                    .bold()
+                    .foregroundColor(.customIndigo)
+                    .opacity(logo ? 1.0:0.0)
+            }
+            
             
         }.onAppear{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                 withAnimation(.easeIn(duration: 0.5)) {
                     logo = true
                 }

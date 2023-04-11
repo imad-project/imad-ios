@@ -10,9 +10,9 @@ import Kingfisher
 
 struct MenuTabView: View {
     
-    //@State var mode:Tab = .home
-    @State var selectFilter = false //필터 선택
     @StateObject var vm = TabViewModel()
+    @State var selectFilter = false //필터 선택
+    
     
     var body: some View {
         ZStack{
@@ -30,7 +30,6 @@ struct MenuTabView: View {
                     
                 }
                 menu
-                
             }
             .blur(radius: selectFilter ? 20:0, opaque: false) //블러처리
             .allowsHitTesting(selectFilter ? false : true)  //터치 비활성화

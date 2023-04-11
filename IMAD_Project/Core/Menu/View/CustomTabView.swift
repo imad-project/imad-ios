@@ -45,7 +45,6 @@ struct CustomTabView: View {
                     
                 }
             }
-            .frame(maxWidth:.infinity)
             .overlay(alignment:.leading){
                 Capsule()
                     .frame(width: 30,height: 3)
