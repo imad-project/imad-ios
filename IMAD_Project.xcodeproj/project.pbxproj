@@ -37,6 +37,15 @@
 		81DB1FBD29E55095002C0840 /* LogionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FBC29E55095002C0840 /* LogionView.swift */; };
 		81DB1FBF29E56CA8002C0840 /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FBE29E56CA8002C0840 /* Wave.swift */; };
 		81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC129E56D1E002C0840 /* CustomTextField.swift */; };
+		81DB1FC429E6A583002C0840 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC329E6A583002C0840 /* RegisterView.swift */; };
+		81DB1FC729E6A8BB002C0840 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC629E6A8BB002C0840 /* BackgroundView.swift */; };
+		81DB1FCA29E6C2E2002C0840 /* RegisterGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC929E6C2E2002C0840 /* RegisterGenderView.swift */; };
+		81DB1FCF29E6D34F002C0840 /* ProfileSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FCE29E6D34F002C0840 /* ProfileSelectView.swift */; };
+		81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD029E6D717002C0840 /* SelectGenreView.swift */; };
+		81DB1FD629E7D03B002C0840 /* KeyBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD529E7D03B002C0840 /* KeyBoard.swift */; };
+		81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */; };
+		81DB1FDA29E7D7E2002C0840 /* RegisterFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD929E7D7E2002C0840 /* RegisterFilter.swift */; };
+		81DB1FDD29E7DA39002C0840 /* StageTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FDC29E7DA39002C0840 /* StageTabViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +98,15 @@
 		81DB1FBC29E55095002C0840 /* LogionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogionView.swift; sourceTree = "<group>"; };
 		81DB1FBE29E56CA8002C0840 /* Wave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wave.swift; sourceTree = "<group>"; };
 		81DB1FC129E56D1E002C0840 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		81DB1FC329E6A583002C0840 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		81DB1FC629E6A8BB002C0840 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		81DB1FC929E6C2E2002C0840 /* RegisterGenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGenderView.swift; sourceTree = "<group>"; };
+		81DB1FCE29E6D34F002C0840 /* ProfileSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectView.swift; sourceTree = "<group>"; };
+		81DB1FD029E6D717002C0840 /* SelectGenreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenreView.swift; sourceTree = "<group>"; };
+		81DB1FD529E7D03B002C0840 /* KeyBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoard.swift; sourceTree = "<group>"; };
+		81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTabView.swift; sourceTree = "<group>"; };
+		81DB1FD929E7D7E2002C0840 /* RegisterFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterFilter.swift; sourceTree = "<group>"; };
+		81DB1FDC29E7DA39002C0840 /* StageTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageTabViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +197,8 @@
 		812CDE9129DE91CD0003B993 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				81DB1FC829E6C2B9002C0840 /* Collection */,
+				81DB1FC529E6A8A6002C0840 /* BackGround */,
 				81DB1FC029E56D06002C0840 /* Custom */,
 				81DB1FBA29E55079002C0840 /* Authentication */,
 				812EF9D129E1B5D800CE19DA /* Profile */,
@@ -275,6 +295,7 @@
 				81A1ECE629DC40D50001A366 /* CustomData.swift */,
 				81DB1FB829E549C5002C0840 /* RoundShape.swift */,
 				81DB1FBE29E56CA8002C0840 /* Wave.swift */,
+				81DB1FD529E7D03B002C0840 /* KeyBoard.swift */,
 			);
 			path = Set;
 			sourceTree = "<group>";
@@ -286,6 +307,7 @@
 				81A1ECF829DD6BE70001A366 /* Tab.swift */,
 				812CDE9529DE9CD50003B993 /* CommunityFilter.swift */,
 				81DB1FB429E51CCE002C0840 /* SettingFilter.swift */,
+				81DB1FD929E7D7E2002C0840 /* RegisterFilter.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -311,6 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				81DB1FBC29E55095002C0840 /* LogionView.swift */,
+				81DB1FC329E6A583002C0840 /* RegisterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -321,6 +344,42 @@
 				81DB1FC129E56D1E002C0840 /* CustomTextField.swift */,
 			);
 			path = Custom;
+			sourceTree = "<group>";
+		};
+		81DB1FC529E6A8A6002C0840 /* BackGround */ = {
+			isa = PBXGroup;
+			children = (
+				81DB1FC629E6A8BB002C0840 /* BackgroundView.swift */,
+			);
+			path = BackGround;
+			sourceTree = "<group>";
+		};
+		81DB1FC829E6C2B9002C0840 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				81DB1FDE29E7F337002C0840 /* View */,
+				81DB1FDB29E7DA29002C0840 /* ViewModel */,
+			);
+			path = Collection;
+			sourceTree = "<group>";
+		};
+		81DB1FDB29E7DA29002C0840 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				81DB1FDC29E7DA39002C0840 /* StageTabViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		81DB1FDE29E7F337002C0840 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				81DB1FC929E6C2E2002C0840 /* RegisterGenderView.swift */,
+				81DB1FCE29E6D34F002C0840 /* ProfileSelectView.swift */,
+				81DB1FD029E6D717002C0840 /* SelectGenreView.swift */,
+				81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -460,7 +519,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				81A1ECE729DC40D50001A366 /* CustomData.swift in Sources */,
+				81DB1FCF29E6D34F002C0840 /* ProfileSelectView.swift in Sources */,
 				81A1ECED29DD1F9F0001A366 /* GenreFilter.swift in Sources */,
+				81DB1FC729E6A8BB002C0840 /* BackgroundView.swift in Sources */,
+				81DB1FDD29E7DA39002C0840 /* StageTabViewModel.swift in Sources */,
 				812CDEAA29DF0BF20003B993 /* Notific.swift in Sources */,
 				812CDE9A29DE9ECB0003B993 /* TabViewModel.swift in Sources */,
 				812CDEA029DEAA850003B993 /* CommunityListRowView.swift in Sources */,
@@ -470,16 +532,22 @@
 				812CDE9629DE9CD50003B993 /* CommunityFilter.swift in Sources */,
 				812CDEA629DEC18E0003B993 /* NotificationView.swift in Sources */,
 				81A1ECF229DD3BBC0001A366 /* MenuTabView.swift in Sources */,
+				81DB1FC429E6A583002C0840 /* RegisterView.swift in Sources */,
+				81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */,
 				81DB1FBD29E55095002C0840 /* LogionView.swift in Sources */,
 				8103094329D1BDEF0021717B /* ContentView.swift in Sources */,
 				812CDE9429DE92000003B993 /* CommunityView.swift in Sources */,
 				812CDE9E29DEA22D0003B993 /* CommunityTabViewModel.swift in Sources */,
+				81DB1FD629E7D03B002C0840 /* KeyBoard.swift in Sources */,
 				8103094129D1BDEF0021717B /* IMAD_ProjectApp.swift in Sources */,
 				81A1ECF729DD59760001A366 /* CustomTabView.swift in Sources */,
 				81DB1FB929E549C5002C0840 /* RoundShape.swift in Sources */,
 				81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */,
 				81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */,
+				81DB1FCA29E6C2E2002C0840 /* RegisterGenderView.swift in Sources */,
+				81DB1FDA29E7D7E2002C0840 /* RegisterFilter.swift in Sources */,
 				81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */,
+				81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */,
 				812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */,
 				81A1ECE029DACB720001A366 /* SplashView.swift in Sources */,
 				812CDEA329DEAE880003B993 /* Community.swift in Sources */,
