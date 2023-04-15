@@ -10,6 +10,7 @@ import Kingfisher
 
 struct ProfileView: View {
     @State var phase:CGFloat = 0.0
+    @Binding var login:Bool
     let columns = [ GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
     
     var body: some View {
@@ -84,39 +85,37 @@ struct ProfileView: View {
                 .padding(.top,10)
             ScrollView(.horizontal,showsIndicators: false){
                 HStack{
-                    ForEach(CustomData.instance.movieList,id: \.self) { item in
-                            
+                    ForEach(GenreFilter.allCases,id:\.self){ item in
                         VStack{
-                                KFImage(URL(string: item))
-                                    .resizable()
-                                    .frame(width:200,height:150)
-                                    .overlay{
-                                        Color.black.opacity(0.5)
-                                        VStack(spacing:0){
-                                            HStack{
-                                                Text("로맨스/사랑")
-                                                    .font(.caption)
-                                                    .bold()
-                                                    .padding([.top,.leading])
-                                                Spacer()
-                                            }
-                                            Circle()
-                                                .trim(from: 0.0, to: 0.78)
-                                                .stroke(lineWidth: 2)
-                                                .rotation(Angle(degrees: 270))
-                                                .foregroundColor(.white)
-                                                .padding(20)
-                                                .overlay{
-                                                    Text("78°")
-                                                        .font(.caption)
-                                                        .foregroundColor(.white)
-                                                        .bold()
-                                                }
+                            Image(item.rawValue)
+                                .resizable()
+                                .frame(width:200,height:150)
+                                .overlay{
+                                    Color.black.opacity(0.5)
+                                    VStack(spacing:0){
+                                        HStack{
+                                            Text(item.generName)
+                                                .font(.caption)
+                                                .bold()
+                                                .padding([.top,.leading])
+                                            Spacer()
                                         }
+                                        Circle()
+                                            .trim(from: 0.0, to: 0.78)
+                                            .stroke(lineWidth: 2)
+                                            .rotation(Angle(degrees: 270))
+                                            .foregroundColor(.white)
+                                            .padding(20)
+                                            .overlay{
+                                                Text("78°")
+                                                    .font(.caption)
+                                                    .foregroundColor(.white)
+                                                    .bold()
+                                            }
                                     }
-                                    .clipShape(RoundedRectangle(cornerRadius:20))
-                                    .shadow(radius:5)
-                            
+                                }
+                                .shadow(radius:5)
+                                .clipShape(RoundedRectangle(cornerRadius:20))
                         }
                         .padding(.leading,20)
                         .padding(.bottom)
@@ -135,7 +134,6 @@ struct ProfileView: View {
         }
         .background{
             Color.white
-            
         }
         .foregroundColor(.white)
         .ignoresSafeArea()
@@ -149,7 +147,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(login: .constant(true))
     }
 }
 
@@ -202,7 +200,10 @@ extension ProfileView{
             .padding(.top)
             HStack{
                 Group{
-                    Text("고객센터")
+                    Text("로그아웃")
+                        .onTapGesture {
+                            login = false
+                        }
                     Text("약관 확인")
                 }
                 .font(.callout)

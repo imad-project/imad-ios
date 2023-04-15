@@ -13,7 +13,8 @@ struct LogionView: View {
     @State var phase:CGFloat = 0.0
     @State var id = ""
     @State var password = ""
-
+    @Binding var login:Bool
+    
     var body: some View {
         NavigationStack{
             ZStack(alignment: .bottomTrailing){
@@ -32,13 +33,25 @@ struct LogionView: View {
                             CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.white, text: $password).padding(.leading)
                                 .padding(.bottom,50)
                         }
-                        button(action: (), view: Text("로그인"), buttonColor: .white, textColor: .customIndigo)
+                        Button {
+                            login = true
+                        } label: {
+                            Capsule()
+                                .frame(height: 50)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .overlay {
+                                    Text("로그인")
+                                        .bold()
+                                        .foregroundColor(.customIndigo)
+                                        .shadow(radius: 20)
+                                }
+                        }
                         HStack(spacing: 20){
                             button(action: (), view: Image("apple").resizable().frame(width: 30,height: 30), buttonColor: .black, textColor: .customIndigo)
-                            button(action: (), view: Image("google").resizable().frame(width: 30,height: 30), buttonColor: .white, textColor: .customIndigo)
+                            button(action: (), view: Image("naver").resizable().frame(width: 40,height: 40), buttonColor: .green, textColor: .customIndigo)
                             button(action: (), view: Image("kakao").resizable().frame(width: 30,height: 30), buttonColor: .yellow, textColor: .customIndigo)
                         }
-                        .shadow(radius: 20)
                         Spacer()
                         HStack{
                             Group{
@@ -56,7 +69,7 @@ struct LogionView: View {
                                 Text("|")
                                 Text("비밀번호 찾기")
                             }.bold()
-                            
+                                .shadow(radius: 20)
                         }
                         .font(.caption)
                         .frame(maxWidth: .infinity)
@@ -77,7 +90,7 @@ struct LogionView: View {
 
 struct LogionView_Previews: PreviewProvider {
     static var previews: some View {
-        LogionView()
+        LogionView(login: .constant(false))
     }
 }
 

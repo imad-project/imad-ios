@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum GenerFilter:String, CaseIterable{
+enum GenreFilter:String, CaseIterable{
     case family
     case fantasy
     case horror

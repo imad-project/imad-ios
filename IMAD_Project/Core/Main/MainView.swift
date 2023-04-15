@@ -10,28 +10,33 @@ import Kingfisher
 
 struct MainView: View {
     
+    @State var poster:Review = CustomData.instance.reviewList.first!
+    @State var isReview = false
     @Binding var filterSelect:Bool 
     
     var body: some View {
-        ZStack{
-            ScrollView(showsIndicators: false){
-                VStack(spacing:0){
-                    LazyVStack(pinnedViews: [.sectionHeaders]) {
-                        Section(header: header) {
-                            filer
-                            thumnail
-                            movieList
-                            Spacer().frame(height: 100)
+        NavigationStack{
+            ZStack{
+                ScrollView(showsIndicators: false){
+                    VStack(spacing:0){
+                        LazyVStack(pinnedViews: [.sectionHeaders]) {
+                            Section(header: header) {
+                                filer
+                                thumnail
+                                movieList
+                                Spacer().frame(height: 100)
+                            }
+                            .foregroundColor(.white)
                         }
-                        .foregroundColor(.white)
                     }
                 }
+            }.background{
+                LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
             }
+            .ignoresSafeArea()
         }
-        .background{
-            LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
-        }
-        .ignoresSafeArea()
+        
+        
         
     }
 }
@@ -148,18 +153,26 @@ extension MainView{
         }
     }
     var movieList:some View{
-        ForEach(GenerFilter.allCases,id:\.self){ item in
-            Section(header:genreHeader(name: item.generName)){
+        ForEach(GenreFilter.allCases,id:\.self){ genre in
+            Section(header:genreHeader(name: genre.generName)){
                 ScrollView(.horizontal,showsIndicators: false){
                     HStack(spacing: 0){
-                        ForEach(CustomData.instance.movieList.shuffled(),id:\.self){ item in
-                        KFImage(URL(string: item)!)
-                                .resizable()
-                                .frame(width: 150,height: 200)
-                                .cornerRadius(15)
-                                .padding(.leading)
+                        ForEach(CustomData.instance.reviewList.shuffled(),id:\.self){ item in
+                            Button {
+                                poster = item
+                                isReview = true
+                            } label: {
+                                KFImage(URL(string: item.thumbnail)!)
+                                    .resizable()
+                                    .frame(width: 150,height: 200)
+                                    .cornerRadius(15)
+                                    .padding(.leading)
+                            }
+                            .navigationDestination(isPresented: $isReview){
+                                ReviewView(isReview: $isReview, review: poster)
+                                    .navigationBarBackButtonHidden(true)
+                            }
                         }
-                       
                     }
                 }
             }

@@ -12,7 +12,7 @@ struct MenuTabView: View {
     
     @StateObject var vm = TabViewModel()
     @State var selectFilter = false //필터 선택
-    
+    @Binding var login:Bool
     
     var body: some View {
         ZStack{
@@ -25,7 +25,7 @@ struct MenuTabView: View {
                         .tag(Tab.community)
                     NotificationView()
                         .tag(Tab.notification)
-                    ProfileView()
+                    ProfileView(login: $login)
                         .tag(Tab.profile)
                     
                 }
@@ -47,7 +47,7 @@ struct MenuTabView: View {
 
 struct MenuTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuTabView()
+        MenuTabView(login: .constant(true))
     }
 }
 
@@ -119,7 +119,7 @@ extension MenuTabView{
                 .padding(.bottom,50)
             ScrollView {
                 LazyVStack{
-                    ForEach(GenerFilter.allCases,id:\.self){
+                    ForEach(GenreFilter.allCases,id:\.self){
                         Text($0.generName)
                             .padding(10)
                     }

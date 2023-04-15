@@ -14,6 +14,10 @@
 		8103095229D1BDF00021717B /* IMAD_ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103095129D1BDF00021717B /* IMAD_ProjectTests.swift */; };
 		8103095C29D1BDF00021717B /* IMAD_ProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103095B29D1BDF00021717B /* IMAD_ProjectUITests.swift */; };
 		8103095E29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103095D29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift */; };
+		811DA16729E9305B00482A6A /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16629E9305B00482A6A /* ReviewView.swift */; };
+		811DA16929E9332500482A6A /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16829E9332500482A6A /* Review.swift */; };
+		811DA16B29E94D9D00482A6A /* UserReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16A29E94D9D00482A6A /* UserReview.swift */; };
+		811DA16D29E978DB00482A6A /* ComminityPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16C29E978DB00482A6A /* ComminityPostView.swift */; };
 		812CDE9429DE92000003B993 /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9329DE92000003B993 /* CommunityView.swift */; };
 		812CDE9629DE9CD50003B993 /* CommunityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9529DE9CD50003B993 /* CommunityFilter.swift */; };
 		812CDE9A29DE9ECB0003B993 /* TabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9929DE9ECB0003B993 /* TabViewModel.swift */; };
@@ -30,7 +34,6 @@
 		81A1ECEA29DC44370001A366 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 81A1ECE929DC44370001A366 /* Kingfisher */; };
 		81A1ECED29DD1F9F0001A366 /* GenreFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECEC29DD1F9F0001A366 /* GenreFilter.swift */; };
 		81A1ECF229DD3BBC0001A366 /* MenuTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF129DD3BBC0001A366 /* MenuTabView.swift */; };
-		81A1ECF729DD59760001A366 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF629DD59760001A366 /* CustomTabView.swift */; };
 		81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF829DD6BE70001A366 /* Tab.swift */; };
 		81DB1FB529E51CCE002C0840 /* SettingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FB429E51CCE002C0840 /* SettingFilter.swift */; };
 		81DB1FB929E549C5002C0840 /* RoundShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FB829E549C5002C0840 /* RoundShape.swift */; };
@@ -76,6 +79,10 @@
 		8103095729D1BDF00021717B /* IMAD_ProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMAD_ProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8103095B29D1BDF00021717B /* IMAD_ProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMAD_ProjectUITests.swift; sourceTree = "<group>"; };
 		8103095D29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMAD_ProjectUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		811DA16629E9305B00482A6A /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
+		811DA16829E9332500482A6A /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		811DA16A29E94D9D00482A6A /* UserReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReview.swift; sourceTree = "<group>"; };
+		811DA16C29E978DB00482A6A /* ComminityPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComminityPostView.swift; sourceTree = "<group>"; };
 		812CDE9329DE92000003B993 /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
 		812CDE9529DE9CD50003B993 /* CommunityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilter.swift; sourceTree = "<group>"; };
 		812CDE9929DE9ECB0003B993 /* TabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewModel.swift; sourceTree = "<group>"; };
@@ -91,7 +98,6 @@
 		81A1ECE629DC40D50001A366 /* CustomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomData.swift; sourceTree = "<group>"; };
 		81A1ECEC29DD1F9F0001A366 /* GenreFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreFilter.swift; sourceTree = "<group>"; };
 		81A1ECF129DD3BBC0001A366 /* MenuTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTabView.swift; sourceTree = "<group>"; };
-		81A1ECF629DD59760001A366 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		81A1ECF829DD6BE70001A366 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		81DB1FB429E51CCE002C0840 /* SettingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingFilter.swift; sourceTree = "<group>"; };
 		81DB1FB829E549C5002C0840 /* RoundShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShape.swift; sourceTree = "<group>"; };
@@ -194,9 +200,18 @@
 			path = IMAD_ProjectUITests;
 			sourceTree = "<group>";
 		};
+		811DA16529E92FD800482A6A /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				811DA16629E9305B00482A6A /* ReviewView.swift */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
 		812CDE9129DE91CD0003B993 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				811DA16529E92FD800482A6A /* Review */,
 				81DB1FC829E6C2B9002C0840 /* Collection */,
 				81DB1FC529E6A8A6002C0840 /* BackGround */,
 				81DB1FC029E56D06002C0840 /* Custom */,
@@ -223,7 +238,6 @@
 			isa = PBXGroup;
 			children = (
 				81A1ECF129DD3BBC0001A366 /* MenuTabView.swift */,
-				81A1ECF629DD59760001A366 /* CustomTabView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -241,6 +255,7 @@
 			children = (
 				812CDE9329DE92000003B993 /* CommunityView.swift */,
 				812CDE9F29DEAA850003B993 /* CommunityListRowView.swift */,
+				811DA16C29E978DB00482A6A /* ComminityPostView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -258,6 +273,8 @@
 			children = (
 				812CDEA229DEAE880003B993 /* Community.swift */,
 				812CDEA929DF0BF20003B993 /* Notific.swift */,
+				811DA16829E9332500482A6A /* Review.swift */,
+				811DA16A29E94D9D00482A6A /* UserReview.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -531,22 +548,25 @@
 				81DB1FB529E51CCE002C0840 /* SettingFilter.swift in Sources */,
 				812CDE9629DE9CD50003B993 /* CommunityFilter.swift in Sources */,
 				812CDEA629DEC18E0003B993 /* NotificationView.swift in Sources */,
+				811DA16B29E94D9D00482A6A /* UserReview.swift in Sources */,
 				81A1ECF229DD3BBC0001A366 /* MenuTabView.swift in Sources */,
+				811DA16729E9305B00482A6A /* ReviewView.swift in Sources */,
 				81DB1FC429E6A583002C0840 /* RegisterView.swift in Sources */,
 				81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */,
 				81DB1FBD29E55095002C0840 /* LogionView.swift in Sources */,
 				8103094329D1BDEF0021717B /* ContentView.swift in Sources */,
+				811DA16D29E978DB00482A6A /* ComminityPostView.swift in Sources */,
 				812CDE9429DE92000003B993 /* CommunityView.swift in Sources */,
 				812CDE9E29DEA22D0003B993 /* CommunityTabViewModel.swift in Sources */,
 				81DB1FD629E7D03B002C0840 /* KeyBoard.swift in Sources */,
 				8103094129D1BDEF0021717B /* IMAD_ProjectApp.swift in Sources */,
-				81A1ECF729DD59760001A366 /* CustomTabView.swift in Sources */,
 				81DB1FB929E549C5002C0840 /* RoundShape.swift in Sources */,
 				81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */,
 				81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */,
 				81DB1FCA29E6C2E2002C0840 /* RegisterGenderView.swift in Sources */,
 				81DB1FDA29E7D7E2002C0840 /* RegisterFilter.swift in Sources */,
 				81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */,
+				811DA16929E9332500482A6A /* Review.swift in Sources */,
 				81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */,
 				812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */,
 				81A1ECE029DACB720001A366 /* SplashView.swift in Sources */,

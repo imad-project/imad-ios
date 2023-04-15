@@ -10,12 +10,16 @@ import SwiftUI
 struct ContentView: View {
     
     @State var splash = false
+    @State var login = false
     
     var body: some View {
         ZStack {
             if splash{
-                //MenuTabView()
-                LogionView()
+                if login{
+                    MenuTabView(login: $login)
+                }else{
+                    LogionView(login: $login)
+                }
             }else{
                 SplashView()
             }
