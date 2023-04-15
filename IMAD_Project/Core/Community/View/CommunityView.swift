@@ -8,31 +8,51 @@
 import SwiftUI
 
 struct CommunityView: View {
+    
+    @State var posting = false
+    @State var post = CustomData.instance.reviewList.first!
     @StateObject var vm = CommunityTabViewModel()
     @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
-        ZStack{
-            VStack(spacing: 0) {
-                Section(header:header){
-                    TabView(selection: $vm.communityTab) {
-                        Group{
-                            List(CustomData.instance.movieList.shuffled(),id: \.self){ item in
-                                CommunityListRowView(image: item,community: CustomData.instance.community)
-                                    .listRowBackground(Color.clear)
-                            }
-                            .tag(CommunityFilter.free)
-                            List(CustomData.instance.movieList.shuffled(),id: \.self){ item in
-                                CommunityListRowView(image: item,community: CustomData.instance.community)
-                                    .listRowBackground(Color.clear)
-                            }
-                            .tag(CommunityFilter.question)
-                            List(CustomData.instance.movieList.shuffled(),id: \.self){ item in
-                                CommunityListRowView(image: item,community: CustomData.instance.community)
-                                    .listRowBackground(Color.clear)
-                            }
-                            .tag(CommunityFilter.debate)
-                        }
-                        .background{
+        NavigationStack{
+            ZStack{
+                VStack(spacing: 0) {
+                    Section(header:header){
+                        TabView(selection: $vm.communityTab) {
+                                List(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+                                    Button {
+                                        post = item
+                                        posting = true
+                                    } label: {
+                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community)
+                                            .listRowBackground(Color.clear)
+                                    }
+                                }
+                                .tag(CommunityFilter.free)
+                                List(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+                                    Button {
+                                        post = item
+                                        posting = true
+                                    } label: {
+                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community)
+                                            .listRowBackground(Color.clear)
+                                    }
+                                }
+                                .tag(CommunityFilter.question)
+                                List(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+                                    Button {
+                                        post = item
+                                        posting = true
+                                    } label: {
+                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community)
+                                            .listRowBackground(Color.clear)
+                                    }
+                                }
+                                .tag(CommunityFilter.debate)
+                            
+                            
+                        }.background{
                             if colorScheme == .dark {
                                 LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
                             }else{
@@ -44,20 +64,19 @@ struct CommunityView: View {
                         .padding(.bottom,50)
                         
                     }
-                    
                 }
-            }
-            .ignoresSafeArea()
-            .background{
-                if colorScheme == .dark {
-                    LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
-                }else{
-                    Color.white
+                .ignoresSafeArea()
+                .background{
+                    if colorScheme == .dark {
+                        LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
+                    }else{
+                        Color.white
+                    }
                 }
+            }.navigationDestination(isPresented: $posting) {
+                CommunityPostView(isReview: $posting, review: post)
             }
         }
-       
-        
     }
 }
 
