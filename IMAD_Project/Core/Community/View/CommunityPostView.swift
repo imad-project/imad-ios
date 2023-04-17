@@ -68,10 +68,10 @@ struct CommunityPostView: View {
                             }
                             
                         VStack{
-                            CustomTextField(password: false, image: "square.and.pencil", placeholder: "평점 및 리뷰를 작성해주세요 .. ", color: .white, text: $reviewText)
-                                .padding(.bottom,5)
-                            Divider()
-                                .background(Color.white)
+//                            CustomTextField(password: false, image: "square.and.pencil", placeholder: "평점 및 리뷰를 작성해주세요 .. ", color: .white, text: $reviewText)
+//                                .padding(.bottom,5)
+//                            Divider()
+//                                .background(Color.white)
                         }
                         .padding(.leading,30)
                     }
