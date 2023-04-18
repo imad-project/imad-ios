@@ -16,18 +16,18 @@ struct CommunityView: View {
     
     var body: some View {
         NavigationStack{
-            ZStack{
                 VStack(spacing: 0) {
                     Section(header:header){
                         TabView(selection: $vm.communityTab) {
+                            Group{
                                 List(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
                                     Button {
                                         post = item
                                         posting = true
                                     } label: {
                                         CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community)
-                                            .listRowBackground(Color.clear)
-                                    }
+                                            
+                                    }.listRowBackground(Color.clear)
                                 }
                                 .tag(CommunityFilter.free)
                                 List(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
@@ -36,8 +36,8 @@ struct CommunityView: View {
                                         posting = true
                                     } label: {
                                         CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community)
-                                            .listRowBackground(Color.clear)
-                                    }
+                                            
+                                    }.listRowBackground(Color.clear)
                                 }
                                 .tag(CommunityFilter.question)
                                 List(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
@@ -46,36 +46,30 @@ struct CommunityView: View {
                                         posting = true
                                     } label: {
                                         CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community)
-                                            .listRowBackground(Color.clear)
-                                    }
+                                            
+                                    }.listRowBackground(Color.clear)
                                 }
                                 .tag(CommunityFilter.debate)
-                            
-                            
-                        }.background{
-                            if colorScheme == .dark {
-                                LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
-                            }else{
-                                Color.white
+                            }.background{
+                                if colorScheme == .dark {
+                                    LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
+                                }else{
+                                    Color.white
+                                }
                             }
                         }
                         .listStyle(.plain)
                         .scrollContentBackground(.hidden)   //리스트 배경 없음
-                        .padding(.bottom,50)
+                        .padding(.bottom,80)
                         
                     }
                 }
-                .ignoresSafeArea()
-                .background{
-                    if colorScheme == .dark {
-                        LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
-                    }else{
-                        Color.white
-                    }
-                }
-            }.navigationDestination(isPresented: $posting) {
-                CommunityPostView(isReview: $posting, review: post)
-            }
+                
+                .navigationDestination(isPresented: $posting) {
+                    CommunityPostView(isReview: $posting, review: post)
+                }.ignoresSafeArea()
+        }.onDisappear{
+            posting = false
         }
     }
 }

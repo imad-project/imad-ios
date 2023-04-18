@@ -38,6 +38,7 @@ struct ReviewView: View {
                             Text(review.title)
                                 .bold()
                                 .padding(.bottom)
+                                .padding(.top,5)
                             Text(review.genre)
                                 .font(.caption)
                                 .bold()
@@ -146,7 +147,7 @@ struct ReviewView: View {
                     }.foregroundColor(.white)
                         .padding(.bottom,80)
                 }
-            }.foregroundColor(.customIndigo)
+            }.foregroundColor(.black)
             
         }.onAppear{
             withAnimation(.linear(duration: 0.5)){

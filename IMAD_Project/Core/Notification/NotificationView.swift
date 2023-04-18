@@ -20,7 +20,7 @@ struct NotificationView: View {
                             Text(CustomData.instance.notification[item].content)
                                
                         }
-                        .foregroundColor(.indigoPrimary)
+                        .foregroundColor(.primary)
                         .listRowBackground(Color.clear)
                     }
                     .background{

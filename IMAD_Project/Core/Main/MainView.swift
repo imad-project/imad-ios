@@ -12,6 +12,7 @@ struct MainView: View {
     
     @State var poster:Review = CustomData.instance.reviewList.first!
     @State var isReview = false
+    
     @Binding var filterSelect:Bool 
     
     var body: some View {
@@ -32,6 +33,10 @@ struct MainView: View {
                 }
             }.background{
                 LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
+            }
+            .navigationDestination(isPresented: $isReview){
+                ReviewView(isReview: $isReview, review: poster)
+                    .navigationBarBackButtonHidden(true)
             }
             .ignoresSafeArea()
         }
@@ -168,10 +173,7 @@ extension MainView{
                                     .cornerRadius(15)
                                     .padding(.leading)
                             }
-                            .navigationDestination(isPresented: $isReview){
-                                ReviewView(isReview: $isReview, review: poster)
-                                    .navigationBarBackButtonHidden(true)
-                            }
+                            
                         }
                     }
                 }
