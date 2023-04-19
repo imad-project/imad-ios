@@ -35,6 +35,13 @@ struct CustomTextField: View {
                         Text(placeholder).foregroundColor(color.opacity(text != "" ? 0.0:0.8))
                     }
             }
+            if text != ""{
+                Button {
+                    text = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                }
+            }
         }.foregroundColor(color)
             
         

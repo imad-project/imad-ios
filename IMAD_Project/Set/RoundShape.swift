@@ -20,3 +20,6 @@ struct RoundedShape:Shape{
         //세팅된 직사각형 규격을 경로로 보내서 주문제작
     }
 }
+
+
+

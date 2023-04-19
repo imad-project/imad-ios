@@ -59,7 +59,6 @@ struct CommunityPostView: View {
                              Spacer()
                             }
                             .padding(.horizontal)
-                            
                             ExpandableTextView(text: CustomData.instance.dummyString, maxLines: 5, font: .callout)
                                 .padding(.horizontal)
                         }.padding(.top)
