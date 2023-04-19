@@ -31,6 +31,8 @@ struct MenuTabView: View {
                 }
                 menu
             }
+            .padding(.bottom,30)
+            .ignoresSafeArea()
             .blur(radius: selectFilter ? 20:0, opaque: false) //블러처리
             .allowsHitTesting(selectFilter ? false : true)  //터치 비활성화
             if selectFilter{

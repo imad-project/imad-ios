@@ -12,6 +12,7 @@ struct ReviewView: View {
 
     @State var reviewText = ""
     @State var anima = false
+    @State var writeReview = false
     @Binding var isReview:Bool
     let review:Review
     
@@ -74,6 +75,9 @@ struct ReviewView: View {
                             .padding(.bottom,5)
                         Divider()
                             .background(Color.white)
+                    }
+                    .onTapGesture {
+                        writeReview = true
                     }
                     .padding(.leading,30)
                 }
@@ -153,6 +157,10 @@ struct ReviewView: View {
             withAnimation(.linear(duration: 0.5)){
                 anima = true
             }
+        }
+        .navigationDestination(isPresented: $writeReview) {
+            WriteReviewView(image: review.thumbnail, gradeAvg: review.gradeAvg)
+                .navigationBarBackButtonHidden(true)
         }
         
     }

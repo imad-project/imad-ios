@@ -15,7 +15,7 @@ struct CommunityPostView: View {
     @Binding var isReview:Bool
     let review:Review
     var body: some View {
-            ZStack(alignment: .top){
+            ZStack(alignment: .bottom){
                 Color.white.ignoresSafeArea()
                 VStack(spacing: 0){
                     
@@ -112,9 +112,9 @@ struct CommunityPostView: View {
                
                 
                 }.foregroundColor(.black)
-                    .padding(.bottom,80)
+                    .padding(.bottom,100)
                 VStack{
-                   
+                    Divider()
                     HStack{
                         KFImage(URL(string: CustomData.instance.movieList.first!))
                             .resizable()
@@ -128,7 +128,6 @@ struct CommunityPostView: View {
                                     .foregroundColor(.customIndigo)
                                     
                             }
-                           // .padding(.bottom,5)
                         Button {
 
                         } label: {
@@ -138,26 +137,16 @@ struct CommunityPostView: View {
                         .padding(.leading,5)
                     }
                     .padding(.horizontal)
-                }
-                .frame(height: 80)
-                .background{
-                    VStack{
-                        Divider()
+                    HStack{
+                        Text("비방이나 욕설은 삼가해주세요.😃😊")
+                            .foregroundColor(.black.opacity(0.4))
+                            .padding(.leading)
                         Spacer()
                     }
-
                 }
-                .frame(maxHeight: .infinity,alignment: .bottom)
-                
-
-//                VStack{
-//
-
-//                }
-//                .padding()
-
+                .background(Color.white)
+                .offset(y:-25)
             }
-            .padding(.bottom,50)
             .onAppear{
                 withAnimation(.linear(duration: 0.5)){
                     anima = true
@@ -176,20 +165,5 @@ struct ComminityPostView_Previews: PreviewProvider {
         CommunityPostView(isReview: .constant(true), review: CustomData.instance.reviewList.first!)
     }
 }
-struct MessageBubble: View {
-    var message: String
-    var isSentByUser: Bool
 
-    var body: some View {
-        GeometryReader { geometry in
-            VStack(alignment: .trailing) {
-                Text(CustomData.instance.dummyString)
-                    .padding(10)
-                    .foregroundColor(isSentByUser ? .white : .black)
-                    .background(isSentByUser ? Color.blue : Color.gray)
-                    .cornerRadius(15)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-            }
-        }
-    }
-}
+

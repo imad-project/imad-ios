@@ -67,6 +67,7 @@ struct CommunityView: View {
                 
                 .navigationDestination(isPresented: $posting) {
                     CommunityPostView(isReview: $posting, review: post)
+                  
                 }.ignoresSafeArea()
         }.onDisappear{
             posting = false
