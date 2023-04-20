@@ -11,6 +11,7 @@ import Kingfisher
 struct CommunityListRowView: View {
     let image:String
     let community:Community
+    let textColor:Color
     var body: some View {
         HStack{
             VStack(alignment: .leading) {
@@ -36,12 +37,12 @@ struct CommunityListRowView: View {
                 .cornerRadius(20)
         }
         .frame(maxHeight: 100)
-        .foregroundColor(.primary)
+        .foregroundColor(textColor)
     }
 }
 
 struct CommunityListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityListRowView(image: CustomData.instance.community.image, community:CustomData.instance.community)
+        CommunityListRowView(image: CustomData.instance.community.image, community:CustomData.instance.community,textColor: .primary)
     }
 }

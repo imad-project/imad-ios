@@ -22,7 +22,7 @@ enum SettingFilter:CaseIterable{
         case .posting:
             return "books.vertical.fill"
         case .bookmark:
-            return "bookmark.fill"
+            return "tv.fill"
         case .setting:
             return "gear"
         case .qna:
@@ -38,7 +38,7 @@ enum SettingFilter:CaseIterable{
         case .posting:
             return "게시물"
         case .bookmark:
-            return "북마크"
+            return "내 작품"
         case .setting:
             return "설정"
         case .qna:

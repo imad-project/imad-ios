@@ -25,7 +25,7 @@ struct CommunityView: View {
                                         post = item
                                         posting = true
                                     } label: {
-                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community)
+                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community, textColor: .primary)
                                             
                                     }.listRowBackground(Color.clear)
                                 }
@@ -35,7 +35,7 @@ struct CommunityView: View {
                                         post = item
                                         posting = true
                                     } label: {
-                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community)
+                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community, textColor: .primary)
                                             
                                     }.listRowBackground(Color.clear)
                                 }
@@ -45,7 +45,7 @@ struct CommunityView: View {
                                         post = item
                                         posting = true
                                     } label: {
-                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community)
+                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community, textColor: .primary)
                                             
                                     }.listRowBackground(Color.clear)
                                 }

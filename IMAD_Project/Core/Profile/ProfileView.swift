@@ -14,7 +14,15 @@ struct ProfileView: View {
     @Binding var login:Bool
     let columns = [ GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
     
+    @State var review = false
+    @State var posting = false
+    @State var bookmark = false
+    @State var qna = false
+    @State var notice = false
+    @State var setting = false
+    
     var body: some View {
+        NavigationStack{
             VStack(alignment: .leading,spacing: 0){
                 VStack(alignment: .leading,spacing: 0){
                     header
@@ -89,48 +97,7 @@ struct ProfileView: View {
                     .padding(.leading,20)
                     .foregroundColor(.customIndigo)
                     .padding(.top,10)
-                ScrollView(.horizontal,showsIndicators: false){
-                    HStack{
-                        ForEach(GenreFilter.allCases,id:\.self){ item in
-                            VStack{
-                                Image(item.rawValue)
-                                    .resizable()
-                                    .frame(width:200,height:150)
-                                    .overlay{
-                                        Color.black.opacity(0.5)
-                                        VStack(spacing:0){
-                                            HStack{
-                                                Text(item.generName)
-                                                    .font(.caption)
-                                                    .bold()
-                                                    .padding([.top,.leading])
-                                                Spacer()
-                                            }
-                                            Circle()
-                                                .trim(from: 0.0, to: 0.78)
-                                                .stroke(lineWidth: 2)
-                                                .rotation(Angle(degrees: 270))
-                                                .foregroundColor(.white)
-                                                .padding(20)
-                                                .overlay{
-                                                    Text("78°")
-                                                        .font(.caption)
-                                                        .foregroundColor(.white)
-                                                        .bold()
-                                                }
-                                        }
-                                    }
-                                    .shadow(radius:5)
-                                    .clipShape(RoundedRectangle(cornerRadius:20))
-                            }
-                            .padding(.leading,20)
-                            .padding(.bottom)
-                        }
-                    }
-                    .padding(.vertical,10)
-                    .padding(.trailing,20)
-                }
-                .bold()
+                genre
                 Divider()
                     .padding(.horizontal)
                 ScrollView(showsIndicators: false){
@@ -143,6 +110,9 @@ struct ProfileView: View {
             }
             .foregroundColor(.white)
             .ignoresSafeArea()
+        }
+            
+            
         
     }
     func getPercentage(geo:GeometryProxy) -> Double{
@@ -181,7 +151,20 @@ extension ProfileView{
             LazyVGrid(columns: columns,alignment: .center) {
                 ForEach(SettingFilter.allCases,id:\.self){ item in
                     Button {
-                        
+                        switch item{
+                        case .review:
+                            return review = true
+                        case .posting:
+                            return posting = true
+                        case .bookmark:
+                            return bookmark = true
+                        case .qna:
+                            return qna = true
+                        case .notice:
+                            return notice = true
+                        case .setting:
+                            return setting = true
+                        }
                     } label: {
                         RoundedRectangle(cornerRadius: 20)
                             .frame(width: 100,height: 100)
@@ -200,6 +183,27 @@ extension ProfileView{
                             }
                     }
                     .padding()
+                    .navigationDestination(isPresented: $review){
+                        MyReviewView(title: "리뷰", back: $review)
+                            .navigationBarBackButtonHidden(true)
+                    }
+                    .navigationDestination(isPresented: $posting){
+                        MyReviewView(title: "게시물", back: $posting)
+                            .navigationBarBackButtonHidden(true)
+                    }
+                    .navigationDestination(isPresented: $bookmark){
+                        MovieListView(title: "내 찜목록", back: $bookmark)
+                            .navigationBarBackButtonHidden(true)
+                    }
+                    .navigationDestination(isPresented: $qna){
+                        
+                    }
+                    .navigationDestination(isPresented: $notice){
+                        
+                    }
+                    .navigationDestination(isPresented: $setting){
+                        
+                    }
                 }
             }
             .foregroundColor(.customIndigo)
@@ -229,5 +233,49 @@ extension ProfileView{
        
         
         
+    }
+    var genre:some View{
+        ScrollView(.horizontal,showsIndicators: false){
+            HStack{
+                ForEach(GenreFilter.allCases,id:\.self){ item in
+                    VStack{
+                        Image(item.rawValue)
+                            .resizable()
+                            .frame(width:200,height:150)
+                            .overlay{
+                                Color.black.opacity(0.5)
+                                VStack(spacing:0){
+                                    HStack{
+                                        Text(item.generName)
+                                            .font(.caption)
+                                            .bold()
+                                            .padding([.top,.leading])
+                                        Spacer()
+                                    }
+                                    Circle()
+                                        .trim(from: 0.0, to: 0.78)
+                                        .stroke(lineWidth: 2)
+                                        .rotation(Angle(degrees: 270))
+                                        .foregroundColor(.white)
+                                        .padding(20)
+                                        .overlay{
+                                            Text("78°")
+                                                .font(.caption)
+                                                .foregroundColor(.white)
+                                                .bold()
+                                        }
+                                }
+                            }
+                            .shadow(radius:5)
+                            .clipShape(RoundedRectangle(cornerRadius:20))
+                    }
+                    .padding(.leading,20)
+                    .padding(.bottom)
+                }
+            }
+            .padding(.vertical,10)
+            .padding(.trailing,20)
+        }
+        .bold()
     }
 }

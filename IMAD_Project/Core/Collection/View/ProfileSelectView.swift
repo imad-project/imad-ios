@@ -6,9 +6,14 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfileSelectView: View {
+    
+    @State private var selectedImageData: Data? = nil
+    @State private var selectedItem: PhotosPickerItem? = nil
     @Binding var register:Bool
+    
     var body: some View {
         ZStack{
             BackgroundView(height: 0.83, height1: 0.9)
@@ -20,14 +25,38 @@ struct ProfileSelectView: View {
                     .frame(maxWidth: .infinity,alignment: .leading)
                     .padding(.leading)
                     .padding(.bottom,50)
-                Circle().stroke(lineWidth: 5)
-                    .frame(width: 200,height: 200)
-                    .overlay{
-                        Image(systemName: "photo")
-                            .resizable()
-                            .frame(width: 100,height: 100)
-                        
-                    }
+                PhotosPicker(
+                        selection: $selectedItem,
+                        matching: .images,
+                        photoLibrary: .shared()) {
+                            Group{
+                                if let selectedImageData,
+                                   let uiImage = UIImage(data: selectedImageData) {
+                                            Image(uiImage: uiImage)
+                                            .resizable()
+                                            .frame(width: 200,height: 200)
+                                            .clipShape(Circle())
+                                        }
+                                else{
+                                    Circle().stroke(lineWidth: 5)
+                                        .frame(width: 200,height: 200)
+                                        .overlay{
+                                            Image(systemName: "photo")
+                                                .resizable()
+                                                .frame(width: 100,height: 100)
+                                            
+                                        }
+                                }
+                            }
+                            
+                        }.onChange(of: selectedItem) { newItem in
+                            Task {
+                                if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                    selectedImageData = data
+                                }
+                            }
+                        }
+               
                 Button{
                     register.toggle()
                 }label:{
