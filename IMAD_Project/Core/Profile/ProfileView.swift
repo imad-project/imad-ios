@@ -22,7 +22,6 @@ struct ProfileView: View {
     @State var setting = false
     
     var body: some View {
-        NavigationStack{
             VStack(alignment: .leading,spacing: 0){
                 VStack(alignment: .leading,spacing: 0){
                     header
@@ -110,7 +109,7 @@ struct ProfileView: View {
             }
             .foregroundColor(.white)
             .ignoresSafeArea()
-        }
+        
             
             
         

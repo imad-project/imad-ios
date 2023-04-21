@@ -9,11 +9,18 @@ import SwiftUI
 import Kingfisher
 
 struct MovieListView: View {
+    @State var text = ""
     let title:String
     @Binding var back:Bool
     var body: some View {
         VStack{
             header
+            CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $text)
+                .padding()
+                .background(Color.gray.opacity(0.2))
+                .cornerRadius(20)
+                .padding(.horizontal)
+                .padding(.bottom,5)
             ScrollView{
                 ForEach(GenreFilter.allCases,id:\.self){ genre in
                     Section(header:genreHeader(name: genre.generName)){
@@ -51,9 +58,9 @@ extension MovieListView{
     func genreHeader(name:String) ->some View{
         HStack{
             Text(name)
-                .font(.title3)
                 .bold()
                 .padding(.leading)
+                .padding(.top)
             Spacer()
         }
     }
@@ -64,24 +71,14 @@ extension MovieListView{
                     back = false
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.title2)
                         .bold()
                         .padding()
                         
                 }
                 Spacer()
-                Button {
-                    
-                } label: {
-                    Image(systemName: "magnifyingglass")
-                        .font(.title2)
-                        .bold()
-                        .padding()
-                }
 
             }
             Text(title)
-                .font(.title2)
                 .bold()
         }
     }

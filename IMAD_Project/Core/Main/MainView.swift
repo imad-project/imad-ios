@@ -12,7 +12,7 @@ struct MainView: View {
     
     @State var poster:Review = CustomData.instance.reviewList.first!
     @State var isReview = false
-    
+    @Binding var search:Bool
     @Binding var filterSelect:Bool 
     
     var body: some View {
@@ -48,7 +48,7 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(filterSelect: .constant(false))
+        MainView(search: .constant(false), filterSelect: .constant(false))
     }
 }
 
@@ -61,9 +61,17 @@ extension MainView{
                 .padding(.leading)
                 
             Spacer()
-            Image(systemName: "magnifyingglass")
-                .font(.title)
-                .padding(.trailing)
+            Button {
+                search = true
+            } label: {
+                Image(systemName: "magnifyingglass")
+                    .font(.title)
+                    .padding(.trailing)
+            }
+            .navigationDestination(isPresented: $search) {
+                MovieListView(title: "검색", back: $search)
+                    .navigationBarBackButtonHidden(true)
+            }
         }
         .padding(.vertical)
         .padding(.top,30)

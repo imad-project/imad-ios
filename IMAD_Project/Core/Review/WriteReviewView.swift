@@ -31,7 +31,6 @@ struct WriteReviewView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.title3)
                         .bold()
                 }
                 Spacer()

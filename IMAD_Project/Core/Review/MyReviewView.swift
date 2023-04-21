@@ -40,7 +40,6 @@ extension MyReviewView{
                     back = false
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.title2)
                         .bold()
                         .padding()
                         
@@ -50,14 +49,14 @@ extension MyReviewView{
                     
                 } label: {
                     Image(systemName: "magnifyingglass")
-                        .font(.title2)
+                       
                         .bold()
                         .padding()
                 }
 
             }
             Text("내 " + title)
-                .font(.title2)
+                .font(.title3)
                 .bold()
         }
     }

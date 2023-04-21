@@ -12,6 +12,7 @@ struct MenuTabView: View {
     
     @StateObject var vm = TabViewModel()
     @State var selectFilter = false //필터 선택
+    @State var search = false
     @Binding var login:Bool
     
     var body: some View {
@@ -19,7 +20,7 @@ struct MenuTabView: View {
             Color.black.ignoresSafeArea()
             ZStack(alignment: .bottom){
                 TabView(selection: $vm.tab){
-                    MainView(filterSelect: $selectFilter)
+                    MainView(search: $search, filterSelect: $selectFilter)
                         .tag(Tab.home)
                     CommunityView()
                         .tag(Tab.community)
@@ -42,6 +43,10 @@ struct MenuTabView: View {
         }
         .onAppear{
             UITabBar.appearance().isHidden = true   //탭바 숨김
+        }
+        .navigationDestination(isPresented: $search) {
+            MovieListView(title: "검색", back: $search)
+                .navigationBarBackButtonHidden(true)
         }
         
     }
@@ -105,7 +110,7 @@ extension MenuTabView{
         }
         .frame(height: 20)
         .padding(.top,8)
-        .padding(.bottom,20)
+        .padding(.bottom,25)
         .background(.regularMaterial)
         .foregroundColor(.indigoPrimary)
         
