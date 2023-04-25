@@ -14,7 +14,7 @@ struct RegisterGenderView: View {
    //@Binding var next:Bool
     var body: some View {
         ZStack(alignment: .bottomTrailing){
-            BackgroundView(height: 0.83, height1: 0.9)
+            BackgroundView(height: 0.83, height1: 0.87,height2: 0.85,height3: 0.86)
             VStack(alignment: .leading,spacing: 30){
                 Group{
                     

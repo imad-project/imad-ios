@@ -15,15 +15,13 @@ struct SplashView: View {
     var body: some View {
         ZStack{
             Color.white.ignoresSafeArea()
-            Wave(progress: 0.3, phase: phase).fill(Color.customIndigo)
+            BackgroundView(height: 0.33, height1: 0.37,height2: 0.35,height3: 0.36)
                 .onAppear{
                     withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
                         self.phase = .pi * 2
                     }
                 }
                 .ignoresSafeArea()
-            Wave(progress: 0.31, phase:0).fill(Color.customIndigo.opacity(0.5))
-                .shadow(radius: 20)
             VStack{
                 Image("logoName")
                     .resizable()

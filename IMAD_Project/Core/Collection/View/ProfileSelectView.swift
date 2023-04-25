@@ -16,7 +16,7 @@ struct ProfileSelectView: View {
     
     var body: some View {
         ZStack{
-            BackgroundView(height: 0.83, height1: 0.9)
+            BackgroundView(height: 0.83, height1: 0.87,height2: 0.85,height3: 0.86)
             VStack{
                 Spacer()
                 Text("3. 프로필 사진을 설정해주세요")

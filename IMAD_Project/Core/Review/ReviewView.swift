@@ -18,7 +18,7 @@ struct ReviewView: View {
     
     var body: some View {
         ZStack(alignment: .top){
-            BackgroundView(height: 0.63, height1: 0.7)
+            BackgroundView(height: 0.63, height1: 0.67,height2: 0.65,height3: 0.66)
             VStack{
                 Image(systemName: "chevron.left")
                     

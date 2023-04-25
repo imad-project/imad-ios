@@ -18,7 +18,7 @@ struct LogionView: View {
     var body: some View {
         NavigationStack{
             ZStack(alignment: .bottomTrailing){
-                BackgroundView(height: 0.73, height1: 0.8)
+                BackgroundView(height: 0.73, height1: 0.77,height2: 0.75,height3: 0.76)
                     VStack(alignment: .leading,spacing: 30){
                         Group{
                             Text("환영합니다")

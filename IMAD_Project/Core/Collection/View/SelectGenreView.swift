@@ -12,7 +12,7 @@ struct SelectGenreView: View {
     let columns = [ GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
     var body: some View {
         ZStack{
-            BackgroundView(height: 0.83, height1: 0.9)
+            BackgroundView(height: 0.83, height1: 0.87,height2: 0.85,height3: 0.86)
             VStack(alignment: .leading){
                 Text("2. 관심있는 장르를 선택해 주세요")
                     .bold()

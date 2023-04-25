@@ -19,7 +19,7 @@ struct RegisterView: View {
     @Binding var login:Bool
     var body: some View {
         ZStack{
-            BackgroundView(height: 0.73, height1: 0.8)
+            BackgroundView(height: 0.73, height1: 0.77,height2: 0.75,height3: 0.76)
             VStack(alignment: .leading,spacing: 30){
                 Text("회원가입하기")
                     .font(.title)

@@ -73,21 +73,9 @@ struct ProfileView: View {
                     ProfileChangeView()
                 }
                 .background{
-                    ZStack{
-                        LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
-                            .shadow(radius: 20)
-                            .clipShape(Wave(progress: 0.9, phase: phase))
-                            .onAppear{
-                                withAnimation(.linear(duration: 5).repeatForever(autoreverses:false)){
-                                    self.phase = .pi * 2
-                                }
-                            }
+                        BackgroundView(height: 0.83, height1: 0.87,height2: 0.85,height3: 0.86)
                             .rotationEffect(Angle(degrees: 180))
-                        Wave(progress: 0.91, phase: 0.0)
-                            .fill(Color.customIndigo.opacity(0.5))
-                            .shadow(radius: 20)
-                            .rotationEffect(Angle(degrees: 180))
-                    }
+                    
                     
                 }
                 Text("관심도")
