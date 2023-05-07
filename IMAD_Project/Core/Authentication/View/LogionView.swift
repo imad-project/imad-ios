@@ -14,6 +14,7 @@ struct LogionView: View {
     @State var id = ""
     @State var password = ""
     @Binding var login:Bool
+    @StateObject var kakaoVm = KakaoAuthViewModel()
     
     var body: some View {
         NavigationStack{
@@ -50,7 +51,20 @@ struct LogionView: View {
                         HStack(spacing: 20){
                             button(action: (), view: Image("apple").resizable().frame(width: 30,height: 30), buttonColor: .black, textColor: .customIndigo)
                             button(action: (), view: Image("naver").resizable().frame(width: 40,height: 40), buttonColor: .green, textColor: .customIndigo)
-                            button(action: (), view: Image("kakao").resizable().frame(width: 30,height: 30), buttonColor: .yellow, textColor: .customIndigo)
+//                            button(action: kakaoVm.handleKakaoLogin(), view: Image("kakao").resizable().frame(width: 30,height: 30), buttonColor: .yellow, textColor: .customIndigo)
+                            
+                            Button {
+                                kakaoVm.handleKakaoLogin()
+                            } label: {
+                                Capsule()
+                                    .frame(height: 50)
+                                    .foregroundColor(.yellow)
+                                    .frame(maxWidth: .infinity)
+                                    .overlay {
+                                        Image("kakao").resizable().frame(width: 30,height: 30)
+                                    }
+                            }
+
                         }
                         Spacer()
                         HStack{

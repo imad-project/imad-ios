@@ -16,6 +16,13 @@ enum AuthApiService{
         print("로그인 api 호출")
         return ApiClient.shared.session
             .request(AuthRouter.login(id: id, password: password))
+            .response{ response in
+                if let header = response.response?.headers{
+//                    for i in header{
+//                        i.name ==
+//                    }
+                }
+            }
             .publishDecodable(type: UserResponse.self)
             .value()
             .eraseToAnyPublisher()
@@ -25,6 +32,14 @@ enum AuthApiService{
         return ApiClient.shared.session
             .request(AuthRouter.login(id: id, password: password))
             .publishDecodable(type: RegisterResponse.self)
+            .value()
+            .eraseToAnyPublisher()
+    }
+    static func kakaoAuth(code:String,status:Int) -> AnyPublisher<KakaoAuth,AFError>{
+        print("카카오 로그인 요청")
+        return ApiClient.shared.session
+            .request(AuthRouter.kakao(code: code, statua: status))
+            .publishDecodable(type: KakaoAuth.self)
             .value()
             .eraseToAnyPublisher()
     }

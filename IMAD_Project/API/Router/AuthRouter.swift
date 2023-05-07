@@ -13,9 +13,10 @@ enum AuthRouter:URLRequestConvertible{
     
     case register(email:String,id:String,password:String)
     case login(id:String,password:String)
+    case kakao(code:String,statua:Int)
     
     var baseUrl:URL{
-        return URL(string: "")!
+        return URL(string: ApiClient.baseURL)!
     }
     
     var endPoint:String{
@@ -24,6 +25,8 @@ enum AuthRouter:URLRequestConvertible{
             return ""
         case .register:
             return ""
+        case .kakao:
+            return "/login/oauth2/code/kakao"
         }
     }
     var method:HTTPMethod{
@@ -41,6 +44,11 @@ enum AuthRouter:URLRequestConvertible{
             param["email"] = email
             param["id"] = id
             param["password"] = password
+            return param
+        case let .kakao(code, status):
+            var param = Parameters()
+            param["code"] = code
+            param["status"] = status
             return param
         }
     }

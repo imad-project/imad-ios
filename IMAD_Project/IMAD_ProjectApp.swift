@@ -6,12 +6,24 @@
 //
 
 import SwiftUI
+import KakaoSDKAuth
+import KakaoSDKUser
+import KakaoSDKCommon
 
 @main
 struct IMAD_ProjectApp: App {
+    init() {
+        // Kakao SDK 초기화
+        let kakaoAppkey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
+        KakaoSDK.initSDK(appKey: kakaoAppkey as! String)
+    }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().onOpenURL(perform: { url in
+                if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                    AuthController.handleOpenUrl(url: url)
+                }
+            })
         }
     }
 }

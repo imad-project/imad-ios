@@ -12,7 +12,7 @@ final class ApiClient{
     
     var session:Session
     static let shared = ApiClient()
-    static let baseURL = ""
+    static let baseURL = "https://imad-app.herokuapp.com/"
     let monitors = [ApiLogger()] as [EventMonitor]
     
     init(){

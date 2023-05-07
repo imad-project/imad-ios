@@ -12,5 +12,7 @@ class BaseIntercept:RequestInterceptor{
     
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         //jwt-토큰
+        var urlRequest = urlRequest
+        urlRequest.headers.add(.authorization(bearerToken:""))
     }
 }

@@ -1,0 +1,13 @@
+//
+//  Config.xcconfig
+//  IMAD_Project
+//
+//  Created by 유영웅 on 2023/05/06.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+//고유 키값 설정
+
+KAKAO_NATIVE_APP_KEY = dcee0f41332fb07eee3a8222002e16c0

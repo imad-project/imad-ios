@@ -50,6 +50,17 @@
 		81BB110E2A061E0D005654AA /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB110D2A061E0D005654AA /* UserResponse.swift */; };
 		81BB11102A061E42005654AA /* RegisterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB110F2A061E42005654AA /* RegisterResponse.swift */; };
 		81BB11142A0622AC005654AA /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11132A0622AC005654AA /* AuthViewModel.swift */; };
+		81BB11172A064123005654AA /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB11162A064123005654AA /* KakaoSDK */; };
+		81BB11192A064123005654AA /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB11182A064123005654AA /* KakaoSDKAuth */; };
+		81BB111B2A064123005654AA /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB111A2A064123005654AA /* KakaoSDKCommon */; };
+		81BB111D2A064123005654AA /* KakaoSDKNavi in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB111C2A064123005654AA /* KakaoSDKNavi */; };
+		81BB111F2A064123005654AA /* KakaoSDKShare in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB111E2A064123005654AA /* KakaoSDKShare */; };
+		81BB11212A064123005654AA /* KakaoSDKStory in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB11202A064123005654AA /* KakaoSDKStory */; };
+		81BB11232A064123005654AA /* KakaoSDKTalk in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB11222A064123005654AA /* KakaoSDKTalk */; };
+		81BB11252A064123005654AA /* KakaoSDKTemplate in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB11242A064123005654AA /* KakaoSDKTemplate */; };
+		81BB11272A064123005654AA /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB11262A064123005654AA /* KakaoSDKUser */; };
+		81BB112C2A06470F005654AA /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB112B2A06470F005654AA /* KakaoAuthViewModel.swift */; };
+		81BB112E2A0658CC005654AA /* KakaoAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB112D2A0658CC005654AA /* KakaoAuth.swift */; };
 		81DB1FB529E51CCE002C0840 /* SettingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FB429E51CCE002C0840 /* SettingFilter.swift */; };
 		81DB1FB929E549C5002C0840 /* RoundShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FB829E549C5002C0840 /* RoundShape.swift */; };
 		81DB1FBD29E55095002C0840 /* LogionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FBC29E55095002C0840 /* LogionView.swift */; };
@@ -128,6 +139,10 @@
 		81BB110D2A061E0D005654AA /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
 		81BB110F2A061E42005654AA /* RegisterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResponse.swift; sourceTree = "<group>"; };
 		81BB11132A0622AC005654AA /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		81BB11282A06421A005654AA /* IMAD-Project-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "IMAD-Project-Info.plist"; sourceTree = SOURCE_ROOT; };
+		81BB11292A0642E8005654AA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		81BB112B2A06470F005654AA /* KakaoAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthViewModel.swift; sourceTree = "<group>"; };
+		81BB112D2A0658CC005654AA /* KakaoAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuth.swift; sourceTree = "<group>"; };
 		81DB1FB429E51CCE002C0840 /* SettingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingFilter.swift; sourceTree = "<group>"; };
 		81DB1FB829E549C5002C0840 /* RoundShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShape.swift; sourceTree = "<group>"; };
 		81DB1FBC29E55095002C0840 /* LogionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogionView.swift; sourceTree = "<group>"; };
@@ -149,8 +164,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81BB111F2A064123005654AA /* KakaoSDKShare in Frameworks */,
+				81BB11272A064123005654AA /* KakaoSDKUser in Frameworks */,
 				81A1ECEA29DC44370001A366 /* Kingfisher in Frameworks */,
 				81BB10FF2A061055005654AA /* Alamofire in Frameworks */,
+				81BB11232A064123005654AA /* KakaoSDKTalk in Frameworks */,
+				81BB11172A064123005654AA /* KakaoSDK in Frameworks */,
+				81BB11252A064123005654AA /* KakaoSDKTemplate in Frameworks */,
+				81BB111D2A064123005654AA /* KakaoSDKNavi in Frameworks */,
+				81BB111B2A064123005654AA /* KakaoSDKCommon in Frameworks */,
+				81BB11192A064123005654AA /* KakaoSDKAuth in Frameworks */,
+				81BB11212A064123005654AA /* KakaoSDKStory in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +218,8 @@
 		8103093F29D1BDEF0021717B /* IMAD_Project */ = {
 			isa = PBXGroup;
 			children = (
+				81BB11282A06421A005654AA /* IMAD-Project-Info.plist */,
+				81BB112A2A0646EA005654AA /* Kakao */,
 				81BB10FC2A05F706005654AA /* API */,
 				812CDEA129DEAE6D0003B993 /* Model */,
 				81A1ECEB29DD1F8D0001A366 /* Filter */,
@@ -202,6 +228,7 @@
 				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
 				8103094429D1BDF00021717B /* Assets.xcassets */,
 				8103094629D1BDF00021717B /* Preview Content */,
+				81BB11292A0642E8005654AA /* Config.xcconfig */,
 			);
 			path = IMAD_Project;
 			sourceTree = "<group>";
@@ -424,6 +451,7 @@
 			children = (
 				81BB110F2A061E42005654AA /* RegisterResponse.swift */,
 				81BB110D2A061E0D005654AA /* UserResponse.swift */,
+				81BB112D2A0658CC005654AA /* KakaoAuth.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -434,6 +462,14 @@
 				81BB11132A0622AC005654AA /* AuthViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		81BB112A2A0646EA005654AA /* Kakao */ = {
+			isa = PBXGroup;
+			children = (
+				81BB112B2A06470F005654AA /* KakaoAuthViewModel.swift */,
+			);
+			path = Kakao;
 			sourceTree = "<group>";
 		};
 		81DB1FBA29E55079002C0840 /* Authentication */ = {
@@ -518,6 +554,15 @@
 			packageProductDependencies = (
 				81A1ECE929DC44370001A366 /* Kingfisher */,
 				81BB10FE2A061055005654AA /* Alamofire */,
+				81BB11162A064123005654AA /* KakaoSDK */,
+				81BB11182A064123005654AA /* KakaoSDKAuth */,
+				81BB111A2A064123005654AA /* KakaoSDKCommon */,
+				81BB111C2A064123005654AA /* KakaoSDKNavi */,
+				81BB111E2A064123005654AA /* KakaoSDKShare */,
+				81BB11202A064123005654AA /* KakaoSDKStory */,
+				81BB11222A064123005654AA /* KakaoSDKTalk */,
+				81BB11242A064123005654AA /* KakaoSDKTemplate */,
+				81BB11262A064123005654AA /* KakaoSDKUser */,
 			);
 			productName = IMAD_Project;
 			productReference = 8103093D29D1BDEF0021717B /* IMAD_Project.app */;
@@ -594,6 +639,7 @@
 			packageReferences = (
 				81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				81BB10FD2A061054005654AA /* XCRemoteSwiftPackageReference "Alamofire" */,
+				81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			productRefGroup = 8103093E29D1BDEF0021717B /* Products */;
 			projectDirPath = "";
@@ -660,6 +706,7 @@
 				81BB11142A0622AC005654AA /* AuthViewModel.swift in Sources */,
 				811DA16729E9305B00482A6A /* ReviewView.swift in Sources */,
 				81DB1FC429E6A583002C0840 /* RegisterView.swift in Sources */,
+				81BB112E2A0658CC005654AA /* KakaoAuth.swift in Sources */,
 				817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */,
 				81BB11062A0614D1005654AA /* ApiLogger.swift in Sources */,
 				81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */,
@@ -680,6 +727,7 @@
 				81DB1FCA29E6C2E2002C0840 /* RegisterGenderView.swift in Sources */,
 				81DB1FDA29E7D7E2002C0840 /* RegisterFilter.swift in Sources */,
 				81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */,
+				81BB112C2A06470F005654AA /* KakaoAuthViewModel.swift in Sources */,
 				811DA16929E9332500482A6A /* Review.swift in Sources */,
 				81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */,
 				817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */,
@@ -725,6 +773,7 @@
 /* Begin XCBuildConfiguration section */
 		8103095F29D1BDF00021717B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81BB11292A0642E8005654AA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -785,6 +834,7 @@
 		};
 		8103096029D1BDF00021717B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81BB11292A0642E8005654AA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -839,6 +889,7 @@
 		};
 		8103096229D1BDF00021717B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81BB11292A0642E8005654AA /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -848,6 +899,7 @@
 				DEVELOPMENT_TEAM = N676ZFA7W8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "IMAD-Project-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "아이매드";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -869,6 +921,7 @@
 		};
 		8103096329D1BDF00021717B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81BB11292A0642E8005654AA /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -878,6 +931,7 @@
 				DEVELOPMENT_TEAM = N676ZFA7W8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "IMAD-Project-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "아이매드";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -899,6 +953,7 @@
 		};
 		8103096529D1BDF00021717B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81BB11292A0642E8005654AA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -920,6 +975,7 @@
 		};
 		8103096629D1BDF00021717B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81BB11292A0642E8005654AA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -941,6 +997,7 @@
 		};
 		8103096829D1BDF00021717B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81BB11292A0642E8005654AA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -959,6 +1016,7 @@
 		};
 		8103096929D1BDF00021717B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81BB11292A0642E8005654AA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1033,6 +1091,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1045,6 +1111,51 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 81BB10FD2A061054005654AA /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		81BB11162A064123005654AA /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
+		};
+		81BB11182A064123005654AA /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		81BB111A2A064123005654AA /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		81BB111C2A064123005654AA /* KakaoSDKNavi */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKNavi;
+		};
+		81BB111E2A064123005654AA /* KakaoSDKShare */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKShare;
+		};
+		81BB11202A064123005654AA /* KakaoSDKStory */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKStory;
+		};
+		81BB11222A064123005654AA /* KakaoSDKTalk */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKTalk;
+		};
+		81BB11242A064123005654AA /* KakaoSDKTemplate */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKTemplate;
+		};
+		81BB11262A064123005654AA /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81BB11152A064123005654AA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
