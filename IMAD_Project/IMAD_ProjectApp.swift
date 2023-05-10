@@ -19,11 +19,14 @@ struct IMAD_ProjectApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            ContentView().onOpenURL(perform: { url in
-                if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                    AuthController.handleOpenUrl(url: url)
+            ContentView()
+                .onOpenURL{ url in
+                    if let code = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "code" })?.value {
+                        print("인가코드: \(code)")
+                    } else {
+                        print("인가코드 추출 실패")
+                    }
                 }
-            })
         }
     }
 }

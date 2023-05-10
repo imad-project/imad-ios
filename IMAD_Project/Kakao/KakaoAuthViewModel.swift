@@ -25,7 +25,6 @@ class KakaoAuthViewModel:ObservableObject{
     }
     func handleKakaoLogin(){
         if (UserApi.isKakaoTalkLoginAvailable()) { //카카오앱 로그인
-            
             UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
                     print("에러 - \(error)")
@@ -35,9 +34,10 @@ class KakaoAuthViewModel:ObservableObject{
                     //print("카카오 정보 ; \(oauthToken)")
                     //do something
                     _ = oauthToken
-                    AuthApiService.kakaoAuth(code: param, status: <#T##Int#>)
+                    //AuthApiService.kakaoAuth(code: oauthToken., status: <#T##Int#>)
                 }
             }
+           // AuthApi.shared.authorizeRequest(parameters: [String : Any])
         }else{ //카카오웹뷰 로그인
             UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
                     if let error = error {
