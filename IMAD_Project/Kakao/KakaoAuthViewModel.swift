@@ -12,6 +12,7 @@ import KakaoSDKUser
 
 class KakaoAuthViewModel:ObservableObject{
     
+    @Published var code:String? = nil
     
     func kakaoLogout(){
         UserApi.shared.logout {(error) in
@@ -24,20 +25,16 @@ class KakaoAuthViewModel:ObservableObject{
         }
     }
     func handleKakaoLogin(){
+        let aa = [String:Any]()
         if (UserApi.isKakaoTalkLoginAvailable()) { //카카오앱 로그인
-            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+            UserApi.shared.loginWithKakaoTalk {(_, error) in
                 if let error = error {
                     print("에러 - \(error)")
                 }
                 else {
                     print("loginWithKakaoTalk() success.")
-                    //print("카카오 정보 ; \(oauthToken)")
-                    //do something
-                    _ = oauthToken
-                    //AuthApiService.kakaoAuth(code: oauthToken., status: <#T##Int#>)
                 }
             }
-           // AuthApi.shared.authorizeRequest(parameters: [String : Any])
         }else{ //카카오웹뷰 로그인
             UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
                     if let error = error {

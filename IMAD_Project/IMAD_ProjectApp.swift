@@ -17,12 +17,14 @@ struct IMAD_ProjectApp: App {
         let kakaoAppkey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
         KakaoSDK.initSDK(appKey: kakaoAppkey as! String)
     }
+    @StateObject var vm = KakaoAuthViewModel()
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .onOpenURL{ url in
                     if let code = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "code" })?.value {
                         print("인가코드: \(code)")
+                        vm.code = code
                     } else {
                         print("인가코드 추출 실패")
                     }
