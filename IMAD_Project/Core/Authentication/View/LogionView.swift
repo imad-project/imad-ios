@@ -14,6 +14,7 @@ struct LogionView: View {
     @State var id = ""
     @State var password = ""
     @Binding var login:Bool
+    @State var kakaoLogin = false
     @StateObject var kakaoVm = KakaoAuthViewModel()
     
     var body: some View {
@@ -92,8 +93,21 @@ struct LogionView: View {
                     .foregroundColor(.white)
                         .padding()
                         .transition(.move(edge: .leading))
-                }
-            
+            }
+            .onChange(of: kakaoVm.htmlString) { _ in
+                kakaoLogin = true
+                print("카카오 로그인 성공 \(kakaoLogin)")
+            }
+            .sheet(isPresented: $kakaoLogin) {
+                KakaoWebView()
+                    .onDisappear{
+                        kakaoLogin = false
+                        print("카카오 로그인 성공 \(kakaoLogin)")
+                    }
+                    .ignoresSafeArea()
+                    .environmentObject(kakaoVm)
+                    
+            }
         }
         .onTapGesture {
             UIApplication.shared.endEditing()

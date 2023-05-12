@@ -33,6 +33,7 @@
 		817BBB3629EE72D000E1CBA6 /* ExpandableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817BBB3529EE72D000E1CBA6 /* ExpandableTextView.swift */; };
 		817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817BBB3729EE982F00E1CBA6 /* ProfileChangeView.swift */; };
 		817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */; };
+		819C50682A0DEAFB0008F4A5 /* KakaoWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C50672A0DEAFB0008F4A5 /* KakaoWebView.swift */; };
 		81A1ECE029DACB720001A366 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECDF29DACB720001A366 /* SplashView.swift */; };
 		81A1ECE329DC207F0001A366 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECE229DC207F0001A366 /* ColorSet.swift */; };
 		81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECE429DC3FA30001A366 /* MainView.swift */; };
@@ -124,6 +125,7 @@
 		817BBB3529EE72D000E1CBA6 /* ExpandableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTextView.swift; sourceTree = "<group>"; };
 		817BBB3729EE982F00E1CBA6 /* ProfileChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeView.swift; sourceTree = "<group>"; };
 		817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoChangeView.swift; sourceTree = "<group>"; };
+		819C50672A0DEAFB0008F4A5 /* KakaoWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoWebView.swift; sourceTree = "<group>"; };
 		81A1ECDF29DACB720001A366 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		81A1ECE229DC207F0001A366 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		81A1ECE429DC3FA30001A366 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -367,6 +369,22 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		819C50652A0DEAD80008F4A5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				819C50672A0DEAFB0008F4A5 /* KakaoWebView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		819C50662A0DEADC0008F4A5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				81BB112B2A06470F005654AA /* KakaoAuthViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		81A1ECDE29DACB430001A366 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -467,7 +485,8 @@
 		81BB112A2A0646EA005654AA /* Kakao */ = {
 			isa = PBXGroup;
 			children = (
-				81BB112B2A06470F005654AA /* KakaoAuthViewModel.swift */,
+				819C50662A0DEADC0008F4A5 /* ViewModel */,
+				819C50652A0DEAD80008F4A5 /* View */,
 			);
 			path = Kakao;
 			sourceTree = "<group>";
@@ -708,6 +727,7 @@
 				81DB1FC429E6A583002C0840 /* RegisterView.swift in Sources */,
 				81BB112E2A0658CC005654AA /* KakaoAuth.swift in Sources */,
 				817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */,
+				819C50682A0DEAFB0008F4A5 /* KakaoWebView.swift in Sources */,
 				81BB11062A0614D1005654AA /* ApiLogger.swift in Sources */,
 				81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */,
 				81DB1FBD29E55095002C0840 /* LogionView.swift in Sources */,

@@ -16,13 +16,13 @@ enum AuthApiService{
         print("로그인 api 호출")
         return ApiClient.shared.session
             .request(AuthRouter.login(id: id, password: password))
-            .response{ response in
-                if let header = response.response?.headers{
-//                    for i in header{
-//                        i.name ==
-//                    }
-                }
-            }
+//            .response{ response in
+//                if let header = response.response?.headers{
+////                    for i in header{
+////                        i.name ==
+////                    }
+//                }
+//            }
             .publishDecodable(type: UserResponse.self)
             .value()
             .eraseToAnyPublisher()
