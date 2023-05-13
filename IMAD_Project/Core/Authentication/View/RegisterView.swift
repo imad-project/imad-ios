@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct RegisterView: View {
-
-
+    
+    
     @State var phase:CGFloat = 0.0
     @State var id = ""
     @State var email = ""
@@ -17,6 +17,10 @@ struct RegisterView: View {
     @State var passwordConfirm = ""
     @State var register = false
     @Binding var login:Bool
+    @StateObject var vm = AuthViewModel()
+    @State var success = false
+    @State var msg = false
+    
     var body: some View {
         ZStack{
             BackgroundView(height: 0.73, height1: 0.77,height2: 0.75,height3: 0.76)
@@ -41,7 +45,8 @@ struct RegisterView: View {
                 
                 //button(action: register = true, view: Text("회원가입"), buttonColor: .white, textColor: .customIndigo)
                 Button{
-                    register = true
+                    vm.register(email: email, nickname: id, password: password, authProvider: "IMAD")
+                    
                 }label:{
                     Capsule()
                         .frame(height: 50)
@@ -71,11 +76,20 @@ struct RegisterView: View {
                         login.toggle()
                     }
                 }
+                .onReceive(vm.registerSuccess) { value in
+                    success = true
+                    msg = value
+                }
+                .alert(isPresented: $success) {
+                    Alert(title: Text(vm.registerRes?.message ?? ""),dismissButton: .default(Text("확인")) {
+                        register = msg
+                    })
+                }
             }
             .foregroundColor(.white)
             .padding()
         }
-           
+        
     }
 }
 
@@ -85,7 +99,7 @@ struct RegisterView_Previews: PreviewProvider {
             
             RegisterView(login: .constant(true))
         }
-       
+        
     }
 }
 

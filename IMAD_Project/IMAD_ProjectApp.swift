@@ -17,10 +17,18 @@ struct IMAD_ProjectApp: App {
         let kakaoAppkey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
         KakaoSDK.initSDK(appKey: kakaoAppkey as! String)
     }
-  //  @StateObject var vm = KakaoAuthViewModel()
+    @StateObject var vm = KakaoAuthViewModel()
     var body: some Scene {
         WindowGroup {
+           // TestView()
             ContentView()
+                .onOpenURL(perform: { url in
+                                if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                                    _ = AuthController.handleOpenUrl(url: url)
+
+                                    print(url)
+                                }
+                            })
 //                .onOpenURL{ url in
 //                    if let code = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "code" })?.value {
 //                        print("인가코드: \(code)")

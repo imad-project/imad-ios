@@ -14,8 +14,10 @@ struct LogionView: View {
     @State var id = ""
     @State var password = ""
     @Binding var login:Bool
-    @State var kakaoLogin = false
+//    @State var kakaoLogin = false
     @StateObject var kakaoVm = KakaoAuthViewModel()
+//    let apiKey = Bundle.main.infoDictionary?["REST_API_KEY"] ?? ""   //restApiKey
+//    let baseURL = "http://39.119.82.229:8080//login/oauth2/code/kakao"
     
     var body: some View {
         NavigationStack{
@@ -56,6 +58,7 @@ struct LogionView: View {
                             
                             Button {
                                 kakaoVm.handleKakaoLogin()
+                                //kakaoLogin = true
                             } label: {
                                 Capsule()
                                     .frame(height: 50)
@@ -94,20 +97,28 @@ struct LogionView: View {
                         .padding()
                         .transition(.move(edge: .leading))
             }
-            .onChange(of: kakaoVm.htmlString) { _ in
-                kakaoLogin = true
-                print("카카오 로그인 성공 \(kakaoLogin)")
-            }
-            .sheet(isPresented: $kakaoLogin) {
-                KakaoWebView()
-                    .onDisappear{
-                        kakaoLogin = false
-                        print("카카오 로그인 성공 \(kakaoLogin)")
-                    }
-                    .ignoresSafeArea()
-                    .environmentObject(kakaoVm)
-                    
-            }
+//            .onChange(of: kakaoVm.htmlString) { _ in
+//                kakaoLogin = true
+//                print("카카오 로그인 성공 \(kakaoLogin)")
+//            }
+//            .sheet(isPresented: $kakaoLogin) {
+//                ZStack{
+//                    KakaoWebView(url:kakaoVm.htmlString ?? "")
+//                        .onDisappear{
+//                            kakaoLogin = false
+//                            print("카카오 로그인 성공 \(kakaoLogin)")
+//                        }
+//                        .environmentObject(kakaoVm)
+//                    Button {
+//                        kakaoLogin = false
+//                    } label: {
+//                        Image(systemName: "xmark")
+//                    }
+//
+//                }
+//
+//
+//            }
         }
         .onTapGesture {
             UIApplication.shared.endEditing()

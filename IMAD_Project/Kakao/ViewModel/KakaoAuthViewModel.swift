@@ -7,7 +7,13 @@
 
 import Foundation
 import Combine
-import Alamofire
+//import Alamofire
+import KakaoSDKAuth
+import KakaoSDKUser
+import KakaoSDKCommon
+//import UIKit
+//import SafariServices
+//import AuthenticationServices
 
 class KakaoAuthViewModel:ObservableObject{
     
@@ -28,37 +34,56 @@ class KakaoAuthViewModel:ObservableObject{
 //        }
     }
     func handleKakaoLogin(){
-        let url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=\(apiKey)&redirect_uri=\(baseURL)"
-        AF.request(url).responseString{ response in
-            guard let response = response.value else { return }
-            self.htmlString = response
-            self.kakoLogin.send()
-            
-//            print("응답값 : \(reponse)")
-//            print("응답값 : \(reponse.result)")    //success/fail로 나타냄
-//            print("응답값 : \(String(describing: reponse.value))") //통신 성공시에만 보여줌
-        }
-//        let aa = [String:Any]()
-//        if (UserApi.isKakaoTalkLoginAvailable()) { //카카오앱 로그인
-//            UserApi.shared.loginWithKakaoTalk {(_, error) in
-//                if let error = error {
-//                    print("에러 - \(error)")
-//                }
-//                else {
-//                    print("loginWithKakaoTalk() success.")
-//                }
-//            }
-//        }else{ //카카오웹뷰 로그인
-//            UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-//                    if let error = error {
-//                        print(error)
-//                    }
-//                    else {
-//                        print("loginWithKakaoAccount() success.")
-//                        //do something
-//                        _ = oauthToken
-//                    }
-//                }
+//        let url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=\(apiKey)&redirect_uri=\(baseURL)"
+//        AF.request(url).responseString{ response in
+//            switch response.result {
+//               case .success(let html):
+//                   print("이거 \(html)")
+//                    self.htmlString = url
+//               case .failure(let error ):
+//                   print(error)
+//               }
 //        }
+        // 카카오 로그인 API 호출
+//        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+//            if let error = error {
+//                print(error)
+//            }
+//            else {
+//                print("loginWithKakaoAccount() success.")
+
+                // 인가코드 추출
+//                guard let code = oauthToken?. else {
+//                    return
+//                }
+
+                // 추출된 인가코드를 이용하여 원하는 API 호출
+                // ...
+//            }
+//        }
+
+
+        
+        if (UserApi.isKakaoTalkLoginAvailable()) { //카카오앱 로그인
+           UserApi.shared.loginWithKakaoTalk {(_, error) in
+                if let error = error {
+                    print("에러 - \(error)")
+                }
+                else {
+                    print("loginWithKakaoTalk() success.")
+                }
+            }
+        }else{ //카카오웹뷰 로그인
+            UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+                    if let error = error {
+                        print(error)
+                    }
+                    else {
+                        print("loginWithKakaoAccount() success.")
+                        //do something
+                        _ = oauthToken
+                    }
+                }
+        }
     }
 }

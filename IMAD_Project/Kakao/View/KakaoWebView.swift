@@ -8,25 +8,31 @@
 import SwiftUI
 import WebKit
 
+
 struct KakaoWebView: UIViewRepresentable {
-        
-    @EnvironmentObject var vm:KakaoAuthViewModel
+    var url: String
     
-    func makeUIView(context: Context) ->  WKWebView {
-        return WKWebView()
+    func makeUIView(context: Context) -> WKWebView {
+        guard let url = URL(string: url) else {
+            return WKWebView()
+        }
+        let webView = WKWebView()
+
+        webView.load(URLRequest(url: url))
+        
+        return webView
     }
     
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-        if let html =  vm.htmlString{
-            uiView.loadHTMLString("<meta name=\"viewport\" content=\"initial-scale=1.0\" />" + html, baseURL: nil)
-            print("웹뷰 \(html)")
-        }
+    func updateUIView(_ webView: WKWebView, context: UIViewRepresentableContext<KakaoWebView>) {
+        guard let url = URL(string: url) else { return }
+        
+        webView.load(URLRequest(url: url))
     }
 }
 
 struct KakaoWebView_Previews: PreviewProvider {
     static var previews: some View {
-        KakaoWebView()
+        KakaoWebView(url: "")
             .environmentObject(KakaoAuthViewModel())
     }
 }

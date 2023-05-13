@@ -11,25 +11,45 @@ import Alamofire
 
 class AuthViewModel:ObservableObject{
     
-    @Published var user:UserResponse? = nil
+    @Published var loginRes:UserInfoResponse? = nil
     @Published var registerRes:RegisterResponse? = nil
+    
+    var registerSuccess = PassthroughSubject<Bool,Never>()
     
     var cancelable = Set<AnyCancellable>()
     
-    func register(id:String,email:String,password:String){
-        AuthApiService.register(id: id, email: email, password: password)
+    func register(email:String,nickname:String,password:String,authProvider:String){
+        AuthApiService.register(email: email, nickname: nickname, password: password,authProvider:authProvider)
             .sink { completion in
-                print("회원가입 완료 \(completion)")
+                switch completion{
+                case .finished:
+                    print("회원가입 완료 \(completion)")
+                    if let code = self.registerRes?.code,code != "BAD_REQUEST"{
+                        self.registerSuccess.send(true)
+                    }else{
+                        self.registerSuccess.send(false)
+                    }
+                case .failure(let error):
+                    print("회원가입 실패 \(error.localizedDescription)")
+                }
             } receiveValue: { receivedValue in
                 self.registerRes = receivedValue
             }.store(in: &cancelable)
     }
-    func login(id:String,password:String){
-        AuthApiService.login(id: id, password: password)
+    func login(email:String,password:String){
+        AuthApiService.login(email: email, password: password)
             .sink { completion in
                 print("로그인 완료 \(completion)")
             } receiveValue: { receivedValue in
-                self.user = receivedValue
+                self.loginRes = receivedValue
+            }.store(in: &cancelable)
+    }
+    func oauth(registrationId:String){
+        AuthApiService.oauth(registrationId: registrationId)
+            .sink { completion in
+                print("로그인 완료 \(completion)")
+            } receiveValue: { receivedValue in
+               
             }.store(in: &cancelable)
     }
 }

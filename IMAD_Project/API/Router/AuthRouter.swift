@@ -11,9 +11,9 @@ import Alamofire
 enum AuthRouter:URLRequestConvertible{
     
     
-    case register(email:String,id:String,password:String)
-    case login(id:String,password:String)
-    case kakao(code:String,statua:Int)
+    case register(email:String,nickname:String,password:String,authProvider:String)
+    case login(email:String,password:String)
+    case oauth(registrationId:String)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -22,34 +22,37 @@ enum AuthRouter:URLRequestConvertible{
     var endPoint:String{
         switch self{
         case .login:
-            return ""
+            return "/api/login"
         case .register:
-            return ""
-        case .kakao:
-            return "/login/oauth2/code/kakao"
+            return "/api/signup"
+        case let .oauth(registrationId):
+            return "/login/oauth2/code/\(registrationId)"
         }
     }
     var method:HTTPMethod{
-        return .post
+        switch self{
+        case .login,.register:
+            return .post
+        case .oauth:
+            return .get
+        }
     }
     var parameters:Parameters{
         switch self{
-        case let .login(id,password):
-            var param = Parameters()
-            param["id"] = id
-            param["password"] = password
-            return param
-        case let .register(email, id, password):
+        case let .login(email,password):
             var param = Parameters()
             param["email"] = email
-            param["id"] = id
             param["password"] = password
             return param
-        case let .kakao(code, status):
+        case let .register(email, nickname, password,authProvider):
             var param = Parameters()
-            param["code"] = code
-            param["status"] = status
+            param["email"] = email
+            param["nickname"] = nickname
+            param["password"] = password
+            param["auth_provider"] = authProvider
             return param
+        case .oauth:
+            return Parameters()
         }
     }
     
@@ -57,7 +60,12 @@ enum AuthRouter:URLRequestConvertible{
         let url = baseUrl.appendingPathComponent(endPoint)  //url 설정
         var request = URLRequest(url: url)
         request.method = method
+        switch self{
+        case .login,.register:
+            return try JSONEncoding.default.encode(request, with: parameters)
+        case .oauth:
+            return request
+        }
         
-        return try URLEncoding.default.encode(request, with: parameters)
     }
 }
