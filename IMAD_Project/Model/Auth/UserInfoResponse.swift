@@ -9,17 +9,17 @@ import Foundation
 
 struct UserInfoResponse:Codable{
     
-//    let email:String
-//    let nickname:String
-//    let authProvider:String
-//
-//    enum CodingKeys:String,CodingKey{
-//        case email
-//        case nickname
-//        case authProvider = "auth_porvider"
-//    }
-//    let gender:String
-//    let ageRange:Int
-//    let profileImage:String
-
+    let email:String
+    let nickname:String
+    let authProvider:String
+    let gender:String?
+    let ageRange:Int
+    
+    enum CodingKeys:String,CodingKey{
+        case email
+        case nickname
+        case authProvider = "auth_provider"
+        case gender
+        case ageRange = "age_range"
+    }
 }

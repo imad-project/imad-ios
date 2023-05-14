@@ -15,22 +15,18 @@ class AuthViewModel:ObservableObject{
     @Published var registerRes:RegisterResponse? = nil
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
-    
+    var loginSuccess = PassthroughSubject<Bool,Never>()
     var cancelable = Set<AnyCancellable>()
     
     func register(email:String,nickname:String,password:String,authProvider:String){
         AuthApiService.register(email: email, nickname: nickname, password: password,authProvider:authProvider)
             .sink { completion in
-                switch completion{
-                case .finished:
+                if let code = self.registerRes?.statusCode,code >= 200 && code <= 300{
+                    self.registerSuccess.send(true)
                     print("회원가입 완료 \(completion)")
-                    if let code = self.registerRes?.code,code != "BAD_REQUEST"{
-                        self.registerSuccess.send(true)
-                    }else{
-                        self.registerSuccess.send(false)
-                    }
-                case .failure(let error):
-                    print("회원가입 실패 \(error.localizedDescription)")
+                }else{
+                    self.registerSuccess.send(false)
+                    print("회원가입 실패 \(completion)")
                 }
             } receiveValue: { receivedValue in
                 self.registerRes = receivedValue
@@ -39,7 +35,14 @@ class AuthViewModel:ObservableObject{
     func login(email:String,password:String){
         AuthApiService.login(email: email, password: password)
             .sink { completion in
-                print("로그인 완료 \(completion)")
+                switch completion{
+                case .finished:
+                    self.loginSuccess.send(true)
+                    print("로그인 성공 \(completion)")
+                case .failure(let error):
+                    self.loginSuccess.send(false)
+                    print("로그인 실패 \(error)")
+                }
             } receiveValue: { receivedValue in
                 self.loginRes = receivedValue
             }.store(in: &cancelable)

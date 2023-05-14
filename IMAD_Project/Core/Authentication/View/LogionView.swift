@@ -14,6 +14,10 @@ struct LogionView: View {
     @State var id = ""
     @State var password = ""
     @Binding var login:Bool
+    @State var success = false
+    @State var msg = false
+    
+    @StateObject var vm = AuthViewModel()
 //    @State var kakaoLogin = false
     @StateObject var kakaoVm = KakaoAuthViewModel()
 //    let apiKey = Bundle.main.infoDictionary?["REST_API_KEY"] ?? ""   //restApiKey
@@ -38,7 +42,8 @@ struct LogionView: View {
                                 .padding(.bottom,50)
                         }
                         Button {
-                            login = true
+                            vm.login(email: id, password: password)
+                            //login = true
                         } label: {
                             Capsule()
                                 .frame(height: 50)
@@ -122,6 +127,15 @@ struct LogionView: View {
         }
         .onTapGesture {
             UIApplication.shared.endEditing()
+        }
+        .onReceive(vm.loginSuccess) { value in
+            success = true
+            msg = value
+        }
+        .alert(isPresented: $success) {
+            Alert(title: Text("로그인에 성공했습니다."),dismissButton: .default(Text("확인")) {
+                login = msg
+            })
         }
         
     }
