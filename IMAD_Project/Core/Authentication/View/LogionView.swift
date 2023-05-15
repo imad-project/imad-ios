@@ -16,16 +16,15 @@ struct LogionView: View {
     @Binding var login:Bool
     @State var success = false
     @State var msg = false
-    
+    @State var oauht = false
     @StateObject var vm = AuthViewModel()
-//    @State var kakaoLogin = false
+    @State var kakaoLogin = false
     @StateObject var kakaoVm = KakaoAuthViewModel()
 //    let apiKey = Bundle.main.infoDictionary?["REST_API_KEY"] ?? ""   //restApiKey
 //    let baseURL = "http://39.119.82.229:8080//login/oauth2/code/kakao"
     
     var body: some View {
-        NavigationStack{
-            ZStack(alignment: .bottomTrailing){
+            ZStack{
                 BackgroundView(height: 0.73, height1: 0.77,height2: 0.75,height3: 0.76)
                     VStack(alignment: .leading,spacing: 30){
                         Group{
@@ -59,11 +58,10 @@ struct LogionView: View {
                         HStack(spacing: 20){
                             button(action: (), view: Image("apple").resizable().frame(width: 30,height: 30), buttonColor: .black, textColor: .customIndigo)
                             button(action: (), view: Image("naver").resizable().frame(width: 40,height: 40), buttonColor: .green, textColor: .customIndigo)
-//                            button(action: kakaoVm.handleKakaoLogin(), view: Image("kakao").resizable().frame(width: 30,height: 30), buttonColor: .yellow, textColor: .customIndigo)
-                            
                             Button {
-                                kakaoVm.handleKakaoLogin()
-                                //kakaoLogin = true
+                                //kakaoVm.handleKakaoLogin()
+                                //vm.oauth(registrationId: "kakao")
+                                oauht = true
                             } label: {
                                 Capsule()
                                     .frame(height: 50)
@@ -97,48 +95,43 @@ struct LogionView: View {
                         .font(.caption)
                         .frame(maxWidth: .infinity)
 
-                    }
+                    }.ignoresSafeArea(.keyboard)
                     .foregroundColor(.white)
                         .padding()
                         .transition(.move(edge: .leading))
+            }
+            .onTapGesture {
+                UIApplication.shared.endEditing()
+            }
+            .onReceive(vm.loginSuccess) { value in
+                success = true
+                msg = value
+            }
+            .alert(isPresented: $success) {
+                Alert(title: Text("로그인에 성공했습니다."),dismissButton: .default(Text("확인")) {
+                    login = msg
+                })
+            }
+            .onReceive(vm.oauthSuccess) { _ in
+                kakaoLogin = true
             }
 //            .onChange(of: kakaoVm.htmlString) { _ in
 //                kakaoLogin = true
 //                print("카카오 로그인 성공 \(kakaoLogin)")
 //            }
-//            .sheet(isPresented: $kakaoLogin) {
-//                ZStack{
-//                    KakaoWebView(url:kakaoVm.htmlString ?? "")
-//                        .onDisappear{
-//                            kakaoLogin = false
-//                            print("카카오 로그인 성공 \(kakaoLogin)")
-//                        }
-//                        .environmentObject(kakaoVm)
-//                    Button {
-//                        kakaoLogin = false
-//                    } label: {
-//                        Image(systemName: "xmark")
-//                    }
-//
-//                }
-//
-//
-//            }
-        }
-        .onTapGesture {
-            UIApplication.shared.endEditing()
-        }
-        .onReceive(vm.loginSuccess) { value in
-            success = true
-            msg = value
-        }
-        .alert(isPresented: $success) {
-            Alert(title: Text("로그인에 성공했습니다."),dismissButton: .default(Text("확인")) {
-                login = msg
-            })
+            .sheet(isPresented: /*$kakaoLogin*/$oauht) {
+                ZStack{
+                    KakaoWebView(url:"http://39.119.82.229:8080/oauth2/authorization/kakao")
+                        .environmentObject(kakaoVm)
+
+                }
+
+
+            }
         }
         
-    }
+        
+    
 }
 
 struct LogionView_Previews: PreviewProvider {

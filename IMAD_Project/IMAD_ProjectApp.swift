@@ -21,14 +21,17 @@ struct IMAD_ProjectApp: App {
     var body: some Scene {
         WindowGroup {
            // TestView()
-            ContentView()
-                .onOpenURL(perform: { url in
-                                if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                                    _ = AuthController.handleOpenUrl(url: url)
+            NavigationStack{
+                ContentView()
+                    .onOpenURL(perform: { url in
+                                    if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                                        _ = AuthController.handleOpenUrl(url: url)
 
-                                    print(url)
-                                }
-                            })
+                                        print(url)
+                                    }
+                                })
+            }
+            
 //                .onOpenURL{ url in
 //                    if let code = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "code" })?.value {
 //                        print("인가코드: \(code)")

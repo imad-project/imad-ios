@@ -85,11 +85,13 @@ struct RegisterView: View {
                         register = msg
                     })
                 }
-            }
+            }.ignoresSafeArea(.keyboard)
             .foregroundColor(.white)
             .padding()
         }
-        
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
     }
 }
 

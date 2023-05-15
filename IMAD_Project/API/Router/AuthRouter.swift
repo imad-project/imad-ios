@@ -64,8 +64,7 @@ enum AuthRouter:URLRequestConvertible{
         case .login,.register:
             return try JSONEncoding.default.encode(request, with: parameters)
         case .oauth:
-            return request
+            return try JSONEncoding.default.encode(request, with: parameters)
         }
-        
     }
 }

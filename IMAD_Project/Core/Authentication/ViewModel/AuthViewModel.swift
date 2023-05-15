@@ -13,9 +13,11 @@ class AuthViewModel:ObservableObject{
     
     @Published var loginRes:UserInfoResponse? = nil
     @Published var registerRes:RegisterResponse? = nil
+    @Published var ouahHtml:String? = nil
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
     var loginSuccess = PassthroughSubject<Bool,Never>()
+    var oauthSuccess = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
     
     func register(email:String,nickname:String,password:String,authProvider:String){
@@ -51,8 +53,9 @@ class AuthViewModel:ObservableObject{
         AuthApiService.oauth(registrationId: registrationId)
             .sink { completion in
                 print("로그인 완료 \(completion)")
+                self.oauthSuccess.send()
             } receiveValue: { receivedValue in
-               
+                self.ouahHtml = receivedValue
             }.store(in: &cancelable)
     }
 }
