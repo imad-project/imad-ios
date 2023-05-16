@@ -11,9 +11,11 @@ import Kingfisher
 struct ProfileView: View {
     @State var phase:CGFloat = 0.0
     @State var change = false
-    @Binding var login:Bool
-    let columns = [ GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
     
+    @State var logout = false
+    
+    let columns = [ GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
+    @EnvironmentObject var vmAuth:AuthViewModel
     @State var review = false
     @State var posting = false
     @State var bookmark = false
@@ -111,7 +113,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(login: .constant(true))
+        ProfileView()
     }
 }
 
@@ -200,7 +202,7 @@ extension ProfileView{
                 Group{
                     Text("로그아웃")
                         .onTapGesture {
-                            login = false
+                            logout = true
                         }
                     Text("약관 확인")
                 }
@@ -217,6 +219,16 @@ extension ProfileView{
             .bold()
             
         }
+        .alert(isPresented: $logout) {
+                    Alert(
+                        title: Text("로그아웃"),
+                        message: Text("정말로 로그아웃하시겠습니까?"),
+                        primaryButton: .cancel(Text("취소")),
+                        secondaryButton: .destructive(Text("로그아웃"), action: {
+                            vmAuth.logout()
+                        })
+                    )
+                }
        
         
         

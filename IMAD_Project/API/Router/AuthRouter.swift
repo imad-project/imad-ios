@@ -13,7 +13,7 @@ enum AuthRouter:URLRequestConvertible{
     
     case register(email:String,nickname:String,password:String,authProvider:String)
     case login(email:String,password:String)
-    case oauth(registrationId:String)
+//    case oauth(registrationId:String)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -25,16 +25,16 @@ enum AuthRouter:URLRequestConvertible{
             return "/api/login"
         case .register:
             return "/api/signup"
-        case let .oauth(registrationId):
-            return "/login/oauth2/code/\(registrationId)"
+//        case let .oauth(registrationId):
+//            return "/login/oauth2/code/\(registrationId)"
         }
     }
     var method:HTTPMethod{
         switch self{
         case .login,.register:
             return .post
-        case .oauth:
-            return .get
+//        case .oauth:
+//            return .get
         }
     }
     var parameters:Parameters{
@@ -51,8 +51,8 @@ enum AuthRouter:URLRequestConvertible{
             param["password"] = password
             param["auth_provider"] = authProvider
             return param
-        case .oauth:
-            return Parameters()
+//        case .oauth:
+//            return Parameters()
         }
     }
     
@@ -63,8 +63,8 @@ enum AuthRouter:URLRequestConvertible{
         switch self{
         case .login,.register:
             return try JSONEncoding.default.encode(request, with: parameters)
-        case .oauth:
-            return try JSONEncoding.default.encode(request, with: parameters)
+//        case .oauth:
+//            return request
         }
     }
 }

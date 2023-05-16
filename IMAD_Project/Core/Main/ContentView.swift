@@ -11,14 +11,15 @@ struct ContentView: View {
     
     @State var splash = false
     @State var login = false
+    @StateObject var vm = AuthViewModel()
     
     var body: some View {
         ZStack {
             if splash{
-                if login{
-                    MenuTabView(login: $login)
+                if vm.loginMode{
+                    MenuTabView().environmentObject(vm)
                 }else{
-                    LogionView(login: $login)
+                    LoginAllView().environmentObject(vm)
                 }
             }else{
                 SplashView()
@@ -29,12 +30,15 @@ struct ContentView: View {
                     splash = true
                 }
             }
+            vm.getUser()
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        NavigationStack{
+            ContentView()
+        }
     }
 }

@@ -13,11 +13,12 @@ class AuthViewModel:ObservableObject{
     
     @Published var loginRes:UserInfoResponse? = nil
     @Published var registerRes:RegisterResponse? = nil
-    @Published var ouahHtml:String? = nil
+    @Published var loginMode = false
+//    @Published var oauthRes:UserInfoResponse? = nil
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
     var loginSuccess = PassthroughSubject<Bool,Never>()
-    var oauthSuccess = PassthroughSubject<(),Never>()
+//    var oauthSuccess = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
     
     func register(email:String,nickname:String,password:String,authProvider:String){
@@ -49,13 +50,32 @@ class AuthViewModel:ObservableObject{
                 self.loginRes = receivedValue
             }.store(in: &cancelable)
     }
-    func oauth(registrationId:String){
-        AuthApiService.oauth(registrationId: registrationId)
+//    func oauth(registrationId:String){
+//        AuthApiService.oauth(registrationId: registrationId)
+//            .sink { completion in
+//                print("로그인 완료 \(completion)")
+//                self.oauthSuccess.send()
+//            } receiveValue: { receivedValue in
+//                self.oauthRes = receivedValue
+//            }.store(in: &cancelable)
+//    }
+    func getUser(){
+        UserApiService.user()
             .sink { completion in
-                print("로그인 완료 \(completion)")
-                self.oauthSuccess.send()
+                switch completion{
+                case .finished:
+                    self.loginMode = true
+                    print("로그인 성공 \(completion)")
+                case .failure(let error):
+                    print("로그인 실패 \(error)")
+                }
             } receiveValue: { receivedValue in
-                self.ouahHtml = receivedValue
+                self.loginRes = receivedValue
             }.store(in: &cancelable)
+
+    }
+    func logout(){
+        loginMode = false
+        UserDefaultManager.shared.clearAll()
     }
 }

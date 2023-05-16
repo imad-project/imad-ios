@@ -11,9 +11,7 @@ import Combine
 
 enum AuthApiService{
     
-    
-    static var intercept = BaseIntercept()
-    
+
     
     static func login(email:String,password:String) -> AnyPublisher<UserInfoResponse,AFError>{
         print("로그인 api 호출")
@@ -37,25 +35,19 @@ enum AuthApiService{
             .value()
             .eraseToAnyPublisher()
     }
-//    static func oauth(registrationId:String) -> AnyPublisher<String,AFError>{
-//        print("카카오 로그인 요청")
-//        let ouathHtml = PassthroughSubject<String,AFError>()
-//        ApiClient.shared.session
+//    static func oauth(registrationId:String) -> AnyPublisher<UserInfoResponse,AFError>{
+//        print("oauth 로그인 요청")
+//        return ApiClient.shared.session
 //            .request(AuthRouter.oauth(registrationId: registrationId))
-//            .responseString{ response in
-////                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,let refreshToken = response.response?.allHeaderFields["Authorization-refresh"] as? String{
-////                    UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-////                }
-//                print("response: ",response)
-//                 print("response -> result: ",response.result)
-//                 print("response -> value: ",response.value)
-//
-//
+//            .response{ response in
+//                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,let refreshToken = response.response?.allHeaderFields["Authorization-refresh"] as? String{
+//                    UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+//                }
 //            }
-//            //.publishDecodable(type: UserInfoResponse.self)
-//           // .value()
-//       return ouathHtml.eraseToAnyPublisher()
-            
+//            .publishDecodable(type: UserInfoResponse.self)
+//            .value()
+//            .eraseToAnyPublisher()
+//
 //    }
 }
 

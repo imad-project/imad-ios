@@ -56,7 +56,7 @@ struct InfoChangeView: View {
         .background{
             ZStack{
                 Color.antiPrimary
-                ProfileView(login: .constant(true))
+                ProfileView()
                     .blur(radius: 20)
                     .opacity(0.1)
 

@@ -11,9 +11,9 @@ import Kingfisher
 struct MenuTabView: View {
     
     @StateObject var vm = TabViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
     @State var selectFilter = false //필터 선택
     @State var search = false
-    @Binding var login:Bool
     
     var body: some View {
         ZStack{
@@ -26,8 +26,9 @@ struct MenuTabView: View {
                         .tag(Tab.community)
                     NotificationView()
                         .tag(Tab.notification)
-                    ProfileView(login: $login)
+                    ProfileView()
                         .tag(Tab.profile)
+                        .environmentObject(vmAuth)
                     
                 }
                 menu
@@ -54,7 +55,7 @@ struct MenuTabView: View {
 
 struct MenuTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuTabView(login: .constant(true))
+        MenuTabView()
     }
 }
 

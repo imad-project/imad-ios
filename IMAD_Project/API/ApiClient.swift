@@ -12,7 +12,7 @@ final class ApiClient{
     
     var session:Session
     static let shared = ApiClient()
-    static let baseURL = "http://39.119.82.229:8080"
+    static let baseURL = "http://\(Bundle.main.infoDictionary?["BASE_URL"] ?? "")" 
     let monitors = [ApiLogger()] as [EventMonitor]
     
     init(){

@@ -6,42 +6,59 @@
 //
 
 import SwiftUI
+import WebKit
 
+class BB:ObservableObject{
+    @Published var on = false
+}
 struct TestView: View {
-    let apiKey = Bundle.main.infoDictionary?["REST_API_KEY"] ?? ""   //restApiKey
-    let baseURL = "http://39.119.82.229:8080//login/oauth2/code/kakao"
-    let authURL = "https://kauth.kakao.com/oauth/authorize?client_id=\(Bundle.main.infoDictionary?["REST_API_KEY"] ?? "")&redirect_uri=http://39.119.82.229:8080//login/oauth2/code/kakao&response_type=code"
-        
-        @State private var authorizationCode: String?
-        
-        var body: some View {
-            VStack {
-                Button("카카오 로그인") {
-//                    guard let url = URL(string: authURL) else { return }
-//                    if let kakaoTalkUrl = URL(string: "kakaotalk://inweb?url=\(authURL)") {
-//                        UIApplication.shared.open(kakaoTalkUrl)
-//                    }
-                    guard let url = URL(string: authURL) else { return }
-                               UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-                
-                if let authorizationCode = authorizationCode {
-                    Text("인가코드: \(authorizationCode)")
-                    
-                }
-            }
-            .onOpenURL { url in
-                guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
-                      let queryItems = components.queryItems else { return }
-                
-                for queryItem in queryItems {
-                    if queryItem.name == "code", let authorizationCode = queryItem.value {
-                        self.authorizationCode = authorizationCode
-                    }
-                }
+    
+    @StateObject var vm = BB()
+    
+    var body: some View{
+        NavigationStack{
+            if vm.on{
+                Text("aasd")
+            }else{
+                Test1View()
+                    .environmentObject(vm)
             }
         }
+    }
 }
+struct Test1View: View {
+    
+    @State var a = false
+    @EnvironmentObject var vm:BB
+    
+    var body: some View{
+        Button {
+            a = true
+        } label: {
+            Text("2")
+        }
+        .navigationDestination(isPresented: $a) {
+            Test2View(a: $a).environmentObject(vm)
+        }
+    }
+}
+struct Test2View: View {
+    
+    @Binding var a :Bool
+    @EnvironmentObject var vm:BB
+    
+    var body: some View{
+        Button {
+            //a = false
+            vm.on = true
+            print(vm.on)
+        } label: {
+            Text("3")
+        }
+    }
+}
+
+
 
 
 struct TestView_Previews: PreviewProvider {
