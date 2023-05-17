@@ -9,31 +9,34 @@ import SwiftUI
 
 struct RegisterTabView: View {
     @State var selection = 0
-    @Binding var register:Bool
+   // @Binding var register:Bool
     @StateObject var vm = StageTabViewModel()
+    @StateObject var vmAuth = AuthViewModel()
     var body: some View {
         ZStack(alignment:.bottom){
             TabView(selection: $vm.tab) {
                 RegisterGenderView()
                     .tag(RegisterFilter.info)
+                    .environmentObject(vmAuth)
                 SelectGenreView()
                     .tag(RegisterFilter.genre)
-                ProfileSelectView(register: $register)
+                    .environmentObject(vmAuth)
+                ProfileSelectView()
                     .tag(RegisterFilter.photo)
-                    .onTapGesture {
-                        register = false
-                        print("눌림")
-                    }
+                    .environmentObject(vmAuth)
             }.accentColor(.white)
             stage
         }.navigationBarBackButtonHidden(true)
-        
+            .onTapGesture {
+                UIApplication.shared.endEditing()
+            }
+            
     }
 }
 
 struct RegisterTabView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterTabView(register: .constant(false))
+        RegisterTabView()
     }
 }
 extension RegisterTabView{

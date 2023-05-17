@@ -59,13 +59,20 @@ struct LoginView: View {
                             Text("SNS로 가입하셨나요?")
                             Text("소셜 로그인")
                                 .bold()
+                           
                                 
                         }.font(.caption)
                     }
                     .frame(maxWidth: .infinity)
-
                 }.padding(10)
-                
+                HStack{
+                    Text("계정을 잃어버리셨나요?")
+                    Text("아이디 찾기").bold()
+                    Text("|").bold()
+                    Text("비밀번호 찾기").bold()
+                }
+                .font(.caption)
+                .frame(maxWidth: .infinity)
                 
             }.foregroundColor(.white)
             
@@ -80,7 +87,10 @@ struct LoginView: View {
         }
         .alert(isPresented: $success) {
             Alert(title: msg ? Text("로그인에 성공했습니다."): Text("로그인에 실패했습니다."),dismissButton: .default(Text("확인")) {
-                vm.loginMode = true
+                if (vm.loginRes?.nickname) != nil{
+                    vm.loginMode = msg
+                    vm.patchInfoSuccess = msg
+                }
             })
         }
     }

@@ -10,6 +10,14 @@ import WebKit
 
 class BB:ObservableObject{
     @Published var on = false
+    
+    @Published var aa = ""
+    @Published var bb = ""
+    
+    func cc(){
+        print(aa)
+        print(bb)
+    }
 }
 struct TestView: View {
     
@@ -34,6 +42,7 @@ struct Test1View: View {
     var body: some View{
         Button {
             a = true
+            vm.aa = "안녕"
         } label: {
             Text("2")
         }
@@ -51,7 +60,8 @@ struct Test2View: View {
         Button {
             //a = false
             vm.on = true
-            print(vm.on)
+            vm.bb = "반가워"
+            vm.cc()
         } label: {
             Text("3")
         }

@@ -8,13 +8,20 @@
 import Foundation
 
 struct RegisterResponse:Codable{
-    let code:String
+    let data:DataId?
     let statusCode:Int
-    let message:String
+    let message:String?
     
     enum CodingKeys:String,CodingKey{
-        case code
-        case statusCode = "status_code"
+        case data
+        case statusCode = "status"
         case message
+    }
+}
+
+struct DataId:Codable{
+    let userId:Int
+    enum CodingKeys:String,CodingKey{
+        case userId = "user_id"
     }
 }

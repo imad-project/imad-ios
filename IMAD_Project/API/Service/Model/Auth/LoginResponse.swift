@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct UserInfoResponse:Codable{
+struct LoginResponse:Codable{
     
     let email:String
-    let nickname:String
+    let nickname:String?
     let authProvider:String
     let gender:String?
     let ageRange:Int

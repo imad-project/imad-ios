@@ -11,14 +11,20 @@ import Alamofire
 
 class AuthViewModel:ObservableObject{
     
-    @Published var loginRes:UserInfoResponse? = nil
+    @Published var loginRes:LoginResponse? = nil
     @Published var registerRes:RegisterResponse? = nil
+    @Published var getUserRes:GetUserInfo? = nil
+    
+    @Published var patchInfoSuccess = false
     @Published var loginMode = false
-//    @Published var oauthRes:UserInfoResponse? = nil
+    
+    @Published var age = 20
+    
+    @Published var patchUserInfo = PatchUserInfo(nickname: "", gender: nil, ageRange: nil, genre: nil, image: 0)
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
     var loginSuccess = PassthroughSubject<Bool,Never>()
-//    var oauthSuccess = PassthroughSubject<(),Never>()
+    var getUserSuccess = PassthroughSubject<Bool,Never>()
     var cancelable = Set<AnyCancellable>()
     
     func register(email:String,password:String,authProvider:String){
@@ -62,17 +68,36 @@ class AuthViewModel:ObservableObject{
     func getUser(){
         UserApiService.user()
             .sink { completion in
-                switch completion{
-                case .finished:
-                    self.loginMode = true
-                    print("로그인 성공 \(completion)")
-                case .failure(let error):
-                    print("로그인 실패 \(error)")
+                if let code = self.getUserRes?.status,code >= 200 && code <= 300{
+                    
+                    if let data = self.getUserRes?.data,data.nickname != nil{
+                        self.loginMode = true
+                    }else{
+                        self.loginMode = true
+                        self.patchInfoSuccess = true
+                    }
+                    print("유저정보 수신 완료 \(completion)")
+                }else{
+                    print("유저정보 수신 실패 \(completion)")
                 }
             } receiveValue: { receivedValue in
-                self.loginRes = receivedValue
+                self.getUserRes = receivedValue
             }.store(in: &cancelable)
 
+    }
+    func patchUser(){
+        UserApiService.patchUser(gender: patchUserInfo.gender, ageRange: patchUserInfo.ageRange, image: patchUserInfo.image, nickname: patchUserInfo.nickname, genre: patchUserInfo.genre)
+            .sink { completion in
+                if let code = self.getUserRes?.status,code >= 200 && code <= 300{
+                    self.getUserSuccess.send(true)
+                    print("유저정보 수신 완료 \(completion)")
+                }else{
+                    self.getUserSuccess.send(false)
+                    print("유저정보 수신 실패 \(completion)")
+                }
+            } receiveValue: { receivedValue in
+                self.getUserRes = receivedValue
+            }.store(in: &cancelable)
     }
     func logout(){
         loginMode = false

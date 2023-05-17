@@ -14,11 +14,19 @@ enum UserApiService{
     
     static var intercept = BaseIntercept()
     
-    static func user() -> AnyPublisher<UserInfoResponse,AFError>{
-        print("로그인 api 호출")
+    static func user() -> AnyPublisher<GetUserInfo,AFError>{
+        print("유저정보 api 호출")
         return ApiClient.shared.session
             .request(UserRouter.user,interceptor: intercept)
-            .publishDecodable(type: UserInfoResponse.self)
+            .publishDecodable(type: GetUserInfo.self)
+            .value()
+            .eraseToAnyPublisher()
+    }
+    static func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,genre:String?) -> AnyPublisher<GetUserInfo,AFError>{
+        print("유저정보변경 api 호출")
+        return ApiClient.shared.session
+            .request(UserRouter.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, genre: genre),interceptor: intercept)
+            .publishDecodable(type: GetUserInfo.self)
             .value()
             .eraseToAnyPublisher()
     }

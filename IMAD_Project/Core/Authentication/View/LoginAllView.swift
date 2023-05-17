@@ -36,7 +36,7 @@ struct LoginAllView: View {
                                 generalLogin = true
                             } label: {
                                 HStack{
-                                    Image(systemName: "person.fill")
+                                    Image("logo")
                                         .resizable()
                                         .frame(width: 20,height: 20)
                                     Spacer()
@@ -46,7 +46,7 @@ struct LoginAllView: View {
                                 .cornerRadius(10)
                                 .padding(5)
                                 .overlay {
-                                    Text("일반 로그인하기")
+                                    Text("IMAD로 로그인하기")
                                         .bold()
                                     
                                 }
@@ -82,27 +82,35 @@ struct LoginAllView: View {
                                 }
                             }
                         }
-                        Spacer()
-                        HStack{
-                            Group{
-                                Text("회원가입")
-                                    .onTapGesture {
-                                        withAnimation {
-                                            register.toggle()
-                                        }
-                                    }.navigationDestination(isPresented: $register) {
-                                        RegisterView(login: $register)
-                                            .navigationBarBackButtonHidden(true)
-                                    }
-                                Text("|")
-                                Text("아이디 찾기")
-                                Text("|")
-                                Text("비밀번호 찾기")
-                            }.bold()
-                                .shadow(radius: 20)
+                        
+                        Text("계정이 없으신가요?")
+                            .font(.caption)
+                            .frame(maxWidth: .infinity)
+                        Button {
+                            register = true
+                        } label: {
+                            HStack{
+                                Image("logoName")
+                                    .resizable()
+                                    .frame(width: 20,height: 20)
+                                Spacer()
+                            }
+                            .padding(15)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .padding(5)
+                            .overlay {
+                                Text("새로 시작하기")
+                                    .bold()
+                                
+                            }
+                            .foregroundColor(.black)
                         }
-                        .font(.caption)
-                        .frame(maxWidth: .infinity)
+                        .navigationDestination(isPresented: $register) {
+                            RegisterView(login: $register)
+                                .navigationBarBackButtonHidden(true)
+                        }
+                        Spacer()
 
                     }.ignoresSafeArea(.keyboard)
                     .foregroundColor(.white)
@@ -133,8 +141,10 @@ struct LoginAllView: View {
 
 struct LoginAllView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginAllView()
-            .environmentObject(AuthViewModel())
+        NavigationStack{
+            LoginAllView()
+                .environmentObject(AuthViewModel())
+        }
     }
 }
 

@@ -17,7 +17,11 @@ struct ContentView: View {
         ZStack {
             if splash{
                 if vm.loginMode{
-                    MenuTabView().environmentObject(vm)
+                    if vm.patchInfoSuccess{
+                        RegisterTabView()
+                    }else{
+                        MenuTabView().environmentObject(vm)
+                    }
                 }else{
                     LoginAllView().environmentObject(vm)
                 }

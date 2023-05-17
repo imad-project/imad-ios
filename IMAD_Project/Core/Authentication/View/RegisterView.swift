@@ -18,7 +18,7 @@ struct RegisterView: View {
     @Binding var login:Bool
     @StateObject var vm = AuthViewModel()
     @State var success = false
-    @State var msg = false
+    @Environment(\.dismiss) var dismiss
     
     @State var alertMsg = ""
     @State var notRegex = false
@@ -71,9 +71,6 @@ struct RegisterView: View {
                         }
                 }
                 .frame(maxWidth: .infinity)
-                .navigationDestination(isPresented: $register) {
-                    RegisterTabView(register: $login)
-                }
                 Spacer()
                 
                 HStack{
@@ -89,13 +86,10 @@ struct RegisterView: View {
                     }
                 }
                 .onReceive(vm.registerSuccess) { value in
-                    success = true
-                    msg = value
-                }
-                .alert(isPresented: $success) {
-                    Alert(title: Text(vm.registerRes?.message ?? ""),dismissButton: .default(Text("확인")) {
-                        register = msg
-                    })
+                    notRegex = value
+                    success = value
+                    alertMsg = "회원가입이 완료되었습니다!"
+                    print(value)
                 }
             }.ignoresSafeArea(.keyboard)
             .foregroundColor(.white)
@@ -105,8 +99,15 @@ struct RegisterView: View {
             UIApplication.shared.endEditing()
         }
         .alert(isPresented: $notRegex) {
-            Alert(title: Text("오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")))
+            Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
+                if success{
+                    dismiss()
+                }
+            })
+            
+
         }
+
     }
     func isVaildInfo()->Int{
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
