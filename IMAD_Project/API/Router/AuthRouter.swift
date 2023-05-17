@@ -11,7 +11,7 @@ import Alamofire
 enum AuthRouter:URLRequestConvertible{
     
     
-    case register(email:String,nickname:String,password:String,authProvider:String)
+    case register(email:String,password:String,authProvider:String)
     case login(email:String,password:String)
 //    case oauth(registrationId:String)
     
@@ -44,10 +44,9 @@ enum AuthRouter:URLRequestConvertible{
             param["email"] = email
             param["password"] = password
             return param
-        case let .register(email, nickname, password,authProvider):
+        case let .register(email, password,authProvider):
             var param = Parameters()
             param["email"] = email
-            param["nickname"] = nickname
             param["password"] = password
             param["auth_provider"] = authProvider
             return param

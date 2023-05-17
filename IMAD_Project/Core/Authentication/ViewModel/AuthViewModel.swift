@@ -21,8 +21,8 @@ class AuthViewModel:ObservableObject{
 //    var oauthSuccess = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
     
-    func register(email:String,nickname:String,password:String,authProvider:String){
-        AuthApiService.register(email: email, nickname: nickname, password: password,authProvider:authProvider)
+    func register(email:String,password:String,authProvider:String){
+        AuthApiService.register(email: email, password: password,authProvider:authProvider)
             .sink { completion in
                 if let code = self.registerRes?.statusCode,code >= 200 && code <= 300{
                     self.registerSuccess.send(true)

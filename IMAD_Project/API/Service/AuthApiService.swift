@@ -26,11 +26,11 @@ enum AuthApiService{
             .value()
             .eraseToAnyPublisher()
     }
-    static func register(email:String,nickname:String,password:String,authProvider:String) -> AnyPublisher<RegisterResponse,AFError>{
+    static func register(email:String,password:String,authProvider:String) -> AnyPublisher<RegisterResponse,AFError>{
         print("회원가입 api 호출")
         
         return ApiClient.shared.session
-            .request(AuthRouter.register(email: email, nickname: nickname, password: password,authProvider:authProvider))
+            .request(AuthRouter.register(email: email, password: password,authProvider:authProvider))
             .publishDecodable(type: RegisterResponse.self)
             .value()
             .eraseToAnyPublisher()

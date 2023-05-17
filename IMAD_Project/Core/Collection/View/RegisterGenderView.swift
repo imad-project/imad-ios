@@ -17,10 +17,7 @@ struct RegisterGenderView: View {
             BackgroundView(height: 0.83, height1: 0.87,height2: 0.85,height3: 0.86)
             VStack(alignment: .leading,spacing: 30){
                 Group{
-                    
                     Spacer()
-                    
-                    
                     Text("1. 성별과 출생연도를 설정해주세요")
                         .bold()
                         .padding(.bottom,50)
