@@ -32,6 +32,7 @@ struct LoginView: View {
                     Spacer()
                     Text("아이디").bold()
                     CustomTextField(password: false, image: "person.fill", placeholder: "입력", color: Color.white, text: $id).padding(.leading)
+                        .keyboardType(.emailAddress)
                     Text("비밀번호").bold()
                     CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.white, text: $password).padding(.leading)
                         .padding(.bottom,50)
@@ -87,10 +88,12 @@ struct LoginView: View {
         }
         .alert(isPresented: $success) {
             Alert(title: msg ? Text("로그인에 성공했습니다."): Text("로그인에 실패했습니다."),dismissButton: .default(Text("확인")) {
-                if (vm.loginRes?.nickname) != nil{
-                    vm.loginMode = msg
-                    vm.patchInfoSuccess = msg
-                }
+                //print(vm.loginRes?.data?.nickname)
+                vm.loginMode = msg
+//                if let nickname = vm.loginRes?.data?.nickname,nickname.isEmpty{
+//                    print(nickname)
+//                    vm.patchInfoSuccess = msg
+//                }
             })
         }
     }

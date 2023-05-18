@@ -13,101 +13,153 @@ struct ProfileChangeView: View {
     @State var phase:CGFloat = 0.0
     @State private var selectedImageData: Data? = nil
     @State private var selectedItem: PhotosPickerItem? = nil
-
+    @State var profileImage = ""
+    @State var profileSelect = false
+    @State var imageCode:ProfileFilter = .none
+    
+    let colums = [GridItem(.flexible()),GridItem(.flexible())]
+    @EnvironmentObject var vmAuth:AuthViewModel
     @Environment(\.dismiss) var dismiss
     var body: some View {
-        
-        NavigationView {
-            VStack(spacing:10){
+        ZStack{
+            HStack{
                 Button {
-                    dismiss()
+                    if profileSelect{
+                        withAnimation(.easeIn(duration:0.5)){
+                            profileSelect = false
+                        }
+                    }else{
+                        dismiss()
+                    }
                 } label: {
                     Image(systemName: "xmark")
                 }
-                .frame(maxWidth: .infinity,alignment: .leading)
-                .padding(.leading)
-                .foregroundColor(.primary)
-                .padding(.top,50)
-                Text("프로필 변경")
-                    .font(.title)
-                    .bold()
-                    .padding()
-                    
-                PhotosPicker(
-                        selection: $selectedItem,
-                        matching: .images,
-                        photoLibrary: .shared()) {
-                            Group{
-                                if let selectedImageData,
-                                   let uiImage = UIImage(data: selectedImageData) {
-                                            Image(uiImage: uiImage)
-                                            .resizable()
-                                            .frame(width: 200,height: 200)
-                                            .clipShape(Circle())
-                                        }
-                                else{
-                                    KFImage(URL(string: CustomData.instance.userReiveList.last!.image))
-                                        .resizable()
-                                        .frame(width: 200,height: 200)
-                                        .clipShape(Circle())
-                                }
-                            }
-                            .overlay(alignment:.bottomTrailing){
-                                Circle()
-                                    .foregroundColor(.black.opacity(0.7))
-                                    .frame(width: 50,height: 50)
+                Spacer()
+                Button {
+                    vmAuth.patchUserInfo = PatchUserInfo(nickname: vmAuth.getUserRes?.data?.nickname ?? "", image: imageCode.num)
+                    vmAuth.patchUser()
+                    dismiss()
+                } label: {
+                    Text("완료")
+                }
+               
+
+            }
+            .frame(maxHeight: .infinity,alignment: .top)
+            .padding(.horizontal)
+            .foregroundColor(.primary)
+            .padding(.top,50)
+            
+            VStack(spacing:10){
+                if !profileSelect{
+                    Text("프로필 변경")
+                        .font(.title)
+                        .bold()
+                        .padding()
+                        .padding(.top,100)
+                    Button {
+                        withAnimation(.easeIn(duration:0.5)){
+                            profileSelect = true
+                        }
+                    } label: {
+                        Group{
+                            if profileImage != ""{
+                                Image(profileImage)
+                                    .resizable()
                                     .overlay {
-                                        Image(systemName: "photo")
-                                            .foregroundColor(.white)
+                                        Image(vmAuth.getUserRes?.data?.gender ?? "")
+                                            .resizable()
+                                            .frame(width: 150, height: 120)
                                     }
-                                    .padding([.bottom,.trailing],5)
+                                    
+                            }else{
+                                Circle()
                             }
-                            
-                        }.onChange(of: selectedItem) { newItem in
-                            Task {
-                                if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                    selectedImageData = data
+                        }
+                        .frame(width: 200,height: 200)
+                        .overlay(alignment:.bottomTrailing){
+                            Circle()
+                                .foregroundColor(.black.opacity(0.7))
+                                .frame(width: 50,height: 50)
+                                .overlay {
+                                    Image(systemName: "photo")
+                                        .foregroundColor(.white)
                                 }
-                            }
-                        }
-                
-                Text("quarang.__")
-                    .bold()
-                    .font(.title3)
-                Text(verbatim:"dbduddnd1225@gmail.com")
-                    .padding(.bottom,20)
-                
-                List{
-                    Group{
-                        NavigationLink {
-                            InfoChangeView(title: "닉네임", password: false, text: "quarnag.__")
-                                
-                        } label: {
-                            Text("닉네임 변경")
-                        }
-                        NavigationLink {
-                            InfoChangeView(title: "이메일", password: false, text: "dbduddnd1225@gmail.com")
-                               
-                        } label: {
-                            Text("이메일 변경")
-                        }
-                        NavigationLink {
-                            InfoChangeView(title: "비밀번호", password: true, text: "hero1225")
-                              
-                        } label: {
-                            Text("비밀번호 변경")
+                                .padding([.bottom,.trailing],5)
                         }
                     }
-                    .listRowBackground(Color.clear)
+                    Text("\(vmAuth.getUserRes?.data?.nickname ?? "")")
+                        .bold()
+                        .font(.title3)
+                    Text(verbatim:"\(vmAuth.getUserRes?.data?.email ?? "")")
+                        .padding(.bottom,20)
                     
+                    List{
+                        Group{
+                            NavigationLink {
+                                InfoChangeView(title: "닉네임", password: false, text: "quarnag.__")
+                                    
+                            } label: {
+                                Text("닉네임 변경")
+                            }
+                            NavigationLink {
+                                InfoChangeView(title: "이메일", password: false, text: "dbduddnd1225@gmail.com")
+                                   
+                            } label: {
+                                Text("이메일 변경")
+                            }
+                            NavigationLink {
+                                InfoChangeView(title: "비밀번호", password: true, text: "hero1225")
+                                  
+                            } label: {
+                                Text("비밀번호 변경")
+                            }
+                        }
+                        .listRowBackground(Color.clear)
+                        
+                    }
+                    .scrollContentBackground(.hidden)
+                    .listStyle(.plain)
+                    Spacer()
+                }else{
+                    Text("프로필 선택")
+                        .font(.title)
+                        .bold()
+                        .padding()
+                        //.padding(.top,10)
+                        .padding(.bottom,50)
+                    LazyVGrid(columns: colums,spacing: 30) {
+                        ForEach(ProfileFilter.allCases,id:\.rawValue){ item in
+                            if item != .none{
+                                Button {
+                                    imageCode = item
+                                } label: {
+                                    Image(item.rawValue)
+                                        .resizable()
+                                        .frame(width: 150,height: 150)
+                                        .overlay {
+                                            Image(vmAuth.getUserRes?.data?.gender ?? "")
+                                                .resizable()
+                                                .frame(width: 100, height: 80)
+                                            if imageCode == item{
+                                                Circle()
+                                                    .foregroundColor(.black.opacity(0.7))
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                    }
                 }
-                .scrollContentBackground(.hidden)
-                .listStyle(.plain)
+                
             }
+        }
+            
             .background{
                 ZStack{
                     Color.antiPrimary
                     ProfileView()
+                        .allowsHitTesting(false)
                         .blur(radius: 20)
                         .opacity(0.1)
 
@@ -115,14 +167,22 @@ struct ProfileChangeView: View {
             }
             
             
-        }
+        //}
         .foregroundColor(.primary)
-        
+        .onAppear{
+            for image in ProfileFilter.allCases{
+                if let imageCode = vmAuth.getUserRes?.data?.profileImage,imageCode == image.num{
+                    profileImage = image.rawValue
+                    self.imageCode = image
+                }
+            }
+        }
     }
 }
 
 struct ProfileChangeView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileChangeView()
+            .environmentObject(AuthViewModel())
     }
 }

@@ -71,7 +71,9 @@ struct ProfileSelectView: View {
                                             .frame(width: 100,height: 80)
                                             .shadow(radius: 20)
                                         if image == item{
-                                            Circle().foregroundColor(.black.opacity(0.7))
+                                            Circle()
+                                                .frame(width: 120,height: 120)
+                                                .foregroundColor(.black.opacity(0.7))
                                         }
                                     }
                             }

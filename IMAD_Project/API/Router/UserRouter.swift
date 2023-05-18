@@ -9,8 +9,8 @@ import Foundation
 import Alamofire
 
 enum UserRouter:URLRequestConvertible{
-    case user
-    case patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,genre:String?)
+    case user(userId:Int)
+    case patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,genre:String?,userId:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -18,9 +18,10 @@ enum UserRouter:URLRequestConvertible{
     
     var endPoint:String{
         switch self{
-        case .user,.patchUser:
-            return "/api/user"
-            
+        case let .user(userId):
+            return "/api/user/\(userId)"
+        case let .patchUser(_,_,_,_,_,userId):
+            return "/api/user/\(userId)"
         }
     }
     var method:HTTPMethod{
@@ -36,7 +37,7 @@ enum UserRouter:URLRequestConvertible{
         switch self{
         case .user:
             return Parameters()
-        case let .patchUser(gender,ageRange,image,nickname,genre):
+        case let .patchUser(gender,ageRange,image,nickname,genre,_):
             var params = Parameters()
             params["gender"] = gender
             params["age_range"] = ageRange

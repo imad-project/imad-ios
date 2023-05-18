@@ -13,7 +13,7 @@ enum AuthApiService{
     
 
     
-    static func login(email:String,password:String) -> AnyPublisher<LoginResponse,AFError>{
+    static func login(email:String,password:String) -> AnyPublisher<GetUserInfo,AFError>{
         print("로그인 api 호출")
         return ApiClient.shared.session
             .request(AuthRouter.login(email: email, password: password))
@@ -22,7 +22,7 @@ enum AuthApiService{
                     UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
                 }
             }
-            .publishDecodable(type: LoginResponse.self)
+            .publishDecodable(type: GetUserInfo.self)
             .value()
             .eraseToAnyPublisher()
     }

@@ -36,6 +36,7 @@ struct RegisterView: View {
                 Group{
                     Text("이메일").bold()
                     CustomTextField(password: false, image: "envelope.fill", placeholder: "입력", color: Color.white, text: $email).padding(.leading)
+                        .keyboardType(.emailAddress)
                     Text("비밀번호").bold()
                     CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.white, text: $password).padding(.leading)
                     Text("비밀번호 확인").bold()
@@ -101,13 +102,11 @@ struct RegisterView: View {
         .alert(isPresented: $notRegex) {
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
                 if success{
+                    //vm.patchInfoSuccess = success
                     dismiss()
                 }
             })
-            
-
         }
-
     }
     func isVaildInfo()->Int{
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"

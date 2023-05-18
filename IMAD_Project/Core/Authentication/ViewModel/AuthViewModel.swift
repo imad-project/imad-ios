@@ -11,7 +11,7 @@ import Alamofire
 
 class AuthViewModel:ObservableObject{
     
-    @Published var loginRes:LoginResponse? = nil
+    //@Published var loginRes:GetUserInfo? = nil
     @Published var registerRes:RegisterResponse? = nil
     @Published var getUserRes:GetUserInfo? = nil
     
@@ -44,16 +44,19 @@ class AuthViewModel:ObservableObject{
     func login(email:String,password:String){
         AuthApiService.login(email: email, password: password)
             .sink { completion in
-                switch completion{
-                case .finished:
+                if let code = self.getUserRes?.status,code >= 200 && code <= 300{
+                    print()
+                    if self.getUserRes?.data?.nickname == nil{
+                        self.patchInfoSuccess = true
+                    }
                     self.loginSuccess.send(true)
-                    print("로그인 성공 \(completion)")
-                case .failure(let error):
+                    print("로그인 완료 \(completion)")
+                }else{
                     self.loginSuccess.send(false)
-                    print("로그인 실패 \(error)")
+                    print("로그인 실패 \(completion)")
                 }
             } receiveValue: { receivedValue in
-                self.loginRes = receivedValue
+                self.getUserRes = receivedValue
             }.store(in: &cancelable)
     }
 //    func oauth(registrationId:String){
@@ -66,14 +69,11 @@ class AuthViewModel:ObservableObject{
 //            }.store(in: &cancelable)
 //    }
     func getUser(){
-        UserApiService.user()
+        UserApiService.user(userId: 2)
             .sink { completion in
                 if let code = self.getUserRes?.status,code >= 200 && code <= 300{
-                    
-                    if let data = self.getUserRes?.data,data.nickname != nil{
-                        self.loginMode = true
-                    }else{
-                        self.loginMode = true
+                    self.loginMode = true
+                    if self.getUserRes?.data?.nickname == nil{
                         self.patchInfoSuccess = true
                     }
                     print("유저정보 수신 완료 \(completion)")
@@ -86,7 +86,7 @@ class AuthViewModel:ObservableObject{
 
     }
     func patchUser(){
-        UserApiService.patchUser(gender: patchUserInfo.gender, ageRange: patchUserInfo.ageRange, image: patchUserInfo.image, nickname: patchUserInfo.nickname, genre: patchUserInfo.genre)
+        UserApiService.patchUser(gender: patchUserInfo.gender, ageRange: patchUserInfo.ageRange, image: patchUserInfo.image, nickname: patchUserInfo.nickname, genre: patchUserInfo.genre, userId: 2)
             .sink { completion in
                 if let code = self.getUserRes?.status,code >= 200 && code <= 300{
                     self.getUserSuccess.send(true)

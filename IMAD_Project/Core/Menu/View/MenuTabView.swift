@@ -15,6 +15,8 @@ struct MenuTabView: View {
     @State var selectFilter = false //필터 선택
     @State var search = false
     
+    @State var profileImage = ""
+    
     var body: some View {
         ZStack{
             Color.black.ignoresSafeArea()
@@ -44,6 +46,11 @@ struct MenuTabView: View {
         }
         .onAppear{
             UITabBar.appearance().isHidden = true   //탭바 숨김
+            for image in ProfileFilter.allCases{
+                if let imageCode = vmAuth.getUserRes?.data?.profileImage,imageCode == image.num{
+                    profileImage = image.rawValue
+                }
+            }
         }
         .navigationDestination(isPresented: $search) {
             MovieListView(title: "검색", back: $search)
@@ -56,6 +63,7 @@ struct MenuTabView: View {
 struct MenuTabView_Previews: PreviewProvider {
     static var previews: some View {
         MenuTabView()
+            .environmentObject(AuthViewModel())
     }
 }
 
@@ -79,18 +87,28 @@ extension MenuTabView{
                                     .frame(maxWidth: .infinity)
                             }.frame(height: 30)
                         }else{
-                            Button {
-                                withAnimation(.easeIn(duration: 0.2)){
-                                    vm.tab = tab
-                                }
-                            } label: {
-                                KFImage(URL(string: CustomData.instance.community.image))
-                                    .resizable()
-                                    .frame(width: 30,height: 30)
-                                    .clipShape(Circle())
-                                    .frame(maxWidth: .infinity)
-                            }
-                            .frame(height: 30)
+                            
+                                    Button {
+                                        withAnimation(.easeIn(duration: 0.2)){
+                                            vm.tab = tab
+                                        }
+                                    } label: {
+                                        ZStack{
+                                            if profileImage == ""{
+                                               Circle()
+                                                    .clipShape(Circle()).frame(maxWidth: .infinity)
+                                            }else{
+                                                Image(profileImage)                        .resizable()
+                                                    .frame(width: 30,height: 30)
+                                                    .clipShape(Circle()).frame(maxWidth: .infinity)
+                                            }
+                                            Image(vmAuth.getUserRes?.data?.gender ?? "")
+                                                .resizable()
+                                                .frame(width: 20,height: 15)
+                                        }
+                                    }
+                                    .frame(height: 30)
+                             
                         }
                         Text(tab.menu)
                             .font(.caption)

@@ -23,6 +23,8 @@ struct ProfileView: View {
     @State var notice = false
     @State var setting = false
     
+    @State var profileImage = ""
+    
     var body: some View {
             VStack(alignment: .leading,spacing: 0){
                 VStack(alignment: .leading,spacing: 0){
@@ -38,16 +40,26 @@ struct ProfileView: View {
                         change = true
                     } label: {
                         HStack{
-                            KFImage(URL(string: CustomData.instance.movieList.first!))
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 70,height: 70)
-                                .clipShape(Circle())
-                            
+                            ZStack{
+                                if profileImage == ""{
+                                   Circle()
+                                        .frame(width: 70,height: 70)
+                                        .clipShape(Circle())
+                                }else{
+                                    Image(profileImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 70,height: 70)
+                                        .clipShape(Circle())
+                                }
+                                Image(vmAuth.getUserRes?.data?.gender ?? "")
+                                    .resizable()
+                                    .frame(width: 50,height: 40)
+                            }
                             VStack(alignment: .leading,spacing:10){
-                                Text("콰랑 님")
+                                Text("\(vmAuth.getUserRes?.data?.nickname ?? "    ")님")
                                     .bold()
-                                Text(verbatim: "dbduddnd1225@gmail.com")//이메일 색깔 변경 무시
+                                Text(verbatim: "\(vmAuth.getUserRes?.data?.email ?? "")")//이메일 색깔 변경 무시
                                     .font(.caption)
                                 
                             }
@@ -73,6 +85,7 @@ struct ProfileView: View {
                 }
                 .sheet(isPresented: $change){
                     ProfileChangeView()
+                        .environmentObject(vmAuth)
                 }
                 .background{
                         BackgroundView(height: 0.83, height1: 0.87,height2: 0.85,height3: 0.86)
@@ -93,6 +106,12 @@ struct ProfileView: View {
                     menu
                 }
                 Spacer()
+            }.onAppear{
+                for image in ProfileFilter.allCases{
+                    if let imageCode = vmAuth.getUserRes?.data?.profileImage,imageCode == image.num{
+                        profileImage = image.rawValue
+                    }
+                }
             }
             .background{
                 Color.white
@@ -114,6 +133,7 @@ struct ProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView()
+            .environmentObject(AuthViewModel())
     }
 }
 
