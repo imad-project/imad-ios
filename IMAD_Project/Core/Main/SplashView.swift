@@ -9,19 +9,12 @@ import SwiftUI
 
 struct SplashView: View {
     
-    @State var phase:CGFloat = 0.0
     @State var logo = false
     
     var body: some View {
         ZStack{
             Color.white.ignoresSafeArea()
-            BackgroundView(height: 0.33, height1: 0.37,height2: 0.35,height3: 0.36)
-                .onAppear{
-                    withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
-                        self.phase = .pi * 2
-                    }
-                }
-                .ignoresSafeArea()
+           // BackgroundView(height: 0.33, height1: 0.37,height2: 0.35,height3: 0.36)
             VStack{
                 Image("logoName")
                     .resizable()
@@ -39,7 +32,8 @@ struct SplashView: View {
                 .frame(maxWidth: .infinity,alignment: .trailing)
                 .frame(maxHeight: .infinity,alignment: .bottom)
                 .padding(50)
-        }.onAppear{
+        }
+        .onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                 withAnimation(.easeIn(duration: 0.5)) {
                     logo = true

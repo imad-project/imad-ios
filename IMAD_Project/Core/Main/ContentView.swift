@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State var delete = false
+    @State var alert = false
     @State var splash = false
     @State var login = false
     @StateObject var vm = AuthViewModel()
@@ -17,8 +19,8 @@ struct ContentView: View {
         ZStack {
             if splash{
                 if vm.loginMode{
-                    if vm.patchInfoSuccess{
-                        RegisterTabView()
+                    if vm.guestMode{
+                        RegisterTabView().environmentObject(vm)
                     }else{
                         MenuTabView().environmentObject(vm)
                     }
@@ -35,7 +37,22 @@ struct ContentView: View {
                 }
             }
             vm.getUser()
+        }.onReceive(vm.patchInfoSuccess) { value in
+            alert = value
+            delete = false
+        }.onReceive(vm.deleteSuccess){ value in
+            alert = value
+            delete = true
         }
+        .alert(isPresented: $alert) {
+            Alert(title:Text("성공!"),dismissButton: delete ? .cancel(Text("확인")):.default(Text("확인")) {
+                if !delete{
+                    vm.guestMode = false
+                }
+            })
+          
+        }
+        
     }
 }
 

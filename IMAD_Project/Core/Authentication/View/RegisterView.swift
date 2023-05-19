@@ -16,7 +16,7 @@ struct RegisterView: View {
     @State var passwordConfirm = ""
     @State var register = false
     @Binding var login:Bool
-    @StateObject var vm = AuthViewModel()
+    @EnvironmentObject var vm:AuthViewModel
     @State var success = false
     @Environment(\.dismiss) var dismiss
     
@@ -58,7 +58,7 @@ struct RegisterView: View {
                         alertMsg = "비밀번호가 일치하지 않습니다!"
                         return notRegex = true
                     default:
-                        return vm.register(email: email, password: password, authProvider: "IMAD")
+                        return vm.register(email: email, password: password, authProvider: "IMAD") //SHA256
                     }
                 }label:{
                     Capsule()
@@ -87,10 +87,9 @@ struct RegisterView: View {
                     }
                 }
                 .onReceive(vm.registerSuccess) { value in
-                    notRegex = value
+                    notRegex = true
                     success = value
-                    alertMsg = "회원가입이 완료되었습니다!"
-                    print(value)
+                    alertMsg = vm.registerRes?.message ?? ""
                 }
             }.ignoresSafeArea(.keyboard)
             .foregroundColor(.white)
@@ -102,7 +101,6 @@ struct RegisterView: View {
         .alert(isPresented: $notRegex) {
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
                 if success{
-                    //vm.patchInfoSuccess = success
                     dismiss()
                 }
             })
@@ -133,6 +131,7 @@ struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             RegisterView(login: .constant(true))
+                .environmentObject(AuthViewModel())
         }
         
     }

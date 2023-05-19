@@ -11,7 +11,7 @@ import Combine
 
 enum AuthApiService{
     
-
+    static let intercept = BaseIntercept()
     
     static func login(email:String,password:String) -> AnyPublisher<GetUserInfo,AFError>{
         print("로그인 api 호출")
@@ -40,19 +40,14 @@ enum AuthApiService{
             .value()
             .eraseToAnyPublisher()
     }
-//    static func oauth(registrationId:String) -> AnyPublisher<UserInfoResponse,AFError>{
-//        print("oauth 로그인 요청")
-//        return ApiClient.shared.session
-//            .request(AuthRouter.oauth(registrationId: registrationId))
-//            .response{ response in
-//                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,let refreshToken = response.response?.allHeaderFields["Authorization-refresh"] as? String{
-//                    UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-//                }
-//            }
-//            .publishDecodable(type: UserInfoResponse.self)
-//            .value()
-//            .eraseToAnyPublisher()
-//
-//    }
+    static func delete() -> AnyPublisher<GetUserInfo,AFError>{
+        print("회원탈퇴 api 호출")
+        return ApiClient.shared.session
+            .request(AuthRouter.delete,interceptor: intercept)
+            .publishDecodable(type: GetUserInfo.self)
+            .value()
+            .eraseToAnyPublisher()
+    }
+
 }
 

@@ -29,47 +29,47 @@ struct RegisterGenderView: View {
                     HStack{
                         VStack{
                             Button {
-                                vm.patchUserInfo.gender = "MALE"
+                                vm.gender = "MALE"
                             } label: {
                                 Circle()
                                     .foregroundColor(.black.opacity(0.3))
                                     .frame(width: 150,height: 150)
                                     .overlay {
-                                        if vm.patchUserInfo.gender == "MALE"{
+                                        if vm.gender == "MALE"{
                                             Circle().foregroundColor(.black.opacity(0.5))
                                         }
                                         Image("MALE")
                                                 .resizable()
                                                 .frame(width: 100,height: 80)
                                                 .shadow(radius: 20)
-                                                .opacity(vm.patchUserInfo.gender == "MALE" ? 1.0 :0.5)
+                                                .opacity(vm.gender == "MALE" ? 1.0 :0.5)
                                     }
                             }
                             Text("남성")
-                                .fontWeight(vm.patchUserInfo.gender == "MALE" ? .bold:.none)
+                                .fontWeight(vm.gender == "MALE" ? .bold:.none)
                         }
                         Spacer().frame(width: 50)
                         VStack{
                             Button {
-                                vm.patchUserInfo.gender = "FEMALE"
+                                vm.gender = "FEMALE"
                             } label: {
                                 Circle()
                                     .foregroundColor(.black.opacity(0.3))
                                     .frame(width: 150,height: 150)
                                     .overlay {
-                                        if vm.patchUserInfo.gender == "FEMALE"{
+                                        if vm.gender == "FEMALE"{
                                             Circle().foregroundColor(.black.opacity(0.5))
                                         }
                                         Image("FEMALE")
                                                 .resizable()
                                                 .frame(width: 100,height: 75)
                                                 .shadow(radius: 20)
-                                                .opacity(vm.patchUserInfo.gender == "FEMALE" ? 1.0 :0.5)
+                                                .opacity(vm.gender == "FEMALE" ? 1.0 :0.5)
                                         
                                     }
                             }
                             Text("여성")
-                                .fontWeight(vm.patchUserInfo.gender == "FEMALE" ? .bold:.none)
+                                .fontWeight(vm.gender == "FEMALE" ? .bold:.none)
                         }
                     }
                     .frame(maxWidth: .infinity)

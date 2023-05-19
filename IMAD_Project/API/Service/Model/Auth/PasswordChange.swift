@@ -1,13 +1,13 @@
 //
-//  RegisterResponse.swift
+//  PasswordChange.swift
 //  IMAD_Project
 //
-//  Created by 유영웅 on 2023/05/13.
+//  Created by 유영웅 on 2023/05/19.
 //
 
 import Foundation
 
-struct RegisterResponse:Codable{
+struct PasswordChange:Codable{
     let data:LoginResponse?
     let statusCode:Int
     let message:String?
@@ -18,5 +18,3 @@ struct RegisterResponse:Codable{
         case message
     }
 }
-
-

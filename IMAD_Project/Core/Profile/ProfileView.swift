@@ -11,7 +11,7 @@ import Kingfisher
 struct ProfileView: View {
     @State var phase:CGFloat = 0.0
     @State var change = false
-    
+    @State var delete = false
     @State var logout = false
     
     let columns = [ GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
@@ -41,17 +41,15 @@ struct ProfileView: View {
                     } label: {
                         HStack{
                             ZStack{
-                                if profileImage == ""{
-                                   Circle()
-                                        .frame(width: 70,height: 70)
-                                        .clipShape(Circle())
-                                }else{
-                                    Image(profileImage)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 70,height: 70)
-                                        .clipShape(Circle())
-                                }
+                                Circle()
+                                     .frame(width: 70,height: 70)
+                                     .clipShape(Circle())
+                                     .foregroundColor(.white)
+                                Image(profileImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 70,height: 70)
+                                    .clipShape(Circle())
                                 Image(vmAuth.getUserRes?.data?.gender ?? "")
                                     .resizable()
                                     .frame(width: 50,height: 40)
@@ -223,8 +221,14 @@ extension ProfileView{
                     Text("로그아웃")
                         .onTapGesture {
                             logout = true
+                            delete = false
                         }
-                    Text("약관 확인")
+                    Text("회원탈퇴")
+                        .foregroundColor(.red)
+                        .onTapGesture {
+                            logout = true
+                            delete = true
+                        }
                 }
                 .font(.callout)
                 .frame(maxWidth: .infinity)
@@ -241,11 +245,15 @@ extension ProfileView{
         }
         .alert(isPresented: $logout) {
                     Alert(
-                        title: Text("로그아웃"),
-                        message: Text("정말로 로그아웃하시겠습니까?"),
+                        title: delete ? Text("회원탈퇴"): Text("로그아웃"),
+                        message: delete ? Text("정말로 회원을 탈퇴하시겠습니까? 한번 탈퇴하면 돌이킬 수 없습니다. 그래도 하시겠습니까?") : Text("정말로 로그아웃하시겠습니까?"),
                         primaryButton: .cancel(Text("취소")),
-                        secondaryButton: .destructive(Text("로그아웃"), action: {
-                            vmAuth.logout()
+                        secondaryButton: .destructive(delete ? Text("탈퇴") : Text("로그아웃"), action: {
+                            if delete{
+                                vmAuth.delete()
+                            }else{
+                                vmAuth.logout()
+                            }
                         })
                     )
                 }

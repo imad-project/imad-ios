@@ -33,6 +33,7 @@ struct ProfileSelectView: View {
                     .padding(.bottom,50)
                     .frame(maxWidth: .infinity,alignment: .leading)
                     .padding(.leading)
+               
                 HStack(spacing: 0){
                     Text("• 닉네임을 설정해주세요 ")
                     Text("(필수)").bold()
@@ -66,7 +67,7 @@ struct ProfileSelectView: View {
                                     .background(Circle().foregroundColor(.white))
                                     .padding(5)
                                     .overlay {
-                                        Image(vm.patchUserInfo.gender ?? "")
+                                        Image(vm.gender)
                                             .resizable()
                                             .frame(width: 100,height: 80)
                                             .shadow(radius: 20)
@@ -82,21 +83,21 @@ struct ProfileSelectView: View {
                 }.padding(.horizontal)
                 
                 Button{
-                    vm.patchUserInfo.nickname = text
-                    vm.patchUserInfo.ageRange = vm.age/10
-                    vm.patchUserInfo.image = image.num
+                    vm.nickname = text
+                    vm.age = vm.age/10
+                    vm.image = image.num
                     
-                    if vm.patchUserInfo.nickname == ""{
+                    if vm.nickname == ""{
                         msg = "닉네임을 설정해주세요!"
                         alert = true
-                    }else if vm.patchUserInfo.image == 0{
+                    }else if vm.image == -1{
                         msg = "프로필 이미지를 선택해주세요!"
                         alert = true
-                    }else if vm.patchUserInfo.gender == ""{
+                    }else if vm.gender == ""{
                         msg = "성별을 선택해 주세요!"
                         alert = true
                     }else{
-                        vm.patchUser()
+                        vm.patchUser(gender: vm.gender, ageRange: vm.age, image: vm.image, nickname: vm.nickname, genre: "")
                     }
                 }label:{
                     Capsule()
@@ -113,13 +114,11 @@ struct ProfileSelectView: View {
                 .padding(.bottom)
                 .alert(isPresented: $alert) {
                     Alert(title: Text(title),message: Text(msg),dismissButton: .default(Text("확인")){
-                        
                     })
                 }
             }.ignoresSafeArea(.keyboard)
         }
         .foregroundColor(.white)
-        
     }
 }
 

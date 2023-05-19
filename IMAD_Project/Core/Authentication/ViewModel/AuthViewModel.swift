@@ -14,24 +14,31 @@ class AuthViewModel:ObservableObject{
     //@Published var loginRes:GetUserInfo? = nil
     @Published var registerRes:RegisterResponse? = nil
     @Published var getUserRes:GetUserInfo? = nil
+    @Published var passwordChangeRes:PasswordChange? = nil
     
-    @Published var patchInfoSuccess = false
+    @Published var guestMode = false
     @Published var loginMode = false
     
     @Published var age = 20
-    
-    @Published var patchUserInfo = PatchUserInfo(nickname: "", gender: nil, ageRange: nil, genre: nil, image: 0)
+    @Published var nickname = ""
+    @Published var image = -1
+    @Published var gender = ""
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
     var loginSuccess = PassthroughSubject<Bool,Never>()
     var getUserSuccess = PassthroughSubject<Bool,Never>()
+    var patchInfoSuccess = PassthroughSubject<Bool,Never>()
+    var deleteSuccess = PassthroughSubject<Bool,Never>()
+    var passwordChangeSuccess = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
+    
     
     func register(email:String,password:String,authProvider:String){
         AuthApiService.register(email: email, password: password,authProvider:authProvider)
             .sink { completion in
                 if let code = self.registerRes?.statusCode,code >= 200 && code <= 300{
                     self.registerSuccess.send(true)
+                    self.guestMode = true
                     print("회원가입 완료 \(completion)")
                 }else{
                     self.registerSuccess.send(false)
@@ -45,10 +52,13 @@ class AuthViewModel:ObservableObject{
         AuthApiService.login(email: email, password: password)
             .sink { completion in
                 if let code = self.getUserRes?.status,code >= 200 && code <= 300{
-                    print()
-                    if self.getUserRes?.data?.nickname == nil{
-                        self.patchInfoSuccess = true
+                    if self.getUserRes?.data?.role == "GUEST"{
+                        self.guestMode = true
                     }
+                    self.age = self.getUserRes?.data?.ageRange ?? -1
+                    self.nickname = self.getUserRes?.data?.nickname ?? ""
+                    self.gender = self.getUserRes?.data?.gender ?? ""
+                    self.image = self.getUserRes?.data?.profileImage ?? -1
                     self.loginSuccess.send(true)
                     print("로그인 완료 \(completion)")
                 }else{
@@ -59,23 +69,18 @@ class AuthViewModel:ObservableObject{
                 self.getUserRes = receivedValue
             }.store(in: &cancelable)
     }
-//    func oauth(registrationId:String){
-//        AuthApiService.oauth(registrationId: registrationId)
-//            .sink { completion in
-//                print("로그인 완료 \(completion)")
-//                self.oauthSuccess.send()
-//            } receiveValue: { receivedValue in
-//                self.oauthRes = receivedValue
-//            }.store(in: &cancelable)
-//    }
     func getUser(){
-        UserApiService.user(userId: 2)
+        UserApiService.user()
             .sink { completion in
                 if let code = self.getUserRes?.status,code >= 200 && code <= 300{
                     self.loginMode = true
-                    if self.getUserRes?.data?.nickname == nil{
-                        self.patchInfoSuccess = true
+                    if self.getUserRes?.data?.role == "GUEST"{
+                        self.guestMode = true
                     }
+                    self.age = self.getUserRes?.data?.ageRange ?? -1
+                    self.nickname = self.getUserRes?.data?.nickname ?? ""
+                    self.gender = self.getUserRes?.data?.gender ?? ""
+                    self.image = self.getUserRes?.data?.profileImage ?? -1
                     print("유저정보 수신 완료 \(completion)")
                 }else{
                     print("유저정보 수신 실패 \(completion)")
@@ -85,14 +90,13 @@ class AuthViewModel:ObservableObject{
             }.store(in: &cancelable)
 
     }
-    func patchUser(){
-        UserApiService.patchUser(gender: patchUserInfo.gender, ageRange: patchUserInfo.ageRange, image: patchUserInfo.image, nickname: patchUserInfo.nickname, genre: patchUserInfo.genre, userId: 2)
+    func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,genre:String?){
+        UserApiService.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, genre: genre)
             .sink { completion in
+                self.patchInfoSuccess.send(true)
                 if let code = self.getUserRes?.status,code >= 200 && code <= 300{
-                    self.getUserSuccess.send(true)
                     print("유저정보 수신 완료 \(completion)")
                 }else{
-                    self.getUserSuccess.send(false)
                     print("유저정보 수신 실패 \(completion)")
                 }
             } receiveValue: { receivedValue in
@@ -102,5 +106,35 @@ class AuthViewModel:ObservableObject{
     func logout(){
         loginMode = false
         UserDefaultManager.shared.clearAll()
+    }
+    func delete(){
+        AuthApiService.delete()
+            .sink { completion in
+                if let code = self.getUserRes?.status,code >= 200 && code <= 300{
+                    self.deleteSuccess.send(true)
+                    self.loginMode = false
+                    UserDefaultManager.shared.clearAll()
+                    print("회원탈퇴 완료 \(completion)")
+                }else{
+                    print("회원탈퇴 실패 \(completion)")
+                }
+            } receiveValue: { receivedValue in
+                self.getUserRes = receivedValue
+            }.store(in: &cancelable)
+        
+    }
+    func passwordChange(old:String,new:String){
+        UserApiService.passwordChange(old: old, new: new)
+            .sink { completion in
+                if let code = self.passwordChangeRes?.statusCode,code >= 200 && code <= 300{
+                    self.passwordChangeSuccess.send()
+                    print("회원탈퇴 완료 \(completion)")
+                }else{
+                    print("회원탈퇴 실패 \(completion)")
+                }
+            } receiveValue: { receivedValue in
+                self.passwordChangeRes = receivedValue
+            }.store(in: &cancelable)
+
     }
 }

@@ -37,7 +37,7 @@ struct LoginView: View {
                     CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.white, text: $password).padding(.leading)
                         .padding(.bottom,50)
                     Button {
-                        vm.login(email: id, password: password)
+                        vm.login(email: id, password: password)    //SHA256
                     } label: {
                         Capsule()
                             .frame(height: 50)
@@ -87,13 +87,8 @@ struct LoginView: View {
             msg = value
         }
         .alert(isPresented: $success) {
-            Alert(title: msg ? Text("로그인에 성공했습니다."): Text("로그인에 실패했습니다."),dismissButton: .default(Text("확인")) {
-                //print(vm.loginRes?.data?.nickname)
+            Alert(title: Text(vm.getUserRes?.message ?? ""),dismissButton: .default(Text("확인")) {
                 vm.loginMode = msg
-//                if let nickname = vm.loginRes?.data?.nickname,nickname.isEmpty{
-//                    print(nickname)
-//                    vm.patchInfoSuccess = msg
-//                }
             })
         }
     }

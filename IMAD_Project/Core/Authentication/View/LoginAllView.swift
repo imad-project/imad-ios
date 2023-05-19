@@ -108,6 +108,7 @@ struct LoginAllView: View {
                         }
                         .navigationDestination(isPresented: $register) {
                             RegisterView(login: $register)
+                                .environmentObject(vm)
                                 .navigationBarBackButtonHidden(true)
                         }
                         Spacer()

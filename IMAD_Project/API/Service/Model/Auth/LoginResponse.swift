@@ -9,21 +9,21 @@ import Foundation
 
 struct LoginResponse:Codable{
     
-    let userId:Int
     let email:String
     let nickname:String?
     let authProvider:String
     let gender:String?
     let ageRange:Int
     let profileImage:Int
+    let role:String
     
     enum CodingKeys:String,CodingKey{
-        case userId = "user_id"
         case email
         case nickname
         case authProvider = "auth_provider"
         case gender
         case ageRange = "age_range"
         case profileImage = "profile_image"
+        case role
     }
 }

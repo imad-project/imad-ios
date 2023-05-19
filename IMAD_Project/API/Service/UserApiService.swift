@@ -14,19 +14,27 @@ enum UserApiService{
     
     static var intercept = BaseIntercept()
     
-    static func user(userId:Int) -> AnyPublisher<GetUserInfo,AFError>{
+    static func user() -> AnyPublisher<GetUserInfo,AFError>{
         print("유저정보 api 호출")
         return ApiClient.shared.session
-            .request(UserRouter.user(userId: userId),interceptor: intercept)
+            .request(UserRouter.user,interceptor: intercept)
             .publishDecodable(type: GetUserInfo.self)
             .value()
             .eraseToAnyPublisher()
     }
-    static func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,genre:String?,userId:Int) -> AnyPublisher<GetUserInfo,AFError>{
+    static func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,genre:String?) -> AnyPublisher<GetUserInfo,AFError>{
         print("유저정보변경 api 호출")
         return ApiClient.shared.session
-            .request(UserRouter.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, genre: genre,userId: userId),interceptor: intercept)
+            .request(UserRouter.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, genre: genre),interceptor: intercept)
             .publishDecodable(type: GetUserInfo.self)
+            .value()
+            .eraseToAnyPublisher()
+    }
+    static func passwordChange(old:String,new:String)-> AnyPublisher<PasswordChange,AFError>{
+        print("비밀번호변경 api 호출")
+        return ApiClient.shared.session
+            .request(UserRouter.passwordChange(old: old, new: new),interceptor: intercept)
+            .publishDecodable(type: PasswordChange.self)
             .value()
             .eraseToAnyPublisher()
     }

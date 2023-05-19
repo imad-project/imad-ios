@@ -19,7 +19,6 @@ struct MenuTabView: View {
     
     var body: some View {
         ZStack{
-            Color.black.ignoresSafeArea()
             ZStack(alignment: .bottom){
                 TabView(selection: $vm.tab){
                     MainView(search: $search, filterSelect: $selectFilter)
@@ -94,14 +93,12 @@ extension MenuTabView{
                                         }
                                     } label: {
                                         ZStack{
-                                            if profileImage == ""{
-                                               Circle()
-                                                    .clipShape(Circle()).frame(maxWidth: .infinity)
-                                            }else{
-                                                Image(profileImage)                        .resizable()
-                                                    .frame(width: 30,height: 30)
-                                                    .clipShape(Circle()).frame(maxWidth: .infinity)
-                                            }
+                                            Circle()
+                                                 .clipShape(Circle()).frame(maxWidth: .infinity)
+                                                 .foregroundColor(.white)
+                                            Image(profileImage)            .resizable()
+                                                .frame(width: 30,height: 30)
+                                                .clipShape(Circle()).frame(maxWidth: .infinity)
                                             Image(vmAuth.getUserRes?.data?.gender ?? "")
                                                 .resizable()
                                                 .frame(width: 20,height: 15)

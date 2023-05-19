@@ -9,11 +9,13 @@ import SwiftUI
 
 struct RegisterTabView: View {
     @State var selection = 0
+    
    // @Binding var register:Bool
     @StateObject var vm = StageTabViewModel()
-    @StateObject var vmAuth = AuthViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
     var body: some View {
         ZStack(alignment:.bottom){
+            
             TabView(selection: $vm.tab) {
                 RegisterGenderView()
                     .tag(RegisterFilter.info)
@@ -26,7 +28,9 @@ struct RegisterTabView: View {
                     .environmentObject(vmAuth)
             }.accentColor(.white)
             stage
-        }.navigationBarBackButtonHidden(true)
+        }
+        
+        .navigationBarBackButtonHidden(true)
             .onTapGesture {
                 UIApplication.shared.endEditing()
             }

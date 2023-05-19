@@ -14,6 +14,8 @@
 		8103095229D1BDF00021717B /* IMAD_ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103095129D1BDF00021717B /* IMAD_ProjectTests.swift */; };
 		8103095C29D1BDF00021717B /* IMAD_ProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103095B29D1BDF00021717B /* IMAD_ProjectUITests.swift */; };
 		8103095E29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103095D29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift */; };
+		811536D22A173495003F8273 /* PasswordChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811536D12A173495003F8273 /* PasswordChange.swift */; };
+		811536D42A173EED003F8273 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811536D32A173EED003F8273 /* Crypto.swift */; };
 		811DA16729E9305B00482A6A /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16629E9305B00482A6A /* ReviewView.swift */; };
 		811DA16929E9332500482A6A /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16829E9332500482A6A /* Review.swift */; };
 		811DA16B29E94D9D00482A6A /* UserReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16A29E94D9D00482A6A /* UserReview.swift */; };
@@ -114,6 +116,8 @@
 		8103095729D1BDF00021717B /* IMAD_ProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMAD_ProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8103095B29D1BDF00021717B /* IMAD_ProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMAD_ProjectUITests.swift; sourceTree = "<group>"; };
 		8103095D29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMAD_ProjectUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		811536D12A173495003F8273 /* PasswordChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChange.swift; sourceTree = "<group>"; };
+		811536D32A173EED003F8273 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		811DA16629E9305B00482A6A /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		811DA16829E9332500482A6A /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		811DA16A29E94D9D00482A6A /* UserReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReview.swift; sourceTree = "<group>"; };
@@ -419,6 +423,7 @@
 				81DB1FB829E549C5002C0840 /* RoundShape.swift */,
 				81DB1FBE29E56CA8002C0840 /* Wave.swift */,
 				81DB1FD529E7D03B002C0840 /* KeyBoard.swift */,
+				811536D32A173EED003F8273 /* Crypto.swift */,
 			);
 			path = Set;
 			sourceTree = "<group>";
@@ -493,6 +498,7 @@
 				819C506F2A0F8AFC0008F4A5 /* RegisterResponse.swift */,
 				81C0DC5A2A14B1220022A3EE /* GetUserInfo.swift */,
 				81C0DC5C2A14B5990022A3EE /* PatchUserInfo.swift */,
+				811536D12A173495003F8273 /* PasswordChange.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -724,11 +730,13 @@
 				81DB1FC729E6A8BB002C0840 /* BackgroundView.swift in Sources */,
 				81DB1FDD29E7DA39002C0840 /* StageTabViewModel.swift in Sources */,
 				812CDEAA29DF0BF20003B993 /* Notific.swift in Sources */,
+				811536D22A173495003F8273 /* PasswordChange.swift in Sources */,
 				81C264942A1376AE00405B01 /* OauthFilter.swift in Sources */,
 				812CDE9A29DE9ECB0003B993 /* TabViewModel.swift in Sources */,
 				812CDEA029DEAA850003B993 /* CommunityListRowView.swift in Sources */,
 				81BB11092A061772005654AA /* AuthApiService.swift in Sources */,
 				81C2649C2A13B73600405B01 /* UserRouter.swift in Sources */,
+				811536D42A173EED003F8273 /* Crypto.swift in Sources */,
 				81A1ECE329DC207F0001A366 /* ColorSet.swift in Sources */,
 				81C264972A137CFF00405B01 /* RegisterView.swift in Sources */,
 				81DB1FBF29E56CA8002C0840 /* Wave.swift in Sources */,
