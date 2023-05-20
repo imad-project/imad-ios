@@ -8,67 +8,70 @@
 import SwiftUI
 import WebKit
 
-class BB:ObservableObject{
-    @Published var on = false
-    
-    @Published var aa = ""
-    @Published var bb = ""
-    
-    func cc(){
-        print(aa)
-        print(bb)
-    }
-}
 struct TestView: View {
+    @State private var isScrollingUp = false
     
-    @StateObject var vm = BB()
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 20) {
+                    Text("adasdasd")
+                    Text("adasdasd")
+                    Text("adasdasd")
+                    Text("adasdasd")
+                }
+                .background(Color.clear)
+                .onPreferenceChange(OffsetPreferenceKey.self) { value in
+                    isScrollingUp = value > 0 // 스크롤 방향을 감지하여 isScrollingUp 변수 업데이트
+                }
+            }
+            .background(
+                GeometryReader { proxy in
+                    Color.clear
+                        .preference(
+                            key: OffsetPreferenceKey.self,
+                            value: proxy.frame(in: .named("scroll")).minY
+                        )
+                }
+            )
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: backButton)
+            .background(headerBackground)
+        }
+    }
     
-    var body: some View{
-        NavigationStack{
-            if vm.on{
-                Text("aasd")
-            }else{
-                Test1View()
-                    .environmentObject(vm)
+    private var headerBackground: some View {
+        Group {
+            if isScrollingUp {
+                Color.red // 스크롤을 내릴 때의 백그라운드 색
+            } else {
+                Color.blue // 스크롤을 올릴 때의 백그라운드 색
             }
         }
+        .animation(.easeInOut) // 애니메이션 적용
+        .edgesIgnoringSafeArea(.top)
+        .frame(height: 44)
     }
-}
-struct Test1View: View {
     
-    @State var a = false
-    @EnvironmentObject var vm:BB
-    
-    var body: some View{
-        Button {
-            a = true
-            vm.aa = "안녕"
-        } label: {
-            Text("2")
-        }
-        .navigationDestination(isPresented: $a) {
-            Test2View(a: $a).environmentObject(vm)
-        }
-    }
-}
-struct Test2View: View {
-    
-    @Binding var a :Bool
-    @EnvironmentObject var vm:BB
-    
-    var body: some View{
-        Button {
-            //a = false
-            vm.on = true
-            vm.bb = "반가워"
-            vm.cc()
-        } label: {
-            Text("3")
+    private var backButton: some View {
+        Button(action: {
+            // 뒤로 가기 동작
+        }) {
+            Image(systemName: "chevron.left")
+                .foregroundColor(.black)
         }
     }
 }
 
-
+// Preference Key 정의
+struct OffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
 
 
 struct TestView_Previews: PreviewProvider {
