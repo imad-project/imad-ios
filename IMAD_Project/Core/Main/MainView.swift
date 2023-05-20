@@ -8,6 +8,28 @@
 import SwiftUI
 import Kingfisher
 
+extension UINavigationController {
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = UIColor(Color.clear
+            .background(.ultraThinMaterial)
+            .background(Color.black.opacity(0.6))
+            .environment(\.colorScheme, .dark) as? Color ?? Color(""))
+
+        let compactAppearance = UINavigationBarAppearance()
+        compactAppearance.backgroundColor = UIColor(red: 66/255, green: 116/255, blue: 147/255, alpha: 1.0)
+
+        navigationBar.standardAppearance = standardAppearance
+       // navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        navigationBar.compactAppearance = compactAppearance
+
+        navigationBar.tintColor = UIColor.white
+    }
+}
+
 struct MainView: View {
     
     @State var movieIndex = 0
@@ -17,66 +39,65 @@ struct MainView: View {
     @Binding var filterSelect:Bool
     
     var body: some View {
-        ZStack{
-            ScrollView(showsIndicators: false){
-                VStack(spacing:10){
-                    LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
-                        Spacer().frame(height: 100)
-                        filer
-                            .foregroundColor(.white)
-                            .padding(.bottom)
-                        thumnail
-                            .padding(.bottom)
-                        movieList
-                        Spacer().frame(height: 100).foregroundColor(.white)
+        NavigationView{
+            ZStack{
+                ScrollView(showsIndicators: false){
+                    VStack(spacing:10){
+                        LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
+                            Spacer().frame(height: 100)
+                            filer
+                                .foregroundColor(.white)
+                                .padding(.bottom)
+                            thumnail
+                                .padding(.bottom)
+                            movieList
+                            Spacer().frame(height: 100).foregroundColor(.white)
+                        }
                     }
                 }
             }
-        }
-        .background{
-            Color.black.opacity(0.6).ignoresSafeArea()
-        }
-        .background{
-            
-            KFImage(URL(string: CustomData.instance.movieList[movieIndex])!)
-                .resizable()
-                .ignoresSafeArea()
-                .scaledToFill()
-                .blur(radius: 30)
-            
-        }
-        .navigationDestination(isPresented: $isReview){
-            ReviewView(isReview: $isReview, review: poster)
-                .navigationBarBackButtonHidden(true)
-        }
-        .navigationBarItems(leading: Text("리뷰").font(.title).bold().padding(.bottom,20),trailing: Button {
-            search = true
-        } label: {
-            Image(systemName: "magnifyingglass")
-                .font(.title3)
-        })
-        .ignoresSafeArea()
-        .navigationDestination(isPresented: $search) {
-            MovieListView(title: "검색", back: $search)
-                .navigationBarBackButtonHidden(true)
-        }.foregroundColor(.white)
-            .onAppear {
-              
-                        startTimer()
+            .background {
                
-               
-                
+                KFImage(URL(string: CustomData.instance.movieList[movieIndex])!)
+                    .resizable()
+                Color.black.opacity(0.5)
+                Color.clear
+                    .background(.ultraThinMaterial)
+                    .environment(\.colorScheme, .dark)
             }
-        
+            .navigationDestination(isPresented: $isReview){
+                ReviewView(isReview: $isReview, review: poster)
+                    .navigationBarBackButtonHidden(true)
+            }
+            .navigationBarItems(leading: Text("리뷰").font(.title).bold().padding(.bottom,20),trailing: Button {
+                search = true
+            } label: {
+                Image(systemName: "magnifyingglass")
+                    .font(.title3)
+            })
+            .ignoresSafeArea()
+            .navigationDestination(isPresented: $search) {
+                MovieListView(title: "검색", back: $search)
+                    .navigationBarBackButtonHidden(true)
+            }.foregroundColor(.white)
+                .onAppear {
+                    
+                    startTimer()
+                    
+                    
+                    
+                }
+        }
         
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationStack{
+      //  NavigationStack{
             MainView(search: .constant(false), filterSelect: .constant(false))
-        }
+            .environment(\.colorScheme, .dark)
+     //   }
     }
 }
 

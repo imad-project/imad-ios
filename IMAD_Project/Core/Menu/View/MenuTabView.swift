@@ -16,8 +16,8 @@ struct MenuTabView: View {
     @State var search = false
     
     @State var profileImage = ""
-    
     var body: some View {
+        
         ZStack{
             ZStack(alignment: .bottom){
                 TabView(selection: $vm.tab){
@@ -87,25 +87,25 @@ extension MenuTabView{
                             }.frame(height: 30)
                         }else{
                             
-                                    Button {
-                                        withAnimation(.easeIn(duration: 0.2)){
-                                            vm.tab = tab
-                                        }
-                                    } label: {
-                                        ZStack{
-                                            Circle()
-                                                 .clipShape(Circle()).frame(maxWidth: .infinity)
-                                                 .foregroundColor(.white)
-                                            Image(profileImage)            .resizable()
-                                                .frame(width: 30,height: 30)
-                                                .clipShape(Circle()).frame(maxWidth: .infinity)
-                                            Image(vmAuth.getUserRes?.data?.gender ?? "")
-                                                .resizable()
-                                                .frame(width: 20,height: 15)
-                                        }
-                                    }
-                                    .frame(height: 30)
-                             
+                            Button {
+                                withAnimation(.easeIn(duration: 0.2)){
+                                    vm.tab = tab
+                                }
+                            } label: {
+                                ZStack{
+                                    Circle()
+                                        .clipShape(Circle()).frame(maxWidth: .infinity)
+                                        .foregroundColor(.white)
+                                    Image(profileImage)            .resizable()
+                                        .frame(width: 30,height: 30)
+                                        .clipShape(Circle()).frame(maxWidth: .infinity)
+                                    Image(vmAuth.getUserRes?.data?.gender ?? "")
+                                        .resizable()
+                                        .frame(width: 20,height: 15)
+                                }
+                            }
+                            .frame(height: 30)
+                            
                         }
                         Text(tab.menu)
                             .font(.caption)
@@ -127,8 +127,14 @@ extension MenuTabView{
         .frame(height: 20)
         .padding(.top,8)
         .padding(.bottom,25)
-        .background(.regularMaterial)
-        .foregroundColor(.indigoPrimary)
+        .background {
+            Color.clear
+                .background(.ultraThinMaterial)
+                .environment(\.colorScheme, .dark)
+                
+        }
+        .background(Color.black.opacity(0.6))
+        .foregroundColor(.white)
         
         
         
