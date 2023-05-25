@@ -96,6 +96,11 @@ class AuthViewModel:ObservableObject{
                 self.patchInfoSuccess.send(true)
                 if let code = self.getUserRes?.status,code >= 200 && code <= 300{
                     print("유저정보 수신 완료 \(completion)")
+                    self.image = self.getUserRes?.data?.profileImage ?? 0
+                    self.gender = self.getUserRes?.data?.gender ?? ""
+                    self.age = self.getUserRes?.data?.ageRange ?? 0
+                    self.nickname = self.getUserRes?.data?.nickname ?? ""
+                    
                 }else{
                     print("유저정보 수신 실패 \(completion)")
                 }

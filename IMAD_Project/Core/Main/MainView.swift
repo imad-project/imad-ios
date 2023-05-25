@@ -16,7 +16,8 @@ extension UINavigationController {
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.backgroundColor = UIColor(Color.clear
             .background(.ultraThinMaterial)
-            .background(Color.black.opacity(0.6))
+            .background(Color.black.opacity(0.7))
+            .background(Color.indigo.opacity(0.7))
             .environment(\.colorScheme, .dark) as? Color ?? Color(""))
 
         let compactAppearance = UINavigationBarAppearance()
@@ -60,6 +61,7 @@ struct MainView: View {
                
                 KFImage(URL(string: CustomData.instance.movieList[movieIndex])!)
                     .resizable()
+                Color.indigo.opacity(0.5)
                 Color.black.opacity(0.5)
                 Color.clear
                     .background(.ultraThinMaterial)

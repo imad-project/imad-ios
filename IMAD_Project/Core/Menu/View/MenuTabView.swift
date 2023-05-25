@@ -12,10 +12,10 @@ struct MenuTabView: View {
     
     @StateObject var vm = TabViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
+    
     @State var selectFilter = false //필터 선택
     @State var search = false
     
-    @State var profileImage = ""
     var body: some View {
         
         ZStack{
@@ -45,11 +45,6 @@ struct MenuTabView: View {
         }
         .onAppear{
             UITabBar.appearance().isHidden = true   //탭바 숨김
-            for image in ProfileFilter.allCases{
-                if let imageCode = vmAuth.getUserRes?.data?.profileImage,imageCode == image.num{
-                    profileImage = image.rawValue
-                }
-            }
         }
         .navigationDestination(isPresented: $search) {
             MovieListView(title: "검색", back: $search)
@@ -86,7 +81,6 @@ extension MenuTabView{
                                     .frame(maxWidth: .infinity)
                             }.frame(height: 30)
                         }else{
-                            
                             Button {
                                 withAnimation(.easeIn(duration: 0.2)){
                                     vm.tab = tab
@@ -94,18 +88,22 @@ extension MenuTabView{
                             } label: {
                                 ZStack{
                                     Circle()
-                                        .clipShape(Circle()).frame(maxWidth: .infinity)
-                                        .foregroundColor(.white)
-                                    Image(profileImage)            .resizable()
                                         .frame(width: 30,height: 30)
-                                        .clipShape(Circle()).frame(maxWidth: .infinity)
+                                        .foregroundColor(.white)
+                                    ForEach(ProfileFilter.allCases,id:\.self){ image in
+                                        if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
+                                            Image("\(image)")
+                                                .resizable()
+                                                .frame(width: 30,height: 30)
+                                                .clipShape(Circle()).frame(maxWidth: .infinity)
+                                        }
+                                    }
                                     Image(vmAuth.getUserRes?.data?.gender ?? "")
                                         .resizable()
                                         .frame(width: 20,height: 15)
                                 }
                             }
                             .frame(height: 30)
-                            
                         }
                         Text(tab.menu)
                             .font(.caption)
@@ -131,9 +129,10 @@ extension MenuTabView{
             Color.clear
                 .background(.ultraThinMaterial)
                 .environment(\.colorScheme, .dark)
-                
+            
         }
         .background(Color.black.opacity(0.6))
+        .background(Color.indigo.opacity(0.6))
         .foregroundColor(.white)
         
         

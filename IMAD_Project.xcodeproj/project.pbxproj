@@ -247,6 +247,7 @@
 				81BB10FC2A05F706005654AA /* API */,
 				81A1ECEB29DD1F8D0001A366 /* Filter */,
 				81A1ECE129DC20730001A366 /* Set */,
+				812CDEA129DEAE6D0003B993 /* Model */,
 				812CDE9129DE91CD0003B993 /* Core */,
 				8103094429D1BDF00021717B /* Assets.xcassets */,
 				8103094629D1BDF00021717B /* Preview Content */,
@@ -477,7 +478,6 @@
 			children = (
 				81BB11082A061772005654AA /* AuthApiService.swift */,
 				81C2649D2A13B7AA00405B01 /* UserApiService.swift */,
-				812CDEA129DEAE6D0003B993 /* Model */,
 			);
 			path = Service;
 			sourceTree = "<group>";

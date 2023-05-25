@@ -13,7 +13,7 @@ struct ProfileChangeView: View {
     @State var phase:CGFloat = 0.0
     @State private var selectedImageData: Data? = nil
     @State private var selectedItem: PhotosPickerItem? = nil
-    @State var profileImage = ""
+   // @State var profileImage = ""
     @State var profileSelect = false
     @State var imageCode:ProfileFilter = .none
     
@@ -38,10 +38,7 @@ struct ProfileChangeView: View {
                     Spacer()
                     if profileSelect{
                         Button {
-                            print(vmAuth.age)
-                            print(vmAuth.gender)
-                            print(vmAuth.nickname)
-                            print(imageCode.num)
+                            print("보내는거 : \(vmAuth.gender). \(vmAuth.age). \(imageCode.num). \(vmAuth.nickname)")
                             vmAuth.patchUser(gender: vmAuth.gender, ageRange: vmAuth.age, image:imageCode.num, nickname: vmAuth.nickname, genre: "")
                             dismiss()
                         } label: {
@@ -67,18 +64,21 @@ struct ProfileChangeView: View {
                             }
                         } label: {
                             Group{
-                                if profileImage != ""{
-                                    Image(profileImage)
-                                        .resizable()
-                                        .overlay {
-                                            Image(vmAuth.getUserRes?.data?.gender ?? "")
+                                ZStack{
+                                    Circle().foregroundColor(.white)
+                                    ForEach(ProfileFilter.allCases,id:\.self){ image in
+                                        if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
+                                            Image("\(image)")
                                                 .resizable()
-                                                .frame(width: 150, height: 120)
+                                                .overlay {
+                                                    Image(vmAuth.getUserRes?.data?.gender ?? "")
+                                                        .resizable()
+                                                        .frame(width: 150, height: 120)
+                                                }
                                         }
-                                        
-                                }else{
-                                    Circle()
+                                    }
                                 }
+                               
                             }
                             .frame(width: 200,height: 200)
                             .overlay(alignment:.bottomTrailing){
@@ -107,11 +107,16 @@ struct ProfileChangeView: View {
                                     Text("닉네임 변경")
                                 }
                                 NavigationLink {
-                                    InfoChangeView(title: "이메일", password: false, text: "")
+                                    InfoChangeView(title: "성별", password: false, text: "")
                                         .environmentObject(vmAuth)
-                                       
                                 } label: {
-                                    Text("이메일 변경")
+                                    Text("성별 변경")
+                                }
+                                NavigationLink {
+                                    InfoChangeView(title: "나이", password: false, text: "")
+                                        .environmentObject(vmAuth)
+                                } label: {
+                                    Text("나이 변경")
                                 }
                                 NavigationLink {
                                     InfoChangeView(title: "비밀번호", password: true)
@@ -139,18 +144,23 @@ struct ProfileChangeView: View {
                                     Button {
                                         imageCode = item
                                     } label: {
-                                        Image(item.rawValue)
-                                            .resizable()
-                                            .frame(width: 150,height: 150)
-                                            .overlay {
-                                                Image(vmAuth.getUserRes?.data?.gender ?? "")
-                                                    .resizable()
-                                                    .frame(width: 100, height: 80)
-                                                if imageCode == item{
-                                                    Circle()
-                                                        .foregroundColor(.black.opacity(0.7))
+                                        ZStack{
+                                            Circle().foregroundColor(.white)
+                                                .frame(width: 150,height: 150)
+                                            Image(item.rawValue)
+                                                .resizable()
+                                                .frame(width: 150,height: 150)
+                                                .overlay {
+                                                    Image(vmAuth.getUserRes?.data?.gender ?? "")
+                                                        .resizable()
+                                                        .frame(width: 100, height: 80)
+                                                    if imageCode == item{
+                                                        Circle()
+                                                            .foregroundColor(.black.opacity(0.7))
+                                                    }
                                                 }
-                                            }
+                                        }
+                                        
                                     }
                                 }
                             }
@@ -171,10 +181,16 @@ struct ProfileChangeView: View {
             }
         }
         .foregroundColor(.primary)
+        .onReceive(vmAuth.patchInfoSuccess) { _ in
+            for image in ProfileFilter.allCases{
+                if let imageCode = vmAuth.getUserRes?.data?.profileImage,imageCode == image.num{
+                    self.imageCode = image
+                }
+            }
+        }
         .onAppear{
             for image in ProfileFilter.allCases{
                 if let imageCode = vmAuth.getUserRes?.data?.profileImage,imageCode == image.num{
-                    profileImage = image.rawValue
                     self.imageCode = image
                 }
             }

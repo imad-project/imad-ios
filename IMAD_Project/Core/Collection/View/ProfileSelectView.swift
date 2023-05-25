@@ -13,6 +13,7 @@ struct ProfileSelectView: View {
     @State private var selectedImageData: Data? = nil
     @State private var selectedItem: PhotosPickerItem? = nil
     @State var text = ""
+   
     let columns = [GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
     
     @State var image:ProfileFilter = .none

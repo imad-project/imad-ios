@@ -12,7 +12,11 @@ struct InfoChangeView: View {
     let password:Bool
     @State var old = ""
     @State var passwordConfirm:String = ""
+    
     @State var text = ""
+    @State var age = -1
+    @State var gender = ""
+    
     @State var alertMsg = ""
     @State var notRegex = false
     @State var success = false
@@ -44,7 +48,19 @@ struct InfoChangeView: View {
                                 return vmAuth.passwordChange(old: old, new: text) //SHA256
                                 
                             }
+                        }else{
+                            switch title{
+                            case "닉네임":
+                                vmAuth.patchUser(gender: vmAuth.gender, ageRange: vmAuth.age, image:vmAuth.image, nickname: text, genre: "")
+                            case "성별":
+                                vmAuth.patchUser(gender: gender, ageRange: vmAuth.age, image:vmAuth.image, nickname: vmAuth.nickname, genre: "")
+                            case "나이":
+                                vmAuth.patchUser(gender: vmAuth.gender, ageRange: age, image:vmAuth.image, nickname: vmAuth.nickname, genre: "")
+                            default:
+                                return
+                            }
                         }
+                        dismiss()
                     } label: {
                         Text("변경")
                             .bold()
@@ -53,44 +69,118 @@ struct InfoChangeView: View {
                 Text(title + " 변경")
                     .bold()
             }.foregroundColor(.primary)
-            .padding(.top,20)
-           .padding(.bottom,50)
-            if password{
-                
-                Text("기존 비밀번호")
-                    .bold()
-                    .foregroundColor(.primary)
-                    .padding(.bottom,10)
-                CustomTextField(password: password, image: nil, placeholder: title, color: .primary, text: $old)
-                    .padding(.bottom,10)
-                Divider()
-                    .background(Color.primary)
-                    .padding(.bottom,50)
-                
-                Text("변경 비밀번호")
-                    .bold()
-                    .foregroundColor(.primary)
-                    .padding(.bottom,10)
-            }
-            CustomTextField(password: password, image: nil, placeholder: title + " ..", color: .primary, text: $text)
-                .padding(.bottom,10)
-            Divider()
-                .background(Color.primary)
+                .padding(.top,20)
+                .padding(.bottom,50)
+            if title == "성별"{
+                HStack{
+                    VStack{
+                        Button {
+                            gender = "MALE"
+                        } label: {
+                            Circle()
+                                .foregroundColor(.black.opacity(0.3))
+                                .frame(width: 150,height: 150)
+                                .overlay {
+                                    if gender == "MALE"{
+                                        Circle().foregroundColor(.black.opacity(0.5))
+                                    }
+                                    Image("MALE")
+                                        .resizable()
+                                        .frame(width: 100,height: 80)
+                                        .shadow(radius: 20)
+                                        .opacity(gender == "MALE" ? 1.0 :0.5)
+                                }
+                        }
+                        Text("남성")
+                            .fontWeight(gender == "MALE" ? .bold:.none)
+                        
+                    }
+                    Spacer().frame(width: 50)
+                    VStack{
+                        Button {
+                            gender = "FEMALE"
+                        } label: {
+                            Circle()
+                                .foregroundColor(.black.opacity(0.3))
+                                .frame(width: 150,height: 150)
+                                .overlay {
+                                    if gender == "FEMALE"{
+                                        Circle().foregroundColor(.black.opacity(0.5))
+                                    }
+                                    Image("FEMALE")
+                                        .resizable()
+                                        .frame(width: 100,height: 75)
+                                        .shadow(radius: 20)
+                                        .opacity(gender == "FEMALE" ? 1.0 :0.5)
+                                    
+                                }
+                        }
+                        Text("여성")
+                            .fontWeight(gender == "FEMALE" ? .bold:.none)
+                    }
+                }
+                .foregroundColor(.primary)
+                .frame(maxWidth: .infinity)
                 .padding(.bottom)
-            if password{
-                CustomTextField(password: password, image: nil, placeholder: title + " 확인 ..", color: .primary, text: $passwordConfirm)
+            }else if title == "나이"{
+                HStack{
+                    Spacer()
+                    
+                    Picker("", selection: $age) {
+                        ForEach(0...100, id: \.self) {
+                            Text("\($0) 세")
+                        }
+                    }
+                    .pickerStyle(InlinePickerStyle())
+                    .frame(width:150,height: 150)
+                    .overlay(alignment:.leading){
+                        Text("만").offset(x:-20)
+                    }
+                    Spacer()
+                }.foregroundColor(.primary)
+            }
+            else{
+                if password{
+                    
+                    Text("기존 비밀번호")
+                        .bold()
+                        .foregroundColor(.primary)
+                        .padding(.bottom,10)
+                    CustomTextField(password: password, image: nil, placeholder: title, color: .primary, text: $old)
+                        .padding(.bottom,10)
+                    Divider()
+                        .background(Color.primary)
+                        .padding(.bottom,50)
+                    
+                    Text("변경 비밀번호")
+                        .bold()
+                        .foregroundColor(.primary)
+                        .padding(.bottom,10)
+                }
+                CustomTextField(password: password, image: nil, placeholder: title + " ..", color: .primary, text: $text)
                     .padding(.bottom,10)
                 Divider()
                     .background(Color.primary)
-                    .padding(.bottom,10)
-                
-               
+                    .padding(.bottom)
+                if password{
+                    CustomTextField(password: password, image: nil, placeholder: title + " 확인 ..", color: .primary, text: $passwordConfirm)
+                        .padding(.bottom,10)
+                    Divider()
+                        .background(Color.primary)
+                        .padding(.bottom,10)
+                    
+                    
+                }
             }
             Spacer()
             
         }
         .foregroundColor(.white)
         .padding()
+        .onAppear{
+            age = vmAuth.getUserRes?.data?.ageRange ?? -1
+            gender = vmAuth.getUserRes?.data?.gender ?? ""
+        }
         .onReceive(vmAuth.passwordChangeSuccess){
             success = true
             alertMsg = vmAuth.passwordChangeRes?.message ?? ""
@@ -99,11 +189,10 @@ struct InfoChangeView: View {
         .background{
             ZStack{
                 Color.antiPrimary
-                ProfileChangeView()
+                ProfileView()
                     .allowsHitTesting(false)
                     .blur(radius: 20)
                     .opacity(0.1)
-
             }.ignoresSafeArea()
         }
         .alert(isPresented: $notRegex){
@@ -133,7 +222,7 @@ struct InfoChangeView: View {
 struct InfoChangeView_Previews: PreviewProvider {
     static var previews: some View {
         
-        InfoChangeView(title: "비밀번호", password: true, text: "quarang")
+        InfoChangeView(title: "나이", password: false, text: "quarang")
             .environmentObject(AuthViewModel())
     }
 }

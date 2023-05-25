@@ -23,7 +23,7 @@ struct ProfileView: View {
     @State var notice = false
     @State var setting = false
     
-    @State var profileImage = ""
+    //@State var profileImage = ""
     
     var body: some View {
             VStack(alignment: .leading,spacing: 0){
@@ -45,11 +45,15 @@ struct ProfileView: View {
                                      .frame(width: 70,height: 70)
                                      .clipShape(Circle())
                                      .foregroundColor(.white)
-                                Image(profileImage)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 70,height: 70)
-                                    .clipShape(Circle())
+                                ForEach(ProfileFilter.allCases,id:\.self){ image in
+                                    if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
+                                        Image("\(image)")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 70,height: 70)
+                                            .clipShape(Circle())
+                                    }
+                                }
                                 Image(vmAuth.getUserRes?.data?.gender ?? "")
                                     .resizable()
                                     .frame(width: 50,height: 40)
@@ -104,12 +108,6 @@ struct ProfileView: View {
                     menu
                 }
                 Spacer()
-            }.onAppear{
-                for image in ProfileFilter.allCases{
-                    if let imageCode = vmAuth.getUserRes?.data?.profileImage,imageCode == image.num{
-                        profileImage = image.rawValue
-                    }
-                }
             }
             .background{
                 Color.white
@@ -145,13 +143,10 @@ extension ProfileView{
                     .padding(.leading)
                     .foregroundColor(.white)
                 Spacer()
-                
             }
-            
         }
         .padding(.vertical)
         .padding(.top,30)
-        
     }
     var menu:some View{
         VStack{
@@ -257,9 +252,6 @@ extension ProfileView{
                         })
                     )
                 }
-       
-        
-        
     }
     var genre:some View{
         ScrollView(.horizontal,showsIndicators: false){

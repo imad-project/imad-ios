@@ -49,7 +49,7 @@ struct TestView: View {
                 Color.blue // 스크롤을 올릴 때의 백그라운드 색
             }
         }
-        .animation(.easeInOut) // 애니메이션 적용
+        //.animation(.easeInOut) // 애니메이션 적용
         .edgesIgnoringSafeArea(.top)
         .frame(height: 44)
     }
