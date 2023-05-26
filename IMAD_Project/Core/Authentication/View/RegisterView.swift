@@ -24,24 +24,46 @@ struct RegisterView: View {
     @State var notRegex = false
     
     var body: some View {
-        ZStack{
-            BackgroundView(height: 0.73, height1: 0.77,height2: 0.75,height3: 0.76)
-            VStack(alignment: .leading,spacing: 30){
+        ZStack(alignment: .bottomTrailing){
+            Color.white.ignoresSafeArea()
+            BackgroundView(height: 0.33, height1: 0.37,height2: 0.35,height3: 0.36)
+            VStack(alignment: .leading){
                 Text("회원가입하기")
-                    .font(.title)
+                    .font(.title3)
                     .bold()
                     .foregroundColor(.customIndigo)
-                    .padding(.top,50)
-                Spacer()
+                    .padding(.vertical,20)
+                    .frame(maxWidth: .infinity)
                 Group{
                     Text("이메일").bold()
-                    CustomTextField(password: false, image: "envelope.fill", placeholder: "입력", color: Color.white, text: $email).padding(.leading)
-                        .keyboardType(.emailAddress)
+                    HStack(alignment: .top){
+                        CustomTextField(password: false, image: "envelope.fill", placeholder: "입력", color: Color.gray, text: $email)
+                            .keyboardType(.emailAddress)
+                            .padding()
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(20)
+                            .padding(.bottom)
+                            .padding(.horizontal,5)
+                        Text("중복확인")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background {
+                                Color.customIndigo
+                            }
+                            .cornerRadius(20)
+                    }
                     Text("비밀번호").bold()
-                    CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.white, text: $password).padding(.leading)
+                    CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.gray, text: $password).padding()
+                        .background(Color.gray.opacity(0.3))
+                        .cornerRadius(20)
+                        .padding(.horizontal,5)
+                        .padding(.bottom,20)
                     Text("비밀번호 확인").bold()
-                    CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.white, text: $passwordConfirm).padding(.leading)
-                        .padding(.bottom,50)
+                    CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.gray, text: $passwordConfirm).padding()
+                        .background(Color.gray.opacity(0.3))
+                        .cornerRadius(20)
+                        .padding(.horizontal,5)
+                        .padding(.bottom,40)
                 }
                 Button{
                     switch isVaildInfo(){
@@ -61,42 +83,40 @@ struct RegisterView: View {
                         return vm.register(email: email, password: password, authProvider: "IMAD") //SHA256
                     }
                 }label:{
-                    Capsule()
-                        .frame(height: 50)
-                        .foregroundColor(.white)
+                    RoundedRectangle(cornerRadius: 20)
+                        .frame(height: 60)
+                        .foregroundColor(.customIndigo)
+                        .frame(maxWidth: .infinity)
                         .overlay {
                             Text("회원가입")
                                 .bold()
-                                .foregroundColor(.customIndigo)
+                                .foregroundColor(.white)
                                 .shadow(radius: 20)
-                        }
+                                
+                    
+                        }.padding(.horizontal,5)
                 }
                 .frame(maxWidth: .infinity)
                 Spacer()
                 
-                HStack{
-                    Text("계정이 있으신가요?")
-                    Text("로그인")
-                        .bold()
-                }
-                .font(.caption)
-                .frame(maxWidth: .infinity)
-                .onTapGesture {
-                    withAnimation {
-                        login.toggle()
-                    }
-                }
-                .onReceive(vm.registerSuccess) { value in
-                    notRegex = true
-                    success = value
-                    alertMsg = vm.registerRes?.message ?? ""
-                }
-            }.ignoresSafeArea(.keyboard)
-            .foregroundColor(.white)
+                
+                
+            }
+            .foregroundColor(.customIndigo)
             .padding()
+            Image("watch")
+                .resizable()
+                .frame(width: 150,height: 100)
+                .padding()
         }
+        .ignoresSafeArea(.keyboard)
         .onTapGesture {
             UIApplication.shared.endEditing()
+        }
+        .onReceive(vm.registerSuccess) { value in
+            notRegex = true
+            success = value
+            alertMsg = vm.registerRes?.message ?? ""
         }
         .alert(isPresented: $notRegex) {
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){

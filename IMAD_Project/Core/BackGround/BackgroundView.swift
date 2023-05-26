@@ -16,29 +16,29 @@ struct BackgroundView: View {
     let height3:CGFloat
     var body: some View {
         ZStack(alignment: .bottomTrailing){
-            Color.white.ignoresSafeArea()
-            Wave(reverse: true, progress: height, addX: 0.2, phase: phase).fill(Color.customIndigo.opacity(0.7))
+            //Color.white.ignoresSafeArea()
+            Wave(reverse: true, progress: height, addX: 0.2, phase: phase).fill(LinearGradient(colors: [Color.customIndigo.opacity(0.3),Color.customIndigo], startPoint: .top, endPoint: .bottom))
                 .onAppear{
                     withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
                         self.phase = .pi * 2
                     }
                 }
                 .ignoresSafeArea()
-            Wave(reverse: true, progress: height1, addX: 0.4, phase: phase).fill(Color.customIndigo.opacity(0.7))
+            Wave(reverse: true, progress: height1, addX: 0.4, phase: phase).fill(Color.customIndigo.opacity(0.3))
                 .onAppear{
                     withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
                         self.phase = .pi * 2
                     }
                 }
                 .ignoresSafeArea()
-            Wave(reverse: false, progress: height2, addX: 0.4, phase: phase).fill(Color.customIndigo.opacity(0.7))
+            Wave(reverse: false, progress: height2, addX: 0.4, phase: phase).fill(Color.customIndigo.opacity(0.3))
                 .onAppear{
                     withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
                         self.phase = .pi * 2
                     }
                 }
                 .ignoresSafeArea()
-            Wave(reverse: false, progress: height3, addX: 0.5, phase: phase).fill(Color.customIndigo.opacity(0.7))
+            Wave(reverse: false, progress: height3, addX: 0.5, phase: phase).fill(Color.customIndigo.opacity(0.3))
                 .shadow(radius: 20)
                 .onAppear{
                     withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){

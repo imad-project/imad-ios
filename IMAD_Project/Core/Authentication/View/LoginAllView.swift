@@ -21,15 +21,18 @@ struct LoginAllView: View {
     
     var body: some View {
             ZStack{
-                BackgroundView(height: 0.73, height1: 0.77,height2: 0.75,height3: 0.76)
-                    VStack(alignment: .leading,spacing: 30){
+                Color.white.ignoresSafeArea()
+                    VStack(spacing: 30){
                         Group{
                             Text("환영합니다")
                                 .font(.title)
                                 .bold()
                                 .foregroundColor(.customIndigo)
                                 .padding(.top,50)
-                           Spacer()
+                                .frame(maxWidth: .infinity)
+                                
+                            Image("logoName")
+                           Spacer().ignoresSafeArea(.keyboard)
                         }
                         VStack(spacing: 20){
                             Button {
@@ -50,6 +53,7 @@ struct LoginAllView: View {
                                         .bold()
                                     
                                 }
+                                .shadow(color:.gray.opacity(0.5),radius: 3)
                                 .foregroundColor(.black)
                             }
 
@@ -79,13 +83,14 @@ struct LoginAllView: View {
                                             .bold()
                                             .foregroundColor(item.textColor)
                                     }
-                                }
+                                }.shadow(color:.gray.opacity(0.3),radius: 3)
                             }
                         }
                         
                         Text("계정이 없으신가요?")
                             .font(.caption)
                             .frame(maxWidth: .infinity)
+                            
                         Button {
                             register = true
                         } label: {
@@ -105,18 +110,20 @@ struct LoginAllView: View {
                                 
                             }
                             .foregroundColor(.black)
-                        }
-                        .navigationDestination(isPresented: $register) {
-                            RegisterView(login: $register)
-                                .environmentObject(vm)
-                                .navigationBarBackButtonHidden(true)
-                        }
+                            
+                        }.shadow(color:.gray.opacity(0.5),radius: 3)
+                       
                         Spacer()
 
                     }.ignoresSafeArea(.keyboard)
-                    .foregroundColor(.white)
+                    .foregroundColor(.gray)
                         .padding()
                         .transition(.move(edge: .leading))
+            }
+            .sheet(isPresented: $register) {
+                RegisterView(login: $register)
+                    .environmentObject(vm)
+                    .navigationBarBackButtonHidden(true)
             }
             .sheet(isPresented: $generalLogin){
                 LoginView()

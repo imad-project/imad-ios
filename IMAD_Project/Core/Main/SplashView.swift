@@ -14,7 +14,6 @@ struct SplashView: View {
     var body: some View {
         ZStack{
             Color.white.ignoresSafeArea()
-           // BackgroundView(height: 0.33, height1: 0.37,height2: 0.35,height3: 0.36)
             VStack{
                 Image("logoName")
                     .resizable()
@@ -26,12 +25,6 @@ struct SplashView: View {
                     .foregroundColor(.customIndigo)
                     .opacity(logo ? 1.0:0.0)
             }
-            Image("fish")
-                .resizable()
-                .frame(width: 100,height: 70)
-                .frame(maxWidth: .infinity,alignment: .trailing)
-                .frame(maxHeight: .infinity,alignment: .bottom)
-                .padding(50)
         }
         .onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {

@@ -8,26 +8,55 @@
 import SwiftUI
 
 struct RegisterTabView: View {
-    @State var selection = 0
     
-   // @Binding var register:Bool
-    @StateObject var vm = StageTabViewModel()
+    @State var phase:CGFloat = 0.0
+    @State var phase1:CGFloat = 0.0
+    
     @EnvironmentObject var vmAuth:AuthViewModel
+    
     var body: some View {
-        ZStack(alignment:.bottom){
+        ZStack(alignment:.bottomTrailing){
             
-            TabView(selection: $vm.tab) {
-                RegisterGenderView()
-                    .tag(RegisterFilter.info)
+            TabView(selection: $vmAuth.selection) {
+                NicknameSelectView()
+                    .tag(0)
                     .environmentObject(vmAuth)
-                SelectGenreView()
-                    .tag(RegisterFilter.genre)
+                GenderSelectView()
+                    .tag(1)
+                    .environmentObject(vmAuth)
+                AgeSelectView()
+                    .tag(2)
                     .environmentObject(vmAuth)
                 ProfileSelectView()
-                    .tag(RegisterFilter.photo)
+                    .tag(3)
                     .environmentObject(vmAuth)
             }.accentColor(.white)
-            stage
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .ignoresSafeArea()
+                .background()
+            HStack{
+                ForEach(0...3,id:\.self){ sel in
+                    if sel == vmAuth.selection{
+                        RoundedRectangle(cornerRadius: 5)
+                            .frame(width: 20,height: 10)
+                            .foregroundColor(.customIndigo)
+                    }else{
+                        Circle()
+                            .frame(width: 10,height: 10)
+                            .foregroundColor(.black.opacity(0.2))
+                    }
+                  
+                }
+                
+            }
+            .frame(maxHeight: .infinity,alignment: .top)
+                .frame(maxWidth: .infinity,alignment: .center)
+            BackgroundView(height: 0.23, height1: 0.27,height2: 0.25,height3: 0.26)
+            Image("watch")
+                .resizable()
+                .frame(width: 150,height: 100)
+                .padding()
+            //stage
         }
         
         .navigationBarBackButtonHidden(true)
@@ -40,43 +69,47 @@ struct RegisterTabView: View {
 
 struct RegisterTabView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterTabView()
+        RegisterTabView().environmentObject(AuthViewModel())
     }
 }
 extension RegisterTabView{
     var stage:some View{
-        GeometryReader{ geo in
-            let width = geo.size.width
-            HStack(spacing: 0) {
-                ForEach(RegisterFilter.allCases,id:\.self){ tab in
-                    Button {
-                        withAnimation(.easeIn(duration: 0.2)){
-                            vm.tab = tab
-                        }
-                    } label: {
-                        Image(systemName: tab.image)
-                            .font(.largeTitle)
-                            .frame(maxWidth: .infinity)
-                            .background{
-                                Circle()
-                                    .foregroundColor(.customIndigo)
-                                    .frame(width: 20,height: 20)
-                            }
-                    }.frame(height: 30)
-                }
-            }
-            .background(alignment: .leading){
-                Capsule()
-                    .frame(height: 5)
-                    .foregroundColor(.white)
-                    .frame(width: 70 + vm.indicatorOffset(width: width))
-                    
-            }
-        }
-        .frame(height: 20)
-        .padding(.top,8)
-        .padding(.bottom,20)
-        .foregroundColor(.white)
         
+        Text("")
+        
+    }
+    var background:some View{
+        ZStack(alignment: .bottomTrailing){
+            Wave(reverse: true, progress: 0.33, addX: 0.2, phase: phase).fill(LinearGradient(colors: [Color.customIndigo.opacity(0.3),Color.customIndigo], startPoint: .top, endPoint: .bottom))
+                .onAppear{
+                    withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
+                        self.phase = .pi * 2
+                    }
+                }
+                .ignoresSafeArea()
+            Wave(reverse: true, progress: 0.35, addX: 0.4, phase: phase).fill(Color.customIndigo.opacity(0.3))
+                .onAppear{
+                    withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
+                        self.phase = .pi * 2
+                    }
+                }
+                .ignoresSafeArea()
+            Wave(reverse: false, progress: 0.37, addX: 0.4, phase: phase).fill(Color.customIndigo.opacity(0.3))
+                .onAppear{
+                    withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
+                        self.phase = .pi * 2
+                    }
+                }
+                .ignoresSafeArea()
+            Wave(reverse: false, progress: 0.36, addX: 0.5, phase: phase).fill(Color.customIndigo.opacity(0.3))
+                .shadow(radius: 20)
+                .onAppear{
+                    withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
+                        self.phase1 = .pi * 2
+                    }
+                }
+                .ignoresSafeArea()
+            
+        }
     }
 }

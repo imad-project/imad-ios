@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State var isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch") //온보딩
+
     @State var delete = false
     @State var alert = false
     @State var splash = false
@@ -18,18 +20,28 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             if splash{
-                if vm.loginMode{
-                    if vm.guestMode{
-                        RegisterTabView().environmentObject(vm)
+                if isFirstLaunch{
+                    if vm.loginMode{
+                        if vm.guestMode{
+                            RegisterTabView().environmentObject(vm)
+                        }else{
+                            MenuTabView().environmentObject(vm)
+                        }
                     }else{
-                        MenuTabView().environmentObject(vm)
+                        LoginAllView().environmentObject(vm)
                     }
                 }else{
-                    LoginAllView().environmentObject(vm)
+                    OnBoardingTabView(isFirstLaunch: $isFirstLaunch)
                 }
             }else{
                 SplashView()
             }
+//            Button {
+//               isFirstLaunch = false
+//            } label: {
+//                Text("asdasdasdads")
+//            }
+
         }.onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 withAnimation(.easeOut(duration: 1.5)){
@@ -37,6 +49,7 @@ struct ContentView: View {
                 }
             }
             vm.getUser()
+            
         }.onReceive(vm.patchInfoSuccess) { value in
             alert = value
             delete = false

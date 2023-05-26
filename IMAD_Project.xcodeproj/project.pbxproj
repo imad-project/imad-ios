@@ -35,6 +35,10 @@
 		817BBB3629EE72D000E1CBA6 /* ExpandableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817BBB3529EE72D000E1CBA6 /* ExpandableTextView.swift */; };
 		817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817BBB3729EE982F00E1CBA6 /* ProfileChangeView.swift */; };
 		817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */; };
+		818CF7EF2A20764C00BABA1F /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7EE2A20764C00BABA1F /* OnBoardingView.swift */; };
+		818CF7F22A207CFF00BABA1F /* OnBoardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F12A207CFF00BABA1F /* OnBoardingTabView.swift */; };
+		818CF7F82A20929800BABA1F /* ProfileSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F72A20929800BABA1F /* ProfileSelectView.swift */; };
+		818CF7FA2A20AAE500BABA1F /* AgeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */; };
 		819C506B2A0E3E660008F4A5 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C506A2A0E3E660008F4A5 /* TestView.swift */; };
 		819C506E2A0F467B0008F4A5 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C506D2A0F467B0008F4A5 /* UserDefaultManager.swift */; };
 		819C50702A0F8AFC0008F4A5 /* RegisterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C506F2A0F8AFC0008F4A5 /* RegisterResponse.swift */; };
@@ -79,13 +83,11 @@
 		81DB1FBF29E56CA8002C0840 /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FBE29E56CA8002C0840 /* Wave.swift */; };
 		81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC129E56D1E002C0840 /* CustomTextField.swift */; };
 		81DB1FC729E6A8BB002C0840 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC629E6A8BB002C0840 /* BackgroundView.swift */; };
-		81DB1FCA29E6C2E2002C0840 /* RegisterGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC929E6C2E2002C0840 /* RegisterGenderView.swift */; };
-		81DB1FCF29E6D34F002C0840 /* ProfileSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FCE29E6D34F002C0840 /* ProfileSelectView.swift */; };
+		81DB1FCA29E6C2E2002C0840 /* GenderSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC929E6C2E2002C0840 /* GenderSelectView.swift */; };
+		81DB1FCF29E6D34F002C0840 /* NicknameSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FCE29E6D34F002C0840 /* NicknameSelectView.swift */; };
 		81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD029E6D717002C0840 /* SelectGenreView.swift */; };
 		81DB1FD629E7D03B002C0840 /* KeyBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD529E7D03B002C0840 /* KeyBoard.swift */; };
 		81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */; };
-		81DB1FDA29E7D7E2002C0840 /* RegisterFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD929E7D7E2002C0840 /* RegisterFilter.swift */; };
-		81DB1FDD29E7DA39002C0840 /* StageTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FDC29E7DA39002C0840 /* StageTabViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +139,10 @@
 		817BBB3529EE72D000E1CBA6 /* ExpandableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTextView.swift; sourceTree = "<group>"; };
 		817BBB3729EE982F00E1CBA6 /* ProfileChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeView.swift; sourceTree = "<group>"; };
 		817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoChangeView.swift; sourceTree = "<group>"; };
+		818CF7EE2A20764C00BABA1F /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
+		818CF7F12A207CFF00BABA1F /* OnBoardingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingTabView.swift; sourceTree = "<group>"; };
+		818CF7F72A20929800BABA1F /* ProfileSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectView.swift; sourceTree = "<group>"; };
+		818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeSelectView.swift; sourceTree = "<group>"; };
 		819C506A2A0E3E660008F4A5 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		819C506D2A0F467B0008F4A5 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		819C506F2A0F8AFC0008F4A5 /* RegisterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResponse.swift; sourceTree = "<group>"; };
@@ -172,13 +178,11 @@
 		81DB1FBE29E56CA8002C0840 /* Wave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wave.swift; sourceTree = "<group>"; };
 		81DB1FC129E56D1E002C0840 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		81DB1FC629E6A8BB002C0840 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
-		81DB1FC929E6C2E2002C0840 /* RegisterGenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGenderView.swift; sourceTree = "<group>"; };
-		81DB1FCE29E6D34F002C0840 /* ProfileSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectView.swift; sourceTree = "<group>"; };
+		81DB1FC929E6C2E2002C0840 /* GenderSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectView.swift; sourceTree = "<group>"; };
+		81DB1FCE29E6D34F002C0840 /* NicknameSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameSelectView.swift; sourceTree = "<group>"; };
 		81DB1FD029E6D717002C0840 /* SelectGenreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenreView.swift; sourceTree = "<group>"; };
 		81DB1FD529E7D03B002C0840 /* KeyBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoard.swift; sourceTree = "<group>"; };
 		81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTabView.swift; sourceTree = "<group>"; };
-		81DB1FD929E7D7E2002C0840 /* RegisterFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterFilter.swift; sourceTree = "<group>"; };
-		81DB1FDC29E7DA39002C0840 /* StageTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageTabViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,6 +306,7 @@
 		812CDE9129DE91CD0003B993 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				818CF7ED2A20762A00BABA1F /* OnBoarding */,
 				8124CB3829F0174F00B446D5 /* Movie */,
 				811DA16529E92FD800482A6A /* Review */,
 				81DB1FC829E6C2B9002C0840 /* Collection */,
@@ -390,6 +395,15 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		818CF7ED2A20762A00BABA1F /* OnBoarding */ = {
+			isa = PBXGroup;
+			children = (
+				818CF7EE2A20764C00BABA1F /* OnBoardingView.swift */,
+				818CF7F12A207CFF00BABA1F /* OnBoardingTabView.swift */,
+			);
+			path = OnBoarding;
+			sourceTree = "<group>";
+		};
 		819C50692A0E3E450008F4A5 /* Test */ = {
 			isa = PBXGroup;
 			children = (
@@ -436,7 +450,6 @@
 				81A1ECF829DD6BE70001A366 /* Tab.swift */,
 				812CDE9529DE9CD50003B993 /* CommunityFilter.swift */,
 				81DB1FB429E51CCE002C0840 /* SettingFilter.swift */,
-				81DB1FD929E7D7E2002C0840 /* RegisterFilter.swift */,
 				81C264932A1376AE00405B01 /* OauthFilter.swift */,
 				81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */,
 			);
@@ -552,25 +565,18 @@
 			isa = PBXGroup;
 			children = (
 				81DB1FDE29E7F337002C0840 /* View */,
-				81DB1FDB29E7DA29002C0840 /* ViewModel */,
 			);
 			path = Collection;
-			sourceTree = "<group>";
-		};
-		81DB1FDB29E7DA29002C0840 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				81DB1FDC29E7DA39002C0840 /* StageTabViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		81DB1FDE29E7F337002C0840 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				81DB1FC929E6C2E2002C0840 /* RegisterGenderView.swift */,
-				81DB1FCE29E6D34F002C0840 /* ProfileSelectView.swift */,
+				81DB1FCE29E6D34F002C0840 /* NicknameSelectView.swift */,
+				81DB1FC929E6C2E2002C0840 /* GenderSelectView.swift */,
+				818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */,
 				81DB1FD029E6D717002C0840 /* SelectGenreView.swift */,
+				818CF7F72A20929800BABA1F /* ProfileSelectView.swift */,
 				81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */,
 			);
 			path = View;
@@ -725,10 +731,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				81A1ECE729DC40D50001A366 /* CustomData.swift in Sources */,
-				81DB1FCF29E6D34F002C0840 /* ProfileSelectView.swift in Sources */,
+				81DB1FCF29E6D34F002C0840 /* NicknameSelectView.swift in Sources */,
 				81A1ECED29DD1F9F0001A366 /* GenreFilter.swift in Sources */,
 				81DB1FC729E6A8BB002C0840 /* BackgroundView.swift in Sources */,
-				81DB1FDD29E7DA39002C0840 /* StageTabViewModel.swift in Sources */,
 				812CDEAA29DF0BF20003B993 /* Notific.swift in Sources */,
 				811536D22A173495003F8273 /* PasswordChange.swift in Sources */,
 				81C264942A1376AE00405B01 /* OauthFilter.swift in Sources */,
@@ -761,6 +766,7 @@
 				819C506E2A0F467B0008F4A5 /* UserDefaultManager.swift in Sources */,
 				817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */,
 				81BB11062A0614D1005654AA /* ApiLogger.swift in Sources */,
+				818CF7EF2A20764C00BABA1F /* OnBoardingView.swift in Sources */,
 				81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */,
 				81DB1FBD29E55095002C0840 /* LoginView.swift in Sources */,
 				8103094329D1BDEF0021717B /* ContentView.swift in Sources */,
@@ -772,13 +778,15 @@
 				81DB1FD629E7D03B002C0840 /* KeyBoard.swift in Sources */,
 				8103094129D1BDEF0021717B /* IMAD_ProjectApp.swift in Sources */,
 				8124CB3A29F0175F00B446D5 /* MovieListView.swift in Sources */,
+				818CF7FA2A20AAE500BABA1F /* AgeSelectView.swift in Sources */,
 				81BB11022A061198005654AA /* AuthRouter.swift in Sources */,
+				818CF7F82A20929800BABA1F /* ProfileSelectView.swift in Sources */,
 				81DB1FB929E549C5002C0840 /* RoundShape.swift in Sources */,
 				81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */,
 				81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */,
-				81DB1FCA29E6C2E2002C0840 /* RegisterGenderView.swift in Sources */,
-				81DB1FDA29E7D7E2002C0840 /* RegisterFilter.swift in Sources */,
+				81DB1FCA29E6C2E2002C0840 /* GenderSelectView.swift in Sources */,
 				81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */,
+				818CF7F22A207CFF00BABA1F /* OnBoardingTabView.swift in Sources */,
 				811DA16929E9332500482A6A /* Review.swift in Sources */,
 				81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */,
 				817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */,
