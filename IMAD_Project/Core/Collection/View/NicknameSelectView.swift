@@ -28,16 +28,26 @@ struct NicknameSelectView: View {
                     .font(.callout)
                 .padding(.leading)
                 
-                CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, text: $text)
-                    .padding()
-                    .background(Color.gray.opacity(0.5))
-                    .cornerRadius(20)
-                    .padding(.horizontal)
-                    .padding(.vertical,20)
+                HStack{
+                    CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, text: $text)
+                        .padding()
+                        .background(Color.gray.opacity(0.5))
+                        .cornerRadius(20)
+                       
+                        .padding(.vertical,20)
+                    Text("중복확인")
+                        .foregroundColor(.white)
+                        .padding()
+                        .background {
+                            Color.customIndigo
+                        }
+                        .cornerRadius(20)
+                } .padding(.horizontal)
+                
                 Button {
                     vm.nickname = text
                     withAnimation(.linear){
-                        vm.selection = 1
+                        vm.selection = .gender
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 20)
@@ -53,9 +63,10 @@ struct NicknameSelectView: View {
                     .padding(.bottom,50)
 
                 Spacer()
-            }.ignoresSafeArea(.keyboard)
+            }.padding()
         }
-        .foregroundColor(.customIndigo).padding()
+        .ignoresSafeArea()
+        .foregroundColor(.customIndigo)
     }
 }
 

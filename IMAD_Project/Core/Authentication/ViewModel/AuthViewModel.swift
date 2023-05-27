@@ -15,7 +15,7 @@ class AuthViewModel:ObservableObject{
     @Published var registerRes:RegisterResponse? = nil
     @Published var getUserRes:GetUserInfo? = nil
     @Published var passwordChangeRes:PasswordChange? = nil
-    @Published var selection = 0    //탭뷰
+    @Published var selection:RegisterFilter = .nickname     //탭뷰
     
     @Published var guestMode = false
     @Published var loginMode = false

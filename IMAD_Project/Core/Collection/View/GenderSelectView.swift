@@ -16,6 +16,7 @@ struct GenderSelectView: View {
     
     var body: some View {
         ZStack{
+            Color.white.ignoresSafeArea()
             VStack(alignment: .leading,spacing: 5){
                 Text("성별을 설정해주세요")
                     .font(.title3)
@@ -76,7 +77,7 @@ struct GenderSelectView: View {
                     .padding(.vertical)
                 Button {
                     withAnimation(.linear){
-                        vm.selection = 2
+                        vm.selection = .age
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 20)

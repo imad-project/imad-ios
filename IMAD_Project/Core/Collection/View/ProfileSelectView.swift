@@ -72,7 +72,7 @@ struct ProfileSelectView: View {
                     if vm.nickname == ""{
                         msg = "닉네임을 설정해주세요!"
                         withAnimation(.linear){
-                            vm.selection = 0
+                            vm.selection = .nickname
                         }
                         alert = true
                     }else if vm.image == -1{
@@ -81,11 +81,14 @@ struct ProfileSelectView: View {
                     }else if vm.gender == ""{
                         msg = "성별을 선택해 주세요!"
                         withAnimation(.linear){
-                            vm.selection = 1
+                            vm.selection = .gender
                         }
                         alert = true
                     }else{
                         vm.patchUser(gender: vm.gender, ageRange: vm.age, image: vm.image, nickname: vm.nickname, genre: "")
+                        withAnimation(.default){
+                            vm.selection = .nickname
+                        }
                     }
                 }label:{
                     RoundedRectangle(cornerRadius: 20)

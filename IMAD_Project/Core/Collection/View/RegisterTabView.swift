@@ -16,26 +16,26 @@ struct RegisterTabView: View {
     
     var body: some View {
         ZStack(alignment:.bottomTrailing){
-            
+            Color.white.ignoresSafeArea()
             TabView(selection: $vmAuth.selection) {
                 NicknameSelectView()
-                    .tag(0)
+                    .tag(RegisterFilter.nickname)
                     .environmentObject(vmAuth)
+                    .ignoresSafeArea()
                 GenderSelectView()
-                    .tag(1)
+                    .tag(RegisterFilter.gender)
                     .environmentObject(vmAuth)
                 AgeSelectView()
-                    .tag(2)
+                    .tag(RegisterFilter.age)
                     .environmentObject(vmAuth)
                 ProfileSelectView()
-                    .tag(3)
+                    .tag(RegisterFilter.profile)
                     .environmentObject(vmAuth)
-            }.accentColor(.white)
-                .tabViewStyle(.page(indexDisplayMode: .never))
+            }
                 .ignoresSafeArea()
-                .background()
+                .tabViewStyle(.page(indexDisplayMode: .never))
             HStack{
-                ForEach(0...3,id:\.self){ sel in
+                ForEach(RegisterFilter.allCases,id:\.self){ sel in
                     if sel == vmAuth.selection{
                         RoundedRectangle(cornerRadius: 5)
                             .frame(width: 20,height: 10)
@@ -50,19 +50,23 @@ struct RegisterTabView: View {
                 
             }
             .frame(maxHeight: .infinity,alignment: .top)
-                .frame(maxWidth: .infinity,alignment: .center)
+            .frame(maxWidth: .infinity,alignment: .center)
             BackgroundView(height: 0.23, height1: 0.27,height2: 0.25,height3: 0.26)
             Image("watch")
                 .resizable()
                 .frame(width: 150,height: 100)
                 .padding()
+                
             //stage
         }
-        
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+        .onAppear{
+            vmAuth.selection = .nickname
+        }
         .navigationBarBackButtonHidden(true)
-            .onTapGesture {
-                UIApplication.shared.endEditing()
-            }
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
             
     }
 }

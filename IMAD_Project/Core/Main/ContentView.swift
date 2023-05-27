@@ -51,20 +51,20 @@ struct ContentView: View {
             vm.getUser()
             
         }.onReceive(vm.patchInfoSuccess) { value in
-            alert = value
-            delete = false
-        }.onReceive(vm.deleteSuccess){ value in
-            alert = value
-            delete = true
+            withAnimation(.default){
+                vm.guestMode = false
+            }
+            
         }
-        .alert(isPresented: $alert) {
-            Alert(title:Text("성공!"),dismissButton: delete ? .cancel(Text("확인")):.default(Text("확인")) {
-                if !delete{
-                    vm.guestMode = false
-                }
-            })
-          
-        }
+//        .onReceive(vm.deleteSuccess){ value in
+//            alert = value
+//            delete = true
+//        }
+//        .alert(isPresented: $alert) {
+//            Alert(title:Text("성공!"),dismissButton: delete ? .cancel(Text("확인")):.default(Text("확인")) {
+//            })
+//
+//        }
         
     }
 }

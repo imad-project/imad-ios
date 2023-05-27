@@ -39,6 +39,7 @@
 		818CF7F22A207CFF00BABA1F /* OnBoardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F12A207CFF00BABA1F /* OnBoardingTabView.swift */; };
 		818CF7F82A20929800BABA1F /* ProfileSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F72A20929800BABA1F /* ProfileSelectView.swift */; };
 		818CF7FA2A20AAE500BABA1F /* AgeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */; };
+		818CF7FE2A21B7E000BABA1F /* RegisterFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */; };
 		819C506B2A0E3E660008F4A5 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C506A2A0E3E660008F4A5 /* TestView.swift */; };
 		819C506E2A0F467B0008F4A5 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C506D2A0F467B0008F4A5 /* UserDefaultManager.swift */; };
 		819C50702A0F8AFC0008F4A5 /* RegisterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C506F2A0F8AFC0008F4A5 /* RegisterResponse.swift */; };
@@ -143,6 +144,7 @@
 		818CF7F12A207CFF00BABA1F /* OnBoardingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingTabView.swift; sourceTree = "<group>"; };
 		818CF7F72A20929800BABA1F /* ProfileSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectView.swift; sourceTree = "<group>"; };
 		818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeSelectView.swift; sourceTree = "<group>"; };
+		818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterFilter.swift; sourceTree = "<group>"; };
 		819C506A2A0E3E660008F4A5 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		819C506D2A0F467B0008F4A5 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		819C506F2A0F8AFC0008F4A5 /* RegisterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResponse.swift; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 				81DB1FB429E51CCE002C0840 /* SettingFilter.swift */,
 				81C264932A1376AE00405B01 /* OauthFilter.swift */,
 				81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */,
+				818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -766,6 +769,7 @@
 				819C506E2A0F467B0008F4A5 /* UserDefaultManager.swift in Sources */,
 				817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */,
 				81BB11062A0614D1005654AA /* ApiLogger.swift in Sources */,
+				818CF7FE2A21B7E000BABA1F /* RegisterFilter.swift in Sources */,
 				818CF7EF2A20764C00BABA1F /* OnBoardingView.swift in Sources */,
 				81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */,
 				81DB1FBD29E55095002C0840 /* LoginView.swift in Sources */,

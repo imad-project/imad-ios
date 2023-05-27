@@ -39,7 +39,7 @@ struct AgeSelectView: View {
                 
                 Button {
                     withAnimation(.linear){
-                        vm.selection = 3
+                        vm.selection = .profile
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 20)
@@ -53,11 +53,11 @@ struct AgeSelectView: View {
                         }
                 }.padding(.horizontal)
                     .padding(.bottom,50)
-            }
+            }.padding()
             
             
         }.foregroundColor(.customIndigo)
-            .padding()
+            
         
         
     }
