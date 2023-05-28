@@ -380,11 +380,11 @@
 		812CDEA129DEAE6D0003B993 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				81BB11112A061E9E005654AA /* Auth */,
 				812CDEA229DEAE880003B993 /* Community.swift */,
 				812CDEA929DF0BF20003B993 /* Notific.swift */,
 				811DA16829E9332500482A6A /* Review.swift */,
 				811DA16A29E94D9D00482A6A /* UserReview.swift */,
+				81BB11112A061E9E005654AA /* Auth */,
 			);
 			path = Model;
 			sourceTree = "<group>";
