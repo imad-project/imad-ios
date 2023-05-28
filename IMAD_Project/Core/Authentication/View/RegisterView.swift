@@ -16,12 +16,17 @@ struct RegisterView: View {
     @State var passwordConfirm = ""
     @State var register = false
     @Binding var login:Bool
+    @StateObject var vmCheck = CheckDataViewModel()
     @EnvironmentObject var vm:AuthViewModel
     @State var success = false
     @Environment(\.dismiss) var dismiss
     
     @State var alertMsg = ""
     @State var notRegex = false
+    
+    @State var blank = false
+    @State var blankMsg = ""
+    @State var blankColor = false
     
     var body: some View {
         ZStack(alignment: .bottomTrailing){
@@ -42,22 +47,41 @@ struct RegisterView: View {
                             .padding()
                             .background(Color.gray.opacity(0.3))
                             .cornerRadius(20)
-                            .padding(.bottom)
-                            .padding(.horizontal,5)
-                        Text("중복확인")
-                            .foregroundColor(.white)
-                            .padding()
-                            .background {
-                                Color.customIndigo
+                            
+                            
+                        Button {
+                            if email != ""{
+                                vmCheck.checkEmail(email: email)
+                                
+                            }else{
+                                blankMsg = "이메일을 제대로 입력해주세요!"
+                                blankColor = false
+                                blank = true
                             }
-                            .cornerRadius(20)
+                        } label: {
+                            Text("중복확인")
+                                .foregroundColor(.white)
+                                .padding()
+                                .background {
+                                    Color.customIndigo
+                                }
+                                .cornerRadius(20)
+                        }
                     }
+                    Text(blankMsg)
+                        .foregroundColor(blankColor ? .green:.red)
+                        .font(.caption)
+                        .padding(.horizontal,5)
+                  
                     Text("비밀번호").bold()
+                        .padding(.top,5)
                     CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.gray, text: $password).padding()
                         .background(Color.gray.opacity(0.3))
                         .cornerRadius(20)
                         .padding(.horizontal,5)
-                        .padding(.bottom,20)
+//                    Text(alertMsg)
+//                        .padding(.bottom,20)
+//                        .padding(.horizontal,5)
                     Text("비밀번호 확인").bold()
                     CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.gray, text: $passwordConfirm).padding()
                         .background(Color.gray.opacity(0.3))
@@ -118,6 +142,30 @@ struct RegisterView: View {
             success = value
             alertMsg = vm.registerRes?.message ?? ""
         }
+        .onChange(of: vmCheck.check){ value in
+            if let check = value{
+                if check{
+                    self.blankMsg =  "사용할 수 있는 이메일입니다!"
+                    blankColor = true
+                }else{
+                    self.blankMsg = "사용 중인 이메일입니다!"
+                    blankColor = false
+                }
+            }
+        }
+//        .onChange(of: password, perform: { newValue in
+//            print(newValue)
+//            switch isVaildInfo(){
+//            case 2:
+//                alertMsg = "유효하지 않은 이메일입니다!"
+//            case 3:
+//                alertMsg = "비밀번호는 영문 대,소문자, 숫자, 특수문자만 허용되며 8~20자 사이여야 합니다!"
+//            case 4:
+//                alertMsg = "비밀번호가 일치하지 않습니다!"
+//            default:
+//                return alertMsg = ""
+//            }
+//        })
         .alert(isPresented: $notRegex) {
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
                 if success{

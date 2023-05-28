@@ -11,8 +11,10 @@ import PhotosUI
 struct NicknameSelectView: View {
     
     @State var text = ""
-   
-    
+    @State var blank = false
+    @State var blankColor = false
+    @State var blankMsg = ""
+    @StateObject var vmCheck = CheckDataViewModel()
     @EnvironmentObject var vm:AuthViewModel
     
     var body: some View {
@@ -33,17 +35,32 @@ struct NicknameSelectView: View {
                         .padding()
                         .background(Color.gray.opacity(0.5))
                         .cornerRadius(20)
-                       
-                        .padding(.vertical,20)
-                    Text("중복확인")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background {
-                            Color.customIndigo
+                        
+                    Button {
+                        if text != ""{
+                            vmCheck.checkNickname(nickname: text)
+                        }else{
+                            blankMsg = "이메일을 제대로 입력해주세요!"
+                            blankColor = false
+                            blank = true
                         }
-                        .cornerRadius(20)
-                } .padding(.horizontal)
-                
+                    } label: {
+                        Text("중복확인")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background {
+                                Color.customIndigo
+                            }
+                            .cornerRadius(20)
+                    }
+                    
+                }
+                .padding(.top,20)
+                .padding(.horizontal)
+                Text(blankMsg)
+                    .foregroundColor(blankColor ? .green:.red)
+                    .font(.caption)
+                    .padding(.horizontal)
                 Button {
                     vm.nickname = text
                     withAnimation(.linear){
@@ -61,9 +78,21 @@ struct NicknameSelectView: View {
                         }
                 }.padding(.horizontal)
                     .padding(.bottom,50)
+                    .padding(.top,20)
 
                 Spacer()
             }.padding()
+        }
+        .onChange(of: vmCheck.check){ value in
+            if let check = value{
+                if check{
+                    self.blankMsg =  "사용할 수 있는 이메일입니다!"
+                    blankColor = true
+                }else{
+                    self.blankMsg = "사용 중인 이메일입니다!"
+                    blankColor = false
+                }
+            }
         }
         .ignoresSafeArea()
         .foregroundColor(.customIndigo)

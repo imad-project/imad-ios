@@ -37,16 +37,9 @@ struct ProfileSelectView: View {
                                 image = item
                             } label: {
                                 VStack(spacing: 0) {
-                                    RoundedRectangle(cornerRadius: 20)
+                                    Image(item.rawValue)
+                                        .resizable()
                                         .frame(width: 100,height: 100)
-                                        .padding(10)
-                                        .overlay(content: {
-                                            Image(item.rawValue)
-                                                .resizable()
-                                                .frame(width: 70,height: 70)
-                                        })
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal)
                                         .overlay {
                                             if image == item{
                                                 RoundedRectangle(cornerRadius: 20)
@@ -59,7 +52,7 @@ struct ProfileSelectView: View {
                                         .foregroundColor(.customIndigo)
                                         
                                 }
-                                .shadow(radius: 10)
+                                
                             }
                         }
                     }

@@ -24,6 +24,10 @@ enum AuthApiService{
             }
             .publishDecodable(type: GetUserInfo.self)
             .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message ?? "")")
+                return receivedValue.self
+            }
             .eraseToAnyPublisher()
     }
     static func register(email:String,password:String,authProvider:String) -> AnyPublisher<RegisterResponse,AFError>{
@@ -38,6 +42,10 @@ enum AuthApiService{
             }
             .publishDecodable(type: RegisterResponse.self)
             .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message ?? "")")
+                return receivedValue.self
+            }
             .eraseToAnyPublisher()
     }
     static func delete() -> AnyPublisher<GetUserInfo,AFError>{
@@ -46,6 +54,10 @@ enum AuthApiService{
             .request(AuthRouter.delete,interceptor: intercept)
             .publishDecodable(type: GetUserInfo.self)
             .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message ?? "")")
+                return receivedValue.self
+            }
             .eraseToAnyPublisher()
     }
 

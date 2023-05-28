@@ -166,4 +166,3 @@ struct ComminityPostView_Previews: PreviewProvider {
     }
 }
 
-

@@ -20,6 +20,10 @@ enum UserApiService{
             .request(UserRouter.user,interceptor: intercept)
             .publishDecodable(type: GetUserInfo.self)
             .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message ?? "")")
+                return receivedValue.self
+            }
             .eraseToAnyPublisher()
     }
     static func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,genre:String?) -> AnyPublisher<GetUserInfo,AFError>{
@@ -28,6 +32,10 @@ enum UserApiService{
             .request(UserRouter.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, genre: genre),interceptor: intercept)
             .publishDecodable(type: GetUserInfo.self)
             .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message ?? "")")
+                return receivedValue.self
+            }
             .eraseToAnyPublisher()
     }
     static func passwordChange(old:String,new:String)-> AnyPublisher<PasswordChange,AFError>{
@@ -36,6 +44,10 @@ enum UserApiService{
             .request(UserRouter.passwordChange(old: old, new: new),interceptor: intercept)
             .publishDecodable(type: PasswordChange.self)
             .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message ?? "")")
+                return receivedValue.self
+            }
             .eraseToAnyPublisher()
     }
 
