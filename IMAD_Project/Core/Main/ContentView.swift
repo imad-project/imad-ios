@@ -29,6 +29,7 @@ struct ContentView: View {
                         }
                     }else{
                         LoginAllView().environmentObject(vm)
+                            .ignoresSafeArea(.keyboard)
                     }
                 }else{
                     OnBoardingTabView(isFirstLaunch: $isFirstLaunch)
@@ -42,7 +43,10 @@ struct ContentView: View {
 //                Text("asdasdasdads")
 //            }
 
-        }.onAppear{
+        }
+        
+            
+        .onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 withAnimation(.easeOut(duration: 1.5)){
                     splash = true

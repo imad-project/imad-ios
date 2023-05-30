@@ -22,7 +22,7 @@ struct MovieListView: View {
                 .padding(.horizontal)
                 .padding(.bottom,5)
             ScrollView{
-                ForEach(GenreFilter.allCases,id:\.self){ genre in
+                ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
                     Section(header:genreHeader(name: genre.generName)){
                         ScrollView(.horizontal,showsIndicators: false){
                             HStack(spacing: 0){

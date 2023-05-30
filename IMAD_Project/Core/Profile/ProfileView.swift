@@ -256,7 +256,7 @@ extension ProfileView{
     var genre:some View{
         ScrollView(.horizontal,showsIndicators: false){
             HStack{
-                ForEach(GenreFilter.allCases,id:\.self){ item in
+                ForEach(MovieGenreFilter.allCases,id:\.self){ item in
                     VStack{
                         Image(item.rawValue)
                             .resizable()

@@ -147,7 +147,7 @@ extension MenuTabView{
                 .padding(.bottom,50)
             ScrollView {
                 LazyVStack{
-                    ForEach(GenreFilter.allCases,id:\.self){
+                    ForEach(MovieGenreFilter.allCases,id:\.self){
                         Text($0.generName)
                             .padding(10)
                     }

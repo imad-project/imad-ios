@@ -239,7 +239,7 @@ extension MainView{
     var movieList:some View{
         VStack{
             
-            ForEach(GenreFilter.allCases,id:\.self){ genre in
+            ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
                 // Section(header:){
                 ScrollView(.horizontal,showsIndicators: false){
                     genreHeader(name: genre.generName).padding(.top)

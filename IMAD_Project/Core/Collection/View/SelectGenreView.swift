@@ -19,7 +19,7 @@ struct SelectGenreView: View {
                     .padding(.vertical,50)
                     .padding(.leading)
                 LazyVGrid(columns: columns) {
-                    ForEach(GenreFilter.allCases,id: \.self){ item in
+                    ForEach(MovieGenreFilter.allCases,id: \.self){ item in
                         VStack{
                             Image(item.rawValue)
                                 .resizable()

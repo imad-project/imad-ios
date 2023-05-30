@@ -45,7 +45,7 @@ struct RegisterView: View {
                         CustomTextField(password: false, image: "envelope.fill", placeholder: "입력", color: Color.gray, text: $email)
                             .keyboardType(.emailAddress)
                             .padding()
-                            .background(Color.gray.opacity(0.3))
+                            .background(RoundedRectangle(cornerRadius: 20).stroke(lineWidth: 4).foregroundColor(.customIndigo))
                             .cornerRadius(20)
                             
                             
@@ -67,7 +67,7 @@ struct RegisterView: View {
                                 }
                                 .cornerRadius(20)
                         }
-                    }
+                    }.padding(.horizontal,5)
                     Text(blankMsg)
                         .foregroundColor(blankColor ? .green:.red)
                         .font(.caption)
@@ -76,7 +76,7 @@ struct RegisterView: View {
                     Text("비밀번호").bold()
                         .padding(.top,5)
                     CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.gray, text: $password).padding()
-                        .background(Color.gray.opacity(0.3))
+                        .background(RoundedRectangle(cornerRadius: 20).stroke(lineWidth: 4).foregroundColor(.customIndigo))
                         .cornerRadius(20)
                         .padding(.horizontal,5)
 //                    Text(alertMsg)
@@ -84,7 +84,7 @@ struct RegisterView: View {
 //                        .padding(.horizontal,5)
                     Text("비밀번호 확인").bold()
                     CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.gray, text: $passwordConfirm).padding()
-                        .background(Color.gray.opacity(0.3))
+                        .background(RoundedRectangle(cornerRadius: 20).stroke(lineWidth: 4).foregroundColor(.customIndigo))
                         .cornerRadius(20)
                         .padding(.horizontal,5)
                         .padding(.bottom,40)

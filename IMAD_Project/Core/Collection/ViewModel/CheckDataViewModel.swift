@@ -22,7 +22,7 @@ class CheckDataViewModel:ObservableObject{
             .sink { completion in
                 if let status = self.checkRes?.status,status >= 200 && status <= 300{
                     self.check = self.checkRes?.data?.validation
-                    print("이메일 중복검사 성공 :\(completion) \(self.check)")
+                    print("이메일 중복검사 성공 :\(completion) \(self.checkRes?.message ?? "")")
                 }else{
                     print("이메일 중복검사 실패 : \(completion) \(self.checkRes?.message ?? "")")
                 }
