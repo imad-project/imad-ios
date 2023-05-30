@@ -23,6 +23,7 @@ struct LoginAllView: View {
     @State var naver = false
     @State var apple = false
     @State var google = false
+    @State var domain = EmailFilter.gmail
     
     @EnvironmentObject var vm:AuthViewModel
     
@@ -42,22 +43,41 @@ struct LoginAllView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.bottom)
                         VStack(alignment: .leading){
-                            Text("아이디").bold()
+                            Text("이메일").bold()
                                 .foregroundColor(.customIndigo)
-                            CustomTextField(password: false, image: "person.fill", placeholder: "입력..", color: Color.gray, text: $id)
-                                .keyboardType(.emailAddress)
-                                .padding()
-                                .background(RoundedRectangle(cornerRadius: 20).stroke(lineWidth: 4).foregroundColor(.customIndigo))
-                                .cornerRadius(20)
-                                .padding(.horizontal,5)
+                            Group{
+                                HStack{
+                                    VStack{
+                                        CustomTextField(password: false, image: "person.fill", placeholder: "입력..", color: Color.gray, text: $id)
+                                            .keyboardType(.emailAddress)
+                                            .padding(.vertical,5)
+                                        Divider()
+                                            .frame(height: 1)
+                                            .background(Color.customIndigo)
+                                    }
+                                    Text("@").padding(.leading)
+                                    Picker("", selection: $domain) {
+                                        ForEach(EmailFilter.allCases,id:\.self){ item in
+                                            Text(item.domain)
+                                        }
+                                    }.accentColor(.black)
+                                        .frame(maxWidth: .infinity)
+                                }.padding(.top,5)
+                            }.padding(.leading)
+                                .padding(.vertical,5)
+                            
                             Text("비밀번호").bold()
                                 .foregroundColor(.customIndigo)
-                            CustomTextField(password: true, image: "lock.fill", placeholder: "입력..", color: Color.gray, text: $password)
-                                .padding()
-                                .background(RoundedRectangle(cornerRadius: 20).stroke(lineWidth: 4).foregroundColor(.customIndigo))
-                                .cornerRadius(20)
-                                .padding(.horizontal,5)
-                                .padding(.bottom,20)
+                            Group{
+                                CustomTextField(password: true, image: "lock.fill", placeholder: "입력..", color: Color.gray, text: $password)
+                                    .padding(.top,5)
+                                Divider()
+                                    .frame(height: 1)
+                                    .background(Color.customIndigo)
+                                    .padding(.bottom,30)
+                            }.padding(.horizontal)
+                                .padding(.vertical,5)
+                                
                             HStack{
                                 Text("이메일 찾기")
                                 Text("  |  ")
@@ -72,7 +92,7 @@ struct LoginAllView: View {
                             }.padding(.horizontal,20)
                                 .font(.caption)
                             Button {
-                                vm.login(email: id, password: password)    //SHA256
+                                vm.login(email: "\(id)@\(domain)", password: password)    //SHA256
                             } label: {
                                 RoundedRectangle(cornerRadius: 20)
                                     .frame(height: 55)
@@ -123,22 +143,24 @@ struct LoginAllView: View {
                                         google = true
                                     }
                                 } label: {
-                                    HStack{
-                                        if item == .naver{
-                                            Image(item.rawValue)
-                                                .resizable()
-                                                .frame(width: 35,height: 35)
-                                                .offset(x:-5)
-                                        }else{
-                                            Image(item.rawValue)
-                                                .resizable()
-                                                .frame(width: 25,height: 25)
-                                        }
+                                    RoundedRectangle(cornerRadius: 20).frame(height: 55)
+                                        .foregroundColor(item.color)
+                                        .overlay {
+                                            HStack{
+                                                if item == .naver{
+                                                    Image(item.rawValue)
+                                                        .resizable()
+                                                        .frame(width: 35,height: 35)
+                                                        .offset(x:-5)
+                                                }else{
+                                                    Image(item.rawValue)
+                                                        .resizable()
+                                                        .frame(width: 25,height: 25)
+                                                }
 
-                                        Spacer()
-                                    }
-                                    .padding(15)
-                                    .background(RoundedRectangle(cornerRadius: 20).frame(height: 55).foregroundColor(item.color))
+                                                Spacer()
+                                            }.padding()
+                                        }
                                     .overlay{
                                         Text("\(item.text)")
                                             .bold()
@@ -147,16 +169,9 @@ struct LoginAllView: View {
                                 }.shadow(color:.gray.opacity(0.3),radius: 3)
                             }.padding(.horizontal)
                         
-                       
-                        
-                            
-                       
-                       
-
                     }
                     .foregroundColor(.gray)
                         .padding()
-//                        .background(.red)
                         
                 }
                  

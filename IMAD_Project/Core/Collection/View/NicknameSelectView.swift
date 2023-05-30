@@ -62,10 +62,18 @@ struct NicknameSelectView: View {
                     .font(.caption)
                     .padding(.horizontal)
                 Button {
-                    vm.nickname = text
-                    withAnimation(.linear){
-                        vm.selection = .gender
+                    if let cheack = vmCheck.check{
+                        if cheack{
+                            vm.nickname = text
+                            withAnimation(.linear){
+                                vm.selection = .gender
+                            }
+                        }else{
+                            self.blankMsg =  "닉네임 중복확인을 해주세요"
+                            blankColor = false
+                        }
                     }
+                   
                 } label: {
                     RoundedRectangle(cornerRadius: 20)
                         .frame(height: 60)

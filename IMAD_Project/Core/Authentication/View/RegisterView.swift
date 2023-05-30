@@ -27,6 +27,7 @@ struct RegisterView: View {
     @State var blank = false
     @State var blankMsg = ""
     @State var blankColor = false
+    @State var domain = EmailFilter.gmail
     
     var body: some View {
         ZStack(alignment: .bottomTrailing){
@@ -39,16 +40,35 @@ struct RegisterView: View {
                     .foregroundColor(.customIndigo)
                     .padding(.vertical,20)
                     .frame(maxWidth: .infinity)
+                
+
+                
                 Group{
                     Text("이메일").bold()
                     HStack(alignment: .top){
-                        CustomTextField(password: false, image: "envelope.fill", placeholder: "입력", color: Color.gray, text: $email)
-                            .keyboardType(.emailAddress)
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 20).stroke(lineWidth: 4).foregroundColor(.customIndigo))
-                            .cornerRadius(20)
-                            
-                            
+                        
+                        VStack{
+                            CustomTextField(password: false, image: "envelope.fill", placeholder: "입력", color: Color.gray, text: $email)
+                                .keyboardType(.emailAddress)
+                                .padding(.vertical,5)
+                                Divider()
+                                .frame(height: 1)
+                                .background(Color.customIndigo)
+                        }
+                        Text("@").padding(.leading).foregroundColor(.gray)
+                        Picker("", selection: $domain) {
+                            ForEach(EmailFilter.allCases,id:\.self){ item in
+                                Text(item.domain)
+                            }
+                        }.accentColor(.black)
+                            .frame(maxWidth: .infinity)
+                    }
+                    HStack{
+                        Text(blankMsg)
+                            .foregroundColor(blankColor ? .green:.red)
+                            .font(.caption)
+                            .padding(.horizontal,5)
+                        Spacer()
                         Button {
                             if email != ""{
                                 vmCheck.checkEmail(email: email)
@@ -60,35 +80,33 @@ struct RegisterView: View {
                             }
                         } label: {
                             Text("중복확인")
-                                .foregroundColor(.white)
-                                .padding()
-                                .background {
-                                    Color.customIndigo
-                                }
                                 .cornerRadius(20)
+                                .font(.caption)
+                                .padding(10)
+                                .foregroundColor(.white)
+                                .background(Color.customIndigo)
+                                .cornerRadius(10)
                         }
+                        
                     }.padding(.horizontal,5)
-                    Text(blankMsg)
-                        .foregroundColor(blankColor ? .green:.red)
-                        .font(.caption)
-                        .padding(.horizontal,5)
+                    
                   
                     Text("비밀번호").bold()
                         .padding(.top,5)
-                    CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.gray, text: $password).padding()
-                        .background(RoundedRectangle(cornerRadius: 20).stroke(lineWidth: 4).foregroundColor(.customIndigo))
-                        .cornerRadius(20)
-                        .padding(.horizontal,5)
-//                    Text(alertMsg)
-//                        .padding(.bottom,20)
-//                        .padding(.horizontal,5)
+                    CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.gray, text: $password)
+                       .foregroundColor(.customIndigo)
+                    Divider()
+                    .frame(height: 1)
+                    .background(Color.customIndigo)
                     Text("비밀번호 확인").bold()
-                    CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.gray, text: $passwordConfirm).padding()
-                        .background(RoundedRectangle(cornerRadius: 20).stroke(lineWidth: 4).foregroundColor(.customIndigo))
-                        .cornerRadius(20)
-                        .padding(.horizontal,5)
-                        .padding(.bottom,40)
-                }
+                    CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.gray, text: $passwordConfirm) .foregroundColor(.customIndigo)
+                        
+                    Divider()
+                    .frame(height: 1)
+                    .background(Color.customIndigo)
+                    .padding(.bottom,40)
+                }.padding(.horizontal)
+                    .padding(.vertical,5)
                 Button{
                     switch isVaildInfo(){
                     case 1:
@@ -103,8 +121,11 @@ struct RegisterView: View {
                     case 4:
                         alertMsg = "비밀번호가 일치하지 않습니다!"
                         return notRegex = true
+                    case 5:
+                        alertMsg = "이메일 중복확인을 해주세요!"
+                        return notRegex = true
                     default:
-                        return vm.register(email: email, password: password, authProvider: "IMAD") //SHA256
+                        return vm.register(email: "\(email)@\(domain)", password: password, authProvider: "IMAD") //SHA256
                     }
                 }label:{
                     RoundedRectangle(cornerRadius: 20)
@@ -189,6 +210,8 @@ struct RegisterView: View {
             return 3
         }else if password != passwordConfirm{
             return 4
+        }else if blankMsg == ""{
+            return 5
         }else{
             return 0
         }

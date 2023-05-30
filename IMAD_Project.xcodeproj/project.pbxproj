@@ -56,6 +56,7 @@
 		81A1ECED29DD1F9F0001A366 /* GenreFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECEC29DD1F9F0001A366 /* GenreFilter.swift */; };
 		81A1ECF229DD3BBC0001A366 /* MenuTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF129DD3BBC0001A366 /* MenuTabView.swift */; };
 		81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF829DD6BE70001A366 /* Tab.swift */; };
+		81AFC7212A25A11E00051F59 /* EmailFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFC7202A25A11E00051F59 /* EmailFilter.swift */; };
 		81BB10FF2A061055005654AA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB10FE2A061055005654AA /* Alamofire */; };
 		81BB11022A061198005654AA /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11012A061198005654AA /* AuthRouter.swift */; };
 		81BB11042A061457005654AA /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11032A061457005654AA /* ApiClient.swift */; };
@@ -165,6 +166,7 @@
 		81A1ECEC29DD1F9F0001A366 /* GenreFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreFilter.swift; sourceTree = "<group>"; };
 		81A1ECF129DD3BBC0001A366 /* MenuTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTabView.swift; sourceTree = "<group>"; };
 		81A1ECF829DD6BE70001A366 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		81AFC7202A25A11E00051F59 /* EmailFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFilter.swift; sourceTree = "<group>"; };
 		81BB11012A061198005654AA /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		81BB11032A061457005654AA /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		81BB11052A0614D1005654AA /* ApiLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiLogger.swift; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 				81C264932A1376AE00405B01 /* OauthFilter.swift */,
 				81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */,
 				818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */,
+				81AFC7202A25A11E00051F59 /* EmailFilter.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -766,6 +769,7 @@
 				81C264942A1376AE00405B01 /* OauthFilter.swift in Sources */,
 				812CDE9A29DE9ECB0003B993 /* TabViewModel.swift in Sources */,
 				812CDEA029DEAA850003B993 /* CommunityListRowView.swift in Sources */,
+				81AFC7212A25A11E00051F59 /* EmailFilter.swift in Sources */,
 				81BB11092A061772005654AA /* AuthApiService.swift in Sources */,
 				81C2649C2A13B73600405B01 /* UserRouter.swift in Sources */,
 				811536D42A173EED003F8273 /* Crypto.swift in Sources */,
