@@ -6,71 +6,82 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CommunityView: View {
     
-    @State var posting = false
+  
     @State var post = CustomData.instance.reviewList.first!
     @StateObject var vm = CommunityTabViewModel()
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        NavigationStack{
+        NavigationView{
                 VStack(spacing: 0) {
                     Section(header:header){
                         TabView(selection: $vm.communityTab) {
-                            Group{
-                                List(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-                                    Button {
-                                        post = item
-                                        posting = true
+                            ScrollView(showsIndicators: false){
+                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+                                    NavigationLink {
+                                        CommunityPostView(review: post)
                                     } label: {
-                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community, textColor: .primary)
-                                            
-                                    }.listRowBackground(Color.clear)
+                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
+                                        
+                                    }
+                                    Divider().padding(.horizontal)
+                                }
+                                .tag(CommunityFilter.all)
+                            }.padding(.bottom,40).background(Color.white)
+                            ScrollView(showsIndicators: false){
+                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+                                    NavigationLink {
+                                        CommunityPostView(review: post)
+                                    } label: {
+                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
+                                        
+                                    }
+                                    Divider().padding(.horizontal)
                                 }
                                 .tag(CommunityFilter.free)
-                                List(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-                                    Button {
-                                        post = item
-                                        posting = true
+                            }.padding(.bottom,40).background(Color.white)
+                            ScrollView(showsIndicators: false){
+                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+                                    NavigationLink {
+                                        CommunityPostView(review: post)
                                     } label: {
-                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community, textColor: .primary)
-                                            
-                                    }.listRowBackground(Color.clear)
+                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
+                                        
+                                    }
+                                    Divider().padding(.horizontal)
                                 }
                                 .tag(CommunityFilter.question)
-                                List(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-                                    Button {
-                                        post = item
-                                        posting = true
+                            }.padding(.bottom,40).background(Color.white)
+                            ScrollView(showsIndicators: false){
+                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+                                    NavigationLink {
+                                        CommunityPostView(review: post)
                                     } label: {
-                                        CommunityListRowView(image: item.thumbnail,community: CustomData.instance.community, textColor: .primary)
+                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
                                             
-                                    }.listRowBackground(Color.clear)
+                                    }
+                                    Divider().padding(.horizontal)
                                 }
                                 .tag(CommunityFilter.debate)
-                            }.background{
-                                if colorScheme == .dark {
-                                    LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
-                                }else{
-                                    Color.white
-                                }
-                            }
+                            }.padding(.bottom,40).background(Color.white)
                         }
-                        .listStyle(.plain)
-                        .scrollContentBackground(.hidden)   //리스트 배경 없음
-                        .padding(.bottom,80)
+                        
+                        
                         
                     }
-                }
-                
-                .navigationDestination(isPresented: $posting) {
-                    CommunityPostView(isReview: $posting, review: post)
-                  
                 }.ignoresSafeArea()
-        }.onDisappear{
-            posting = false
+                .overlay(alignment:.bottomTrailing){
+                    Image("pencil")
+                        .resizable()
+                        .frame(width: 100,height: 100)
+                        .padding(20)
+                        .padding(.bottom,60)
+                        .shadow(radius: 10)
+                }
         }
     }
 }
@@ -82,32 +93,30 @@ struct CommunityView_Previews: PreviewProvider {
 }
 
 extension CommunityView{
+    
     var header:some View{
         VStack{
             HStack{
                 Text("커뮤니티")
-                    .font(.title)
+                    .font(.title2)
                     .bold()
                     .padding(.leading)
                     
                 Spacer()
                 Image(systemName: "magnifyingglass")
-                    .font(.title)
+                    .font(.title3)
                     .padding(.trailing)
             }
             category
             
         }
-        .foregroundColor(.indigoNotPrimary)
+        .foregroundColor(.customIndigo)
         .padding(.vertical)
         .padding(.top,30)
         .background{
-            if colorScheme == .dark {
-                Color.white
-            }else{
-                LinearGradient(colors: [.black,.customIndigo], startPoint: .top, endPoint: .bottom)
-            }
+            Color.white
         }
+       
         
     }
     var category:some View{
@@ -123,12 +132,14 @@ extension CommunityView{
                         Text(item.name)
                             .font(.callout)
                             .bold()
+                            
                     }
                     Spacer()
                 }
                 
             }
             .frame(width: width)
+            
             .overlay(alignment:.leading){
                 Capsule()
                     .frame(width: 42.5,height: 3)
@@ -138,6 +149,7 @@ extension CommunityView{
             
         }
         .frame(maxHeight: 20)
+        
         
             
     }

@@ -92,7 +92,7 @@ struct LoginAllView: View {
                             }.padding(.horizontal,20)
                                 .font(.caption)
                             Button {
-                                vm.login(email: "\(id)@\(domain)", password: password)    //SHA256
+                                vm.login(email: "\(id)@\(domain.domain)", password: password)    //SHA256
                             } label: {
                                 RoundedRectangle(cornerRadius: 20)
                                     .frame(height: 55)
@@ -119,7 +119,6 @@ struct LoginAllView: View {
                             }
                             Text("소셜 로그인")
                                 .padding()
-                                .background(.white)
                                 .font(.caption)
                                 .foregroundColor(.customIndigo)
                             VStack{

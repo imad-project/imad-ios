@@ -15,7 +15,7 @@ struct MyReviewView: View {
             header
             List{
                 ForEach(CustomData.instance.reviewList,id: \.self){ item in
-                    CommunityListRowView(image: item.thumbnail, community: CustomData.instance.community, textColor: .black)
+                    CommunityListRowView(title: "", image: item.thumbnail, community: CustomData.instance.community)
                 }.listRowBackground(Color.clear)
             }
             .listStyle(.plain)

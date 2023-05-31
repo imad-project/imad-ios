@@ -8,12 +8,15 @@
 import Foundation
 
 enum CommunityFilter:CaseIterable{
+    case all
     case free
     case question
     case debate
     
     var name:String {
         switch self{
+        case .all:
+            return "전체글"
         case .free:
             return "자유글"
         case .question:

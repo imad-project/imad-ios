@@ -16,5 +16,6 @@ struct Community:Codable{
     let content:String
     let date:String
     let reply:Int
+
     
 }

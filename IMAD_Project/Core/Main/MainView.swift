@@ -8,125 +8,140 @@
 import SwiftUI
 import Kingfisher
 
-extension UINavigationController {
-    override open func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
 
-        
-        let standardAppearance = UINavigationBarAppearance()
-        standardAppearance.backgroundColor = UIColor(Color.clear
-            .background(.ultraThinMaterial)
-            .background(Color.black.opacity(0.7))
-            .background(Color.indigo.opacity(0.7))
-            .environment(\.colorScheme, .dark) as? Color ?? Color(""))
-
-        let compactAppearance = UINavigationBarAppearance()
-        compactAppearance.backgroundColor = UIColor(red: 66/255, green: 116/255, blue: 147/255, alpha: 1.0)
-
-        navigationBar.standardAppearance = standardAppearance
-       // navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
-        navigationBar.compactAppearance = compactAppearance
-
-        navigationBar.tintColor = UIColor.white
+extension Array {
+    func chunks(ofCount chunkSize: Int) -> [[Element]] {
+        stride(from: 0, to: count, by: chunkSize).map { startIndex in
+            let endIndex = Swift.min(startIndex + chunkSize, count)
+            return Array(self[startIndex..<endIndex])
+        }
     }
 }
-
 struct MainView: View {
     
+    @State private var rotationAngle: Angle = .zero
     @State var movieIndex = 0
     @State var poster:Review = CustomData.instance.reviewList.first!
     @State var isReview = false
+    @State var select = 0
+    @State var anima = false
     @Binding var search:Bool
     @Binding var filterSelect:Bool
     
     var body: some View {
-        NavigationView{
-            ZStack{
-                ScrollView(showsIndicators: false){
-                    VStack(spacing:10){
-                        LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
-                            Spacer().frame(height: 100)
-                            filer
-                                .foregroundColor(.white)
-                                .padding(.bottom)
-                            thumnail
-                                .padding(.bottom)
-                            movieList
-                            Spacer().frame(height: 100).foregroundColor(.white)
+        ZStack{
+            Color.white
+            ScrollView(showsIndicators: false){
+                VStack(spacing:10){
+                    VStack(spacing: 0){
+                        header
+                        filer
+                            .foregroundColor(.white)
+                            .padding(.bottom)
+                        thumnail
+                            .padding(.bottom)
+                        
+                    }.background {
+                        ZStack{
+                            KFImage(URL(string: CustomData.instance.movieList[movieIndex])!)
+                                .resizable()
+                                .frame(height: 1000)
+                            Color.black.opacity(0.2)
+                            Color.clear
+                                .background(Material.thin)
+                                .environment(\.colorScheme, .dark)
                         }
-                    }
+                        
+                        .padding(.bottom,500)
+                    }.ignoresSafeArea()
+                    CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요..", color: .gray, text: .constant(""))
+                        .padding()
+                        .background(Color.gray.opacity(0.3))
+                        .cornerRadius(20)
+                        .padding()
+                        .onTapGesture {
+                            search = true
+                        }
+                    reviewPosting
+                    movieList
+                    Spacer().frame(height: 100).foregroundColor(.white)
                 }
             }
-            .background {
-               
-                KFImage(URL(string: CustomData.instance.movieList[movieIndex])!)
-                    .resizable()
-                Color.indigo.opacity(0.5)
-                Color.black.opacity(0.5)
-                Color.clear
-                    .background(.ultraThinMaterial)
-                    .environment(\.colorScheme, .dark)
-            }
-            .navigationDestination(isPresented: $isReview){
-                ReviewView(isReview: $isReview, review: poster)
-                    .navigationBarBackButtonHidden(true)
-            }
-            .navigationBarItems(leading: Text("리뷰").font(.title).bold().padding(.bottom,20),trailing: Button {
-                search = true
-            } label: {
-                Image(systemName: "magnifyingglass")
-                    .font(.title3)
-            })
-            .ignoresSafeArea()
-            .navigationDestination(isPresented: $search) {
-                MovieListView(title: "검색", back: $search)
-                    .navigationBarBackButtonHidden(true)
-            }.foregroundColor(.white)
-                .onAppear {
-                    
-                    startTimer()
-                    
-                    
-                    
-                }
+            
+            
         }
+        
+        .navigationDestination(isPresented: $isReview){
+            ReviewView(isReview: $isReview, review: poster)
+                .navigationBarBackButtonHidden(true)
+        }
+        .navigationBarItems(leading: Text("리뷰").font(.title).bold().padding(.bottom,20),trailing: Button {
+            search = true
+        } label: {
+            Image(systemName: "magnifyingglass")
+                .font(.title3)
+        })
+        .ignoresSafeArea()
+        .navigationDestination(isPresented: $search) {
+            MovieListView(title: "검색", back: $search)
+                .navigationBarBackButtonHidden(true)
+        }.foregroundColor(.white)
+            .onAppear {
+                startTimer()
+                withAnimation(.linear(duration: 0.5)){
+                    anima = true
+                }
+            }
+        //        }
         
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-      //  NavigationStack{
-            MainView(search: .constant(false), filterSelect: .constant(false))
-            .environment(\.colorScheme, .dark)
-     //   }
+        //  NavigationStack{
+        MainView(search: .constant(false), filterSelect: .constant(false))
+        //.environment(\.colorScheme, .dark)
+        //   }
     }
 }
 
 extension MainView{
     func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
             // 반복적으로 실행되는 코드
             DispatchQueue.main.async {
                 withAnimation(.easeIn(duration: 3.0)){
                     movieIndex = (movieIndex + 1) % CustomData.instance.movieList.count
+                    
                 }
+                withAnimation(Animation.linear(duration: 0.5)) {
+                    rotationAngle += .degrees(180)
+                }
+                
             }
         }
     }
     var header:some View{
         HStack{
-            Text("리뷰")
-                .font(.title)
-                .bold()
-                .padding(.leading)
+            HStack{
+                Text("TOP100")
+                    .font(.title2)
+                    .bold()
+                    .padding(.leading)
+                Image("trophy")
+                    .resizable()
+                    .frame(width: 25,height: 20)
+                    .rotation3DEffect(rotationAngle, axis: (x: 0, y: 1, z: 0))
+            }
+            
             
             Spacer()
             Button {
-                search = true
+                //                search = true
             } label: {
-                Image(systemName: "magnifyingglass")
-                    .font(.title)
+                Image(systemName: "bell.fill")
+                    .font(.title3)
                     .padding(.trailing)
             }
             .navigationDestination(isPresented: $search) {
@@ -136,105 +151,169 @@ extension MainView{
         }
         .padding(.vertical)
         .padding(.top,30)
-        .background(Color.black.opacity(0.5))
     }
     func genreHeader(name:String) ->some View{
         HStack{
             Text(name)
                 .font(.title3)
                 .bold()
-                .foregroundColor(.white)
+                .foregroundColor(.black)
                 .padding(.leading)
             Spacer()
         }
     }
-    var thumnail:some View{
-        VStack{
-            HStack{
-                Text("카지노")
-                Text("(2023)")
-                    .font(.caption)
-                Spacer()
-            }
-            .bold()
-            .padding(.leading)
-            .padding(.top)
-            HStack{
-                KFImage(URL(string: CustomData.instance.movieList.first!)!)
-                    .resizable()
-                    .frame(width: 250,height: 350)
-                    .cornerRadius(20)
-                    .padding(.bottom)
+    var reviewPosting:some View{
+        VStack(alignment: .leading){
+            Text("오늘의 리뷰&게시물")
+                .font(.title3)
+                .bold()
+                .padding(.leading)
+                .padding(.bottom)
+            HStack(spacing: 10){
+                VStack(alignment: .leading,spacing: 10){
+                    Text("- 리뷰 -")
+                        .font(.caption)
+                        .bold()
+                    VStack(alignment: .leading,spacing: 8){
+                        
+                        Text("#어벤져스")
+                            .font(.caption)
+                            .bold()
+                        Text(CustomData.instance.dummyString)
+                            .font(.caption2)
+                    }
+                    .frame(height: 120)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(20)
+                        .shadow(radius: 5)
+                }
+                VStack(alignment: .leading,spacing: 10){
+                    Text("- 커뮤니티 -")
+                        .font(.caption)
+                        .bold()
+                    VStack(alignment: .leading,spacing: 8){
+                        HStack{
+                            VStack(alignment: .leading,spacing: 8){
+                                Text("아 이영화;;")
+                                    .font(.system(size: 15))
+                                
+                                Text("#어벤져스")
+                                    .font(.caption)
+                                    .bold()
+                            }
+                            Spacer()
+                            KFImage(URL(string: CustomData.instance.movieList[2]))
+                                .resizable()
+                                .frame(width: 50,height: 50)
+                                .cornerRadius(10)
+                        }
+                        Text(CustomData.instance.dummyString)
+                            .font(.caption2)
+                    }.overlay(alignment: .topTrailing) {
+                       
+                    }
+                    .frame(height: 120)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(20)
+                        .shadow(radius: 5)
+                }
                 
-                VStack(alignment: .leading){
-                    HStack{
-                        Spacer()
-                        VStack{
+                
+            }
+            .padding(.horizontal)
+            
+        }.foregroundColor(.black)
+    }
+    
+    var thumnail:some View{
+        
+        TabView{
+            ForEach(CustomData.instance.reviewList.chunks(ofCount: 3),id:\.self){ item in
+                HStack{
+                    ForEach(Array(item.enumerated()),id:\.0){ (index,element) in
+                        VStack(spacing: 15){
+                            Text("\(index + 1). \(element.title)")
+                                .font(.caption)
+                            KFImage(URL(string: element.thumbnail)!)
+                                .resizable()
+                                .frame(width: 120,height:180)
+                                .cornerRadius(20)
                             Circle()
-                                .stroke(style: .init(lineWidth: 2))
-                                .shadow(radius: 20)
-                                .frame(width: 80,height: 80)
-                                .overlay {
-                                    HStack(spacing:5){
+                                .trim(from: 0.0, to: anima ? element.gradeAvg * 0.1 : 0)
+                                .stroke(lineWidth: 3)
+                                .rotation(Angle(degrees: 270))
+                                .frame(width: 50,height: 50)
+                                .overlay{
+                                    VStack{
                                         Image(systemName: "star.fill")
                                             .font(.caption)
-                                        Text("9.3")
-                                            .bold()
+                                        Text(String(format: "%0.1f", element.gradeAvg))
+                                            .font(.caption)
                                     }
                                 }
-                        }
-                        
-                        
-                        Spacer()
+                        }.padding(.horizontal,5)
                     }
-                    .padding(.bottom,30)
-                    HStack{
-                        Spacer()
-                        Text("감독 ").bold()
-                        Text("데이비드 핀처")
-                        Spacer()
-                        
-                    }.font(.caption)
-                    HStack{
-                        Spacer()
-                        Text(CustomData.instance.community.content)
-                            .font(.caption)
-                            .frame(height: 120)
-                        Spacer()
-                    }
-                    
-                }.padding(3)
-            }.padding(.leading)
+                }
+            }
         }
+        .frame(height: 300)
+        .tabViewStyle(.page(indexDisplayMode: .never))
+        
     }
     var filer:some View{
-        ScrollView(.horizontal,showsIndicators: false){
-            HStack{
-                Group{
-                    Text("시리즈")
-                    Text("영화")
-                    
-                }
-                .padding(.horizontal)
-                .padding(5)
-                .overlay {
+        VStack(spacing: 0){
+            ScrollView(.horizontal,showsIndicators: false){
+                HStack{
                     Capsule()
-                        .stroke(style: .init(lineWidth: 1.0))
-                }
-                Spacer()
-                Button {
-                    withAnimation(.easeIn(duration: 0.05)){
-                        filterSelect.toggle()
-                    }
+                        .stroke(lineWidth: 1)
+                        .frame(width: 60,height: 25)
+                        .padding(.vertical,5)
+                        .overlay {
+                            Text("전체")
+                        }
+                    Capsule()
+                        .stroke(lineWidth: 1)
+                        .frame(width: 60,height: 25)
+                        .padding(.vertical,5)
+                        .overlay {
+                            Text("이번달")
+                            Spacer()
+                        }
+                }.padding(.leading)
+            }
+            ScrollView(.horizontal,showsIndicators: false){
+                HStack{
+                    Capsule()
+                        .stroke(lineWidth: 1)
+                        .frame(width: 60,height: 25)
+                        .padding(.vertical,5)
+                        .overlay {
+                            Text("영화")
+                        }
+                    Capsule()
+                        .stroke(lineWidth: 1)
+                        .frame(width: 60,height: 25)
+                        .padding(.vertical,5)
+                        .overlay {
+                            Text("시리즈")
+                        }
+                    Capsule()
+                        .stroke(lineWidth: 1)
+                        .frame(width: 80,height: 25)
+                        .padding(.vertical,5)
+                        .overlay {
+                            Text("애니메이션")
+                        }
+                    Spacer()
+                    Text("전체보기 >")
+                        .font(.caption)
+                        .padding(.horizontal)
                     
-                } label: {
-                    Image(systemName: "slider.horizontal.3")
-                        .font(.title3)
-                        .padding(.trailing)
-                }
-                
-            }.padding(.leading)
-        }
+                }.padding(.leading)
+            }
+        }.font(.caption)
     }
     var movieList:some View{
         VStack{
@@ -255,6 +334,26 @@ extension MainView{
                                     .cornerRadius(15)
                                     .shadow(radius: 5)
                                     .padding(.leading)
+                                    .overlay(alignment:.topTrailing) {
+                                        Circle()
+                                            .trim(from: 0.0, to: anima ? item.gradeAvg * 0.1 : 0)
+                                            .stroke(lineWidth: 3)
+                                            .rotation(Angle(degrees: 270))
+                                            .frame(width: 40,height: 40)
+                                            .overlay{
+                                                VStack{
+                                                    Image(systemName: "star.fill")
+                                                        .font(.caption)
+                                                    Text(String(format: "%0.1f", item.gradeAvg))
+                                                        .font(.caption)
+                                                }
+                                            }
+                                            .background{
+                                                Circle().foregroundColor(.black.opacity(0.7))
+                                            }
+                                            .padding(5)
+                                            
+                                    }
                             }
                             
                         }
@@ -264,7 +363,7 @@ extension MainView{
             }
             
             
-        }//.background(Color.black.opacity(0.3))
+        }
     }
     
 }

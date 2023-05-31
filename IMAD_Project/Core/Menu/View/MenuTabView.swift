@@ -25,7 +25,7 @@ struct MenuTabView: View {
                         .tag(Tab.home)
                     CommunityView()
                         .tag(Tab.community)
-                    NotificationView()
+                    ExploreView()
                         .tag(Tab.notification)
                     ProfileView()
                         .tag(Tab.profile)
@@ -86,27 +86,19 @@ extension MenuTabView{
                                     vm.tab = tab
                                 }
                             } label: {
-                                ZStack{
-                                    Circle()
-                                        .frame(width: 30,height: 30)
-                                        .foregroundColor(.white)
-                                    ForEach(ProfileFilter.allCases,id:\.self){ image in
-                                        if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
-                                            Image("\(image)")
-                                                .resizable()
-                                                .frame(width: 30,height: 30)
-                                                .clipShape(Circle()).frame(maxWidth: .infinity)
-                                        }
+                                ForEach(ProfileFilter.allCases,id:\.self){ image in
+                                    if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
+                                        Image("\(image)")
+                                            .resizable()
+                                            .frame(width: 30,height: 30)
+                                            .clipShape(Circle()).frame(maxWidth: .infinity)
                                     }
-                                    Image(vmAuth.getUserRes?.data?.gender ?? "")
-                                        .resizable()
-                                        .frame(width: 20,height: 15)
                                 }
                             }
                             .frame(height: 30)
                         }
                         Text(tab.menu)
-                            .font(.caption)
+                            .font(.caption2)
                         
                     }
                     
@@ -126,14 +118,12 @@ extension MenuTabView{
         .padding(.top,8)
         .padding(.bottom,25)
         .background {
-            Color.clear
-                .background(.ultraThinMaterial)
-                .environment(\.colorScheme, .dark)
+            Color.white.ignoresSafeArea()
+                .shadow(radius: 10)
             
         }
-        .background(Color.black.opacity(0.6))
-        .background(Color.indigo.opacity(0.6))
-        .foregroundColor(.white)
+        .foregroundColor(.customIndigo)
+        
         
         
         

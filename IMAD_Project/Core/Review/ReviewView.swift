@@ -95,11 +95,11 @@ struct ReviewView: View {
                             HStack{
                                 VStack(alignment: .leading,spacing: 10){
                                     HStack{
-                                        KFImage(URL(string: item.image))
-                                            .resizable()
-                                            .frame(width: 30, height: 30)
-                                            .clipShape(Circle())
-                                            .padding(.leading)
+//                                        KFImage(URL(string: item.image))
+//                                            .resizable()
+//                                            .frame(width: 30, height: 30)
+//                                            .clipShape(Circle())
+//                                            .padding(.leading)
                                         Text(item.nickName)
                                             .padding(.leading,5)
                                             .bold()

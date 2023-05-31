@@ -125,7 +125,7 @@ struct RegisterView: View {
                         alertMsg = "이메일 중복확인을 해주세요!"
                         return notRegex = true
                     default:
-                        return vm.register(email: "\(email)@\(domain)", password: password, authProvider: "IMAD") //SHA256
+                        return vm.register(email: "\(email)@\(domain.domain)", password: password, authProvider: "IMAD") //SHA256
                     }
                 }label:{
                     RoundedRectangle(cornerRadius: 20)
@@ -204,7 +204,8 @@ struct RegisterView: View {
         
         if email.isEmpty || password.isEmpty || passwordConfirm.isEmpty{
             return 1
-        }else if !emailPredicate.evaluate(with: email){
+        }else if !emailPredicate.evaluate(with: "\(email)@\(domain.domain)"){
+            print("\(email)@\(domain.domain)")
             return 2
         }else if !passwordPredicate.evaluate(with: password){
             return 3

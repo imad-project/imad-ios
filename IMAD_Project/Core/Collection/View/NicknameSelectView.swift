@@ -68,12 +68,11 @@ struct NicknameSelectView: View {
                             withAnimation(.linear){
                                 vm.selection = .gender
                             }
-                        }else{
-                            self.blankMsg =  "닉네임 중복확인을 해주세요"
-                            blankColor = false
                         }
+                    }else{
+                        self.blankMsg =  "닉네임 중복확인을 해주세요"
+                        blankColor = false
                     }
-                   
                 } label: {
                     RoundedRectangle(cornerRadius: 20)
                         .frame(height: 60)

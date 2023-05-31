@@ -7,14 +7,17 @@
 
 import SwiftUI
 import Kingfisher
+import SwiftUIFlowLayout
 
 struct ProfileView: View {
-    @State var phase:CGFloat = 0.0
-    @State var change = false
-    @State var delete = false
-    @State var logout = false
     
-    let columns = [ GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
+    @State var imageCode:ProfileFilter = .none
+    @State var authProvider = ""
+    
+    
+    @State var profileSelect = false
+    let columns = [ GridItem(.flexible()), GridItem(.flexible())]
+    let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @EnvironmentObject var vmAuth:AuthViewModel
     @State var review = false
     @State var posting = false
@@ -23,106 +26,170 @@ struct ProfileView: View {
     @State var notice = false
     @State var setting = false
     
-    //@State var profileImage = ""
     
     var body: some View {
-            VStack(alignment: .leading,spacing: 0){
-                VStack(alignment: .leading,spacing: 0){
-                    header
-                        .padding(.bottom)
-                    Text("내정보")
-                        .font(.caption)
-                        .bold()
-                        .padding(.leading,20)
-                        .padding(5)
-                        .padding(.bottom,5)
-                    Button {
-                        change = true
-                    } label: {
-                        HStack{
-                            ZStack{
-                                Circle()
-                                     .frame(width: 70,height: 70)
-                                     .clipShape(Circle())
-                                     .foregroundColor(.white)
-                                ForEach(ProfileFilter.allCases,id:\.self){ image in
-                                    if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
-                                        Image("\(image)")
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 70,height: 70)
-                                            .clipShape(Circle())
+        NavigationView {
+            ScrollView(showsIndicators: false){
+                    VStack(spacing: 0){
+                        VStack(spacing: 0){
+                            Button {
+                                withAnimation(.easeIn(duration:0.5)){
+                                    profileSelect = true
+                                }
+                            } label: {
+                                Group{
+                                    ZStack{
+                                        Circle().foregroundColor(.white).shadow(radius:10)
+                                        ForEach(ProfileFilter.allCases,id:\.self){ image in
+                                            if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
+                                                Image("\(image)")
+                                                    .resizable()
+                                            }
+                                        }
                                     }
                                 }
-                                Image(vmAuth.getUserRes?.data?.gender ?? "")
-                                    .resizable()
-                                    .frame(width: 50,height: 40)
-                            }
-                            VStack(alignment: .leading,spacing:10){
-                                Text("\(vmAuth.getUserRes?.data?.nickname ?? "    ")님")
-                                    .bold()
-                                Text(verbatim: "\(vmAuth.getUserRes?.data?.email ?? "")")//이메일 색깔 변경 무시
-                                    .font(.caption)
+                                .frame(width: 100,height: 100)
+                                .overlay(alignment:.bottomTrailing){
+                                    Circle()
+                                        .foregroundColor(.black.opacity(0.7))
+                                        .frame(width: 30,height: 30)
+                                        .overlay {
+                                            Image(systemName: "photo")
+                                                .foregroundColor(.white)
+                                                .font(.caption)
+                                        }
+                                }
                                 
-                            }
-                            Spacer()
-                            Group{
-                                Text("변경")
-                                    .font(.caption)
-                                
-                            }
-                            .padding(.horizontal,10)
-                            .padding(5)
-                            .overlay {
-                                Capsule()
-                                    .stroke(style: .init(lineWidth: 1.0))
                             }
                             
-                        }.padding()
-                            .background(Color.black.opacity(0.5))
-                            .cornerRadius(20)
-                            .padding([.bottom,.horizontal])
+                        }
+                        Text(vmAuth.getUserRes?.data?.nickname ?? "콰랑")
+                            .font(.title3)
+                            .bold()
+                            .padding(.top)
+                        Text(authProvider)
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                            .onAppear{
+                                switch vmAuth.getUserRes?.data?.authProvider{
+                                case "IMAD":
+                                    authProvider = "아이매드 회원"
+                                case "KAKAO":
+                                    authProvider = "카카오 회원"
+                                case "APPLE":
+                                    authProvider = "애플 회원"
+                                case "NAVER":
+                                    authProvider = "네이버 회원"
+                                case "GOOGLE":
+                                    authProvider = "구글 회원"
+                                case .none:
+                                    return
+                                case .some(_):
+                                    return
+                                }
+                            }
+                        VStack(alignment: .leading) {
+                            Text("내 활동").bold()
+                                .padding(.top)
+                            HStack{
+                                Group{
+                                    VStack(spacing:10){
+                                        Image(systemName: "star.bubble")
+                                            .font(.title)
+                                            .foregroundColor(.yellow)
+                                        Text("내 리뷰").font(.caption)
+                                        Text("12").bold()
+                                            
+                                    }
+                                    VStack(spacing:10){
+                                        Image(systemName: "text.word.spacing")
+                                            .font(.title)
+                                        Text("내 게시물")
+                                            .font(.caption)
+                                        Text("3").bold()
+                                        
+                                    }
+                                    VStack(spacing:10){
+                                        Image(systemName: "heart.fill")
+                                            .font(.title)
+                                            .foregroundColor(.red)
+                                        Text("내 좋아요")
+                                            .font(.caption)
+                                        Text(numberFormatter(number: 1203)).bold()
+                                    }
+                                }.frame(maxWidth:.infinity)
+                                    .frame(height:100)
+                                    .padding()
+                                    .background{
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(lineWidth: 2)
+                                    }
+                                
+                            }
+                            Text("관심 장르").bold()
+                                .padding(.top)
+                            genre
+                            Text("찜 작품 목록").bold()
+                                .padding(.top)
+                            movieList
+                                .padding(.bottom,50)
+                        }.padding(.horizontal)
+                        Spacer()
                     }
-                    
-                }
-                .sheet(isPresented: $change){
-                    ProfileChangeView()
-                        .environmentObject(vmAuth)
-                }
-                .background{
-                        BackgroundView(height: 0.83, height1: 0.87,height2: 0.85,height3: 0.86)
-                            .rotationEffect(Angle(degrees: 180))
-                    
-                    
-                }
-                Text("관심도")
-                    .font(.caption)
-                    .bold()
-                    .padding(.leading,20)
-                    .foregroundColor(.customIndigo)
-                    .padding(.top,10)
-                genre
-                Divider()
-                    .padding(.horizontal)
-                ScrollView(showsIndicators: false){
-                    menu
-                }
-                Spacer()
-            }
-            .background{
-                Color.white
-            }
-            .foregroundColor(.white)
-            .ignoresSafeArea()
-        
+            }.background(Color.white)
+                .navigationBarItems(leading: Text("프로필").font(.title2).bold(), trailing: NavigationLink(destination: ProfileChangeView().environmentObject(vmAuth), label: {
+                    Image(systemName: "gearshape.fill")
+                        .font(.title3)
+                }))
+            .foregroundColor(.customIndigo)
             
+        }.colorScheme(.light)
+        .background{
+            Color.white
+        }
+        .ignoresSafeArea()
+        .sheet(isPresented: $profileSelect) {
+            ZStack{
+                Color.white.ignoresSafeArea()
+                VStack{
+                    Text("프로필 선택")
+                        .font(.title)
+                        .bold()
+                        .padding()
+                        .padding(.bottom,50)
+                        .foregroundColor(.black)
+                    LazyVGrid(columns: columns,spacing: 30) {
+                        ForEach(ProfileFilter.allCases,id:\.rawValue){ item in
+                            if item != .none{
+                                Button {
+                                    imageCode = item
+                                    profileSelect = false
+                                } label: {
+                                    Image(item.rawValue)
+                                        .resizable()
+                                        .frame(width: 150,height: 150)
+                                        .overlay {
+                                            if imageCode == item{
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .foregroundColor(.black.opacity(0.7))
+                                            }
+                                        }
+                                    
+                                    
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
             
+        }
+        .onChange(of: imageCode) { newValue in
+            vmAuth.patchUser(gender: vmAuth.gender, ageRange: vmAuth.age, image:imageCode.num, nickname: vmAuth.nickname, genre: "")
+        }
         
-    }
-    func getPercentage(geo:GeometryProxy) -> Double{
-        let maxDistance = UIScreen.main.bounds.width * 0.4
-        let currentX = geo.frame(in: .global).midX
-        return Double(1 - (currentX/maxDistance))
+        
     }
 }
 
@@ -134,167 +201,37 @@ struct ProfileView_Previews: PreviewProvider {
 }
 
 extension ProfileView{
-    var header:some View{
-        VStack{
-            HStack{
-                Text("프로필")
-                    .font(.title)
-                    .bold()
-                    .padding(.leading)
-                    .foregroundColor(.white)
-                Spacer()
-            }
-        }
-        .padding(.vertical)
-        .padding(.top,30)
-    }
-    var menu:some View{
-        VStack{
-            LazyVGrid(columns: columns,alignment: .center) {
-                ForEach(SettingFilter.allCases,id:\.self){ item in
-                    Button {
-                        switch item{
-                        case .review:
-                            return review = true
-                        case .posting:
-                            return posting = true
-                        case .bookmark:
-                            return bookmark = true
-                        case .qna:
-                            return qna = true
-                        case .notice:
-                            return notice = true
-                        case .setting:
-                            return setting = true
-                        }
-                    } label: {
-                        RoundedRectangle(cornerRadius: 20)
-                            .frame(width: 100,height: 100)
-                            .foregroundColor(.white)
-                            .shadow(radius: 7.5)
-                            .overlay{
-                                VStack{
-                                    Image(systemName: item.image)
-                                        .font(.largeTitle)
-                                        .padding(5)
-                                    Text(item.name)
-                                        .font(.caption)
-                                    
-                                }
-                                .bold()
-                            }
-                    }
-                    .padding()
-                    .navigationDestination(isPresented: $review){
-                        MyReviewView(title: "리뷰", back: $review)
-                            .navigationBarBackButtonHidden(true)
-                    }
-                    .navigationDestination(isPresented: $posting){
-                        MyReviewView(title: "게시물", back: $posting)
-                            .navigationBarBackButtonHidden(true)
-                    }
-                    .navigationDestination(isPresented: $bookmark){
-                        MovieListView(title: "내 찜목록", back: $bookmark)
-                            .navigationBarBackButtonHidden(true)
-                    }
-                    .navigationDestination(isPresented: $qna){
-                        
-                    }
-                    .navigationDestination(isPresented: $notice){
-                        
-                    }
-                    .navigationDestination(isPresented: $setting){
-                        
-                    }
-                }
-            }
-            .foregroundColor(.customIndigo)
-            .padding(.horizontal)
-            .padding(.top)
-            HStack{
-                Group{
-                    Text("로그아웃")
-                        .onTapGesture {
-                            logout = true
-                            delete = false
-                        }
-                    Text("회원탈퇴")
-                        .foregroundColor(.red)
-                        .onTapGesture {
-                            logout = true
-                            delete = true
-                        }
-                }
-                .font(.callout)
-                .frame(maxWidth: .infinity)
-                .padding(7)
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(10)
-                .shadow(radius: 10)
-                    
-            }
-            .padding(.horizontal)
-            .foregroundColor(Color.black.opacity(0.8))
-            .bold()
-            
-        }
-        .alert(isPresented: $logout) {
-                    Alert(
-                        title: delete ? Text("회원탈퇴"): Text("로그아웃"),
-                        message: delete ? Text("정말로 회원을 탈퇴하시겠습니까? 한번 탈퇴하면 돌이킬 수 없습니다. 그래도 하시겠습니까?") : Text("정말로 로그아웃하시겠습니까?"),
-                        primaryButton: .cancel(Text("취소")),
-                        secondaryButton: .destructive(delete ? Text("탈퇴") : Text("로그아웃"), action: {
-                            if delete{
-                                vmAuth.delete()
-                            }else{
-                                vmAuth.logout()
-                            }
-                        })
-                    )
-                }
+    
+    func numberFormatter(number: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        return numberFormatter.string(from: NSNumber(value: number))!
     }
     var genre:some View{
-        ScrollView(.horizontal,showsIndicators: false){
-            HStack{
-                ForEach(MovieGenreFilter.allCases,id:\.self){ item in
-                    VStack{
-                        Image(item.rawValue)
-                            .resizable()
-                            .frame(width:200,height:150)
-                            .overlay{
-                                Color.black.opacity(0.5)
-                                VStack(spacing:0){
-                                    HStack{
-                                        Text(item.generName)
-                                            .font(.caption)
-                                            .bold()
-                                            .padding([.top,.leading])
-                                        Spacer()
-                                    }
-                                    Circle()
-                                        .trim(from: 0.0, to: 0.78)
-                                        .stroke(lineWidth: 2)
-                                        .rotation(Angle(degrees: 270))
-                                        .foregroundColor(.white)
-                                        .padding(20)
-                                        .overlay{
-                                            Text("78°")
-                                                .font(.caption)
-                                                .foregroundColor(.white)
-                                                .bold()
-                                        }
-                                }
-                            }
-                            .shadow(radius:5)
-                            .clipShape(RoundedRectangle(cornerRadius:20))
-                    }
-                    .padding(.leading,20)
-                    .padding(.bottom)
+        FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases) { item in
+            Text(item.generName).font(.subheadline)
+                .foregroundColor(.white)
+                .bold()
+                .padding(8)
+                .padding(.horizontal).background(Capsule())
+        }.foregroundColor(.customIndigo.opacity(0.5))
+    }
+    var movieList:some View{
+        LazyVGrid(columns: genreColumns) {
+            ForEach(CustomData.instance.reviewList.shuffled(),id:\.self){ item in
+                VStack{
+                    KFImage(URL(string: item.thumbnail))
+                        .resizable()
+                        .frame(height: 200)
+                        .cornerRadius(10)
+                    Text(item.title)
+                        .font(.caption)
+                        .frame(width: 200)
+                        .bold()
                 }
+                
             }
-            .padding(.vertical,10)
-            .padding(.trailing,20)
         }
-        .bold()
     }
 }

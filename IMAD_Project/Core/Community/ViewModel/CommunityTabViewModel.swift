@@ -10,7 +10,7 @@ import Foundation
 class CommunityTabViewModel:ObservableObject{
     
  
-    @Published var communityTab:CommunityFilter = .free
+    @Published var communityTab:CommunityFilter = .all
   
     
     func indicatorOffset(width:CGFloat)->CGFloat{
@@ -23,12 +23,14 @@ class CommunityTabViewModel:ObservableObject{
     }
     func getIndex() ->Int{
         switch communityTab{
-        case .free:
+        case .all:
             return 0
-        case .question:
+        case .free:
             return 1
-        case .debate:
+        case .question:
             return 2
+        case .debate:
+            return 3
         }
     }
 }

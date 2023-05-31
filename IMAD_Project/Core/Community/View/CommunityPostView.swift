@@ -9,29 +9,33 @@ import SwiftUI
 import Kingfisher
 
 struct CommunityPostView: View {
+    
     @State var reviewText = ""
     @State var anima = false
     @State var seeMore = false
-    @Binding var isReview:Bool
+    
     let review:Review
+    
+    @Environment(\.dismiss) var dismiss
     var body: some View {
             ZStack(alignment: .bottom){
                 Color.white.ignoresSafeArea()
                 VStack(spacing: 0){
                     
                     ZStack{
-                        Image(systemName: "chevron.left")
-                            .bold()
-                            .frame(maxWidth: .infinity,alignment: .leading)
-                            .padding()
-                            .onTapGesture {
-                                isReview = false
-                            }
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "chevron.left")
+                                .bold()
+                                .frame(maxWidth: .infinity,alignment: .leading)
+                                .padding()
+                        }
                         HStack{
-                            KFImage(URL(string: CustomData.instance.userReiveList[2].image))
-                                .resizable()
-                                .frame(width: 30,height: 30)
-                                .clipShape(Circle())
+//                            KFImage(URL(string: CustomData.instance.userReiveList[2].image))
+//                                .resizable()
+//                                .frame(width: 30,height: 30)
+//                                .clipShape(Circle())
                             Text("todoroki")
                                 .font(.caption)
                                 .bold()
@@ -68,12 +72,12 @@ struct CommunityPostView: View {
                             
                             HStack(alignment: .top){
                                 if item.nickName != "todoriki"{
-                                    KFImage(URL(string: item.image))
-                                        .resizable()
-                                        .frame(width: 50, height: 50)
-                                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                                        .shadow(radius: 10)
-                                        .padding(.trailing,7)
+//                                    KFImage(URL(string: item.image))
+//                                        .resizable()
+//                                        .frame(width: 50, height: 50)
+//                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+//                                        .shadow(radius: 10)
+//                                        .padding(.trailing,7)
                                 }
                                 VStack(alignment: item.nickName == "todoriki" ? .trailing: .leading){
                                     Text(item.nickName)
@@ -96,12 +100,12 @@ struct CommunityPostView: View {
                                     }.font(.caption)
                                 }
                                 if item.nickName == "todoriki"{
-                                    KFImage(URL(string: item.image))
-                                        .resizable()
-                                        .frame(width: 50, height: 50)
-                                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                                        .shadow(radius: 10)
-                                        .padding(.leading,7)
+//                                    KFImage(URL(string: item.image))
+//                                        .resizable()
+//                                        .frame(width: 50, height: 50)
+//                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+//                                        .shadow(radius: 10)
+//                                        .padding(.leading,7)
                                 }
                             }
                             .frame(maxWidth:.infinity,alignment:item.nickName == "todoriki" ? .trailing:.leading)
@@ -162,7 +166,7 @@ struct CommunityPostView: View {
 
 struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityPostView(isReview: .constant(true), review: CustomData.instance.reviewList.first!)
+        CommunityPostView(review: CustomData.instance.reviewList.first!)
     }
 }
 
