@@ -211,10 +211,10 @@ extension ProfileView{
     var genre:some View{
         FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases) { item in
             Text(item.generName).font(.subheadline)
-                .foregroundColor(.white)
+                
                 .bold()
                 .padding(8)
-                .padding(.horizontal).background(Capsule())
+                .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
         }.foregroundColor(.customIndigo.opacity(0.5))
     }
     var movieList:some View{

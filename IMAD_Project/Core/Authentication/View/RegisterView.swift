@@ -174,19 +174,7 @@ struct RegisterView: View {
                 }
             }
         }
-//        .onChange(of: password, perform: { newValue in
-//            print(newValue)
-//            switch isVaildInfo(){
-//            case 2:
-//                alertMsg = "유효하지 않은 이메일입니다!"
-//            case 3:
-//                alertMsg = "비밀번호는 영문 대,소문자, 숫자, 특수문자만 허용되며 8~20자 사이여야 합니다!"
-//            case 4:
-//                alertMsg = "비밀번호가 일치하지 않습니다!"
-//            default:
-//                return alertMsg = ""
-//            }
-//        })
+
         .alert(isPresented: $notRegex) {
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
                 if success{

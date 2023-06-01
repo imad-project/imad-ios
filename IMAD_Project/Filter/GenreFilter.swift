@@ -32,43 +32,43 @@ enum MovieGenreFilter:String, CaseIterable{
     var generName:String{
         switch self{
         case .family:
-            return "가족"
+            return "👨‍👩‍👧‍👦 가족"
         case .fantasy:
-            return "판타지"
+            return "🔮 판타지"
         case .horror:
-            return "공포"
+            return "💀 공포"
         case .crime:
-            return "범죄"
+            return "💰 범죄"
         case .SF:
-            return "SF"
+            return "🚀 SF"
         case .comedy:
-            return "코미디"
+            return "🤹🏻‍♂️ 코미디"
         case .documentary:
-            return "다큐멘터리"
+            return "🏔️ 다큐멘터리"
         case .action:
-            return "액션"
+            return "🕶️ 액션"
         case .romance:
-            return "로맨스"
+            return "💋 로맨스"
         case .music:
-            return "음악"
+            return "🎼 음악"
         case .classic:
-            return "역사"
+            return "⏳ 역사"
         case .adventure:
-            return "모험"
+            return "🧳 모험"
         case .animation:
-            return "애니메이션"
+            return "🧚🏻‍♀️ 애니메이션"
         case .drama:
-            return "드라마"
+            return "🎬 드라마"
         case .mystery:
-            return "미스터리"
+            return "🕵🏻 미스터리"
         case .movie:
-            return "TV 영화"
+            return "🎥 TV 영화"
         case .thriller:
-            return "스릴러"
+            return "🔦 스릴러"
         case .war:
-            return "전쟁"
+            return "🪖 전쟁"
         case .western:
-            return "서부"
+            return "🤠 서부"
         }
     }
 }

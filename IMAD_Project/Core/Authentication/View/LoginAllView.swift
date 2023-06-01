@@ -27,9 +27,7 @@ struct LoginAllView: View {
     
     @EnvironmentObject var vm:AuthViewModel
     
-    
-    
-    
+
     var body: some View {
             ZStack{
                 Color.white.ignoresSafeArea()

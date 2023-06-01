@@ -9,7 +9,14 @@ import SwiftUI
 import Kingfisher
 
 struct ExploreView: View {
+    
+    @State var filter = false
+    @State var sort = false
+    @State var sortStandard = "전체"
+    @Environment(\.dismiss) var dismiss
     let columns = [GridItem(.flexible()),GridItem(.flexible())]
+    let items = ["🔥 인기순", "📃 평가순", "⭐ 평점순", "✍🏻 리뷰순", "🎞️ 최신순","🔤가나다순"]
+    
     var body: some View {
         NavigationView{
             VStack(spacing: 0) {
@@ -33,6 +40,7 @@ struct ExploreView: View {
                     }
                     HStack{
                         Button {
+                            filter = true
                         } label: {
                             RoundedRectangle(cornerRadius: 10)
 //                                .stroke(lineWidth: 1)
@@ -45,6 +53,7 @@ struct ExploreView: View {
                                 }
                         }
                         Button {
+                            sort = true
                         } label: {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(lineWidth: 1)
@@ -58,7 +67,33 @@ struct ExploreView: View {
                 }
             } .padding(.bottom,100).background(Color.white).ignoresSafeArea()
         }.foregroundColor(.black)
-           
+            .popover(isPresented: $sort, arrowEdge: .top) {
+                ZStack{
+                    Color.white.ignoresSafeArea()
+                    VStack{
+                        HStack{
+                            Spacer()
+                            Button {
+                                sort = false
+                            } label: {
+                                Text("확인")
+                            }
+                            .padding(.horizontal)
+
+                        }
+                        Picker("",selection: $sortStandard){
+                            ForEach(items,id:\.self){ item in
+                                Text(item)
+                                .presentationDetents([.fraction(0.4)])
+                                .foregroundColor(.black)
+                            }
+                        }.pickerStyle(.wheel)
+                    }
+                }
+            
+            }.fullScreenCover(isPresented: $filter) {
+                FilterCoverView()
+            }
        
     }
 }
@@ -110,7 +145,7 @@ extension ExploreView{
             }.padding(.leading).font(.caption)
             Divider().padding(.horizontal)
             HStack{
-                Text("⭐ 평점순").bold()
+                Text("\(sortStandard)").bold()
                 Spacer()
                 ScrollView(.horizontal,showsIndicators: false){
                     HStack{

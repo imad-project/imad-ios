@@ -12,16 +12,13 @@ import KakaoSDKCommon
 
 @main
 struct IMAD_ProjectApp: App {
-//    init() {
-//        // Kakao SDK 초기화
-//        let kakaoAppkey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
-//        KakaoSDK.initSDK(appKey: kakaoAppkey as! String)
-//    }
-    //@StateObject var vm = KakaoAuthViewModel()
+
     var body: some Scene {
         WindowGroup {
             NavigationStack{
-               ContentView()
+//               ContentView()
+                MenuTabView()
+                    .environmentObject(AuthViewModel())
             }
         }
     }
