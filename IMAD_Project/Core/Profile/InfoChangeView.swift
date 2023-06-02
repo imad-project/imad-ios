@@ -68,7 +68,7 @@ struct InfoChangeView: View {
                 }
                 Text(title + " 변경")
                     .bold()
-            }.foregroundColor(.primary)
+            }
                 .padding(.top,20)
                 .padding(.bottom,50)
             if title == "성별"{
@@ -78,7 +78,7 @@ struct InfoChangeView: View {
                             gender = "MALE"
                         } label: {
                             Circle()
-                                .foregroundColor(.black.opacity(0.3))
+                                .foregroundColor(.white)
                                 .frame(width: 150,height: 150)
                                 .overlay {
                                     if gender == "MALE"{
@@ -86,7 +86,7 @@ struct InfoChangeView: View {
                                     }
                                     Image("MALE")
                                         .resizable()
-                                        .frame(width: 100,height: 80)
+                                        .frame(width: 80,height: 80)
                                         .shadow(radius: 20)
                                         .opacity(gender == "MALE" ? 1.0 :0.5)
                                 }
@@ -101,7 +101,7 @@ struct InfoChangeView: View {
                             gender = "FEMALE"
                         } label: {
                             Circle()
-                                .foregroundColor(.black.opacity(0.3))
+                                .foregroundColor(.white)
                                 .frame(width: 150,height: 150)
                                 .overlay {
                                     if gender == "FEMALE"{
@@ -109,7 +109,7 @@ struct InfoChangeView: View {
                                     }
                                     Image("FEMALE")
                                         .resizable()
-                                        .frame(width: 100,height: 75)
+                                        .frame(width: 75,height: 75)
                                         .shadow(radius: 20)
                                         .opacity(gender == "FEMALE" ? 1.0 :0.5)
                                     
@@ -119,7 +119,6 @@ struct InfoChangeView: View {
                             .fontWeight(gender == "FEMALE" ? .bold:.none)
                     }
                 }
-                .foregroundColor(.primary)
                 .frame(maxWidth: .infinity)
                 .padding(.bottom)
             }else if title == "나이"{
@@ -130,43 +129,41 @@ struct InfoChangeView: View {
                         ForEach(0...100, id: \.self) {
                             Text("\($0) 세")
                         }
-                    }
+                    }.colorScheme(.light)
                     .pickerStyle(InlinePickerStyle())
                     .frame(width:150,height: 150)
                     .overlay(alignment:.leading){
                         Text("만").offset(x:-20)
                     }
                     Spacer()
-                }.foregroundColor(.primary)
+                }
             }
             else{
                 if password{
                     
                     Text("기존 비밀번호")
                         .bold()
-                        .foregroundColor(.primary)
                         .padding(.bottom,10)
-                    CustomTextField(password: password, image: nil, placeholder: title, color: .primary, text: $old)
+                    CustomTextField(password: password, image: nil, placeholder: title, color: .black, text: $old)
                         .padding(.bottom,10)
                     Divider()
-                        .background(Color.primary)
+                        .background(Color.black)
                         .padding(.bottom,50)
                     
                     Text("변경 비밀번호")
                         .bold()
-                        .foregroundColor(.primary)
                         .padding(.bottom,10)
                 }
-                CustomTextField(password: password, image: nil, placeholder: title + " ..", color: .primary, text: $text)
+                CustomTextField(password: password, image: nil, placeholder: title + " ..", color: .black, text: $text)
                     .padding(.bottom,10)
                 Divider()
-                    .background(Color.primary)
+                    .background(Color.black)
                     .padding(.bottom)
                 if password{
-                    CustomTextField(password: password, image: nil, placeholder: title + " 확인 ..", color: .primary, text: $passwordConfirm)
+                    CustomTextField(password: password, image: nil, placeholder: title + " 확인 ..", color: .black, text: $passwordConfirm)
                         .padding(.bottom,10)
                     Divider()
-                        .background(Color.primary)
+                        .background(Color.black)
                         .padding(.bottom,10)
                     
                     
@@ -175,7 +172,7 @@ struct InfoChangeView: View {
             Spacer()
             
         }
-        .foregroundColor(.white)
+        .foregroundColor(.black)
         .padding()
         .onAppear{
             age = vmAuth.getUserRes?.data?.ageRange ?? -1
@@ -186,15 +183,7 @@ struct InfoChangeView: View {
             alertMsg = vmAuth.passwordChangeRes?.message ?? ""
             notRegex = true
         }
-        .background{
-            ZStack{
-                Color.antiPrimary
-                ProfileView()
-                    .allowsHitTesting(false)
-                    .blur(radius: 20)
-                    .opacity(0.1)
-            }.ignoresSafeArea()
-        }
+        .background(Color.white.ignoresSafeArea())
         .alert(isPresented: $notRegex){
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
                 if success{

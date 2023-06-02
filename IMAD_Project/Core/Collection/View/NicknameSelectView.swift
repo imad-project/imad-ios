@@ -40,7 +40,7 @@ struct NicknameSelectView: View {
                         if text != ""{
                             vmCheck.checkNickname(nickname: text)
                         }else{
-                            blankMsg = "이메일을 제대로 입력해주세요!"
+                            blankMsg = "닉네임을 제대로 입력해주세요!"
                             blankColor = false
                             blank = true
                         }
@@ -93,10 +93,10 @@ struct NicknameSelectView: View {
         .onChange(of: vmCheck.check){ value in
             if let check = value{
                 if check{
-                    self.blankMsg =  "사용할 수 있는 이메일입니다!"
+                    self.blankMsg =  "사용할 수 있는 닉네임입니다!"
                     blankColor = true
                 }else{
-                    self.blankMsg = "사용 중인 이메일입니다!"
+                    self.blankMsg = "사용 중인 닉네임입니다!"
                     blankColor = false
                 }
             }

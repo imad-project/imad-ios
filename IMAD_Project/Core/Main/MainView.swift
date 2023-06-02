@@ -72,8 +72,9 @@ struct MainView: View {
         }
         
         .navigationDestination(isPresented: $isReview){
-            ReviewView(isReview: $isReview, review: poster)
-                .navigationBarBackButtonHidden(true)
+//            ReviewView(isReview: $isReview, review: poster)
+//                .navigationBarBackButtonHidden(true)
+            WorkView(review: poster)
         }
         .navigationBarItems(leading: Text("리뷰").font(.title).bold().padding(.bottom,20),trailing: Button {
             search = true
@@ -83,7 +84,7 @@ struct MainView: View {
         })
         .ignoresSafeArea()
         .navigationDestination(isPresented: $search) {
-            MovieListView(title: "검색", back: $search)
+            MovieListView(title: "검색", writeCommunity: false, back: $search)
                 .navigationBarBackButtonHidden(true)
         }.foregroundColor(.white)
             .onAppear {
@@ -143,10 +144,6 @@ extension MainView{
                 Image(systemName: "bell.fill")
                     .font(.title3)
                     .padding(.trailing)
-            }
-            .navigationDestination(isPresented: $search) {
-                MovieListView(title: "검색", back: $search)
-                    .navigationBarBackButtonHidden(true)
             }
         }
         .padding(.vertical)
