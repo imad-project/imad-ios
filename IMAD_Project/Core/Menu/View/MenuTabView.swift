@@ -46,10 +46,10 @@ struct MenuTabView: View {
         .onAppear{
             UITabBar.appearance().isHidden = true   //탭바 숨김
         }
-        .navigationDestination(isPresented: $search) {
-            MovieListView(title: "검색", back: $search)
-                .navigationBarBackButtonHidden(true)
-        }
+//        .navigationDestination(isPresented: $search) {
+//            MovieListView(title: "검색", back: $search), writeCommunity: <#Bool#>
+//                .navigationBarBackButtonHidden(true)
+//        }
         
     }
 }

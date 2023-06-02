@@ -10,7 +10,7 @@ import Kingfisher
 
 struct CommunityView: View {
     
-  
+  @State var search = false
     @State var post = CustomData.instance.reviewList.first!
     @StateObject var vm = CommunityTabViewModel()
     @Environment(\.colorScheme) var colorScheme
@@ -75,12 +75,21 @@ struct CommunityView: View {
                     }
                 }.ignoresSafeArea()
                 .overlay(alignment:.bottomTrailing){
-                    Image("pencil")
-                        .resizable()
-                        .frame(width: 100,height: 100)
-                        .padding(20)
-                        .padding(.bottom,60)
-                        .shadow(radius: 10)
+                    Button {
+                        search = true
+                    } label: {
+                        Image("pencil")
+                            .resizable()
+                            .frame(width: 100,height: 100)
+                            
+                    }
+                    .padding(20)
+                    .padding(.bottom,60)
+                    .shadow(radius: 10)
+                    .navigationDestination(isPresented: $search){
+                        MovieListView(title: "검색", writeCommunity: true, back: $search)
+                            .navigationBarBackButtonHidden(true)
+                    }
                 }
         }
     }

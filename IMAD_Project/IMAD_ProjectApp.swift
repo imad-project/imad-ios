@@ -16,9 +16,9 @@ struct IMAD_ProjectApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack{
-//               ContentView()
-                MenuTabView()
-                    .environmentObject(AuthViewModel())
+               ContentView()
+//                MenuTabView()
+//                    .environmentObject(AuthViewModel())
             }
         }
     }

@@ -18,7 +18,7 @@ enum CheckApiService{
     static func checkEmail(email:String) -> AnyPublisher<Validation,AFError>{
         print("email중복검사 api 호출")
         return ApiClient.shared.session
-            .request(CheckRouter.checkEmail(email: email),interceptor: intercept)
+            .request(CheckRouter.checkEmail(email: email))
             .publishDecodable(type: Validation.self)
             .value()
             .map{ receivedValue in
@@ -30,7 +30,7 @@ enum CheckApiService{
     static func checkNickname(nickname:String) -> AnyPublisher<Validation,AFError>{
         print("닉네임 중복검사 api 호출")
         return ApiClient.shared.session
-            .request(CheckRouter.checkNickname(nickname: nickname),interceptor: intercept)
+            .request(CheckRouter.checkNickname(nickname: nickname))
             .publishDecodable(type: Validation.self)
             .value()
             .map{ receivedValue in

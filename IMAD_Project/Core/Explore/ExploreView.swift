@@ -71,16 +71,7 @@ struct ExploreView: View {
                 ZStack{
                     Color.white.ignoresSafeArea()
                     VStack{
-                        HStack{
-                            Spacer()
-                            Button {
-                                sort = false
-                            } label: {
-                                Text("확인")
-                            }
-                            .padding(.horizontal)
-
-                        }
+                        Spacer()
                         Picker("",selection: $sortStandard){
                             ForEach(items,id:\.self){ item in
                                 Text(item)
@@ -88,8 +79,21 @@ struct ExploreView: View {
                                 .foregroundColor(.black)
                             }
                         }.pickerStyle(.wheel)
+                            .frame(maxHeight:.infinity)
+                        Spacer()
+                        Button {
+                            sort = false
+                        } label: {
+                            Text("확인")
+                                .foregroundColor(.white)
+                                .frame(maxWidth:.infinity)
+                                .padding(.top)
+                                .background(Color.customIndigo)
+//                                .frame(maxHeight:.infinity,alignment: .bottom)
+                        }
                     }
                 }
+                
             
             }.fullScreenCover(isPresented: $filter) {
                 FilterCoverView()
