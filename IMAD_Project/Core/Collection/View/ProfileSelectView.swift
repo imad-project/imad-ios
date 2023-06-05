@@ -15,7 +15,7 @@ struct ProfileSelectView: View {
     @State var msg = ""
     @State var alert = false
     @State var title = "오류"
-    
+    @State var loading = false
     @EnvironmentObject var vm:AuthViewModel
     
     var body: some View {
@@ -79,9 +79,8 @@ struct ProfileSelectView: View {
                         alert = true
                     }else{
                         vm.patchUser(gender: vm.gender, ageRange: vm.age, image: vm.image, nickname: vm.nickname, genre: "")
-                        withAnimation(.default){
-                            vm.selection = .nickname
-                        }
+                        vm.selection = .nickname
+                        loading = true
                     }
                 }label:{
                     RoundedRectangle(cornerRadius: 20)
@@ -101,6 +100,10 @@ struct ProfileSelectView: View {
                     })
                 }
             }.foregroundColor(.customIndigo).padding()
+            if loading{
+                Color.gray.opacity(0.5).ignoresSafeArea()
+                 CustomProgressView()
+            }
         }
     }
 }

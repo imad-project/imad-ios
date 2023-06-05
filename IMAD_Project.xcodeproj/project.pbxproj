@@ -14,6 +14,7 @@
 		8103095229D1BDF00021717B /* IMAD_ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103095129D1BDF00021717B /* IMAD_ProjectTests.swift */; };
 		8103095C29D1BDF00021717B /* IMAD_ProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103095B29D1BDF00021717B /* IMAD_ProjectUITests.swift */; };
 		8103095E29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103095D29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift */; };
+		810B4E9E2A2CDE0E00714A2B /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810B4E9D2A2CDE0E00714A2B /* CustomProgressView.swift */; };
 		811536D22A173495003F8273 /* PasswordChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811536D12A173495003F8273 /* PasswordChange.swift */; };
 		811536D42A173EED003F8273 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811536D32A173EED003F8273 /* Crypto.swift */; };
 		811DA16729E9305B00482A6A /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16629E9305B00482A6A /* ReviewView.swift */; };
@@ -125,6 +126,7 @@
 		8103095729D1BDF00021717B /* IMAD_ProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMAD_ProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8103095B29D1BDF00021717B /* IMAD_ProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMAD_ProjectUITests.swift; sourceTree = "<group>"; };
 		8103095D29D1BDF00021717B /* IMAD_ProjectUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMAD_ProjectUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		810B4E9D2A2CDE0E00714A2B /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
 		811536D12A173495003F8273 /* PasswordChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChange.swift; sourceTree = "<group>"; };
 		811536D32A173EED003F8273 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		811DA16629E9305B00482A6A /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
@@ -600,6 +602,7 @@
 				817BBB3529EE72D000E1CBA6 /* ExpandableTextView.swift */,
 				81DB1FC129E56D1E002C0840 /* CustomTextField.swift */,
 				8178601C2A29CDAA004639F6 /* CustomSlider.swift */,
+				810B4E9D2A2CDE0E00714A2B /* CustomProgressView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -854,6 +857,7 @@
 				81BB11102A061E42005654AA /* Token.swift in Sources */,
 				81C264902A135F8900405B01 /* AuthWebView.swift in Sources */,
 				81A1ECE029DACB720001A366 /* SplashView.swift in Sources */,
+				810B4E9E2A2CDE0E00714A2B /* CustomProgressView.swift in Sources */,
 				812CDEA329DEAE880003B993 /* Community.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -151,29 +151,34 @@ class CustomSlider: ObservableObject {
 
 struct CustomSliderView: View {
     @ObservedObject var slider = CustomSlider(start: 1900, end: 2023)
-    @State private var sliderView = SliderView(slider: CustomSlider(start: 1900, end: 2023))
+//    @State private var sliderView = SliderView(slider: CustomSlider(start: 1900, end: 2023))
     
     var body: some View {
         VStack {
-            Text("Value: " + slider.valueBetween)
-            Text("Percentages: " + slider.percentagesBetween)
+//            Text("Value: " + slider.valueBetween)
+//            Text("Percentages: " + slider.percentagesBetween)
             
-            Text("High Value: \(slider.highHandle.currentValue)")
-            Text("Low Value: \(slider.lowHandle.currentValue)")
-            
-            // Slider
-            sliderView
+            HStack(spacing: 0){
+                Text(" \(slider.lowHandle.currentValue)년 ~ ")
+                Text(" \(slider.highHandle.currentValue)년")
+            }.font(.caption)
+                .foregroundColor(.customIndigo)
+                
+            //Slider
+            SliderView(slider: slider).padding(.vertical)
+                .padding(.trailing)
+                .frame(maxWidth: .infinity)
             
             // 버튼
-            Button(action: {
-                let startPercentage = (1980 - slider.valueStart) / (slider.valueEnd - slider.valueStart)
-                let endPercentage = (1989 - slider.valueStart) / (slider.valueEnd - slider.valueStart)
-                slider.lowHandle.currentPercentage = SliderValue(wrappedValue: startPercentage)
-                slider.highHandle.currentPercentage = SliderValue(wrappedValue: endPercentage)
-                sliderView = SliderView(slider: slider)
-            }) {
-                Text("1980s")
-            }
+//            Button(action: {
+//                let startPercentage = (1980 - slider.valueStart) / (slider.valueEnd - slider.valueStart)
+//                let endPercentage = (1989 - slider.valueStart) / (slider.valueEnd - slider.valueStart)
+//                slider.lowHandle.currentPercentage = SliderValue(wrappedValue: startPercentage)
+//                slider.highHandle.currentPercentage = SliderValue(wrappedValue: endPercentage)
+//                sliderView = SliderView(slider: slider)
+//            }) {
+//                Text("1980s")
+//            }
         }
     }
     }

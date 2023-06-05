@@ -54,6 +54,7 @@ struct ContentView: View {
             }
             vm.getUser()
             
+            
         }.onReceive(vm.patchInfoSuccess) { value in
             withAnimation(.default){
                 vm.guestMode = false

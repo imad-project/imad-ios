@@ -17,6 +17,7 @@ struct ProfileChangeView: View {
     @State var delete = false
     @State var logout = false
     
+    
     @EnvironmentObject var vmAuth:AuthViewModel
     @Environment(\.dismiss) var dismiss
     
@@ -100,8 +101,10 @@ struct ProfileChangeView: View {
                 primaryButton: .cancel(Text("취소")),
                 secondaryButton: .destructive(delete ? Text("탈퇴") : Text("로그아웃"), action: {
                     if delete{
+                        dismiss()
                         vmAuth.delete()
                     }else{
+                        dismiss()
                         vmAuth.logout()
                     }
                 })

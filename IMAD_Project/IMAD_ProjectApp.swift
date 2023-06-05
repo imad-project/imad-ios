@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import KakaoSDKAuth
-import KakaoSDKUser
-import KakaoSDKCommon
 
 @main
 struct IMAD_ProjectApp: App {

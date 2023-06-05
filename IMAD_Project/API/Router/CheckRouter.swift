@@ -46,7 +46,6 @@ enum CheckRouter:URLRequestConvertible{
         let url = baseUrl.appendingPathComponent(endPoint)  //url 설정
         var request = URLRequest(url: url)
         request.method = method
-        
         return try JSONEncoding.default.encode(request, with: parameters)
     }
 }

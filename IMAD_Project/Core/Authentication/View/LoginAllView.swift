@@ -25,6 +25,8 @@ struct LoginAllView: View {
     @State var google = false
     @State var domain = EmailFilter.gmail
     
+    @State var loading = false
+    
     @EnvironmentObject var vm:AuthViewModel
     
 
@@ -91,6 +93,7 @@ struct LoginAllView: View {
                                 .font(.caption)
                             Button {
                                 vm.login(email: "\(id)@\(domain.domain)", password: password)    //SHA256
+                                loading = true
                             } label: {
                                 RoundedRectangle(cornerRadius: 20)
                                     .frame(height: 55)
@@ -139,6 +142,7 @@ struct LoginAllView: View {
                                     case .Google:
                                         google = true
                                     }
+                                    loading = true
                                 } label: {
                                     RoundedRectangle(cornerRadius: 20).frame(height: 55)
                                         .foregroundColor(item.color)
@@ -171,26 +175,42 @@ struct LoginAllView: View {
                         .padding()
                         
                 }
-                 
+                if loading{
+                    Color.gray.opacity(0.5).ignoresSafeArea()
+                     CustomProgressView()
+                }
+                
             }
             .sheet(isPresented: $register) {
                 RegisterView(login: $register)
                     .environmentObject(vm)
                     .navigationBarBackButtonHidden(true)
+                    .onDisappear{
+                        loading = false
+                    }
             }
             .sheet(isPresented: $apple){
                 AuthWebView(filter: .Apple)
                     .ignoresSafeArea()
                     .environmentObject(vm)
+                    .onDisappear{
+                        loading = false
+                    }
             }
             .sheet(isPresented: $naver){
                 AuthWebView(filter: .naver)
                     .environmentObject(vm)
                     .ignoresSafeArea()
+                    .onDisappear{
+                        loading = false
+                    }
             }
             .sheet(isPresented:$kakao){
                 AuthWebView(filter: .kakao)
                     .ignoresSafeArea()
+                    .onDisappear{
+                        loading = false
+                    }
             }
             .ignoresSafeArea(.keyboard)
             .onTapGesture {
@@ -203,6 +223,7 @@ struct LoginAllView: View {
             .alert(isPresented: $success) {
                 Alert(title: Text(vm.getUserRes?.message ?? ""),dismissButton: .default(Text("확인")) {
                     vm.loginMode = msg
+                    loading = false
                 })
             }
         }

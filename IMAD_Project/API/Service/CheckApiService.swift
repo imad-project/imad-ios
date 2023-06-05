@@ -34,6 +34,9 @@ enum CheckApiService{
             .publishDecodable(type: Validation.self)
             .value()
             .map{ receivedValue in
+                print(nickname)
+                print("\(receivedValue.status)")
+                print("\(receivedValue.data)")
                 print("결과 메세지  : \(receivedValue.message ?? "")")
                 return receivedValue.self
             }

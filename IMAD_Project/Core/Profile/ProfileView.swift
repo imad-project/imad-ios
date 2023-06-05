@@ -62,6 +62,7 @@ struct ProfileView: View {
                                 
                             }
                             
+
                         }
                         Text(vmAuth.getUserRes?.data?.nickname ?? "콰랑")
                             .font(.title3)

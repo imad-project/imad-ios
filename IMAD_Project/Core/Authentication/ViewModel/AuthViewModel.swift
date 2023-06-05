@@ -110,6 +110,7 @@ class AuthViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func logout(){
+        print("로그아웃 및 토큰 삭제")
         loginMode = false
         UserDefaultManager.shared.clearAll()
     }
