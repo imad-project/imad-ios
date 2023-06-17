@@ -96,6 +96,7 @@
 		81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD029E6D717002C0840 /* SelectGenreView.swift */; };
 		81DB1FD629E7D03B002C0840 /* KeyBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD529E7D03B002C0840 /* KeyBoard.swift */; };
 		81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */; };
+		81E62ECA2A3ABE8900F24E8F /* AppleSigninButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E62EC92A3ABE8900F24E8F /* AppleSigninButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +207,8 @@
 		81DB1FD029E6D717002C0840 /* SelectGenreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenreView.swift; sourceTree = "<group>"; };
 		81DB1FD529E7D03B002C0840 /* KeyBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoard.swift; sourceTree = "<group>"; };
 		81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTabView.swift; sourceTree = "<group>"; };
+		81E62EC92A3ABE8900F24E8F /* AppleSigninButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSigninButtonView.swift; sourceTree = "<group>"; };
+		81E62ECB2A3ABFA600F24E8F /* IMAD_Project.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IMAD_Project.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +263,7 @@
 		8103093F29D1BDEF0021717B /* IMAD_Project */ = {
 			isa = PBXGroup;
 			children = (
+				81E62ECB2A3ABFA600F24E8F /* IMAD_Project.entitlements */,
 				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
 				81BB11282A06421A005654AA /* IMAD-Project-Info.plist */,
 				819C506C2A0F465F0008F4A5 /* Manager */,
@@ -592,6 +596,7 @@
 				81C264992A137D2900405B01 /* LoginAllView.swift */,
 				81C264962A137CFF00405B01 /* RegisterView.swift */,
 				81C2648F2A135F8900405B01 /* AuthWebView.swift */,
+				81E62EC92A3ABE8900F24E8F /* AppleSigninButtonView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -853,6 +858,7 @@
 				81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */,
 				817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */,
 				81D1212F2A2739F2003F3780 /* ExploreView.swift in Sources */,
+				81E62ECA2A3ABE8900F24E8F /* AppleSigninButtonView.swift in Sources */,
 				812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */,
 				81BB11102A061E42005654AA /* Token.swift in Sources */,
 				81C264902A135F8900405B01 /* AuthWebView.swift in Sources */,
@@ -1017,6 +1023,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = IMAD_Project/IMAD_Project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IMAD_Project/Preview Content\"";
@@ -1025,6 +1032,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "IMAD-Project-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "아이매드";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1049,6 +1057,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = IMAD_Project/IMAD_Project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IMAD_Project/Preview Content\"";
@@ -1057,6 +1066,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "IMAD-Project-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "아이매드";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
