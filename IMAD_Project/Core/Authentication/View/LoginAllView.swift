@@ -129,7 +129,6 @@ struct LoginAllView: View {
                             }
                         }.padding(.horizontal)
                            
-                            AppleSigninButtonView()
                             ForEach(OauthFilter.allCases,id:\.rawValue){ item in
                                 Button {
                                     switch item{
