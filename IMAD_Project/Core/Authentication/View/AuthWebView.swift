@@ -60,7 +60,13 @@ struct AuthWebView: View {
         }
         .onAppear {
             // 로드될 페이지 설정
-            let url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.rawValue)")!
+            var url = URL(string: "")!
+            if filter == .Apple{
+                url = URL(string: "https://appleid.apple.com/auth/authorize?client_id=com.iimad.api&redirect_uri=https://api.iimad.com/api/callback/apple&response_type=code%20id_token&scope=name%20email&response_mode=form_post")!
+            }else{
+                url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.rawValue)")!
+            }
+            
             //print("유알엘 \(url)")
             let request = URLRequest(url: url)
             // WebView에 로드된 페이지에 대한 Delegate 지정
