@@ -13,3 +13,6 @@
 KAKAO_NATIVE_APP_KEY = dcee0f41332fb07eee3a8222002e16c0
 REST_API_KEY = 7bfd69d7c829f438bbbef2b046837935
 BASE_URL = 52.79.201.55:8080
+APPLE_LOGIN_URL = appleid.apple.com/auth/authorize?client_id=com.iimad.api&redirect_uri
+APPLE_REDIRECT_URI = api.iimad.com/api/callback/apple&response_type=code%20id_token&scope=name%20email&response_mode=form_post
+

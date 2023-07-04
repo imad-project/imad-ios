@@ -60,15 +60,18 @@ struct AuthWebView: View {
         }
         .onAppear {
             // 로드될 페이지 설정
-            var url = URL(string: "")!
+          
+            var url = URL(string: "")
             if filter == .Apple{
-                url = URL(string: "https://appleid.apple.com/auth/authorize?client_id=com.iimad.api&redirect_uri=https://api.iimad.com/api/callback/apple&response_type=code%20id_token&scope=name%20email&response_mode=form_post")!
+                url = URL(string: "https://\(Bundle.main.infoDictionary?["APPLE_LOGIN_URL"] ?? "")=https://\(Bundle.main.infoDictionary?["APPLE_REDIRECT_URI"] ?? "")")!
+              
+                
             }else{
                 url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.rawValue)")!
+                print(url ?? "")
             }
-            
             //print("유알엘 \(url)")
-            let request = URLRequest(url: url)
+            let request = URLRequest(url: url!)
             // WebView에 로드된 페이지에 대한 Delegate 지정
             webView.navigationDelegate = webViewDelegate
             // 로드된 페이지 요청
