@@ -31,6 +31,7 @@ class AuthViewModel:ObservableObject{
     var patchInfoSuccess = PassthroughSubject<Bool,Never>()
     var deleteSuccess = PassthroughSubject<Bool,Never>()
     var passwordChangeSuccess = PassthroughSubject<(),Never>()
+    var getTokenSuccess = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
     
     
@@ -85,11 +86,19 @@ class AuthViewModel:ObservableObject{
                     print("유저정보 수신 완료 \(completion)")
                 }else{
                     print("유저정보 수신 실패 \(completion)")
+                    if let errorMsg = self.getUserRes?.message,errorMsg == "토큰의 기한이 만료되었습니다."{
+                        AuthApiService.getToken()
+                        print("토큰 재발급")
+                        self.getTokenSuccess.send()
+                    }
                 }
             } receiveValue: { receivedValue in
                 self.getUserRes = receivedValue
             }.store(in: &cancelable)
 
+    }
+    func getTokren(){
+        
     }
     func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,genre:String?){
         UserApiService.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, genre: genre)

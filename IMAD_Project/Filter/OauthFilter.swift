@@ -12,7 +12,7 @@ enum OauthFilter:String,CaseIterable{
     case Apple
     case naver
     case kakao
-    case Google
+    case google
     
     var color:Color{
         switch self{
@@ -22,7 +22,7 @@ enum OauthFilter:String,CaseIterable{
             return Color("naver")
         case .kakao:
             return Color("kakao")
-        case .Google:
+        case .google:
             return Color.white
         }
     }
@@ -34,7 +34,7 @@ enum OauthFilter:String,CaseIterable{
             return Color.white
         case .kakao:
             return Color.black
-        case .Google:
+        case .google:
             return Color.black
         }
     }
@@ -46,7 +46,7 @@ enum OauthFilter:String,CaseIterable{
             return "네이버로 계속하기"
         case .kakao:
             return "카카오로 계속하기"
-        case .Google:
+        case .google:
             return "Google로 계속하기"
         }
     }

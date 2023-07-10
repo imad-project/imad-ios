@@ -32,7 +32,9 @@ struct AuthWebView: View {
                 decisionHandler(.cancel)
                 return
             }
+            print("액세스\(httpResponse.allHeaderFields["Authorization"] as? String ?? "") 리프레쉬\(httpResponse.allHeaderFields["Authorization-refresh"] as? String ?? "")")
             if let accessToken = httpResponse.allHeaderFields["Authorization"] as? String,let refreshToken = httpResponse.allHeaderFields["Authorization-refresh"] as? String{
+                
                 UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
                 success.send()
             }
@@ -64,11 +66,8 @@ struct AuthWebView: View {
             var url = URL(string: "")
             if filter == .Apple{
                 url = URL(string: "https://\(Bundle.main.infoDictionary?["APPLE_LOGIN_URL"] ?? "")=https://\(Bundle.main.infoDictionary?["APPLE_REDIRECT_URI"] ?? "")")!
-              
-                
             }else{
                 url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.rawValue)")!
-                print(url ?? "")
             }
             //print("유알엘 \(url)")
             let request = URLRequest(url: url!)

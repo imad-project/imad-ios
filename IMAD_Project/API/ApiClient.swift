@@ -12,7 +12,7 @@ final class ApiClient{
     
     var session:Session
     static let shared = ApiClient()
-    static let baseURL = "http://\(Bundle.main.infoDictionary?["BASE_URL"] ?? "")" 
+    static let baseURL =  "https://\(Bundle.main.infoDictionary?["BASE_URL"] ?? "")"  //"https://www.ncookie.site"
     let monitors = [ApiLogger()] as [EventMonitor]
     
     init(){

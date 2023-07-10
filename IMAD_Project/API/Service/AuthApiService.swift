@@ -18,8 +18,9 @@ enum AuthApiService{
         return ApiClient.shared.session
             .request(AuthRouter.login(email: email, password: password))
             .response{ response in
-                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,let refreshToken = response.response?.allHeaderFields["Authorization-refresh"] as? String{
+                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,let refreshToken =  response.response?.allHeaderFields["authorization-refresh"] as? String{
                     UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+                    print(UserDefaultManager.shared.getToken())
                 }
             }
             .publishDecodable(type: GetUserInfo.self)
@@ -59,6 +60,16 @@ enum AuthApiService{
                 return receivedValue.self
             }
             .eraseToAnyPublisher()
+    }
+    static func getToken(){
+        let intercept = GetTokenIntercept()
+        ApiClient.shared.session
+            .request(AuthRouter.token,interceptor: intercept)
+            .response{ response in
+                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,let refreshToken = response.response?.allHeaderFields["Authorization-refresh"] as? String{
+                    UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+                }
+            }
     }
 
 }

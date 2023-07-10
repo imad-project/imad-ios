@@ -37,15 +37,7 @@ struct ContentView: View {
             }else{
                 SplashView()
             }
-//            Button {
-//               isFirstLaunch = false
-//            } label: {
-//                Text("asdasdasdads")
-//            }
-
         }
-        
-            
         .onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 withAnimation(.easeOut(duration: 1.5)){
@@ -53,23 +45,14 @@ struct ContentView: View {
                 }
             }
             vm.getUser()
-            
-            
         }.onReceive(vm.patchInfoSuccess) { value in
             withAnimation(.default){
                 vm.guestMode = false
             }
-            
         }
-//        .onReceive(vm.deleteSuccess){ value in
-//            alert = value
-//            delete = true
-//        }
-//        .alert(isPresented: $alert) {
-//            Alert(title:Text("성공!"),dismissButton: delete ? .cancel(Text("확인")):.default(Text("확인")) {
-//            })
-//
-//        }
+        .onReceive(vm.getTokenSuccess) { _ in
+            vm.getUser()
+        }
         
     }
 }

@@ -134,21 +134,12 @@ struct LoginAllView: View {
                                 Button {
                                     switch item{
                                     case .Apple:
-//                                        let url = URL(string: "https://appleid.apple.com/auth/authorize?client_id=com.iimad.api&redirect_uri=https://api.iimad.com/api/callback/apple&response_type=code%20id_token&scope=name%20email&response_mode=form_post")!
-//                                        AF.request(url).response{ value in
-//                                            switch value.result{
-//                                            case .success(let aa):
-//                                                print(aa)
-//                                            case .failure(let error):
-//                                                print(error)
-//                                            }
-//                                        }
                                         apple = true
                                     case .naver:
                                         naver = true
                                     case .kakao:
                                         kakao = true
-                                    case .Google:
+                                    case .google:
                                         google = true
                                     }
                                     loading = true
@@ -216,6 +207,13 @@ struct LoginAllView: View {
             }
             .sheet(isPresented:$kakao){
                 AuthWebView(filter: .kakao)
+                    .ignoresSafeArea()
+                    .onDisappear{
+                        loading = false
+                    }
+            }
+            .sheet(isPresented:$google){
+                AuthWebView(filter: .google)
                     .ignoresSafeArea()
                     .onDisappear{
                         loading = false

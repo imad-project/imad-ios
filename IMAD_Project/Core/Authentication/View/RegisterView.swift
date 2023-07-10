@@ -72,7 +72,6 @@ struct RegisterView: View {
                         Button {
                             if email != ""{
                                 vmCheck.checkEmail(email: email)
-                                
                             }else{
                                 blankMsg = "이메일을 제대로 입력해주세요!"
                                 blankColor = false
@@ -166,7 +165,7 @@ struct RegisterView: View {
         .onChange(of: vmCheck.check){ value in
             if let check = value{
                 if check{
-                    self.blankMsg =  "사용할 수 있는 이메일입니다!"
+                    self.blankMsg = "사용할 수 있는 이메일입니다!"
                     blankColor = true
                 }else{
                     self.blankMsg = "사용 중인 이메일입니다!"
