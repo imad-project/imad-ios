@@ -50,4 +50,12 @@ enum OauthFilter:String,CaseIterable{
             return "Google로 계속하기"
         }
     }
+    var authProvierName:String{
+        switch self{
+        case .Apple:
+            return "apple"
+        case .google,.kakao,.naver:
+            return rawValue
+        }
+    }
 }

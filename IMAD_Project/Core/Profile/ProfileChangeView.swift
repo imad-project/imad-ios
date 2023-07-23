@@ -102,7 +102,20 @@ struct ProfileChangeView: View {
                 secondaryButton: .destructive(delete ? Text("탈퇴") : Text("로그아웃"), action: {
                     if delete{
                         dismiss()
-                        vmAuth.delete()
+                        if let authProvier = vmAuth.getUserRes?.data?.authProvider{
+                            switch authProvier{
+                            case "KAKAO":
+                                vmAuth.delete(authProvier: "kakao")
+                            case "GOOGLE":
+                                vmAuth.delete(authProvier: "google")
+                            case "NAVER":
+                                vmAuth.delete(authProvier: "naver")
+                            case "APPLE":
+                                vmAuth.delete(authProvier: "apple")
+                            default:
+                                vmAuth.delete(authProvier: authProvier)
+                            }
+                        }
                     }else{
                         dismiss()
                         vmAuth.logout()

@@ -97,9 +97,6 @@ class AuthViewModel:ObservableObject{
             }.store(in: &cancelable)
 
     }
-    func getTokren(){
-        
-    }
     func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,genre:String?){
         UserApiService.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, genre: genre)
             .sink { completion in
@@ -123,8 +120,8 @@ class AuthViewModel:ObservableObject{
         loginMode = false
         UserDefaultManager.shared.clearAll()
     }
-    func delete(){
-        AuthApiService.delete()
+    func delete(authProvier:String){
+        AuthApiService.delete(authProvier:authProvier)
             .sink { completion in
                 if let code = self.getUserRes?.status,code >= 200 && code <= 300{
                     self.deleteSuccess.send(true)

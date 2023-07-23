@@ -36,6 +36,9 @@ struct ContentView: View {
                 }
             }else{
                 SplashView()
+                    .onAppear{
+                        vm.getUser()
+                    }
             }
         }
         .onAppear{
@@ -44,7 +47,7 @@ struct ContentView: View {
                     splash = true
                 }
             }
-            vm.getUser()
+
         }.onReceive(vm.patchInfoSuccess) { value in
             withAnimation(.default){
                 vm.guestMode = false
