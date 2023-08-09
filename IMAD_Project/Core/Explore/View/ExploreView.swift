@@ -13,6 +13,7 @@ struct ExploreView: View {
     @State var filter = false
     @State var sort = false
     @State var sortStandard = "전체"
+    @StateObject var vm = ExploreViewModel()
     @Environment(\.dismiss) var dismiss
     let columns = [GridItem(.flexible()),GridItem(.flexible())]
     let items = ["🔥 인기순", "📃 평가순", "⭐ 평점순", "✍🏻 리뷰순", "🎞️ 최신순","🔤가나다순"]
@@ -118,9 +119,15 @@ extension ExploreView{
                     .padding(.leading)
                     
                 Spacer()
-                Image(systemName: "magnifyingglass")
-                    .font(.title3)
-                    .padding(.trailing)
+                Button {
+                    vm.getData(query: "breaking", type: "multi", page: 1)
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                        .font(.title3)
+                        .padding(.trailing)
+                }
+
+                
                 
             }
             HStack{

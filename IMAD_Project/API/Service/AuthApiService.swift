@@ -18,8 +18,12 @@ enum AuthApiService{
         return ApiClient.shared.session
             .request(AuthRouter.login(email: email, password: password))
             .response{ response in
-                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,let refreshToken =  response.response?.allHeaderFields["authorization-refresh"] as? String{
-                    UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String{
+                    if let refreshToken = response.response?.allHeaderFields["Authorization-refresh"] as? String{
+                        UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+                    }else if let refreshToken = response.response?.allHeaderFields["authorization-refresh"] as? String{
+                        UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+                    }
                     print(UserDefaultManager.shared.getToken())
                 }
             }

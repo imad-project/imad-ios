@@ -23,9 +23,14 @@ struct AuthWebView: View {
                 return
             }
             print("액세스\(httpResponse.allHeaderFields["Authorization"] as? String ?? "") 리프레쉬\(httpResponse.allHeaderFields["authorization-refresh"] as? String ?? "")")
-            if let accessToken = httpResponse.allHeaderFields["Authorization"] as? String,let refreshToken = httpResponse.allHeaderFields["authorization-refresh"] as? String{
-                UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-                success.send()
+            if let accessToken = httpResponse.allHeaderFields["Authorization"] as? String{
+                if let refreshToken = httpResponse.allHeaderFields["Authorization-refresh"] as? String{
+                    UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+                    success.send()
+                }else if let refreshToken = httpResponse.allHeaderFields["authorization-refresh"] as? String{
+                    UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+                    success.send()
+                }
             }
             decisionHandler(.allow)
         }
