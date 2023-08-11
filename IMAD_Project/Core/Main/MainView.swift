@@ -21,7 +21,7 @@ struct MainView: View {
     
     @State private var rotationAngle: Angle = .zero
     @State var movieIndex = 0
-    @State var poster:Review = CustomData.instance.reviewList.first!
+    @State var poster:WorkResults = CustomData.instance.workList.first!
     @State var isReview = false
     @State var select = 0
     @State var anima = false
@@ -74,7 +74,7 @@ struct MainView: View {
         .navigationDestination(isPresented: $isReview){
 //            ReviewView(isReview: $isReview, review: poster)
 //                .navigationBarBackButtonHidden(true)
-            WorkView(review: poster)
+            WorkView(work: poster)
         }
         .navigationBarItems(leading: Text("리뷰").font(.title).bold().padding(.bottom,20),trailing: Button {
             search = true
@@ -320,12 +320,12 @@ extension MainView{
                 ScrollView(.horizontal,showsIndicators: false){
                     genreHeader(name: genre.generName).padding(.top)
                     HStack(spacing: 0){
-                        ForEach(CustomData.instance.reviewList,id:\.self){ item in
+                        ForEach(CustomData.instance.workList){ work in
                             Button {
-                                poster = item
+                                poster = work
                                 isReview = true
                             } label: {
-                                KFImage(URL(string: item.thumbnail)!)
+                                KFImage(URL(string: ("https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? "")))!)
                                     .resizable()
                                     .frame(width: 150,height: 200)
                                     .cornerRadius(15)
@@ -333,7 +333,7 @@ extension MainView{
                                     .padding(.leading)
                                     .overlay(alignment:.topTrailing) {
                                         Circle()
-                                            .trim(from: 0.0, to: anima ? item.gradeAvg * 0.1 : 0)
+                                            .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
                                             .stroke(lineWidth: 3)
                                             .rotation(Angle(degrees: 270))
                                             .frame(width: 40,height: 40)
@@ -341,7 +341,7 @@ extension MainView{
                                                 VStack{
                                                     Image(systemName: "star.fill")
                                                         .font(.caption)
-                                                    Text(String(format: "%0.1f", item.gradeAvg))
+                                                    Text(String(format: "%0.1f", 4))
                                                         .font(.caption)
                                                 }
                                             }

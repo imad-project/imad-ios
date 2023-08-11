@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WorkResults:Codable{
+struct WorkResults:Identifiable,Codable,Equatable{
     
     var id:Int
     var title:String?
@@ -22,7 +22,7 @@ struct WorkResults:Codable{
     var backdropPath:String?
     var overview:String?
     var posterPath:String?
-    var mediaType:String
+    var mediaType:String?
     var genreIds:[Int]?
     var video:Bool
     
@@ -44,4 +44,7 @@ struct WorkResults:Codable{
         case genreIds = "genre_ids"
         case video
     }
+    static func == (lhs:WorkResults,rhs:WorkResults)->Bool{
+            return lhs.id == rhs.id
+        }
 }

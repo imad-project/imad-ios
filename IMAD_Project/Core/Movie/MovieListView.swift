@@ -10,52 +10,76 @@ import Kingfisher
 
 struct MovieListView: View {
     @State var text = ""
+    @StateObject var vm = SearchViewModel()
     let title:String
     let writeCommunity:Bool
+    
+    let columns = [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
     @Binding var back:Bool
+    
     var body: some View {
         NavigationView {
-            VStack{
+            VStack(alignment: .leading){
                 header
-                CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $text)
+                
+                CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $vm.searchText)
                     .padding()
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(20)
                     .padding(.horizontal)
-                    .padding(.bottom,5)
+                HStack(spacing: 0){
+                    Image(systemName: "slider.horizontal.3")
+                    Picker("", selection: $vm.type) {
+                        ForEach(MovieTypeFilter.allCases,id:\.self){ text in
+                            Text(text.name)
+                        }
+                    }
+                    .accentColor(.black)
+                }
+                .padding(.horizontal)
+                .padding(.bottom,5)
                 ScrollView{
-                    ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
-                        Section(header:genreHeader(name: genre.generName)){
-                            ScrollView(.horizontal,showsIndicators: false){
-                                HStack(spacing: 0){
-                                    ForEach(CustomData.instance.reviewList.shuffled(),id:\.self){ item in
-                                        NavigationLink {
-                                            if writeCommunity{
-                                                CommunityWriteView(image: item.thumbnail).navigationBarBackButtonHidden()   
-                                            }else{
-                                                WorkView(review: item)
+                    
+                        LazyVGrid(columns: columns) {
+                            ForEach(vm.work) { result in
+                                NavigationLink {
+                                    WorkView(work: result)
+                                } label: {
+                                    VStack{
+                                        KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (result.posterPath ?? ""))!)
+                                            .placeholder{ _ in
+                                                emptyPoster
                                             }
-                                            
-                                        } label: {
-                                            KFImage(URL(string: item.thumbnail)!)
-                                                .resizable()
-                                                .frame(width: 150,height: 200)
-                                                .cornerRadius(15)
-                                                .padding(.leading)
+                                            .resizable()
+                                            .frame(width: 130,height: 180)
+                                            .cornerRadius(15)
+                                        Group{
+                                            if result.title == nil{
+                                                Text(result.name ?? "")
+                                            }
+                                            else{
+                                                Text(result.title ?? "")
+                                            }
                                         }
-
-                                        Button {
-                                            
-                                        } label: {
-                                           
-                                        }
+                                        .bold()
+                                        .font(.subheadline)
+                                        .frame(maxWidth:130,maxHeight:5)
                                         
                                     }
                                 }
+                                .padding(.bottom,10)
+                                if vm.work.last == result,vm.maxPage != vm.currentPage{    //WorkResult에 Equtabe추가
+                                    ProgressView()
+                                        .environment(\.colorScheme, .light)
+                                        .onAppear{
+                                            vm.fetchPlaces(query: vm.searchText, type: vm.type, page: vm.currentPage + 1)
+                                        }
+                                }
                             }
-                        }
-                        
-                    }
+                            
+                        }.padding(.horizontal,10)
+                    
+                    
                 }
             }.foregroundColor(.black)
                 .background(Color.white)
@@ -98,5 +122,19 @@ extension MovieListView{
             Text(title)
                 .bold()
         }
+    }
+    var emptyPoster:some View{
+        RoundedRectangle(cornerRadius: 15)
+            .foregroundColor(.gray.opacity(0.4))
+            .overlay {
+                VStack{
+                    Image(systemName: "xmark.app.fill")
+                        .font(.title)
+                        .padding(.bottom)
+                    Text("포스터 없음")
+                }
+                .bold()
+                .foregroundColor(.white)
+            }
     }
 }

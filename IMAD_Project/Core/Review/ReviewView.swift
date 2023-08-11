@@ -13,7 +13,7 @@ struct ReviewView: View {
     @State var reviewText = ""
     @State var anima = false
     
-    let review:Review
+    let work:WorkResults
     
     var body: some View {
         ZStack(alignment: .top){
@@ -120,6 +120,6 @@ struct ReviewView: View {
 
 struct ReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewView(review: CustomData.instance.reviewList.first!)
+        ReviewView(work: CustomData.instance.workList.first!)
     }
 }

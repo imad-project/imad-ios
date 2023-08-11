@@ -53,9 +53,9 @@ struct ContentView: View {
                 vm.guestMode = false
             }
         }
-        .onReceive(vm.getTokenSuccess) { _ in
-            vm.getUser()
-        }
+//        .onReceive(vm.getTokenSuccess) { _ in
+//            vm.getUser()
+//        }
         
     }
 }

@@ -10,7 +10,7 @@ import Kingfisher
 
 struct WorkView: View {
     
-    let review:Review
+    let work:WorkResults
     @State var anima = false
     @State var writeReview = false
     @State var writeCommunity = false
@@ -23,26 +23,26 @@ struct WorkView: View {
                     Color.white.ignoresSafeArea()
                 ScrollView(showsIndicators: false){
                         VStack(spacing:10){
-                            Text(review.title)
+                            Text(work.title ?? "")
                                 .padding(.top)
                                 .bold()
                             Text("(2023)").bold()
                                 .font(.caption)
-                            KFImage(URL(string: review.thumbnail))
+                            KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? ""))!)
                                 .resizable()
                                 .frame(width: 200,height: 300)
                                 .cornerRadius(20)
                                 .shadow(radius: 20)
                                 .overlay(alignment:.bottomTrailing) {
                                     Circle()
-                                        .trim(from: 0.0, to: anima ? review.gradeAvg * 0.1 : 0)
+                                        .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
                                         .stroke(lineWidth: 3)
                                         .rotation(Angle(degrees: 270))
                                         .frame(width: 80,height: 80)
                                         .overlay{
                                             VStack{
                                                 Image(systemName: "star.fill")
-                                                Text(String(format: "%0.1f", review.gradeAvg))
+                                                Text(String(format: "%0.1f", 4))
                                             }
                                         }
                                         .background(Circle().foregroundColor(.black.opacity(0.7)))
@@ -52,9 +52,9 @@ struct WorkView: View {
                                 }
                             Section(header:category) {
                                 TabView(selection: $vm.workTab) {
-                                    WorkInfoView(review: review)
+                                    WorkInfoView(work: work)
                                         .tag(WorkFilter.work)
-                                    ReviewView(review: review)
+                                    ReviewView(work: work)
                                         .tag(WorkFilter.review)
                                 }.frame(height: 800)
                             }
@@ -62,16 +62,16 @@ struct WorkView: View {
 
                         }.background{
                             ZStack{
-                                KFImage(URL(string:review.thumbnail)!)
+                                KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? ""))!)
                                     .resizable()
                                     .frame(height: 1000)
-                                    .frame(maxWidth: .infinity)
+//                                    .frame(maxWidth: .infinity)
                                 Color.black.opacity(0.2)
                                 Color.clear
                                     .background(Material.thin)
                                     .environment(\.colorScheme, .dark)
                             }.frame(height: 300)
-                                .offset(y:-800)
+                                .offset(y:-850)
                         }
                        
                     
@@ -140,11 +140,11 @@ struct WorkView: View {
             }
         }
         .navigationDestination(isPresented: $writeReview) {
-            WriteReviewView(image: review.thumbnail, gradeAvg: review.gradeAvg)
+            WriteReviewView(image: ("https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? "")), gradeAvg: 4)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
-            CommunityWriteView(image: review.thumbnail)
+            CommunityWriteView(image: ("https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? "")))
                 .navigationBarBackButtonHidden(true)
         }
         .navigationBarBackButtonHidden()    
@@ -153,7 +153,7 @@ struct WorkView: View {
 
 struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkView(review: CustomData.instance.reviewList.first!)
+        WorkView(work: CustomData.instance.workList.first!)
     }
 }
 

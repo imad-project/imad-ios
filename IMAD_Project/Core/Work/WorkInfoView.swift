@@ -9,7 +9,8 @@ import SwiftUI
 import Kingfisher
 
 struct WorkInfoView: View {
-    let review:Review
+    let work:WorkResults
+    @StateObject var vm = ContriesFilter()
     var body: some View {
         ZStack{
             Color.white.ignoresSafeArea()
@@ -17,33 +18,52 @@ struct WorkInfoView: View {
                 Group{
                     Text("원재")
                         .bold()
-                    Text("ジョジョの奇妙な冒険 ダイヤモンドは砕けない 第一章")
-                        .padding(.bottom,5)
-                        .font(.subheadline)
+                    if work.name == nil{
+                        Text(work.title ?? "")
+                            .padding(.bottom,5)
+                            .font(.subheadline)
+                    }
+                    else{
+                        Text(work.name ?? "")
+                            .padding(.bottom,5)
+                            .font(.subheadline)
+                    }
                     Text("국가")
                         .bold()
-                    Text("일본")
-                        .foregroundColor(.gray)
-                        .padding(.bottom,5)
-                        .font(.subheadline)
+                    if let country = work.originCountry{
+                        ForEach(Array(zip(vm.iso31661, vm.nativename)),id: \.0){ (iso,native) in
+                            ForEach(country,id:\.self){
+                                if iso == $0{
+                                    Text(native)
+                                }
+                            }
+                        }
+                    }
                 }.padding(.leading)
                 Group{
                     Text("장르").bold()
-                    Text(review.genre)
-                        .padding(.bottom,5)
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+//                    Text(work.genreIds)
+//                        .padding(.bottom,5)
+//                        .font(.subheadline)
+//                        .foregroundColor(.gray)
                     Text("개요").bold()
-                    Text(review.desc)
+                    Text(work.overview ?? "")
                         .padding(.bottom,5)
                         .font(.subheadline)
                     HStack{
                         VStack(alignment: .leading,spacing: 10){
                             Text("최초개봉일")
                                 .bold()
-                            Text("2017-08-04")
-                                .foregroundColor(.gray)
-                                .font(.subheadline)
+                            if work.firstAirDate == nil{
+                                Text(work.releaseDate ?? "")
+                                    .foregroundColor(.gray)
+                                    .font(.subheadline)
+                            }else{
+                                Text(work.firstAirDate ?? "")
+                                    .foregroundColor(.gray)
+                                    .font(.subheadline)
+                            }
+                            
                         }
                         Spacer()
                         VStack(alignment: .leading,spacing: 10){
@@ -87,11 +107,14 @@ struct WorkInfoView: View {
             }
         }
         .foregroundColor(.black)
+        .onAppear{
+            vm.fetchDataFromURL()
+        }
     }
 }
 
 struct WorkInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkInfoView(review: CustomData.instance.reviewList.first!)
+        WorkInfoView(work: CustomData.instance.workList.first!)
     }
 }

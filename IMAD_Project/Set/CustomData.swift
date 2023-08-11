@@ -39,6 +39,185 @@ class CustomData{
     Review(title: "닥터스톤", thumbnail: "https://www.ichigo.co.kr:5030/data/20/9784088820552_m.jpg", desc: "그 날─ 이 세상의 인간은 모두 돌이 되었다!!", genre: "SF/아포칼립스", opendDate: "2019년 07월 05일", gradeAvg: 10.0)
    ]
     
+    let workList:[WorkResults] = [
+        WorkResults(id: 4125790,
+                    title: nil,
+                    originalTitle: nil,
+                    releaseDate: nil,
+                    name: "죠죠의 기묘한 모험",
+                    originalName: "ジョジョの奇妙な冒険",
+                    firstAirDate: "2012-10-06",
+                    originCountry: [
+                        "JP"
+                    ],
+                    originalLanguage: "ja",
+                    adult: false,
+                    backdropPath:"/af5UmMSKCqY3SvtzcIiK3zgEIQg.jpg",
+                    overview: "유서 깊은 죠스타 가문에 얽힌 기묘한 이야기를 아는가. 각기 다른 세상에서 애칭 '죠죠'를 공유하며 살아가는 주인공들. 시간적 공간적 배경은 달라도, 추구하는 가치는 다르지 않다. 악의 세력을 물리치고 정의가 이기는 세상을 만들라.",
+                    posterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg",
+                    mediaType: "tv",
+                    genreIds: [
+                        16,
+                        10759,
+                        10765
+                    ],
+                    video: false),
+        WorkResults(id: 4579080,
+                    title: nil,
+                    originalTitle: nil,
+                    releaseDate: nil,
+                    name: "죠죠의 기묘한 모험",
+                    originalName: "ジョジョの奇妙な冒険",
+                    firstAirDate: "2012-10-06",
+                    originCountry: [
+                        "JP"
+                    ],
+                    originalLanguage: "ja",
+                    adult: false,
+                    backdropPath: "/5mUYDoFjDlPmDvnUWSknhYjGBBh.jpg",
+                    overview: "유서 깊은 죠스타 가문에 얽힌 기묘한 이야기를 아는가. 각기 다른 세상에서 애칭 '죠죠'를 공유하며 살아가는 주인공들. 시간적 공간적 배경은 달라도, 추구하는 가치는 다르지 않다. 악의 세력을 물리치고 정의가 이기는 세상을 만들라.",
+                    posterPath: "/sAfNSZ8Th0nb979e6ss5ftTT0Rh.jpg",
+                    mediaType: "tv",
+                    genreIds: [
+                        16,
+                        10759,
+                        10765
+                    ],
+                    video: false),
+        WorkResults(id: 4514790,
+                    title: nil,
+                    originalTitle: nil,
+                    releaseDate: nil,
+                    name: "죠죠의 기묘한 모험",
+                    originalName: "ジョジョの奇妙な冒険",
+                    firstAirDate: "2012-10-06",
+                    originCountry: [
+                        "JP"
+                    ],
+                    originalLanguage: "ja",
+                    adult: false,
+                    backdropPath: "/5mUYDoFjDlPmDvnUWSknhYjGBBh.jpg",
+                    overview: "유서 깊은 죠스타 가문에 얽힌 기묘한 이야기를 아는가. 각기 다른 세상에서 애칭 '죠죠'를 공유하며 살아가는 주인공들. 시간적 공간적 배경은 달라도, 추구하는 가치는 다르지 않다. 악의 세력을 물리치고 정의가 이기는 세상을 만들라.",
+                    posterPath: "/zXEChV2myFY8rJaWj4Av7bWH6Zd.jpg",
+                    mediaType: "tv",
+                    genreIds: [
+                        16,
+                        10759,
+                        10765
+                    ],
+                    video: false),
+        WorkResults(id: 4577590,
+                    title: nil,
+                    originalTitle: nil,
+                    releaseDate: nil,
+                    name: "죠죠의 기묘한 모험",
+                    originalName: "ジョジョの奇妙な冒険",
+                    firstAirDate: "2012-10-06",
+                    originCountry: [
+                        "JP"
+                    ],
+                    originalLanguage: "ja",
+                    adult: false,
+                    backdropPath: "/5mUYDoFjDlPmDvnUWSknhYjGBBh.jpg",
+                    overview: "유서 깊은 죠스타 가문에 얽힌 기묘한 이야기를 아는가. 각기 다른 세상에서 애칭 '죠죠'를 공유하며 살아가는 주인공들. 시간적 공간적 배경은 달라도, 추구하는 가치는 다르지 않다. 악의 세력을 물리치고 정의가 이기는 세상을 만들라.",
+                    posterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg",
+                    mediaType: "tv",
+                    genreIds: [
+                        16,
+                        10759,
+                        10765
+                    ],
+                    video: false),
+        WorkResults(id: 457987990,
+                    title: nil,
+                    originalTitle: nil,
+                    releaseDate: nil,
+                    name: "죠죠의 기묘한 모험",
+                    originalName: "ジョジョの奇妙な冒険",
+                    firstAirDate: "2012-10-06",
+                    originCountry: [
+                        "JP"
+                    ],
+                    originalLanguage: "ja",
+                    adult: false,
+                    backdropPath: "/5mUYDoFjDlPmDvnUWSknhYjGBBh.jpg",
+                    overview: "유서 깊은 죠스타 가문에 얽힌 기묘한 이야기를 아는가. 각기 다른 세상에서 애칭 '죠죠'를 공유하며 살아가는 주인공들. 시간적 공간적 배경은 달라도, 추구하는 가치는 다르지 않다. 악의 세력을 물리치고 정의가 이기는 세상을 만들라.",
+                    posterPath: "/kGiaOztahZV2x7bil7sbk7fb6ob.jpg",
+                    mediaType: "tv",
+                    genreIds: [
+                        16,
+                        10759,
+                        10765
+                    ],
+                    video: false),
+        WorkResults(id: 453123790,
+                    title: nil,
+                    originalTitle: nil,
+                    releaseDate: nil,
+                    name: "죠죠의 기묘한 모험",
+                    originalName: "ジョジョの奇妙な冒険",
+                    firstAirDate: "2012-10-06",
+                    originCountry: [
+                        "JP"
+                    ],
+                    originalLanguage: "ja",
+                    adult: false,
+                    backdropPath: "/5mUYDoFjDlPmDvnUWSknhYjGBBh.jpg",
+                    overview: "유서 깊은 죠스타 가문에 얽힌 기묘한 이야기를 아는가. 각기 다른 세상에서 애칭 '죠죠'를 공유하며 살아가는 주인공들. 시간적 공간적 배경은 달라도, 추구하는 가치는 다르지 않다. 악의 세력을 물리치고 정의가 이기는 세상을 만들라.",
+                    posterPath: "/7OzIcqBOtqRo0ivrRJrgHyCJg1V.jpg",
+                    mediaType: "tv",
+                    genreIds: [
+                        16,
+                        10759,
+                        10765
+                    ],
+                    video: false),
+        WorkResults(id: 4577576590,
+                    title: nil,
+                    originalTitle: nil,
+                    releaseDate: nil,
+                    name: "죠죠의 기묘한 모험",
+                    originalName: "ジョジョの奇妙な冒険",
+                    firstAirDate: "2012-10-06",
+                    originCountry: [
+                        "JP"
+                    ],
+                    originalLanguage: "ja",
+                    adult: false,
+                    backdropPath: "/5mUYDoFjDlPmDvnUWSknhYjGBBh.jpg",
+                    overview: "유서 깊은 죠스타 가문에 얽힌 기묘한 이야기를 아는가. 각기 다른 세상에서 애칭 '죠죠'를 공유하며 살아가는 주인공들. 시간적 공간적 배경은 달라도, 추구하는 가치는 다르지 않다. 악의 세력을 물리치고 정의가 이기는 세상을 만들라.",
+                    posterPath: "/67zsN2RRa187v8fwYxlN8c8T19X.jpg",
+                    mediaType: "tv",
+                    genreIds: [
+                        16,
+                        10759,
+                        10765
+                    ],
+                    video: false),
+        WorkResults(id: 3213,
+                    title: nil,
+                    originalTitle: nil,
+                    releaseDate: nil,
+                    name: "죠죠의 기묘한 모험",
+                    originalName: "ジョジョの奇妙な冒険",
+                    firstAirDate: "2012-10-06",
+                    originCountry: [
+                        "JP"
+                    ],
+                    originalLanguage: "ja",
+                    adult: false,
+                    backdropPath: "/5mUYDoFjDlPmDvnUWSknhYjGBBh.jpg",
+                    overview: "유서 깊은 죠스타 가문에 얽힌 기묘한 이야기를 아는가. 각기 다른 세상에서 애칭 '죠죠'를 공유하며 살아가는 주인공들. 시간적 공간적 배경은 달라도, 추구하는 가치는 다르지 않다. 악의 세력을 물리치고 정의가 이기는 세상을 만들라.",
+                    posterPath: "/pnAPAcUHpUQ9v8PXZtMTnbovc7x.jpg",
+                    mediaType: "tv",
+                    genreIds: [
+                        16,
+                        10759,
+                        10765
+                    ],
+                    video: false)
+    ]
+    
     let userReiveList = [
         UserReview(nickName: "Midorizzang", image: 1, comment: "정말 감명깊게 봤습니다!!", gradeAvg: 9.5, date: "2023.04.14"),
         UserReview(nickName: "대.폭.살.신 다이너마이트", image: 2, comment: "쓰레기; 감독 죽어버려", gradeAvg: 0.4, date: "2023.04.14"),

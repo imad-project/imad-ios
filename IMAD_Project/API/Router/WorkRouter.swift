@@ -39,13 +39,21 @@ enum WorkRouter:URLRequestConvertible{
             return params
         }
     }
+
     func asURLRequest() throws -> URLRequest {
         let url = baseUrl.appendingPathComponent(endPoint)  //url 설정
         var request = URLRequest(url: url)
         request.method = method
+        
         switch self{
         case .workSearch:
-            return try URLEncoding.default.encode(request, with: parameters)
+            let encoding = URLEncoding(destination: .queryString)
+            return try encoding.encode(request, with: parameters)
         }
+        // 인코딩 설정 변경
+        
     }
+   
+
+
 }
