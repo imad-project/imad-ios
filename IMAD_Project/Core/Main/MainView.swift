@@ -318,7 +318,7 @@ extension MainView{
             ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
                 // Section(header:){
                 ScrollView(.horizontal,showsIndicators: false){
-                    genreHeader(name: genre.generName).padding(.top)
+                    genreHeader(name: genre.name).padding(.top)
                     HStack(spacing: 0){
                         ForEach(CustomData.instance.workList){ work in
                             Button {

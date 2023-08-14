@@ -18,67 +18,100 @@ struct WorkInfoView: View {
                 Group{
                     Text("원재")
                         .bold()
-                    if work.name == nil{
-                        Text(work.title ?? "")
-                            .padding(.bottom,5)
-                            .font(.subheadline)
+                    HStack{
+                        if work.name == nil{
+                            Text(work.title ?? "")
+                            Text("(\(work.originalTitle ?? ""))")
+                        }
+                        else{
+                            Text(work.name ?? "")
+                            Text("(\(work.originalName ?? ""))")
+                        }
                     }
-                    else{
-                        Text(work.name ?? "")
-                            .padding(.bottom,5)
-                            .font(.subheadline)
-                    }
+                    .padding(.bottom,5)
+                    .font(.subheadline)
+                    .padding(.leading,5)
                     Text("국가")
                         .bold()
-                    if let country = work.originCountry{
-                        ForEach(Array(zip(vm.iso31661, vm.nativename)),id: \.0){ (iso,native) in
-                            ForEach(country,id:\.self){
-                                if iso == $0{
-                                    Text(native)
+                    Group{
+                        if let country = work.originCountry{
+                            ForEach(Array(zip(vm.iso31661, vm.nativename)),id: \.0){ (iso,native) in
+                                ForEach(country,id:\.self){
+                                    if iso == $0{
+                                        Text(native)
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            Text("알수없음")
+                        }
+                    }.font(.subheadline)
+                        .padding(.leading,5)
+                }.padding(.leading)
+                Group{
+                    Text("장르").bold()
+                    HStack{
+                        if work.mediaType == "tv"{
+                            ForEach(TVGenreFilter.allCases,id:\.self){ genre in
+                                if let genreId = work.genreIds,genreId.contains(genre.rawValue){
+                                    Text(genre.name)
+                                }
+                            }
+                        }else{
+                            ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
+                                if let genreId = work.genreIds,genreId.contains(genre.rawValue){
+                                    Text(genre.name)
                                 }
                             }
                         }
                     }
-                }.padding(.leading)
-                Group{
-                    Text("장르").bold()
-//                    Text(work.genreIds)
-//                        .padding(.bottom,5)
-//                        .font(.subheadline)
-//                        .foregroundColor(.gray)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(.leading,5)
+                    
                     Text("개요").bold()
                     Text(work.overview ?? "")
                         .padding(.bottom,5)
                         .font(.subheadline)
+                        .padding(.leading,5)
                     HStack{
                         VStack(alignment: .leading,spacing: 10){
-                            Text("최초개봉일")
-                                .bold()
-                            if work.firstAirDate == nil{
-                                Text(work.releaseDate ?? "")
-                                    .foregroundColor(.gray)
-                                    .font(.subheadline)
-                            }else{
-                                Text(work.firstAirDate ?? "")
-                                    .foregroundColor(.gray)
-                                    .font(.subheadline)
+                            
+                            Group{
+                                if work.firstAirDate == nil{
+                                    Text("최초개봉일")
+                                        .bold()
+                                    Text(work.releaseDate ?? "")
+                                        .foregroundColor(.gray)
+                                        .font(.subheadline)
+                                        .padding(.leading,5)
+                                }else{
+                                    Text("최초공개일")
+                                        .bold()
+                                    Text(work.firstAirDate ?? "")
+                                        .foregroundColor(.gray)
+                                        .font(.subheadline)
+                                        .padding(.leading,5)
+                                }
                             }
                             
                         }
                         Spacer()
                         VStack(alignment: .leading,spacing: 10){
-                            Text("상태")
+                            Text("타입")
                                 .bold()
-                            Text("개봉됨")
+                            Text(work.mediaType == "movie" ? "영화" : "TV")
                                 .foregroundColor(.gray)
                                 .font(.subheadline)
+                                .padding(.leading,5)
                         }
                         Spacer()
                     }.padding(.bottom,5)
                 }.padding(.leading)
                     Text("감독").bold().padding(.leading)
                     VStack{
-                        KFImage(URL(string: "https://i.namu.wiki/i/AhZqffH5JK_cJmB5iJE-fIo0SbMCg8-cea10ZjQ949dnyRr_NulwRbTagcnkc6gpB73tZaxUxVE3kWPnNEoiuzk_1Y6eWZ6xbxZCJRbh3vX6MQZsJgZS_2GgMzXdj29DlZU0y1hJt4hos3pbpwAuwA.webp"))
+                        KFImage(URL(string: "https://image.newsis.com/2022/03/17/NISI20220317_0018600863_web.jpg"))
                             .resizable()
                             .frame(width: 80,height: 80)
                             .clipShape(Circle())
@@ -91,7 +124,7 @@ struct WorkInfoView: View {
                         HStack{
                         ForEach(0...10,id:\.self){ _ in
                             VStack{
-                                KFImage(URL(string: "https://i.namu.wiki/i/AhZqffH5JK_cJmB5iJE-fIo0SbMCg8-cea10ZjQ949dnyRr_NulwRbTagcnkc6gpB73tZaxUxVE3kWPnNEoiuzk_1Y6eWZ6xbxZCJRbh3vX6MQZsJgZS_2GgMzXdj29DlZU0y1hJt4hos3pbpwAuwA.webp"))
+                                KFImage(URL(string: "https://image.newsis.com/2022/03/17/NISI20220317_0018600863_web.jpg"))
                                     .resizable()
                                     .frame(width: 80,height: 80)
                                     .clipShape(Circle())

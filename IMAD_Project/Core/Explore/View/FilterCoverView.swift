@@ -46,7 +46,11 @@ struct FilterCoverView: View {
                             Text("장르")
                                 .padding(.vertical)
                             FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases) { item in
-                                Text(item.generName).font(.subheadline)
+                                HStack{
+                                    Text(item.name)
+                                    Text(item.image)
+                                }
+                                .font(.subheadline)
                                     .bold()
                                     .padding(8)
                                     .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))

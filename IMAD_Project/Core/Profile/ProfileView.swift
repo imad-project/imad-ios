@@ -30,165 +30,165 @@ struct ProfileView: View {
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false){
+                VStack(spacing: 0){
                     VStack(spacing: 0){
-                        VStack(spacing: 0){
-                            Button {
-                                withAnimation(.easeIn(duration:0.5)){
-                                    profileSelect = true
-                                }
-                            } label: {
-                                Group{
-                                    ZStack{
-                                        Circle().foregroundColor(.white).shadow(radius:10)
-                                        ForEach(ProfileFilter.allCases,id:\.self){ image in
-                                            if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
-                                                Image("\(image)")
-                                                    .resizable()
-                                            }
+                        Button {
+                            withAnimation(.easeIn(duration:0.5)){
+                                profileSelect = true
+                            }
+                        } label: {
+                            Group{
+                                ZStack{
+                                    Circle().foregroundColor(.white).shadow(radius:10)
+                                    ForEach(ProfileFilter.allCases,id:\.self){ image in
+                                        if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
+                                            Image("\(image)")
+                                                .resizable()
                                         }
                                     }
                                 }
-                                .frame(width: 100,height: 100)
-                                .overlay(alignment:.bottomTrailing){
-                                    Circle()
-                                        .foregroundColor(.black.opacity(0.7))
-                                        .frame(width: 30,height: 30)
-                                        .overlay {
-                                            Image(systemName: "photo")
-                                                .foregroundColor(.white)
-                                                .font(.caption)
-                                        }
-                                }
-                                
+                            }
+                            .frame(width: 100,height: 100)
+                            .overlay(alignment:.bottomTrailing){
+                                Circle()
+                                    .foregroundColor(.black.opacity(0.7))
+                                    .frame(width: 30,height: 30)
+                                    .overlay {
+                                        Image(systemName: "photo")
+                                            .foregroundColor(.white)
+                                            .font(.caption)
+                                    }
                             }
                             
-
                         }
-                        Text(vmAuth.getUserRes?.data?.nickname ?? "콰랑")
-                            .font(.title3)
-                            .bold()
-                            .padding(.top)
-                        Text(authProvider)
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                            .onAppear{
-                                switch vmAuth.getUserRes?.data?.authProvider{
-                                case "IMAD":
-                                    authProvider = "아이매드 회원"
-                                case "KAKAO":
-                                    authProvider = "카카오 회원"
-                                case "APPLE":
-                                    authProvider = "애플 회원"
-                                case "NAVER":
-                                    authProvider = "네이버 회원"
-                                case "GOOGLE":
-                                    authProvider = "구글 회원"
-                                case .none:
-                                    return
-                                case .some(_):
-                                    return
-                                }
-                            }
-                        VStack(alignment: .leading) {
-                            Text("내 활동").bold()
-                                .padding(.top)
-                            HStack{
-                                Group{
-                                    VStack(spacing:10){
-                                        Image(systemName: "star.bubble")
-                                            .font(.title)
-                                            .foregroundColor(.yellow)
-                                        Text("내 리뷰").font(.caption)
-                                        Text("12").bold()
-                                            
-                                    }
-                                    VStack(spacing:10){
-                                        Image(systemName: "text.word.spacing")
-                                            .font(.title)
-                                        Text("내 게시물")
-                                            .font(.caption)
-                                        Text("3").bold()
-                                        
-                                    }
-                                    VStack(spacing:10){
-                                        Image(systemName: "heart.fill")
-                                            .font(.title)
-                                            .foregroundColor(.red)
-                                        Text("내 좋아요")
-                                            .font(.caption)
-                                        Text(numberFormatter(number: 1203)).bold()
-                                    }
-                                }.frame(maxWidth:.infinity)
-                                    .frame(height:100)
-                                    .padding()
-                                    .background{
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(lineWidth: 2)
-                                    }
-                                
-                            }
-                            Text("관심 장르").bold()
-                                .padding(.top)
-                            genre
-                            Text("찜 작품 목록").bold()
-                                .padding(.top)
-                            movieList
-                                .padding(.bottom,50)
-                        }.padding(.horizontal)
-                        Spacer()
+                        
+                        
                     }
+                    Text(vmAuth.getUserRes?.data?.nickname ?? "콰랑")
+                        .font(.title3)
+                        .bold()
+                        .padding(.top)
+                    Text(authProvider)
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .onAppear{
+                            switch vmAuth.getUserRes?.data?.authProvider{
+                            case "IMAD":
+                                authProvider = "아이매드 회원"
+                            case "KAKAO":
+                                authProvider = "카카오 회원"
+                            case "APPLE":
+                                authProvider = "애플 회원"
+                            case "NAVER":
+                                authProvider = "네이버 회원"
+                            case "GOOGLE":
+                                authProvider = "구글 회원"
+                            case .none:
+                                return
+                            case .some(_):
+                                return
+                            }
+                        }
+                    VStack(alignment: .leading) {
+                        Text("내 활동").bold()
+                            .padding(.top)
+                        HStack{
+                            Group{
+                                VStack(spacing:10){
+                                    Image(systemName: "star.bubble")
+                                        .font(.title)
+                                        .foregroundColor(.yellow)
+                                    Text("내 리뷰").font(.caption)
+                                    Text("12").bold()
+                                    
+                                }
+                                VStack(spacing:10){
+                                    Image(systemName: "text.word.spacing")
+                                        .font(.title)
+                                    Text("내 게시물")
+                                        .font(.caption)
+                                    Text("3").bold()
+                                    
+                                }
+                                VStack(spacing:10){
+                                    Image(systemName: "heart.fill")
+                                        .font(.title)
+                                        .foregroundColor(.red)
+                                    Text("내 좋아요")
+                                        .font(.caption)
+                                    Text(numberFormatter(number: 1203)).bold()
+                                }
+                            }.frame(maxWidth:.infinity)
+                                .frame(height:100)
+                                .padding()
+                                .background{
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(lineWidth: 2)
+                                }
+                            
+                        }
+                        Text("관심 장르").bold()
+                            .padding(.top)
+                        genre
+                        Text("찜 작품 목록").bold()
+                            .padding(.top)
+                        movieList
+                            .padding(.bottom,50)
+                    }.padding(.horizontal)
+                    Spacer()
+                }
             }.background(Color.white)
                 .navigationBarItems(leading: Text("프로필").font(.title2).bold(), trailing: NavigationLink(destination: ProfileChangeView().environmentObject(vmAuth), label: {
                     Image(systemName: "gearshape.fill")
                         .font(.title3)
                 }))
-            .foregroundColor(.customIndigo)
+                .foregroundColor(.customIndigo)
             
         }.colorScheme(.light)
-        .background{
-            Color.white
-        }
-        .ignoresSafeArea()
-        .sheet(isPresented: $profileSelect) {
-            ZStack{
-                Color.white.ignoresSafeArea()
-                VStack{
-                    Text("프로필 선택")
-                        .font(.title)
-                        .bold()
-                        .padding()
-                        .padding(.bottom,50)
-                        .foregroundColor(.black)
-                    LazyVGrid(columns: columns,spacing: 30) {
-                        ForEach(ProfileFilter.allCases,id:\.rawValue){ item in
-                            if item != .none{
-                                Button {
-                                    imageCode = item
-                                    profileSelect = false
-                                } label: {
-                                    Image(item.rawValue)
-                                        .resizable()
-                                        .frame(width: 150,height: 150)
-                                        .overlay {
-                                            if imageCode == item{
-                                                RoundedRectangle(cornerRadius: 10)
-                                                    .foregroundColor(.black.opacity(0.7))
+            .background{
+                Color.white
+            }
+            .ignoresSafeArea()
+            .sheet(isPresented: $profileSelect) {
+                ZStack{
+                    Color.white.ignoresSafeArea()
+                    VStack{
+                        Text("프로필 선택")
+                            .font(.title)
+                            .bold()
+                            .padding()
+                            .padding(.bottom,50)
+                            .foregroundColor(.black)
+                        LazyVGrid(columns: columns,spacing: 30) {
+                            ForEach(ProfileFilter.allCases,id:\.rawValue){ item in
+                                if item != .none{
+                                    Button {
+                                        imageCode = item
+                                        profileSelect = false
+                                    } label: {
+                                        Image(item.rawValue)
+                                            .resizable()
+                                            .frame(width: 150,height: 150)
+                                            .overlay {
+                                                if imageCode == item{
+                                                    RoundedRectangle(cornerRadius: 10)
+                                                        .foregroundColor(.black.opacity(0.7))
+                                                }
                                             }
-                                        }
-                                    
-                                    
+                                        
+                                        
+                                    }
                                 }
                             }
+                            
                         }
-                        
                     }
                 }
+                
             }
-            
-        }
-        .onChange(of: imageCode) { newValue in
-            vmAuth.patchUser(gender: vmAuth.gender, ageRange: vmAuth.age, image:imageCode.num, nickname: vmAuth.nickname, genre: "")
-        }
+            .onChange(of: imageCode) { newValue in
+                vmAuth.patchUser(gender: vmAuth.gender, ageRange: vmAuth.age, image:imageCode.num, nickname: vmAuth.nickname, genre: "")
+            }
         
         
     }
@@ -211,11 +211,15 @@ extension ProfileView{
     }
     var genre:some View{
         FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases) { item in
-            Text(item.generName).font(.subheadline)
-                
-                .bold()
-                .padding(8)
-                .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
+            HStack{
+                Text(item.name)
+                Text(item.image)
+            }
+            
+            .font(.subheadline)
+            .bold()
+            .padding(8)
+            .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
         }.foregroundColor(.customIndigo.opacity(0.5))
     }
     var movieList:some View{

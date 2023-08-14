@@ -23,11 +23,21 @@ struct WorkView: View {
                     Color.white.ignoresSafeArea()
                 ScrollView(showsIndicators: false){
                         VStack(spacing:10){
-                            Text(work.title ?? "")
-                                .padding(.top)
-                                .bold()
-                            Text("(2023)").bold()
-                                .font(.caption)
+                            if work.mediaType == "tv"{
+                                Text(work.name ?? "")
+                                    .padding(.top)
+                                    .bold()
+                                Text(work.originalName ?? "")
+                                    .font(.subheadline)
+                            }else{
+                                Text(work.title ?? "")
+                                    .padding(.top)
+                                    .bold()
+                                Text(work.originalTitle ?? "")
+                                    .font(.subheadline)
+                            }
+                            
+                            
                             KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? ""))!)
                                 .resizable()
                                 .frame(width: 200,height: 300)
