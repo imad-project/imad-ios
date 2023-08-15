@@ -71,10 +71,8 @@ struct WorkInfoView: View {
                     .padding(.leading,5)
                     
                     Text("개요").bold()
-                    Text(work.overview ?? "")
-                        .padding(.bottom,5)
-                        .font(.subheadline)
-                        .padding(.leading,5)
+                    ExpandableTextView(text: work.overview ?? "", maxLines: 5, font: .subheadline,paddingTop:0.5)
+                        .padding(.bottom)
                     HStack{
                         VStack(alignment: .leading,spacing: 10){
                             

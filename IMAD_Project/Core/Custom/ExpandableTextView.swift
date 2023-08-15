@@ -12,6 +12,7 @@ struct ExpandableTextView: View {
     let text: String
     let maxLines: Int
     let font:UIFont.TextStyle
+    let paddingTop:CGFloat
     
     @State private var expanded = false
     var body: some View {
@@ -40,7 +41,7 @@ struct ExpandableTextView: View {
                         .font(.caption)
                    
                 })
-                .padding(.top)
+                .padding(.top,paddingTop)
             }
         }
     
@@ -62,6 +63,6 @@ struct ExpandableTextView: View {
 
 struct ExpandableTextView_Previews: PreviewProvider {
     static var previews: some View {
-        ExpandableTextView(text: CustomData.instance.dummyString, maxLines: 5, font: .body)
+        ExpandableTextView(text: CustomData.instance.dummyString, maxLines: 5, font: .body, paddingTop: 20)
     }
 }
