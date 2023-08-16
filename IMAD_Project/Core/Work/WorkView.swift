@@ -64,9 +64,11 @@ struct WorkView: View {
                                 TabView(selection: $vm.workTab) {
                                     WorkInfoView(work: work)
                                         .tag(WorkFilter.work)
+                                        
+                                    
                                     ReviewView(work: work)
                                         .tag(WorkFilter.review)
-                                }.frame(height: 800)
+                                }.frame(height:(work.overview?.height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont.preferredFont(forTextStyle: .subheadline)) ?? 0) + 500)
                             }
                             .padding(.top,30)
 
