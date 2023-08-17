@@ -76,10 +76,11 @@ struct WorkInfoView: View {
                             .padding(.leading,5)
                             
                             Text("개요").bold()
-                            //                    Text(work.overview ?? "")
-                            //                        .font(.subheadline)
-                            //                        .fixedSize(horizontal: false, vertical: true)
-                            //                        .padding(.bottom)
+                            Text(work.overview ?? "")
+                                .font(.subheadline)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(.bottom)
+                                .padding(.horizontal,5)
                             //                    ExpandableTextView(text: work.overview ?? "", maxLines: 5, font: .callout,paddingTop: 0,morethanMode:false,action: $morethan)
                             //                    HStack{
                             //                        Text(CustomData.instance.dummyString)
@@ -160,6 +161,7 @@ struct WorkInfoView: View {
                             }
                             
                         }.padding(.bottom)
+                        Spacer()
                     }
                
                 if morethan{

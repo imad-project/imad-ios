@@ -22,69 +22,73 @@ struct WorkView: View {
                 ZStack(alignment: .topLeading){
                     Color.white.ignoresSafeArea()
                 ScrollView(showsIndicators: false){
-                        VStack(spacing:10){
-                            if work.mediaType == "tv"{
-                                Text(work.name ?? "")
-                                    .padding(.top)
-                                    .bold()
-                                Text(work.originalName ?? "")
-                                    .font(.subheadline)
-                            }else{
-                                Text(work.title ?? "")
-                                    .padding(.top)
-                                    .bold()
-                                Text(work.originalTitle ?? "")
-                                    .font(.subheadline)
+                        VStack{
+                            VStack(spacing:10){
+                                if work.mediaType == "tv"{
+                                    Text(work.name ?? "")
+                                        .padding(.top)
+                                        .bold()
+                                    Text(work.originalName ?? "")
+                                        .font(.subheadline)
+                                }else if work.mediaType == "movie"{
+                                    Text(work.title ?? "")
+                                        .padding(.top)
+                                        .bold()
+                                    Text(work.originalTitle ?? "")
+                                        .font(.subheadline)
+                                }
+                                
+                                KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? ""))!)
+                                    .resizable()
+                                    .frame(width: 200,height: 300)
+                                    .cornerRadius(20)
+                                    .shadow(radius: 20)
+                                    .overlay(alignment:.bottomTrailing) {
+                                        Circle()
+                                            .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
+                                            .stroke(lineWidth: 3)
+                                            .rotation(Angle(degrees: 270))
+                                            .frame(width: 80,height: 80)
+                                            .overlay{
+                                                VStack{
+                                                    Image(systemName: "star.fill")
+                                                    Text(String(format: "%0.1f", 4))
+                                                }
+                                            }
+                                            .background(Circle().foregroundColor(.black.opacity(0.7)))
+                                            .shadow(radius: 20)
+                                            .offset(x: 20,y: 20)
+                                            
+                                    }
+                                   
                             }
                             
-                            
-                            KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? ""))!)
-                                .resizable()
-                                .frame(width: 200,height: 300)
-                                .cornerRadius(20)
-                                .shadow(radius: 20)
-                                .overlay(alignment:.bottomTrailing) {
-                                    Circle()
-                                        .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
-                                        .stroke(lineWidth: 3)
-                                        .rotation(Angle(degrees: 270))
-                                        .frame(width: 80,height: 80)
-                                        .overlay{
-                                            VStack{
-                                                Image(systemName: "star.fill")
-                                                Text(String(format: "%0.1f", 4))
-                                            }
-                                        }
-                                        .background(Circle().foregroundColor(.black.opacity(0.7)))
-                                        .shadow(radius: 20)
-                                        .offset(x: 20,y: 20)
-                                        
+                                .background{
+                                    ZStack{
+                                        KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? ""))!)
+                                            .resizable()
+                                            .frame(height: 1000)
+        //                                    .frame(maxWidth: .infinity)
+                                        Color.black.opacity(0.2)
+                                        Color.clear
+                                            .background(Material.thin)
+                                            .environment(\.colorScheme, .dark)
+                                    }
+                                        .offset(y:-400)
+                                        .frame(width: UIScreen.main.bounds.width,height: 300)
                                 }
                             Section(header:category) {
                                 TabView(selection: $vm.workTab) {
                                     WorkInfoView(work: work)
                                         .tag(WorkFilter.work)
-                                        
-                                    
                                     ReviewView(work: work)
                                         .tag(WorkFilter.review)
-                                }.frame(height:(work.overview?.height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont.preferredFont(forTextStyle: .subheadline)) ?? 0) + 500)
+                                }.frame(height:(work.overview?.height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont.preferredFont(forTextStyle: .subheadline)) ?? 0) + 700)
                             }
                             .padding(.top,30)
 
-                        }.background{
-                            ZStack{
-                                KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? ""))!)
-                                    .resizable()
-                                    .frame(height: 1000)
-//                                    .frame(maxWidth: .infinity)
-                                Color.black.opacity(0.2)
-                                Color.clear
-                                    .background(Material.thin)
-                                    .environment(\.colorScheme, .dark)
-                            }.frame(height: 300)
-                                .offset(y:-850)
                         }
+                        
                        
                     
                 }
