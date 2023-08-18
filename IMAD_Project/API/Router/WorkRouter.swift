@@ -10,7 +10,7 @@ import Alamofire
 
 enum WorkRouter:URLRequestConvertible{
     case workSearch(query:String,type:String,page:Int)
-    
+    case workInfo(id:Int,type:String)
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
     }
@@ -19,11 +19,13 @@ enum WorkRouter:URLRequestConvertible{
         switch self{
         case .workSearch:
             return "/api/contents/search"
+        case .workInfo:
+            return "/api/contents/details"
         }
     }
     var method:HTTPMethod{
         switch self{
-        case .workSearch:
+        case .workSearch,.workInfo:
             return .get
         }
         
@@ -37,7 +39,13 @@ enum WorkRouter:URLRequestConvertible{
             params["type"] = type
             params["page"] = page
             return params
+        case let .workInfo(id, type):
+            var params = Parameters()
+            params["id"] = id
+            params["type"] = type
+            return params
         }
+        
     }
 
     func asURLRequest() throws -> URLRequest {
@@ -46,7 +54,7 @@ enum WorkRouter:URLRequestConvertible{
         request.method = method
         
         switch self{
-        case .workSearch:
+        case .workSearch, .workInfo:
             let encoding = URLEncoding(destination: .queryString)
             return try encoding.encode(request, with: parameters)
         }

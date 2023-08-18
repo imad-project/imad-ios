@@ -22,7 +22,6 @@ class SearchViewModel:ObservableObject{
     @Published var maxPage = 0
     
     init(){
-        
         textCancellable = $searchText
             .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
             .removeDuplicates()
@@ -31,7 +30,7 @@ class SearchViewModel:ObservableObject{
                 self.currentPage = 1
                 self.maxPage = 0
                 if value != ""{
-                    self.fetchPlaces(query: value,type: self.type,page: self.currentPage)
+                    self.searchWork(query: value,type: self.type,page: self.currentPage)
                 }
             })
         typeCancellable1 = $type
@@ -41,12 +40,12 @@ class SearchViewModel:ObservableObject{
                 self.work = []
                 self.currentPage = 1
                 self.maxPage = 0
-                self.fetchPlaces(query: self.searchText,type: value,page: self.currentPage)
+                self.searchWork(query: self.searchText,type: value,page: self.currentPage)
             })
         
         
     }
-    func fetchPlaces(query:String,type:MovieTypeFilter,page:Int){
+    func searchWork(query:String,type:MovieTypeFilter,page:Int){
         WorkApiService.workSearch(query: query, type: type.rawValue, page: page)
             .sink { completion in
                 print(completion)

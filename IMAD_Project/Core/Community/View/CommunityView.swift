@@ -87,7 +87,7 @@ struct CommunityView: View {
                     .padding(.bottom,60)
                     .shadow(radius: 10)
                     .navigationDestination(isPresented: $search){
-                        MovieListView(title: "검색", writeCommunity: true, back: $search)
+                        WorkListView(title: "검색", writeCommunity: true, back: $search)
                             .navigationBarBackButtonHidden(true)
                     }
                 }

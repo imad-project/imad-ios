@@ -2,13 +2,13 @@
 //  Work.swift
 //  IMAD_Project
 //
-//  Created by 유영웅 on 2023/08/18.
+//  Created by 유영웅 on 2023/08/09.
 //
 
 import Foundation
 
-struct Work:Codable{
+struct SearchWork:Codable{
     var status:Int
-    var data:WorkInfo?
+    var data:WorkData?
     var message:String
 }

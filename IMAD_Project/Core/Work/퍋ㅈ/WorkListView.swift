@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct MovieListView: View {
+struct WorkListView: View {
     @State var text = ""
     @StateObject var vm = SearchViewModel()
     let title:String
@@ -41,38 +41,38 @@ struct MovieListView: View {
                 ScrollView{
                     
                         LazyVGrid(columns: columns) {
-                            ForEach(vm.work) { result in
+                            ForEach(vm.work){ result in
                                 NavigationLink {
-                                    WorkView(work: result)
-                                } label: {
-                                    VStack{
-                                        KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (result.posterPath ?? ""))!)
-                                            .placeholder{ _ in
-                                                emptyPoster
-                                            }
-                                            .resizable()
-                                            .frame(width: 130,height: 180)
-                                            .cornerRadius(15)
-                                        Group{
-                                            if result.title == nil{
-                                                Text(result.name ?? "")
-                                            }
-                                            else{
-                                                Text(result.title ?? "")
-                                            }
-                                        }
-                                        .bold()
-                                        .font(.subheadline)
-                                        .frame(maxWidth:130,maxHeight:5)
-                                        
-                                    }
-                                }
-                                .padding(.bottom,10)
+                                    WorkView(id:result.id,type:result.mediaType ?? "")
+                                   } label: {
+                                       VStack{
+                                           KFImage(URL(string: result.posterPath?.getImadImage() ?? "")!)
+                                               .placeholder{ _ in
+                                                   emptyPoster
+                                               }
+                                               .resizable()
+                                               .frame(width: 130,height: 180)
+                                               .cornerRadius(15)
+                                           Group{
+                                               if result.title == nil{
+                                                   Text(result.name ?? "")
+                                               }
+                                               else{
+                                                   Text(result.title ?? "")
+                                               }
+                                           }
+                                           .bold()
+                                           .font(.subheadline)
+                                           .frame(maxWidth:130,maxHeight:5)
+   
+                                       }
+                                   }
+                                   .padding(.bottom,10)
                                 if vm.work.last == result,vm.maxPage != vm.currentPage{    //WorkResult에 Equtabe추가
                                     ProgressView()
                                         .environment(\.colorScheme, .light)
                                         .onAppear{
-                                            vm.fetchPlaces(query: vm.searchText, type: vm.type, page: vm.currentPage + 1)
+                                            vm.searchWork(query: vm.searchText, type: vm.type, page: vm.currentPage + 1)
                                         }
                                 }
                             }
@@ -92,10 +92,10 @@ struct MovieListView: View {
 
 struct MovieListView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieListView(title: "내 작품", writeCommunity: false, back: .constant(false))
+        WorkListView(title: "내 작품", writeCommunity: false, back: .constant(false))
     }
 }
-extension MovieListView{
+extension WorkListView{
     func genreHeader(name:String) ->some View{
         HStack{
             Text(name)

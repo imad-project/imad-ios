@@ -9,19 +9,12 @@ import SwiftUI
 import Kingfisher
 
 
-extension Array {
-    func chunks(ofCount chunkSize: Int) -> [[Element]] {
-        stride(from: 0, to: count, by: chunkSize).map { startIndex in
-            let endIndex = Swift.min(startIndex + chunkSize, count)
-            return Array(self[startIndex..<endIndex])
-        }
-    }
-}
+
 struct MainView: View {
     
     @State private var rotationAngle: Angle = .zero
     @State var movieIndex = 0
-    @State var poster:WorkResults = CustomData.instance.workList.first!
+    @State var poster:WorkInfo = CustomData.instance.workInfo
     @State var isReview = false
     @State var select = 0
     @State var anima = false
@@ -74,7 +67,7 @@ struct MainView: View {
         .navigationDestination(isPresented: $isReview){
 //            ReviewView(isReview: $isReview, review: poster)
 //                .navigationBarBackButtonHidden(true)
-            WorkView(work: poster)
+//            WorkView(id: poster.id, type: poster.)
         }
         .navigationBarItems(leading: Text("리뷰").font(.title).bold().padding(.bottom,20),trailing: Button {
             search = true
@@ -84,7 +77,7 @@ struct MainView: View {
         })
         .ignoresSafeArea()
         .navigationDestination(isPresented: $search) {
-            MovieListView(title: "검색", writeCommunity: false, back: $search)
+            WorkListView(title: "검색", writeCommunity: false, back: $search)
                 .navigationBarBackButtonHidden(true)
         }.foregroundColor(.white)
             .onAppear {
@@ -322,7 +315,7 @@ extension MainView{
                     HStack(spacing: 0){
                         ForEach(CustomData.instance.workList){ work in
                             Button {
-                                poster = work
+//                                poster = work
                                 isReview = true
                             } label: {
                                 KFImage(URL(string: ("https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? "")))!)

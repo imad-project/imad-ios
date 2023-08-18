@@ -9,63 +9,109 @@ import SwiftUI
 import Kingfisher
 
 struct WorkInfoView: View {
-    let work:WorkResults
+    let work:WorkInfo
+    let type:String
     @State var morethan = false
     @StateObject var vm = ContriesFilter()
+    
+    var returnType:Bool{
+        switch type{
+        case "movie":
+            return false
+        case "tv":
+            return true
+        default:
+            return true
+        }
+    }
+    
     var body: some View {
         
             ZStack{
                 Color.white.ignoresSafeArea()
                 
-                //            ScrollView(showsIndicators: false){
+     
                
                     VStack(alignment: .leading,spacing: 10){
                         Group{
                             Text("원재")
                                 .bold()
-                            HStack{
-                                if work.name == nil{
-                                    Text(work.title ?? "")
-                                    Text("(\(work.originalTitle ?? ""))")
+                            VStack{
+                                HStack{
+                                    if !returnType{
+                                        Text(work.title ?? "")
+                                        Text("(\(work.originalTitle ?? ""))")
+                                    }
+                                    else{
+                                        Text(work.name ?? "")
+                                        Text("(\(work.originalName ?? ""))")
+                                    }
                                 }
-                                else{
-                                    Text(work.name ?? "")
-                                    Text("(\(work.originalName ?? ""))")
+                                if work.tagline != ""{
+                                    Text(work.tagline)
                                 }
                             }
-                            .padding(.bottom,5)
                             .font(.subheadline)
+                            .padding(.bottom,5)
                             .padding(.leading,5)
-                            Text("국가")
-                                .bold()
-                            Group{
-                                if let country = work.originCountry{
-                                    ForEach(Array(zip(vm.iso31661, vm.nativename)),id: \.0){ (iso,native) in
-                                        ForEach(country,id:\.self){
-                                            if iso == $0{
-                                                Text(native)
+                            
+                            
+                            HStack{
+                                VStack(spacing: 5){
+                                    Text("국가")
+                                        .bold()
+                                    Group{
+                                        if let country = work.productionCountries{
+                                            ForEach(Array(zip(vm.iso31661, vm.nativename)),id: \.0){ (iso,native) in
+                                                ForEach(country,id:\.self){
+                                                    if iso == $0{
+                                                        Text(native)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            Text("알수없음")
+                                        }
+                                    }
+                                }
+                                Spacer()
+                                VStack(spacing: 5){
+                                    Text("연령등급")
+                                        .bold()
+                                    if let certification = work.certification{
+                                        ForEach(CertificationFilter.allCases,id:\.self){ cer in
+                                            if cer.rawValue == certification{
+                                                Text(cer.name)
+                                                    .bold()
+                                                    .font(.caption)
+                                                    .foregroundColor(.white)
+                                                    .padding(2)
+                                                    .background(cer.color)
+                                                    .cornerRadius(5)
                                             }
                                         }
                                     }
                                 }
-                                else{
-                                    Text("알수없음")
-                                }
-                            }.font(.subheadline)
-                                .padding(.leading,5)
+                                Spacer()
+                            }
+                            .font(.subheadline)
+                            .padding(.leading,5)
                         }.padding(.leading)
                         Group{
                             Text("장르").bold()
-                            HStack{
-                                if work.mediaType == "tv"{
+                            HStack(spacing:0){
+                                if returnType{
                                     ForEach(TVGenreFilter.allCases,id:\.self){ genre in
-                                        if let genreId = work.genreIds,genreId.contains(genre.rawValue){
+                                        if work.genres.contains(genre.rawValue){
                                             Text(genre.name)
+                                            
+                                            Text(", ")
                                         }
                                     }
                                 }else{
                                     ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
-                                        if let genreId = work.genreIds,genreId.contains(genre.rawValue){
+                                        if work.genres.contains(genre.rawValue){
                                             Text(genre.name)
                                         }
                                     }
@@ -81,32 +127,13 @@ struct WorkInfoView: View {
                                 .fixedSize(horizontal: false, vertical: true)
                                 .padding(.bottom)
                                 .padding(.horizontal,5)
-                            //                    ExpandableTextView(text: work.overview ?? "", maxLines: 5, font: .callout,paddingTop: 0,morethanMode:false,action: $morethan)
-                            //                    HStack{
-                            //                        Text(CustomData.instance.dummyString)
-                            //                            .font(.subheadline)
-                            //                        Spacer()
-                            //                    }
-                            //                    .padding(.horizontal,5)
                             
-                            //                    .lineLimit(5)
-                            //                    if ){
-                            //                        Button {
-                            //                            morethan = true
-                            //                        } label: {
-                            //                            Text("[더보기]")
-                            //                                .font(.caption)
-                            //                                .foregroundColor(.gray)
-                            //                        }
-                            //                        .padding(.bottom)
-                            //
-                            //                    }
                             
                             HStack{
                                 VStack(alignment: .leading,spacing: 10){
                                     
                                     Group{
-                                        if work.firstAirDate == nil{
+                                        if !returnType{
                                             Text("최초개봉일")
                                                 .bold()
                                             Text(work.releaseDate ?? "")
@@ -128,7 +155,7 @@ struct WorkInfoView: View {
                                 VStack(alignment: .leading,spacing: 10){
                                     Text("타입")
                                         .bold()
-                                    Text(work.mediaType == "movie" ? "영화" : "TV")
+                                    Text(returnType ? "TV" : "영화")
                                         .foregroundColor(.gray)
                                         .font(.subheadline)
                                         .padding(.leading,5)
@@ -206,6 +233,6 @@ struct WorkInfoView: View {
 
 struct WorkInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkInfoView(work: CustomData.instance.workList.first!)
+        WorkInfoView(work: CustomData.instance.workInfo, type: "tv")
     }
 }

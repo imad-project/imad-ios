@@ -10,12 +10,25 @@ import Kingfisher
 
 struct WorkView: View {
     
-    let work:WorkResults
+    let id:Int
+    let type:String
     @State var anima = false
     @State var writeReview = false
     @State var writeCommunity = false
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm = CommunityTabViewModel()
+    @StateObject var tab = CommunityTabViewModel()
+    @StateObject var vm = WorkViewModel()
+    
+    var returnType:Bool{
+        switch type{
+        case "movie":
+            return false
+        case "tv":
+            return true
+        default:
+            return true
+        }
+    }
     
     var body: some View {
             VStack{
@@ -24,21 +37,21 @@ struct WorkView: View {
                 ScrollView(showsIndicators: false){
                         VStack{
                             VStack(spacing:10){
-                                if work.mediaType == "tv"{
-                                    Text(work.name ?? "")
+                                if returnType{
+                                    Text(vm.workInfo?.name ?? "")
                                         .padding(.top)
                                         .bold()
-                                    Text(work.originalName ?? "")
+                                    Text(vm.workInfo?.originalName ?? "")
                                         .font(.subheadline)
-                                }else if work.mediaType == "movie"{
-                                    Text(work.title ?? "")
+                                }else{
+                                    Text(vm.workInfo?.title ?? "")
                                         .padding(.top)
                                         .bold()
-                                    Text(work.originalTitle ?? "")
+                                    Text(vm.workInfo?.originalTitle ?? "")
                                         .font(.subheadline)
                                 }
                                 
-                                KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? ""))!)
+                                KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? ""))!)
                                     .resizable()
                                     .frame(width: 200,height: 300)
                                     .cornerRadius(20)
@@ -65,10 +78,9 @@ struct WorkView: View {
                             
                                 .background{
                                     ZStack{
-                                        KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? ""))!)
+                                        KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? ""))!)
                                             .resizable()
                                             .frame(height: 1000)
-        //                                    .frame(maxWidth: .infinity)
                                         Color.black.opacity(0.2)
                                         Color.clear
                                             .background(Material.thin)
@@ -78,19 +90,17 @@ struct WorkView: View {
                                         .frame(width: UIScreen.main.bounds.width,height: 300)
                                 }
                             Section(header:category) {
-                                TabView(selection: $vm.workTab) {
-                                    WorkInfoView(work: work)
+                                TabView(selection: $tab.workTab) {
+                                    WorkInfoView(work: vm.workInfo ?? CustomData.instance.workInfo, type: type)
                                         .tag(WorkFilter.work)
-                                    ReviewView(work: work)
+                                    ReviewView(work: vm.workInfo ?? CustomData.instance.workInfo)
                                         .tag(WorkFilter.review)
-                                }.frame(height:(work.overview?.height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont.preferredFont(forTextStyle: .subheadline)) ?? 0) + 700)
+                                }.frame(height:(vm.workInfo?.overview?.height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont.preferredFont(forTextStyle: .subheadline)) ?? 0) + 800)
                             }
                             .padding(.top,30)
 
                         }
                         
-                       
-                    
                 }
                 HStack(spacing:0){
                     
@@ -151,16 +161,17 @@ struct WorkView: View {
         
         .foregroundColor(.white)
         .onAppear {
+            vm.getWorkInfo(id: id, type: type)
             withAnimation(.linear(duration: 0.5)){
                 anima = true
             }
         }
         .navigationDestination(isPresented: $writeReview) {
-            WriteReviewView(image: ("https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? "")), gradeAvg: 4)
+            WriteReviewView(image: ("https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? "")), gradeAvg: 4)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
-            CommunityWriteView(image: ("https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? "")))
+            CommunityWriteView(image: ("https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? "")))
                 .navigationBarBackButtonHidden(true)
         }
         .navigationBarBackButtonHidden()    
@@ -169,7 +180,7 @@ struct WorkView: View {
 
 struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkView(work: CustomData.instance.workList.first!)
+        WorkView(id: 1396, type: "tv")
     }
 }
 
@@ -182,13 +193,13 @@ extension WorkView{
                 ForEach(WorkFilter.allCases,id:\.self){ item in
                     Button {
                         withAnimation(.easeIn(duration: 0.2)){
-                            vm.workTab = item
+                            tab.workTab = item
                         }
                     } label: {
                         Text(item.name)
                             .font(.callout)
                             .bold()
-                            .foregroundColor(vm.workTab == item ? .customIndigo : .gray)
+                            .foregroundColor(tab.workTab == item ? .customIndigo : .gray)
                             
                     }.frame(maxWidth: .infinity)
                 }
@@ -196,7 +207,7 @@ extension WorkView{
             .overlay(alignment: .leading){
                     Capsule()
                         .frame(width: geo.size.width/2,height: 3)
-                        .offset(x:vm.indicatorReviewOffset(width: width)).padding(.top,45)
+                        .offset(x:tab.indicatorReviewOffset(width: width)).padding(.top,45)
                 
             }
             .background{
