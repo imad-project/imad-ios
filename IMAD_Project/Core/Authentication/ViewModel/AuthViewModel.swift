@@ -14,7 +14,7 @@ class AuthViewModel:ObservableObject{
     
     @Published var registerRes:RegisterResponse? = nil
     @Published var getUserRes:GetUserInfo? = nil
-    @Published var passwordChangeRes:PasswordChange? = nil
+    @Published var passwordChangeRes:GetUserInfo? = nil
     @Published var selection:RegisterFilter = .nickname     //탭뷰
     
     @Published var guestMode = false
@@ -139,7 +139,7 @@ class AuthViewModel:ObservableObject{
     func passwordChange(old:String,new:String){
         UserApiService.passwordChange(old: old, new: new)
             .sink { completion in
-                if let code = self.passwordChangeRes?.statusCode,code >= 200 && code <= 300{
+                if let code = self.passwordChangeRes?.status,code >= 200 && code <= 300{
                     self.passwordChangeSuccess.send()
                     print("회원탈퇴 완료 \(completion)")
                 }else{

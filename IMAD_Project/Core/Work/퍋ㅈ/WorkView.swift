@@ -51,8 +51,11 @@ struct WorkView: View {
                                         .font(.subheadline)
                                 }
                                 
-                                KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? ""))!)
+                                KFImage(URL(string: vm.workInfo?.posterPath?.getImadImage() ?? ""))
                                     .resizable()
+                                    .placeholder{
+                                        NoImageView()
+                                    }
                                     .frame(width: 200,height: 300)
                                     .cornerRadius(20)
                                     .shadow(radius: 20)
@@ -95,12 +98,12 @@ struct WorkView: View {
                                         .tag(WorkFilter.work)
                                     ReviewView(work: vm.workInfo ?? CustomData.instance.workInfo)
                                         .tag(WorkFilter.review)
-                                }.frame(height:(vm.workInfo?.overview?.height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont.preferredFont(forTextStyle: .subheadline)) ?? 0) + 800)
+                                }.frame(height:(vm.workInfo?.overview?.height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont.preferredFont(forTextStyle: .subheadline)) ?? 0) + 1010)
                             }
                             .padding(.top,30)
 
                         }
-                        
+                    Spacer()
                 }
                 HStack(spacing:0){
                     
@@ -157,6 +160,7 @@ struct WorkView: View {
 
                     
                 }
+                
             }
         
         .foregroundColor(.white)

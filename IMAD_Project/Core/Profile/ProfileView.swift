@@ -40,11 +40,10 @@ struct ProfileView: View {
                             Group{
                                 ZStack{
                                     Circle().foregroundColor(.white).shadow(radius:10)
-                                    ForEach(ProfileFilter.allCases,id:\.self){ image in
-                                        if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
-                                            Image("\(image)")
-                                                .resizable()
-                                        }
+                                    ForEach(ProfileFilter.allCases.filter({$0.num == vmAuth.getUserRes?.data?.profileImage ?? 0}),id:\.self){ image in
+                                        Image("\(image)")
+                                            .resizable()
+                                            .frame(width:70,height:70)
                                     }
                                 }
                             }

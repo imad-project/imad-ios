@@ -20,11 +20,15 @@ struct WorkInfo:Identifiable,Codable{
     let status, name, originalName, firstAirDate: String?
     let lastAirDate: String?
     let numberOfEpisodes, numberOfSeasons: Int?
+    let seasons:[Season]?
+    let networks:[Network]?
+    let credits:Credit?
     
     enum CodingKeys: String, CodingKey {
         case genres
         case productionCountries = "production_countries"
-        case id, overview, tagline
+        case id = "tmdb_id"
+        case overview, tagline
         case posterPath = "poster_path"
         case originalLanguage = "original_language"
         case certification
@@ -38,5 +42,8 @@ struct WorkInfo:Identifiable,Codable{
         case lastAirDate = "last_air_date"
         case numberOfEpisodes = "number_of_episodes"
         case numberOfSeasons = "number_of_seasons"
+        case seasons,networks,credits
     }
 }
+
+

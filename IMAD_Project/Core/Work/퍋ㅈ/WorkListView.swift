@@ -46,7 +46,7 @@ struct WorkListView: View {
                                     WorkView(id:result.id,type:result.mediaType ?? "")
                                    } label: {
                                        VStack{
-                                           KFImage(URL(string: result.posterPath?.getImadImage() ?? "")!)
+                                           KFImage(URL(string: result.posterPath?.getImadImage() ?? ""))
                                                .placeholder{ _ in
                                                    emptyPoster
                                                }

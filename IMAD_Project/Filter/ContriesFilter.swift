@@ -18,7 +18,6 @@ class ContriesFilter:ObservableObject{
     
     var contriesData: [[String: String]] = []
     @Published var nativename = [String]()
-    @Published var iso31661 = [String]()
     // JSON 데이터를 가져오는 함수
     func fetchDataFromURL() {
         let contries = """
@@ -1288,15 +1287,10 @@ class ContriesFilter:ObservableObject{
         } catch {
             print("Error: \(error.localizedDescription)")
         }
-        //        print(contriesData)
         for countryData in contriesData {
             countryData.forEach { dic in
                 if dic.key == CountryKey.nativeName.rawValue{
                     nativename.append(dic.value)
-                    
-                }
-                if dic.key == CountryKey.iso31661.rawValue{
-                    iso31661.append(dic.value)
                 }
             }
             

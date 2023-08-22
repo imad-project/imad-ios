@@ -38,11 +38,11 @@ enum UserApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func passwordChange(old:String,new:String)-> AnyPublisher<PasswordChange,AFError>{
+    static func passwordChange(old:String,new:String)-> AnyPublisher<GetUserInfo,AFError>{
         print("비밀번호변경 api 호출")
         return ApiClient.shared.session
             .request(UserRouter.passwordChange(old: old, new: new),interceptor: intercept)
-            .publishDecodable(type: PasswordChange.self)
+            .publishDecodable(type: GetUserInfo.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message ?? "")")

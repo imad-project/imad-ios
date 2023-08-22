@@ -27,6 +27,26 @@ public extension String {
     func getImadImage() -> String{
         return "https://image.tmdb.org/t/p" + "/original" + self
     }
+    func translationKorean() -> String{
+  
+        switch self{
+        case "Producer":
+            return "프로듀서"
+        case "Executive Producer":
+            return "총괄 프로듀서"
+        case "Director":
+            return "감독"
+        case "Writer":
+            return "작가"
+        case "Story":
+            return "스토리"
+        case "Screenplay":
+            return "각본"
+        default:
+            return "기타"
+        }
+        
+    }
 }
 
 

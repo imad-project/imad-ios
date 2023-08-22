@@ -15,3 +15,23 @@ extension Array {
         }
     }
 }
+extension Array<Int>{
+    func transMovieGenreCode() -> String{
+        var stringArr:[String] = []
+        for i in MovieGenreFilter.allCases{
+            if self.contains(i.rawValue){
+                stringArr.append(i.name)
+            }
+        }
+        return stringArr.joined(separator: ", ")
+    }
+    func transTvGenreCode() -> String{
+        var stringArr:[String] = []
+        for i in TVGenreFilter.allCases{
+            if self.contains(i.rawValue){
+                stringArr.append(i.name)
+            }
+        }
+        return stringArr.joined(separator: ", ")
+    }
+}

@@ -62,7 +62,22 @@ class CustomData{
                                      firstAirDate: "2008-01-20",
                                      lastAirDate: "2013-09-29",
                                      numberOfEpisodes: 62,
-                                     numberOfSeasons: 5
+                                     numberOfSeasons: 5,
+                                     seasons: [
+                                        Season(airDate: "1987-04-19", id: 3581, name: "스페셜", episodeCount: 80, overview: "", posterPath: "/oICoFoPJuEk5VJbEP2HYLEmEQi3.jpg", seasonNumber: 0),
+                                        Season(airDate: "1989-12-17", id: 3582, name: "시즌 1", episodeCount: 13, overview: "", posterPath: "/t544zSFUNyvmyeP4sHotlcEX3zH.jpg", seasonNumber: 1),
+                                       Season(airDate: "1990-10-11", id: 3583, name: "시즌 2", episodeCount: 22, overview: "", posterPath: "/bRyDlUQQafSoIT052jpjLBMe8TH.jpg", seasonNumber: 2)
+                                        ],
+                                     networks: [Network(id: 19, logoPath: "/1DSpHrWyOORkL9N2QHX7Adt31mQ.png", name: "FOX", originCountry: "US")],
+                                     credits: Credit(cast: [
+                                        Person(gender: "MALE", id: 198, creditID: "5256bdc319c2956ff600157c", name: "Dan Castellaneta", profilePath: "/AmeqWhP4A46AWkM4kVphg6jOTQX.jpg", character: "Homer Simpson / Abe Simpson / Barney Gumble / Krusty (voice)", knownForDepartment: "Acting",department: nil,job: nil,  importanceOrder: 0, creditType: "CAST"),
+                                        Person(gender: "MALE", id: 28, creditID: "5256bdc319c2956ff600157c", name: "Dan Castellaneta", profilePath: "/AmeqWhP4A46AWkM4kVphg6jOTQX.jpg", character: "Homer Simpson / Abe Simpson / Barney Gumble / Krusty (voice)", knownForDepartment: "Acting",department: nil,job: nil,  importanceOrder: 0, creditType: "CAST"),
+                                        Person(gender: "MALE", id: 1928, creditID: "5256bdc319c2956ff600157c", name: "Dan Castellaneta", profilePath: "/AmeqWhP4A46AWkM4kVphg6jOTQX.jpg", character: "Homer Simpson / Abe Simpson / Barney Gumble / Krusty (voice)", knownForDepartment: "Acting",department: nil,job: nil,  importanceOrder: 0, creditType: "CAST")
+                                     ], crew: [
+                                        Person(gender: "MALE", id: 122397, creditID: "52fe4255c3a36847f8016037", name: "Richard D. Zanuck", profilePath: "/xnqVhmH5MAEuBEZMVpBRjVb2fIN.jpg", character: nil, knownForDepartment: "Production", department: "Production", job: "Producer", importanceOrder: 0, creditType: "CREW"),
+                                        Person(gender: "MALE", id: 12397, creditID: "52fe4255c3a36847f8016037", name: "Richard D. Zanuck", profilePath: "/xnqVhmH5MAEuBEZMVpBRjVb2fIN.jpg", character: nil, knownForDepartment: "Production", department: "Production", job: "Producer", importanceOrder: 0, creditType: "CREW"),
+                                        Person(gender: "MALE", id: 121197, creditID: "52fe4255c3a36847f8016037", name: "Richard D. Zanuck", profilePath: "/xnqVhmH5MAEuBEZMVpBRjVb2fIN.jpg", character: nil, knownForDepartment: "Production", department: "Production", job: "Producer", importanceOrder: 0, creditType: "CREW")
+                                     ])
     )
     let workList:[WorkResults] = [
         WorkResults(id: 4125790,

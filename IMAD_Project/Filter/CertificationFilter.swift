@@ -17,6 +17,7 @@ enum CertificationFilter:String,CaseIterable{
     case adult = "19"
     case screening = "Restricted Screening"
     case exempt = "Exempt"
+    case none = "NONE"
     
     var color:Color{
         switch self{
@@ -34,6 +35,8 @@ enum CertificationFilter:String,CaseIterable{
             return Color.gray
         case .exempt:
             return Color.brown
+        case .none:
+            return Color.black
         }
     }
     
@@ -53,6 +56,8 @@ enum CertificationFilter:String,CaseIterable{
             return "제한"
         case .exempt:
             return "면제"
+        case .none:
+            return "미상"
         }
     }
     
