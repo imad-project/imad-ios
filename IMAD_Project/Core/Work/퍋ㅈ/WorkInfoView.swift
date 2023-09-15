@@ -12,6 +12,7 @@ struct WorkInfoView: View {
     let work:WorkInfo
     let type:String
     @State var detail:Season?
+    @State var isExtend = false
     @StateObject var vm = ContriesFilter()
     
     var isTV:Bool{
@@ -29,7 +30,7 @@ struct WorkInfoView: View {
         
         ZStack{
             Color.white.ignoresSafeArea()
-            VStack(alignment: .leading,spacing: 10){
+            VStack(alignment: .leading,spacing: 20){
                 Group{
                     title
                     countryAndCertification
@@ -59,8 +60,9 @@ struct WorkInfoView: View {
 
 struct WorkInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkInfoView(work: CustomData.instance.workInfo, type: "tv")
-    }
+        ScrollView{
+            WorkInfoView(work: CustomData.instance.workInfo, type: "tv")
+        }    }
 }
 
 extension WorkInfoView{
@@ -92,9 +94,10 @@ extension WorkInfoView{
     }
     var countryAndCertification:some View{
         HStack{
-            VStack(alignment:.leading,spacing: 5){
+            VStack(alignment:.leading,spacing: 10){
                 Text("국가")
                     .bold()
+                
                 HStack{
                     if let countries = work.productionCountries,countries != []{
                         ForEach(vm.contriesData,id: \.self) { dic in
@@ -111,7 +114,7 @@ extension WorkInfoView{
                 }.padding(.leading,5)
             }
             Spacer()
-            VStack(alignment:.leading,spacing: 5){
+            VStack(alignment:.leading,spacing: 10){
                 Text("연령등급")
                     .bold()
                 if let certification = work.certification{
@@ -127,6 +130,15 @@ extension WorkInfoView{
                         }
                     }.padding(.leading,5)
                 }
+                else{
+                    Text("--")
+                        .bold()
+                        .font(.caption)
+                        .foregroundColor(.white)
+                        .padding(2)
+                        .background(.cyan)
+                        .cornerRadius(5)
+                }
             }
             Spacer()
         }
@@ -134,7 +146,7 @@ extension WorkInfoView{
     }
     var genre:some View{
         HStack{
-            VStack(alignment: .leading,spacing: 5) {
+            VStack(alignment: .leading,spacing: 10) {
                 Text("장르").bold()
                 HStack(spacing:0){
                     if isTV{
@@ -151,7 +163,7 @@ extension WorkInfoView{
     }
     var season:some View{
         
-        VStack(alignment: .leading,spacing: 5) {
+        VStack(alignment: .leading,spacing: 10) {
             if isTV{
                 Text("시즌").bold()
                 HStack{
@@ -174,12 +186,27 @@ extension WorkInfoView{
         }.font(.subheadline)
     }
     var overview:some View{
-        VStack(alignment: .leading,spacing: 5){
+        VStack(alignment: .leading,spacing: 10){
             Text("개요").bold()
-            Text(work.overview ?? "내용이 존재하지 않습니다.")
+            Text(isExtend ? work.overview ?? "sads" : String(work.overview?.prefix(200) ?? "내용이 존재하지 않습니다.") + (isExtend ? "" : "..."))
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(.bottom)
+                .padding(.bottom,5)
                 .padding(.horizontal,5)
+            if work.overview?.count ?? 0 > 200{
+                Button {
+                    withAnimation {
+                        isExtend.toggle()
+                    }
+                } label: {
+                    Text(isExtend ? "접기" :"더보기")
+                        .foregroundColor(.gray)
+                        .padding(.horizontal,5)
+                        .underline()
+                }
+            }
+            
+
+            
         }
         .font(.subheadline)
     }
@@ -305,7 +332,7 @@ extension WorkInfoView{
         .font(.subheadline)
     }
     var network:some View{
-        VStack(alignment: .leading,spacing: 10){
+        VStack(alignment: .leading,spacing: 15){
             Text("방송사")
                 .bold()
             if let networks = work.networks{

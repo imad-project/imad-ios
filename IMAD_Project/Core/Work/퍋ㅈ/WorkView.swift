@@ -36,129 +36,34 @@ struct WorkView: View {
                     Color.white.ignoresSafeArea()
                 ScrollView(showsIndicators: false){
                         VStack{
+                            MovieBackgroundView(url: vm.workInfo?.posterPath?.getImadImage() ?? "", height: 3)
                             VStack(spacing:10){
-                                if returnType{
-                                    Text(vm.workInfo?.name ?? "")
-                                        .padding(.top)
-                                        .bold()
-                                    Text(vm.workInfo?.originalName ?? "")
-                                        .font(.subheadline)
-                                }else{
-                                    Text(vm.workInfo?.title ?? "")
-                                        .padding(.top)
-                                        .bold()
-                                    Text(vm.workInfo?.originalTitle ?? "")
-                                        .font(.subheadline)
-                                }
+                                Text(returnType ? vm.workInfo?.name ?? "" : vm.workInfo?.title ?? "")
+                                    .padding(.top)
+                                    .bold()
+                                Text(returnType ? vm.workInfo?.originalName ?? "" : vm.workInfo?.originalTitle ?? "")
+                                    .font(.subheadline)
                                 
-                                KFImage(URL(string: vm.workInfo?.posterPath?.getImadImage() ?? ""))
-                                    .resizable()
-                                    .placeholder{
-                                        NoImageView()
-                                    }
-                                    .frame(width: 200,height: 300)
-                                    .cornerRadius(20)
-                                    .shadow(radius: 20)
-                                    .overlay(alignment:.bottomTrailing) {
-                                        Circle()
-                                            .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
-                                            .stroke(lineWidth: 3)
-                                            .rotation(Angle(degrees: 270))
-                                            .frame(width: 80,height: 80)
-                                            .overlay{
-                                                VStack{
-                                                    Image(systemName: "star.fill")
-                                                    Text(String(format: "%0.1f", 4))
-                                                }
-                                            }
-                                            .background(Circle().foregroundColor(.black.opacity(0.7)))
-                                            .shadow(radius: 20)
-                                            .offset(x: 20,y: 20)
-                                            
-                                    }
+                                poster
+                                
                                    
                             }
-                            
-                                .background{
-                                    ZStack{
-                                        KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? ""))!)
-                                            .resizable()
-                                            .frame(height: 1000)
-                                        Color.black.opacity(0.2)
-                                        Color.clear
-                                            .background(Material.thin)
-                                            .environment(\.colorScheme, .dark)
-                                    }
-                                        .offset(y:-400)
-                                        .frame(width: UIScreen.main.bounds.width,height: 300)
-                                }
-                            Section(header:category) {
-                                TabView(selection: $tab.workTab) {
-                                    WorkInfoView(work: vm.workInfo ?? CustomData.instance.workInfo, type: type)
-                                        .tag(WorkFilter.work)
-                                    ReviewView(work: vm.workInfo ?? CustomData.instance.workInfo)
-                                        .tag(WorkFilter.review)
-                                }.frame(height:(vm.workInfo?.overview?.height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont.preferredFont(forTextStyle: .subheadline)) ?? 0) + 1010)
+                            .padding(.bottom,30)
+                            category
+                            if tab.workTab == .work{
+                                WorkInfoView(work: vm.workInfo ?? CustomData.instance.workInfo, type: type)
+                                    .padding(.vertical).padding(.top,30)
                             }
-                            .padding(.top,30)
+                            else{
+                                ReviewView(work: vm.workInfo ?? CustomData.instance.workInfo)
+                                    .padding(.vertical,20)
+                            }
 
                         }
                     Spacer()
                 }
-                HStack(spacing:0){
-                    
-                    Button {
-                        writeReview = true
-                    } label: {
-                        Text("리뷰작성")
-                            .padding(.top)
-                            .frame(maxWidth: .infinity)
-                            .background{
-                                Color.white.ignoresSafeArea()
-                                Color.customIndigo.opacity(0.5).ignoresSafeArea()
-                            }
-                    }
-                    Button {
-                        writeCommunity = true
-                    } label: {
-                        Text("게시물 작성")
-                            .padding(.top)
-                            .frame(maxWidth: .infinity)
-                            .background(Color.customIndigo)
-                    }
-                }.foregroundColor(.white)
-                    .bold()
-                    .frame(maxHeight: .infinity,alignment: .bottom)
-                    HStack{
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.left")
-                                .foregroundColor(.black)
-                                .padding(10)
-                                .font(.caption)
-                                .background(Circle().foregroundColor(.white))
-                                .shadow(radius: 20)
-                                .padding(.leading)
-                                
-                        }
-                        Spacer()
-                        Button {
-                          
-                        } label: {
-                            Image(systemName: "star")
-                                .foregroundColor(.black)
-                                .padding(7.5)
-                                .font(.caption)
-                                .background(Circle().foregroundColor(.white))
-                                .shadow(radius: 20)
-                                .padding(.trailing)
-                                
-                        }
-                    }
-                    
-
-                    
+                collection
+                    header
                 }
                 
             }
@@ -171,7 +76,7 @@ struct WorkView: View {
             }
         }
         .navigationDestination(isPresented: $writeReview) {
-            WriteReviewView(image: ("https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? "")), gradeAvg: 4)
+            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: ("https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? "")), gradeAvg: 4)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
@@ -190,6 +95,62 @@ struct WorkView_Previews: PreviewProvider {
 
 
 extension WorkView{
+    var header: some View{
+        HStack{
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(.black)
+                    .padding(10)
+                    .font(.caption)
+                    .background(Circle().foregroundColor(.white))
+                    .shadow(radius: 20)
+                    .padding(.leading)
+                    
+            }
+            Spacer()
+            Button {
+              
+            } label: {
+                Image(systemName: "star")
+                    .foregroundColor(.black)
+                    .padding(7.5)
+                    .font(.caption)
+                    .background(Circle().foregroundColor(.white))
+                    .shadow(radius: 20)
+                    .padding(.trailing)
+                    
+            }
+        }
+    }
+    var poster:some View{
+        KFImage(URL(string: vm.workInfo?.posterPath?.getImadImage() ?? ""))
+            .resizable()
+            .placeholder{
+                NoImageView()
+            }
+            .frame(width: 200,height: 300)
+            .cornerRadius(20)
+            .shadow(radius: 20)
+            .overlay(alignment:.bottomTrailing) {
+                Circle()
+                    .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
+                    .stroke(lineWidth: 3)
+                    .rotation(Angle(degrees: 270))
+                    .frame(width: 80,height: 80)
+                    .overlay{
+                        VStack{
+                            Image(systemName: "star.fill")
+                            Text(String(format: "%0.1f", 4))
+                        }
+                    }
+                    .background(Circle().foregroundColor(.black.opacity(0.7)))
+                    .shadow(radius: 20)
+                    .offset(x: 20,y: 20)
+                    
+            }
+    }
     var category:some View{
         GeometryReader{ geo in
             let width = geo.size.width
@@ -204,7 +165,7 @@ extension WorkView{
                             .font(.callout)
                             .bold()
                             .foregroundColor(tab.workTab == item ? .customIndigo : .gray)
-                            
+
                     }.frame(maxWidth: .infinity)
                 }
             }
@@ -212,12 +173,38 @@ extension WorkView{
                     Capsule()
                         .frame(width: geo.size.width/2,height: 3)
                         .offset(x:tab.indicatorReviewOffset(width: width)).padding(.top,45)
-                
+
             }
             .background{
                 Divider().padding(.top,45)
             }
         }
         .foregroundColor(.customIndigo)
+    }
+    var collection:some View{
+        HStack(spacing:0){
+            
+            Button {
+                writeReview = true
+            } label: {
+                Text("리뷰작성")
+                    .padding(.top)
+                    .frame(maxWidth: .infinity)
+                    .background{
+                        Color.white.ignoresSafeArea()
+                        Color.customIndigo.opacity(0.5).ignoresSafeArea()
+                    }
+            }
+            Button {
+                writeCommunity = true
+            } label: {
+                Text("게시물 작성")
+                    .padding(.top)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.customIndigo)
+            }
+        }.foregroundColor(.white)
+            .bold()
+            .frame(maxHeight: .infinity,alignment: .bottom)
     }
 }

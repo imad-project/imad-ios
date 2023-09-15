@@ -10,15 +10,19 @@ import Kingfisher
 
 struct WriteReviewView: View {
     
+    let id:Int
     let image:String
     let gradeAvg:Double
     let maximumRating: Double = 5.0
     
+    @State var title = ""
     @State var text = ""
+    @State var spoiler = false
     @State var animation = false
     @State var animation1 = false
     @State private var rating: Double = 0.0
     
+    @StateObject var vm = ReviewViewModel()
     @Environment(\.dismiss) var dismiss
     
     
@@ -31,17 +35,7 @@ struct WriteReviewView: View {
             VStack{
                 
                 ZStack(alignment: .top){
-                    ZStack{
-                        KFImage(URL(string:image)!)
-                            .resizable()
-                            .frame(height: 1000)
-                            .frame(maxWidth: .infinity)
-                        Color.black.opacity(0.2)
-                        Color.clear
-                            .background(Material.thin)
-                            .environment(\.colorScheme, .dark)
-                    }.frame(height: 300)
-                        .offset(y:-300)
+                    MovieBackgroundView(url: image,height: 2.7)
                     Text("이 작품 어떠셨나요?")
                         .bold()
                     HStack(alignment: .center){
@@ -52,7 +46,6 @@ struct WriteReviewView: View {
                             .shadow(radius: 10)
                         if animation{
                             VStack{
-                                
                                 Text("현제 이 작품의 평점")
                                 Circle()
                                     .trim(from: 0.0, to: animation1 ? gradeAvg * 0.1 : 0)
@@ -95,13 +88,31 @@ struct WriteReviewView: View {
                         .font(.title3)
                         .foregroundColor(.black)
                     sliderView
-                    HStack{
+                        .padding(.bottom,10)
+                    HStack(alignment: .bottom){
+                        if spoiler{
+                            Text("이 리뷰는 스포일러성 리뷰입니다.")
+                                .foregroundColor(.gray)
+                        }
                         Spacer()
                         Label("스포일러", systemImage: "checkmark")
-                            .foregroundColor(.gray)
-                            .font(.caption)
-                    }.padding(.horizontal,35)
-                    
+                            .foregroundColor(spoiler ? .customIndigo : .gray)
+                            
+                            .bold()
+                            .onTapGesture {
+                                withAnimation {
+                                    spoiler.toggle()
+                                }
+                            }
+                    }.padding(.horizontal,35).font(.subheadline)
+                    CustomTextField(password: false, image: "pencil", placeholder: "제목..", color: .customIndigo, text: $title)
+                        .padding(15)
+                    .background{
+                     RoundedRectangle(cornerRadius: 20)
+                            .stroke(lineWidth:2)
+                            .foregroundColor(.customIndigo)
+                    }
+                    .padding(.horizontal,30)
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.customIndigo, lineWidth: 2)
@@ -126,8 +137,6 @@ struct WriteReviewView: View {
                                 .padding()
                                 .padding(.horizontal)
                         }
-                        
-                        
                     }
                     
                 }
@@ -160,9 +169,9 @@ struct WriteReviewView: View {
                     }
                     Spacer()
                 }
-                if text != ""{
+                if text != "",title != "",rating > 0{
                     Button {
-                      
+                        vm.writeReview(id: id, title: title, content: text, score: rating, spoiler: spoiler)
                     } label: {
                         Text("완료")
                             .font(.body)
@@ -178,7 +187,9 @@ struct WriteReviewView: View {
             .frame(maxHeight: .infinity,alignment: .top)
             .padding()
         }
-        
+        .onReceive(vm.success){ 
+            dismiss()
+        }
         .foregroundColor(.white)
             .onTapGesture {
                 UIApplication.shared.endEditing()
@@ -190,7 +201,7 @@ struct WriteReviewView: View {
 
 struct WriteReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        WriteReviewView(image: CustomData.instance.movieList.first!, gradeAvg: 9.5)
+        WriteReviewView(id: 1, image: CustomData.instance.movieList.first!, gradeAvg: 9.5)
     }
 }
 

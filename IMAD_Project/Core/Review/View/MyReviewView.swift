@@ -14,12 +14,11 @@ struct MyReviewView: View {
         VStack(alignment: .leading){
             header
             List{
-                ForEach(CustomData.instance.reviewList,id: \.self){ item in
-                    CommunityListRowView(title: "", image: item.thumbnail, community: CustomData.instance.community)
-                }.listRowBackground(Color.clear)
+//                ForEach(CustomData.instance.reviewList,id: \.self){ item in
+//                    CommunityListRowView(title: "", image: item.thumbnail, community: CustomData.instance.community)
+//                }.listRowBackground(Color.clear)
             }
             .listStyle(.plain)
-            
         }
         .foregroundColor(.black)
         .background(Color.white)
