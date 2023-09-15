@@ -18,6 +18,7 @@ struct CommunityListRowView: View {
                 Image("happy")
                     .resizable()
                     .frame(width: 25,height: 25)
+                    .cornerRadius(10)
                 Text("착하지 못한천")
                 Spacer()
                 Text("2분전").bold()

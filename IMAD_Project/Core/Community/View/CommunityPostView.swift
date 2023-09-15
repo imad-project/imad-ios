@@ -14,7 +14,7 @@ struct CommunityPostView: View {
     @State var anima = false
     @State var seeMore = false
     
-    let review:Review
+//    let review:Review
     
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -49,11 +49,11 @@ struct CommunityPostView: View {
                         
                         Group{
                             HStack(alignment: .top){
-                                KFImage(URL(string: review.thumbnail))
-                                    .resizable()
-                                    .frame(width: 100,height: 100)
-                                    .cornerRadius(20)
-                                    .shadow(radius: 10)
+//                                KFImage(URL(string: review.thumbnail))
+//                                    .resizable()
+//                                    .frame(width: 100,height: 100)
+//                                    .cornerRadius(20)
+//                                    .shadow(radius: 10)
                                 VStack(alignment: .leading,spacing: 5){
                                     Text("이거 솔직히 엔딩 에바 아닌가")
                                         .bold()
@@ -166,7 +166,8 @@ struct CommunityPostView: View {
 
 struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityPostView(review: CustomData.instance.reviewList.first!)
+//        CommunityPostView(review: CustomData.instance.reviewList.first!)
+        CommunityPostView()
     }
 }
 

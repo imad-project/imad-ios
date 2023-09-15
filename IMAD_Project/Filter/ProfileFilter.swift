@@ -40,17 +40,17 @@ enum ProfileFilter:String, CaseIterable{
         case .none:
             return ""
         case .happy:
-            return "행복이"
+            return "캘리"
         case .ohmygod:
-            return "놀래미"
+            return "수잔"
         case .soso:
-            return "침착이"
+            return "리사"
         case .angry:
-            return "짜증이"
+            return "소피아"
         case .kidding:
-            return "장난이"
+            return "스티브"
         case .hate:
-            return "극혐이"
+            return "프랭크"
 
         }
     }

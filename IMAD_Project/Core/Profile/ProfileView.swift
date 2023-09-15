@@ -39,11 +39,11 @@ struct ProfileView: View {
                         } label: {
                             Group{
                                 ZStack{
-                                    Circle().foregroundColor(.white).shadow(radius:10)
                                     ForEach(ProfileFilter.allCases.filter({$0.num == vmAuth.getUserRes?.data?.profileImage ?? 0}),id:\.self){ image in
                                         Image("\(image)")
                                             .resizable()
-                                            .frame(width:70,height:70)
+                                            .frame(width:80,height:80)
+                                            .cornerRadius(15)
                                     }
                                 }
                             }
@@ -165,17 +165,20 @@ struct ProfileView: View {
                                         imageCode = item
                                         profileSelect = false
                                     } label: {
-                                        Image(item.rawValue)
-                                            .resizable()
-                                            .frame(width: 150,height: 150)
-                                            .overlay {
-                                                if imageCode == item{
-                                                    RoundedRectangle(cornerRadius: 10)
-                                                        .foregroundColor(.black.opacity(0.7))
+                                        VStack{
+                                            Image(item.rawValue)
+                                                .resizable()
+                                                .frame(width: 150,height: 150)
+                                                .overlay {
+                                                    if imageCode == item{
+                                                        Color.black.opacity(0.7)
+                                                    }
                                                 }
-                                            }
-                                        
-                                        
+                                                .cornerRadius(20)
+                                            Text(item.name)
+                                                .foregroundColor(.black)
+                                                .bold()
+                                        }
                                     }
                                 }
                             }
@@ -223,19 +226,19 @@ extension ProfileView{
     }
     var movieList:some View{
         LazyVGrid(columns: genreColumns) {
-            ForEach(CustomData.instance.reviewList.shuffled(),id:\.self){ item in
-                VStack{
-                    KFImage(URL(string: item.thumbnail))
-                        .resizable()
-                        .frame(height: 200)
-                        .cornerRadius(10)
-                    Text(item.title)
-                        .font(.caption)
-                        .frame(width: 200)
-                        .bold()
-                }
-                
-            }
+//            ForEach(CustomData.instance.reviewList.shuffled(),id:\.self){ item in
+//                VStack{
+//                    KFImage(URL(string: item.thumbnail))
+//                        .resizable()
+//                        .frame(height: 200)
+//                        .cornerRadius(10)
+//                    Text(item.title)
+//                        .font(.caption)
+//                        .frame(width: 200)
+//                        .bold()
+//                }
+//                
+//            }
         }
     }
 }

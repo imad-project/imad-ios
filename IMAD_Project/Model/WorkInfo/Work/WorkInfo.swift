@@ -7,11 +7,12 @@
 
 import Foundation
 
-struct WorkInfo:Identifiable,Codable{
+struct WorkInfo:Codable{
     
     let genres: [Int]
     let productionCountries: [String]?
-    let id: Int
+    let contentsId: Int?
+    let tmdbId:Int
     let tagline:String
     let overview, posterPath, originalLanguage: String?
     let certification, contentsType: String?
@@ -27,7 +28,8 @@ struct WorkInfo:Identifiable,Codable{
     enum CodingKeys: String, CodingKey {
         case genres
         case productionCountries = "production_countries"
-        case id = "tmdb_id"
+        case contentsId = "contents_id"
+        case tmdbId = "tmdb_id"
         case overview, tagline
         case posterPath = "poster_path"
         case originalLanguage = "original_language"

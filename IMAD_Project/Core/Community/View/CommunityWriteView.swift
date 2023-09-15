@@ -28,17 +28,7 @@ struct CommunityWriteView: View {
                 VStack(alignment: .leading){
                 
                 ZStack(alignment: .top){
-                    ZStack{
-                        KFImage(URL(string:image)!)
-                            .resizable()
-                            .frame(height: 1000)
-                            .frame(maxWidth: .infinity)
-                        Color.black.opacity(0.2)
-                        Color.clear
-                            .background(Material.thin)
-                            .environment(\.colorScheme, .dark)
-                    }.frame(height: 300)
-                        .offset(y:-300)
+                    MovieBackgroundView(url: image,height: 2.7)
                     Text("자유롭게 작성해보세요!")
                         .bold()
                     HStack(alignment: .center){
@@ -51,7 +41,6 @@ struct CommunityWriteView: View {
                     }.padding(.top,70)
                     
                 }.padding(.top,20)
-               
                     HStack{
                         Text("제목")
                             

@@ -220,33 +220,33 @@ extension MainView{
     var thumnail:some View{
         
         TabView{
-            ForEach(CustomData.instance.reviewList.chunks(ofCount: 3),id:\.self){ item in
-                HStack{
-                    ForEach(Array(item.enumerated()),id:\.0){ (index,element) in
-                        VStack(spacing: 15){
-                            Text("\(index + 1). \(element.title)")
-                                .font(.caption)
-                            KFImage(URL(string: element.thumbnail)!)
-                                .resizable()
-                                .frame(width: 120,height:180)
-                                .cornerRadius(20)
-                            Circle()
-                                .trim(from: 0.0, to: anima ? element.gradeAvg * 0.1 : 0)
-                                .stroke(lineWidth: 3)
-                                .rotation(Angle(degrees: 270))
-                                .frame(width: 50,height: 50)
-                                .overlay{
-                                    VStack{
-                                        Image(systemName: "star.fill")
-                                            .font(.caption)
-                                        Text(String(format: "%0.1f", element.gradeAvg))
-                                            .font(.caption)
-                                    }
-                                }
-                        }.padding(.horizontal,5)
-                    }
-                }
-            }
+//            ForEach(CustomData.instance.reviewList.chunks(ofCount: 3),id:\.self){ item in
+//                HStack{
+//                    ForEach(Array(item.enumerated()),id:\.0){ (index,element) in
+//                        VStack(spacing: 15){
+//                            Text("\(index + 1). \(element.title)")
+//                                .font(.caption)
+//                            KFImage(URL(string: element.thumbnail)!)
+//                                .resizable()
+//                                .frame(width: 120,height:180)
+//                                .cornerRadius(20)
+//                            Circle()
+//                                .trim(from: 0.0, to: anima ? element.gradeAvg * 0.1 : 0)
+//                                .stroke(lineWidth: 3)
+//                                .rotation(Angle(degrees: 270))
+//                                .frame(width: 50,height: 50)
+//                                .overlay{
+//                                    VStack{
+//                                        Image(systemName: "star.fill")
+//                                            .font(.caption)
+//                                        Text(String(format: "%0.1f", element.gradeAvg))
+//                                            .font(.caption)
+//                                    }
+//                                }
+//                        }.padding(.horizontal,5)
+//                    }
+//                }
+//            }
         }
         .frame(height: 300)
         .tabViewStyle(.page(indexDisplayMode: .never))

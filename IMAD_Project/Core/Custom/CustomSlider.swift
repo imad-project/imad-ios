@@ -155,9 +155,6 @@ struct CustomSliderView: View {
     
     var body: some View {
         VStack {
-//            Text("Value: " + slider.valueBetween)
-//            Text("Percentages: " + slider.percentagesBetween)
-            
             HStack(spacing: 0){
                 Text(" \(slider.lowHandle.currentValue)년 ~ ")
                 Text(" \(slider.highHandle.currentValue)년")
@@ -169,16 +166,6 @@ struct CustomSliderView: View {
                 .padding(.trailing)
                 .frame(maxWidth: .infinity)
             
-            // 버튼
-//            Button(action: {
-//                let startPercentage = (1980 - slider.valueStart) / (slider.valueEnd - slider.valueStart)
-//                let endPercentage = (1989 - slider.valueStart) / (slider.valueEnd - slider.valueStart)
-//                slider.lowHandle.currentPercentage = SliderValue(wrappedValue: startPercentage)
-//                slider.highHandle.currentPercentage = SliderValue(wrappedValue: endPercentage)
-//                sliderView = SliderView(slider: slider)
-//            }) {
-//                Text("1980s")
-//            }
         }
     }
     }

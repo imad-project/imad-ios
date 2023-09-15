@@ -30,6 +30,7 @@ struct ProfileSelectView: View {
                 Text("설정된 프로필은 언제든지 바꾸실수 있습니다. ")
                     .font(.callout)
                 .padding(.leading)
+                .padding(.bottom)
                 LazyVGrid(columns: columns){
                     ForEach(ProfileFilter.allCases,id: \.rawValue){ item in
                         if item != .none{
@@ -42,11 +43,10 @@ struct ProfileSelectView: View {
                                         .frame(width: 100,height: 100)
                                         .overlay {
                                             if image == item{
-                                                RoundedRectangle(cornerRadius: 20)
-                                                    .frame(width: 100,height: 100)
-                                                    .foregroundColor(.black.opacity(0.3))
+                                                Color.black.opacity(0.5)
                                             }
                                         }
+                                        .cornerRadius(30)
                                     Text(item.name)
                                         .font(.caption)
                                         .foregroundColor(.customIndigo)

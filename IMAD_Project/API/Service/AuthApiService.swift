@@ -55,27 +55,15 @@ enum AuthApiService{
     }
     static func delete(authProvier:String) -> AnyPublisher<GetUserInfo,AFError>{
         print("회원탈퇴 api 호출")
-        if authProvier != "IMAD"{
-            return ApiClient.shared.session
-                .request(AuthRouter.oauthDelete(authProvider:authProvier),interceptor: intercept)
-                .publishDecodable(type: GetUserInfo.self)
-                .value()
-                .map{ receivedValue in
-                    print("결과 메세지  : \(receivedValue.message ?? "")")
-                    return receivedValue.self
-                }
-                .eraseToAnyPublisher()
-        }else{
-            return ApiClient.shared.session
-                .request(AuthRouter.delete,interceptor: intercept)
-                .publishDecodable(type: GetUserInfo.self)
-                .value()
-                .map{ receivedValue in
-                    print("결과 메세지  : \(receivedValue.message ?? "")")
-                    return receivedValue.self
-                }
-                .eraseToAnyPublisher()
-        }
+        return ApiClient.shared.session
+            .request(authProvier != "IMAD" ? AuthRouter.oauthDelete(authProvider:authProvier) : AuthRouter.delete,interceptor: intercept)
+            .publishDecodable(type: GetUserInfo.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message ?? "")")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
         
     }
     static func getToken(){
@@ -88,6 +76,6 @@ enum AuthApiService{
                 }
             }
     }
-
+    
 }
 

@@ -24,18 +24,18 @@ struct ExploreView: View {
                 Section(header:header){
                     ScrollView{
                         LazyVGrid(columns: columns,spacing: 0) {
-                            ForEach(CustomData.instance.reviewList.shuffled(),id:\.self){ item in
-                                VStack(spacing: 0){
-                                    KFImage(URL(string: item.thumbnail))
-                                        .resizable()
-                                        .frame(height: 250)
-                                        .cornerRadius(10)
-                                        .padding(7.5)
-                                    Text(item.title)
-                                        .font(.subheadline)
-                                        .bold()
-                                }
-                            }
+//                            ForEach(CustomData.instance.reviewList.shuffled(),id:\.self){ item in
+//                                VStack(spacing: 0){
+//                                    KFImage(URL(string: item.thumbnail))
+//                                        .resizable()
+//                                        .frame(height: 250)
+//                                        .cornerRadius(10)
+//                                        .padding(7.5)
+//                                    Text(item.title)
+//                                        .font(.subheadline)
+//                                        .bold()
+//                                }
+//                            }
 //                            }.padding(.top,10)
                         }
                     }

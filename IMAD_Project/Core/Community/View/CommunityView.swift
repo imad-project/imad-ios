@@ -11,7 +11,7 @@ import Kingfisher
 struct CommunityView: View {
     
   @State var search = false
-    @State var post = CustomData.instance.reviewList.first!
+//    @State var post = CustomData.instance.reviewList.first!
     @StateObject var vm = CommunityTabViewModel()
     @Environment(\.colorScheme) var colorScheme
     
@@ -21,52 +21,52 @@ struct CommunityView: View {
                     Section(header:header){
                         TabView(selection: $vm.communityTab) {
                             ScrollView(showsIndicators: false){
-                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-                                    NavigationLink {
-                                        CommunityPostView(review: post)
-                                    } label: {
-                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
-                                        
-                                    }
-                                    Divider().padding(.horizontal)
-                                }
-                                .tag(CommunityFilter.all)
+//                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+//                                    NavigationLink {
+////                                        CommunityPostView(review: post)
+//                                    } label: {
+//                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
+//
+//                                    }
+//                                    Divider().padding(.horizontal)
+//                                }
+//                                .tag(CommunityFilter.all)
                             }.padding(.bottom,40).background(Color.white)
                             ScrollView(showsIndicators: false){
-                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-                                    NavigationLink {
-                                        CommunityPostView(review: post)
-                                    } label: {
-                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
-                                        
-                                    }
-                                    Divider().padding(.horizontal)
-                                }
-                                .tag(CommunityFilter.free)
+//                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+//                                    NavigationLink {
+////                                        CommunityPostView(review: post)
+//                                    } label: {
+//                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
+//
+//                                    }
+//                                    Divider().padding(.horizontal)
+//                                }
+//                                .tag(CommunityFilter.free)
                             }.padding(.bottom,40).background(Color.white)
                             ScrollView(showsIndicators: false){
-                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-                                    NavigationLink {
-                                        CommunityPostView(review: post)
-                                    } label: {
-                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
-                                        
-                                    }
-                                    Divider().padding(.horizontal)
-                                }
-                                .tag(CommunityFilter.question)
+//                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+//                                    NavigationLink {
+////                                        CommunityPostView(review: post)
+//                                    } label: {
+//                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
+//
+//                                    }
+//                                    Divider().padding(.horizontal)
+//                                }
+//                                .tag(CommunityFilter.question)
                             }.padding(.bottom,40).background(Color.white)
                             ScrollView(showsIndicators: false){
-                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-                                    NavigationLink {
-                                        CommunityPostView(review: post)
-                                    } label: {
-                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
-                                            
-                                    }
-                                    Divider().padding(.horizontal)
-                                }
-                                .tag(CommunityFilter.debate)
+//                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+//                                    NavigationLink {
+////                                        CommunityPostView(review: post)
+//                                    } label: {
+//                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
+//                                            
+//                                    }
+//                                    Divider().padding(.horizontal)
+//                                }
+//                                .tag(CommunityFilter.debate)
                             }.padding(.bottom,40).background(Color.white)
                         }
                         
