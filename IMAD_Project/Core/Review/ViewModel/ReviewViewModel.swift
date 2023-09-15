@@ -15,6 +15,11 @@ class ReviewViewModel:ObservableObject{
     var success = PassthroughSubject<(),Never>()
     
     @Published var reviewInfo:ReadReviewResponse?
+    @Published var reviewList:[ReviewDetailsResponseList] = []  //리뷰 리스트
+    @Published var reviewDetailsInfo:ReviewDetails?
+    
+
+
     
     func writeReview(id:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.reviewWrite(id: id, title: title, content: content, score: score, spoiler: spoiler)
@@ -58,6 +63,20 @@ class ReviewViewModel:ObservableObject{
                 print(recievedValue.message)
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     self.success.send()
+                }
+            }.store(in: &cancelable)
+    }
+    func readReviewList(id:Int,page:Int,sort:String,order:Int){
+        ReviewApiService.reviewReadList(id: id, page: page, sort: sort, order: order)
+            .sink { completion in
+                print(completion)
+            } receiveValue: { recievedValue in
+                print(recievedValue.message)
+                if recievedValue.status >= 200 && recievedValue.status < 300{
+                    if let list = recievedValue.data?.reviewDetailsResponseList{
+                        self.reviewDetailsInfo = recievedValue.data
+                        self.reviewList.append(contentsOf: list)
+                    }
                 }
             }.store(in: &cancelable)
     }

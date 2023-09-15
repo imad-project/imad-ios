@@ -13,6 +13,7 @@ enum ReivewRouter:URLRequestConvertible{
     case read(id:Int)
     case update(id:Int)
     case delete(id:Int)
+    case readList(id:Int,page:Int,sort:String,order:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -24,6 +25,8 @@ enum ReivewRouter:URLRequestConvertible{
             return "/api/review"
         case  .read(let id),.update(let id),.delete(let id):
             return "/api/review/\(id)"
+        case .readList(let id,_,_,_):
+            return "/api/review/list/\(id)"
         }
     }
     
@@ -31,7 +34,7 @@ enum ReivewRouter:URLRequestConvertible{
         switch self{
         case .write:
             return .post
-        case .read:
+        case .read,.readList:
             return .get
         case .update:
             return .patch
@@ -49,6 +52,12 @@ enum ReivewRouter:URLRequestConvertible{
             params["score"] = score
             params["is_spoiler"] = spoiler
             return params
+        case let .readList(_, page, sort, order):
+            var params = Parameters()
+            params["page"] = page
+            params["sort"] = sort
+            params["order"] = order
+            return params
         default:
             return Parameters()
         }
@@ -58,7 +67,12 @@ enum ReivewRouter:URLRequestConvertible{
         let url = baseUrl.appendingPathComponent(endPoint)  //url 설정
         var request = URLRequest(url: url)
         request.method = method
+        switch self{
+        case .readList:
+            return try URLEncoding(destination: .queryString).encode(request, with: parameters)
+        default:
+            return try JSONEncoding.default.encode(request, with: parameters)
+        }
         
-        return try JSONEncoding.default.encode(request, with: parameters)
     }
 }

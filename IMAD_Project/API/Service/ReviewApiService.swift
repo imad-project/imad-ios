@@ -61,4 +61,16 @@ enum ReviewApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func reviewReadList(id:Int,page:Int,sort:String,order:Int) -> AnyPublisher<ReadReviewList,AFError>{
+        print("리뷰리스트 조회")
+        return ApiClient.shared.session
+            .request(ReivewRouter.readList(id: id, page: page, sort: sort, order: order),interceptor: intercept)
+            .publishDecodable(type: ReadReviewList.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }

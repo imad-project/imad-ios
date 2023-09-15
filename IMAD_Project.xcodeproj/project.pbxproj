@@ -94,6 +94,10 @@
 		81C0DC5B2A14B1220022A3EE /* GetUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C0DC5A2A14B1220022A3EE /* GetUserInfo.swift */; };
 		81C0DC5F2A14D01D0022A3EE /* ProfileFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */; };
 		81C1EB7D2AB3581E00FB265D /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB7C2AB3581E00FB265D /* ReviewView.swift */; };
+		81C1EB812AB400AB00FB265D /* ReadReviewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB802AB400AB00FB265D /* ReadReviewList.swift */; };
+		81C1EB832AB4332600FB265D /* ReviewSortFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB822AB4332600FB265D /* ReviewSortFilter.swift */; };
+		81C1EB852AB4397600FB265D /* ReviewOrderFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB842AB4397600FB265D /* ReviewOrderFilter.swift */; };
+		81C1EB872AB43A6000FB265D /* ReviewListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB862AB43A6000FB265D /* ReviewListRowView.swift */; };
 		81C264902A135F8900405B01 /* AuthWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2648F2A135F8900405B01 /* AuthWebView.swift */; };
 		81C264942A1376AE00405B01 /* OauthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C264932A1376AE00405B01 /* OauthFilter.swift */; };
 		81C264972A137CFF00405B01 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C264962A137CFF00405B01 /* RegisterView.swift */; };
@@ -229,6 +233,10 @@
 		81C0DC5A2A14B1220022A3EE /* GetUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserInfo.swift; sourceTree = "<group>"; };
 		81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilter.swift; sourceTree = "<group>"; };
 		81C1EB7C2AB3581E00FB265D /* ReviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
+		81C1EB802AB400AB00FB265D /* ReadReviewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadReviewList.swift; sourceTree = "<group>"; };
+		81C1EB822AB4332600FB265D /* ReviewSortFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSortFilter.swift; sourceTree = "<group>"; };
+		81C1EB842AB4397600FB265D /* ReviewOrderFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewOrderFilter.swift; sourceTree = "<group>"; };
+		81C1EB862AB43A6000FB265D /* ReviewListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewListRowView.swift; sourceTree = "<group>"; };
 		81C2648F2A135F8900405B01 /* AuthWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthWebView.swift; sourceTree = "<group>"; };
 		81C264932A1376AE00405B01 /* OauthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OauthFilter.swift; sourceTree = "<group>"; };
 		81C264962A137CFF00405B01 /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
@@ -612,6 +620,8 @@
 				8115A6572A8A166200B7C3FE /* TVGenreFilter.swift */,
 				8115A6592A8A170700B7C3FE /* MovieGenreFilter.swift */,
 				81E2F8A92A8F4FDD003E53DC /* CertificationFilter.swift */,
+				81C1EB822AB4332600FB265D /* ReviewSortFilter.swift */,
+				81C1EB842AB4397600FB265D /* ReviewOrderFilter.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -767,6 +777,7 @@
 				81F259362AB0892300C54668 /* ReadReview.swift */,
 				81F259382AB09A4300C54668 /* UpdateReview.swift */,
 				81F2593A2AB09FA200C54668 /* DeleteReview.swift */,
+				81C1EB802AB400AB00FB265D /* ReadReviewList.swift */,
 			);
 			path = Review;
 			sourceTree = "<group>";
@@ -786,6 +797,7 @@
 				8124CB3429EFB16A00B446D5 /* WriteReviewView.swift */,
 				8124CB3629F00FCD00B446D5 /* MyReviewView.swift */,
 				81F259282AB05D5B00C54668 /* ReviewDetailsView.swift */,
+				81C1EB862AB43A6000FB265D /* ReviewListRowView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -933,6 +945,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81A1ECE729DC40D50001A366 /* CustomData.swift in Sources */,
+				81C1EB852AB4397600FB265D /* ReviewOrderFilter.swift in Sources */,
 				817B60CF2A2370C1000099A9 /* CheckApiService.swift in Sources */,
 				8115A65E2A8F30F700B7C3FE /* Work.swift in Sources */,
 				81A285F52AAC5CC300703C55 /* MovieBackgroundView.swift in Sources */,
@@ -982,6 +995,7 @@
 				81A1ECF229DD3BBC0001A366 /* MenuTabView.swift in Sources */,
 				81C0DC5F2A14D01D0022A3EE /* ProfileFilter.swift in Sources */,
 				81BB11142A0622AC005654AA /* AuthViewModel.swift in Sources */,
+				81C1EB872AB43A6000FB265D /* ReviewListRowView.swift in Sources */,
 				81BB112E2A0658CC005654AA /* LoginResponse.swift in Sources */,
 				81C0DC5B2A14B1220022A3EE /* GetUserInfo.swift in Sources */,
 				819C50702A0F8AFC0008F4A5 /* RegisterResponse.swift in Sources */,
@@ -1014,6 +1028,7 @@
 				818CF7F82A20929800BABA1F /* ProfileSelectView.swift in Sources */,
 				817860172A29B1DD004639F6 /* WorkFilter.swift in Sources */,
 				8115A6642A8F38A800B7C3FE /* WorkViewModel.swift in Sources */,
+				81C1EB812AB400AB00FB265D /* ReadReviewList.swift in Sources */,
 				81F2592F2AB073BB00C54668 /* ReviewApiService.swift in Sources */,
 				81DB1FB929E549C5002C0840 /* RoundShape.swift in Sources */,
 				81E2F8AA2A8F4FDD003E53DC /* CertificationFilter.swift in Sources */,
@@ -1032,6 +1047,7 @@
 				812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */,
 				81BB11102A061E42005654AA /* Token.swift in Sources */,
 				81C264902A135F8900405B01 /* AuthWebView.swift in Sources */,
+				81C1EB832AB4332600FB265D /* ReviewSortFilter.swift in Sources */,
 				81A1ECE029DACB720001A366 /* SplashView.swift in Sources */,
 				810B4E9E2A2CDE0E00714A2B /* CustomProgressView.swift in Sources */,
 				812CDEA329DEAE880003B993 /* Community.swift in Sources */,

@@ -55,7 +55,7 @@ struct WorkView: View {
                                     .padding(.vertical).padding(.top,30)
                             }
                             else{
-                                ReviewView(work: vm.workInfo ?? CustomData.instance.workInfo)
+                                ReviewView(id:vm.workInfo?.contentsId ?? 0)
                                     .padding(.vertical,20)
                             }
 
