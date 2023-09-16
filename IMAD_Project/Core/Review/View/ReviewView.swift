@@ -15,6 +15,7 @@ struct ReviewView: View {
     @State var order:ReviewOrderFilter = .ascending   //오름차순 - 0,내림차순 - 1
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = ReviewViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         ScrollView {
@@ -23,6 +24,7 @@ struct ReviewView: View {
                     ForEach(vm.reviewList,id:\.self){ review in
                         NavigationLink {
                             ReviewDetailsView(review: review)
+                                .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {
                             ReviewListRowView(review: review)
@@ -68,6 +70,7 @@ struct ReviewView: View {
 struct ReviewView_Previews: PreviewProvider {
     static var previews: some View {
         ReviewView(id: 1)
+            .environmentObject(AuthViewModel())
     }
 }
 

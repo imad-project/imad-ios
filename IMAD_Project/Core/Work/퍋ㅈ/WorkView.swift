@@ -235,6 +235,7 @@ extension WorkView{
                     NavigationLink {
                         ReviewDetailsView(review: review)
                             .navigationBarBackButtonHidden()
+                            .environmentObject(vmAuth)
                     } label: {
                         ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
                     }
@@ -262,9 +263,6 @@ extension WorkView{
                     .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.customIndigo))
                 }
             }
-           
-            
-            
             
             Text("리뷰 보기")
                 .padding(.top)
@@ -272,6 +270,7 @@ extension WorkView{
             ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
                 NavigationLink {
                     ReviewDetailsView(review: review)
+                        .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
                     ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
@@ -281,6 +280,7 @@ extension WorkView{
             if vmReview.reviewList.count > 2 {
                 NavigationLink {
                     ReviewView(id: vm.workInfo?.contentsId ?? 0)
+                        .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
                     HStack{

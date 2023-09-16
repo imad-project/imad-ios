@@ -13,7 +13,9 @@ struct ReviewDetailsView: View {
     let review:ReviewDetailsResponseList
     @State var like = 0
     @State var anima = false
+    @State var menu = false
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         ScrollView{
@@ -121,6 +123,9 @@ struct ReviewDetailsView: View {
                 }
             }
         }
+        .onTapGesture {
+            menu = false
+        }
         .ignoresSafeArea()
         .background(Color.white)
         .foregroundColor(.black)
@@ -138,6 +143,7 @@ struct ReviewDetailsView: View {
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         ReviewDetailsView(review: CustomData.instance.reviewDetail.first!)
+            .environmentObject(AuthViewModel())
     }
 }
 
@@ -152,11 +158,19 @@ extension ReviewDetailsView{
                         .font(.title3)
                 }
                 Spacer()
-                Button {
+                if review.userNickname == vmAuth.nickname{
+                    ZStack{
+                        Button {
+                            withAnimation {
+                                menu.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .font(.title3)
+                        }
+                        
+                    }
                     
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .font(.title3)
                 }
             }
             .overlay{
@@ -168,6 +182,24 @@ extension ReviewDetailsView{
         }
         .padding(.top,60)
         .background(Color.white)
+        .overlay(alignment: .bottomTrailing) {
+            if menu{
+                VStack{
+                    Text("수정하기")
+                    Divider()
+                    Text("삭제하기")
+                        .foregroundColor(.red)
+                }
+                .padding(.vertical)
+                .font(.subheadline)
+                .background(Color.white)
+                .frame(width: 100,height: 80)
+                .cornerRadius(5)
+                .shadow(radius: 10)
+                .offset(y:80)
+                .padding(.trailing)
+            }
+        }
         
     }
 }
