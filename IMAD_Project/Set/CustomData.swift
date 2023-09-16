@@ -62,8 +62,10 @@ class CustomData{
                                      originalName: "Breaking Bad",
                                      firstAirDate: "2008-01-20",
                                      lastAirDate: "2013-09-29",
-                                     numberOfEpisodes: 62,
-                                     numberOfSeasons: 5,
+                                     reviewCnt: 62,
+                                     imageScore: 5,
+                                     numberOfEpisodes:7,
+                                     numberOfSeasons: 0,
                                      seasons: [
                                         Season(airDate: "1987-04-19", id: 3581, name: "스페셜", episodeCount: 80, overview: "", posterPath: "/oICoFoPJuEk5VJbEP2HYLEmEQi3.jpg", seasonNumber: 0),
                                         Season(airDate: "1989-12-17", id: 3582, name: "시즌 1", episodeCount: 13, overview: "", posterPath: "/t544zSFUNyvmyeP4sHotlcEX3zH.jpg", seasonNumber: 1),

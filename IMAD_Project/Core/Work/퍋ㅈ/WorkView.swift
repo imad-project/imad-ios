@@ -74,7 +74,7 @@ struct WorkView: View {
             vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: 0, sort: ReviewSortFilter.createdDate.rawValue, order: 1)
         }
         .navigationDestination(isPresented: $writeReview) {
-            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: ("https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? "")), gradeAvg: 4)
+            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: ("https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? "")), gradeAvg: vm.workInfo?.imageScore ?? 0)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
@@ -137,14 +137,14 @@ extension WorkView{
                     Spacer()
                     if let work = vm.workInfo{
                         Circle()
-                            .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
+                            .trim(from: 0.0, to: anima ? CGFloat(work.imageScore ?? 0) * 0.1 : 0)
                             .stroke(lineWidth: 3)
                             .rotation(Angle(degrees: 270))
                             .frame(width: 70,height: 70)
                             .overlay{
                                 VStack(spacing:5){
                                     Image(systemName: "star.fill")
-                                    Text(String(format: "%0.1f", 4))
+                                    Text(String(format: "%0.1f",CGFloat(work.imageScore ?? 0)))
                                 }
                                 .font(.subheadline)
                             }
