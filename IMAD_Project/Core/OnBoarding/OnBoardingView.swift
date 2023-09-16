@@ -28,7 +28,7 @@ struct OnBoardingView: View {
                     Spacer()
                     Image(image)
                         .resizable()
-                        .frame(width: 250,height: height)
+                        .frame(width: 200,height: height)
                         .padding()
                     
                 }.offset(y:70)

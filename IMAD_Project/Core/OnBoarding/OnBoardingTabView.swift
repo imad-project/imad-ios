@@ -15,9 +15,9 @@ struct OnBoardingTabView: View {
     var body: some View {
         ZStack{
             TabView(selection: $page) {
-                OnBoardingView(title: "리뷰", descrpit: "재밌게 본 드라마나 영화에 대해 마음껏 본인의 생각을 펼쳐보세요!", image: "review", height: 200)
+                OnBoardingView(title: "리뷰", descrpit: "재밌게 본 드라마나 영화에 대해 마음껏 본인의 생각을 펼쳐보세요!", image: "review", height: 150)
                     .tag(0)
-                OnBoardingView(title: "커뮤니티", descrpit: "마음맞는 사람과 \n본인의 작품관에 대해 토론해 보세요!", image: "community", height: 150)
+                OnBoardingView(title: "커뮤니티", descrpit: "마음맞는 사람과 \n본인의 작품관에 대해 토론해 보세요!", image: "community", height: 120)
                     .tag(1)
             }.ignoresSafeArea()
             .tabViewStyle(.page(indexDisplayMode: .never))
