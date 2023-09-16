@@ -14,6 +14,7 @@ enum ReivewRouter:URLRequestConvertible{
     case update(id:Int)
     case delete(id:Int)
     case readList(id:Int,page:Int,sort:String,order:Int)
+    case like(id:Int,status:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -27,6 +28,8 @@ enum ReivewRouter:URLRequestConvertible{
             return "/api/review/\(id)"
         case .readList(let id,_,_,_):
             return "/api/review/list/\(id)"
+        case .like(let id,_):
+            return "/api/review/\(id)/like"
         }
     }
     
@@ -36,7 +39,7 @@ enum ReivewRouter:URLRequestConvertible{
             return .post
         case .read,.readList:
             return .get
-        case .update:
+        case .update,.like:
             return .patch
         case .delete:
             return .delete
@@ -57,6 +60,10 @@ enum ReivewRouter:URLRequestConvertible{
             params["page"] = page
             params["sort"] = sort
             params["order"] = order
+            return params
+        case let .like(_,status):
+            var params = Parameters()
+            params["like_status"] = status
             return params
         default:
             return Parameters()

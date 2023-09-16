@@ -73,4 +73,7 @@ enum ReviewApiService{
             }
             .eraseToAnyPublisher()
     }
+//    static func reviewLike(id:Int,status:Int) -> AnyPublisher<,AFError>{
+//
+//    }
 }

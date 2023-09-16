@@ -10,6 +10,7 @@ import Kingfisher
 
 struct ReviewListRowView: View {
     let review:ReviewDetailsResponseList
+    @State var like = 0
     @State var isExtend = false
     @State var anima = false
     var body: some View {
@@ -18,7 +19,7 @@ struct ReviewListRowView: View {
                 Image(ProfileFilter.allCases.first(where: {$0.num == (review.userProfileImage ?? 1)})?.rawValue ?? "soso")
                     .resizable()
                     .clipShape(Circle())
-                    .frame(width: 40,height: 40)
+                    .frame(width: 25,height: 25)
                 Text(review.userNickname ?? "평론가\(Int.random(in: 0...10))")
                     .font(.subheadline)
                     .bold()
@@ -68,7 +69,38 @@ struct ReviewListRowView: View {
                     .font(.subheadline)
                 }.padding(.horizontal)
             }
-            
+            Divider()
+            HStack{
+                Group{
+                    Button {
+                        if like == 0 || like == -1{
+                            like = 1
+                        }else{
+                            like = 0
+                        }
+                    } label: {
+                        Image(systemName: like == 1 ? "heart.fill":"heart")
+                        Text("좋아요")
+                    }
+                    .foregroundColor(like == 1 ? .red : .gray)
+                    Button {
+                        if like == 0 || like == 1{
+                            like = -1
+                        }else{
+                            like = 0
+                        }
+                    } label: {
+                        HStack{
+                            Image(systemName: like == -1 ? "heart.slash.fill" : "heart.slash")
+                            Text("싫어요")
+                        }
+                    }
+                    .foregroundColor(like == -1 ? .blue : .gray)
+                }
+                .font(.subheadline)
+                .frame(maxWidth: .infinity)
+            }
+            Divider()
         }
         .onAppear{
             DispatchQueue.main.async {

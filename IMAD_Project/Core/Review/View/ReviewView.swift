@@ -19,25 +19,27 @@ struct ReviewView: View {
     var body: some View {
         ScrollView {
             LazyVStack(pinnedViews: [.sectionHeaders]) {
-                    Section {
-                        ForEach(vm.reviewList,id:\.self){ review in
-                            ReviewListRowView(review: review)
-                            Divider()
-                            if vm.reviewList.last == review,vm.reviewDetailsInfo?.totalElements != vm.reviewList.count{
-                                ProgressView()
-                                    .environment(\.colorScheme, .light)
-                                    .onAppear{
-                                        vm.readReviewList(id: id, page: (vm.reviewDetailsInfo?.pageNumber ?? 0) + 1, sort: sort.rawValue, order: order.rawValue)
-                                    }
-                            }
+                Section {
+                    ForEach(vm.reviewList,id:\.self){ review in
+                        ReviewListRowView(review: review)
+                        
+                            .padding(.horizontal)
+                            .background(Color.white)
+                        if vm.reviewList.last == review,vm.reviewDetailsInfo?.totalElements != vm.reviewList.count{
+                            ProgressView()
+                                .environment(\.colorScheme, .light)
+                                .onAppear{
+                                    vm.readReviewList(id: id, page: (vm.reviewDetailsInfo?.pageNumber ?? 0) + 1, sort: sort.rawValue, order: order.rawValue)
+                                }
                         }
-                        .padding(.horizontal)
-                        .padding(.bottom)
-                    } header: {
-                        
-                        filterHeader
-                        
                     }
+                    .padding(.bottom)
+                    .background(Color.gray.opacity(0.1))
+                    
+                    
+                } header: {
+                    filterHeader
+                }
                 
             }
         }
@@ -136,8 +138,8 @@ extension ReviewView{
             Divider()
         }
         
-            .padding(.horizontal)
-            .padding(.top,60)
-            .background(Color.white)
+        .padding(.horizontal)
+        .padding(.top,60)
+        .background(Color.white)
     }
 }

@@ -226,13 +226,13 @@ extension WorkView{
     }
     var reviewList:some View{
         VStack(alignment: .leading) {
-            Divider()
+   
             
             Text("리뷰 보기")
                 .padding(.top)
                 .bold()
             ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
-                ReviewListRowView(review: review).padding(10).background(Color.gray.opacity(0.05)).cornerRadius(10)
+                ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
                
             }
             if vmReview.reviewList.count > 2 {
@@ -245,7 +245,7 @@ extension WorkView{
                         Image(systemName: "chevron.right")
                     }.font(.caption).frame(maxWidth: .infinity)
                         .padding(.vertical,10)
-                        .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1).foregroundColor(.gray))
+                        .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1).foregroundColor(.gray).background(Color.white))
                         
                 }
 
@@ -256,5 +256,7 @@ extension WorkView{
         }
         .padding(.horizontal)
         .foregroundColor(.black)
+        .padding(.bottom,30)
+        .background(Color.gray.opacity(0.1))
     }
 }
