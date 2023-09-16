@@ -14,12 +14,11 @@ struct MovieBackgroundView: View {
     var body: some View {
         ZStack{
             GeometryReader { pro in
+//                KFImage(URL(string: "https://i.namu.wiki/i/mtRB0r36gtDzvae0RPzJd4C_iC7EtxvDcHe056ICVcrE9d5X-Up3zUzZWMVqetYhMR5m8oHiJFH7RZ320jRStA.webp"))
                 KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (url))!)
                     .resizable()
                     .overlay{
-                        Color.black.opacity(0.2)
-                        Color.clear
-                            .background(Material.thin)
+                        LinearGradient(colors: [Color.black.opacity(0.2),Color.black.opacity(0.2),Color.black.opacity(0.2),.white], startPoint: .top, endPoint: .bottom) .background(Material.thin)
                             .environment(\.colorScheme, .dark)
                     }
                     .offset(x: pro.frame(in: .global).minY > 0 ? -pro.frame(in: .global).minY : 0,
