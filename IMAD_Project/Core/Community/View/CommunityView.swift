@@ -130,7 +130,7 @@ extension CommunityView{
     }
     var category:some View{
         GeometryReader{ geo in
-            let width = geo.size.width/2
+            let width = geo.size.width/1.5
             HStack{
                 ForEach(CommunityFilter.allCases,id:\.self){ item in
                     Button {
@@ -152,7 +152,7 @@ extension CommunityView{
             .overlay(alignment:.leading){
                 Capsule()
                     .frame(width: 42.5,height: 3)
-                    .offset(x:vm.indicatorOffset(width: width))
+                    .offset(x:vm.indicatorOffset(width: width)-1)
                     .padding(.top,45)
             }.padding(.leading)
             

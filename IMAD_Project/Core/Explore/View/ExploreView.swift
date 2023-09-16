@@ -64,9 +64,14 @@ struct ExploreView: View {
                                     Label("정렬", systemImage: "arrow.up.arrow.down")
                                 }
                         }
-                    }.font(.caption).padding(.horizontal).padding(.top).background(Color.white)
+                    }
+                    .font(.caption)
+                        .padding(.horizontal)
+                        .background(Color.white)
+                    Spacer().frame(height: 120)
                 }
-            } .padding(.bottom,100).background(Color.white).ignoresSafeArea()
+            }
+                .background(Color.white).ignoresSafeArea()
         }.foregroundColor(.black)
             .popover(isPresented: $sort, arrowEdge: .top) {
                 ZStack{
@@ -88,7 +93,7 @@ struct ExploreView: View {
                             Text("확인")
                                 .foregroundColor(.white)
                                 .frame(maxWidth:.infinity)
-                                .padding(.top)
+                                .padding(.vertical)
                                 .background(Color.customIndigo)
 //                                .frame(maxHeight:.infinity,alignment: .bottom)
                         }
