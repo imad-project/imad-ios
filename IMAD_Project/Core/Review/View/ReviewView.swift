@@ -21,10 +21,14 @@ struct ReviewView: View {
             LazyVStack(pinnedViews: [.sectionHeaders]) {
                 Section {
                     ForEach(vm.reviewList,id:\.self){ review in
-                        ReviewListRowView(review: review)
-                        
-                            .padding(.horizontal)
-                            .background(Color.white)
+                        NavigationLink {
+                            ReviewDetailsView(review: review)
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            ReviewListRowView(review: review)
+                                .padding(.horizontal)
+                                .background(Color.white)
+                        }
                         if vm.reviewList.last == review,vm.reviewDetailsInfo?.totalElements != vm.reviewList.count{
                             ProgressView()
                                 .environment(\.colorScheme, .light)
@@ -35,8 +39,6 @@ struct ReviewView: View {
                     }
                     .padding(.bottom)
                     .background(Color.gray.opacity(0.1))
-                    
-                    
                 } header: {
                     filterHeader
                 }

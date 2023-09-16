@@ -21,7 +21,7 @@ struct WorkInfo:Codable{
     let status, name, originalName, firstAirDate: String?
     let lastAirDate: String?
     let reviewCnt:Int
-    let imageScore:Double?
+    let imadScore:Double?
     let numberOfEpisodes, numberOfSeasons: Int?
     let seasons:[Season]?
     let networks:[Network]?
@@ -38,7 +38,7 @@ struct WorkInfo:Codable{
         case certification
         case contentsType = "contents_type"
         case title
-        case imageScore = "imad_score"
+        case imadScore = "imad_score"
         case reviewCnt = "review_cnt"
         case originalTitle = "original_title"
         case releaseDate = "release_date"

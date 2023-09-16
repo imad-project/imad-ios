@@ -63,7 +63,7 @@ class CustomData{
                                      firstAirDate: "2008-01-20",
                                      lastAirDate: "2013-09-29",
                                      reviewCnt: 62,
-                                     imageScore: 5,
+                                     imadScore: 5,
                                      numberOfEpisodes:7,
                                      numberOfSeasons: 0,
                                      seasons: [

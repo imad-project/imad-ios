@@ -17,6 +17,7 @@ struct WorkView: View {
     @State var writeReview = false
     @State var writeCommunity = false
     @Environment(\.dismiss) var dismiss
+    @StateObject var vmAuth = AuthViewModel()
     @StateObject var vmReview = ReviewViewModel()
     @StateObject var tab = CommunityTabViewModel()
     @StateObject var vm = WorkViewModel()
@@ -65,7 +66,7 @@ struct WorkView: View {
         .foregroundColor(.white)
         .onAppear {
             vm.getWorkInfo(id: id, type: type)
-            
+            vmAuth.getUser()
             withAnimation(.linear(duration: 0.5)){
                 anima = true
             }
@@ -74,7 +75,7 @@ struct WorkView: View {
             vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: 0, sort: ReviewSortFilter.createdDate.rawValue, order: 1)
         }
         .navigationDestination(isPresented: $writeReview) {
-            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imageScore ?? 0)
+            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
@@ -137,14 +138,14 @@ extension WorkView{
                     Spacer()
                     if let work = vm.workInfo{
                         Circle()
-                            .trim(from: 0.0, to: anima ? CGFloat(work.imageScore ?? 0.0) * 0.1 : 0)
+                            .trim(from: 0.0, to: anima ? CGFloat(work.imadScore ?? 0.0) * 0.1 : 0)
                             .stroke(lineWidth: 3)
                             .rotation(Angle(degrees: 270))
                             .frame(width: 70,height: 70)
                             .overlay{
                                 VStack(spacing:5){
                                     Image(systemName: "star.fill")
-                                    Text(String(format: "%0.1f",CGFloat(work.imageScore ?? 0.0)))
+                                    Text(String(format: "%0.1f",CGFloat(work.imadScore ?? 0.0)))
                                 }
                                 .font(.subheadline)
                             }
@@ -155,16 +156,16 @@ extension WorkView{
                 }
                 GeometryReader { geo -> AnyView in
                     let offset = geo.frame(in: .global).minY
-                        DispatchQueue.main.async {
-                            withAnimation {
-                                -offset >= 0 ? (width = true) : (width = false)
-                            }
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            -offset >= 0 ? (width = true) : (width = false)
                         }
+                    }
                     return AnyView(title)
                 }
-               
                 
-
+                
+                
             }
             .padding(.leading,20)
             Spacer()
@@ -226,7 +227,44 @@ extension WorkView{
     }
     var reviewList:some View{
         VStack(alignment: .leading) {
-   
+            Text("내 리뷰")
+                .padding(.top)
+                .bold()
+            VStack{
+                if let review = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.nickname}){
+                    NavigationLink {
+                        ReviewDetailsView(review: review)
+                            .navigationBarBackButtonHidden()
+                    } label: {
+                        ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                    }
+                }else{
+                    VStack{
+                        Text("내 리뷰가 존재하지 않습니다.")
+                            .font(.subheadline)
+                        NavigationLink {
+                            WriteReviewView(id: vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0)
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            Text("리뷰작성")
+                                .foregroundColor(.white)
+                                .font(.caption)
+                                .padding(.horizontal)
+                                .padding(10)
+                                .background(Color.customIndigo)
+                                .cornerRadius(10)
+                        }
+                        
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal)
+                    .padding(.vertical,20)
+                    .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.customIndigo))
+                }
+            }
+           
+            
+            
             
             Text("리뷰 보기")
                 .padding(.top)
@@ -238,7 +276,7 @@ extension WorkView{
                 } label: {
                     ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
                 }
-               
+                
             }
             if vmReview.reviewList.count > 2 {
                 NavigationLink {
@@ -251,13 +289,13 @@ extension WorkView{
                     }.font(.caption).frame(maxWidth: .infinity)
                         .padding(.vertical,10)
                         .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1).foregroundColor(.gray).background(Color.white))
-                        
+                    
                 }
-
+                
                 
                 
             }
-           
+            
         }
         .padding(.horizontal)
         .foregroundColor(.black)

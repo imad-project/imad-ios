@@ -21,6 +21,7 @@ struct MenuTabView: View {
         ZStack(alignment: .bottom){
             TabView(selection: $vm.tab){
                 MainView(search: $search, filterSelect: $selectFilter)
+                    .environmentObject(vmAuth)
                     .tag(Tab.home)
                 CommunityView()
                     .tag(Tab.community)
