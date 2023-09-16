@@ -18,39 +18,27 @@ struct MenuTabView: View {
     
     var body: some View {
         
-        ZStack{
-            ZStack(alignment: .bottom){
-                TabView(selection: $vm.tab){
-                    MainView(search: $search, filterSelect: $selectFilter)
-                        .tag(Tab.home)
-                    CommunityView()
-                        .tag(Tab.community)
-                    ExploreView()
-                        .tag(Tab.notification)
-                    ProfileView()
-                        .tag(Tab.profile)
-                        .environmentObject(vmAuth)
-                    
-                }
-                menu
+        ZStack(alignment: .bottom){
+            TabView(selection: $vm.tab){
+                MainView(search: $search, filterSelect: $selectFilter)
+                    .tag(Tab.home)
+                CommunityView()
+                    .tag(Tab.community)
+                ExploreView()
+                    .tag(Tab.notification)
+                ProfileView()
+                    .tag(Tab.profile)
+                    .environmentObject(vmAuth)
+                
             }
-            .padding(.bottom,30)
-            .ignoresSafeArea()
-            .blur(radius: selectFilter ? 20:0, opaque: false) //블러처리
-            .allowsHitTesting(selectFilter ? false : true)  //터치 비활성화
+            menu
             if selectFilter{
-                Color.black.opacity(0.7).ignoresSafeArea()
                 filterSelectView
             }
         }
         .onAppear{
             UITabBar.appearance().isHidden = true   //탭바 숨김
         }
-//        .navigationDestination(isPresented: $search) {
-//            MovieListView(title: "검색", back: $search), writeCommunity: <#Bool#>
-//                .navigationBarBackButtonHidden(true)
-//        }
-        
     }
 }
 
@@ -69,7 +57,7 @@ extension MenuTabView{
             let width = geo.size.width
             HStack(spacing: 0) {
                 ForEach(Tab.allCases,id:\.self){ tab in
-                    VStack{
+                    VStack(spacing: 5){
                         if tab.name != ""{
                             Button {
                                 withAnimation(.easeIn(duration: 0.2)){
@@ -77,8 +65,8 @@ extension MenuTabView{
                                 }
                             } label: {
                                 Image(systemName: tab.name)
-                                    .font(.title2)
-                                    .frame(maxWidth: .infinity)
+                                    .frame(width: 30,height: 30)
+                                   
                             }.frame(height: 30)
                         }else{
                             Button {
@@ -86,14 +74,12 @@ extension MenuTabView{
                                     vm.tab = tab
                                 }
                             } label: {
-                                ForEach(ProfileFilter.allCases,id:\.self){ image in
-                                    if let profile = vmAuth.getUserRes?.data?.profileImage, image.num == profile {
-                                        Image("\(image)")
-                                            .resizable()
-                                            .frame(width: 30,height: 30)
-                                            .clipShape(Circle()).frame(maxWidth: .infinity)
-                                    }
-                                }
+                                Image("\(ProfileFilter.allCases.first(where: {$0.num == vmAuth.getUserRes?.data?.profileImage ?? 0})?.name ?? "")")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 30,height: 30)
+                                    .clipShape(Circle())
+                                    
                             }
                             .frame(height: 30)
                         }
@@ -101,31 +87,28 @@ extension MenuTabView{
                             .font(.caption2)
                         
                     }
-                    
+                    .padding(.top,10)
+                    .frame(maxWidth: .infinity)
                 }
             }
-            .frame(maxWidth:.infinity)
             .overlay(alignment:.leading){
                 Capsule()
                     .frame(width: 30,height: 3)
-                    .padding(.leading,35)
-                    .padding(.bottom,65)
-                    .offset(x:vm.indicatorOffset(width: width)+3)
+                    .padding(.horizontal,width/11.25)
+                    .padding(.bottom,55)
+                    .offset(x:vm.indicatorOffset(width: width))
             }
             
         }
-        .frame(height: 20)
-        .padding(.top,8)
-        .padding(.bottom,25)
+        .foregroundColor(.customIndigo)
         .background {
             Color.white.ignoresSafeArea()
                 .shadow(radius: 10)
-            
+
         }
-        .foregroundColor(.customIndigo)
-        
-        
-        
+        .frame(height: 70)
+        .shadow(radius: 10)
+        .frame(maxHeight: .infinity,alignment: .bottom)
         
     }
     
