@@ -74,11 +74,11 @@ struct WorkView: View {
             vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: 0, sort: ReviewSortFilter.createdDate.rawValue, order: 1)
         }
         .navigationDestination(isPresented: $writeReview) {
-            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: ("https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? "")), gradeAvg: vm.workInfo?.imageScore ?? 0)
+            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imageScore ?? 0)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
-            CommunityWriteView(image: ("https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? "")))
+            CommunityWriteView(image: vm.workInfo?.posterPath?.getImadImage() ?? "")
                 .navigationBarBackButtonHidden(true)
         }
         .navigationBarBackButtonHidden()
@@ -137,14 +137,14 @@ extension WorkView{
                     Spacer()
                     if let work = vm.workInfo{
                         Circle()
-                            .trim(from: 0.0, to: anima ? CGFloat(work.imageScore ?? 0) * 0.1 : 0)
+                            .trim(from: 0.0, to: anima ? CGFloat(work.imageScore ?? 0.0) * 0.1 : 0)
                             .stroke(lineWidth: 3)
                             .rotation(Angle(degrees: 270))
                             .frame(width: 70,height: 70)
                             .overlay{
                                 VStack(spacing:5){
                                     Image(systemName: "star.fill")
-                                    Text(String(format: "%0.1f",CGFloat(work.imageScore ?? 0)))
+                                    Text(String(format: "%0.1f",CGFloat(work.imageScore ?? 0.0)))
                                 }
                                 .font(.subheadline)
                             }
@@ -232,7 +232,12 @@ extension WorkView{
                 .padding(.top)
                 .bold()
             ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
-                ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                NavigationLink {
+                    ReviewDetailsView(review: review)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                }
                
             }
             if vmReview.reviewList.count > 2 {

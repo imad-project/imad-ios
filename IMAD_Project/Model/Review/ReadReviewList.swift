@@ -45,7 +45,7 @@ struct ReviewDetailsResponseList: Codable,Hashable {
     let likeCnt, dislikeCnt: Int?
     let createdAt, modifiedAt: String?
     let likeStatus: Int?
-    let spoiler: Bool?
+    let spoiler: Bool
 
     enum CodingKeys: String, CodingKey {
         case reviewID = "review_id"
