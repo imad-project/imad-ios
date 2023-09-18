@@ -71,9 +71,9 @@ enum AuthApiService{
         ApiClient.shared.session
             .request(AuthRouter.token,interceptor: intercept)
             .response{ response in
-                print(response.response?.allHeaderFields ?? [:])
                 if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,let refreshToken = response.response?.allHeaderFields["Authorization-refresh"] as? String{
                     UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+                    
                 }
             }
     }
