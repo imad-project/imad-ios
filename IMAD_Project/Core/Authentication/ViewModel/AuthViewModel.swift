@@ -17,6 +17,8 @@ class AuthViewModel:ObservableObject{
     @Published var passwordChangeRes:GetUserInfo? = nil
     @Published var selection:RegisterFilter = .nickname     //탭뷰
     
+    @Published var getTokenCnt = 0
+    
     @Published var guestMode = false
     @Published var loginMode = false
     
@@ -87,8 +89,11 @@ class AuthViewModel:ObservableObject{
                     print("유저정보 수신 실패 \(completion)")
                     if let errorMsg = self.getUserRes?.message,errorMsg == "토큰의 기한이 만료되었습니다."{
                         AuthApiService.getToken()
+                        self.getTokenCnt += 1
                         print("토큰 재발급")
-                        self.getUser()
+                        if self.getTokenCnt < 3{
+                            self.getUser()
+                        }
                     }
                 }
             } receiveValue: { receivedValue in

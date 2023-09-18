@@ -41,8 +41,8 @@ class ReviewViewModel:ObservableObject{
                 }
             }.store(in: &cancelable)
     }
-    func updateReview(id:Int){
-        ReviewApiService.reviewUpdate(id: id)
+    func updateReview(id:Int,title:String,content:String,score:Double,spoiler:Bool){
+        ReviewApiService.reviewUpdate(id: id, title: title, content: content, score: score, spoiler: spoiler)
             .sink { completion in
                 print(completion)
             } receiveValue: { recievedValue in

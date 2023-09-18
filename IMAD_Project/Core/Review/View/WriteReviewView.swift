@@ -14,13 +14,15 @@ struct WriteReviewView: View {
     let image:String
     let gradeAvg:Double
     let maximumRating: Double = 5.0
+    let reviewId:Int?
     
     @State var title = ""
     @State var text = ""
     @State var spoiler = false
     @State var animation = false
     @State var animation1 = false
-    @State private var rating: Double = 0.0
+    @State var rating: Double = 0.0
+    
     
     @StateObject var vm = ReviewViewModel()
     @Environment(\.dismiss) var dismiss
@@ -46,7 +48,7 @@ struct WriteReviewView: View {
                             .shadow(radius: 10)
                         if animation{
                             VStack{
-                                Text("현제 이 작품의 평점")
+                                Text("현재 이 작품의 평점")
                                 Circle()
                                     .trim(from: 0.0, to: animation1 ? gradeAvg * 0.1 : 0)
                                     .stroke(lineWidth: 3)
@@ -171,9 +173,13 @@ struct WriteReviewView: View {
                 }
                 if text != "",title != "",rating > 0{
                     Button {
-                        vm.writeReview(id: id, title: title, content: text, score: rating, spoiler: spoiler)
+                        if let reviewId{
+                            vm.updateReview(id: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
+                        }else{
+                            vm.writeReview(id: id, title: title, content: text, score: rating, spoiler: spoiler)
+                        }
                     } label: {
-                        Text("완료")
+                        Text(reviewId != nil ? "수정" : "완료")
                             .font(.body)
                             .bold()
                             .foregroundColor(.black)
@@ -201,7 +207,7 @@ struct WriteReviewView: View {
 
 struct WriteReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        WriteReviewView(id: 1, image: CustomData.instance.movieList.first!, gradeAvg: 9.5)
+        WriteReviewView(id: 1, image: CustomData.instance.movieList.first!, gradeAvg: 9.5, reviewId: nil)
     }
 }
 

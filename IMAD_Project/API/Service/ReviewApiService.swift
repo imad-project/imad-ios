@@ -37,10 +37,10 @@ enum ReviewApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func reviewUpdate(id:Int) -> AnyPublisher<UpdateReview,AFError>{
+    static func reviewUpdate(id:Int,title:String,content:String,score:Double,spoiler:Bool) -> AnyPublisher<UpdateReview,AFError>{
         print("리뷰수정 api호출")
         return ApiClient.shared.session
-            .request(ReviewRouter.update(id: id),interceptor: intercept)
+            .request(ReviewRouter.update(id: id, title: title, content: content, score: score, spoiler: spoiler),interceptor: intercept)
             .publishDecodable(type: UpdateReview.self)
             .value()
             .map{ receivedValue in

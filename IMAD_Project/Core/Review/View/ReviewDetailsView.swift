@@ -14,6 +14,7 @@ struct ReviewDetailsView: View {
     @State var like = 0
     @State var anima = false
     @State var menu = false
+    @State var delete = false
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = ReviewViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -30,9 +31,17 @@ struct ReviewDetailsView: View {
                             .clipShape(Circle())
                         Text(vm.reviewInfo?.userNickname ?? "")
                         Spacer()
-                        Text(vm.reviewInfo?.createdAt.relativeTime() ?? "")
-                            .foregroundColor(.gray)
+                        Group{
+                            if vm.reviewInfo?.createdAt ?? "" != vm.reviewInfo?.modifiedAt ?? ""{
+                                Text("수정됨 ·").bold()
+                                Text(vm.reviewInfo?.modifiedAt.relativeTime() ?? "")
+                            }else{
+                                Text(vm.reviewInfo?.createdAt.relativeTime() ?? "")
+                            }
+                        }.foregroundColor(.gray)
                             .font(.caption)
+                        
+                        
                     }
                     .padding()
                     VStack(alignment: .leading){
@@ -130,6 +139,17 @@ struct ReviewDetailsView: View {
         .onTapGesture {
             menu = false
         }
+        .confirmationDialog("ㅇㅇㅇ", isPresented: $delete){
+            Button(role:.destructive){
+                vm.deleteReview(id: reviewId)
+                dismiss()
+            } label: {
+                Text("삭제")
+            }
+            Button("취소", role: .cancel) {}
+        } message: {
+            Text("리뷰를 삭제하시겠습니까?")
+          }
         .ignoresSafeArea()
         .background(Color.white)
         .foregroundColor(.black)
@@ -144,14 +164,18 @@ struct ReviewDetailsView: View {
         .onReceive(vm.success) {
             like = vm.reviewInfo?.likeStatus ?? 0
         }
+        .onDisappear{
+            menu = false
+        }
     }
 }
 
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewDetailsView(reviewId: 1)
-            .environmentObject(AuthViewModel())
-        
+        NavigationStack{
+            ReviewDetailsView(reviewId: 1)
+                .environmentObject(AuthViewModel())
+        }
     }
 }
 
@@ -193,10 +217,19 @@ extension ReviewDetailsView{
         .overlay(alignment: .bottomTrailing) {
             if menu{
                 VStack{
-                    Text("수정하기")
+                    NavigationLink {
+                        WriteReviewView(id: vm.reviewInfo?.contentsID ?? 0, image:vm.reviewInfo?.contentsPosterPath?.getImadImage() ?? "", gradeAvg: vm.reviewInfo?.score ?? 0,reviewId : vm.reviewInfo?.reviewID ?? 0, title: vm.reviewInfo?.title ?? "",text: vm.reviewInfo?.content ?? "",spoiler: vm.reviewInfo?.spoiler ?? false,rating: vm.reviewInfo?.score ?? 0)
+                            .navigationBarBackButtonHidden()
+                    } label: {
+                        Text("수정하기")
+                    }
                     Divider()
-                    Text("삭제하기")
-                        .foregroundColor(.red)
+                    Button {
+                        delete = true
+                    } label: {
+                        Text("삭제하기")
+                            .foregroundColor(.red)
+                    }
                 }
                 .padding(.vertical)
                 .font(.subheadline)

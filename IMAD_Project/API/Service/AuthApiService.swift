@@ -73,7 +73,6 @@ enum AuthApiService{
             .response{ response in
                 if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,let refreshToken = response.response?.allHeaderFields["Authorization-refresh"] as? String{
                     UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-                    
                 }
             }
     }

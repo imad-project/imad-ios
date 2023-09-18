@@ -76,7 +76,7 @@ struct WorkView: View {
             vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: 0, sort: ReviewSortFilter.createdDate.rawValue, order: 0)
         }
         .navigationDestination(isPresented: $writeReview) {
-            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0)
+            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
@@ -142,14 +142,14 @@ extension WorkView{
                     Spacer()
                     if let work = vm.workInfo{
                         Circle()
-                            .trim(from: 0.0, to: anima ? CGFloat(work.imadScore ?? 0.0) * 0.1 : 0)
+                            .trim(from: 0.0, to: anima ? CGFloat(work.imadScore as Double? ?? 0.0) * 0.1 : 0)
                             .stroke(lineWidth: 3)
                             .rotation(Angle(degrees: 270))
                             .frame(width: 70,height: 70)
                             .overlay{
                                 VStack(spacing:5){
                                     Image(systemName: "star.fill")
-                                    Text(String(format: "%0.1f",CGFloat(work.imadScore ?? 0.0)))
+                                    Text(String(format: "%0.1f",CGFloat(work.imadScore as Double? ?? 0.0)))
                                 }
                                 .font(.subheadline)
                             }
@@ -236,7 +236,7 @@ extension WorkView{
                 .bold()
             VStack{
                 if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.nickname}){
-                    ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
+                    ForEach(vmReview.reviewList,id:\.self){ review in
                         if review == my{
                             NavigationLink {
                                 ReviewDetailsView(reviewId: review.reviewID)
@@ -252,7 +252,7 @@ extension WorkView{
                         Text("내 리뷰가 존재하지 않습니다.")
                             .font(.subheadline)
                         NavigationLink {
-                            WriteReviewView(id: vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0)
+                            WriteReviewView(id: vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0, reviewId: nil)
                                 .navigationBarBackButtonHidden()
                         } label: {
                             Text("리뷰작성")

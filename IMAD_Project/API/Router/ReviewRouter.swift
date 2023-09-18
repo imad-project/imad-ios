@@ -11,7 +11,7 @@ import Alamofire
 enum ReviewRouter:URLRequestConvertible{
     case write(id:Int,title:String,content:String,score:Double,spoiler:Bool)
     case read(id:Int)
-    case update(id:Int)
+    case update(id:Int,title:String,content:String,score:Double,spoiler:Bool)
     case delete(id:Int)
     case readList(id:Int,page:Int,sort:String,order:Int)
     case like(id:Int,status:Int)
@@ -24,7 +24,7 @@ enum ReviewRouter:URLRequestConvertible{
         switch self{
         case .write:
             return "/api/review"
-        case  .read(let id),.update(let id),.delete(let id):
+        case  .read(let id),.update(let id,_,_,_,_),.delete(let id):
             return "/api/review/\(id)"
         case .readList(let id,_,_,_):
             return "/api/review/list/\(id)"
@@ -61,6 +61,14 @@ enum ReviewRouter:URLRequestConvertible{
             params["sort"] = sort
             params["order"] = order
             return params
+        case let .update(id, title, content, score, spoiler):
+            var params = Parameters()
+            params["contents_id"] = id
+            params["title"] = title
+            params["content"] = content
+            params["score"] = score
+            params["is_spoiler"] = spoiler
+            return params
         case let .like(_,status):
             var params = Parameters()
             params["like_status"] = status
@@ -75,7 +83,7 @@ enum ReviewRouter:URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         switch self{
-        case .readList,.read,.update,.delete:
+        case .readList,.read,.delete:
             return try URLEncoding(destination: .queryString).encode(request, with: parameters)
         default:
             return try JSONEncoding.default.encode(request, with: parameters)
