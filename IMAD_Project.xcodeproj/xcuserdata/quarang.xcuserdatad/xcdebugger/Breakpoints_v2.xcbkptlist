@@ -208,7 +208,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
             endingLineNumber = "66"
-            landmarkName = "deleteReview(id:)"
+            landmarkName = "readReviewList(id:page:sort:order:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -222,9 +222,9 @@
             filePath = "IMAD_Project/Core/Review/ViewModel/ReviewViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "readReviewList(id:page:sort:order:)"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "likeReview(id:status:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -238,9 +238,9 @@
             filePath = "IMAD_Project/Core/Review/ViewModel/ReviewViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "readReviewList(id:page:sort:order:)"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "likeReview(id:status:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

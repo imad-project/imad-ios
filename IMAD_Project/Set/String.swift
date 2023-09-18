@@ -47,6 +47,34 @@ public extension String {
         }
         
     }
+    func relativeTime() -> String {
+        let currentDate = Date()
+        let calendar = Calendar.current
+
+        
+        let inputDate = self.toDate()
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: inputDate, to: currentDate)
+
+        if let years = components.year, years > 0 {
+            return "\(years)년 전"
+        } else if let months = components.month, months > 0 {
+            return "\(months)달 전"
+        } else if let days = components.day, days > 0 {
+            return "\(days)일 전"
+        } else if let hours = components.hour, hours > 0 {
+            return "\(hours)시간 전"
+        } else if let minutes = components.minute, minutes > 0 {
+            return "\(minutes)분 전"
+        } else {
+            return "방금 전"
+        }
+    }
+    func toDate() -> Date{
+        let formatter = DateFormatter()
+        formatter.locale = .init(identifier: "ko_KR")
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+        return formatter.date(from: self)!
+    }
 }
 
 

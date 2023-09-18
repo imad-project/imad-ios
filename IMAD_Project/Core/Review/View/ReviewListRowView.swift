@@ -26,7 +26,7 @@ struct ReviewListRowView: View {
                     .font(.subheadline)
                     .bold()
                 Spacer()
-                Text(review.createdAt)
+                Text(review.createdAt.relativeTime())
                     .foregroundColor(.gray)
                     .font(.caption)
                 

@@ -73,6 +73,7 @@ class ReviewViewModel:ObservableObject{
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     if let list = recievedValue.data?.reviewDetailsResponseList{
                         self.reviewDetailsInfo = recievedValue.data
+                        self.reviewList = list
                     }
                 }
             }.store(in: &cancelable)

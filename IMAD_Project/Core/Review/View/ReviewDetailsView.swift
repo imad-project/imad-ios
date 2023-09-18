@@ -30,7 +30,7 @@ struct ReviewDetailsView: View {
                             .clipShape(Circle())
                         Text(vm.reviewInfo?.userNickname ?? "")
                         Spacer()
-                        Text(vm.reviewInfo?.createdAt ?? "")
+                        Text(vm.reviewInfo?.createdAt.relativeTime() ?? "")
                             .foregroundColor(.gray)
                             .font(.caption)
                     }
