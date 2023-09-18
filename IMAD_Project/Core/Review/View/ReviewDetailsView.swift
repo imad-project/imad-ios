@@ -82,10 +82,10 @@ struct ReviewDetailsView: View {
                                     Button {
                                         if like < 1{
                                             like = 1
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like, review: nil)
+                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
                                         }else{
                                             like = 0
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like, review: nil)
+                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
                                         }
                                     } label: {
                                         Image(systemName: like == 1 ? "heart.fill":"heart")
@@ -95,10 +95,10 @@ struct ReviewDetailsView: View {
                                     Button {
                                         if like > -1{
                                             like = -1
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like, review: nil)
+                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
                                         }else{
                                             like = 0
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like, review: nil)
+                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
                                         }
                                     } label: {
                                         HStack{
@@ -122,7 +122,6 @@ struct ReviewDetailsView: View {
                             .font(.subheadline)
                         }.padding(.vertical)
                     }.padding()
-                    
                 } header: {
                     header
                 }

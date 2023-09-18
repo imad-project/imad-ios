@@ -22,9 +22,12 @@ struct AuthWebView: View {
                 decisionHandler(.cancel)
                 return
             }
-            print("액세스\(httpResponse.allHeaderFields["Authorization"] as? String ?? "") 리프레쉬\(httpResponse.allHeaderFields["authorization-refresh"] as? String ?? "")")
+//            print("액세스\(httpResponse.allHeaderFields["Authorization"] as? String ?? "") 리프레쉬\(httpResponse.allHeaderFields["authorization-refresh"] as? String ?? "")")
+            
             if let accessToken = httpResponse.allHeaderFields["Authorization"] as? String{
                 if let refreshToken = httpResponse.allHeaderFields["Authorization-refresh"] as? String{
+                    print(accessToken)
+                    print(refreshToken)
                     UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
                     success.send()
                 }else if let refreshToken = httpResponse.allHeaderFields["authorization-refresh"] as? String{
@@ -62,7 +65,7 @@ struct AuthWebView: View {
                 url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.rawValue)")!
             }
             let request = URLRequest(url: url!)
-            
+            print(request)
             // WebView에 로드된 페이지에 대한 Delegate 지정
             webView.navigationDelegate = webViewDelegate
             // 로드된 페이지 요청

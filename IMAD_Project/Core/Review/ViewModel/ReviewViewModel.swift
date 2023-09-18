@@ -18,7 +18,6 @@ class ReviewViewModel:ObservableObject{
     @Published var reviewList:[ReviewDetailsResponseList] = []  //리뷰 리스트
     @Published var reviewDetailsInfo:ReviewDetails?
     
-
     func writeReview(id:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.reviewWrite(id: id, title: title, content: content, score: score, spoiler: spoiler)
             .sink { completion in
@@ -74,20 +73,15 @@ class ReviewViewModel:ObservableObject{
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     if let list = recievedValue.data?.reviewDetailsResponseList{
                         self.reviewDetailsInfo = recievedValue.data
-                        self.reviewList = list
                     }
                 }
             }.store(in: &cancelable)
     }
     
-    func likeReview(id:Int,status:Int,review:ReviewDetailsResponseList?){
+    func likeReview(id:Int,status:Int){
         ReviewApiService.reviewLike(id: id, status: status)
             .sink { completion in
                 print(completion)
-                if let review{
-                    self.reviewInfo?.likeCnt = review.likeCnt
-                    self.reviewInfo?.dislikeCnt = review.dislikeCnt
-                }
             } receiveValue: { recievedValue in
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     self.readReview(id: id)
