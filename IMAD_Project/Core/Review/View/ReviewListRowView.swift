@@ -43,8 +43,17 @@ struct ReviewListRowView: View {
                         .font(.caption)
                         .lineLimit(5)
                         .fixedSize(horizontal: false, vertical: true)
+                        .overlay {
+                            if review.spoiler{
+                                Color.white.opacity(0.1)
+                                    .background(Material.ultraThin)
+                                    .cornerRadius(5)
+                                Text("「스포일러성 리뷰입니다.」")
+                            }
+                        }
                         .padding(.bottom,5)
                         .padding(.horizontal,5)
+                        
                 }
                 
                 Spacer()
