@@ -21,7 +21,7 @@ struct ReadReviewResponse:Codable{
     let userProfileImage: Int
     let title, content: String
     let score: Double
-    let likeCnt, dislikeCnt: Int
+    var likeCnt, dislikeCnt: Int
     let createdAt, modifiedAt: String
     let likeStatus: Int
     let spoiler: Bool

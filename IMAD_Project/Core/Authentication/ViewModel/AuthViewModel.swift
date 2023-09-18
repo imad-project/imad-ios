@@ -89,7 +89,8 @@ class AuthViewModel:ObservableObject{
                     if let errorMsg = self.getUserRes?.message,errorMsg == "토큰의 기한이 만료되었습니다."{
                         AuthApiService.getToken()
                         print("토큰 재발급")
-                        self.getTokenSuccess.send()
+//                        self.getUser()
+//                        self.getTokenSuccess.send()
                     }
                 }
             } receiveValue: { receivedValue in

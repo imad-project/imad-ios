@@ -23,7 +23,7 @@ struct ReviewView: View {
                 Section {
                     ForEach(vm.reviewList,id:\.self){ review in
                         NavigationLink {
-                            ReviewDetailsView(review: review)
+                            ReviewDetailsView(reviewId: review.reviewID)
                                 .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {

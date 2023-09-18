@@ -9,22 +9,24 @@ import SwiftUI
 import Kingfisher
 
 struct ReviewListRowView: View {
-    let review:ReviewDetailsResponseList
+    @State var review:ReviewDetailsResponseList
     @State var like = 0
     @State var isExtend = false
     @State var anima = false
+    @StateObject var vm = ReviewViewModel()
+    
     var body: some View {
         VStack(alignment: .leading){
             HStack{
-                Image(ProfileFilter.allCases.first(where: {$0.num == (review.userProfileImage ?? 1)})?.rawValue ?? "soso")
+                Image(ProfileFilter.allCases.first(where: {$0.num == (review.userProfileImage )})?.rawValue ?? "soso")
                     .resizable()
                     .clipShape(Circle())
                     .frame(width: 25,height: 25)
-                Text(review.userNickname ?? "평론가\(Int.random(in: 0...10))")
+                Text(review.userNickname)
                     .font(.subheadline)
                     .bold()
                 Spacer()
-                Text(review.createdAt ?? "")
+                Text(review.createdAt)
                     .foregroundColor(.gray)
                     .font(.caption)
                 
@@ -34,10 +36,10 @@ struct ReviewListRowView: View {
             
             HStack{
                 VStack(alignment: .leading) {
-                    Text(review.title ?? "").bold()
+                    Text(review.title).bold()
                         .padding(.vertical)
                         .font(.subheadline)
-                    Text(review.content ?? "" )
+                    Text(review.content)
                         .font(.caption)
                         .lineLimit(5)
                         .fixedSize(horizontal: false, vertical: true)
@@ -48,14 +50,14 @@ struct ReviewListRowView: View {
                 Spacer()
                 VStack{
                     Circle()
-                        .trim(from: 0.0, to: anima ? (review.score ?? 0) * 0.1 : 0)
+                        .trim(from: 0.0, to: anima ? (review.score) * 0.1 : 0)
                         .stroke(lineWidth: 3)
                         .rotation(Angle(degrees: 270))
                         .frame(width: 50,height: 50)
                         .overlay{
                             VStack{
                                 Image(systemName: "star.fill")
-                                Text(String(format: "%0.1f", (review.score ?? 0)))
+                                Text(String(format: "%0.1f", (review.score)))
                             }
                             .font(.caption)
                             Circle().stroke(lineWidth:0.1)
@@ -63,8 +65,8 @@ struct ReviewListRowView: View {
                         .shadow(radius: 20)
                         .padding(.bottom)
                     HStack(spacing: 15){
-                        Text("🥰" + "\(review.likeCnt ?? 0)")
-                        Text("😢" + "\(review.dislikeCnt ?? 0)")
+                        Text("🥰" + "\(review.likeCnt + vm.likeDislike(like: like).0)")
+                        Text("😢" + "\(review.dislikeCnt + vm.likeDislike(like: like).1)")
                     }
                     .font(.subheadline)
                 }.padding(.horizontal)
@@ -75,8 +77,10 @@ struct ReviewListRowView: View {
                     Button {
                         if like == 0 || like == -1{
                             like = 1
+                            vm.likeReview(id: review.reviewID, status: like)
                         }else{
                             like = 0
+                            vm.likeReview(id: review.reviewID, status: like)
                         }
                     } label: {
                         Image(systemName: like == 1 ? "heart.fill":"heart")
@@ -86,8 +90,10 @@ struct ReviewListRowView: View {
                     Button {
                         if like == 0 || like == 1{
                             like = -1
+                            vm.likeReview(id: review.reviewID, status: like)
                         }else{
                             like = 0
+                            vm.likeReview(id: review.reviewID, status: like)
                         }
                     } label: {
                         HStack{
@@ -110,8 +116,12 @@ struct ReviewListRowView: View {
             }
             
         }
+        .onReceive(vm.success) {
+            like = vm.reviewInfo?.likeStatus ?? 0
+        }
         
     }
+    
     
 }
 

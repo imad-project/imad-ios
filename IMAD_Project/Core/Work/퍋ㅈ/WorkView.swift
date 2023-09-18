@@ -22,6 +22,7 @@ struct WorkView: View {
     @StateObject var tab = CommunityTabViewModel()
     @StateObject var vm = WorkViewModel()
     
+    
     var returnType:Bool{
         switch type{
         case "movie":
@@ -72,7 +73,7 @@ struct WorkView: View {
             }
         }
         .onReceive(vm.success){
-            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: 0, sort: ReviewSortFilter.createdDate.rawValue, order: 1)
+            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: 0, sort: ReviewSortFilter.createdDate.rawValue, order: 0)
         }
         .navigationDestination(isPresented: $writeReview) {
             WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0)
@@ -82,6 +83,9 @@ struct WorkView: View {
             CommunityWriteView(image: vm.workInfo?.posterPath?.getImadImage() ?? "")
                 .navigationBarBackButtonHidden(true)
         }
+//        .onDisappear{
+//            vmReview.reviewList.removeAll()
+//        }
         .navigationBarBackButtonHidden()
     }
 }
@@ -231,13 +235,20 @@ extension WorkView{
                 .padding(.top)
                 .bold()
             VStack{
-                if let review = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.nickname}){
-                    NavigationLink {
-                        ReviewDetailsView(review: review)
-                            .navigationBarBackButtonHidden()
-                            .environmentObject(vmAuth)
-                    } label: {
-                        ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.nickname}){
+                    ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
+                        if review == my{
+                            NavigationLink {
+                                ReviewDetailsView(reviewId: review.reviewID)
+                                    .environmentObject(vmAuth)
+                                    .navigationBarBackButtonHidden()
+                            } label: {
+                                ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                                    .onAppear{
+                                        print("ㅇ타\(review)")
+                                    }
+                            }
+                        }
                     }
                 }else{
                     VStack{
@@ -269,11 +280,14 @@ extension WorkView{
                 .bold()
             ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
                 NavigationLink {
-                    ReviewDetailsView(review: review)
+                    ReviewDetailsView(reviewId: review.reviewID)
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
                     ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                        .onAppear{
+                            print("ㅇ타\(review)")
+                        }
                 }
                 
             }

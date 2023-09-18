@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-enum ReivewRouter:URLRequestConvertible{
+enum ReviewRouter:URLRequestConvertible{
     case write(id:Int,title:String,content:String,score:Double,spoiler:Bool)
     case read(id:Int)
     case update(id:Int)
@@ -75,7 +75,7 @@ enum ReivewRouter:URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         switch self{
-        case .readList:
+        case .readList,.read,.update,.delete:
             return try URLEncoding(destination: .queryString).encode(request, with: parameters)
         default:
             return try JSONEncoding.default.encode(request, with: parameters)

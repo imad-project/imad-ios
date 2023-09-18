@@ -35,16 +35,16 @@ struct ReviewDetails: Codable,Hashable {
 
 // MARK: - ReviewDetailsResponseList
 struct ReviewDetailsResponseList: Codable,Hashable {
-    let reviewID, contentsID: Int?
-    let contentsTitle, contentsPosterPath: String?
+    let reviewID, contentsID: Int
+    let contentsTitle, contentsPosterPath: String
     let userID :Int?
-    let userNickname: String?
-    let userProfileImage: Int?
-    let title, content: String?
-    let score:Double?
-    let likeCnt, dislikeCnt: Int?
-    let createdAt, modifiedAt: String?
-    let likeStatus: Int?
+    let userNickname: String
+    let userProfileImage: Int
+    let title, content: String
+    let score:Double
+    var likeCnt, dislikeCnt: Int
+    let createdAt, modifiedAt: String
+    let likeStatus: Int
     let spoiler: Bool
 
     enum CodingKeys: String, CodingKey {
