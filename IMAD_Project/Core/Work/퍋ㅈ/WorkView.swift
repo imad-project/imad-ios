@@ -244,9 +244,6 @@ extension WorkView{
                                     .navigationBarBackButtonHidden()
                             } label: {
                                 ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
-                                    .onAppear{
-                                        print("ㅇ타\(review)")
-                                    }
                             }
                         }
                     }
@@ -285,9 +282,6 @@ extension WorkView{
                         .navigationBarBackButtonHidden()
                 } label: {
                     ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
-                        .onAppear{
-                            print("ㅇ타\(review)")
-                        }
                 }
                 
             }

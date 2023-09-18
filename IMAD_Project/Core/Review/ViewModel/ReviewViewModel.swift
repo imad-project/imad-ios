@@ -80,24 +80,18 @@ class ReviewViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     
-    func likeReview(id:Int,status:Int){
+    func likeReview(id:Int,status:Int,review:ReviewDetailsResponseList?){
         ReviewApiService.reviewLike(id: id, status: status)
             .sink { completion in
                 print(completion)
+                if let review{
+                    self.reviewInfo?.likeCnt = review.likeCnt
+                    self.reviewInfo?.dislikeCnt = review.dislikeCnt
+                }
             } receiveValue: { recievedValue in
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     self.readReview(id: id)
                 }
             }.store(in: &cancelable)
-    }
-    func likeDislike(like:Int) -> (Int,Int){
-        switch like{
-        case -1:
-            return (0,1)
-        case 1:
-            return (1,0)
-        default:
-            return (0,0)
-        }
     }
 }

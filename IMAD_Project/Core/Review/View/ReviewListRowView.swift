@@ -65,8 +65,14 @@ struct ReviewListRowView: View {
                         .shadow(radius: 20)
                         .padding(.bottom)
                     HStack(spacing: 15){
-                        Text("🥰" + "\(review.likeCnt + vm.likeDislike(like: like).0)")
-                        Text("😢" + "\(review.dislikeCnt + vm.likeDislike(like: like).1)")
+                        HStack(spacing: 2){
+                            Image(systemName: "heart.fill").foregroundColor(.red)
+                            Text("\((vm.reviewInfo?.likeCnt ?? 0))개")
+                                .padding(.trailing)
+                            Image(systemName: "heart.slash.fill").foregroundColor(.blue)
+                            Text("\((vm.reviewInfo?.dislikeCnt ?? 0))개")
+                        }
+                        .font(.subheadline)
                     }
                     .font(.subheadline)
                 }.padding(.horizontal)
@@ -77,10 +83,10 @@ struct ReviewListRowView: View {
                     Button {
                         if like == 0 || like == -1{
                             like = 1
-                            vm.likeReview(id: review.reviewID, status: like)
+                            vm.likeReview(id: review.reviewID, status: like,review:review)
                         }else{
                             like = 0
-                            vm.likeReview(id: review.reviewID, status: like)
+                            vm.likeReview(id: review.reviewID, status: like,review:review)
                         }
                     } label: {
                         Image(systemName: like == 1 ? "heart.fill":"heart")
@@ -90,10 +96,11 @@ struct ReviewListRowView: View {
                     Button {
                         if like == 0 || like == 1{
                             like = -1
-                            vm.likeReview(id: review.reviewID, status: like)
+                            vm.likeReview(id: review.reviewID, status: like,review:review)
+                            
                         }else{
                             like = 0
-                            vm.likeReview(id: review.reviewID, status: like)
+                            vm.likeReview(id: review.reviewID, status: like,review:review)
                         }
                     } label: {
                         HStack{
@@ -109,12 +116,13 @@ struct ReviewListRowView: View {
             Divider()
         }
         .onAppear{
+            vm.reviewInfo?.likeCnt = review.likeCnt
+            vm.reviewInfo?.dislikeCnt = review.dislikeCnt
             DispatchQueue.main.async {
                 withAnimation(.linear(duration: 0.5)){
                     anima = true
                 }
             }
-            
         }
         .onReceive(vm.success) {
             like = vm.reviewInfo?.likeStatus ?? 0

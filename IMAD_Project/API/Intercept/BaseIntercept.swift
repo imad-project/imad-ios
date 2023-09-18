@@ -26,7 +26,7 @@ class GetTokenIntercept:RequestInterceptor{
         let token = UserDefaultManager.shared.getToken()
         var urlReq = urlRequest
         
-        urlReq.headers.add(.authorization(bearerToken: token.accessToken))
+        urlReq.addValue("\(token.accessToken)", forHTTPHeaderField: "Authorization")
         urlReq.addValue("\(token.refreshToken)", forHTTPHeaderField: "Authorization-refresh")
         completion(.success(urlReq))
     }

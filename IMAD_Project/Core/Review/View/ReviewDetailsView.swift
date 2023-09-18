@@ -12,7 +12,6 @@ struct ReviewDetailsView: View {
     
     let reviewId:Int
     @State var like = 0
-    @State var changeLike = 0   //뷰에서만 적용됨
     @State var anima = false
     @State var menu = false
     @Environment(\.dismiss) var dismiss
@@ -83,12 +82,11 @@ struct ReviewDetailsView: View {
                                     Button {
                                         if like < 1{
                                             like = 1
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like, review: nil)
                                         }else{
                                             like = 0
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like, review: nil)
                                         }
-                                        vm.reviewInfo?.likeStatus ?? 0 > like ? (vm.reviewInfo?.likeCnt -= 1) : (vm.reviewInfo?.likeCnt += 1)
                                     } label: {
                                         Image(systemName: like == 1 ? "heart.fill":"heart")
                                         Text("좋아요")
@@ -97,10 +95,10 @@ struct ReviewDetailsView: View {
                                     Button {
                                         if like > -1{
                                             like = -1
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like, review: nil)
                                         }else{
                                             like = 0
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like, review: nil)
                                         }
                                     } label: {
                                         HStack{
@@ -138,17 +136,12 @@ struct ReviewDetailsView: View {
         .foregroundColor(.black)
         .onAppear{
             vm.readReview(id: reviewId)
-//            vm.reviewInfo = CustomData.instance.review
-//            like =  CustomData.instance.review.likeStatus
             DispatchQueue.main.async {
                 withAnimation(.linear(duration: 0.5)){
                     anima = true
                 }
             }
         }
-//        .onChange(of: like, perform: { newValue in
-//            changeLike = newValue
-//        })
         .onReceive(vm.success) {
             like = vm.reviewInfo?.likeStatus ?? 0
         }
