@@ -51,16 +51,9 @@ struct WorkListView: View {
                                                    emptyPoster
                                                }
                                                .resizable()
-                                               .frame(width: 130,height: 180)
+                                               .frame(height: 170)
                                                .cornerRadius(15)
-                                           Group{
-                                               if result.title == nil{
-                                                   Text(result.name ?? "")
-                                               }
-                                               else{
-                                                   Text(result.title ?? "")
-                                               }
-                                           }
+                                           Text(result.title == nil ? result.name ?? "" : result.title ?? "")
                                            .bold()
                                            .font(.subheadline)
                                            .frame(maxWidth:130,maxHeight:5)

@@ -12,12 +12,16 @@ struct WorkView: View {
     
     let id:Int
     let type:String
+    @State var width:Bool = false
     @State var anima = false
     @State var writeReview = false
     @State var writeCommunity = false
     @Environment(\.dismiss) var dismiss
+    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmReview = ReviewViewModel()
     @StateObject var tab = CommunityTabViewModel()
     @StateObject var vm = WorkViewModel()
+    
     
     var returnType:Bool{
         switch type{
@@ -31,59 +35,58 @@ struct WorkView: View {
     }
     
     var body: some View {
-            VStack{
-                ZStack(alignment: .topLeading){
-                    Color.white.ignoresSafeArea()
+        VStack{
+            ZStack(alignment: .topLeading){
+                Color.white.ignoresSafeArea()
                 ScrollView(showsIndicators: false){
-                        VStack{
-                            MovieBackgroundView(url: vm.workInfo?.posterPath?.getImadImage() ?? "", height: 3)
-                            VStack(spacing:10){
-                                Text(returnType ? vm.workInfo?.name ?? "" : vm.workInfo?.title ?? "")
-                                    .padding(.top)
-                                    .bold()
-                                Text(returnType ? vm.workInfo?.originalName ?? "" : vm.workInfo?.originalTitle ?? "")
-                                    .font(.subheadline)
-                                
-                                poster
-                                
-                                   
-                            }
-                            .padding(.bottom,30)
-                            category
-                            if tab.workTab == .work{
-                                WorkInfoView(work: vm.workInfo ?? CustomData.instance.workInfo, type: type)
-                                    .padding(.vertical).padding(.top,30)
-                            }
-                            else{
-                                ReviewView(work: vm.workInfo ?? CustomData.instance.workInfo)
-                                    .padding(.vertical,20)
-                            }
-
+                    MovieBackgroundView(url: vm.workInfo?.posterPath?.getImadImage() ?? "", height: 3)
+                    poster
+                    collection
+                    VStack{
+                        if let work = vm.workInfo{
+                            WorkInfoView(work: work, type: type)
                         }
-                    Spacer()
-                }
-                collection
-                    header
+                        reviewList
+                    }
+                    
                 }
                 
+                if width{
+                    Text(returnType ? vm.workInfo?.name ?? "" : vm.workInfo?.title ?? "")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical)
+                        .background(Material.regular)
+                        .environment(\.colorScheme,.dark)
+                }
+                header
             }
+            
+        }
         
         .foregroundColor(.white)
         .onAppear {
             vm.getWorkInfo(id: id, type: type)
+            vmAuth.getUser()
             withAnimation(.linear(duration: 0.5)){
                 anima = true
             }
         }
+        .onReceive(vm.success){
+            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: 0, sort: ReviewSortFilter.createdDate.rawValue, order: 0)
+        }
         .navigationDestination(isPresented: $writeReview) {
-            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: ("https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? "")), gradeAvg: 4)
+            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
-            CommunityWriteView(image: ("https://image.tmdb.org/t/p" + "/original" + (vm.workInfo?.posterPath ?? "")))
+            CommunityWriteView(image: vm.workInfo?.posterPath?.getImadImage() ?? "")
                 .navigationBarBackButtonHidden(true)
         }
-        .navigationBarBackButtonHidden()    
+//        .onDisappear{
+//            vmReview.reviewList.removeAll()
+//        }
+        .navigationBarBackButtonHidden()
     }
 }
 
@@ -107,104 +110,204 @@ extension WorkView{
                     .background(Circle().foregroundColor(.white))
                     .shadow(radius: 20)
                     .padding(.leading)
-                    
+                
             }
             Spacer()
-            Button {
-              
-            } label: {
-                Image(systemName: "star")
-                    .foregroundColor(.black)
-                    .padding(7.5)
-                    .font(.caption)
-                    .background(Circle().foregroundColor(.white))
-                    .shadow(radius: 20)
-                    .padding(.trailing)
-                    
-            }
         }
     }
     var poster:some View{
-        KFImage(URL(string: vm.workInfo?.posterPath?.getImadImage() ?? ""))
-            .resizable()
-            .placeholder{
-                NoImageView()
-            }
-            .frame(width: 200,height: 300)
-            .cornerRadius(20)
-            .shadow(radius: 20)
-            .overlay(alignment:.bottomTrailing) {
-                Circle()
-                    .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
-                    .stroke(lineWidth: 3)
-                    .rotation(Angle(degrees: 270))
-                    .frame(width: 80,height: 80)
-                    .overlay{
-                        VStack{
-                            Image(systemName: "star.fill")
-                            Text(String(format: "%0.1f", 4))
+        HStack{
+            KFImage(URL(string: vm.workInfo?.posterPath?.getImadImage() ?? ""))
+                .resizable()
+                .placeholder{
+                    NoImageView()
+                }
+                .frame(width: 140,height: 180)
+                .cornerRadius(20)
+                .shadow(radius: 20)
+                .padding(.leading)
+            VStack(alignment: .leading){
+                HStack(alignment: .bottom){
+                    VStack(alignment: .leading) {
+                        Text(returnType ? "TV" : "영화").padding(2).padding(.horizontal,7).background(RoundedRectangle(cornerRadius: 2).stroke(lineWidth: 2)).bold()
+                        
+                        Text(!returnType ? "최초개봉일" : "최초공개일")
+                            .bold()
+                        if let work = vm.workInfo{
+                            Text(!returnType ? work.releaseDate ?? "" : work.firstAirDate ?? "")
+                                .foregroundColor(.gray)
+                                .font(.subheadline)
+                        }
+                    }.font(.caption)
+                    Spacer()
+                    if let work = vm.workInfo{
+                        Circle()
+                            .trim(from: 0.0, to: anima ? CGFloat(work.imadScore as Double? ?? 0.0) * 0.1 : 0)
+                            .stroke(lineWidth: 3)
+                            .rotation(Angle(degrees: 270))
+                            .frame(width: 70,height: 70)
+                            .overlay{
+                                VStack(spacing:5){
+                                    Image(systemName: "star.fill")
+                                    Text(String(format: "%0.1f",CGFloat(work.imadScore as Double? ?? 0.0)))
+                                }
+                                .font(.subheadline)
+                            }
+                            .background(Circle().stroke(lineWidth:0.5).foregroundColor(.black.opacity(0.7)))
+                    }
+                    
+                    Spacer()
+                }
+                GeometryReader { geo -> AnyView in
+                    let offset = geo.frame(in: .global).minY
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            -offset >= 0 ? (width = true) : (width = false)
                         }
                     }
-                    .background(Circle().foregroundColor(.black.opacity(0.7)))
-                    .shadow(radius: 20)
-                    .offset(x: 20,y: 20)
-                    
-            }
-    }
-    var category:some View{
-        GeometryReader{ geo in
-            let width = geo.size.width
-            HStack(spacing:0){
-                ForEach(WorkFilter.allCases,id:\.self){ item in
-                    Button {
-                        withAnimation(.easeIn(duration: 0.2)){
-                            tab.workTab = item
-                        }
-                    } label: {
-                        Text(item.name)
-                            .font(.callout)
-                            .bold()
-                            .foregroundColor(tab.workTab == item ? .customIndigo : .gray)
-
-                    }.frame(maxWidth: .infinity)
+                    return AnyView(title)
                 }
+                
+                
+                
             }
-            .overlay(alignment: .leading){
-                    Capsule()
-                        .frame(width: geo.size.width/2,height: 3)
-                        .offset(x:tab.indicatorReviewOffset(width: width)).padding(.top,45)
-
-            }
-            .background{
-                Divider().padding(.top,45)
-            }
+            .padding(.leading,20)
+            Spacer()
         }
-        .foregroundColor(.customIndigo)
+        .padding(.vertical,30)
+    }
+    var title:some View{
+        VStack(alignment: .leading){
+            Text(returnType ? vm.workInfo?.name ?? "" : vm.workInfo?.title ?? "")
+                .padding(.top)
+                .bold()
+                .padding(.bottom,5)
+            Text(returnType ? vm.workInfo?.originalName ?? "" : vm.workInfo?.originalTitle ?? "")
+                .font(.subheadline)
+        }
     }
     var collection:some View{
-        HStack(spacing:0){
-            
-            Button {
-                writeReview = true
-            } label: {
-                Text("리뷰작성")
-                    .padding(.top)
-                    .frame(maxWidth: .infinity)
-                    .background{
-                        Color.white.ignoresSafeArea()
-                        Color.customIndigo.opacity(0.5).ignoresSafeArea()
+        VStack(spacing:0){
+            Divider()
+            HStack(spacing:0){
+                Group{
+                    Button {
+                        writeReview = true
+                    } label: {
+                        VStack(spacing:5){
+                            Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                            Text("리뷰작성")
+                                .font(.caption)
+                        }.foregroundColor(.customIndigo)
+                        
                     }
+                    Button {
+                        writeCommunity = true
+                    } label: {
+                        VStack(spacing:5){
+                            Image(systemName: "ellipsis.message")
+                            Text("게시물작성")
+                                .font(.caption)
+                        }.foregroundColor(.customIndigo)
+                    }
+                    Button {
+                        
+                    } label: {
+                        VStack(spacing:5){
+                            Image(systemName: "bookmark")
+                            Text("찜")
+                                .font(.caption)
+                        }.foregroundColor(.customIndigo)
+                    }
+                }.frame(maxWidth: .infinity)
+                
             }
-            Button {
-                writeCommunity = true
-            } label: {
-                Text("게시물 작성")
-                    .padding(.top)
+            .padding(.vertical)
+            .background(Color.white)
+            Divider()
+        }
+        
+        
+    }
+    var reviewList:some View{
+        VStack(alignment: .leading) {
+            Text("내 리뷰")
+                .padding(.top)
+                .bold()
+            VStack{
+                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.nickname}){
+                    ForEach(vmReview.reviewList,id:\.self){ review in
+                        if review == my{
+                            NavigationLink {
+                                ReviewDetailsView(reviewId: review.reviewID)
+                                    .environmentObject(vmAuth)
+                                    .navigationBarBackButtonHidden()
+                            } label: {
+                                ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                            }
+                        }
+                    }
+                }else{
+                    VStack{
+                        Text("내 리뷰가 존재하지 않습니다.")
+                            .font(.subheadline)
+                        NavigationLink {
+                            WriteReviewView(id: vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0, reviewId: nil)
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            Text("리뷰작성")
+                                .foregroundColor(.white)
+                                .font(.caption)
+                                .padding(.horizontal)
+                                .padding(10)
+                                .background(Color.customIndigo)
+                                .cornerRadius(10)
+                        }
+                        
+                    }
                     .frame(maxWidth: .infinity)
-                    .background(Color.customIndigo)
+                    .padding(.horizontal)
+                    .padding(.vertical,20)
+                    .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.customIndigo))
+                }
             }
-        }.foregroundColor(.white)
-            .bold()
-            .frame(maxHeight: .infinity,alignment: .bottom)
+            
+            Text("리뷰 보기")
+                .padding(.top)
+                .bold()
+            ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
+                NavigationLink {
+                    ReviewDetailsView(reviewId: review.reviewID)
+                        .environmentObject(vmAuth)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                }
+                
+            }
+            if vmReview.reviewList.count > 2 {
+                NavigationLink {
+                    ReviewView(id: vm.workInfo?.contentsId ?? 0)
+                        .environmentObject(vmAuth)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    HStack{
+                        Text("리뷰 \(vmReview.reviewDetailsInfo?.numberOfElements ?? 0)개 모두보기")
+                        Image(systemName: "chevron.right")
+                    }.font(.caption).frame(maxWidth: .infinity)
+                        .padding(.vertical,10)
+                        .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1).foregroundColor(.gray).background(Color.white))
+                    
+                }
+                
+                
+                
+            }
+            
+        }
+        .padding(.horizontal)
+        .foregroundColor(.black)
+        .padding(.bottom,30)
+        .background(Color.gray.opacity(0.1))
     }
 }

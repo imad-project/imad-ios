@@ -39,7 +39,6 @@ struct WorkInfoView: View {
                     genre
                     season
                     network
-                    releseAndType
                     overview
                 }.padding(.leading)
                 if let seasons = work.seasons{
@@ -48,6 +47,7 @@ struct WorkInfoView: View {
                 person
                 Spacer()
             }
+            .padding(.top)
         }
         
         .foregroundColor(.black)
@@ -204,47 +204,10 @@ extension WorkInfoView{
                         .underline()
                 }
             }
-            
-
-            
         }
         .font(.subheadline)
     }
-    var releseAndType:some View{
-        HStack{
-            VStack(alignment: .leading,spacing: 10){
-                
-                Group{
-                    if !isTV{
-                        Text("최초개봉일")
-                            .bold()
-                        Text(work.releaseDate ?? "")
-                            .foregroundColor(.gray)
-                            .font(.subheadline)
-                            .padding(.leading,5)
-                    }else{
-                        Text("최초공개일")
-                            .bold()
-                        Text(work.firstAirDate ?? "")
-                            .foregroundColor(.gray)
-                            .font(.subheadline)
-                            .padding(.leading,5)
-                    }
-                }
-                
-            }
-            Spacer()
-            VStack(alignment: .leading,spacing: 10){
-                Text("타입")
-                    .bold()
-                Text(isTV ? "TV" : "영화")
-                    .foregroundColor(.gray)
-                
-                    .padding(.leading,5)
-            }
-            Spacer()
-        }.padding(.bottom,5).font(.subheadline)
-    }
+   
     func seasonList(seasons:[Season]) -> some View{
         VStack(alignment: .leading,spacing: 5){
             Text("시즌정보")
@@ -406,9 +369,9 @@ extension WorkInfoView{
                                     .fixedSize(horizontal: false, vertical: true)
                             }
                         }
-                    }
+                    }.padding(.leading,20)
                 }
-                .padding(.horizontal,20)
+                
             }else{
                 Text("정보 없음")
                     .padding(.horizontal,20)

@@ -30,4 +30,3 @@
 - Alamofire
 - Kingfisher
 - SwiftUIFlowLayout
-- Sliders
