@@ -68,6 +68,7 @@ enum AuthApiService{
     }
     static func getToken(){
         let intercept = GetTokenIntercept()
+        print("토큰 재발급 api 호출")
         ApiClient.shared.session
             .request(AuthRouter.token,interceptor: intercept)
             .response{ response in

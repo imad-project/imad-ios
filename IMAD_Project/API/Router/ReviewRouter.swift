@@ -26,10 +26,10 @@ enum ReviewRouter:URLRequestConvertible{
             return "/api/review"
         case  .read(let id),.update(let id,_,_,_,_),.delete(let id):
             return "/api/review/\(id)"
-        case .readList(let id,_,_,_):
-            return "/api/review/list/\(id)"
+        case .readList:
+            return "/api/review/list"
         case .like(let id,_):
-            return "/api/review/\(id)/like"
+            return "/api/review/like/\(id)"
         }
     }
     
@@ -55,8 +55,9 @@ enum ReviewRouter:URLRequestConvertible{
             params["score"] = score
             params["is_spoiler"] = spoiler
             return params
-        case let .readList(_, page, sort, order):
+        case let .readList(id, page, sort, order):
             var params = Parameters()
+            params["contents_id"] = id
             params["page"] = page
             params["sort"] = sort
             params["order"] = order
