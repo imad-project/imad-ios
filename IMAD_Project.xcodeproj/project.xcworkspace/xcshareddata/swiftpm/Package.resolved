@@ -26,15 +26,6 @@
         "revision" : "de7da3440c3b87ba94adfa98c698828d7746a76d",
         "version" : "1.0.5"
       }
-    },
-    {
-      "identity" : "swiftui-sliders",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/spacenation/swiftui-sliders.git",
-      "state" : {
-        "revision" : "d5a7d856655d5c91f891c2b69d982c30fd5c7bdf",
-        "version" : "2.1.0"
-      }
     }
   ],
   "version" : 2

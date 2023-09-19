@@ -47,7 +47,6 @@
 		812CDEAA29DF0BF20003B993 /* Notific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDEA929DF0BF20003B993 /* Notific.swift */; };
 		812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EF9D229E1B5E700CE19DA /* ProfileView.swift */; };
 		814046FE2A284BC200B77EFD /* FilterCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814046FD2A284BC200B77EFD /* FilterCoverView.swift */; };
-		814047012A2863DF00B77EFD /* Sliders in Frameworks */ = {isa = PBXBuildFile; productRef = 814047002A2863DF00B77EFD /* Sliders */; };
 		817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860112A2992D6004639F6 /* ContriesFilter.swift */; };
 		817860152A29A6C3004639F6 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860142A29A6C3004639F6 /* WorkView.swift */; };
 		817860172A29B1DD004639F6 /* WorkFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860162A29B1DD004639F6 /* WorkFilter.swift */; };
@@ -272,7 +271,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				81D121322A276D08003F3780 /* SwiftUIFlowLayout in Frameworks */,
-				814047012A2863DF00B77EFD /* Sliders in Frameworks */,
 				81A1ECEA29DC44370001A366 /* Kingfisher in Frameworks */,
 				81BB10FF2A061055005654AA /* Alamofire in Frameworks */,
 			);
@@ -833,7 +831,6 @@
 				81A1ECE929DC44370001A366 /* Kingfisher */,
 				81BB10FE2A061055005654AA /* Alamofire */,
 				81D121312A276D08003F3780 /* SwiftUIFlowLayout */,
-				814047002A2863DF00B77EFD /* Sliders */,
 			);
 			productName = IMAD_Project;
 			productReference = 8103093D29D1BDEF0021717B /* IMAD_Project.app */;
@@ -911,7 +908,6 @@
 				81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				81BB10FD2A061054005654AA /* XCRemoteSwiftPackageReference "Alamofire" */,
 				81D121302A276D08003F3780 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
-				814046FF2A2863DF00B77EFD /* XCRemoteSwiftPackageReference "swiftui-sliders" */,
 			);
 			productRefGroup = 8103093E29D1BDEF0021717B /* Products */;
 			projectDirPath = "";
@@ -1408,14 +1404,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		814046FF2A2863DF00B77EFD /* XCRemoteSwiftPackageReference "swiftui-sliders" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/spacenation/swiftui-sliders.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
 		81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -1443,11 +1431,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		814047002A2863DF00B77EFD /* Sliders */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 814046FF2A2863DF00B77EFD /* XCRemoteSwiftPackageReference "swiftui-sliders" */;
-			productName = Sliders;
-		};
 		81A1ECE929DC44370001A366 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */;
