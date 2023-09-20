@@ -39,21 +39,24 @@ struct ReviewListRowView: View {
                     Text(review.title).bold()
                         .padding(.vertical)
                         .font(.subheadline)
-                    Text(review.content)
-                        .font(.caption)
-                        .lineLimit(5)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .overlay {
-                            if review.spoiler{
-                                Color.white.opacity(0.1)
-                                    .background(Material.ultraThin)
-                                    .cornerRadius(5)
-                                Text("「스포일러성 리뷰입니다.」")
-                            }
+                    HStack{
+                        Text(review.content)
+                            .font(.caption)
+                            .lineLimit(5)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.bottom,5)
+                            .padding(.horizontal,5)
+                        Spacer()
+                    }
+                    .overlay {
+                        if review.spoiler{
+                            Color.white.opacity(0.1)
+                                .background(Material.ultraThin).environment(\.colorScheme, .light)
+                                .cornerRadius(5)
+                            Text("「스포일러성 리뷰입니다.」")
                         }
-                        .padding(.bottom,5)
-                        .padding(.horizontal,5)
-                        
+                    }
+                    
                 }
                 
                 Spacer()
@@ -125,6 +128,7 @@ struct ReviewListRowView: View {
             Divider()
         }
         .onAppear{
+            like = review.likeStatus
             DispatchQueue.main.async {
                 withAnimation(.linear(duration: 0.5)){
                     anima = true
@@ -132,7 +136,6 @@ struct ReviewListRowView: View {
             }
         }
         .onReceive(vm.success) {
-            like = vm.reviewInfo?.likeStatus ?? 0
             review.likeCnt = vm.reviewInfo?.likeCnt ?? 0
             review.dislikeCnt = vm.reviewInfo?.dislikeCnt ?? 0
         }
