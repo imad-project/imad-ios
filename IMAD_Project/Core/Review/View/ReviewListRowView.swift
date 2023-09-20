@@ -123,9 +123,9 @@ struct ReviewListRowView: View {
                     .foregroundColor(like == -1 ? .blue : .gray)
                 }
                 .font(.subheadline)
+                .padding(.bottom)
                 .frame(maxWidth: .infinity)
             }
-            Divider()
         }
         .onAppear{
             like = review.likeStatus
