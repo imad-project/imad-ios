@@ -25,22 +25,22 @@ class SearchViewModel:ObservableObject{
         textCancellable = $searchText
             .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
             .removeDuplicates()
-            .sink(receiveValue: { value in
-                self.work = []
-                self.currentPage = 1
-                self.maxPage = 0
+            .sink(receiveValue: { [weak self] value in
+                self?.work = []
+                self?.currentPage = 1
+                self?.maxPage = 0
                 if value != ""{
-                    self.searchWork(query: value,type: self.type,page: self.currentPage)
+                    self?.searchWork(query: value,type: self?.type ?? .multi,page: self?.currentPage ?? 0)
                 }
             })
         typeCancellable1 = $type
             .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
             .removeDuplicates()
-            .sink(receiveValue: { value in
-                self.work = []
-                self.currentPage = 1
-                self.maxPage = 0
-                self.searchWork(query: self.searchText,type: value,page: self.currentPage)
+            .sink(receiveValue: { [weak self] value in
+                self?.work = []
+                self?.currentPage = 1
+                self?.maxPage = 0
+                self?.searchWork(query: self?.searchText ?? "",type: value,page: self?.currentPage ?? 0)
             })
         
         
@@ -50,11 +50,11 @@ class SearchViewModel:ObservableObject{
             .sink { completion in
                 print(completion)
                 self.currentPage = page
-            } receiveValue: { work in
+            } receiveValue: { [weak self] work in
                 if let results = work.data?.results{
-                    self.work.append(contentsOf: results)
+                    self?.work.append(contentsOf: results)
                 }
-                self.maxPage = work.data?.totalPages ?? 0
+                self?.maxPage = work.data?.totalPages ?? 0
             }.store(in: &cancel)
         }
 }

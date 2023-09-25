@@ -20,8 +20,8 @@ class WorkViewModel:ObservableObject{
             .sink { comp in
                 print(comp)
                 self.success.send()
-            } receiveValue: { work in
-                self.workInfo = work.data
+            } receiveValue: { [weak self] work in
+                self?.workInfo = work.data
             }.store(in: &cancelable)
 
     }

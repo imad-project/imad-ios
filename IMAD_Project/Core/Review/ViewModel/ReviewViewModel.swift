@@ -22,10 +22,10 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewWrite(id: id, title: title, content: content, score: score, spoiler: spoiler)
             .sink { completion in
                 print(completion)
-            } receiveValue: { recievedValue in
+            } receiveValue: { [weak self] recievedValue in
                 print(recievedValue.message)
                 if recievedValue.status >= 200 && recievedValue.status < 300{
-                    self.success.send()
+                    self?.success.send()
                 }
             }.store(in: &cancelable)
     }
@@ -33,11 +33,11 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewRead(id: id)
             .sink { completion in
                 print(completion)
-            } receiveValue: { recievedValue in
+            } receiveValue: { [weak self] recievedValue in
                 print(recievedValue.message)
                 if recievedValue.status >= 200 && recievedValue.status < 300{
-                    self.reviewInfo = recievedValue.data
-                    self.success.send()
+                    self?.reviewInfo = recievedValue.data
+                    self?.success.send()
                 }
             }.store(in: &cancelable)
     }
@@ -45,10 +45,10 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewUpdate(id: id, title: title, content: content, score: score, spoiler: spoiler)
             .sink { completion in
                 print(completion)
-            } receiveValue: { recievedValue in
+            } receiveValue: { [weak self] recievedValue in
                 print(recievedValue.message)
                 if recievedValue.status >= 200 && recievedValue.status < 300{
-                    self.success.send()
+                    self?.success.send()
                 }
             }.store(in: &cancelable)
     }
@@ -56,10 +56,10 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewDelete(id: id)
             .sink { completion in
                 print(completion)
-            } receiveValue: { recievedValue in
+            } receiveValue: { [weak self] recievedValue in
                 print(recievedValue.message)
                 if recievedValue.status >= 200 && recievedValue.status < 300{
-                    self.success.send()
+                    self?.success.send()
                 }
             }.store(in: &cancelable)
     }
@@ -68,12 +68,12 @@ class ReviewViewModel:ObservableObject{
             .sink { completion in
                 print(completion)
                 self.success.send()
-            } receiveValue: { recievedValue in
+            } receiveValue: { [weak self] recievedValue in
                 print(recievedValue.message)
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     if let list = recievedValue.data?.reviewDetailsResponseList{
-                        self.reviewDetailsInfo = recievedValue.data
-                        self.reviewList = list
+                        self?.reviewDetailsInfo = recievedValue.data
+                        self?.reviewList = list
                     }
                 }
             }.store(in: &cancelable)
@@ -83,9 +83,9 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewLike(id: id, status: status)
             .sink { completion in
                 print(completion)
-            } receiveValue: { recievedValue in
+            } receiveValue: { [weak self] recievedValue in
                 if recievedValue.status >= 200 && recievedValue.status < 300{
-                    self.readReview(id: id)
+                    self?.readReview(id: id)
                 }
             }.store(in: &cancelable)
     }

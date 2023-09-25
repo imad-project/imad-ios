@@ -47,8 +47,8 @@ class AuthViewModel:ObservableObject{
                     self.registerSuccess.send(false)
                     print("회원가입 실패 \(completion)")
                 }
-            } receiveValue: { receivedValue in
-                self.registerRes = receivedValue
+            } receiveValue: { [weak self] receivedValue in
+                self?.registerRes = receivedValue
             }.store(in: &cancelable)
     }
     func login(email:String,password:String){
@@ -68,8 +68,8 @@ class AuthViewModel:ObservableObject{
                     self.loginSuccess.send(false)
                     print("로그인 실패 \(completion)")
                 }
-            } receiveValue: { receivedValue in
-                self.getUserRes = receivedValue
+            } receiveValue: { [weak self] receivedValue in
+                self?.getUserRes = receivedValue
             }.store(in: &cancelable)
     }
     func getUser(){
@@ -96,8 +96,8 @@ class AuthViewModel:ObservableObject{
                         }
                     }
                 }
-            } receiveValue: { receivedValue in
-                self.getUserRes = receivedValue
+            } receiveValue: { [weak self] receivedValue in
+                self?.getUserRes = receivedValue
             }.store(in: &cancelable)
 
     }
@@ -115,8 +115,8 @@ class AuthViewModel:ObservableObject{
                 }else{
                     print("유저정보 수신 실패 \(completion)")
                 }
-            } receiveValue: { receivedValue in
-                self.getUserRes = receivedValue
+            } receiveValue: { [weak self] receivedValue in
+                self?.getUserRes = receivedValue
             }.store(in: &cancelable)
     }
     func logout(){
@@ -135,8 +135,8 @@ class AuthViewModel:ObservableObject{
                 }else{
                     print("회원탈퇴 실패 \(completion)")
                 }
-            } receiveValue: { receivedValue in
-                self.getUserRes = receivedValue
+            } receiveValue: { [weak self] receivedValue in
+                self?.getUserRes = receivedValue
             }.store(in: &cancelable)
         
     }
@@ -149,8 +149,8 @@ class AuthViewModel:ObservableObject{
                 }else{
                     print("회원탈퇴 실패 \(completion)")
                 }
-            } receiveValue: { receivedValue in
-                self.passwordChangeRes = receivedValue
+            } receiveValue: { [weak self] receivedValue in
+                self?.passwordChangeRes = receivedValue
             }.store(in: &cancelable)
 
     }

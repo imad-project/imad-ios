@@ -26,8 +26,8 @@ class CheckDataViewModel:ObservableObject{
                 }else{
                     print("이메일 중복검사 실패 : \(completion) \(self.checkRes?.message ?? "")")
                 }
-            } receiveValue: { receivedValue in
-                self.checkRes = receivedValue
+            } receiveValue: { [weak self] receivedValue in
+                self?.checkRes = receivedValue
             }.store(in: &cancelable)
 
     }
@@ -41,8 +41,8 @@ class CheckDataViewModel:ObservableObject{
                 }else{
                     print("닉네임 중복검사 실패 : \(completion) \(self.checkRes?.message ?? "")")
                 }
-            } receiveValue: { receivedValue in
-                self.checkRes = receivedValue
+            } receiveValue: { [weak self] receivedValue in
+                self?.checkRes = receivedValue
             }.store(in: &cancelable)
 
     }
