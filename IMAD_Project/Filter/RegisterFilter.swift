@@ -12,6 +12,8 @@ enum RegisterFilter:CaseIterable{
     case nickname
     case gender
     case age
+    case genre
     case profile
+    
     
 }

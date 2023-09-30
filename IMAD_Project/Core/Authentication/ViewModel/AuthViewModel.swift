@@ -26,6 +26,7 @@ class AuthViewModel:ObservableObject{
     @Published var nickname = ""
     @Published var image = -1
     @Published var gender = ""
+    @Published var genre:[Int] = []
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
     var loginSuccess = PassthroughSubject<Bool,Never>()
@@ -91,7 +92,7 @@ class AuthViewModel:ObservableObject{
                         AuthApiService.getToken()
                         self.getTokenCnt += 1
                         print("토큰 재발급")
-                        if self.getTokenCnt < 3{
+                        if self.getTokenCnt < 2{
                             self.getUser()
                         }
                     }
@@ -106,14 +107,14 @@ class AuthViewModel:ObservableObject{
             .sink { completion in
                 self.patchInfoSuccess.send(true)
                 if let code = self.getUserRes?.status,code >= 200 && code <= 300{
-                    print("유저정보 수신 완료 \(completion)")
+                    print("유저정보 수정 완료 \(completion)")
                     self.image = self.getUserRes?.data?.profileImage ?? 0
                     self.gender = self.getUserRes?.data?.gender ?? ""
                     self.age = self.getUserRes?.data?.ageRange ?? 0
                     self.nickname = self.getUserRes?.data?.nickname ?? ""
                     
                 }else{
-                    print("유저정보 수신 실패 \(completion)")
+                    print("유저정보 수정 실패 \(completion)")
                 }
             } receiveValue: { [weak self] receivedValue in
                 self?.getUserRes = receivedValue
