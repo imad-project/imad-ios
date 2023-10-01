@@ -11,7 +11,7 @@ struct RegisterTabView: View {
     
     @State var phase:CGFloat = 0.0
     @State var phase1:CGFloat = 0.0
-    
+    @State var tabAnimation = false
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -29,8 +29,13 @@ struct RegisterTabView: View {
                     .tag(RegisterFilter.age)
                     .environmentObject(vmAuth)
                 SelectGenreView()
-                    .tag(RegisterFilter.genre)
-                    .environmentObject(vmAuth)
+                    .background{
+                        if tabAnimation{
+                            BackgroundView(height: 0.83, height1: 0.87,height2: 0.85,height3: 0.86)
+                        }
+                    }
+                .tag(RegisterFilter.genre)
+                .environmentObject(vmAuth)
                 ProfileSelectView()
                     .tag(RegisterFilter.profile)
                     .environmentObject(vmAuth)
@@ -54,13 +59,13 @@ struct RegisterTabView: View {
             }
             .frame(maxHeight: .infinity,alignment: .top)
             .frame(maxWidth: .infinity,alignment: .center)
-            BackgroundView(height: 0.23, height1: 0.27,height2: 0.25,height3: 0.26)
-            Image("watch")
-                .resizable()
-                .frame(width: 150,height: 100)
-                .padding()
-                
-            //stage
+            if !tabAnimation{
+                BackgroundView(height: 0.23, height1: 0.27,height2: 0.25,height3: 0.26)
+                Image("watch")
+                    .resizable()
+                    .frame(width: 150,height: 100)
+                    .padding()
+            }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onAppear{
@@ -69,6 +74,17 @@ struct RegisterTabView: View {
         .navigationBarBackButtonHidden(true)
         .onTapGesture {
             UIApplication.shared.endEditing()
+        }
+        .onChange(of: vmAuth.selection) { newValue in
+            if newValue == .genre{
+                withAnimation(.linear(duration: 0.5)){
+                    tabAnimation = true
+                }
+            }else{
+                withAnimation(.linear(duration: 0.5)){
+                    tabAnimation = false
+                }
+            }
         }
             
     }
@@ -79,44 +95,4 @@ struct RegisterTabView_Previews: PreviewProvider {
         RegisterTabView().environmentObject(AuthViewModel())
     }
 }
-extension RegisterTabView{
-    var stage:some View{
-        
-        Text("")
-        
-    }
-    var background:some View{
-        ZStack(alignment: .bottomTrailing){
-            Wave(reverse: true, progress: 0.33, addX: 0.2, phase: phase).fill(LinearGradient(colors: [Color.customIndigo.opacity(0.3),Color.customIndigo], startPoint: .top, endPoint: .bottom))
-                .onAppear{
-                    withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
-                        self.phase = .pi * 2
-                    }
-                }
-                .ignoresSafeArea()
-            Wave(reverse: true, progress: 0.35, addX: 0.4, phase: phase).fill(Color.customIndigo.opacity(0.3))
-                .onAppear{
-                    withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
-                        self.phase = .pi * 2
-                    }
-                }
-                .ignoresSafeArea()
-            Wave(reverse: false, progress: 0.37, addX: 0.4, phase: phase).fill(Color.customIndigo.opacity(0.3))
-                .onAppear{
-                    withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
-                        self.phase = .pi * 2
-                    }
-                }
-                .ignoresSafeArea()
-            Wave(reverse: false, progress: 0.36, addX: 0.5, phase: phase).fill(Color.customIndigo.opacity(0.3))
-                .shadow(radius: 20)
-                .onAppear{
-                    withAnimation(.linear(duration: 3).repeatForever(autoreverses:false)){
-                        self.phase1 = .pi * 2
-                    }
-                }
-                .ignoresSafeArea()
-            
-        }
-    }
-}
+

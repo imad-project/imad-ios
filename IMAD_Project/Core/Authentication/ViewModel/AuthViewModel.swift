@@ -26,7 +26,8 @@ class AuthViewModel:ObservableObject{
     @Published var nickname = ""
     @Published var image = -1
     @Published var gender = ""
-    @Published var genre:[Int] = []
+    @Published var movieGenre:[Int] = []
+    @Published var tvGenre:[Int] = []
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
     var loginSuccess = PassthroughSubject<Bool,Never>()

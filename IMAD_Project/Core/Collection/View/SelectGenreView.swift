@@ -15,8 +15,6 @@ struct SelectGenreView: View {
     
     var body: some View {
         ZStack{
-            BackgroundView(height: 0.83, height1: 0.87,height2: 0.85,height3: 0.86)
-           
             VStack(alignment: .leading){
                 Text("2. 관심있는 장르를 선택해 주세요")
                     .bold()
@@ -40,17 +38,28 @@ struct SelectGenreView: View {
                         Text("영화")
                             .padding(.leading)
                             .bold()
-                        FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases) { item in
-                            HStack{
-                                Text(item.name)
-                                Text(item.image)
+                        FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases){ item in
+                            Button {
+                                guard !vm.movieGenre.contains(item.rawValue) else { return vm.movieGenre = vm.movieGenre.filter{$0 != item.rawValue}}
+                                vm.movieGenre.append(item.rawValue)
+                            } label: {
+                                HStack{
+                                    Text(item.name)
+                                    Text(item.image)
+                                }
+                                .foregroundColor(!vm.movieGenre.contains(item.rawValue) ? .white : .customIndigo)
+                                .font(.subheadline)
+                                .bold()
+                                .padding(8)
+                                .padding(.horizontal)
+                                .background{
+                                    if !vm.movieGenre.contains(item.rawValue){
+                                        Capsule().stroke(lineWidth: 1)
+                                    }else{
+                                        Capsule()
+                                    }
+                                }
                             }
-                            .font(.subheadline)
-                            .bold()
-                            .padding(8)
-                            .padding(.horizontal)
-                            .background(Capsule()
-                            .stroke(lineWidth: 1))
                             
                         }
                         .foregroundColor(.white)
@@ -61,23 +70,33 @@ struct SelectGenreView: View {
                             .bold()
                             .padding(.top)
                         FlowLayout(mode: .scrollable, items: TVGenreFilter.allCases) { item in
-                            HStack{
-                                Text(item.name)
-                                Text(item.image)
+                            Button {
+                                guard !vm.tvGenre.contains(item.rawValue) else { return vm.tvGenre = vm.tvGenre.filter{$0 != item.rawValue}}
+                                vm.tvGenre.append(item.rawValue)
+                            } label: {
+                                HStack{
+                                    Text(item.name)
+                                    Text(item.image)
+                                }
+                                .foregroundColor(!vm.tvGenre.contains(item.rawValue) ? .white : .customIndigo)
+                                .font(.subheadline)
+                                .bold()
+                                .padding(8)
+                                .padding(.horizontal)
+                                .background{
+                                    if !vm.tvGenre.contains(item.rawValue){
+                                        Capsule().stroke(lineWidth: 1)
+                                    }else{
+                                        Capsule()
+                                    }
+                                }
                             }
-                            .font(.subheadline)
-                            .bold()
-                            .padding(8)
-                            .padding(.horizontal)
-                            .background(Capsule()
-                            .stroke(lineWidth: 1))
-                            
                         }
                         .foregroundColor(.white)
                         .padding(.horizontal)
                         Button {
                             withAnimation(.linear){
-                                vm.selection = .genre
+                                vm.selection = .profile
                             }
                         } label: {
                             RoundedRectangle(cornerRadius: 20)
@@ -105,5 +124,6 @@ struct SelectGenreView_Previews: PreviewProvider {
         //SelectGenreView(preveous: .constant(true))
         SelectGenreView()
             .environmentObject(AuthViewModel())
+            .background(Color.customIndigo)
     }
 }
