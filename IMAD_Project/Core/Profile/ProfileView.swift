@@ -307,10 +307,15 @@ extension ProfileView{
                         HStack{
                             Text(item.name)
                             Text(item.image)
+                           
                         }
                         .font(.subheadline)
                         .bold()
                         .padding(8)
+                        .padding(.trailing)
+                        .overlay(alignment:.trailing) {
+                            Image(systemName: "xmark").font(.caption)
+                        }
                         .padding(.horizontal).background(Capsule().stroke(lineWidth: 1))
                         .foregroundColor(.customIndigo)
                     }
@@ -334,7 +339,9 @@ extension ProfileView{
                         .font(.subheadline)
                         .bold()
                         .padding(8)
+                       
                         .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
+                        
                     }
                     
                 }.foregroundColor(.customIndigo.opacity(0.5)).padding(.horizontal)
@@ -375,6 +382,10 @@ extension ProfileView{
                         .font(.subheadline)
                         .bold()
                         .padding(8)
+                        .padding(.trailing)
+                        .overlay(alignment:.trailing) {
+                            Image(systemName: "xmark").font(.caption)
+                        }
                         .padding(.horizontal).background(Capsule().stroke(lineWidth: 1))
                         .foregroundColor(.customIndigo)
                     }
