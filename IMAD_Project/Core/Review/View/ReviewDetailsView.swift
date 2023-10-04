@@ -190,7 +190,7 @@ extension ReviewDetailsView{
                         .font(.title3)
                 }
                 Spacer()
-                if vm.reviewInfo?.userNickname == vmAuth.nickname{
+                if vm.reviewInfo?.userNickname == vmAuth.profileInfo.nickname{
                     ZStack{
                         Button {
                             withAnimation {

@@ -60,25 +60,25 @@ struct ProfileSelectView: View {
                 
                 Button{
                     
-                    vm.image = image.num
+                    vm.profileInfo.profileImage = image.num
                     
-                    if vm.nickname == ""{
+                    if vm.profileInfo.nickname == ""{
                         msg = "닉네임을 설정해주세요!"
                         withAnimation(.linear){
                             vm.selection = .nickname
                         }
                         alert = true
-                    }else if vm.image == -1{
+                    }else if vm.profileInfo.profileImage == -1{
                         msg = "프로필 이미지를 선택해주세요!"
                         alert = true
-                    }else if vm.gender == ""{
+                    }else if vm.profileInfo.gender == ""{
                         msg = "성별을 선택해 주세요!"
                         withAnimation(.linear){
                             vm.selection = .gender
                         }
                         alert = true
                     }else{
-                        vm.patchUser(gender: vm.gender, ageRange: vm.age, image: vm.image, nickname: vm.nickname, genre: "")
+                        vm.patchUser(gender: vm.profileInfo.gender ?? "", ageRange: vm.profileInfo.ageRange, image: vm.profileInfo.profileImage, nickname: vm.profileInfo.nickname ?? "", tvGenre:vm.profileInfo.tvGenre,movieGenre: vm.profileInfo.movieGenre)
                         vm.selection = .nickname
                         loading = true
                     }

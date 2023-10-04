@@ -29,14 +29,14 @@ struct GenderSelectView: View {
                     HStack(spacing: 30){
                         VStack{
                             Button {
-                                vm.gender = "MALE"
+                                vm.profileInfo.gender = "MALE"
                             } label: {
                                 RoundedRectangle(cornerRadius: 20)
                                     .frame(width: 150,height: 150)
                                     .foregroundColor(.white)
                                     .padding(10)
                                     .overlay {
-                                        if vm.gender == "MALE"{
+                                        if vm.profileInfo.gender == "MALE"{
                                             RoundedRectangle(cornerRadius: 20).foregroundColor(.black.opacity(0.3))
                                                 .frame(width: 150,height: 150)
                                         }
@@ -47,19 +47,19 @@ struct GenderSelectView: View {
                                     .shadow(radius: 20)
                             }
                             Text("남성")
-                                .fontWeight(vm.gender == "MALE" ? .bold:.none)
+                                .fontWeight(vm.profileInfo.gender == "MALE" ? .bold:.none)
                         }
                         //Spacer().frame(width: 50)
                         VStack{
                             Button {
-                                vm.gender = "FEMALE"
+                                vm.profileInfo.gender = "FEMALE"
                             } label: {
                                 RoundedRectangle(cornerRadius: 20)
                                     .frame(width: 150,height: 150)
                                     .foregroundColor(.white)
                                     .padding(10)
                                     .overlay {
-                                        if vm.gender == "FEMALE"{
+                                        if vm.profileInfo.gender == "FEMALE"{
                                             RoundedRectangle(cornerRadius: 20).foregroundColor(.black.opacity(0.3))
                                                 .frame(width: 150,height: 150)
                                         }
@@ -70,7 +70,7 @@ struct GenderSelectView: View {
                                     .shadow(radius: 20)
                             }
                             Text("여성")
-                                .fontWeight(vm.gender == "FEMALE" ? .bold:.none)
+                                .fontWeight(vm.profileInfo.gender == "FEMALE" ? .bold:.none)
                         }
                     }
                     .frame(maxWidth: .infinity)

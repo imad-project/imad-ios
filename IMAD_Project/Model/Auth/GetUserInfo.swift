@@ -10,6 +10,6 @@ import Foundation
 
 struct GetUserInfo:Codable{
     let status:Int
-    let data:LoginResponse?
+    var data:LoginResponse?
     let message:String?
 }

@@ -22,12 +22,13 @@ class AuthViewModel:ObservableObject{
     @Published var guestMode = false
     @Published var loginMode = false
     
-    @Published var age = 20
-    @Published var nickname = ""
-    @Published var image = -1
-    @Published var gender = ""
-    @Published var movieGenre:[Int] = []
-    @Published var tvGenre:[Int] = []
+    @Published var profileInfo:LoginResponse = LoginResponse(email: "", nickname: "", gender: "", ageRange: 20, profileImage: -1, authProvider: "", role: "")
+//    @Published var age = 20
+//    @Published var nickname = ""
+//    @Published var image = -1
+//    @Published var gender = ""
+//    @Published var movieGenre:[Int] = []
+//    @Published var tvGenre:[Int] = []
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
     var loginSuccess = PassthroughSubject<Bool,Never>()
@@ -60,10 +61,11 @@ class AuthViewModel:ObservableObject{
                     if self.getUserRes?.data?.role == "GUEST"{
                         self.guestMode = true
                     }
-                    self.age = self.getUserRes?.data?.ageRange ?? -1
-                    self.nickname = self.getUserRes?.data?.nickname ?? ""
-                    self.gender = self.getUserRes?.data?.gender ?? ""
-                    self.image = self.getUserRes?.data?.profileImage ?? -1
+                   
+//                    self.age = self.getUserRes?.data?.ageRange ?? -1
+//                    self.nickname = self.getUserRes?.data?.nickname ?? ""
+//                    self.gender = self.getUserRes?.data?.gender ?? ""
+//                    self.image = self.getUserRes?.data?.profileImage ?? -1
                     self.loginSuccess.send(true)
                     print("로그인 완료 \(completion)")
                 }else{
@@ -72,6 +74,8 @@ class AuthViewModel:ObservableObject{
                 }
             } receiveValue: { [weak self] receivedValue in
                 self?.getUserRes = receivedValue
+                guard let data = receivedValue.data else {return}
+                self?.profileInfo = data
             }.store(in: &cancelable)
     }
     func getUser(){
@@ -82,10 +86,10 @@ class AuthViewModel:ObservableObject{
                     if self.getUserRes?.data?.role == "GUEST"{
                         self.guestMode = true
                     }
-                    self.age = self.getUserRes?.data?.ageRange ?? -1
-                    self.nickname = self.getUserRes?.data?.nickname ?? ""
-                    self.gender = self.getUserRes?.data?.gender ?? ""
-                    self.image = self.getUserRes?.data?.profileImage ?? -1
+//                    self.age = self.getUserRes?.data?.ageRange ?? -1
+//                    self.nickname = self.getUserRes?.data?.nickname ?? ""
+//                    self.gender = self.getUserRes?.data?.gender ?? ""
+//                    self.image = self.getUserRes?.data?.profileImage ?? -1
                     print("유저정보 수신 완료 \(completion)")
                 }else{
                     print("유저정보 수신 실패 \(completion)")
@@ -100,25 +104,28 @@ class AuthViewModel:ObservableObject{
                 }
             } receiveValue: { [weak self] receivedValue in
                 self?.getUserRes = receivedValue
+                guard let data = receivedValue.data else {return}
+                self?.profileInfo = data
             }.store(in: &cancelable)
 
     }
-    func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,genre:String?){
-        UserApiService.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, genre: genre)
+    func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?){
+        UserApiService.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, tvGenre: tvGenre,movieGenre:movieGenre)
             .sink { completion in
                 self.patchInfoSuccess.send(true)
                 if let code = self.getUserRes?.status,code >= 200 && code <= 300{
                     print("유저정보 수정 완료 \(completion)")
-                    self.image = self.getUserRes?.data?.profileImage ?? 0
-                    self.gender = self.getUserRes?.data?.gender ?? ""
-                    self.age = self.getUserRes?.data?.ageRange ?? 0
-                    self.nickname = self.getUserRes?.data?.nickname ?? ""
-                    
+//                    self.image = self.getUserRes?.data?.profileImage ?? 0
+//                    self.gender = self.getUserRes?.data?.gender ?? ""
+//                    self.age = self.getUserRes?.data?.ageRange ?? 0
+//                    self.nickname = self.getUserRes?.data?.nickname ?? ""
                 }else{
                     print("유저정보 수정 실패 \(completion)")
                 }
             } receiveValue: { [weak self] receivedValue in
                 self?.getUserRes = receivedValue
+                guard let data = receivedValue.data else {return}
+                self?.profileInfo = data
             }.store(in: &cancelable)
     }
     func logout(){
@@ -147,9 +154,9 @@ class AuthViewModel:ObservableObject{
             .sink { completion in
                 if let code = self.passwordChangeRes?.status,code >= 200 && code <= 300{
                     self.passwordChangeSuccess.send()
-                    print("회원탈퇴 완료 \(completion)")
+                    print("비밀번호 수정 완료 \(completion)")
                 }else{
-                    print("회원탈퇴 실패 \(completion)")
+                    print("비밀번호 수정 실패 \(completion)")
                 }
             } receiveValue: { [weak self] receivedValue in
                 self?.passwordChangeRes = receivedValue

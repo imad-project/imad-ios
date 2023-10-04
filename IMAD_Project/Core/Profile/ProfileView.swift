@@ -19,6 +19,12 @@ struct ProfileView: View {
     let columns = [ GridItem(.flexible()), GridItem(.flexible())]
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @EnvironmentObject var vmAuth:AuthViewModel
+    
+    @State var tv = false
+    @State var tvCollection:[TVGenreFilter] = []
+    @State var movie = false
+    @State var movieCollection:[MovieGenreFilter] = []
+    
     @State var review = false
     @State var posting = false
     @State var bookmark = false
@@ -126,9 +132,28 @@ struct ProfileView: View {
                                 }
                             
                         }
-                        Text("관심 장르").bold()
-                            .padding(.top)
-                        genre
+                        HStack{
+                            Text("관심 시리즈 장르").bold()
+                            Spacer()
+                            Button {
+                                tv = true
+                            } label: {
+                                Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                            }
+                        }
+                        .padding(.top)
+                        tvGenre
+                        HStack{
+                            Text("관심 영화 장르").bold()
+                            Spacer()
+                            Button {
+                                movie = true
+                            } label: {
+                                Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                            }
+                        }
+                        .padding(.top)
+                        movieGenre
                         Text("찜 작품 목록").bold()
                             .padding(.top)
                         movieList
@@ -189,10 +214,22 @@ struct ProfileView: View {
                 
             }
             .onChange(of: imageCode) { newValue in
-                vmAuth.patchUser(gender: vmAuth.gender, ageRange: vmAuth.age, image:imageCode.num, nickname: vmAuth.nickname, genre: "")
+                vmAuth.patchUser(gender: vmAuth.profileInfo.gender, ageRange: vmAuth.profileInfo.ageRange, image:imageCode.num, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre:vmAuth.profileInfo.tvGenre ?? [],movieGenre:vmAuth.profileInfo.movieGenre ?? [])
             }
-        
-        
+            .sheet(isPresented: $tv) {
+                tvGenreSelect
+            }
+            .sheet(isPresented: $movie) {
+                movieGenreSelect
+            }
+            .onAppear{
+                guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
+                tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
+            }
+            .onAppear{
+                guard let movieGenres = vmAuth.profileInfo.movieGenre else {return}
+                movieCollection = MovieGenreFilter.allCases.filter({movieGenres.contains($0.rawValue)})
+            }
     }
 }
 
@@ -211,34 +248,177 @@ extension ProfileView{
         
         return numberFormatter.string(from: NSNumber(value: number))!
     }
-    var genre:some View{
-        FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases) { item in
+    var movieGenre:some View{
+        FlowLayout(mode: .scrollable, items: movieCollection) { item in
+            
             HStack{
                 Text(item.name)
                 Text(item.image)
             }
-            
             .font(.subheadline)
             .bold()
             .padding(8)
             .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
+            
+            
+        }.foregroundColor(.customIndigo.opacity(0.5))
+    }
+    var tvGenre:some View{
+        FlowLayout(mode: .scrollable, items: tvCollection) { item in
+                HStack{
+                    Text(item.name)
+                    Text(item.image)
+                }
+                .font(.subheadline)
+                .bold()
+                .padding(8)
+                .padding(.horizontal)
+                .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
+            
         }.foregroundColor(.customIndigo.opacity(0.5))
     }
     var movieList:some View{
         LazyVGrid(columns: genreColumns) {
-//            ForEach(CustomData.instance.reviewList.shuffled(),id:\.self){ item in
-//                VStack{
-//                    KFImage(URL(string: item.thumbnail))
-//                        .resizable()
-//                        .frame(height: 200)
-//                        .cornerRadius(10)
-//                    Text(item.title)
-//                        .font(.caption)
-//                        .frame(width: 200)
-//                        .bold()
-//                }
-//                
-//            }
+            //            ForEach(CustomData.instance.reviewList.shuffled(),id:\.self){ item in
+            //                VStack{
+            //                    KFImage(URL(string: item.thumbnail))
+            //                        .resizable()
+            //                        .frame(height: 200)
+            //                        .cornerRadius(10)
+            //                    Text(item.title)
+            //                        .font(.caption)
+            //                        .frame(width: 200)
+            //                        .bold()
+            //                }
+            //
+            //            }
         }
+    }
+    var movieGenreSelect:some View{
+        ZStack{
+            Color.white.ignoresSafeArea()
+            VStack(alignment: .leading){
+                Text("내 장르").bold()
+                    .padding(.leading)
+                FlowLayout(mode: .scrollable, items: movieCollection) { item in
+                    Button {
+                        movieCollection = movieCollection.filter({$0 != item})
+                    } label: {
+                        HStack{
+                            Text(item.name)
+                            Text(item.image)
+                        }
+                        .font(.subheadline)
+                        .bold()
+                        .padding(8)
+                        .padding(.horizontal).background(Capsule().stroke(lineWidth: 1))
+                        .foregroundColor(.customIndigo)
+                    }
+                }
+                .padding()
+                
+                Divider()
+                    .padding(.vertical)
+                FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases) { item in
+                    Button {
+                        if movieCollection.contains(item){
+                            movieCollection = movieCollection.filter({$0 != item})
+                        }else{
+                            movieCollection.append(item)
+                        }
+                    } label: {
+                        HStack{
+                            Text(item.name)
+                            Text(item.image)
+                        }
+                        .font(.subheadline)
+                        .bold()
+                        .padding(8)
+                        .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
+                    }
+                    
+                }.foregroundColor(.customIndigo.opacity(0.5)).padding(.horizontal)
+                Button {
+                    movie = false
+                    vmAuth.patchUser(gender: vmAuth.profileInfo.gender ?? "", ageRange: vmAuth.profileInfo.ageRange, image: vmAuth.profileInfo.profileImage, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre: vmAuth.profileInfo.tvGenre, movieGenre: movieCollection.map({$0.rawValue}))
+                } label: {
+                    RoundedRectangle(cornerRadius: 20)
+                        .frame(height: 60)
+                        .foregroundColor(.customIndigo)
+                        .overlay {
+                            Text("완료")
+                                .bold()
+                                .foregroundColor(.white)
+                                .shadow(radius: 20)
+                        }
+                }
+                .padding()
+                
+            }
+        }.foregroundColor(.customIndigo)
+        
+    }
+    var tvGenreSelect:some View{
+        ZStack{
+            Color.white.ignoresSafeArea()
+            VStack(alignment: .leading){
+                Text("내 장르").bold()
+                    .padding(.leading)
+                FlowLayout(mode: .scrollable, items: tvCollection) { item in
+                    Button {
+                        tvCollection = tvCollection.filter({$0 != item})
+                    } label: {
+                        HStack{
+                            Text(item.name)
+                            Text(item.image)
+                        }
+                        .font(.subheadline)
+                        .bold()
+                        .padding(8)
+                        .padding(.horizontal).background(Capsule().stroke(lineWidth: 1))
+                        .foregroundColor(.customIndigo)
+                    }
+                }
+                .padding()
+                
+                Divider()
+                    .padding(.vertical)
+                FlowLayout(mode: .scrollable, items: TVGenreFilter.allCases) { item in
+                    Button {
+                        if tvCollection.contains(item){
+                            tvCollection = tvCollection.filter({$0 != item})
+                        }else{
+                            tvCollection.append(item)
+                        }
+                        
+                    } label: {
+                        HStack{
+                            Text(item.name)
+                            Text(item.image)
+                        }
+                        .font(.subheadline)
+                        .bold()
+                        .padding(8)
+                        .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
+                    }
+                    
+                }.foregroundColor(.customIndigo.opacity(0.5)).padding(.horizontal)
+                Button {
+                    tv = false
+                    vmAuth.patchUser(gender: vmAuth.profileInfo.gender ?? "", ageRange: vmAuth.profileInfo.ageRange, image: vmAuth.profileInfo.profileImage, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre: tvCollection.map({$0.rawValue}), movieGenre: vmAuth.profileInfo.movieGenre)
+                } label: {
+                    RoundedRectangle(cornerRadius: 20)
+                        .frame(height: 60)
+                        .foregroundColor(.customIndigo)
+                        .overlay {
+                            Text("완료")
+                                .bold()
+                                .foregroundColor(.white)
+                                .shadow(radius: 20)
+                        }
+                }
+                .padding()
+            }
+        }.foregroundColor(.customIndigo)
     }
 }

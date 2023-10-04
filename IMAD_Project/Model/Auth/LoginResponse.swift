@@ -9,13 +9,16 @@ import Foundation
 
 struct LoginResponse:Codable{
     
-    let email:String
-    let nickname:String?
+    var email:String
+    var nickname:String?
+    var gender:String?
+    var ageRange:Int
+    var profileImage:Int
+    var tvGenre:[Int]?
+    var movieGenre:[Int]?
     let authProvider:String
-    let gender:String?
-    let ageRange:Int
-    let profileImage:Int
     let role:String
+    
     
     enum CodingKeys:String,CodingKey{
         case email
@@ -24,6 +27,8 @@ struct LoginResponse:Codable{
         case gender
         case ageRange = "age_range"
         case profileImage = "profile_image"
+        case tvGenre = "preferred_tv_genres"
+        case movieGenre = "preferred_movie_genres"
         case role
     }
 }

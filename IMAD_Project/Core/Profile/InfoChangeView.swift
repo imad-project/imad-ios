@@ -49,13 +49,14 @@ struct InfoChangeView: View {
                                 
                             }
                         }else{
+                            guard let data = vmAuth.getUserRes?.data else {return}
                             switch title{
                             case "닉네임":
-                                vmAuth.patchUser(gender: vmAuth.gender, ageRange: vmAuth.age, image:vmAuth.image, nickname: text, genre: "")
+                                vmAuth.patchUser(gender: data.gender ?? "", ageRange: data.ageRange, image:data.profileImage, nickname: text, tvGenre: data.tvGenre ?? [],movieGenre: data.movieGenre ?? [])
                             case "성별":
-                                vmAuth.patchUser(gender: gender, ageRange: vmAuth.age, image:vmAuth.image, nickname: vmAuth.nickname, genre: "")
+                                vmAuth.patchUser(gender: gender, ageRange: data.ageRange, image:data.profileImage, nickname: data.nickname ?? "", tvGenre: data.tvGenre ?? [],movieGenre: data.movieGenre ?? [])
                             case "나이":
-                                vmAuth.patchUser(gender: vmAuth.gender, ageRange: age, image:vmAuth.image, nickname: vmAuth.nickname, genre: "")
+                                vmAuth.patchUser(gender: data.gender, ageRange: age, image:data.profileImage, nickname: data.nickname ?? "", tvGenre: data.tvGenre ?? [],movieGenre: data.movieGenre ?? [])
                             default:
                                 return
                             }

@@ -64,7 +64,7 @@ struct NicknameSelectView: View {
                 Button {
                     if let cheack = vmCheck.check{
                         if cheack{
-                            vm.nickname = text
+                            vm.profileInfo.nickname = text
                             withAnimation(.linear){
                                 vm.selection = .gender
                             }

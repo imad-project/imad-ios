@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftUIFlowLayout
 
 struct SelectGenreView: View {
-    //@Binding var preveous:Bool
+    
     @EnvironmentObject var vm:AuthViewModel
     let columns = [ GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
     
@@ -18,7 +18,7 @@ struct SelectGenreView: View {
             VStack(alignment: .leading){
                 Text("2. 관심있는 장르를 선택해 주세요")
                     .bold()
-                    .padding(.top,90)
+                    .padding(.top,30)
                     .padding(.vertical,30)
                     .padding(.leading)
                 HStack{
@@ -40,20 +40,20 @@ struct SelectGenreView: View {
                             .bold()
                         FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases){ item in
                             Button {
-                                guard !vm.movieGenre.contains(item.rawValue) else { return vm.movieGenre = vm.movieGenre.filter{$0 != item.rawValue}}
-                                vm.movieGenre.append(item.rawValue)
+                                guard !(vm.profileInfo.movieGenre ?? []).contains(item.rawValue) else { return vm.profileInfo.movieGenre = (vm.profileInfo.movieGenre ?? []).filter{$0 != item.rawValue}}
+                                vm.profileInfo.movieGenre?.append(item.rawValue)
                             } label: {
                                 HStack{
                                     Text(item.name)
                                     Text(item.image)
                                 }
-                                .foregroundColor(!vm.movieGenre.contains(item.rawValue) ? .white : .customIndigo)
+                                .foregroundColor(!(vm.profileInfo.movieGenre ?? []).contains(item.rawValue) ? .customIndigo : .white)
                                 .font(.subheadline)
                                 .bold()
                                 .padding(8)
                                 .padding(.horizontal)
                                 .background{
-                                    if !vm.movieGenre.contains(item.rawValue){
+                                    if !(vm.profileInfo.movieGenre ?? []).contains(item.rawValue){
                                         Capsule().stroke(lineWidth: 1)
                                     }else{
                                         Capsule()
@@ -62,7 +62,7 @@ struct SelectGenreView: View {
                             }
                             
                         }
-                        .foregroundColor(.white)
+                        .foregroundColor(.customIndigo)
                         .padding(.horizontal)
                         
                         Text("시리즈/TV")
@@ -71,20 +71,20 @@ struct SelectGenreView: View {
                             .padding(.top)
                         FlowLayout(mode: .scrollable, items: TVGenreFilter.allCases) { item in
                             Button {
-                                guard !vm.tvGenre.contains(item.rawValue) else { return vm.tvGenre = vm.tvGenre.filter{$0 != item.rawValue}}
-                                vm.tvGenre.append(item.rawValue)
+                                guard !(vm.profileInfo.tvGenre ?? []).contains(item.rawValue) else { return vm.profileInfo.tvGenre = vm.profileInfo.tvGenre?.filter{$0 != item.rawValue}}
+                                vm.profileInfo.tvGenre?.append(item.rawValue)
                             } label: {
                                 HStack{
                                     Text(item.name)
                                     Text(item.image)
                                 }
-                                .foregroundColor(!vm.tvGenre.contains(item.rawValue) ? .white : .customIndigo)
+                                .foregroundColor(!(vm.profileInfo.tvGenre ?? []).contains(item.rawValue) ? .customIndigo : .white)
                                 .font(.subheadline)
                                 .bold()
                                 .padding(8)
                                 .padding(.horizontal)
                                 .background{
-                                    if !vm.tvGenre.contains(item.rawValue){
+                                    if !(vm.profileInfo.tvGenre ?? []).contains(item.rawValue){
                                         Capsule().stroke(lineWidth: 1)
                                     }else{
                                         Capsule()
@@ -92,7 +92,7 @@ struct SelectGenreView: View {
                                 }
                             }
                         }
-                        .foregroundColor(.white)
+                        .foregroundColor(.customIndigo)
                         .padding(.horizontal)
                         Button {
                             withAnimation(.linear){
@@ -101,7 +101,7 @@ struct SelectGenreView: View {
                         } label: {
                             RoundedRectangle(cornerRadius: 20)
                                 .frame(height: 60)
-                                .foregroundColor(.white.opacity(0.5))
+                                .foregroundColor(.customIndigo.opacity(0.5))
                                 .overlay {
                                     Text("다음")
                                         .bold()
@@ -115,7 +115,7 @@ struct SelectGenreView: View {
                 }
                 
             }
-        }.foregroundColor(.white)
+        }.foregroundColor(.customIndigo)
     }
 }
 
@@ -124,6 +124,6 @@ struct SelectGenreView_Previews: PreviewProvider {
         //SelectGenreView(preveous: .constant(true))
         SelectGenreView()
             .environmentObject(AuthViewModel())
-            .background(Color.customIndigo)
+//            .background(Color.customIndigo)
     }
 }

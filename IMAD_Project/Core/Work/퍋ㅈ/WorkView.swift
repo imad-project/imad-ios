@@ -235,7 +235,7 @@ extension WorkView{
                 .padding(.top)
                 .bold()
             VStack{
-                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.nickname}){
+                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}){
                     ForEach(vmReview.reviewList,id:\.self){ review in
                         if review == my{
                             NavigationLink {

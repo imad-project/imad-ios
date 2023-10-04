@@ -23,7 +23,7 @@ struct AgeSelectView: View {
                 .padding(.leading)
                 HStack{
                     Spacer()
-                    Picker("", selection: $vm.age) {
+                    Picker("", selection: $vm.profileInfo.ageRange) {
                         ForEach(0...100, id: \.self) {
                             Text("\($0) 세")
                         }
