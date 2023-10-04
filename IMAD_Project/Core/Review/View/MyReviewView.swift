@@ -15,11 +15,11 @@ struct MyReviewView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        VStack(alignment: .leading){
+        VStack{
             header
-            ScrollView {
-                item
-            }
+            
+            item
+            
             
         }
         .foregroundColor(.black)
@@ -63,22 +63,35 @@ extension MyReviewView{
         }
     }
     var item:some View{
-        ForEach(vm.myReviewList,id:\.self){ item in
-            Divider().padding(.vertical)
-            NavigationLink {
-                ReviewDetailsView(reviewId: item.reviewID)
-                    .environmentObject(vmAuth)
-                    .navigationBarBackButtonHidden()
-            } label: {
-                MyReviewListRowView(review: item)
-                    .padding(.horizontal)
-            }
-            if vm.myReviewList.count > 10{
-                ProgressView()
-                    .onAppear{
-                        page += 1
-                        vm.myReviewList(page: page)
+        VStack{
+            if vm.myReviewList.isEmpty{
+                Spacer()
+                Image(systemName: "text.badge.xmark")
+                    .font(.largeTitle)
+                    .padding(.bottom,5)
+                Text("작성한 리뷰가 없습니다")
+                Spacer()
+            }else{
+                ScrollView{
+                    ForEach(vm.myReviewList,id:\.self){ item in
+                        Divider().padding(.vertical)
+                        NavigationLink {
+                            ReviewDetailsView(reviewId: item.reviewID)
+                                .environmentObject(vmAuth)
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            MyReviewListRowView(review: item)
+                                .padding(.horizontal)
+                        }
+                        if vm.myReviewList.count > 10{
+                            ProgressView()
+                                .onAppear{
+                                    page += 1
+                                    vm.myReviewList(page: page)
+                                }
+                        }
                     }
+                }
             }
         }
     }
