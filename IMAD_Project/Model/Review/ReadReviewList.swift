@@ -9,7 +9,7 @@ import Foundation
 
 struct ReadReviewList: Codable {
     let status: Int
-    let data: ReviewDetails?
+    var data: ReviewDetails?
     let message: String
 }
 

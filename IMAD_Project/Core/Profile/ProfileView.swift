@@ -18,6 +18,7 @@ struct ProfileView: View {
     @State var profileSelect = false
     let columns = [ GridItem(.flexible()), GridItem(.flexible())]
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    @StateObject var vm = ReviewViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @State var tv = false
@@ -100,7 +101,8 @@ struct ProfileView: View {
                         HStack{
                             Group{
                                 NavigationLink {
-                                    MyReviewView()
+                                    MyReviewView(mode:0)
+                                        .environmentObject(vm)
                                         .environmentObject(vmAuth)
                                         .navigationBarBackButtonHidden()    
                                 } label: {
@@ -109,7 +111,7 @@ struct ProfileView: View {
                                             .font(.title)
                                             .foregroundColor(.yellow)
                                         Text("내 리뷰").font(.caption)
-                                        Text("12").bold()
+                                        Text("\(vm.myReviewCnt)").bold()
                                         
                                     }
                                 }
@@ -120,16 +122,34 @@ struct ProfileView: View {
                                         .font(.title)
                                     Text("내 게시물")
                                         .font(.caption)
-                                    Text("3").bold()
-                                    
-                                }
-                                VStack(spacing:10){
-                                    Image(systemName: "heart.fill")
-                                        .font(.title)
-                                        .foregroundColor(.red)
-                                    Text("내 좋아요")
-                                        .font(.caption)
                                     Text(numberFormatter(number: 1203)).bold()
+                                }
+                                NavigationLink {
+                                    MyReviewView(mode:1)
+                                        .environmentObject(vm)
+                                        .environmentObject(vmAuth)
+                                        .navigationBarBackButtonHidden()
+                                } label: {
+                                    VStack(spacing:10){
+                                        ZStack{
+                                            Image(systemName: "heart.fill")
+                                                .font(.title)
+                                                .foregroundColor(.blue)
+                                                .offset(x:3)
+                                                .rotationEffect(Angle(degrees: -10))
+                                            Image(systemName: "heart.fill")
+                                                .font(.title)
+                                                .foregroundColor(.red)
+                                                .offset(x:-3)
+                                                .rotationEffect(Angle(degrees: 10))
+                                        }
+                                        
+                                        Text("내 반응")
+                                            .font(.caption)
+                                        Text("\(vm.myLikeReviewCnt)").bold()
+                                        
+                                    }
+                               
                                 }
                             }.frame(maxWidth:.infinity)
                                 .frame(height:100)
@@ -231,6 +251,8 @@ struct ProfileView: View {
                 movieGenreSelect
             }
             .onAppear{
+                vm.myReviewList(page: vm.page)
+                vm.myLikeReviewList(page: vm.page)
                 guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
                 tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
             }

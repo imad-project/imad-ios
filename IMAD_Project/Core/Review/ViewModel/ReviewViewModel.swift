@@ -17,7 +17,14 @@ class ReviewViewModel:ObservableObject{
     @Published var reviewInfo:ReadReviewResponse?
     @Published var reviewList:[ReviewDetailsResponseList] = []  //리뷰 리스트
     @Published var reviewDetailsInfo:ReviewDetails?
-    @Published var myReviewList:[ReviewDetailsResponseList] = []
+    
+    @Published var myReview:[ReviewDetailsResponseList] = []
+    @Published var myLikeReview:[ReviewDetailsResponseList] = []
+    
+    @Published var myReviewCnt = 0
+    @Published var myLikeReviewCnt = 0
+    
+    @Published var page = 1
     
     func writeReview(id:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.reviewWrite(id: id, title: title, content: content, score: score, spoiler: spoiler)
@@ -96,8 +103,26 @@ class ReviewViewModel:ObservableObject{
                 print(completion)
             } receiveValue: { [weak self] recievedValue in
                 if recievedValue.status >= 200 && recievedValue.status < 300{
-                    guard let list = recievedValue.data?.reviewDetailsResponseList else {return}
-                    self?.myReviewList = list
+                    guard let data = recievedValue.data else {return}
+                    self?.myReviewCnt = data.totalElements ?? 0
+                    if let list = data.reviewDetailsResponseList{
+                        self?.myReview.append(contentsOf: list)
+                    }
+                }
+            }.store(in: &cancelable)
+
+    }
+    func myLikeReviewList(page:Int){
+        ReviewApiService.myLikeReview(page: page)
+            .sink { completion in
+                print(completion)
+            } receiveValue: { [weak self] recievedValue in
+                if recievedValue.status >= 200 && recievedValue.status < 300{
+                    guard let data = recievedValue.data else {return}
+                    self?.myLikeReviewCnt = data.totalElements ?? 0
+                    if let list = data.reviewDetailsResponseList{
+                        self?.myLikeReview.append(contentsOf: list)
+                    }
                 }
             }.store(in: &cancelable)
 
