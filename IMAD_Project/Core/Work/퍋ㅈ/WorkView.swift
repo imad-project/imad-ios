@@ -68,6 +68,7 @@ struct WorkView: View {
         .onAppear {
             vm.getWorkInfo(id: id, type: type)
             vmAuth.getUser()
+            vm.getBookmark(page: 1)
             withAnimation(.linear(duration: 0.5)){
                 anima = true
             }
@@ -211,7 +212,7 @@ extension WorkView{
                         }.foregroundColor(.customIndigo)
                     }
                     Button {
-                        
+//                        vm.addBookmark(id: vm.workInfo?.contentsId ?? 0)
                     } label: {
                         VStack(spacing:5){
                             Image(systemName: "bookmark")

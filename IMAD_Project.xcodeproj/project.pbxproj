@@ -66,6 +66,9 @@
 		818CF7F82A20929800BABA1F /* ProfileSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F72A20929800BABA1F /* ProfileSelectView.swift */; };
 		818CF7FA2A20AAE500BABA1F /* AgeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */; };
 		818CF7FE2A21B7E000BABA1F /* RegisterFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */; };
+		819AA9EB2ACD3C430048CF7B /* BookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EA2ACD3C430048CF7B /* BookmarkResponse.swift */; };
+		819AA9ED2ACD3CEC0048CF7B /* BookmarkDetailsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EC2ACD3CEC0048CF7B /* BookmarkDetailsList.swift */; };
+		819AA9EF2ACD3D830048CF7B /* BookMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EE2ACD3D830048CF7B /* BookMark.swift */; };
 		819C506E2A0F467B0008F4A5 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C506D2A0F467B0008F4A5 /* UserDefaultManager.swift */; };
 		819C50702A0F8AFC0008F4A5 /* RegisterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C506F2A0F8AFC0008F4A5 /* RegisterResponse.swift */; };
 		819D499A2A9338AD008B7BFE /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819D49992A9338AD008B7BFE /* Season.swift */; };
@@ -206,6 +209,9 @@
 		818CF7F72A20929800BABA1F /* ProfileSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectView.swift; sourceTree = "<group>"; };
 		818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeSelectView.swift; sourceTree = "<group>"; };
 		818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterFilter.swift; sourceTree = "<group>"; };
+		819AA9EA2ACD3C430048CF7B /* BookmarkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkResponse.swift; sourceTree = "<group>"; };
+		819AA9EC2ACD3CEC0048CF7B /* BookmarkDetailsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetailsList.swift; sourceTree = "<group>"; };
+		819AA9EE2ACD3D830048CF7B /* BookMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMark.swift; sourceTree = "<group>"; };
 		819C506D2A0F467B0008F4A5 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		819C506F2A0F8AFC0008F4A5 /* RegisterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResponse.swift; sourceTree = "<group>"; };
 		819D49992A9338AD008B7BFE /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
@@ -368,6 +374,7 @@
 		8115A6482A8396AC00B7C3FE /* WorkInfo */ = {
 			isa = PBXGroup;
 			children = (
+				819AA9E92ACD3C330048CF7B /* Bookmark */,
 				819D49A32A933B1A008B7BFE /* Search */,
 				8115A65D2A8F30F700B7C3FE /* Work.swift */,
 				819D49A52A933B4D008B7BFE /* Work */,
@@ -531,6 +538,16 @@
 				818CF7F12A207CFF00BABA1F /* OnBoardingTabView.swift */,
 			);
 			path = OnBoarding;
+			sourceTree = "<group>";
+		};
+		819AA9E92ACD3C330048CF7B /* Bookmark */ = {
+			isa = PBXGroup;
+			children = (
+				819AA9EA2ACD3C430048CF7B /* BookmarkResponse.swift */,
+				819AA9EC2ACD3CEC0048CF7B /* BookmarkDetailsList.swift */,
+				819AA9EE2ACD3D830048CF7B /* BookMark.swift */,
+			);
+			path = Bookmark;
 			sourceTree = "<group>";
 		};
 		819C50692A0E3E450008F4A5 /* Test */ = {
@@ -1026,6 +1043,7 @@
 				81F259392AB09A4300C54668 /* UpdateReview.swift in Sources */,
 				819D499C2A933A3F008B7BFE /* Credit.swift in Sources */,
 				812CDE9E29DEA22D0003B993 /* CommunityTabViewModel.swift in Sources */,
+				819AA9ED2ACD3CEC0048CF7B /* BookmarkDetailsList.swift in Sources */,
 				8115A6672A8F3B3E00B7C3FE /* String.swift in Sources */,
 				81DB1FD629E7D03B002C0840 /* KeyBoard.swift in Sources */,
 				8103094129D1BDEF0021717B /* IMAD_ProjectApp.swift in Sources */,
@@ -1045,6 +1063,7 @@
 				8115A6452A83940800B7C3FE /* WorkRouter.swift in Sources */,
 				81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */,
 				81DB1FCA29E6C2E2002C0840 /* GenderSelectView.swift in Sources */,
+				819AA9EF2ACD3D830048CF7B /* BookMark.swift in Sources */,
 				81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */,
 				818CF7F22A207CFF00BABA1F /* OnBoardingTabView.swift in Sources */,
 				811DA16929E9332500482A6A /* WriteReview.swift in Sources */,
@@ -1053,6 +1072,7 @@
 				81D1212F2A2739F2003F3780 /* ExploreView.swift in Sources */,
 				81C1EB7D2AB3581E00FB265D /* ReviewView.swift in Sources */,
 				812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */,
+				819AA9EB2ACD3C430048CF7B /* BookmarkResponse.swift in Sources */,
 				81BB11102A061E42005654AA /* Token.swift in Sources */,
 				81C264902A135F8900405B01 /* AuthWebView.swift in Sources */,
 				81C1EB832AB4332600FB265D /* ReviewSortFilter.swift in Sources */,
