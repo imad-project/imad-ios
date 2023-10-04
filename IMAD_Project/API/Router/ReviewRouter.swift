@@ -15,6 +15,7 @@ enum ReviewRouter:URLRequestConvertible{
     case delete(id:Int)
     case readList(id:Int,page:Int,sort:String,order:Int)
     case like(id:Int,status:Int)
+    case myReview(page:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -30,6 +31,8 @@ enum ReviewRouter:URLRequestConvertible{
             return "/api/review/list"
         case .like(let id,_):
             return "/api/review/like/\(id)"
+        case .myReview:
+            return "api/profile/review/list"
         }
     }
     
@@ -37,7 +40,7 @@ enum ReviewRouter:URLRequestConvertible{
         switch self{
         case .write:
             return .post
-        case .read,.readList:
+        case .read,.readList,.myReview:
             return .get
         case .update,.like:
             return .patch
@@ -74,6 +77,10 @@ enum ReviewRouter:URLRequestConvertible{
             var params = Parameters()
             params["like_status"] = status
             return params
+        case let .myReview(page):
+            var params = Parameters()
+            params["page"] = page
+            return params
         default:
             return Parameters()
         }
@@ -84,7 +91,7 @@ enum ReviewRouter:URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         switch self{
-        case .readList,.read,.delete:
+        case .readList,.read,.delete,.myReview:
             return try URLEncoding(destination: .queryString).encode(request, with: parameters)
         default:
             return try JSONEncoding.default.encode(request, with: parameters)

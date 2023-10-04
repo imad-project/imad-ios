@@ -17,6 +17,7 @@ class ReviewViewModel:ObservableObject{
     @Published var reviewInfo:ReadReviewResponse?
     @Published var reviewList:[ReviewDetailsResponseList] = []  //리뷰 리스트
     @Published var reviewDetailsInfo:ReviewDetails?
+    @Published var myReviewList:[ReviewDetailsResponseList] = []
     
     func writeReview(id:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.reviewWrite(id: id, title: title, content: content, score: score, spoiler: spoiler)
@@ -88,5 +89,17 @@ class ReviewViewModel:ObservableObject{
                     self?.readReview(id: id)
                 }
             }.store(in: &cancelable)
+    }
+    func myReviewList(page:Int){
+        ReviewApiService.myReview(page: page)
+            .sink { completion in
+                print(completion)
+            } receiveValue: { [weak self] recievedValue in
+                if recievedValue.status >= 200 && recievedValue.status < 300{
+                    guard let list = recievedValue.data?.reviewDetailsResponseList else {return}
+                    self?.myReviewList = list
+                }
+            }.store(in: &cancelable)
+
     }
 }

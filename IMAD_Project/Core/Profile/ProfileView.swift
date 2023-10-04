@@ -99,14 +99,22 @@ struct ProfileView: View {
                             .padding(.top)
                         HStack{
                             Group{
-                                VStack(spacing:10){
-                                    Image(systemName: "star.bubble")
-                                        .font(.title)
-                                        .foregroundColor(.yellow)
-                                    Text("내 리뷰").font(.caption)
-                                    Text("12").bold()
-                                    
+                                NavigationLink {
+                                    MyReviewView()
+                                        .environmentObject(vmAuth)
+                                        .navigationBarBackButtonHidden()    
+                                } label: {
+                                    VStack(spacing:10){
+                                        Image(systemName: "star.bubble")
+                                            .font(.title)
+                                            .foregroundColor(.yellow)
+                                        Text("내 리뷰").font(.caption)
+                                        Text("12").bold()
+                                        
+                                    }
                                 }
+
+                                
                                 VStack(spacing:10){
                                     Image(systemName: "text.word.spacing")
                                         .font(.title)

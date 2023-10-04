@@ -69,6 +69,7 @@
 		819AA9EB2ACD3C430048CF7B /* BookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EA2ACD3C430048CF7B /* BookmarkResponse.swift */; };
 		819AA9ED2ACD3CEC0048CF7B /* BookmarkDetailsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EC2ACD3CEC0048CF7B /* BookmarkDetailsList.swift */; };
 		819AA9EF2ACD3D830048CF7B /* BookMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EE2ACD3D830048CF7B /* BookMark.swift */; };
+		819AA9F12ACD618D0048CF7B /* MyReviewListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9F02ACD618D0048CF7B /* MyReviewListRowView.swift */; };
 		819C506E2A0F467B0008F4A5 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C506D2A0F467B0008F4A5 /* UserDefaultManager.swift */; };
 		819C50702A0F8AFC0008F4A5 /* RegisterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C506F2A0F8AFC0008F4A5 /* RegisterResponse.swift */; };
 		819D499A2A9338AD008B7BFE /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819D49992A9338AD008B7BFE /* Season.swift */; };
@@ -212,6 +213,7 @@
 		819AA9EA2ACD3C430048CF7B /* BookmarkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkResponse.swift; sourceTree = "<group>"; };
 		819AA9EC2ACD3CEC0048CF7B /* BookmarkDetailsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetailsList.swift; sourceTree = "<group>"; };
 		819AA9EE2ACD3D830048CF7B /* BookMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMark.swift; sourceTree = "<group>"; };
+		819AA9F02ACD618D0048CF7B /* MyReviewListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewListRowView.swift; sourceTree = "<group>"; };
 		819C506D2A0F467B0008F4A5 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		819C506F2A0F8AFC0008F4A5 /* RegisterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResponse.swift; sourceTree = "<group>"; };
 		819D49992A9338AD008B7BFE /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
@@ -824,6 +826,7 @@
 				8124CB3629F00FCD00B446D5 /* MyReviewView.swift */,
 				81F259282AB05D5B00C54668 /* ReviewDetailsView.swift */,
 				81C1EB862AB43A6000FB265D /* ReviewListRowView.swift */,
+				819AA9F02ACD618D0048CF7B /* MyReviewListRowView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1027,6 +1030,7 @@
 				817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */,
 				8115A64C2A83973F00B7C3FE /* SearchWork.swift in Sources */,
 				81F2592B2AB0656B00C54668 /* ReviewRouter.swift in Sources */,
+				819AA9F12ACD618D0048CF7B /* MyReviewListRowView.swift in Sources */,
 				81F259292AB05D5B00C54668 /* ReviewDetailsView.swift in Sources */,
 				81BB11062A0614D1005654AA /* ApiLogger.swift in Sources */,
 				818CF7FE2A21B7E000BABA1F /* RegisterFilter.swift in Sources */,

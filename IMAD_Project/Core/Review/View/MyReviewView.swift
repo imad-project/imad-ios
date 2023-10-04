@@ -8,26 +8,31 @@
 import SwiftUI
 
 struct MyReviewView: View {
-    let title:String
-    @Binding var back:Bool
+    
+    @State var page = 1
+    @StateObject var vm = ReviewViewModel()
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var vmAuth:AuthViewModel
+    
     var body: some View {
         VStack(alignment: .leading){
             header
-            List{
-//                ForEach(CustomData.instance.reviewList,id: \.self){ item in
-//                    CommunityListRowView(title: "", image: item.thumbnail, community: CustomData.instance.community)
-//                }.listRowBackground(Color.clear)
+            ScrollView {
+                item
             }
-            .listStyle(.plain)
+            
         }
         .foregroundColor(.black)
         .background(Color.white)
+        .onAppear{
+            vm.myReviewList(page: page)
+        }
     }
 }
 
 struct MyReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        MyReviewView(title: "리뷰", back: .constant(false))
+        MyReviewView()
     }
 }
 
@@ -36,7 +41,7 @@ extension MyReviewView{
         ZStack{
             HStack{
                 Button {
-                    back = false
+                   dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
                         .bold()
@@ -48,15 +53,33 @@ extension MyReviewView{
                     
                 } label: {
                     Image(systemName: "magnifyingglass")
-                       
                         .bold()
                         .padding()
                 }
-
             }
-            Text("내 " + title)
+            Text("내 리뷰")
                 .font(.title3)
                 .bold()
+        }
+    }
+    var item:some View{
+        ForEach(vm.myReviewList,id:\.self){ item in
+            Divider().padding(.vertical)
+            NavigationLink {
+                ReviewDetailsView(reviewId: item.reviewID)
+                    .environmentObject(vmAuth)
+                    .navigationBarBackButtonHidden()
+            } label: {
+                MyReviewListRowView(review: item)
+                    .padding(.horizontal)
+            }
+            if vm.myReviewList.count > 10{
+                ProgressView()
+                    .onAppear{
+                        page += 1
+                        vm.myReviewList(page: page)
+                    }
+            }
         }
     }
 }

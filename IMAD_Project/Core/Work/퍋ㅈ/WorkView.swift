@@ -84,9 +84,6 @@ struct WorkView: View {
             CommunityWriteView(image: vm.workInfo?.posterPath?.getImadImage() ?? "")
                 .navigationBarBackButtonHidden(true)
         }
-//        .onDisappear{
-//            vmReview.reviewList.removeAll()
-//        }
         .navigationBarBackButtonHidden()
     }
 }
@@ -168,9 +165,6 @@ extension WorkView{
                     }
                     return AnyView(title)
                 }
-                
-                
-                
             }
             .padding(.leading,20)
             Spacer()
@@ -212,7 +206,7 @@ extension WorkView{
                         }.foregroundColor(.customIndigo)
                     }
                     Button {
-//                        vm.addBookmark(id: vm.workInfo?.contentsId ?? 0)
+                        vm.addBookmark(id: vm.workInfo?.contentsId ?? 0)
                     } label: {
                         VStack(spacing:5){
                             Image(systemName: "bookmark")
