@@ -130,10 +130,26 @@ extension MyReviewView{
         VStack{
             if list.isEmpty{
                 Spacer()
-                Image(systemName: "text.badge.xmark")
-                    .font(.largeTitle)
-                    .padding(.bottom,5)
-                Text("작성한 리뷰가 없습니다")
+                if mode == 0{
+                    Image(systemName: "text.badge.xmark")
+                        .font(.largeTitle)
+                        .padding(.bottom,5)
+                    Text("작성한 리뷰가 없습니다")
+                }else{
+                    ZStack{
+                        Image(systemName: "heart.fill")
+                            .font(.title)
+                            .foregroundColor(.blue)
+                            .offset(x:3)
+                            .rotationEffect(Angle(degrees: -10))
+                        Image(systemName: "heart.fill")
+                            .font(.title)
+                            .foregroundColor(.red)
+                            .offset(x:-3)
+                            .rotationEffect(Angle(degrees: 10))
+                    }
+                    Text("좋아요/싫어요가 없습니다")
+                }
                 Spacer()
             }else{
                 ScrollView{
