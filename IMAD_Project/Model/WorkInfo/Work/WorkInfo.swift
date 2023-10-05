@@ -23,6 +23,7 @@ struct WorkInfo:Codable{
     let reviewCnt:Int
     let imadScore:Double?
     let numberOfEpisodes, numberOfSeasons: Int?
+    var bookmark:Bool
     let seasons:[Season]?
     let networks:[Network]?
     let credits:Credit?
@@ -49,6 +50,7 @@ struct WorkInfo:Codable{
         case numberOfEpisodes = "number_of_episodes"
         case numberOfSeasons = "number_of_seasons"
         case seasons,networks,credits
+        case bookmark = "bookmark_status"
     }
 }
 

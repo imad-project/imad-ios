@@ -11,7 +11,7 @@ import Alamofire
 enum WorkRouter:URLRequestConvertible{
     case workSearch(query:String,type:String,page:Int)
     case workInfo(id:Int,type:String)
-    case bookmarkRead(page:Int)
+    case bookmarkRead(id:Int)
     case bookmarkCreate(id:Int)
     case bookmarkDelete(id:Int)
     
@@ -58,9 +58,9 @@ enum WorkRouter:URLRequestConvertible{
             params["id"] = id
             params["type"] = type
             return params
-        case let .bookmarkCreate(page):
+        case let .bookmarkCreate(id):
             var params = Parameters()
-            params["page"] = page
+            params["contents_id"] = id
             return params
         case .bookmarkRead,.bookmarkDelete:
             return Parameters()
@@ -73,11 +73,12 @@ enum WorkRouter:URLRequestConvertible{
         request.method = method
         
         switch self{
-        case .workSearch, .workInfo, .bookmarkCreate:
+        case .workSearch, .workInfo,.bookmarkRead,.bookmarkDelete:
             let encoding = URLEncoding(destination: .queryString)
             return try encoding.encode(request, with: parameters)
-        case .bookmarkRead,.bookmarkDelete:
+        case  .bookmarkCreate:
             return try JSONEncoding.default.encode(request, with: parameters)
+            
         }
         // 인코딩 설정 변경
         

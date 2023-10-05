@@ -27,8 +27,8 @@ class WorkViewModel:ObservableObject{
             }.store(in: &cancelable)
 
     }
-    func getBookmark(page:Int){
-        WorkApiService.bookRead(page: page)
+    func getBookmark(id:Int){
+        WorkApiService.bookRead(id: id)
             .sink { comp in
                 print(comp)
             } receiveValue: { [weak self] bookmark in

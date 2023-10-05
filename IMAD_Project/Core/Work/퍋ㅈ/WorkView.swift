@@ -206,10 +206,18 @@ extension WorkView{
                         }.foregroundColor(.customIndigo)
                     }
                     Button {
-                        vm.addBookmark(id: vm.workInfo?.contentsId ?? 0)
+                        guard let bookmark = vm.workInfo?.bookmark else { return }
+                        if bookmark{
+                            vm.deleteBookmark(id: vm.workInfo?.contentsId ?? 0)
+                        }else{
+                            vm.addBookmark(id: vm.workInfo?.contentsId ?? 0)
+                        }
+                        vm.workInfo?.bookmark.toggle()
                     } label: {
                         VStack(spacing:5){
-                            Image(systemName: "bookmark")
+                            if let bookmark = vm.workInfo?.bookmark{
+                                Image(systemName: bookmark ? "bookmark.fill" :  "bookmark")
+                            }
                             Text("찜")
                                 .font(.caption)
                         }.foregroundColor(.customIndigo)

@@ -38,10 +38,10 @@ enum WorkApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func bookRead(page:Int) -> AnyPublisher<Bookmark,AFError>{
+    static func bookRead(id:Int) -> AnyPublisher<Bookmark,AFError>{
         print("북마크 조회 api호출")
         return ApiClient.shared.session
-            .request(WorkRouter.bookmarkRead(page: page),interceptor: intercept)
+            .request(WorkRouter.bookmarkRead(id: id),interceptor: intercept)
             .publishDecodable(type: Bookmark.self)
             .value()
             .map{ receivedValue in
