@@ -8,7 +8,7 @@
 import Foundation
 
 struct BookmarkDetailsList: Codable,Hashable {
-    let bookmarkID, userID, contentsID: Int
+    let bookmarkID, userID, contentsID,contentsTmdbId: Int
     let contentsTitle,contentsPosterPath:String
     let contentsType:String
     let createdDate: String
@@ -20,6 +20,7 @@ struct BookmarkDetailsList: Codable,Hashable {
         case createdDate = "created_date"
         case contentsTitle = "contents_title"
         case contentsType = "contents_type"
+        case contentsTmdbId = "contents_tmdb_id"
         case contentsPosterPath = "contents_poster_path"
     }
 }
