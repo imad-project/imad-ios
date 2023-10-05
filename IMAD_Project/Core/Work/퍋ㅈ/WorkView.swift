@@ -68,7 +68,7 @@ struct WorkView: View {
         .onAppear {
             vm.getWorkInfo(id: id, type: type)
             vmAuth.getUser()
-            vm.getBookmark(page: 1)
+            vm.getBookmark(page: vm.page)
             withAnimation(.linear(duration: 0.5)){
                 anima = true
             }

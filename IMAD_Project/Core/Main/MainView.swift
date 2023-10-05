@@ -77,7 +77,7 @@ struct MainView: View {
         })
         .ignoresSafeArea()
         .navigationDestination(isPresented: $search) {
-            WorkListView(title: "검색", writeCommunity: false, back: $search)
+            WorkListView(title: "검색", back: $search)
                 .navigationBarBackButtonHidden(true)
         }.foregroundColor(.white)
             .onAppear {

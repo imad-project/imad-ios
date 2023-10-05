@@ -26,6 +26,7 @@ class ReviewViewModel:ObservableObject{
     
     @Published var page = 1
     
+    
     func writeReview(id:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.reviewWrite(id: id, title: title, content: content, score: score, spoiler: spoiler)
             .sink { completion in

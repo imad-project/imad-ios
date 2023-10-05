@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct BookmarkResponse: Codable {
-    let bookmarkDetailsList: [BookmarkDetailsList]
+struct BookmarkResponse: Codable,Hashable {
+    let bookmarkDetailsList: [BookmarkDetailsList]?
     let totalElements, totalPages, pageNumber, numberOfElements: Int
     let sizeOfPage, sortDirection: Int
     let sortProperty: Int?

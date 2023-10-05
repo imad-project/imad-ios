@@ -19,6 +19,7 @@ struct ProfileView: View {
     let columns = [ GridItem(.flexible()), GridItem(.flexible())]
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @StateObject var vm = ReviewViewModel()
+    @StateObject var vmWork = WorkViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @State var tv = false
@@ -166,7 +167,8 @@ struct ProfileView: View {
                             Button {
                                 tv = true
                             } label: {
-                                Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                                Text("수정하기 >")
+                                    .font(.caption)
                             }
                         }
                         .padding(.top)
@@ -177,15 +179,29 @@ struct ProfileView: View {
                             Button {
                                 movie = true
                             } label: {
-                                Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                                Text("수정하기 >")
+                                    .font(.caption)
                             }
                         }
                         .padding(.top)
                         movieGenre
-                        Text("찜 작품 목록").bold()
-                            .padding(.top)
+                        HStack{
+                            Text("찜 작품 목록").bold()
+                            Spacer()
+                            if vmWork.myBookmarkList.count > 6{
+                                NavigationLink {
+                                    MyBookmarkListView()
+                                        .navigationBarBackButtonHidden()
+                                        .environmentObject(vmWork)
+                                } label: {
+                                    Text("전체보기 >")
+                                        .font(.caption)
+                                }
+                            }
+                        }
+                        .padding(.top)
                         movieList
-                            .padding(.bottom,50)
+                            .padding(.bottom,80)
                     }.padding(.horizontal)
                     Spacer()
                 }
@@ -253,6 +269,9 @@ struct ProfileView: View {
             .onAppear{
                 vm.myReviewList(page: vm.page)
                 vm.myLikeReviewList(page: vm.page)
+                vmWork.page = 1
+                vmWork.myBookmarkList = []
+                vmWork.getBookmark(page: vmWork.page)
                 guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
                 tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
             }
@@ -279,56 +298,88 @@ extension ProfileView{
         return numberFormatter.string(from: NSNumber(value: number))!
     }
     var movieGenre:some View{
-        FlowLayout(mode: .scrollable, items: movieCollection) { item in
-            
-            HStack{
-                Text(item.name)
-                Text(item.image)
+        ZStack{
+            if movieCollection.isEmpty{
+                Text("관심있는 영화 장르가 없습니다")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(.leading)
+                    .padding(.top,5)
+            }else{
+                FlowLayout(mode: .scrollable, items: movieCollection) { item in
+                    HStack{
+                        Text(item.name)
+                        Text(item.image)
+                    }
+                    .font(.subheadline)
+                    .bold()
+                    .padding(8)
+                    .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
+                }.foregroundColor(.customIndigo.opacity(0.5))
             }
-            .font(.subheadline)
-            .bold()
-            .padding(8)
-            .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
-            
-            
-        }.foregroundColor(.customIndigo.opacity(0.5))
+        }
     }
     var tvGenre:some View{
-        FlowLayout(mode: .scrollable, items: tvCollection) { item in
-                HStack{
-                    Text(item.name)
-                    Text(item.image)
-                }
-                .font(.subheadline)
-                .bold()
-                .padding(8)
-                .padding(.horizontal)
-                .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
-            
-        }.foregroundColor(.customIndigo.opacity(0.5))
+        ZStack{
+            if tvCollection.isEmpty{
+                Text("관심있는 시리즈 장르가 없습니다")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(.leading)
+                    .padding(.top,5)
+            }else{
+                FlowLayout(mode: .scrollable, items: tvCollection) { item in
+                        HStack{
+                            Text(item.name)
+                            Text(item.image)
+                        }
+                        .font(.subheadline)
+                        .bold()
+                        .padding(8)
+                        .padding(.horizontal)
+                        .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
+                    
+                }.foregroundColor(.customIndigo.opacity(0.5))
+                
+            }
+        }
+        
     }
     var movieList:some View{
-        LazyVGrid(columns: genreColumns) {
-            //            ForEach(CustomData.instance.reviewList.shuffled(),id:\.self){ item in
-            //                VStack{
-            //                    KFImage(URL(string: item.thumbnail))
-            //                        .resizable()
-            //                        .frame(height: 200)
-            //                        .cornerRadius(10)
-            //                    Text(item.title)
-            //                        .font(.caption)
-            //                        .frame(width: 200)
-            //                        .bold()
-            //                }
-            //
-            //            }
+        ZStack{
+            if  vmWork.myBookmarkList.isEmpty{
+                Text("찜한 작품이 존재하지 않습니다")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(.leading)
+                    .padding(.top,5)
+            }else{
+                LazyVGrid(columns: genreColumns) {
+                    ForEach(vmWork.myBookmarkList.prefix(6),id:\.self){ item in
+                        NavigationLink {
+                            WorkView(id: item.contentsID, type: "")
+                        } label: {
+                            VStack{
+                                KFImage(URL(string: item.contentsPosterPath.getImadImage()))
+                                    .resizable()
+                                    .frame(height: 170)
+                                    .cornerRadius(10)
+                                Text(item.contentsTitle)
+                                    .font(.caption)
+                                    .frame(width: 200)
+                                    .bold()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     var movieGenreSelect:some View{
         ZStack{
             Color.white.ignoresSafeArea()
             VStack(alignment: .leading){
-                Text("내 장르").bold()
+                Text("내 장르 수정").bold()
                     .padding(.leading)
                 FlowLayout(mode: .scrollable, items: movieCollection) { item in
                     Button {
@@ -399,7 +450,7 @@ extension ProfileView{
         ZStack{
             Color.white.ignoresSafeArea()
             VStack(alignment: .leading){
-                Text("내 장르").bold()
+                Text("내 장르 수정").bold()
                     .padding(.leading)
                 FlowLayout(mode: .scrollable, items: tvCollection) { item in
                     Button {

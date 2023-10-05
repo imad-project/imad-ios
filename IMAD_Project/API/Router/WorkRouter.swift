@@ -11,7 +11,7 @@ import Alamofire
 enum WorkRouter:URLRequestConvertible{
     case workSearch(query:String,type:String,page:Int)
     case workInfo(id:Int,type:String)
-    case bookmarkRead(id:Int)
+    case bookmarkRead(page:Int)
     case bookmarkCreate(id:Int)
     case bookmarkDelete(id:Int)
     
@@ -62,7 +62,11 @@ enum WorkRouter:URLRequestConvertible{
             var params = Parameters()
             params["contents_id"] = id
             return params
-        case .bookmarkRead,.bookmarkDelete:
+        case let .bookmarkRead(page):
+            var params = Parameters()
+            params["page"] = page
+            return params
+                case .bookmarkDelete:
             return Parameters()
         }
     }

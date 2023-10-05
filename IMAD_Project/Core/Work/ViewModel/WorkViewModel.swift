@@ -14,6 +14,10 @@ class WorkViewModel:ObservableObject{
     @Published var bookmarkList:BookmarkResponse? = nil
     @Published var bookmarkResponse:Bookmark? = nil
     
+    @Published var myBookmarkList:[BookmarkDetailsList] = []
+    
+    @Published var page = 1
+    
     var success = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
     
@@ -27,12 +31,16 @@ class WorkViewModel:ObservableObject{
             }.store(in: &cancelable)
 
     }
-    func getBookmark(id:Int){
-        WorkApiService.bookRead(id: id)
+    func getBookmark(page:Int){
+        WorkApiService.bookRead(page: page)
             .sink { comp in
                 print(comp)
             } receiveValue: { [weak self] bookmark in
-                self?.bookmarkList = bookmark.data
+                guard let data = bookmark.data else {return}
+                self?.bookmarkList = data
+                if let list = data.bookmarkDetailsList{
+                    self?.myBookmarkList.append(contentsOf: list)
+                }
             }.store(in: &cancelable)
     }
     func addBookmark(id:Int){

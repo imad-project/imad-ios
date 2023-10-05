@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct BookmarkDetailsList: Codable {
+struct BookmarkDetailsList: Codable,Hashable {
     let bookmarkID, userID, contentsID: Int
+    let contentsTitle,contentsPosterPath:String
     let createdDate: String
 
     enum CodingKeys: String, CodingKey {
@@ -16,5 +17,7 @@ struct BookmarkDetailsList: Codable {
         case userID = "user_id"
         case contentsID = "contents_id"
         case createdDate = "created_date"
+        case contentsTitle = "contents_title"
+        case contentsPosterPath = "contents_poster_path"
     }
 }

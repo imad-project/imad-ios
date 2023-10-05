@@ -9,10 +9,8 @@ import SwiftUI
 import Kingfisher
 
 struct WorkListView: View {
-    @State var text = ""
     @StateObject var vm = SearchViewModel()
     let title:String
-    let writeCommunity:Bool
     
     let columns = [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
     @Binding var back:Bool
@@ -85,7 +83,7 @@ struct WorkListView: View {
 
 struct MovieListView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkListView(title: "내 작품", writeCommunity: false, back: .constant(false))
+        WorkListView(title: "내 작품", back: .constant(false))
     }
 }
 extension WorkListView{
