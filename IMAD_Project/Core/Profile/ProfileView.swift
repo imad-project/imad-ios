@@ -357,7 +357,7 @@ extension ProfileView{
                 LazyVGrid(columns: genreColumns) {
                     ForEach(vmWork.myBookmarkList.prefix(6),id:\.self){ item in
                         NavigationLink {
-                            WorkView(id: item.contentsID, type: "")
+                            WorkView(id: item.contentsID, type: item.contentsType == "MOVIE" ? "movie" : "tv")
                         } label: {
                             VStack{
                                 KFImage(URL(string: item.contentsPosterPath.getImadImage()))
