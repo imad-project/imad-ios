@@ -13,6 +13,7 @@ class ReviewViewModel:ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()
+    var reviewWriteError = PassthroughSubject<(),Never>()
     
     @Published var reviewInfo:ReadReviewResponse?
     @Published var reviewList:[ReviewDetailsResponseList] = []  //리뷰 리스트
@@ -26,6 +27,7 @@ class ReviewViewModel:ObservableObject{
     
     @Published var page = 1
     
+    @Published var error = ""
     
     func writeReview(id:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.reviewWrite(id: id, title: title, content: content, score: score, spoiler: spoiler)
@@ -35,6 +37,10 @@ class ReviewViewModel:ObservableObject{
                 print(recievedValue.message)
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     self?.success.send()
+                }
+                else if recievedValue.status == 409{
+                    self?.error = recievedValue.message
+                    self?.reviewWriteError.send()
                 }
             }.store(in: &cancelable)
     }

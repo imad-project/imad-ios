@@ -23,6 +23,7 @@ struct WriteReviewView: View {
     @State var animation1 = false
     @State var rating: Double = 0.0
     
+    @State var error = false
     
     @StateObject var vm = ReviewViewModel()
     @Environment(\.dismiss) var dismiss
@@ -33,88 +34,88 @@ struct WriteReviewView: View {
         ZStack{
             Color.white.ignoresSafeArea()
             ScrollView(showsIndicators: false){
-            
-            VStack{
                 
-                ZStack(alignment: .top){
-                    MovieBackgroundView(url: image,height: 2.7)
-                    Text("이 작품 어떠셨나요?")
-                        .bold()
-                    HStack(alignment: .center){
-                        KFImage(URL(string: image))
-                            .resizable()
-                            .frame(width: 200,height: 250)
-                            .cornerRadius(20)
-                            .shadow(radius: 10)
-                        if animation{
-                            VStack{
-                                Text("현재 이 작품의 평점")
-                                Circle()
-                                    .trim(from: 0.0, to: animation1 ? gradeAvg * 0.1 : 0)
-                                    .stroke(lineWidth: 3)
-                                    .rotation(Angle(degrees: 270))
-                                    .frame(width: 80,height: 80)
-                                    .overlay{
-                                        VStack{
-                                            Image(systemName: "star.fill")
-                                            Text(String(format: "%0.1f", gradeAvg))
-                                                .font(.title2)
-                                        }
-                                    }
-                                Text("콰랑님의 평점")
-                                Circle()
-                                    .trim(from: 0.0, to: rating * 0.1)
-                                    .stroke(lineWidth: 3)
-                                    .rotation(Angle(degrees: 270))
-                                    .frame(width: 80,height: 80)
-                                    .overlay{
-                                        VStack{
-                                            Image(systemName: "star.fill")
-                                            Text(String(format: "%0.1f", rating))
-                                                .font(.title2)
-                                        }
-                                    }
-                            }
-                            .padding(.leading,20)
-                            
-                        }
-                        
-                    }.padding(.top,70)
+                VStack{
                     
-                }.padding(.top,20)
-                    
-                if animation1{
-                    Text("별점주기")
-                        .padding(.top,40)
-                        .bold()
-                        .font(.title3)
-                        .foregroundColor(.black)
-                    sliderView
-                        .padding(.bottom,10)
-                    HStack(alignment: .bottom){
-                        if spoiler{
-                            Text("이 리뷰는 스포일러성 리뷰입니다.")
-                                .foregroundColor(.gray)
-                        }
-                        Spacer()
-                        Label("스포일러", systemImage: "checkmark")
-                            .foregroundColor(spoiler ? .customIndigo : .gray)
-                            
+                    ZStack(alignment: .top){
+                        MovieBackgroundView(url: image,height: 2.7)
+                        Text("이 작품 어떠셨나요?")
                             .bold()
-                            .onTapGesture {
-                                withAnimation {
-                                    spoiler.toggle()
+                        HStack(alignment: .center){
+                            KFImage(URL(string: image))
+                                .resizable()
+                                .frame(width: 200,height: 250)
+                                .cornerRadius(20)
+                                .shadow(radius: 10)
+                            if animation{
+                                VStack{
+                                    Text("현재 이 작품의 평점")
+                                    Circle()
+                                        .trim(from: 0.0, to: animation1 ? gradeAvg * 0.1 : 0)
+                                        .stroke(lineWidth: 3)
+                                        .rotation(Angle(degrees: 270))
+                                        .frame(width: 80,height: 80)
+                                        .overlay{
+                                            VStack{
+                                                Image(systemName: "star.fill")
+                                                Text(String(format: "%0.1f", gradeAvg))
+                                                    .font(.title2)
+                                            }
+                                        }
+                                    Text("콰랑님의 평점")
+                                    Circle()
+                                        .trim(from: 0.0, to: rating * 0.1)
+                                        .stroke(lineWidth: 3)
+                                        .rotation(Angle(degrees: 270))
+                                        .frame(width: 80,height: 80)
+                                        .overlay{
+                                            VStack{
+                                                Image(systemName: "star.fill")
+                                                Text(String(format: "%0.1f", rating))
+                                                    .font(.title2)
+                                            }
+                                        }
                                 }
+                                .padding(.leading,20)
+                                
                             }
-                    }.padding(.horizontal,35).font(.subheadline)
-                    CustomTextField(password: false, image: "pencil", placeholder: "제목..", color: .customIndigo, text: $title)
-                        .padding(15)
-                    .background{
-                     RoundedRectangle(cornerRadius: 20)
-                            .stroke(lineWidth:2)
-                            .foregroundColor(.customIndigo)
-                    }
-                    .padding(.horizontal,30)
+                            
+                        }.padding(.top,70)
+                        
+                    }.padding(.top,20)
+                    
+                    if animation1{
+                        Text("별점주기")
+                            .padding(.top,40)
+                            .bold()
+                            .font(.title3)
+                            .foregroundColor(.black)
+                        sliderView
+                            .padding(.bottom,10)
+                        HStack(alignment: .bottom){
+                            if spoiler{
+                                Text("이 리뷰는 스포일러성 리뷰입니다.")
+                                    .foregroundColor(.gray)
+                            }
+                            Spacer()
+                            Label("스포일러", systemImage: "checkmark")
+                                .foregroundColor(spoiler ? .customIndigo : .gray)
+                            
+                                .bold()
+                                .onTapGesture {
+                                    withAnimation {
+                                        spoiler.toggle()
+                                    }
+                                }
+                        }.padding(.horizontal,35).font(.subheadline)
+                        CustomTextField(password: false, image: "pencil", placeholder: "제목..", color: .customIndigo, text: $title)
+                            .padding(15)
+                            .background{
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(lineWidth:2)
+                                    .foregroundColor(.customIndigo)
+                            }
+                            .padding(.horizontal,30)
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.customIndigo, lineWidth: 2)
@@ -142,7 +143,7 @@ struct WriteReviewView: View {
                     }
                     
                 }
-                    
+                
             }.onAppear{
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
                     withAnimation(.easeIn(duration: 0.3)){
@@ -167,7 +168,7 @@ struct WriteReviewView: View {
                             .background(Circle().foregroundColor(.white))
                             .shadow(radius: 20)
                             .padding(.leading)
-                            
+                        
                     }
                     Spacer()
                 }
@@ -193,14 +194,19 @@ struct WriteReviewView: View {
             .frame(maxHeight: .infinity,alignment: .top)
             .padding()
         }
-        .onReceive(vm.success){ 
+        .onReceive(vm.success){
             dismiss()
         }
         .foregroundColor(.white)
-            .onTapGesture {
-                UIApplication.shared.endEditing()
-            }
-        
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
+        .onReceive(vm.reviewWriteError){
+            error = true
+        }
+        .alert(isPresented: $error) {
+            Alert(title: Text(vm.error), dismissButton: .cancel(Text("확인")))
+        }
     }
     
 }
