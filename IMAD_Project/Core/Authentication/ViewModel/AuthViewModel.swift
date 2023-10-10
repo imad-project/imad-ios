@@ -31,6 +31,7 @@ class AuthViewModel:ObservableObject{
     var deleteSuccess = PassthroughSubject<Bool,Never>()
     var passwordChangeSuccess = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
+    var tokenExpired = PassthroughSubject<String,Never>()
     
     
     func register(email:String,password:String,authProvider:String){
@@ -70,27 +71,26 @@ class AuthViewModel:ObservableObject{
     func getUser(){
         UserApiService.user()
             .sink { completion in
-                if let code = self.getUserRes?.status,code >= 200 && code <= 300{
-                    self.loginMode = true
-                    if self.getUserRes?.data?.role == "GUEST"{
-                        self.guestMode = true
-                    }
-                    print("유저정보 수신 완료 \(completion)")
-                }else{
-                    print("유저정보 수신 실패 \(completion)")
-                    if let errorMsg = self.getUserRes?.message,errorMsg == "토큰의 기한이 만료되었습니다."{
-                        AuthApiService.getToken()
-                        self.getTokenCnt += 1
-                        print("토큰 재발급")
-                        if self.getTokenCnt < 2{
-                            self.getUser()
-                        }
-                    }
-                }
+                print(completion)
             } receiveValue: { [weak self] receivedValue in
-                self?.getUserRes = receivedValue
-                guard let data = receivedValue.data else {return}
-                self?.profileInfo = data
+                switch receivedValue.status{
+                case 200...300:
+                    self?.getUserRes = receivedValue
+                    guard let data = receivedValue.data else {return}
+                    self?.profileInfo = data
+                    self?.loginMode = true
+                    if receivedValue.data?.role == "GUEST"{
+                        self?.guestMode = true
+                    }
+                case 401:
+                    AuthApiService.getToken()
+                    self?.getTokenCnt += 1
+                    print("토큰 재발급")
+                    if self!.getTokenCnt < 2{
+                        self?.getUser()
+                    }
+                default: break
+                }
             }.store(in: &cancelable)
 
     }
@@ -98,15 +98,18 @@ class AuthViewModel:ObservableObject{
         UserApiService.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, tvGenre: tvGenre,movieGenre:movieGenre)
             .sink { completion in
                 self.patchInfoSuccess.send(true)
-                if let code = self.getUserRes?.status,code >= 200 && code <= 300{
-                    print("유저정보 수정 완료 \(completion)")
-                }else{
-                    print("유저정보 수정 실패 \(completion)")
-                }
+                print(completion)
             } receiveValue: { [weak self] receivedValue in
-                self?.getUserRes = receivedValue
-                guard let data = receivedValue.data else {return}
-                self?.profileInfo = data
+                switch receivedValue.status{
+                case 200...300:
+                    self?.getUserRes = receivedValue
+                    guard let data = receivedValue.data else {return}
+                    self?.profileInfo = data
+                case 401:
+                    self?.tokenExpired.send(receivedValue.message)
+                default: break
+                }
+                
             }.store(in: &cancelable)
     }
     func logout(){
@@ -117,31 +120,34 @@ class AuthViewModel:ObservableObject{
     func delete(authProvier:String){
         AuthApiService.delete(authProvier:authProvier)
             .sink { completion in
-                if let code = self.getUserRes?.status,code >= 200 && code <= 300{
-                    self.deleteSuccess.send(true)
-                    self.loginMode = false
-                    UserDefaultManager.shared.clearAll()
-                    print("회원탈퇴 완료 \(completion)")
-                }
-                else{
-                    print("회원탈퇴 실패 \(completion)")
-                }
+                print(completion)
             } receiveValue: { [weak self] receivedValue in
-                self?.getUserRes = receivedValue
+                switch receivedValue.status{
+                case 200...300:
+                    self?.getUserRes = receivedValue
+                    self?.deleteSuccess.send(true)
+                    self?.loginMode = false
+                    UserDefaultManager.shared.clearAll()
+                case 401:
+                    self?.tokenExpired.send(receivedValue.message)
+                default: break
+                }
             }.store(in: &cancelable)
         
     }
     func passwordChange(old:String,new:String){
         UserApiService.passwordChange(old: old, new: new)
             .sink { completion in
-                if let code = self.passwordChangeRes?.status,code >= 200 && code <= 300{
-                    self.passwordChangeSuccess.send()
-                    print("비밀번호 수정 완료 \(completion)")
-                }else{
-                    print("비밀번호 수정 실패 \(completion)")
-                }
+                print(completion)
             } receiveValue: { [weak self] receivedValue in
-                self?.passwordChangeRes = receivedValue
+                switch receivedValue.status{
+                case 200...300:
+                    self?.passwordChangeRes = receivedValue
+                    self?.passwordChangeSuccess.send()
+                case 401:
+                    self?.tokenExpired.send(receivedValue.message)
+                default: break
+                }
             }.store(in: &cancelable)
 
     }

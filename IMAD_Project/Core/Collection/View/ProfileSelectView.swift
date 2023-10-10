@@ -16,6 +16,7 @@ struct ProfileSelectView: View {
     @State var alert = false
     @State var title = "오류"
     @State var loading = false
+    @State var tokenExpired = (false,"")
     @EnvironmentObject var vm:AuthViewModel
     
     var body: some View {
@@ -104,6 +105,14 @@ struct ProfileSelectView: View {
                 Color.gray.opacity(0.5).ignoresSafeArea()
                  CustomProgressView()
             }
+        }
+        .onReceive(vm.tokenExpired) { messages in
+            tokenExpired = (true,messages)
+        }
+        .alert(isPresented: $tokenExpired.0) {
+            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                vm.loginMode = false
+            })
         }
     }
 }

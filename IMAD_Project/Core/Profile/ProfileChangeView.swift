@@ -16,7 +16,7 @@ struct ProfileChangeView: View {
     @State var imageCode:ProfileFilter = .none
     @State var delete = false
     @State var logout = false
-    
+    @State var tokenExpired = (false,"")
     
     @EnvironmentObject var vmAuth:AuthViewModel
     @Environment(\.dismiss) var dismiss
@@ -91,6 +91,14 @@ struct ProfileChangeView: View {
                     
                     
                 }
+        }
+        .onReceive(vmAuth.tokenExpired) { messages in
+            tokenExpired = (true,messages)
+        }
+        .alert(isPresented: $tokenExpired.0) {
+            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                vmAuth.loginMode = false
+            })
         }
         .navigationBarBackButtonHidden()
         .foregroundColor(.black)

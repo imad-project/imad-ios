@@ -20,6 +20,7 @@ struct InfoChangeView: View {
     @State var alertMsg = ""
     @State var notRegex = false
     @State var success = false
+    @State var tokenExpired = (false,"")
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -190,6 +191,14 @@ struct InfoChangeView: View {
                 if success{
                     dismiss()
                 }
+            })
+        }
+        .onReceive(vmAuth.tokenExpired) { messages in
+            tokenExpired = (true,messages)
+        }
+        .alert(isPresented: $tokenExpired.0) {
+            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                vmAuth.loginMode = false
             })
         }
         .navigationBarBackButtonHidden(true)
