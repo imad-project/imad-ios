@@ -11,5 +11,5 @@ import Foundation
 struct GetUserInfo:Codable{
     let status:Int
     var data:LoginResponse?
-    let message:String?
+    let message:String
 }

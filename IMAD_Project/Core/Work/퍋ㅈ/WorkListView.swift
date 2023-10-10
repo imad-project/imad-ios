@@ -45,6 +45,7 @@ struct WorkListView: View {
                             ForEach(vm.work){ result in
                                 NavigationLink {
                                     WorkView(id:result.id,type:result.mediaType ?? "")
+                                        .environmentObject(vmAuth)
                                    } label: {
                                        VStack{
                                            KFImage(URL(string: result.posterPath?.getImadImage() ?? ""))

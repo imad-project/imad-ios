@@ -14,6 +14,7 @@ class ReviewViewModel:ObservableObject{
     var cancelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()
     var reviewWriteError = PassthroughSubject<(),Never>()
+    var tokenExpired = PassthroughSubject<String,Never>()
     
     @Published var reviewInfo:ReadReviewResponse?
     @Published var reviewList:[ReviewDetailsResponseList] = []  //리뷰 리스트
@@ -42,6 +43,9 @@ class ReviewViewModel:ObservableObject{
                     self?.error = recievedValue.message
                     self?.reviewWriteError.send()
                 }
+                else if recievedValue.status == 401{
+                    self?.tokenExpired.send(recievedValue.message)
+                }
             }.store(in: &cancelable)
     }
     func readReview(id:Int){
@@ -54,6 +58,9 @@ class ReviewViewModel:ObservableObject{
                     self?.reviewInfo = recievedValue.data
                     self?.success.send()
                 }
+                else if recievedValue.status == 401{
+                    self?.tokenExpired.send(recievedValue.message)
+                }
             }.store(in: &cancelable)
     }
     func updateReview(id:Int,title:String,content:String,score:Double,spoiler:Bool){
@@ -65,6 +72,9 @@ class ReviewViewModel:ObservableObject{
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     self?.success.send()
                 }
+                else if recievedValue.status == 401{
+                    self?.tokenExpired.send(recievedValue.message)
+                }
             }.store(in: &cancelable)
     }
     func deleteReview(id:Int){
@@ -75,6 +85,9 @@ class ReviewViewModel:ObservableObject{
                 print(recievedValue.message)
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     self?.success.send()
+                }
+                else if recievedValue.status == 401{
+                    self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)
     }
@@ -91,6 +104,9 @@ class ReviewViewModel:ObservableObject{
                         self?.reviewList = list
                     }
                 }
+                else if recievedValue.status == 401{
+                    self?.tokenExpired.send(recievedValue.message)
+                }
             }.store(in: &cancelable)
     }
     
@@ -101,6 +117,9 @@ class ReviewViewModel:ObservableObject{
             } receiveValue: { [weak self] recievedValue in
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     self?.readReview(id: id)
+                }
+                else if recievedValue.status == 401{
+                    self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)
     }
@@ -116,6 +135,9 @@ class ReviewViewModel:ObservableObject{
                         self?.myReview.append(contentsOf: list)
                     }
                 }
+                else if recievedValue.status == 401{
+                    self?.tokenExpired.send(recievedValue.message)
+                }
             }.store(in: &cancelable)
 
     }
@@ -130,6 +152,9 @@ class ReviewViewModel:ObservableObject{
                     if let list = data.reviewDetailsResponseList{
                         self?.myLikeReview.append(contentsOf: list)
                     }
+                }
+                else if recievedValue.status == 401{
+                    self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)
 

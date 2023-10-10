@@ -12,12 +12,13 @@ struct WorkView: View {
     
     let id:Int
     let type:String
+    @State var tokenExpired = (false,"")
     @State var width:Bool = false
     @State var anima = false
     @State var writeReview = false
     @State var writeCommunity = false
     @Environment(\.dismiss) var dismiss
-    @StateObject var vmAuth = AuthViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
     @StateObject var vmReview = ReviewViewModel()
     @StateObject var tab = CommunityTabViewModel()
     @StateObject var vm = WorkViewModel()
@@ -78,6 +79,7 @@ struct WorkView: View {
         }
         .navigationDestination(isPresented: $writeReview) {
             WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
+                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
@@ -85,12 +87,21 @@ struct WorkView: View {
                 .navigationBarBackButtonHidden(true)
         }
         .navigationBarBackButtonHidden()
+        .onReceive(vmReview.tokenExpired) { messages in
+            tokenExpired = (true,messages)
+        }
+        .alert(isPresented: $tokenExpired.0) {
+            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                vmAuth.loginMode = false
+            })
+        }
     }
 }
 
 struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
         WorkView(id: 1396, type: "tv")
+            .environmentObject(AuthViewModel())
     }
 }
 
@@ -257,6 +268,7 @@ extension WorkView{
                         NavigationLink {
                             WriteReviewView(id: vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0, reviewId: nil)
                                 .navigationBarBackButtonHidden()
+                                .environmentObject(vmAuth)
                         } label: {
                             Text("리뷰작성")
                                 .foregroundColor(.white)

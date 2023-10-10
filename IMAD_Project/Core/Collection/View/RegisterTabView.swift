@@ -11,7 +11,7 @@ struct RegisterTabView: View {
     
     @State var phase:CGFloat = 0.0
     @State var phase1:CGFloat = 0.0
-//    @State var tabAnimation = false
+    //    @State var tabAnimation = false
     @State var height = [0.23,0.27,0.25,0.26]
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -30,19 +30,14 @@ struct RegisterTabView: View {
                     .tag(RegisterFilter.age)
                     .environmentObject(vmAuth)
                 SelectGenreView()
-//                    .background{
-//                        if tabAnimation{
-//                            BackgroundView(height: 0.83, height1: 0.87,height2: 0.85,height3: 0.86)
-//                        }
-//                    }
-                .tag(RegisterFilter.genre)
-                .environmentObject(vmAuth)
+                    .tag(RegisterFilter.genre)
+                    .environmentObject(vmAuth)
                 ProfileSelectView()
                     .tag(RegisterFilter.profile)
                     .environmentObject(vmAuth)
             }
-                .ignoresSafeArea()
-                .tabViewStyle(.page(indexDisplayMode: .never))
+            .ignoresSafeArea()
+            .tabViewStyle(.page(indexDisplayMode: .never))
             HStack{
                 ForEach(RegisterFilter.allCases,id:\.self){ sel in
                     if sel == vmAuth.selection{
@@ -54,7 +49,7 @@ struct RegisterTabView: View {
                             .frame(width: 10,height: 10)
                             .foregroundColor(.black.opacity(0.2))
                     }
-                  
+                    
                 }
                 
             }
@@ -80,17 +75,17 @@ struct RegisterTabView: View {
         .onChange(of: vmAuth.selection) { newValue in
             if newValue == .genre{
                 withAnimation(.linear(duration: 1.0)){
-//                    tabAnimation = true
+                    //                    tabAnimation = true
                     height = [0,0,0,0]
                 }
             }else{
                 withAnimation(.linear(duration: 1.0)){
-//                    tabAnimation = false
+                    //                    tabAnimation = false
                     height = [0.23,0.27,0.25,0.26]
                 }
             }
         }
-            
+        
     }
 }
 

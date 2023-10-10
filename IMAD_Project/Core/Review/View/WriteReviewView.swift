@@ -27,6 +27,7 @@ struct WriteReviewView: View {
     
     @StateObject var vm = ReviewViewModel()
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     
     var body: some View {
@@ -214,6 +215,7 @@ struct WriteReviewView: View {
 struct WriteReviewView_Previews: PreviewProvider {
     static var previews: some View {
         WriteReviewView(id: 1, image: CustomData.instance.movieList.first!, gradeAvg: 9.5, reviewId: nil)
+            .environmentObject(AuthViewModel())
     }
 }
 

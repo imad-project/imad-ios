@@ -13,7 +13,7 @@ struct ProfileView: View {
     
     @State var imageCode:ProfileFilter = .none
     @State var authProvider = ""
-    
+    @State var tokenExpired = (false,"")
     
     @State var profileSelect = false
     let columns = [ GridItem(.flexible()), GridItem(.flexible())]
@@ -193,6 +193,7 @@ struct ProfileView: View {
                                     MyBookmarkListView()
                                         .navigationBarBackButtonHidden()
                                         .environmentObject(vmWork)
+                                        .environmentObject(vmAuth)
                                 } label: {
                                     Text("전체보기 >")
                                         .font(.caption)
@@ -279,6 +280,14 @@ struct ProfileView: View {
                 guard let movieGenres = vmAuth.profileInfo.movieGenre else {return}
                 movieCollection = MovieGenreFilter.allCases.filter({movieGenres.contains($0.rawValue)})
             }
+            .onReceive(vm.tokenExpired) { messages in
+                tokenExpired = (true,messages)
+            }
+            .alert(isPresented: $tokenExpired.0) {
+                Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                    vmAuth.loginMode = false
+                })
+            }
     }
 }
 
@@ -358,6 +367,7 @@ extension ProfileView{
                     ForEach(vmWork.myBookmarkList.prefix(6),id:\.self){ item in
                         NavigationLink {
                             WorkView(id: item.contentsTmdbId, type: item.contentsType == "MOVIE" ? "movie" : "tv")
+                                .environmentObject(vmAuth)
                         } label: {
                             VStack{
                                 KFImage(URL(string: item.contentsPosterPath.getImadImage()))

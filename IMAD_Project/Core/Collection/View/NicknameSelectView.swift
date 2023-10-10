@@ -14,6 +14,7 @@ struct NicknameSelectView: View {
     @State var blank = false
     @State var blankColor = false
     @State var blankMsg = ""
+    @State var tokenExpired = (false,"")
     @StateObject var vmCheck = CheckDataViewModel()
     @EnvironmentObject var vm:AuthViewModel
     
@@ -89,6 +90,14 @@ struct NicknameSelectView: View {
 
                 Spacer()
             }.padding()
+        }
+        .onReceive(vmCheck.tokenExpired) { messages in
+            tokenExpired = (true,messages)
+        }
+        .alert(isPresented: $tokenExpired.0) {
+            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                vm.loginMode = false
+            })
         }
         .onChange(of: vmCheck.check){ value in
             if let check = value{

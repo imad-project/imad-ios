@@ -10,5 +10,5 @@ import Foundation
 struct Validation:Codable{
     let status:Int
     let data:ValidationResponse?
-    let message:String?
+    let message:String
 }

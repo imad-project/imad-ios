@@ -15,6 +15,7 @@ struct ReviewDetailsView: View {
     @State var anima = false
     @State var menu = false
     @State var delete = false
+    @State var tokenExpired = (false,"")
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = ReviewViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -167,6 +168,14 @@ struct ReviewDetailsView: View {
         .onDisappear{
             menu = false
         }
+        .onReceive(vm.tokenExpired) { messages in
+            tokenExpired = (true,messages)
+        }
+        .alert(isPresented: $tokenExpired.0) {
+            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                vmAuth.loginMode = false
+            })
+        }
     }
 }
 
@@ -220,6 +229,7 @@ extension ReviewDetailsView{
                     NavigationLink {
                         WriteReviewView(id: vm.reviewInfo?.contentsID ?? 0, image:vm.reviewInfo?.contentsPosterPath?.getImadImage() ?? "", gradeAvg: vm.reviewInfo?.score ?? 0,reviewId : vm.reviewInfo?.reviewID ?? 0, title: vm.reviewInfo?.title ?? "",text: vm.reviewInfo?.content ?? "",spoiler: vm.reviewInfo?.spoiler ?? false,rating: vm.reviewInfo?.score ?? 0)
                             .navigationBarBackButtonHidden()
+                            .environmentObject(vmAuth)
                     } label: {
                         Text("수정하기")
                     }
