@@ -65,7 +65,7 @@ class CustomData{
                                      reviewCnt: 62,
                                      imadScore: 5,
                                      numberOfEpisodes:7,
-                                     numberOfSeasons: 0, bookmark: true,
+                                     numberOfSeasons: 0, bookmark: true,bookmarkId: 1,
                                      seasons: [
                                         Season(airDate: "1987-04-19", id: 3581, name: "스페셜", episodeCount: 80, overview: "", posterPath: "/oICoFoPJuEk5VJbEP2HYLEmEQi3.jpg", seasonNumber: 0),
                                         Season(airDate: "1989-12-17", id: 3582, name: "시즌 1", episodeCount: 13, overview: "", posterPath: "/t544zSFUNyvmyeP4sHotlcEX3zH.jpg", seasonNumber: 1),

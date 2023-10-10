@@ -208,7 +208,7 @@ extension WorkView{
                     Button {
                         guard let bookmark = vm.workInfo?.bookmark else { return }
                         if bookmark{
-                            vm.deleteBookmark(id: vm.workInfo?.contentsId ?? 0)
+                            vm.deleteBookmark(id: vm.workInfo?.bookmarkId ?? 0)
                         }else{
                             vm.addBookmark(id: vm.workInfo?.contentsId ?? 0)
                         }

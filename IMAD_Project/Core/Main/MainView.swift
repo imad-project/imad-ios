@@ -20,6 +20,7 @@ struct MainView: View {
     @State var anima = false
     @Binding var search:Bool
     @Binding var filterSelect:Bool
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         ZStack{
@@ -65,9 +66,9 @@ struct MainView: View {
         }
         
         .navigationDestination(isPresented: $isReview){
-//            ReviewView(isReview: $isReview, review: poster)
-//                .navigationBarBackButtonHidden(true)
-//            WorkView(id: poster.id, type: poster.)
+            //            ReviewView(isReview: $isReview, review: poster)
+            //                .navigationBarBackButtonHidden(true)
+            //            WorkView(id: poster.id, type: poster.)
         }
         .navigationBarItems(leading: Text("리뷰").font(.title).bold().padding(.bottom,20),trailing: Button {
             search = true
@@ -78,6 +79,7 @@ struct MainView: View {
         .ignoresSafeArea()
         .navigationDestination(isPresented: $search) {
             WorkListView(title: "검색", back: $search)
+                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }.foregroundColor(.white)
             .onAppear {
@@ -86,8 +88,6 @@ struct MainView: View {
                     anima = true
                 }
             }
-        //        }
-        
     }
 }
 
@@ -95,6 +95,7 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         //  NavigationStack{
         MainView(search: .constant(false), filterSelect: .constant(false))
+            .environmentObject(AuthViewModel())
         //.environment(\.colorScheme, .dark)
         //   }
     }
@@ -173,10 +174,10 @@ extension MainView{
                             .font(.caption2)
                     }
                     .frame(height: 120)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(20)
-                        .shadow(radius: 5)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(20)
+                    .shadow(radius: 5)
                 }
                 VStack(alignment: .leading,spacing: 10){
                     Text("- 커뮤니티 -")
@@ -201,13 +202,13 @@ extension MainView{
                         Text(CustomData.instance.dummyString)
                             .font(.caption2)
                     }.overlay(alignment: .topTrailing) {
-                       
+                        
                     }
                     .frame(height: 120)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(20)
-                        .shadow(radius: 5)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(20)
+                    .shadow(radius: 5)
                 }
                 
                 
@@ -220,33 +221,33 @@ extension MainView{
     var thumnail:some View{
         
         TabView{
-//            ForEach(CustomData.instance.reviewList.chunks(ofCount: 3),id:\.self){ item in
-//                HStack{
-//                    ForEach(Array(item.enumerated()),id:\.0){ (index,element) in
-//                        VStack(spacing: 15){
-//                            Text("\(index + 1). \(element.title)")
-//                                .font(.caption)
-//                            KFImage(URL(string: element.thumbnail)!)
-//                                .resizable()
-//                                .frame(width: 120,height:180)
-//                                .cornerRadius(20)
-//                            Circle()
-//                                .trim(from: 0.0, to: anima ? element.gradeAvg * 0.1 : 0)
-//                                .stroke(lineWidth: 3)
-//                                .rotation(Angle(degrees: 270))
-//                                .frame(width: 50,height: 50)
-//                                .overlay{
-//                                    VStack{
-//                                        Image(systemName: "star.fill")
-//                                            .font(.caption)
-//                                        Text(String(format: "%0.1f", element.gradeAvg))
-//                                            .font(.caption)
-//                                    }
-//                                }
-//                        }.padding(.horizontal,5)
-//                    }
-//                }
-//            }
+            //            ForEach(CustomData.instance.reviewList.chunks(ofCount: 3),id:\.self){ item in
+            //                HStack{
+            //                    ForEach(Array(item.enumerated()),id:\.0){ (index,element) in
+            //                        VStack(spacing: 15){
+            //                            Text("\(index + 1). \(element.title)")
+            //                                .font(.caption)
+            //                            KFImage(URL(string: element.thumbnail)!)
+            //                                .resizable()
+            //                                .frame(width: 120,height:180)
+            //                                .cornerRadius(20)
+            //                            Circle()
+            //                                .trim(from: 0.0, to: anima ? element.gradeAvg * 0.1 : 0)
+            //                                .stroke(lineWidth: 3)
+            //                                .rotation(Angle(degrees: 270))
+            //                                .frame(width: 50,height: 50)
+            //                                .overlay{
+            //                                    VStack{
+            //                                        Image(systemName: "star.fill")
+            //                                            .font(.caption)
+            //                                        Text(String(format: "%0.1f", element.gradeAvg))
+            //                                            .font(.caption)
+            //                                    }
+            //                                }
+            //                        }.padding(.horizontal,5)
+            //                    }
+            //                }
+            //            }
         }
         .frame(height: 300)
         .tabViewStyle(.page(indexDisplayMode: .never))
@@ -315,7 +316,7 @@ extension MainView{
                     HStack(spacing: 0){
                         ForEach(CustomData.instance.workList){ work in
                             Button {
-//                                poster = work
+                                //                                poster = work
                                 isReview = true
                             } label: {
                                 KFImage(URL(string: ("https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? "")))!)
@@ -342,7 +343,7 @@ extension MainView{
                                                 Circle().foregroundColor(.black.opacity(0.7))
                                             }
                                             .padding(5)
-                                            
+                                        
                                     }
                             }
                             

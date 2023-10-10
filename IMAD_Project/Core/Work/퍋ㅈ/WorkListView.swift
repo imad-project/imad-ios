@@ -9,11 +9,14 @@ import SwiftUI
 import Kingfisher
 
 struct WorkListView: View {
-    @StateObject var vm = SearchViewModel()
+   
     let title:String
+    let columns =  [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
     
-    let columns = [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
+    @State var tokenExpired = (false,"")
     @Binding var back:Bool
+    @StateObject var vm = SearchViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         NavigationView {
@@ -78,12 +81,21 @@ struct WorkListView: View {
                     UIApplication.shared.endEditing()
                 }
         }
+        .onReceive(vm.tokenExpired) { messages in
+            tokenExpired = (true,messages)
+        }
+        .alert(isPresented: $tokenExpired.0) {
+            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                vmAuth.loginMode = false
+            })
+        }
     }
 }
 
 struct MovieListView_Previews: PreviewProvider {
     static var previews: some View {
         WorkListView(title: "내 작품", back: .constant(false))
+            .environmentObject(AuthViewModel())
     }
 }
 extension WorkListView{

@@ -12,8 +12,11 @@ import Combine
 class SearchViewModel:ObservableObject{
     
     var cancel = Set<AnyCancellable>()
+    
     var textCancellable:AnyCancellable?
     var typeCancellable1:AnyCancellable?
+    
+    var tokenExpired = PassthroughSubject<String,Never>()
     
     @Published var searchText = ""
     @Published var work:[WorkResults] = []
@@ -51,10 +54,14 @@ class SearchViewModel:ObservableObject{
                 print(completion)
                 self.currentPage = page
             } receiveValue: { [weak self] work in
-                if let results = work.data?.results{
-                    self?.work.append(contentsOf: results)
+                if work.status >= 200 && work.status < 300{
+                    if let results = work.data?.results{
+                        self?.work.append(contentsOf: results)
+                    }
+                    self?.maxPage = work.data?.totalPages ?? 0
+                }else if work.status == 401{
+                    self?.tokenExpired.send(work.message)
                 }
-                self?.maxPage = work.data?.totalPages ?? 0
             }.store(in: &cancel)
         }
 }

@@ -88,6 +88,7 @@ struct CommunityView: View {
                     .shadow(radius: 10)
                     .navigationDestination(isPresented: $search){
                         WorkListView(title: "검색", back: $search)
+                            
                             .navigationBarBackButtonHidden(true)
                     }
                 }
