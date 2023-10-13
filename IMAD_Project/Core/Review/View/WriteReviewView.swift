@@ -204,8 +204,10 @@ struct WriteReviewView: View {
         .onReceive(vm.reviewWriteError){
             error = true
         }
-        .alert(isPresented: $error) {
-            Alert(title: Text(vm.error), dismissButton: .cancel(Text("확인")))
+        .alert(vm.error,isPresented: $error) {
+            Button("OK", role: .cancel) {
+                dismiss()
+            }
         }
     }
     
