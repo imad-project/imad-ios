@@ -75,7 +75,7 @@ struct WorkView: View {
             }
         }
         .onReceive(vm.success){
-            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: 0, sort: ReviewSortFilter.createdDate.rawValue, order: 0)
+            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: vmReview.page, sort: ReviewSortFilter.createdDate.rawValue, order: 0)
         }
         .navigationDestination(isPresented: $writeReview) {
             WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
@@ -241,7 +241,6 @@ extension WorkView{
             Divider()
         }
         
-        
     }
     var reviewList:some View{
         VStack(alignment: .leading) {
@@ -257,7 +256,19 @@ extension WorkView{
                                     .environmentObject(vmAuth)
                                     .navigationBarBackButtonHidden()
                             } label: {
-                                ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                                HStack(spacing: 0){
+                                    Text(vmAuth.getUserRes?.data?.nickname ?? "")
+                                        .bold()
+                                        .padding(.leading)
+                                        .font(.subheadline)
+                                    Text("님이 작성한 리뷰가 있네요?")
+                                        .font(.subheadline)
+                                    Spacer()
+                                    Text("리뷰 확인하기 >").foregroundColor(.gray).font(.caption).padding(.trailing)
+                                }
+                                .padding(5)
+                                .padding(.vertical)
+                                .background(Color.white).cornerRadius(5)
                             }
                         }
                     }
