@@ -22,7 +22,7 @@ class AuthViewModel:ObservableObject{
     @Published var guestMode = false
     @Published var loginMode = false
     
-    @Published var profileInfo:LoginResponse = LoginResponse(email: "", nickname: "", gender: "", ageRange: 20, profileImage: -1, authProvider: "", role: "")
+    @Published var profileInfo:LoginResponse = LoginResponse(email: "", nickname: "", gender: "", ageRange: 20, profileImage: -1, tvGenre: [], movieGenre: [], authProvider: "", role: "")
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
     var loginSuccess = PassthroughSubject<Bool,Never>()
