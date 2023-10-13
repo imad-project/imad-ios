@@ -60,7 +60,6 @@ struct SelectGenreView: View {
                                     }
                                 }
                             }
-                            
                         }
                         .foregroundColor(.customIndigo)
                         .padding(.horizontal)
