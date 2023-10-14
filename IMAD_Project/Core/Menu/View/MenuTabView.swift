@@ -24,6 +24,7 @@ struct MenuTabView: View {
                     .environmentObject(vmAuth)
                     .tag(Tab.home)
                 CommunityView()
+                    .environmentObject(vmAuth)
                     .tag(Tab.community)
                 ExploreView()
                     .tag(Tab.notification)

@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import Alamofire
 
+
 class AuthViewModel:ObservableObject{
     
     
@@ -17,12 +18,13 @@ class AuthViewModel:ObservableObject{
     @Published var passwordChangeRes:GetUserInfo? = nil
     @Published var selection:RegisterFilter = .nickname     //탭뷰
     
-    @Published var getTokenCnt = 0
+    @Published var getToken = 0
     
     @Published var guestMode = false
     @Published var loginMode = false
     
     @Published var profileInfo:LoginResponse = LoginResponse(email: "", nickname: "", gender: "", ageRange: 20, profileImage: -1, tvGenre: [], movieGenre: [], authProvider: "", role: "")
+    
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
     var loginSuccess = PassthroughSubject<Bool,Never>()
@@ -68,6 +70,8 @@ class AuthViewModel:ObservableObject{
                 self?.profileInfo = data
             }.store(in: &cancelable)
     }
+    
+
     func getUser(){
         UserApiService.user()
             .sink { completion in
@@ -82,17 +86,14 @@ class AuthViewModel:ObservableObject{
                     if receivedValue.data?.role == "GUEST"{
                         self?.guestMode = true
                     }
+                    self?.getToken = 0
                 case 401:
                     AuthApiService.getToken()
-                    self?.getTokenCnt += 1
-                    print("토큰 재발급")
-                    if self!.getTokenCnt < 2{
-                        self?.getUser()
-                    }
-                default: break
+                default:
+                    print(receivedValue.status)
+                    break
                 }
             }.store(in: &cancelable)
-
     }
     func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?){
         UserApiService.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, tvGenre: tvGenre,movieGenre:movieGenre)
@@ -106,6 +107,7 @@ class AuthViewModel:ObservableObject{
                     guard let data = receivedValue.data else {return}
                     self?.profileInfo = data
                 case 401:
+                    AuthApiService.getToken()
                     self?.tokenExpired.send(receivedValue.message)
                 default: break
                 }
@@ -129,6 +131,7 @@ class AuthViewModel:ObservableObject{
                     self?.loginMode = false
                     UserDefaultManager.shared.clearAll()
                 case 401:
+                    AuthApiService.getToken()
                     self?.tokenExpired.send(receivedValue.message)
                 default: break
                 }
@@ -145,6 +148,7 @@ class AuthViewModel:ObservableObject{
                     self?.passwordChangeRes = receivedValue
                     self?.passwordChangeSuccess.send()
                 case 401:
+                    AuthApiService.getToken()
                     self?.tokenExpired.send(receivedValue.message)
                 default: break
                 }

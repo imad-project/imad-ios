@@ -47,6 +47,10 @@
 		812CDEAA29DF0BF20003B993 /* Notific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDEA929DF0BF20003B993 /* Notific.swift */; };
 		812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EF9D229E1B5E700CE19DA /* ProfileView.swift */; };
 		814046FE2A284BC200B77EFD /* FilterCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814046FD2A284BC200B77EFD /* FilterCoverView.swift */; };
+		8154B1D22ADA5BDD00AD2F83 /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1D12ADA5BDD00AD2F83 /* CommunityRouter.swift */; };
+		8154B1D42ADA5DA400AD2F83 /* CommunityApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1D32ADA5DA400AD2F83 /* CommunityApiService.swift */; };
+		8154B1D72ADA601B00AD2F83 /* CommunityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1D62ADA601B00AD2F83 /* CommunityResponse.swift */; };
+		8154B1D92ADA60D800AD2F83 /* CommunityDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1D82ADA60D800AD2F83 /* CommunityDataResponse.swift */; };
 		815809912ACEB4EF00B5E07D /* MyBookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */; };
 		817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860112A2992D6004639F6 /* ContriesFilter.swift */; };
 		817860152A29A6C3004639F6 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860142A29A6C3004639F6 /* WorkView.swift */; };
@@ -192,6 +196,10 @@
 		812CDEA929DF0BF20003B993 /* Notific.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notific.swift; sourceTree = "<group>"; };
 		812EF9D229E1B5E700CE19DA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		814046FD2A284BC200B77EFD /* FilterCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCoverView.swift; sourceTree = "<group>"; };
+		8154B1D12ADA5BDD00AD2F83 /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
+		8154B1D32ADA5DA400AD2F83 /* CommunityApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityApiService.swift; sourceTree = "<group>"; };
+		8154B1D62ADA601B00AD2F83 /* CommunityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityResponse.swift; sourceTree = "<group>"; };
+		8154B1D82ADA60D800AD2F83 /* CommunityDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDataResponse.swift; sourceTree = "<group>"; };
 		815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookmarkListView.swift; sourceTree = "<group>"; };
 		817860112A2992D6004639F6 /* ContriesFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContriesFilter.swift; sourceTree = "<group>"; };
 		817860142A29A6C3004639F6 /* WorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
@@ -491,7 +499,7 @@
 		812CDEA129DEAE6D0003B993 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				812CDEA229DEAE880003B993 /* Community.swift */,
+				8154B1D52ADA5FDA00AD2F83 /* Community */,
 				812CDEA929DF0BF20003B993 /* Notific.swift */,
 				81BB11112A061E9E005654AA /* Auth */,
 				8115A6482A8396AC00B7C3FE /* WorkInfo */,
@@ -517,6 +525,16 @@
 				815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		8154B1D52ADA5FDA00AD2F83 /* Community */ = {
+			isa = PBXGroup;
+			children = (
+				812CDEA229DEAE880003B993 /* Community.swift */,
+				8154B1D62ADA601B00AD2F83 /* CommunityResponse.swift */,
+				8154B1D82ADA60D800AD2F83 /* CommunityDataResponse.swift */,
+			);
+			path = Community;
 			sourceTree = "<group>";
 		};
 		817860132A29A6B0004639F6 /* Work */ = {
@@ -685,6 +703,7 @@
 				817B60CC2A236F00000099A9 /* CheckRouter.swift */,
 				8115A6442A83940800B7C3FE /* WorkRouter.swift */,
 				81F2592A2AB0656B00C54668 /* ReviewRouter.swift */,
+				8154B1D12ADA5BDD00AD2F83 /* CommunityRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -697,6 +716,7 @@
 				817B60CE2A2370C1000099A9 /* CheckApiService.swift */,
 				8115A6462A8395C500B7C3FE /* WorkApiService.swift */,
 				81F2592E2AB073BB00C54668 /* ReviewApiService.swift */,
+				8154B1D32ADA5DA400AD2F83 /* CommunityApiService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -998,6 +1018,7 @@
 				817B60D62A23747F000099A9 /* ValidationResponse.swift in Sources */,
 				8115A6542A85C1D300B7C3FE /* SearchViewModel.swift in Sources */,
 				81C264972A137CFF00405B01 /* RegisterView.swift in Sources */,
+				8154B1D72ADA601B00AD2F83 /* CommunityResponse.swift in Sources */,
 				819D499A2A9338AD008B7BFE /* Season.swift in Sources */,
 				81DB1FBF29E56CA8002C0840 /* Wave.swift in Sources */,
 				81DB1FB529E51CCE002C0840 /* SettingFilter.swift in Sources */,
@@ -1059,6 +1080,7 @@
 				81BB11022A061198005654AA /* AuthRouter.swift in Sources */,
 				818CF7F82A20929800BABA1F /* ProfileSelectView.swift in Sources */,
 				81135F492AB7DBE900E784FD /* ReviewLike.swift in Sources */,
+				8154B1D92ADA60D800AD2F83 /* CommunityDataResponse.swift in Sources */,
 				817860172A29B1DD004639F6 /* WorkFilter.swift in Sources */,
 				8115A6642A8F38A800B7C3FE /* WorkViewModel.swift in Sources */,
 				81C1EB812AB400AB00FB265D /* ReadReviewList.swift in Sources */,
@@ -1074,6 +1096,7 @@
 				81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */,
 				818CF7F22A207CFF00BABA1F /* OnBoardingTabView.swift in Sources */,
 				811DA16929E9332500482A6A /* WriteReview.swift in Sources */,
+				8154B1D42ADA5DA400AD2F83 /* CommunityApiService.swift in Sources */,
 				81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */,
 				817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */,
 				815809912ACEB4EF00B5E07D /* MyBookmarkListView.swift in Sources */,
@@ -1085,6 +1108,7 @@
 				81C264902A135F8900405B01 /* AuthWebView.swift in Sources */,
 				81C1EB832AB4332600FB265D /* ReviewSortFilter.swift in Sources */,
 				81A1ECE029DACB720001A366 /* SplashView.swift in Sources */,
+				8154B1D22ADA5BDD00AD2F83 /* CommunityRouter.swift in Sources */,
 				810B4E9E2A2CDE0E00714A2B /* CustomProgressView.swift in Sources */,
 				812CDEA329DEAE880003B993 /* Community.swift in Sources */,
 				81F259352AB07FD800C54668 /* ReviewViewModel.swift in Sources */,

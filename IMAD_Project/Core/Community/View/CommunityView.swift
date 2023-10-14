@@ -11,9 +11,9 @@ import Kingfisher
 struct CommunityView: View {
     
   @State var search = false
-//    @State var post = CustomData.instance.reviewList.first!
     @StateObject var vm = CommunityTabViewModel()
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         NavigationView{
@@ -163,4 +163,18 @@ extension CommunityView{
         
             
     }
+//    func communityList() -> some View{
+//        ScrollView(showsIndicators: false){
+//            ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
+//                NavigationLink {
+//                    CommunityPostView(review: post)
+//                } label: {
+//                    CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
+//
+//                }
+//                Divider().padding(.horizontal)
+//            }
+//            .tag(CommunityFilter.debate)
+//        }.padding(.bottom,40).background(Color.white)
+//    }
 }
