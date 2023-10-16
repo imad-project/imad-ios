@@ -14,7 +14,7 @@ class CommunityViewModel:ObservableObject{
     
     @Published var communityList:[CommuityDetailsResponseList] = []
     @Published var posting:CommunityResponse? = nil
-    @Published var communityListResponse:CommunityList? = nil
+    @Published var communityListResponse:CommunityDetails? = nil
     
     var success = PassthroughSubject<(),Never>()
     var tokenExpired = PassthroughSubject<String,Never>()
@@ -45,10 +45,28 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 switch response.status{
                 case 200...300:
-                    self?.communityListResponse = response
+                    self?.communityListResponse = response.data
                     guard let list = response.data?.postingDetailsResponseList else {return}
                     self?.communityList.append(contentsOf: list)
-//                    self?.success.send()
+                case 401:
+                    AuthApiService.getToken()
+                    self?.tokenExpired.send(response.message)
+                default:
+                    break
+                }
+            }.store(in: &cancelable)
+
+    }
+    func readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int){
+        CommunityApiService.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { [weak self] response in
+                switch response.status{
+                case 200...300:
+                    self?.communityListResponse = response.data
+                    guard let list = response.data?.postingDetailsResponseList else {return}
+                    self?.communityList.append(contentsOf: list)
                 case 401:
                     AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)

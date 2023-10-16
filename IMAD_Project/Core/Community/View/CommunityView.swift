@@ -16,15 +16,27 @@ struct CommunityView: View {
     @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
-
+    var list:[CommuityDetailsResponseList]{
+        switch tab.communityTab{
+        case .all:
+            return vm.communityList
+        case .free:
+            return vm.communityList.filter({$0.category == 1})
+        case .question:
+            return vm.communityList.filter({$0.category == 2})
+        case .debate:
+            return vm.communityList.filter({$0.category == 3})
+        }
+    }
     
     var body: some View {
         NavigationView{
                 VStack(spacing: 0) {
                     Section(header:header){
                         ScrollView{
-                            ForEach(vm.communityList,id:\.self){ community in
+                            ForEach(list,id:\.self){ community in
                                 CommunityListRowView(community: community)
+                                    .padding(5)
                             }
                         }
                     }
@@ -37,9 +49,11 @@ struct CommunityView: View {
                 .onChange(of: tab.communityTab){ newValue in
                     if tab.communityTab == .all{
                         vm.communityList = []
+                        vm.readCommunityList(page: vm.page)
                         //전체리스트 조회
                     }else{
                         vm.communityList = []
+                        vm.readListConditionsAll(searchType: 0, query: "", page: vm.page, sort: "createdDate", order: 0)
                         //특정 필터 리스트 조회
                     }
                 }

@@ -8,9 +8,9 @@
 import Foundation
 
 struct CommunityDataResponse:Codable{
-    var postingId:Int
-    
-    enum CodaingKeys:String,CodingKey{
-        case postingId = "posting_id"
+    let postingID: Int
+
+    enum CodingKeys: String, CodingKey {
+        case postingID = "posting_id"
     }
 }

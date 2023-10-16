@@ -25,7 +25,7 @@ struct CommunityListRowView: View {
                 .padding(.bottom,5)
             HStack{
                 VStack{
-                    KFImage(URL(string: community.contentsPosterPath ?? ""))
+                    KFImage(URL(string: community.contentsPosterPath?.getImadImage() ?? ""))
                         .loadDiskFileSynchronously()
                         .cacheMemoryOnly()
                         .resizable()
@@ -34,8 +34,8 @@ struct CommunityListRowView: View {
                 }
                
                 VStack(alignment: .leading) {
-                    Text("#" + community.title).font(.subheadline)
-                    Text(community.contentsTitle ?? "")
+                    Text("#" + (community.contentsTitle ?? "")).font(.subheadline)
+                    Text(community.title)
                         .bold()
                         .font(.subheadline)
                     HStack{

@@ -37,4 +37,16 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int) -> AnyPublisher<CommunityList,AFError>{
+        print("게시물 조건 전체리스트 조회 api호출")
+        return ApiClient.shared.session
+            .request(CommunityRouter.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order),interceptor: intercept)
+            .publishDecodable(type: CommunityList.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }
