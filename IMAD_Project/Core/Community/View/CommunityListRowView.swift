@@ -9,42 +9,35 @@ import SwiftUI
 import Kingfisher
 
 struct CommunityListRowView: View {
-    let title:String
-    let image:String
-    let community:Community
+    let community:CommuityDetailsResponseList
     var body: some View {
         VStack(alignment: .leading) {
             HStack{
-                Image("happy")
+                Image(ProfileFilter.allCases.first(where: {$0.num == community.userProfileImage})!.rawValue)
                     .resizable()
                     .frame(width: 25,height: 25)
                     .cornerRadius(10)
-                Text("착하지 못한천")
+                Text(community.userNickname)
                 Spacer()
-                Text("2분전").bold()
-            }.font(.caption)
+                Text(community.createdAt.relativeTime()).bold()
+            }
+            .font(.caption)
                 .padding(.bottom,5)
             HStack{
                 VStack{
-                    KFImage(URL(string: image))
+                    KFImage(URL(string: community.contentsPosterPath ?? ""))
                         .loadDiskFileSynchronously()
                         .cacheMemoryOnly()
                         .resizable()
-                        .frame(width: 150,height: 200)
+                        .frame(width: 80,height: 100)
                         .cornerRadius(10)
-                       
-                    Text("#" + title).bold().font(.caption).frame(width: 150)
                 }
                
                 VStack(alignment: .leading) {
-                    Spacer()
-                    Text(community.title)
+                    Text("#" + community.title).font(.subheadline)
+                    Text(community.contentsTitle ?? "")
                         .bold()
                         .font(.subheadline)
-                    Text(CustomData.instance.dummyString)
-                        .frame(maxHeight: 100)
-                        .font(.caption)
-                    Spacer()
                     HStack{
                         Spacer()
                         Capsule()
@@ -53,9 +46,20 @@ struct CommunityListRowView: View {
                             .foregroundColor(.red)
                             .overlay {
                                 HStack{
-                                    Image(systemName: "heart")
+                                    Image(systemName: "heart.fill")
                                         .foregroundColor(.red)
-                                    Text("\(community.like)")
+                                    Text("\(community.likeCnt)")
+                                }
+                            }
+                        Capsule()
+                            .stroke(lineWidth: 1)
+                            .frame(width: 50,height: 20)
+                            .foregroundColor(.blue)
+                            .overlay {
+                                HStack{
+                                    Image(systemName: "heart.slash.fill")
+                                        .foregroundColor(.blue)
+                                    Text("\(community.dislikeCnt)")
                                 }
                             }
                         Capsule()
@@ -65,20 +69,20 @@ struct CommunityListRowView: View {
                             .overlay {
                                 HStack{
                                     Image(systemName: "message")
-                                    Text("\(community.reply)")
+//                                    Text("\(community.reply)")
                                 }
                             }
                         
                         
                     }.font(.caption)
                         .padding(.leading)
+                    
                         
                     
                 }
-                Spacer()
                 
             }
-        }.frame(maxHeight: 250)
+        }
         .foregroundColor(.black)
 //        .onAppear {
 //            let downloader = ImageDownloader.default
@@ -106,6 +110,6 @@ struct CommunityListRowView: View {
 
 struct CommunityListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityListRowView(title: "벤자민 버튼의 시간은 거꾸로간다", image: CustomData.instance.community.image, community:CustomData.instance.community)
+        CommunityListRowView(community:CustomData.instance.community)
     }
 }

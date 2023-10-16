@@ -11,71 +11,38 @@ import Kingfisher
 struct CommunityView: View {
     
   @State var search = false
-    @StateObject var vm = CommunityTabViewModel()
+    @StateObject var tab = CommunityTabViewModel()
     @Environment(\.colorScheme) var colorScheme
+    @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
-    
+
     
     var body: some View {
         NavigationView{
                 VStack(spacing: 0) {
                     Section(header:header){
-                        TabView(selection: $vm.communityTab) {
-                            ScrollView(showsIndicators: false){
-//                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-//                                    NavigationLink {
-////                                        CommunityPostView(review: post)
-//                                    } label: {
-//                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
-//
-//                                    }
-//                                    Divider().padding(.horizontal)
-//                                }
-//                                .tag(CommunityFilter.all)
-                            }.padding(.bottom,40).background(Color.white)
-                            ScrollView(showsIndicators: false){
-//                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-//                                    NavigationLink {
-////                                        CommunityPostView(review: post)
-//                                    } label: {
-//                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
-//
-//                                    }
-//                                    Divider().padding(.horizontal)
-//                                }
-//                                .tag(CommunityFilter.free)
-                            }.padding(.bottom,40).background(Color.white)
-                            ScrollView(showsIndicators: false){
-//                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-//                                    NavigationLink {
-////                                        CommunityPostView(review: post)
-//                                    } label: {
-//                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
-//
-//                                    }
-//                                    Divider().padding(.horizontal)
-//                                }
-//                                .tag(CommunityFilter.question)
-                            }.padding(.bottom,40).background(Color.white)
-                            ScrollView(showsIndicators: false){
-//                                ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-//                                    NavigationLink {
-////                                        CommunityPostView(review: post)
-//                                    } label: {
-//                                        CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
-//                                            
-//                                    }
-//                                    Divider().padding(.horizontal)
-//                                }
-//                                .tag(CommunityFilter.debate)
-                            }.padding(.bottom,40).background(Color.white)
+                        ScrollView{
+                            ForEach(vm.communityList,id:\.self){ community in
+                                CommunityListRowView(community: community)
+                            }
                         }
-                        
-                        
-                        
                     }
-                }.ignoresSafeArea()
+                }
+                .ignoresSafeArea()
+                .onAppear{
+                    vm.communityList = []
+                    vm.readCommunityList(page: vm.page)
+                }
+                .onChange(of: tab.communityTab){ newValue in
+                    if tab.communityTab == .all{
+                        vm.communityList = []
+                        //전체리스트 조회
+                    }else{
+                        vm.communityList = []
+                        //특정 필터 리스트 조회
+                    }
+                }
                 .overlay(alignment:.bottomTrailing){
                     Button {
                         search = true
@@ -138,7 +105,7 @@ extension CommunityView{
                 ForEach(CommunityFilter.allCases,id:\.self){ item in
                     Button {
                         withAnimation(.easeIn(duration: 0.2)){
-                            vm.communityTab = item
+                            tab.communityTab = item
                         }
                     } label: {
                         Text(item.name)
@@ -155,7 +122,7 @@ extension CommunityView{
             .overlay(alignment:.leading){
                 Capsule()
                     .frame(width: 42.5,height: 3)
-                    .offset(x:vm.indicatorOffset(width: width)-1)
+                    .offset(x:tab.indicatorOffset(width: width)-1)
                     .padding(.top,45)
             }.padding(.leading)
             

@@ -12,7 +12,9 @@ struct CommunityWriteView: View {
     let contentsId:Int
     let image:String
     
-    @State var category:CommunityFilter = .question
+    @State var loading = false
+    @State var tokenExpired = (false,"")
+    @State var category:CommunityFilter = .free
     @State var spoiler = false
     @State var text = ""
     @State var title = ""
@@ -135,6 +137,7 @@ struct CommunityWriteView: View {
                 if text != "" && title != ""{
                     Button {
                         vm.writeCommunity(contentsId: contentsId, title: title, content: text, category: category.num, spoiler: spoiler)
+                        loading = true
                     } label: {
                         Text("완료")
                             .font(.body)
@@ -150,10 +153,24 @@ struct CommunityWriteView: View {
             }
             .frame(maxHeight: .infinity,alignment: .top)
             .padding()
+            if loading{
+                Color.black.opacity(0.5).ignoresSafeArea()
+                CustomProgressView()
+            }
         }
         
         .foregroundColor(.white)
-
+        .onReceive(vm.tokenExpired) { messages in
+            tokenExpired = (true,messages)
+        }
+        .alert(isPresented: $tokenExpired.0) {
+            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                vmAuth.loginMode = false
+            })
+        }
+        .onReceive(vm.success) {
+            dismiss()
+        }
         
     }
 }

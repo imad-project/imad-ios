@@ -11,6 +11,7 @@ import Alamofire
 enum CommunityRouter:URLRequestConvertible{
     
     case write(contentsId:Int,title:String,content:String,category:Int,spoiler:Bool)
+    case readListAll(page:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -20,6 +21,8 @@ enum CommunityRouter:URLRequestConvertible{
         switch self{
         case .write:
             return "/api/posting"
+        case .readListAll:
+            return "/api/posting/list"
         }
     }
     
@@ -27,6 +30,8 @@ enum CommunityRouter:URLRequestConvertible{
         switch self{
         case .write:
             return .post
+        case .readListAll:
+            return .get
         }
     }
     
@@ -40,6 +45,10 @@ enum CommunityRouter:URLRequestConvertible{
             params["category"] = category
             params["is_spoiler"] = spoiler
             return params
+        case let .readListAll(page):
+            var params = Parameters()
+            params["page"] = page
+            return params
         }
     }
     
@@ -48,8 +57,8 @@ enum CommunityRouter:URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         switch self{
-//        case .readList,.read,.delete,.myReview,.myLikeReview:
-//            return try URLEncoding(destination: .queryString).encode(request, with: parameters)
+        case .readListAll:
+            return try URLEncoding(destination: .queryString).encode(request, with: parameters)
         case .write:
             return try JSONEncoding.default.encode(request, with: parameters)
         }

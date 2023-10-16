@@ -93,9 +93,9 @@ struct CommunityPostView: View {
                            
                                     HStack{
                                         Image(systemName: "hand.thumbsup")
-                                        Text("\(CustomData.instance.community.like)")
+//                                        Text("\(CustomData.instance.community.like)")
                                         Image(systemName: "hand.thumbsdown")
-                                        Text("\(CustomData.instance.community.hate)")
+//                                        Text("\(CustomData.instance.community.hate)")
                                         Text("·  5분전")
                                     }.font(.caption)
                                 }
