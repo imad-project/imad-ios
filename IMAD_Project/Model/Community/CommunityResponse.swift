@@ -10,7 +10,7 @@ import Foundation
 struct CommunityResponse:Codable{
     let status:Int
     var data:CommunityDataResponse?
-    let message:Bool
+    let message:String
 }
 
 

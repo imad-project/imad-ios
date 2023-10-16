@@ -70,50 +70,63 @@ struct Dummy:View{
 //
 //}
 struct TestView: View {
-    @State var num:[Int] = []
+    @State var num = 0
+    @State var nums:[Int] = [0,1,2,3,4]
+    @State var category:CommunityFilter = .question
     var ddd = PassthroughSubject<(),Never>()
     var body: some View{
         VStack{
-            HStack{
-                ForEach(num,id: \.self){ num in
-                    Text("\(num)")
-                }
+            Picker("",selection: $category){
+                ForEach(CommunityFilter.allCases,id: \.self){ item in
+                    if item != .all{
+                        Text(item.name)
+                            .tag(item)
+                    }
+                }.foregroundColor(.black)
             }
-            
-            
-            Button {
-                var cancel = Set<AnyCancellable>()
-                
-                [1,2,3].publisher
-                    .sink { com in
-                        print(com)
-                        ddd.send()
-                    } receiveValue: { int in
-                        num.append(int)
-                        [4,5,6].publisher
-                            .sink { com in
-                                print(com)
-                            } receiveValue: { int in
-                                num.append(int)
-                            }.store(in: &cancel)
-                    }.store(in: &cancel)
-                
-                num.append(333333)
-                
-                
-
-            } label: {
-                Text("go")
-            }
-            .onReceive(ddd) {
-                var cancel = Set<AnyCancellable>()
-                [7,8,9].publisher
-                    .sink { com in
-                        print(com)
-                    } receiveValue: { int in
-                        num.append(int)
-                    }.store(in: &cancel)
-            }
+            .pickerStyle(.segmented)
+            .environment(\.colorScheme, .light)
+            .padding(.horizontal,30)
+//            HStack{
+//                ForEach(num,id: \.self){ num in
+//                    Text("\(num)")
+//                }
+//            }
+//
+//
+//            Button {
+//                var cancel = Set<AnyCancellable>()
+//
+//                [1,2,3].publisher
+//                    .sink { com in
+//                        print(com)
+//                        ddd.send()
+//                    } receiveValue: { int in
+//                        num.append(int)
+//                        [4,5,6].publisher
+//                            .sink { com in
+//                                print(com)
+//                            } receiveValue: { int in
+//                                num.append(int)
+//                            }.store(in: &cancel)
+//                    }.store(in: &cancel)
+//
+//                num.append(333333)
+//
+//
+//
+//            } label: {
+//                Text("go")
+//            }
+//            .onReceive(ddd) {
+//                var cancel = Set<AnyCancellable>()
+//                [7,8,9].publisher
+//                    .sink { com in
+//                        print(com)
+//                    } receiveValue: { int in
+//                        num.append(int)
+//                    }.store(in: &cancel)
+//            }
         }
         
 

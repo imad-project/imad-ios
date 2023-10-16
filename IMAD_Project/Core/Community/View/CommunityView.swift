@@ -15,6 +15,8 @@ struct CommunityView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var vmAuth:AuthViewModel
     
+    
+    
     var body: some View {
         NavigationView{
                 VStack(spacing: 0) {
@@ -174,7 +176,8 @@ extension CommunityView{
 //                }
 //                Divider().padding(.horizontal)
 //            }
-//            .tag(CommunityFilter.debate)
+//            .tag(CommunityFilter.all)
 //        }.padding(.bottom,40).background(Color.white)
 //    }
+
 }
