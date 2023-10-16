@@ -75,7 +75,7 @@ struct WorkView: View {
             }
         }
         .onReceive(vm.success){
-            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: vmReview.page, sort: ReviewSortFilter.createdDate.rawValue, order: 0)
+            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: vmReview.page, sort: SortFilter.createdDate.rawValue, order: 0)
         }
         .navigationDestination(isPresented: $writeReview) {
             WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)

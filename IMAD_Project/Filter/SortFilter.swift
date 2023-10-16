@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ReviewSortFilter:String,CaseIterable{
+enum SortFilter:String,CaseIterable{
     case score
     case createdDate
     case likeCnt

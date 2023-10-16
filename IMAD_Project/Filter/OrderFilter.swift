@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ReviewOrderFilter:Int,CaseIterable{
+enum OrderFilter:Int,CaseIterable{
     case ascending = 0
     case descending = 1
     

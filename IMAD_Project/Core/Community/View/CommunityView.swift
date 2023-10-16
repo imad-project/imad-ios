@@ -10,7 +10,17 @@ import Kingfisher
 
 struct CommunityView: View {
     
-  @State var search = false
+    @State var search = false
+    @State var text = ""
+    
+    @State var sort:SortFilter = .createdDate
+    @State var order:OrderFilter = .ascending
+    @State var type:SearchTypeFilter = .titleContents
+    
+    @State var sortButton = false
+    @State var orderButton = false
+    @State var typeButton = false
+    
     @StateObject var tab = CommunityTabViewModel()
     @Environment(\.colorScheme) var colorScheme
     @StateObject var vm = CommunityViewModel()
@@ -57,24 +67,11 @@ struct CommunityView: View {
                         //특정 필터 리스트 조회
                     }
                 }
-                .overlay(alignment:.bottomTrailing){
-                    Button {
-                        search = true
-                    } label: {
-                        Image("pencil")
-                            .resizable()
-                            .frame(width: 100,height: 100)
-                            
-                    }
-                    .padding(20)
-                    .padding(.bottom,60)
-                    .shadow(radius: 10)
-                    .navigationDestination(isPresented: $search){
-                        WorkListView(title: "검색", back: $search)
-                            
-                            .navigationBarBackButtonHidden(true)
-                    }
-                }
+        }
+        .navigationDestination(isPresented: $search){
+            WorkListView(title: "검색", back: $search)
+                
+                .navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -96,10 +93,81 @@ extension CommunityView{
                     .padding(.leading)
                     
                 Spacer()
-                Image(systemName: "magnifyingglass")
-                    .font(.title3)
-                    .padding(.trailing)
+                Button {
+                    search = true
+                } label: {
+                    Image(systemName:"plus.viewfinder")
+                        .font(.title3).bold()
+                }.padding(.trailing)
             }
+            HStack{
+                CustomTextField(password: false, image: "magnifyingglass", placeholder: "게시물을 검색해 주세요..", color:.gray, text: $text)
+                    .padding(15)
+                    .background(Color.gray.opacity(0.2).cornerRadius(20))
+                    .padding(.horizontal)
+            }
+            
+            ScrollView(.horizontal){
+                HStack{
+                    Menu {
+                        Picker(selection: $type) {
+                            ForEach(SearchTypeFilter.allCases,id:\.self){ type in
+                                Text(type.name)
+                            }
+                        } label: {}
+                    } label: {
+                        HStack{
+                            Text(type.name)
+                                .font(.caption)
+                            Image(systemName: "chevron.down")
+                                .font(.caption)
+                        }
+                    }
+                    .padding(.vertical,5)
+                    .padding(.horizontal)
+                        .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo))
+                        .padding(.leading)
+                        .padding(.vertical,5)
+                    Menu {
+                        Picker(selection: $order) {
+                            ForEach(OrderFilter.allCases,id:\.self){ order in
+                                Text(order.name)
+                            }
+                        } label: {}
+                    } label: {
+                        HStack{
+                            Text(order.name)
+                                .font(.caption)
+                            Image(systemName: "chevron.down")
+                                .font(.caption)
+                        }
+                    }
+                    .padding(.vertical,5)
+                    .padding(.horizontal)
+                        .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo))
+                        .padding(.vertical,5)
+                    Menu {
+                        Picker(selection: $sort) {
+                            ForEach(SortFilter.allCases,id:\.self){ sort in
+                                Text(sort.name)
+                            }
+                        } label: {}
+                    } label: {
+                        HStack{
+                            Text(sort.name)
+                                .font(.caption)
+                            Image(systemName: "chevron.down")
+                                .font(.caption)
+                        }
+                    }
+                    .padding(.vertical,5)
+                    .padding(.horizontal)
+                        .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo))
+                        .padding(.vertical,5)
+                }
+            }
+            
+            
             category
             
         }

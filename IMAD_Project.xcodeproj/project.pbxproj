@@ -52,6 +52,7 @@
 		8154B1D92ADA60D800AD2F83 /* CommunityDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1D82ADA60D800AD2F83 /* CommunityDataResponse.swift */; };
 		8154B1DD2ADACAB600AD2F83 /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1DC2ADACAB600AD2F83 /* CommunityViewModel.swift */; };
 		8154B1DF2ADCE64E00AD2F83 /* CommunityList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1DE2ADCE64E00AD2F83 /* CommunityList.swift */; };
+		8154B1E12ADD10DA00AD2F83 /* SearchTypeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E02ADD10DA00AD2F83 /* SearchTypeFilter.swift */; };
 		815809912ACEB4EF00B5E07D /* MyBookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */; };
 		817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860112A2992D6004639F6 /* ContriesFilter.swift */; };
 		817860152A29A6C3004639F6 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860142A29A6C3004639F6 /* WorkView.swift */; };
@@ -105,8 +106,8 @@
 		81C0DC5F2A14D01D0022A3EE /* ProfileFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */; };
 		81C1EB7D2AB3581E00FB265D /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB7C2AB3581E00FB265D /* ReviewView.swift */; };
 		81C1EB812AB400AB00FB265D /* ReadReviewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB802AB400AB00FB265D /* ReadReviewList.swift */; };
-		81C1EB832AB4332600FB265D /* ReviewSortFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB822AB4332600FB265D /* ReviewSortFilter.swift */; };
-		81C1EB852AB4397600FB265D /* ReviewOrderFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB842AB4397600FB265D /* ReviewOrderFilter.swift */; };
+		81C1EB832AB4332600FB265D /* SortFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB822AB4332600FB265D /* SortFilter.swift */; };
+		81C1EB852AB4397600FB265D /* OrderFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB842AB4397600FB265D /* OrderFilter.swift */; };
 		81C1EB872AB43A6000FB265D /* ReviewListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB862AB43A6000FB265D /* ReviewListRowView.swift */; };
 		81C264902A135F8900405B01 /* AuthWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2648F2A135F8900405B01 /* AuthWebView.swift */; };
 		81C264942A1376AE00405B01 /* OauthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C264932A1376AE00405B01 /* OauthFilter.swift */; };
@@ -202,6 +203,7 @@
 		8154B1D82ADA60D800AD2F83 /* CommunityDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDataResponse.swift; sourceTree = "<group>"; };
 		8154B1DC2ADACAB600AD2F83 /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
 		8154B1DE2ADCE64E00AD2F83 /* CommunityList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityList.swift; sourceTree = "<group>"; };
+		8154B1E02ADD10DA00AD2F83 /* SearchTypeFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTypeFilter.swift; sourceTree = "<group>"; };
 		815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookmarkListView.swift; sourceTree = "<group>"; };
 		817860112A2992D6004639F6 /* ContriesFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContriesFilter.swift; sourceTree = "<group>"; };
 		817860142A29A6C3004639F6 /* WorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
@@ -255,8 +257,8 @@
 		81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilter.swift; sourceTree = "<group>"; };
 		81C1EB7C2AB3581E00FB265D /* ReviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		81C1EB802AB400AB00FB265D /* ReadReviewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadReviewList.swift; sourceTree = "<group>"; };
-		81C1EB822AB4332600FB265D /* ReviewSortFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSortFilter.swift; sourceTree = "<group>"; };
-		81C1EB842AB4397600FB265D /* ReviewOrderFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewOrderFilter.swift; sourceTree = "<group>"; };
+		81C1EB822AB4332600FB265D /* SortFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortFilter.swift; sourceTree = "<group>"; };
+		81C1EB842AB4397600FB265D /* OrderFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilter.swift; sourceTree = "<group>"; };
 		81C1EB862AB43A6000FB265D /* ReviewListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewListRowView.swift; sourceTree = "<group>"; };
 		81C2648F2A135F8900405B01 /* AuthWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthWebView.swift; sourceTree = "<group>"; };
 		81C264932A1376AE00405B01 /* OauthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OauthFilter.swift; sourceTree = "<group>"; };
@@ -671,8 +673,9 @@
 				8115A6572A8A166200B7C3FE /* TVGenreFilter.swift */,
 				8115A6592A8A170700B7C3FE /* MovieGenreFilter.swift */,
 				81E2F8A92A8F4FDD003E53DC /* CertificationFilter.swift */,
-				81C1EB822AB4332600FB265D /* ReviewSortFilter.swift */,
-				81C1EB842AB4397600FB265D /* ReviewOrderFilter.swift */,
+				81C1EB822AB4332600FB265D /* SortFilter.swift */,
+				81C1EB842AB4397600FB265D /* OrderFilter.swift */,
+				8154B1E02ADD10DA00AD2F83 /* SearchTypeFilter.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -998,7 +1001,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81A1ECE729DC40D50001A366 /* CustomData.swift in Sources */,
-				81C1EB852AB4397600FB265D /* ReviewOrderFilter.swift in Sources */,
+				81C1EB852AB4397600FB265D /* OrderFilter.swift in Sources */,
 				817B60CF2A2370C1000099A9 /* CheckApiService.swift in Sources */,
 				8115A65E2A8F30F700B7C3FE /* Work.swift in Sources */,
 				81A285F52AAC5CC300703C55 /* MovieBackgroundView.swift in Sources */,
@@ -1084,6 +1087,7 @@
 				818CF7FA2A20AAE500BABA1F /* AgeSelectView.swift in Sources */,
 				81BB11022A061198005654AA /* AuthRouter.swift in Sources */,
 				818CF7F82A20929800BABA1F /* ProfileSelectView.swift in Sources */,
+				8154B1E12ADD10DA00AD2F83 /* SearchTypeFilter.swift in Sources */,
 				81135F492AB7DBE900E784FD /* ReviewLike.swift in Sources */,
 				8154B1D92ADA60D800AD2F83 /* CommunityDataResponse.swift in Sources */,
 				817860172A29B1DD004639F6 /* WorkFilter.swift in Sources */,
@@ -1111,7 +1115,7 @@
 				819AA9EB2ACD3C430048CF7B /* BookmarkResponse.swift in Sources */,
 				81BB11102A061E42005654AA /* Token.swift in Sources */,
 				81C264902A135F8900405B01 /* AuthWebView.swift in Sources */,
-				81C1EB832AB4332600FB265D /* ReviewSortFilter.swift in Sources */,
+				81C1EB832AB4332600FB265D /* SortFilter.swift in Sources */,
 				81A1ECE029DACB720001A366 /* SplashView.swift in Sources */,
 				8154B1D22ADA5BDD00AD2F83 /* CommunityRouter.swift in Sources */,
 				810B4E9E2A2CDE0E00714A2B /* CustomProgressView.swift in Sources */,
