@@ -49,4 +49,16 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func readPosting(postingId:Int) -> AnyPublisher<CommunityInfoResponse,AFError>{
+        print("게시물 상세 조회 api호출")
+        return ApiClient.shared.session
+            .request(CommunityRouter.readPosting(postingId: postingId),interceptor: intercept)
+            .publishDecodable(type: CommunityInfoResponse.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }

@@ -10,164 +10,252 @@ import Kingfisher
 
 struct CommunityPostView: View {
     
+    let postingId:Int
+    @State var like = 0
     @State var reviewText = ""
     @State var anima = false
     @State var seeMore = false
     
-//    let review:Review
+    @StateObject var vm = CommunityViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     @Environment(\.dismiss) var dismiss
     var body: some View {
-            ZStack(alignment: .bottom){
-                Color.white.ignoresSafeArea()
-                VStack(spacing: 0){
-                    
-                    ZStack{
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.left")
-                                .bold()
-                                .frame(maxWidth: .infinity,alignment: .leading)
-                                .padding()
-                        }
-                        HStack{
-//                            KFImage(URL(string: CustomData.instance.userReiveList[2].image))
-//                                .resizable()
-//                                .frame(width: 30,height: 30)
-//                                .clipShape(Circle())
-                            Text("todoroki")
-                                .font(.caption)
-                                .bold()
-                        }.padding(.top,5)
-                            
-                    }.padding(.bottom,10)
-                    
-                    Divider()
-                    
-                    ScrollView {
-                        
-                        Group{
-                            HStack(alignment: .top){
-//                                KFImage(URL(string: review.thumbnail))
-//                                    .resizable()
-//                                    .frame(width: 100,height: 100)
-//                                    .cornerRadius(20)
-//                                    .shadow(radius: 10)
-                                VStack(alignment: .leading,spacing: 5){
-                                    Text("이거 솔직히 엔딩 에바 아닌가")
-                                        .bold()
-                                        .padding(.top)
-                                    Text("5분전").font(.caption)
-                                }.padding([.leading,.bottom])
-                             Spacer()
-                            }
-                            .padding(.horizontal)
-//                            ExpandableTextView(text: CustomData.instance.dummyString, maxLines: 5, font: .callout,paddingTop: 20)
-                                .padding(.horizontal)
-                        }.padding(.top)
-                        Divider().background(Color.black)
-                            .padding(.horizontal)
-                        ForEach(CustomData.instance.userReiveList,id:\.self){ item in
-                            
-                            HStack(alignment: .top){
-                                if item.nickName != "todoriki"{
-//                                    KFImage(URL(string: item.image))
-//                                        .resizable()
-//                                        .frame(width: 50, height: 50)
-//                                        .clipShape(RoundedRectangle(cornerRadius: 20))
-//                                        .shadow(radius: 10)
-//                                        .padding(.trailing,7)
-                                }
-                                VStack(alignment: item.nickName == "todoriki" ? .trailing: .leading){
-                                    Text(item.nickName)
-                                        .font(.caption)
-                                        .offset(x:item.nickName == "todoriki" ? 5 :-5)
-                                        .bold()
-                                    Text(item.comment)
-                                        .padding(10)
-                                        .background(item.nickName == "todoriki" ? Color.whiteYellow : Color.customIndigo)
-                                        .foregroundColor(item.nickName == "todoriki" ? .black:.white)
-                                        .cornerRadius(10)
-                                        .shadow(radius: 10)
-                           
-                                    HStack{
-                                        Image(systemName: "hand.thumbsup")
-//                                        Text("\(CustomData.instance.community.like)")
-                                        Image(systemName: "hand.thumbsdown")
-//                                        Text("\(CustomData.instance.community.hate)")
-                                        Text("·  5분전")
-                                    }.font(.caption)
-                                }
-                                if item.nickName == "todoriki"{
-//                                    KFImage(URL(string: item.image))
-//                                        .resizable()
-//                                        .frame(width: 50, height: 50)
-//                                        .clipShape(RoundedRectangle(cornerRadius: 20))
-//                                        .shadow(radius: 10)
-//                                        .padding(.leading,7)
-                                }
-                            }
-                            .frame(maxWidth:.infinity,alignment:item.nickName == "todoriki" ? .trailing:.leading)
-                            .padding(.horizontal)
-                            .padding(.vertical,10)
-                        }
-                    }
-               
-                
-                }.foregroundColor(.black)
-                    .padding(.bottom,100)
-                VStack{
-                    Divider()
-                    HStack{
-                        KFImage(URL(string: CustomData.instance.movieList.first!))
-                            .resizable()
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                        CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
-                            .padding(10)
-                            .background{
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(lineWidth: 1)
-                                    .foregroundColor(.customIndigo)
-                                    
-                            }
-                        Button {
-
-                        } label: {
-                            Text("전송")
+        ZStack(alignment: .bottom){
+            Color.white.ignoresSafeArea()
+            VStack(spacing: 0){
+                header
+                Divider()
+                ScrollView {
+                    posting
+                }
+            }.foregroundColor(.black)
+                .padding(.bottom,100)
+            VStack{
+                Divider()
+                HStack{
+                    KFImage(URL(string: CustomData.instance.movieList.first!))
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                    CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
+                        .padding(10)
+                        .background{
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(lineWidth: 1)
                                 .foregroundColor(.customIndigo)
+                            
                         }
-                        .padding(.leading,5)
+                    Button {
+                        
+                    } label: {
+                        Text("전송")
+                            .foregroundColor(.customIndigo)
                     }
-                    .padding(.horizontal)
-                    HStack{
-                        Text("비방이나 욕설은 삼가해주세요.😃😊")
-                            .foregroundColor(.black.opacity(0.4))
-                            .padding(.leading)
-                        Spacer()
-                    }
+                    .padding(.leading,5)
                 }
-                .background(Color.white)
-                .offset(y:-25)
-            }
-            .onAppear{
-                withAnimation(.linear(duration: 0.5)){
-                    anima = true
+                .padding(.horizontal)
+                HStack{
+                    Text("비방이나 욕설은 삼가해주세요.😃😊")
+                        .foregroundColor(.black.opacity(0.4))
+                        .padding(.leading)
+                    Spacer()
                 }
             }
-            .onTapGesture {
-                UIApplication.shared.endEditing()
+            .background(Color.white)
+            .offset(y:-25)
+        }
+        .onAppear{
+            vm.readDetailCommunity(postingId: postingId)
+            withAnimation(.linear(duration: 0.5)){
+                anima = true
             }
-            .navigationBarBackButtonHidden(true)
+        }
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
+        .navigationBarBackButtonHidden(true)
         
     }
 }
 
 struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
-//        CommunityPostView(review: CustomData.instance.reviewList.first!)
-        CommunityPostView()
+        CommunityPostView(postingId: 1)
+            .environmentObject(AuthViewModel())
+            .environmentObject(CommunityViewModel())
     }
 }
 
+extension CommunityPostView{
+    var header:some View{
+        ZStack{
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "chevron.left")
+                    .bold()
+                    .frame(maxWidth: .infinity,alignment: .leading)
+                    .padding()
+            }
+            HStack{
+                Image(ProfileFilter.allCases.first(where: {$0.num == vm.communityDetail?.userProfileImage ?? 1})!.rawValue)
+                    .resizable()
+                    .frame(width: 30,height: 30)
+                    .clipShape(Circle())
+                Text(vm.communityDetail?.userNickname ?? "a")
+                    .font(.caption)
+                    .bold()
+            }.padding(.top,5)
+            
+        }.padding(.bottom,10)
+    }
+    var posting:some View{
+        VStack(alignment: .leading) {
+            Group{
+                HStack(alignment: .top){
+                    KFImage(URL(string: vm.communityDetail?.contentsPosterPath.getImadImage() ?? ""))
+                        .resizable()
+                        .frame(width: 100,height: 100)
+                        .cornerRadius(20)
+                        .shadow(radius: 10)
+                    VStack(alignment: .leading,spacing: 5){
+                        Text("#" + (vm.communityDetail?.contentsTitle ?? "dddd"))
+                            .font(.footnote)
+                        HStack{
+                            Text(CommunityFilter.allCases.first(where:{$0.num == vm.communityDetail?.category ?? 1})!.name).font(.caption2)
+                                .foregroundColor(.white)
+                                .padding(3)
+                                .padding(.horizontal,5)
+                                .background(Capsule().foregroundColor(.customIndigo))
+                            Text((vm.communityDetail?.spoiler ?? false) ? "스포일러" : "클린")
+                                .font(.caption2)
+                                .padding(2)
+                                .padding(.horizontal)
+                                .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1))
+                        }
+                        Text(vm.communityDetail?.title ?? "dddd")
+                            .bold()
+                        
+                    }.padding([.leading,.bottom])
+                    Spacer()
+                    Text(vm.communityDetail?.modifiedAt.relativeTime() ?? "dd").font(.caption).foregroundColor(.gray)
+                    
+                }
+                .padding(.horizontal)
+                Text(vm.communityDetail?.content ?? "asdasd")
+                    .padding(.horizontal)
+                collection
+            }.padding(.top)
+            Divider()
+                .padding(.horizontal)
+            comment
+        }
+    }
+    var collection:some View{
+        VStack{
+            HStack{
+                Group{
+                    HStack(spacing: 2){
+                        Image(systemName: "eye.fill")
+                        Text("\(vm.communityDetail?.viewCnt ?? 0)")
+                    }
+                    HStack(spacing: 2){
+                        Image(systemName: "message.fill")
+                        Text("\(vm.communityDetail?.commentCnt ?? 0)")
+                    }
+                }
+                .foregroundColor(.gray)
+                .font(.footnote)
+                .padding(2)
+                .padding(.horizontal,7)
+                .background(Color.gray.opacity(0.3).cornerRadius(50))
+                Spacer()
+                
+            }
+            VStack(alignment: .trailing){
+                Divider()
+                HStack{
+                    Group{
+                        Button {
+                            //                            if like < 1{
+                            //                                like = 1
+                            //                                vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                            //                            }else{
+                            //                                like = 0
+                            //                                vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                            //                            }
+                        } label: {
+                            Image(systemName: like == 1 ? "heart.fill":"heart")
+                            Text("좋아요")
+                        }
+                        .foregroundColor(like == 1 ? .red : .gray)
+                        Button {
+                            //                            if like > -1{
+                            //                                like = -1
+                            //                                vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                            //                            }else{
+                            //                                like = 0
+                            //                                vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                            //                            }
+                        } label: {
+                            HStack{
+                                Image(systemName: like == -1 ? "heart.slash.fill" : "heart.slash")
+                                Text("싫어요")
+                            }
+                        }
+                        .foregroundColor(like == -1 ? .blue : .gray)
+                    }
+                    .font(.subheadline)
+                    .frame(maxWidth: .infinity)
+                }
+            }
+        } .padding(.horizontal)
+    }
+    var comment:some View{
+        ForEach(CustomData.instance.userReiveList,id:\.self){ item in
+            
+            HStack(alignment: .top){
+                if item.nickName != "todoriki"{
+                    //                                    KFImage(URL(string: item.image))
+                    //                                        .resizable()
+                    //                                        .frame(width: 50, height: 50)
+                    //                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    //                                        .shadow(radius: 10)
+                    //                                        .padding(.trailing,7)
+                }
+                VStack(alignment: item.nickName == "todoriki" ? .trailing: .leading){
+                    Text(item.nickName)
+                        .font(.caption)
+                        .offset(x:item.nickName == "todoriki" ? 5 :-5)
+                        .bold()
+                    Text(item.comment)
+                        .padding(10)
+                        .background(item.nickName == "todoriki" ? Color.whiteYellow : Color.customIndigo)
+                        .foregroundColor(item.nickName == "todoriki" ? .black:.white)
+                        .cornerRadius(10)
+                        .shadow(radius: 10)
+                    
+                    HStack{
+                        Image(systemName: "hand.thumbsup")
+                        //                                        Text("\(CustomData.instance.community.like)")
+                        Image(systemName: "hand.thumbsdown")
+                        //                                        Text("\(CustomData.instance.community.hate)")
+                        Text("·  5분전")
+                    }.font(.caption)
+                }
+                if item.nickName == "todoriki"{
+                    //                                    KFImage(URL(string: item.image))
+                    //                                        .resizable()
+                    //                                        .frame(width: 50, height: 50)
+                    //                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    //                                        .shadow(radius: 10)
+                    //                                        .padding(.leading,7)
+                }
+            }
+            .frame(maxWidth:.infinity,alignment:item.nickName == "todoriki" ? .trailing:.leading)
+            .padding(.horizontal)
+            .padding(.vertical,10)
+        }
+    }
+}

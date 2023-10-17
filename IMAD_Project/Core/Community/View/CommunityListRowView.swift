@@ -19,7 +19,8 @@ struct CommunityListRowView: View {
                     .cornerRadius(10)
                 Text(community.userNickname)
                 Spacer()
-                Text(community.createdAt.relativeTime()).bold()
+                Text(community.createdAt.relativeTime()).foregroundColor(.gray)
+                    .font(.caption)
             }
             .font(.caption)
                 .padding(.bottom,5)
@@ -34,7 +35,7 @@ struct CommunityListRowView: View {
                 }
                
                 VStack(alignment: .leading) {
-                    Text("#" + (community.contentsTitle ?? "")).font(.subheadline)
+                    Text("#" + (community.contentsTitle ?? "")).font(.footnote)
                     Text(community.title)
                         .bold()
                         .font(.subheadline)

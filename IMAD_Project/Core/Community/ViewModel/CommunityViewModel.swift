@@ -15,6 +15,7 @@ class CommunityViewModel:ObservableObject{
     @Published var communityList:[CommuityDetailsResponseList] = []
     @Published var posting:CommunityResponse? = nil
     @Published var communityListResponse:CommunityDetails? = nil
+    @Published var communityDetail:CommunityDetailsResponse? = nil
     
     var success = PassthroughSubject<(),Never>()
     var tokenExpired = PassthroughSubject<String,Never>()
@@ -74,7 +75,21 @@ class CommunityViewModel:ObservableObject{
                     break
                 }
             }.store(in: &cancelable)
-
     }
-    
+    func readDetailCommunity(postingId:Int){
+        CommunityApiService.readPosting(postingId: postingId)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { [weak self] response in
+                switch response.status{
+                case 200...300:
+                    self?.communityDetail = response.data
+                case 401:
+                    AuthApiService.getToken()
+                    self?.tokenExpired.send(response.message)
+                default:
+                    break
+                }
+            }.store(in: &cancelable)
+    }
 }
