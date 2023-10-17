@@ -61,4 +61,16 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func postingLike(postingId:Int,status:Int) -> AnyPublisher<ReviewLike,AFError>{
+        print("게시물 좋아요/싫어요 api호출")
+        return ApiClient.shared.session
+            .request(CommunityRouter.like(postingId: postingId, status: status),interceptor: intercept)
+            .publishDecodable(type: ReviewLike.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }

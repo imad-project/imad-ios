@@ -67,6 +67,10 @@ struct CommunityPostView: View {
         .onAppear{
             vm.readDetailCommunity(postingId: postingId)
         }
+        .onReceive(vm.success) {
+            
+            like = vm.communityDetail?.likeStatus ?? 0
+        }
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
@@ -173,26 +177,26 @@ extension CommunityPostView{
                 HStack{
                     Group{
                         Button {
-                            //                            if like < 1{
-                            //                                like = 1
-                            //                                vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
-                            //                            }else{
-                            //                                like = 0
-                            //                                vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
-                            //                            }
+                            if like < 1{
+                                like = 1
+                                vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
+                            }else{
+                                like = 0
+                                vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
+                            }
                         } label: {
                             Image(systemName: like == 1 ? "heart.fill":"heart")
                             Text("좋아요")
                         }
                         .foregroundColor(like == 1 ? .red : .gray)
                         Button {
-                            //                            if like > -1{
-                            //                                like = -1
-                            //                                vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
-                            //                            }else{
-                            //                                like = 0
-                            //                                vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
-                            //                            }
+                            if like > -1{
+                                like = -1
+                                vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
+                            }else{
+                                like = 0
+                                vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
+                            }
                         } label: {
                             HStack{
                                 Image(systemName: like == -1 ? "heart.slash.fill" : "heart.slash")

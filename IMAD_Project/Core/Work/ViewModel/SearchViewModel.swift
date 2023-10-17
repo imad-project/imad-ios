@@ -45,8 +45,6 @@ class SearchViewModel:ObservableObject{
                 self?.maxPage = 0
                 self?.searchWork(query: self?.searchText ?? "",type: value,page: self?.currentPage ?? 0)
             })
-        
-        
     }
     func searchWork(query:String,type:MovieTypeFilter,page:Int){
         WorkApiService.workSearch(query: query, type: type.rawValue, page: page)

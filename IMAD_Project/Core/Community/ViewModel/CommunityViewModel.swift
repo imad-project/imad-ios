@@ -20,6 +20,9 @@ class CommunityViewModel:ObservableObject{
     var success = PassthroughSubject<(),Never>()
     var tokenExpired = PassthroughSubject<String,Never>()
     var cancelable = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
+    
+    
     
     func writeCommunity(contentsId:Int,title:String,content:String,category:Int,spoiler:Bool){
         CommunityApiService.writeCommunity(contentsId: contentsId, title: title, content: content, category: category, spoiler: spoiler)
@@ -92,4 +95,22 @@ class CommunityViewModel:ObservableObject{
                 }
             }.store(in: &cancelable)
     }
+    func like(postingId:Int,status:Int){
+        CommunityApiService.postingLike(postingId: postingId, status: status)
+            .sink { comp in
+                self.readDetailCommunity(postingId: postingId)    //좋아요/싫어요를 적용하기 위함
+                print(comp)
+            } receiveValue: { [weak self] response in
+                switch response.status{
+                case 200...300:
+                    self?.success.send()
+                case 401:
+                    AuthApiService.getToken()
+                    self?.tokenExpired.send(response.message)
+                default:
+                    break
+                }
+            }.store(in: &cancelable)
+    }
+    
 }

@@ -14,6 +14,7 @@ enum CommunityRouter:URLRequestConvertible{
     case readListAll(page:Int)
     case readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int)
     case readPosting(postingId:Int)
+    case like(postingId:Int,status:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -29,6 +30,8 @@ enum CommunityRouter:URLRequestConvertible{
             return "/api/posting/list"
         case let .readPosting(postingId):
             return "/api/posting/\(postingId)"
+        case let .like(postingId,_):
+            return "/api/posting/like/\(postingId)"
         }
     }
     
@@ -38,6 +41,8 @@ enum CommunityRouter:URLRequestConvertible{
             return .post
         case .readListAll,.readListConditionsAll,.readPosting:
             return .get
+        case .like:
+            return .patch
         }
     }
     
@@ -65,6 +70,10 @@ enum CommunityRouter:URLRequestConvertible{
             return params
         case .readPosting:
             return Parameters()
+        case let .like(_, status):
+            var params = Parameters()
+            params["like_status"] = status
+            return params
         }
     }
     
@@ -75,7 +84,7 @@ enum CommunityRouter:URLRequestConvertible{
         switch self{
         case .readListAll,.readListConditionsAll,.readPosting:
             return try URLEncoding(destination: .queryString).encode(request, with: parameters)
-        case .write:
+        case .write,.like:
             return try JSONEncoding.default.encode(request, with: parameters)
         }
         
