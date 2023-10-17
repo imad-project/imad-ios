@@ -67,7 +67,7 @@ struct CommunityView: View {
                 }
         }
         .navigationDestination(isPresented: $search){
-            WorkListView(title: "검색", back: $search)
+            WorkListView(postingMode: true, title: "검색", back: $search)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
