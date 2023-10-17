@@ -12,18 +12,9 @@ struct CommunityView: View {
     
     @State var searchView = false
     @State var search = false
-    @State var text = ""
-    
-    @State var sort:SortFilter = .createdDate
-    @State var order:OrderFilter = .ascending
-    @State var type:SearchTypeFilter = .titleContents
-    
-    @State var sortButton = false
-    @State var orderButton = false
-    @State var typeButton = false
+
     
     @StateObject var tab = CommunityTabViewModel()
-    @Environment(\.colorScheme) var colorScheme
     @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -77,8 +68,11 @@ struct CommunityView: View {
         }
         .navigationDestination(isPresented: $search){
             WorkListView(title: "검색", back: $search)
-                
+                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
+        }
+        .navigationDestination(isPresented: $searchView) {
+            CommunitySearchView()
         }
     }
 }
@@ -101,9 +95,7 @@ extension CommunityView{
                     
                 Spacer()
                 Button {
-                    withAnimation(.spring()){
-                        searchView.toggle()
-                    }
+                    searchView = true
                 } label: {
                     Image(systemName:"magnifyingglass")
                         .font(.title3).bold()
@@ -115,75 +107,7 @@ extension CommunityView{
                         .font(.title3).bold()
                 }.padding(.trailing)
             }
-            if searchView{
-                HStack{
-                    CustomTextField(password: false, image: "magnifyingglass", placeholder: "게시물을 검색해 주세요..", color:.gray, text: $text)
-                        .padding(15)
-                        .background(Color.gray.opacity(0.2).cornerRadius(20))
-                        .padding(.horizontal)
-                }
-                
-                ScrollView(.horizontal){
-                    HStack{
-                        Menu {
-                            Picker(selection: $type) {
-                                ForEach(SearchTypeFilter.allCases,id:\.self){ type in
-                                    Text(type.name)
-                                }
-                            } label: {}
-                        } label: {
-                            HStack{
-                                Text(type.name)
-                                    .font(.caption)
-                                Image(systemName: "chevron.down")
-                                    .font(.caption)
-                            }
-                        }
-                        .padding(.vertical,5)
-                        .padding(.horizontal)
-                            .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo))
-                            .padding(.leading)
-                            .padding(.vertical,5)
-                        Menu {
-                            Picker(selection: $order) {
-                                ForEach(OrderFilter.allCases,id:\.self){ order in
-                                    Text(order.name)
-                                }
-                            } label: {}
-                        } label: {
-                            HStack{
-                                Text(order.name)
-                                    .font(.caption)
-                                Image(systemName: "chevron.down")
-                                    .font(.caption)
-                            }
-                        }
-                        .padding(.vertical,5)
-                        .padding(.horizontal)
-                            .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo))
-                            .padding(.vertical,5)
-                        Menu {
-                            Picker(selection: $sort) {
-                                ForEach(SortFilter.allCases,id:\.self){ sort in
-                                    Text(sort.name)
-                                }
-                            } label: {}
-                        } label: {
-                            HStack{
-                                Text(sort.name)
-                                    .font(.caption)
-                                Image(systemName: "chevron.down")
-                                    .font(.caption)
-                            }
-                        }
-                        .padding(.vertical,5)
-                        .padding(.horizontal)
-                            .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo))
-                            .padding(.vertical,5)
-                    }
-                }
-                
-            }
+            
             
             
             category

@@ -17,12 +17,12 @@ class CommunityViewModel:ObservableObject{
     @Published var communityListResponse:CommunityDetails? = nil
     @Published var communityDetail:CommunityDetailsResponse? = nil
     
+    
+    
     var success = PassthroughSubject<(),Never>()
     var tokenExpired = PassthroughSubject<String,Never>()
     var cancelable = Set<AnyCancellable>()
-    var cancellable = Set<AnyCancellable>()
-    
-    
+
     
     func writeCommunity(contentsId:Int,title:String,content:String,category:Int,spoiler:Bool){
         CommunityApiService.writeCommunity(contentsId: contentsId, title: title, content: content, category: category, spoiler: spoiler)
@@ -70,6 +70,7 @@ class CommunityViewModel:ObservableObject{
                 case 200...300:
                     self?.communityListResponse = response.data
                     guard let list = response.data?.postingDetailsResponseList else {return}
+                    print(list)
                     self?.communityList.append(contentsOf: list)
                 case 401:
                     AuthApiService.getToken()

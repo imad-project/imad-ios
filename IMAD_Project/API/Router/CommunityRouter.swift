@@ -27,7 +27,7 @@ enum CommunityRouter:URLRequestConvertible{
         case .readListAll:
             return "/api/posting/list"
         case .readListConditionsAll:
-            return "/api/posting/list"
+            return "/api/posting/list/search"
         case let .readPosting(postingId):
             return "/api/posting/\(postingId)"
         case let .like(postingId,_):
