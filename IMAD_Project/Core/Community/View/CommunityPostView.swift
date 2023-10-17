@@ -13,7 +13,6 @@ struct CommunityPostView: View {
     let postingId:Int
     @State var like = 0
     @State var reviewText = ""
-    @State var anima = false
     @State var seeMore = false
     
     @StateObject var vm = CommunityViewModel()
@@ -67,9 +66,6 @@ struct CommunityPostView: View {
         }
         .onAppear{
             vm.readDetailCommunity(postingId: postingId)
-            withAnimation(.linear(duration: 0.5)){
-                anima = true
-            }
         }
         .onTapGesture {
             UIApplication.shared.endEditing()
@@ -83,7 +79,6 @@ struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
         CommunityPostView(postingId: 1)
             .environmentObject(AuthViewModel())
-            .environmentObject(CommunityViewModel())
     }
 }
 
@@ -213,49 +208,8 @@ extension CommunityPostView{
         } .padding(.horizontal)
     }
     var comment:some View{
-        ForEach(CustomData.instance.userReiveList,id:\.self){ item in
-            
-            HStack(alignment: .top){
-                if item.nickName != "todoriki"{
-                    //                                    KFImage(URL(string: item.image))
-                    //                                        .resizable()
-                    //                                        .frame(width: 50, height: 50)
-                    //                                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                    //                                        .shadow(radius: 10)
-                    //                                        .padding(.trailing,7)
-                }
-                VStack(alignment: item.nickName == "todoriki" ? .trailing: .leading){
-                    Text(item.nickName)
-                        .font(.caption)
-                        .offset(x:item.nickName == "todoriki" ? 5 :-5)
-                        .bold()
-                    Text(item.comment)
-                        .padding(10)
-                        .background(item.nickName == "todoriki" ? Color.whiteYellow : Color.customIndigo)
-                        .foregroundColor(item.nickName == "todoriki" ? .black:.white)
-                        .cornerRadius(10)
-                        .shadow(radius: 10)
-                    
-                    HStack{
-                        Image(systemName: "hand.thumbsup")
-                        //                                        Text("\(CustomData.instance.community.like)")
-                        Image(systemName: "hand.thumbsdown")
-                        //                                        Text("\(CustomData.instance.community.hate)")
-                        Text("·  5분전")
-                    }.font(.caption)
-                }
-                if item.nickName == "todoriki"{
-                    //                                    KFImage(URL(string: item.image))
-                    //                                        .resizable()
-                    //                                        .frame(width: 50, height: 50)
-                    //                                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                    //                                        .shadow(radius: 10)
-                    //                                        .padding(.leading,7)
-                }
-            }
-            .frame(maxWidth:.infinity,alignment:item.nickName == "todoriki" ? .trailing:.leading)
-            .padding(.horizontal)
-            .padding(.vertical,10)
+        ForEach(vm.communityDetail?.commentDetailsResponseList ?? [],id: \.self){ comment in
+            CommentRowView(comment: comment)
         }
     }
 }

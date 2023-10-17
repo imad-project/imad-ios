@@ -9,7 +9,7 @@ import Foundation
 
 struct CommunityInfoResponse: Codable {
     let status: Int
-    let data: CommunityDetailsResponse
+    let data: CommunityDetailsResponse?
     let message: String
 }
 struct CommunityDetailsResponse:Codable{
@@ -23,7 +23,7 @@ struct CommunityDetailsResponse:Codable{
     let likeStatus: Int
     let createdAt, modifiedAt: String
     let commentCnt: Int
-    let commentDetailsResponseList: [Int]
+    let commentDetailsResponseList: [CommentResponse]
     let spoiler: Bool
     
     enum CodingKeys: String, CodingKey {

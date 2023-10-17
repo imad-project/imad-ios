@@ -54,6 +54,8 @@
 		8154B1DF2ADCE64E00AD2F83 /* CommunityList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1DE2ADCE64E00AD2F83 /* CommunityList.swift */; };
 		8154B1E12ADD10DA00AD2F83 /* SearchTypeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E02ADD10DA00AD2F83 /* SearchTypeFilter.swift */; };
 		8154B1E32ADE1CE600AD2F83 /* CommunityInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E22ADE1CE600AD2F83 /* CommunityInfoResponse.swift */; };
+		8154B1E62ADE2F6600AD2F83 /* CommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E52ADE2F6600AD2F83 /* CommentResponse.swift */; };
+		8154B1E82ADE328400AD2F83 /* CommentRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E72ADE328400AD2F83 /* CommentRowView.swift */; };
 		815809912ACEB4EF00B5E07D /* MyBookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */; };
 		817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860112A2992D6004639F6 /* ContriesFilter.swift */; };
 		817860152A29A6C3004639F6 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860142A29A6C3004639F6 /* WorkView.swift */; };
@@ -206,6 +208,8 @@
 		8154B1DE2ADCE64E00AD2F83 /* CommunityList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityList.swift; sourceTree = "<group>"; };
 		8154B1E02ADD10DA00AD2F83 /* SearchTypeFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTypeFilter.swift; sourceTree = "<group>"; };
 		8154B1E22ADE1CE600AD2F83 /* CommunityInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityInfoResponse.swift; sourceTree = "<group>"; };
+		8154B1E52ADE2F6600AD2F83 /* CommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentResponse.swift; sourceTree = "<group>"; };
+		8154B1E72ADE328400AD2F83 /* CommentRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRowView.swift; sourceTree = "<group>"; };
 		815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookmarkListView.swift; sourceTree = "<group>"; };
 		817860112A2992D6004639F6 /* ContriesFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContriesFilter.swift; sourceTree = "<group>"; };
 		817860142A29A6C3004639F6 /* WorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
@@ -490,6 +494,7 @@
 				812CDE9F29DEAA850003B993 /* CommunityListRowView.swift */,
 				811DA16C29E978DB00482A6A /* CommunityPostView.swift */,
 				817860202A29ECA7004639F6 /* CommunityWriteView.swift */,
+				8154B1E72ADE328400AD2F83 /* CommentRowView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -537,12 +542,21 @@
 		8154B1D52ADA5FDA00AD2F83 /* Community */ = {
 			isa = PBXGroup;
 			children = (
+				8154B1E42ADE2F4900AD2F83 /* Comment */,
 				8154B1D62ADA601B00AD2F83 /* CommunityResponse.swift */,
 				8154B1D82ADA60D800AD2F83 /* CommunityDataResponse.swift */,
 				8154B1DE2ADCE64E00AD2F83 /* CommunityList.swift */,
 				8154B1E22ADE1CE600AD2F83 /* CommunityInfoResponse.swift */,
 			);
 			path = Community;
+			sourceTree = "<group>";
+		};
+		8154B1E42ADE2F4900AD2F83 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				8154B1E52ADE2F6600AD2F83 /* CommentResponse.swift */,
+			);
+			path = Comment;
 			sourceTree = "<group>";
 		};
 		817860132A29A6B0004639F6 /* Work */ = {
@@ -1114,9 +1128,11 @@
 				817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */,
 				815809912ACEB4EF00B5E07D /* MyBookmarkListView.swift in Sources */,
 				81D1212F2A2739F2003F3780 /* ExploreView.swift in Sources */,
+				8154B1E82ADE328400AD2F83 /* CommentRowView.swift in Sources */,
 				81C1EB7D2AB3581E00FB265D /* ReviewView.swift in Sources */,
 				812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */,
 				819AA9EB2ACD3C430048CF7B /* BookmarkResponse.swift in Sources */,
+				8154B1E62ADE2F6600AD2F83 /* CommentResponse.swift in Sources */,
 				81BB11102A061E42005654AA /* Token.swift in Sources */,
 				81C264902A135F8900405B01 /* AuthWebView.swift in Sources */,
 				81C1EB832AB4332600FB265D /* SortFilter.swift in Sources */,
