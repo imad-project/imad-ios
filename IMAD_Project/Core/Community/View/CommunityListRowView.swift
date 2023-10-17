@@ -70,7 +70,7 @@ struct CommunityListRowView: View {
                             .overlay {
                                 HStack{
                                     Image(systemName: "message")
-//                                    Text("\(community.reply)")
+                                    Text("\(community.commentCnt)")
                                 }
                             }
                         

@@ -46,6 +46,7 @@ struct CommuityDetailsResponseList: Codable,Hashable {
     let title: String
     let category, viewCnt, likeCnt, dislikeCnt: Int
     let likeStatus: Int
+    let commentCnt:Int
     let createdAt, modifiedAt: String
     let spoiler: Bool
     
@@ -65,6 +66,7 @@ struct CommuityDetailsResponseList: Codable,Hashable {
         case createdAt = "created_at"
         case modifiedAt = "modified_at"
         case spoiler
+        case commentCnt = "comment_cnt"
     }
 }
 
