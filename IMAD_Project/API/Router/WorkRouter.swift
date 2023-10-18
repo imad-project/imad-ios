@@ -11,6 +11,7 @@ import Alamofire
 enum WorkRouter:URLRequestConvertible{
     case workSearch(query:String,type:String,page:Int)
     case workInfo(id:Int,type:String)
+    case workDetailInfo(contentsId:Int)
     case bookmarkRead(page:Int)
     case bookmarkCreate(id:Int)
     case bookmarkDelete(id:Int)
@@ -25,6 +26,8 @@ enum WorkRouter:URLRequestConvertible{
             return "/api/contents/search"
         case .workInfo:
             return "/api/contents/details"
+        case let .workDetailInfo(contentsId):
+            return "/api/contents/\(contentsId)"
         case .bookmarkRead:
             return "/api/profile/bookmark/list"
         case .bookmarkCreate:
@@ -35,7 +38,7 @@ enum WorkRouter:URLRequestConvertible{
     }
     var method:HTTPMethod{
         switch self{
-        case .workSearch,.workInfo,.bookmarkRead:
+        case .workSearch,.workInfo,.bookmarkRead,.workDetailInfo:
             return .get
         case .bookmarkCreate:
             return .post
@@ -46,7 +49,6 @@ enum WorkRouter:URLRequestConvertible{
     }
     var parameters:Parameters{
         switch self{
-            
         case let .workSearch(query,type,page):
             var params = Parameters()
             params["query"] = query
@@ -66,7 +68,7 @@ enum WorkRouter:URLRequestConvertible{
             var params = Parameters()
             params["page"] = page
             return params
-                case .bookmarkDelete:
+        case .bookmarkDelete,.workDetailInfo:
             return Parameters()
         }
     }
@@ -77,7 +79,7 @@ enum WorkRouter:URLRequestConvertible{
         request.method = method
         
         switch self{
-        case .workSearch, .workInfo,.bookmarkRead,.bookmarkDelete:
+        case .workSearch, .workInfo,.bookmarkRead,.bookmarkDelete,.workDetailInfo:
             let encoding = URLEncoding(destination: .queryString)
             return try encoding.encode(request, with: parameters)
         case  .bookmarkCreate:

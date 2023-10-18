@@ -366,7 +366,7 @@ extension ProfileView{
                 LazyVGrid(columns: genreColumns) {
                     ForEach(vmWork.myBookmarkList.prefix(6),id:\.self){ item in
                         NavigationLink {
-                            WorkView(id: item.contentsTmdbId, type: item.contentsType == "MOVIE" ? "movie" : "tv")
+                            WorkView(contentsId: item.contentsID)
                                 .environmentObject(vmAuth)
                         } label: {
                             VStack{

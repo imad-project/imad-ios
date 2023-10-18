@@ -10,8 +10,10 @@ import Kingfisher
 
 struct WorkView: View {
     
-    let id:Int
-    let type:String
+    var id:Int?
+    var type:String?
+    var contentsId:Int?
+    
     @State var tokenExpired = (false,"")
     @State var width:Bool = false
     @State var anima = false
@@ -45,7 +47,7 @@ struct WorkView: View {
                     collection
                     VStack{
                         if let work = vm.workInfo{
-                            WorkInfoView(work: work, type: type)
+                            WorkInfoView(work: work, type: type ?? "")
                         }
                         reviewList
                     }
@@ -62,16 +64,19 @@ struct WorkView: View {
                 }
                 header
             }
-            
         }
-        
         .foregroundColor(.white)
         .onAppear {
-            vm.getWorkInfo(id: id, type: type)
             vmAuth.getUser()
             vm.getBookmark(page: vm.page)
             withAnimation(.linear(duration: 0.5)){
                 anima = true
+            }
+            if let contentsId{
+                vm.getWorkInfo(contentsId: contentsId)
+            }else{
+                guard let id,let type else {return}
+                vm.getWorkInfo(id: id, type: type)
             }
         }
         .onReceive(vm.success){

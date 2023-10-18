@@ -21,6 +21,16 @@ class WorkViewModel:ObservableObject{
     var success = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
     
+    func getWorkInfo(contentsId:Int){
+        WorkApiService.workInfo(contentsId:contentsId)
+            .sink { comp in
+                print(comp)
+                self.success.send()
+            } receiveValue: { [weak self] work in
+                self?.workInfo = work.data
+            }.store(in: &cancelable)
+
+    }
     func getWorkInfo(id:Int,type:String){
         WorkApiService.workInfo(id: id, type: type)
             .sink { comp in

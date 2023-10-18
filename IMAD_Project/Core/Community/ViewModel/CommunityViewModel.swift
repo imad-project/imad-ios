@@ -84,6 +84,7 @@ class CommunityViewModel:ObservableObject{
         CommunityApiService.readPosting(postingId: postingId)
             .sink { comp in
                 print(comp)
+                self.success.send()
             } receiveValue: { [weak self] response in
                 switch response.status{
                 case 200...300:
@@ -99,12 +100,9 @@ class CommunityViewModel:ObservableObject{
     func like(postingId:Int,status:Int){
         CommunityApiService.postingLike(postingId: postingId, status: status)
             .sink { comp in
-                self.readDetailCommunity(postingId: postingId)    //좋아요/싫어요를 적용하기 위함
                 print(comp)
             } receiveValue: { [weak self] response in
                 switch response.status{
-                case 200...300:
-                    self?.success.send()
                 case 401:
                     AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
