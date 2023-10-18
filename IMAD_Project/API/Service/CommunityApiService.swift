@@ -73,4 +73,16 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func modifyCommunity(postingId:Int,title:String,content:String,category:Int,spoiler:Bool) -> AnyPublisher<CommunityResponse,AFError>{
+        print("게시물수정 api호출")
+        return ApiClient.shared.session
+            .request(CommunityRouter.modify(postingId: postingId, title: title, content: content, category: category, spoiler: spoiler),interceptor: intercept)
+            .publishDecodable(type: CommunityResponse.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }

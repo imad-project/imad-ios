@@ -14,6 +14,8 @@ struct CommunityPostView: View {
     @State var like = 0
     @State var reviewText = ""
     @State var seeMore = false
+    @State var menu = false
+    @State var modify = false
     
     @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -68,35 +70,67 @@ struct CommunityPostView: View {
             vm.readDetailCommunity(postingId: postingId)
         }
         .onReceive(vm.success) {
-            
             like = vm.communityDetail?.likeStatus ?? 0
         }
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
+        .confirmationDialog("일정 수정", isPresented: $menu, actions: {
+            Button(role:.none){
+                modify = true
+            } label: {
+                Text("수정하기")
+            }
+            Button(role:.destructive){
+                
+            } label: {
+                Text("삭제하기")
+            }
+        },message: {
+            Text("게시물을 수정하거나 삭제하시겠습니까?")
+        })
         .navigationBarBackButtonHidden(true)
-        
+        .navigationDestination(isPresented: $modify) {
+            if let community = vm.communityDetail{
+                CommunityWriteView(contentsId: community.contentsID, postingId: vm.communityDetail?.postingID ?? 0, image: community.contentsPosterPath.getImadImage(),category:CommunityFilter.allCases.first(where: {$0.num == community.category})!, spoiler: community.spoiler, text:community.content, title: community.title)
+                    .navigationBarBackButtonHidden()
+            }
+        }
     }
 }
 
 struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityPostView(postingId: 1)
-            .environmentObject(AuthViewModel())
+        NavigationStack{
+            CommunityPostView(postingId: 1)
+                .environmentObject(AuthViewModel())
+        }
     }
 }
 
 extension CommunityPostView{
     var header:some View{
         ZStack{
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "chevron.left")
-                    .bold()
-                    .frame(maxWidth: .infinity,alignment: .leading)
-                    .padding()
+            HStack{
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .bold()
+                        .padding()
+                }
+                Spacer()
+                if let userName = vmAuth.getUserRes?.data?.nickname,userName == vm.communityDetail?.userNickname{
+                    Button {
+                        menu.toggle()
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .bold()
+                            .padding()
+                    }
+                }
             }
+            
             HStack{
                 Image(ProfileFilter.allCases.first(where: {$0.num == vm.communityDetail?.userProfileImage ?? 1})!.rawValue)
                     .resizable()

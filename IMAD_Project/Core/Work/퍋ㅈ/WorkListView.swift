@@ -45,7 +45,7 @@ struct WorkListView: View {
                             ForEach(vm.work){ result in
                                 NavigationLink {
                                     if postingMode{
-                                        CommunityWriteView(contentsId: result.id, image: result.posterPath?.getImadImage() ?? "")
+                                        CommunityWriteView(id: result.id,type:result.mediaType ,image: result.posterPath?.getImadImage() ?? "")
                                             .navigationBarBackButtonHidden()
                                     }else{
                                         WorkView(id:result.id,type:result.mediaType ?? "")

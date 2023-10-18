@@ -9,7 +9,10 @@ import SwiftUI
 import Kingfisher
 
 struct CommunityWriteView: View {
-    let contentsId:Int
+    var id:Int?
+    var type:String?
+    @State var contentsId:Int?
+    var postingId:Int?
     let image:String
     
     @State var loading = false
@@ -21,6 +24,7 @@ struct CommunityWriteView: View {
     
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = CommunityViewModel()
+    @StateObject var vmWork = WorkViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -136,7 +140,12 @@ struct CommunityWriteView: View {
                 }
                 if text != "" && title != ""{
                     Button {
-                        vm.writeCommunity(contentsId: contentsId, title: title, content: text, category: category.num, spoiler: spoiler)
+                        if let postingId{
+                            vm.modifyCommunity(postingId: postingId, title: title, content: text, category: category.num, spoiler: spoiler)
+                        }
+                        else if let contentsId{
+                            vm.writeCommunity(contentsId: contentsId, title: title, content: text, category: category.num, spoiler: spoiler)
+                        }
                         loading = true
                     } label: {
                         Text("완료")
@@ -158,7 +167,10 @@ struct CommunityWriteView: View {
                 CustomProgressView()
             }
         }
-        
+        .onAppear{
+            guard let id,let type else {return}
+            vmWork.getWorkInfo(id: id, type: type)
+        }
         .foregroundColor(.white)
         .onReceive(vm.tokenExpired) { messages in
             tokenExpired = (true,messages)
@@ -170,6 +182,9 @@ struct CommunityWriteView: View {
         }
         .onReceive(vm.success) {
             dismiss()
+        }
+        .onReceive(vmWork.contentsIdSuccess) { contentsId in
+            self.contentsId = contentsId
         }
         
     }
