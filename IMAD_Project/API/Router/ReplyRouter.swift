@@ -11,6 +11,7 @@ import Alamofire
 enum ReplyRouter:URLRequestConvertible{
     case addReply(postingId:Int,parentId:Int?,content:String)
     case modifyReply(commentId:Int,content:String)
+    case deleteReply(commentId:Int)
     
     
     var baseUrl:URL{
@@ -23,6 +24,8 @@ enum ReplyRouter:URLRequestConvertible{
             return "/api/posting/comment"
         case let .modifyReply(commentId,_):
             return "/api/posting/comment/\(commentId)"
+        case let .deleteReply(commentId):
+            return "/api/posting/comment/\(commentId)"
         }
     }
     
@@ -32,6 +35,8 @@ enum ReplyRouter:URLRequestConvertible{
             return .post
         case .modifyReply:
             return .patch
+        case .deleteReply:
+            return .delete
         }
     }
     var parameters:Parameters{
@@ -46,6 +51,8 @@ enum ReplyRouter:URLRequestConvertible{
             var params = Parameters()
             params["content"] = content
             return params
+        case .deleteReply:
+            return Parameters()
         }
     }
     

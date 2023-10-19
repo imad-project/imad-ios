@@ -12,7 +12,8 @@ struct CommentResponse: Codable,Hashable {
     let userNickname: String
     let userProfileImage: Int
     let parentID: Int?
-    let content, createdAt, modifiedAt: String
+    let content:String?
+    let createdAt, modifiedAt: String
     let removed: Bool
 
     enum CodingKeys: String, CodingKey {

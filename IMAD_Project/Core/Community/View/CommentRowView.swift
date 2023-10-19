@@ -21,6 +21,7 @@ struct CommentRowView: View {
     @State var input = false
     @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack{
@@ -72,7 +73,7 @@ struct CommentRowView: View {
                     }
                     .padding(.bottom,5)
                 }else{
-                    Text(comment.content)
+                    Text(comment.content ?? "")
                 }
             }
             .padding(.leading).font(.footnote)
@@ -82,13 +83,13 @@ struct CommentRowView: View {
             .padding(.vertical,3)
             .overlay(alignment: .trailing){
                 HStack{
-//                    if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
+                    if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
                         Button {
                             withAnimation(.spring()){
                                 statingOffsetY = 0
                                 focus = true
                                 input = true
-                                text = comment.content
+                                text = comment.content ?? ""
                             }
                             
                         } label: {
@@ -109,7 +110,7 @@ struct CommentRowView: View {
                         }
                         .offset(x:200)
                         Button {
-                            
+                            vm.deleteyReply(commentId: comment.commentID)
                         } label: {
                             VStack{
                                 Image(systemName: "trash")
@@ -128,22 +129,22 @@ struct CommentRowView: View {
                         }
                         .offset(x:195)
                         
-//                    }else {
-//                        VStack{
-//                            Image(systemName: "exclamationmark.square")
-//                                .font(.title3)
-//                            Text("신고")
-//
-//                        }
-//                        .padding(15)
-//                        .padding(.horizontal,10)
-//                        .font(.caption)
-//                        .bold()
-//                        .background(Color.yellow)
-//                        .foregroundColor(.white)
-//                        .cornerRadius(10)
-//                        .offset(x:90)
-//                    }
+                    }else {
+                        VStack{
+                            Image(systemName: "exclamationmark.square")
+                                .font(.title3)
+                            Text("신고")
+
+                        }
+                        .padding(15)
+                        .padding(.horizontal,10)
+                        .font(.caption)
+                        .bold()
+                        .background(Color.yellow)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .offset(x:90)
+                    }
                     
                 }
             }
@@ -160,21 +161,21 @@ struct CommentRowView: View {
                     }
                     .onEnded{ value in
                         withAnimation(.spring()){
-//                            if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
+                            if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
                                 if currentDragOffstY < -100{
                                     statingOffsetY = -200
                                 }else if currentDragOffstY > 100{
                                     statingOffsetY = 0
                                 }
                                 currentDragOffstY = 0
-//                            }else{
-//                                if currentDragOffstY < -50{
-//                                    statingOffsetY = -100
-//                                }else if currentDragOffstY > 50{
-//                                    statingOffsetY = 0
-//                                }
-//                                currentDragOffstY = 0
-//                            }
+                            }else{
+                                if currentDragOffstY < -50{
+                                    statingOffsetY = -100
+                                }else if currentDragOffstY > 50{
+                                    statingOffsetY = 0
+                                }
+                                currentDragOffstY = 0
+                            }
                             
                         }
                     }

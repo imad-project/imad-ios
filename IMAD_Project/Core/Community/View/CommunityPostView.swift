@@ -157,7 +157,7 @@ extension CommunityPostView{
                         .cornerRadius(20)
                         .shadow(radius: 10)
                     VStack(alignment: .leading,spacing: 5){
-                        Text("#" + (vm.communityDetail?.contentsTitle ?? "dddd"))
+                        Text("#" + (vm.communityDetail?.contentsTitle ?? ""))
                             .font(.footnote)
                         HStack{
                             Text(CommunityFilter.allCases.first(where:{$0.num == vm.communityDetail?.category ?? 1})!.name).font(.caption2)
@@ -171,16 +171,16 @@ extension CommunityPostView{
                                 .padding(.horizontal)
                                 .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1))
                         }
-                        Text(vm.communityDetail?.title ?? "dddd")
+                        Text(vm.communityDetail?.title ?? "")
                             .bold()
                         
                     }.padding([.leading,.bottom])
                     Spacer()
-                    Text(vm.communityDetail?.modifiedAt.relativeTime() ?? "dd").font(.caption).foregroundColor(.gray)
+                    Text(vm.communityDetail?.modifiedAt.relativeTime() ?? "").font(.caption).foregroundColor(.gray)
                     
                 }
                 .padding(.horizontal)
-                Text(vm.communityDetail?.content ?? "asdasd")
+                Text(vm.communityDetail?.content ?? "")
                     .padding(.horizontal)
                 collection
             }.padding(.top)
@@ -251,8 +251,10 @@ extension CommunityPostView{
     }
     var comment:some View{
         ForEach(vm.communityDetail?.commentDetailsResponseList ?? [],id: \.self){ comment in
-            CommentRowView(comment: comment)
-                .environmentObject(vmAuth)
+            if !comment.removed{
+                CommentRowView(comment: comment)
+                    .environmentObject(vmAuth)
+            }
         }
     }
 }

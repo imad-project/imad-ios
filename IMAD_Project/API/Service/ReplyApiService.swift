@@ -36,4 +36,16 @@ class ReplyApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func deleteReply(commentId:Int) -> AnyPublisher<AddCommentResponse,AFError>{
+        print("댓글 삭제 api호출")
+        return ApiClient.shared.session
+            .request(ReplyRouter.deleteReply(commentId: commentId),interceptor: intercept)
+            .publishDecodable(type: AddCommentResponse.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }
