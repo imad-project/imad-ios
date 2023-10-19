@@ -252,6 +252,7 @@ extension CommunityPostView{
     var comment:some View{
         ForEach(vm.communityDetail?.commentDetailsResponseList ?? [],id: \.self){ comment in
             CommentRowView(comment: comment)
+                .environmentObject(vmAuth)
         }
     }
 }
