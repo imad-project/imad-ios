@@ -1,0 +1,49 @@
+//
+//  ReplyRouter.swift
+//  IMAD_Project
+//
+//  Created by 유영웅 on 2023/10/19.
+//
+
+import Foundation
+import Alamofire
+
+enum ReplyRouter:URLRequestConvertible{
+    case addReply(postingId:Int,parentId:Int?,content:String)
+    
+    var baseUrl:URL{
+        return URL(string: ApiClient.baseURL)!
+    }
+    
+    var endPoint:String{
+        switch self{
+        case .addReply:
+            return "/api/posting/comment"
+        }
+    }
+    
+    var method:HTTPMethod{
+        switch self{
+        case .addReply:
+            return .post
+        }
+    }
+    var parameters:Parameters{
+        switch self{
+        case let .addReply(postingId, parentId, content):
+            var params = Parameters()
+            params["posting_id"] = postingId
+            params["parent_id"] = parentId
+            params["content"] = content
+            return params
+        }
+    }
+    
+    func asURLRequest() throws -> URLRequest {
+        let url = baseUrl.appendingPathComponent(endPoint)  //url 설정
+        var request = URLRequest(url: url)
+        request.method = method
+        return try JSONEncoding.default.encode(request, with: parameters)
+        
+    }
+}

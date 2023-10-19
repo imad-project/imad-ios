@@ -146,4 +146,20 @@ class CommunityViewModel:ObservableObject{
                 }
             }.store(in: &cancelable)
     }
+    func addReply(postingId:Int,parentId:Int?,content:String){
+        ReplyApiService.addReply(postingId: postingId, parentId: parentId, content: content)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { [weak self] response in
+                switch response.status{
+//                case 200...300:
+//                    self.communityDetail?.commentDetailsResponseList.append(d)
+                case 401:
+                    AuthApiService.getToken()
+                    self?.tokenExpired.send(response.message)
+                default:
+                    break
+                }
+            }.store(in: &cancelable)
+    }
 }

@@ -49,7 +49,7 @@ struct CommunityPostView: View {
                             
                         }
                     Button {
-                        
+                        vm.addReply(postingId: postingId, parentId: nil, content: reviewText)
                     } label: {
                         Text("전송")
                             .foregroundColor(.customIndigo)

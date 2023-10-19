@@ -57,6 +57,9 @@
 		8154B1E62ADE2F6600AD2F83 /* CommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E52ADE2F6600AD2F83 /* CommentResponse.swift */; };
 		8154B1E82ADE328400AD2F83 /* CommentRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E72ADE328400AD2F83 /* CommentRowView.swift */; };
 		8154B1EA2ADE78A500AD2F83 /* CommunitySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E92ADE78A500AD2F83 /* CommunitySearchView.swift */; };
+		8154B1EC2AE0DA7000AD2F83 /* ReplyRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EB2AE0DA7000AD2F83 /* ReplyRouter.swift */; };
+		8154B1EE2AE0DB9800AD2F83 /* ReplyApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1ED2AE0DB9800AD2F83 /* ReplyApiService.swift */; };
+		8154B1F02AE0DC4300AD2F83 /* AddCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EF2AE0DC4300AD2F83 /* AddCommentResponse.swift */; };
 		815809912ACEB4EF00B5E07D /* MyBookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */; };
 		817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860112A2992D6004639F6 /* ContriesFilter.swift */; };
 		817860152A29A6C3004639F6 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860142A29A6C3004639F6 /* WorkView.swift */; };
@@ -212,6 +215,9 @@
 		8154B1E52ADE2F6600AD2F83 /* CommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentResponse.swift; sourceTree = "<group>"; };
 		8154B1E72ADE328400AD2F83 /* CommentRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRowView.swift; sourceTree = "<group>"; };
 		8154B1E92ADE78A500AD2F83 /* CommunitySearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitySearchView.swift; sourceTree = "<group>"; };
+		8154B1EB2AE0DA7000AD2F83 /* ReplyRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyRouter.swift; sourceTree = "<group>"; };
+		8154B1ED2AE0DB9800AD2F83 /* ReplyApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyApiService.swift; sourceTree = "<group>"; };
+		8154B1EF2AE0DC4300AD2F83 /* AddCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentResponse.swift; sourceTree = "<group>"; };
 		815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookmarkListView.swift; sourceTree = "<group>"; };
 		817860112A2992D6004639F6 /* ContriesFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContriesFilter.swift; sourceTree = "<group>"; };
 		817860142A29A6C3004639F6 /* WorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
@@ -558,6 +564,7 @@
 			isa = PBXGroup;
 			children = (
 				8154B1E52ADE2F6600AD2F83 /* CommentResponse.swift */,
+				8154B1EF2AE0DC4300AD2F83 /* AddCommentResponse.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -730,6 +737,7 @@
 				8115A6442A83940800B7C3FE /* WorkRouter.swift */,
 				81F2592A2AB0656B00C54668 /* ReviewRouter.swift */,
 				8154B1D12ADA5BDD00AD2F83 /* CommunityRouter.swift */,
+				8154B1EB2AE0DA7000AD2F83 /* ReplyRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -743,6 +751,7 @@
 				8115A6462A8395C500B7C3FE /* WorkApiService.swift */,
 				81F2592E2AB073BB00C54668 /* ReviewApiService.swift */,
 				8154B1D32ADA5DA400AD2F83 /* CommunityApiService.swift */,
+				8154B1ED2AE0DB9800AD2F83 /* ReplyApiService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1055,6 +1064,7 @@
 				8115A6472A8395C500B7C3FE /* WorkApiService.swift in Sources */,
 				817B60D42A237436000099A9 /* Validation.swift in Sources */,
 				819D499E2A933A5C008B7BFE /* Network.swift in Sources */,
+				8154B1EE2AE0DB9800AD2F83 /* ReplyApiService.swift in Sources */,
 				81F2593B2AB09FA200C54668 /* DeleteReview.swift in Sources */,
 				8115A6432A8391BE00B7C3FE /* WorkResults.swift in Sources */,
 				81BB11042A061457005654AA /* ApiClient.swift in Sources */,
@@ -1088,6 +1098,7 @@
 				81BB11062A0614D1005654AA /* ApiLogger.swift in Sources */,
 				818CF7FE2A21B7E000BABA1F /* RegisterFilter.swift in Sources */,
 				817B60CD2A236F00000099A9 /* CheckRouter.swift in Sources */,
+				8154B1F02AE0DC4300AD2F83 /* AddCommentResponse.swift in Sources */,
 				818CF7EF2A20764C00BABA1F /* OnBoardingView.swift in Sources */,
 				81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */,
 				8103094329D1BDEF0021717B /* ContentView.swift in Sources */,
@@ -1117,6 +1128,7 @@
 				8154B1EA2ADE78A500AD2F83 /* CommunitySearchView.swift in Sources */,
 				81F2592F2AB073BB00C54668 /* ReviewApiService.swift in Sources */,
 				81DB1FB929E549C5002C0840 /* RoundShape.swift in Sources */,
+				8154B1EC2AE0DA7000AD2F83 /* ReplyRouter.swift in Sources */,
 				81E2F8AA2A8F4FDD003E53DC /* CertificationFilter.swift in Sources */,
 				8115A6582A8A166200B7C3FE /* TVGenreFilter.swift in Sources */,
 				81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */,

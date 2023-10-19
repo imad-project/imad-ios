@@ -27,7 +27,8 @@ struct CommentRowView: View {
             .padding(.bottom,10)
             Text(comment.content).padding(.leading).font(.footnote)
             Divider()
-        }.padding()
+        }.padding(.horizontal)
+            .padding(.vertical,3)
         
     }
 }
