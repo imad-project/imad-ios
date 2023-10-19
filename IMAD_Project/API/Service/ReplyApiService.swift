@@ -24,4 +24,16 @@ class ReplyApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func modifyReply(commentId:Int,content:String) -> AnyPublisher<AddCommentResponse,AFError>{
+        print("댓글 수정 api호출")
+        return ApiClient.shared.session
+            .request(ReplyRouter.modifyReply(commentId: commentId, content: content),interceptor: intercept)
+            .publishDecodable(type: AddCommentResponse.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }

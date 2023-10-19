@@ -8,10 +8,18 @@
 import SwiftUI
 
 struct CommentRowView: View {
+    
+    let comment:CommentResponse
     @State var statingOffsetY:CGFloat = 0
     @State var currentDragOffstY:CGFloat = 0
     @State var endingOffsetY:CGFloat = 0
-    let comment:CommentResponse
+    @State var modify = false
+    @State var delete = false
+    
+    @FocusState var focus:Bool
+    @State private var text = ""
+    @State var input = false
+    @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     var body: some View {
         VStack(alignment: .leading) {
@@ -28,16 +36,60 @@ struct CommentRowView: View {
                     .font(.caption)
                     .foregroundColor(.gray)
                 
+                
+                
             }
             .padding(.bottom,10)
-            Text(comment.content).padding(.leading).font(.footnote)
+            Group{
+                if input{
+                    HStack{
+                        CustomTextField(password: false, image: nil, placeholder: "댓글입력..", color: .black, text: $text)
+                            .focused($focus)
+                        Button {
+                            if text.isEmpty{
+                                input = false
+                            }else{
+                                vm.modifyReply(commentId: comment.commentID, content: text)
+                            }
+                        } label: {
+                            Text("수정")
+                                .padding(.vertical,3)
+                                .padding(.horizontal)
+                                .foregroundColor(.white)
+                                .background(Color.customIndigo.opacity(0.5))
+                                .cornerRadius(10)
+                        }
+                        Button {
+                            input = false
+                        } label: {
+                            Text("취소")
+                                .padding(.vertical,3)
+                                .padding(.horizontal)
+                                .foregroundColor(.white)
+                                .background(Color.customIndigo)
+                                .cornerRadius(10)
+                        }
+                    }
+                    .padding(.bottom,5)
+                }else{
+                    Text(comment.content)
+                }
+            }
+            .padding(.leading).font(.footnote)
             Divider()
+            
         }.padding(.horizontal)
             .padding(.vertical,3)
             .overlay(alignment: .trailing){
                 HStack{
 //                    if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
                         Button {
+                            withAnimation(.spring()){
+                                statingOffsetY = 0
+                                focus = true
+                                input = true
+                                text = comment.content
+                            }
                             
                         } label: {
                             VStack{
@@ -53,9 +105,9 @@ struct CommentRowView: View {
                             .foregroundColor(.white)
                             .background(Color.customIndigo.opacity(0.6))
                             .cornerRadius(10)
-                            .offset(x:200)
+                            
                         }
-
+                        .offset(x:200)
                         Button {
                             
                         } label: {
@@ -72,9 +124,9 @@ struct CommentRowView: View {
                             .background(Color.red)
                             .foregroundColor(.white)
                             .cornerRadius(10)
-                            .offset(x:195)
+                           
                         }
-
+                        .offset(x:195)
                         
 //                    }else {
 //                        VStack{
@@ -108,32 +160,38 @@ struct CommentRowView: View {
                     }
                     .onEnded{ value in
                         withAnimation(.spring()){
-                            if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
+//                            if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
                                 if currentDragOffstY < -100{
                                     statingOffsetY = -200
                                 }else if currentDragOffstY > 100{
                                     statingOffsetY = 0
                                 }
                                 currentDragOffstY = 0
-                            }else{
-                                if currentDragOffstY < -50{
-                                    statingOffsetY = -100
-                                }else if currentDragOffstY > 50{
-                                    statingOffsetY = 0
-                                }
-                                currentDragOffstY = 0
-                            }
+//                            }else{
+//                                if currentDragOffstY < -50{
+//                                    statingOffsetY = -100
+//                                }else if currentDragOffstY > 50{
+//                                    statingOffsetY = 0
+//                                }
+//                                currentDragOffstY = 0
+//                            }
                             
                         }
                     }
             )
+            .onReceive(vm.success) {
+                input = false
+            }
         
     }
 }
 
 struct CommentRowView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentRowView(comment: CustomData.instance.comment)
-            .environmentObject(AuthViewModel())
+        NavigationStack{
+            CommentRowView(comment: CustomData.instance.comment)
+                .environmentObject(AuthViewModel())
+        }
+        
     }
 }
