@@ -20,6 +20,7 @@ class CommunityViewModel:ObservableObject{
     
     
     var success = PassthroughSubject<(),Never>()
+    var deleteSuccess = PassthroughSubject<(),Never>()
     var tokenExpired = PassthroughSubject<String,Never>()
     var cancelable = Set<AnyCancellable>()
 
@@ -128,5 +129,21 @@ class CommunityViewModel:ObservableObject{
                 }
             }.store(in: &cancelable)
 
+    }
+    func deleteCommunity(postingId:Int){
+        CommunityApiService.deletePosting(postingId: postingId)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { [weak self] response in
+                switch response.status{
+                case 200...300:
+                    self?.deleteSuccess.send()
+                case 401:
+                    AuthApiService.getToken()
+                    self?.tokenExpired.send(response.message)
+                default:
+                    break
+                }
+            }.store(in: &cancelable)
     }
 }

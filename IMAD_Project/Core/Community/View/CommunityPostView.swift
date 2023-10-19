@@ -21,6 +21,7 @@ struct CommunityPostView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         ZStack(alignment: .bottom){
             Color.white.ignoresSafeArea()
@@ -82,7 +83,7 @@ struct CommunityPostView: View {
                 Text("수정하기")
             }
             Button(role:.destructive){
-                
+                vm.deleteCommunity(postingId: postingId)
             } label: {
                 Text("삭제하기")
             }
@@ -95,6 +96,9 @@ struct CommunityPostView: View {
                 CommunityWriteView(contentsId: community.contentsID, postingId: vm.communityDetail?.postingID ?? 0, image: community.contentsPosterPath.getImadImage(),category:CommunityFilter.allCases.first(where: {$0.num == community.category})!, spoiler: community.spoiler, text:community.content, title: community.title)
                     .navigationBarBackButtonHidden()
             }
+        }
+        .onReceive(vm.deleteSuccess) {
+            dismiss()
         }
     }
 }

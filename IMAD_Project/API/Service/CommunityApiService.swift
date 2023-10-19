@@ -85,4 +85,16 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func deletePosting(postingId:Int) -> AnyPublisher<DeleteReview,AFError>{
+        print("게시물 삭제 api호출")
+        return ApiClient.shared.session
+            .request(CommunityRouter.delete(postingId: postingId),interceptor: intercept)
+            .publishDecodable(type: DeleteReview.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }
