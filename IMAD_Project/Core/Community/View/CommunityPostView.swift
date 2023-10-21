@@ -50,6 +50,7 @@ struct CommunityPostView: View {
                         }
                     Button {
                         vm.addReply(postingId: postingId, parentId: nil, content: reviewText)
+                        UIApplication.shared.endEditing()
                     } label: {
                         Text("전송")
                             .foregroundColor(.customIndigo)
@@ -176,6 +177,9 @@ extension CommunityPostView{
                         
                     }.padding([.leading,.bottom])
                     Spacer()
+                    if vm.communityDetail?.modifiedAt != vm.communityDetail?.createdAt{
+                        Text("수정됨 •").foregroundColor(.gray).font(.caption)
+                    }
                     Text(vm.communityDetail?.modifiedAt.relativeTime() ?? "").font(.caption).foregroundColor(.gray)
                     
                 }
@@ -208,7 +212,18 @@ extension CommunityPostView{
                 .padding(.horizontal,7)
                 .background(Color.gray.opacity(0.3).cornerRadius(50))
                 Spacer()
-                
+                Group{
+                    HStack(spacing: 2){
+                        Image(systemName: "heart.fill")
+                            .foregroundColor(.red)
+                        Text("\(vm.communityDetail?.likeCnt ?? 0)")
+                    }
+                    HStack(spacing: 2){
+                        Image(systemName: "heart.slash.fill")
+                            .foregroundColor(.blue)
+                        Text("\(vm.communityDetail?.dislikeCnt ?? 0)")
+                    }
+                }.font(.subheadline)
             }
             VStack(alignment: .trailing){
                 Divider()
@@ -216,10 +231,15 @@ extension CommunityPostView{
                     Group{
                         Button {
                             if like < 1{
+                                vm.communityDetail?.likeCnt += 1
+                                if like < 0{
+                                    vm.communityDetail?.dislikeCnt -= 1
+                                }
                                 like = 1
                                 vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
                             }else{
                                 like = 0
+                                vm.communityDetail?.likeCnt -= 1
                                 vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
                             }
                         } label: {
@@ -229,10 +249,15 @@ extension CommunityPostView{
                         .foregroundColor(like == 1 ? .red : .gray)
                         Button {
                             if like > -1{
+                                vm.communityDetail?.dislikeCnt += 1
+                                if like > 0{
+                                    vm.communityDetail?.likeCnt -= 1
+                                }
                                 like = -1
                                 vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
                             }else{
                                 like = 0
+                                vm.communityDetail?.dislikeCnt -= 1
                                 vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
                             }
                         } label: {

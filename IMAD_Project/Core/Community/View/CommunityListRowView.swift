@@ -17,10 +17,14 @@ struct CommunityListRowView: View {
                     .resizable()
                     .frame(width: 25,height: 25)
                     .cornerRadius(10)
-                Text(community.userNickname)
-                Spacer()
-                Text(community.createdAt.relativeTime()).foregroundColor(.gray)
+                Text(community.userNickname).bold()
+                Text("·  " + community.createdAt.relativeTime()).foregroundColor(.gray)
                     .font(.caption)
+                Spacer()
+                Text("조회수 \(community.viewCnt)회")
+                    .foregroundColor(.gray)
+                    .font(.caption2)
+                
             }
             .font(.caption)
                 .padding(.bottom,5)
@@ -39,6 +43,17 @@ struct CommunityListRowView: View {
                     Text(community.title)
                         .bold()
                         .font(.subheadline)
+                    if community.spoiler{
+                        Text("스포일러")
+                            .font(.caption2)
+                            .bold()
+                            .padding(.horizontal)
+                            .foregroundColor(.white)
+                            .padding(2)
+                            .background(Color.customIndigo)
+                            .cornerRadius(5)
+                    }
+                    
                     HStack{
                         Spacer()
                         Capsule()
@@ -83,29 +98,9 @@ struct CommunityListRowView: View {
                 }
                 
             }
+            Divider()
         }
         .foregroundColor(.black)
-//        .onAppear {
-//            let downloader = ImageDownloader.default
-//            let cache = ImageCache.default
-//
-//                   cache.retrieveImage(forKey: URL(string: image)!.absoluteString) { result in
-//                       switch result {
-//                       case .success(_):
-//                           // 이미지가 캐시에 존재하면 아무 작업도 수행하지 않습니다.
-//                           return
-//                       case .failure(_):
-//                           // 이미지를 다운로드하고 캐시에 저장합니다.
-//                           downloader.downloadImage(with: URL(string: image)!) { result in
-//                               if case .success(let retrievalResult) = result {
-//                                   cache.storeToDisk(retrievalResult.originalData, forKey: URL(string: image)!.absoluteString)
-//                               }
-//                           }
-//                       }
-//                   }
-//            // 이미지 로드가 필요한 시점에 Kingfisher 캐시를 확인하고, 없으면 이미지를 다운로드합니다.
-//
-//        }
     }
 }
 

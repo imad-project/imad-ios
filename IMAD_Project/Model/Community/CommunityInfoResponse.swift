@@ -19,7 +19,8 @@ struct CommunityDetailsResponse:Codable{
     let userNickname: String
     let userProfileImage: Int
     let title, content: String
-    let category, viewCnt, likeCnt, dislikeCnt: Int
+    let category, viewCnt:Int
+    var likeCnt, dislikeCnt: Int
     let likeStatus: Int
     let createdAt, modifiedAt: String
     let commentCnt: Int
