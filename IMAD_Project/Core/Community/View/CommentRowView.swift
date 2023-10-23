@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CommentRowView: View {
     
-    let comment:CommentResponse
+    @State var comment:CommentResponse
     @State var statingOffsetY:CGFloat = 0
     @State var currentDragOffstY:CGFloat = 0
     @State var endingOffsetY:CGFloat = 0
@@ -51,6 +51,7 @@ struct CommentRowView: View {
                                 input = false
                             }else{
                                 vm.modifyReply(commentId: comment.commentID, content: text)
+                                comment.content = text
                             }
                         } label: {
                             Text("수정")
@@ -91,13 +92,11 @@ struct CommentRowView: View {
                                 input = true
                                 text = comment.content ?? ""
                             }
-                            
                         } label: {
                             VStack{
                                 Image(systemName: "square.and.pencil")
                                     .font(.title3)
                                 Text("수정")
-                                
                             }
                             .padding(15)
                             .padding(.horizontal,10)

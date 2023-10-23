@@ -88,15 +88,9 @@ struct CommunityListRowView: View {
                                     Text("\(community.commentCnt)")
                                 }
                             }
-                        
-                        
                     }.font(.caption)
                         .padding(.leading)
-                    
-                        
-                    
                 }
-                
             }
             Divider()
         }

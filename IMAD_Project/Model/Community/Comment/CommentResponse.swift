@@ -13,7 +13,7 @@ struct CommentResponse: Codable,Hashable {
     let userNickname: String
     let userProfileImage: Int
     let parentID: Int?
-    let content: String?
+    var content: String?
     var likeStatus, likeCnt, dislikeCnt: Int
     let createdAt, modifiedAt: String
     let removed: Bool
