@@ -17,6 +17,11 @@ struct CommunityPostView: View {
     @State var menu = false
     @State var modify = false
     
+    @State var parentName:String? = nil
+    @State var parentId:Int? = nil
+    
+    @FocusState var reply:Bool
+    
     @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -34,6 +39,20 @@ struct CommunityPostView: View {
             }.foregroundColor(.black)
                 .padding(.bottom,100)
             VStack{
+                if let parentName{
+                    Divider()
+                    HStack{
+                        Text(parentName).bold()
+                        Text("님에게 댓글 취소")
+                        Spacer()
+                        Button {
+                            self.parentName = nil
+                            self.parentId = nil
+                        } label: {
+                            Image(systemName: "xmark").bold()
+                        }
+                    }.font(.footnote).foregroundColor(.black).padding(.horizontal)
+                }
                 Divider()
                 HStack{
                     KFImage(URL(string: CustomData.instance.movieList.first!))
@@ -41,6 +60,7 @@ struct CommunityPostView: View {
                         .frame(width: 40, height: 40)
                         .clipShape(Circle())
                     CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
+                        .focused($reply)
                         .padding(10)
                         .background{
                             RoundedRectangle(cornerRadius: 15)
@@ -49,7 +69,7 @@ struct CommunityPostView: View {
                             
                         }
                     Button {
-                        vm.addReply(postingId: postingId, parentId: nil, content: reviewText)
+                        vm.addReply(postingId: postingId, parentId: parentId, content: reviewText)
                         reviewText = ""
                         UIApplication.shared.endEditing()
                     } label: {
@@ -101,6 +121,11 @@ struct CommunityPostView: View {
         }
         .onReceive(vm.deleteSuccess) {
             dismiss()
+        }
+        .onReceive(vm.modifyComment) { commentStatus in
+            reply = true
+            parentName = commentStatus.0
+            parentId = commentStatus.1
         }
     }
 }

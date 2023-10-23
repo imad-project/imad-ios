@@ -38,7 +38,6 @@ struct CommentRowView: View {
                     .foregroundColor(.gray)
                 
                 
-                
             }
             .padding(.bottom,10)
             Group{
@@ -75,6 +74,14 @@ struct CommentRowView: View {
                     .padding(.bottom,5)
                 }else{
                     Text(comment.content ?? "")
+                        .padding(.bottom)
+                    Button {
+                        vm.modifyComment.send((comment.userNickname,comment.commentID))
+                    } label: {
+                        Text("댓글작성").font(.caption2).foregroundColor(.gray)
+                    }
+
+                    
                 }
             }
             .padding(.leading).font(.footnote)

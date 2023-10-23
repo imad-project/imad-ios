@@ -19,11 +19,15 @@ class CommunityViewModel:ObservableObject{
     
     @Published var addedComment:CommentResponse? = nil
     
+    var modifyComment = PassthroughSubject<(String,Int),Never>()
+    
     var success = PassthroughSubject<(),Never>()
     var modifySuccess = PassthroughSubject<(),Never>()
     var deleteSuccess = PassthroughSubject<(),Never>()
     var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
     var tokenExpired = PassthroughSubject<String,Never>()
+    
+    
     var cancelable = Set<AnyCancellable>()
 
     
