@@ -19,7 +19,7 @@ struct CommentRowView: View {
     @FocusState var focus:Bool
     @State private var text = ""
     @State var input = false
-    @StateObject var vm = CommunityViewModel()
+    @EnvironmentObject var vm:CommunityViewModel
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -110,6 +110,7 @@ struct CommentRowView: View {
                         .offset(x:200)
                         Button {
                             vm.deleteyReply(commentId: comment.commentID)
+                            vm.commentDeleteSuccess.send(comment)
                         } label: {
                             VStack{
                                 Image(systemName: "trash")
@@ -179,7 +180,7 @@ struct CommentRowView: View {
                         }
                     }
             )
-            .onReceive(vm.success) {
+            .onReceive(vm.modifySuccess) {
                 input = false
             }
         
@@ -191,6 +192,7 @@ struct CommentRowView_Previews: PreviewProvider {
         NavigationStack{
             CommentRowView(comment: CustomData.instance.comment)
                 .environmentObject(AuthViewModel())
+                .environmentObject(CommunityViewModel())
         }
         
     }

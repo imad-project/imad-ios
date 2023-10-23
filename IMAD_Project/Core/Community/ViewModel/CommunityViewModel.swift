@@ -20,7 +20,9 @@ class CommunityViewModel:ObservableObject{
     @Published var addedComment:CommentResponse? = nil
     
     var success = PassthroughSubject<(),Never>()
+    var modifySuccess = PassthroughSubject<(),Never>()
     var deleteSuccess = PassthroughSubject<(),Never>()
+    var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
     var tokenExpired = PassthroughSubject<String,Never>()
     var cancelable = Set<AnyCancellable>()
 
@@ -170,7 +172,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 switch response.status{
                 case 200...300:
-                    self?.success.send()
+                    self?.modifySuccess.send()
                 case 401:
                     AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
@@ -186,7 +188,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 switch response.status{
 //                case 200...300:
-//                    self?.success.send()
+//                    self?.commentDeleteSuccess.send()
                 case 401:
                     AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)

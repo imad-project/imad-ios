@@ -280,6 +280,10 @@ extension CommunityPostView{
             if !comment.removed{
                 CommentRowView(comment: comment)
                     .environmentObject(vmAuth)
+                    .environmentObject(vm)
+                    .onReceive(vm.commentDeleteSuccess) { deleteComment in
+                        vm.communityDetail?.commentListResponse.commentDetailsResponseList = vm.communityDetail?.commentListResponse.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
+                    }
             }
         }
     }
