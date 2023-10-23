@@ -7,12 +7,14 @@
 
 import Foundation
 
+
 struct CommentResponse: Codable,Hashable {
     let commentID, userID: Int
     let userNickname: String
     let userProfileImage: Int
     let parentID: Int?
-    let content:String?
+    let content: String?
+    var likeStatus, likeCnt, dislikeCnt: Int
     let createdAt, modifiedAt: String
     let removed: Bool
 
@@ -23,6 +25,9 @@ struct CommentResponse: Codable,Hashable {
         case userProfileImage = "user_profile_image"
         case parentID = "parent_id"
         case content
+        case likeStatus = "like_status"
+        case likeCnt = "like_cnt"
+        case dislikeCnt = "dislike_cnt"
         case createdAt = "created_at"
         case modifiedAt = "modified_at"
         case removed

@@ -17,6 +17,7 @@ enum CommunityRouter:URLRequestConvertible{
     case like(postingId:Int,status:Int)
     case modify(postingId:Int,title:String,content:String,category:Int,spoiler:Bool)
     case delete(postingId:Int)
+    case readComment(postingId:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -38,6 +39,8 @@ enum CommunityRouter:URLRequestConvertible{
             return "/api/posting/\(postingId)"
         case let .delete(postingId):
             return "/api/posting/\(postingId)"
+        case let .readComment(postingId):
+            return "/api/posting/comment/\(postingId)"
         }
     }
     
@@ -45,7 +48,7 @@ enum CommunityRouter:URLRequestConvertible{
         switch self{
         case .write:
             return .post
-        case .readListAll,.readListConditionsAll,.readPosting:
+        case .readListAll,.readListConditionsAll,.readPosting,.readComment:
             return .get
         case .like,.modify:
             return .patch
@@ -87,8 +90,9 @@ enum CommunityRouter:URLRequestConvertible{
             params["category"] = category
             params["is_spoiler"] = spoiler
             return params
-        case .readPosting,.delete:
+        case .readPosting,.delete,.readComment:
             return Parameters()
+        
         }
     }
     
@@ -97,7 +101,7 @@ enum CommunityRouter:URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         switch self{
-        case .readListAll,.readListConditionsAll,.readPosting,.delete:
+        case .readListAll,.readListConditionsAll,.readPosting,.delete,.readComment:
             return try URLEncoding(destination: .queryString).encode(request, with: parameters)
         case .write,.like,.modify:
             return try JSONEncoding.default.encode(request, with: parameters)

@@ -17,7 +17,7 @@ class CommunityViewModel:ObservableObject{
     @Published var communityListResponse:CommunityDetails? = nil
     @Published var communityDetail:CommunityDetailsResponse? = nil
     
-    
+    @Published var addedComment:CommentResponse? = nil
     
     var success = PassthroughSubject<(),Never>()
     var deleteSuccess = PassthroughSubject<(),Never>()
@@ -152,8 +152,9 @@ class CommunityViewModel:ObservableObject{
                 print(comp)
             } receiveValue: { [weak self] response in
                 switch response.status{
-//                case 200...300:
-//                    self.communityDetail?.commentDetailsResponseList.append(d)
+                case 200...300:
+                    self?.readComment(postingId: response.data.commentId)
+//                    self?.communityDetail?.commentListResponse.commentDetailsResponseList.append(<#T##newElement: CommentResponse##CommentResponse#>)
                 case 401:
                     AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
@@ -193,5 +194,23 @@ class CommunityViewModel:ObservableObject{
                     break
                 }
             }.store(in: &cancelable)
+    }
+    func readComment(postingId:Int){
+        CommunityApiService.readComment(postingId: postingId)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { [weak self] response in
+                switch response.status{
+                case 200...300:
+                    guard let data = response.data else {return}
+                    self?.communityDetail?.commentListResponse.commentDetailsResponseList.append(data)
+                case 401:
+                    AuthApiService.getToken()
+                    self?.tokenExpired.send(response.message)
+                default:
+                    break
+                }
+            }.store(in: &cancelable)
+
     }
 }

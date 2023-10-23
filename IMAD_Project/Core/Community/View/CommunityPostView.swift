@@ -50,6 +50,7 @@ struct CommunityPostView: View {
                         }
                     Button {
                         vm.addReply(postingId: postingId, parentId: nil, content: reviewText)
+                        reviewText = ""
                         UIApplication.shared.endEditing()
                     } label: {
                         Text("전송")
@@ -275,7 +276,7 @@ extension CommunityPostView{
         } .padding(.horizontal)
     }
     var comment:some View{
-        ForEach(vm.communityDetail?.commentDetailsResponseList ?? [],id: \.self){ comment in
+        ForEach(vm.communityDetail?.commentListResponse.commentDetailsResponseList ?? [],id: \.self){ comment in
             if !comment.removed{
                 CommentRowView(comment: comment)
                     .environmentObject(vmAuth)
