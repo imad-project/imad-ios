@@ -309,6 +309,23 @@ extension CommunityPostView{
                     .onReceive(vm.commentDeleteSuccess) { deleteComment in
                         vm.communityDetail?.commentListResponse.commentDetailsResponseList = vm.communityDetail?.commentListResponse.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
                     }
+            }else{
+                VStack(alignment: .leading){
+                    HStack{
+                        Text("작성자에 의해 삭제된 댓글입니다.")
+                        Spacer()
+                        Text(comment.modifiedAt.relativeTime()).foregroundColor(.gray)
+                    }
+                    
+                    Button {
+                        vm.modifyComment.send((comment.userNickname,comment.commentID))
+                    } label: {
+                        Text("댓글작성").foregroundColor(.gray)
+                    }.padding(.top)
+                    Divider()
+                }
+                .font(.caption)
+                    .padding(.horizontal)
             }
         }
     }
