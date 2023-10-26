@@ -17,9 +17,11 @@ class CommunityViewModel:ObservableObject{
     @Published var communityListResponse:CommunityDetails? = nil
     @Published var communityDetail:CommunityDetailsResponse? = nil
     
+    @Published var parentComment:CommentResponse? = nil
+    
     @Published var addedComment:CommentResponse? = nil
     
-    var modifyComment = PassthroughSubject<(String,Int),Never>()
+    var modifyComment = PassthroughSubject<(Int,Int),Never>()
     
     var success = PassthroughSubject<(),Never>()
     var modifySuccess = PassthroughSubject<(),Never>()
@@ -159,7 +161,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 switch response.status{
                 case 200...300:
-                    self?.readComment(postingId: response.data.commentId)
+                    self?.addCommentInList(commentId: response.data.commentId)
 //                    self?.communityDetail?.commentListResponse.commentDetailsResponseList.append(<#T##newElement: CommentResponse##CommentResponse#>)
                 case 401:
                     AuthApiService.getToken()
@@ -201,8 +203,8 @@ class CommunityViewModel:ObservableObject{
                 }
             }.store(in: &cancelable)
     }
-    func readComment(postingId:Int){
-        CommunityApiService.readComment(postingId: postingId)
+    func addCommentInList(commentId:Int){
+        CommunityApiService.readComment(commentId: commentId)
             .sink { comp in
                 print(comp)
             } receiveValue: { [weak self] response in
@@ -217,6 +219,22 @@ class CommunityViewModel:ObservableObject{
                     break
                 }
             }.store(in: &cancelable)
-
+    }
+    func readComment(commentId:Int){
+        CommunityApiService.readComment(commentId: commentId)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { [weak self] response in
+                switch response.status{
+                case 200...300:
+                    guard let data = response.data else {return}
+                    self?.parentComment = response.data
+                case 401:
+                    AuthApiService.getToken()
+                    self?.tokenExpired.send(response.message)
+                default:
+                    break
+                }
+            }.store(in: &cancelable)
     }
 }

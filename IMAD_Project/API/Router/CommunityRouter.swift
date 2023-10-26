@@ -17,7 +17,7 @@ enum CommunityRouter:URLRequestConvertible{
     case like(postingId:Int,status:Int)
     case modify(postingId:Int,title:String,content:String,category:Int,spoiler:Bool)
     case delete(postingId:Int)
-    case readComment(postingId:Int)
+    case readComment(commentId:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -39,8 +39,8 @@ enum CommunityRouter:URLRequestConvertible{
             return "/api/posting/\(postingId)"
         case let .delete(postingId):
             return "/api/posting/\(postingId)"
-        case let .readComment(postingId):
-            return "/api/posting/comment/\(postingId)"
+        case let .readComment(commentId):
+            return "/api/posting/comment/\(commentId)"
         }
     }
     

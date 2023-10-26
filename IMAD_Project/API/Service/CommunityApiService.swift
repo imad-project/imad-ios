@@ -97,10 +97,10 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func readComment(postingId:Int) -> AnyPublisher<CommentReadResponse,AFError>{
+    static func readComment(commentId:Int) -> AnyPublisher<CommentReadResponse,AFError>{
         print("게시물 댓글 조회 api호출")
         return ApiClient.shared.session
-            .request(CommunityRouter.readComment(postingId: postingId),interceptor: intercept)
+            .request(CommunityRouter.readComment(commentId: commentId),interceptor: intercept)
             .publishDecodable(type: CommentReadResponse.self)
             .value()
             .map{ receivedValue in

@@ -13,12 +13,12 @@ struct CommunityPostView: View {
     let postingId:Int
     @State var like = 0
     @State var reviewText = ""
-    @State var seeMore = false
+    
     @State var menu = false
     @State var modify = false
     
-    @State var parentName:String? = nil
-    @State var parentId:Int? = nil
+    @State var commentRequest:(Int,Int)?
+    @State var viewComment = false
     
     @FocusState var reply:Bool
     
@@ -38,56 +38,7 @@ struct CommunityPostView: View {
                 }
             }.foregroundColor(.black)
                 .padding(.bottom,100)
-            VStack{
-                if let parentName{
-                    Divider()
-                    HStack{
-                        Text(parentName).bold()
-                        Text("님에게 댓글 취소")
-                        Spacer()
-                        Button {
-                            self.parentName = nil
-                            self.parentId = nil
-                        } label: {
-                            Image(systemName: "xmark").bold()
-                        }
-                    }.font(.footnote).foregroundColor(.black).padding(.horizontal)
-                }
-                Divider()
-                HStack{
-                    KFImage(URL(string: CustomData.instance.movieList.first!))
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                    CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
-                        .focused($reply)
-                        .padding(10)
-                        .background{
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(lineWidth: 1)
-                                .foregroundColor(.customIndigo)
-                            
-                        }
-                    Button {
-                        vm.addReply(postingId: postingId, parentId: parentId, content: reviewText)
-                        reviewText = ""
-                        UIApplication.shared.endEditing()
-                    } label: {
-                        Text("전송")
-                            .foregroundColor(.customIndigo)
-                    }
-                    .padding(.leading,5)
-                }
-                .padding(.horizontal)
-                HStack{
-                    Text("비방이나 욕설은 삼가해주세요.😃😊")
-                        .foregroundColor(.black.opacity(0.4))
-                        .padding(.leading)
-                    Spacer()
-                }
-            }
-            .background(Color.white)
-            .offset(y:-25)
+            commentInputView
         }
         .onAppear{
             vm.readDetailCommunity(postingId: postingId)
@@ -98,6 +49,7 @@ struct CommunityPostView: View {
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
+       
         .confirmationDialog("일정 수정", isPresented: $menu, actions: {
             Button(role:.none){
                 modify = true
@@ -124,8 +76,15 @@ struct CommunityPostView: View {
         }
         .onReceive(vm.modifyComment) { commentStatus in
             reply = true
-            parentName = commentStatus.0
-            parentId = commentStatus.1
+            commentRequest = commentStatus
+            viewComment = true
+        }
+        .navigationDestination(isPresented: $viewComment){
+            if let commentRequest{
+                CommentDetailsView(postingId: commentRequest.0, commentId: commentRequest.1)
+                    .environmentObject(vmAuth)
+                    .navigationBarBackButtonHidden()   
+            }
         }
     }
 }
@@ -301,32 +260,75 @@ extension CommunityPostView{
         } .padding(.horizontal)
     }
     var comment:some View{
-        ForEach(vm.communityDetail?.commentListResponse.commentDetailsResponseList ?? [],id: \.self){ comment in
-            if !comment.removed{
-                CommentRowView(comment: comment)
-                    .environmentObject(vmAuth)
-                    .environmentObject(vm)
-                    .onReceive(vm.commentDeleteSuccess) { deleteComment in
-                        vm.communityDetail?.commentListResponse.commentDetailsResponseList = vm.communityDetail?.commentListResponse.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
+        ZStack{
+            VStack{
+                ForEach(vm.communityDetail?.commentListResponse.commentDetailsResponseList ?? [],id: \.self){ comment in
+                    if !comment.removed{
+                        CommentRowView(comment: comment)
+                            .environmentObject(vmAuth)
+                            .environmentObject(vm)
+                            .onReceive(vm.commentDeleteSuccess) { deleteComment in
+                                vm.communityDetail?.commentListResponse.commentDetailsResponseList = vm.communityDetail?.commentListResponse.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
+                            }
                     }
-            }else{
-                VStack(alignment: .leading){
-                    HStack{
-                        Text("작성자에 의해 삭제된 댓글입니다.")
-                        Spacer()
-                        Text(comment.modifiedAt.relativeTime()).foregroundColor(.gray)
-                    }
-                    
-                    Button {
-                        vm.modifyComment.send((comment.userNickname,comment.commentID))
-                    } label: {
-                        Text("댓글작성").foregroundColor(.gray)
-                    }.padding(.top)
-                    Divider()
-                }
-                .font(.caption)
-                    .padding(.horizontal)
+        //            else{
+        //                VStack(alignment: .leading){
+        //                    HStack{
+        //                        Text("작성자에 의해 삭제된 댓글입니다.")
+        //                        Spacer()
+        //                        Text(comment.modifiedAt.relativeTime()).foregroundColor(.gray)
+        //                    }
+        //
+        //                    Button {
+        //                        vm.modifyComment.send((comment.userNickname,comment.commentID))
+        //                    } label: {
+        //                        Text("답글작성").foregroundColor(.gray)
+        //                    }.padding(.top)
+        //                    Divider()
+        //                }
+        //                .font(.caption)
+        //                    .padding(.horizontal)
+        //            }
+                }.padding(.bottom)
             }
         }
+    }
+    var commentInputView:some View{
+        VStack{
+            Divider()
+            HStack{
+                Image("soso")
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
+                    .focused($reply)
+                    .padding(10)
+                    .background{
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(lineWidth: 1)
+                            .foregroundColor(.customIndigo)
+                        
+                    }
+                Button {
+                    vm.addReply(postingId: postingId, parentId: nil, content: reviewText)
+                    reviewText = ""
+                    UIApplication.shared.endEditing()
+                } label: {
+                    Text("전송")
+                        .foregroundColor(.customIndigo)
+                }
+                .padding(.leading,5)
+            }
+            .padding(.horizontal)
+            HStack{
+                Text("비방이나 욕설은 삼가해주세요.😃😊")
+                    .foregroundColor(.black.opacity(0.4))
+                    .padding(.leading)
+                Spacer()
+            }
+        }
+        .padding(.bottom,25)
+        .background(Color.white)
     }
 }

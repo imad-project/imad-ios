@@ -76,7 +76,7 @@ struct CommentRowView: View {
                     Text(comment.content ?? "")
                         .padding(.bottom)
                     Button {
-                        vm.modifyComment.send((comment.userNickname,comment.commentID))
+                        vm.modifyComment.send((vm.communityDetail?.postingID ?? 0,comment.commentID))
                     } label: {
                         Text("댓글작성").font(.caption2).foregroundColor(.gray)
                     }
