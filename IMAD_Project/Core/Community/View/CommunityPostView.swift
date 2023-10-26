@@ -17,6 +17,9 @@ struct CommunityPostView: View {
     @State var menu = false
     @State var modify = false
     
+    @State var sort:SortFilter = .createdDate
+    @State var order:OrderFilter = .ascending
+    
     @State var commentRequest:(Int,Int)?
     @State var viewComment = false
     
@@ -41,6 +44,7 @@ struct CommunityPostView: View {
             commentInputView
         }
         .onAppear{
+            vm.replys = []
             vm.readDetailCommunity(postingId: postingId)
         }
         .onReceive(vm.success) {
@@ -173,8 +177,7 @@ extension CommunityPostView{
                     .padding(.horizontal)
                 collection
             }.padding(.top)
-            Divider()
-                .padding(.horizontal)
+           
             comment
         }
     }
@@ -210,7 +213,7 @@ extension CommunityPostView{
                     }
                 }.font(.subheadline)
             }
-            VStack(alignment: .trailing){
+            VStack(alignment: .leading){
                 Divider()
                 HStack{
                     Group{
@@ -221,12 +224,11 @@ extension CommunityPostView{
                                     vm.communityDetail?.dislikeCnt -= 1
                                 }
                                 like = 1
-                                vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
                             }else{
                                 like = 0
                                 vm.communityDetail?.likeCnt -= 1
-                                vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
                             }
+                            vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
                         } label: {
                             Image(systemName: like == 1 ? "heart.fill":"heart")
                             Text("좋아요")
@@ -239,12 +241,12 @@ extension CommunityPostView{
                                     vm.communityDetail?.likeCnt -= 1
                                 }
                                 like = -1
-                                vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
+                                
                             }else{
                                 like = 0
                                 vm.communityDetail?.dislikeCnt -= 1
-                                vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
                             }
+                            vm.like(postingId: vm.communityDetail?.postingID ?? 0, status: like)
                         } label: {
                             HStack{
                                 Image(systemName: like == -1 ? "heart.slash.fill" : "heart.slash")
@@ -256,13 +258,57 @@ extension CommunityPostView{
                     .font(.subheadline)
                     .frame(maxWidth: .infinity)
                 }
+                Divider()
+                HStack{
+                    ForEach(SortFilter.allCases,id:\.self){ sort in
+                        if sort != .score{
+                            Button {
+                                self.sort = sort
+                                vm.page = 1
+                                vm.replys = []
+                                vm.readComments(postingId: postingId, commentType: 0, page: vm.page, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
+                            } label: {
+                                Capsule()
+                                    .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
+                                    .frame(width: 70,height: 25)
+                                    .overlay {
+                                        Text(sort.name).font(.caption).foregroundColor(.white)
+                                    }
+                            }
+                        }
+                    }
+                    Spacer()
+                    Button {
+                        if order == .ascending{
+                            withAnimation{
+                                order = .descending
+                                vm.page = 1
+                                vm.replys = []
+                                vm.readComments(postingId: postingId, commentType: 0, page: vm.page, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
+                            }
+                        }else{
+                            withAnimation{
+                                order = .ascending
+                                vm.page = 1
+                                vm.replys = []
+                                vm.readComments(postingId: postingId, commentType: 0, page: vm.page, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
+                            }
+                        }
+                    } label: {
+                        HStack{
+                            Text(order.name)
+                            Image(systemName: order == .ascending ? "chevron.up" : "chevron.down")
+                        } .font(.caption)
+                    }
+                   
+                }.padding(.vertical,5)
             }
         } .padding(.horizontal)
     }
     var comment:some View{
         ZStack{
             VStack{
-                ForEach(vm.communityDetail?.commentListResponse.commentDetailsResponseList ?? [],id: \.self){ comment in
+                ForEach(vm.replys,id: \.self){ comment in
                     if !comment.removed{
                         CommentRowView(commentMode:true,comment: comment)
                             .environmentObject(vmAuth)
@@ -298,7 +344,7 @@ extension CommunityPostView{
         VStack{
             Divider()
             HStack{
-                Image("soso")
+                Image(ProfileFilter.allCases.first(where: {$0.num == vm.communityDetail?.userProfileImage ?? 0})?.rawValue ?? "")
                     .resizable()
                     .frame(width: 40, height: 40)
                     .clipShape(Circle())

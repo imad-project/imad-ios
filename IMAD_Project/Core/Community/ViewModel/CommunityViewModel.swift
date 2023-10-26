@@ -99,6 +99,8 @@ class CommunityViewModel:ObservableObject{
                 switch response.status{
                 case 200...300:
                     self?.communityDetail = response.data
+                    guard let data = response.data?.commentListResponse else {return}
+                    self?.replys.append(contentsOf: data.commentDetailsResponseList)
                 case 401:
                     AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)

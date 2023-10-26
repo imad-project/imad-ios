@@ -93,7 +93,7 @@ extension CommentDetailsView{
         VStack{
             Divider()
             HStack{
-                Image(ProfileFilter.allCases.first(where: {$0.num == vm.parentComment?.userProfileImage ?? 1})!.rawValue)
+                Image(ProfileFilter.allCases.first(where: {$0.num == vmAuth.getUserRes?.data?.profileImage ?? 1})!.rawValue)
                     .resizable()
                     .frame(width: 30, height: 30)
                     .clipShape(Circle())
