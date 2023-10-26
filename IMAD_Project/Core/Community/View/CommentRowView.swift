@@ -32,10 +32,14 @@ struct CommentRowView: View {
                     .shadow(radius: 10)
                     .padding(.trailing,7)
                 Text(comment.userNickname).bold()
+                if comment.modifiedAt != comment.createdAt{
+                    Text("수정됨  •  " + comment.modifiedAt.relativeTime()).foregroundColor(.gray).font(.caption)
+                }else{
+                    Text("•  " + comment.modifiedAt.relativeTime())
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
                 
-                Text("•  " + comment.modifiedAt.relativeTime())
-                    .font(.caption)
-                    .foregroundColor(.gray)
                 Spacer()
                 
             }

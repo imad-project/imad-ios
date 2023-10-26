@@ -138,7 +138,11 @@ extension CommentDetailsView{
                 VStack(alignment: .leading) {
                     HStack{
                         Text(vm.parentComment?.userNickname ?? "").bold()
-                        Text("•  " + (vm.parentComment?.modifiedAt.relativeTime() ?? "")).font(.caption)
+                        if vm.parentComment?.modifiedAt != vm.parentComment?.createdAt{
+                            Text("수정됨  •  " + (vm.parentComment?.modifiedAt.relativeTime() ?? "")).font(.caption)
+                        }else{
+                            Text("•  " + (vm.parentComment?.modifiedAt.relativeTime() ?? "")).font(.caption)
+                        }
                         Spacer()
                     }.padding(.bottom)
                     Text(vm.parentComment?.content ?? "")
