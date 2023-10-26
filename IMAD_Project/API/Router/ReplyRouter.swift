@@ -12,7 +12,7 @@ enum ReplyRouter:URLRequestConvertible{
     case addReply(postingId:Int,parentId:Int?,content:String)
     case modifyReply(commentId:Int,content:String)
     case deleteReply(commentId:Int)
-    
+    case readReplyList(postingId:Int,commentType:Int,page:Int,sort:String,order:Int,parentId:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -26,11 +26,15 @@ enum ReplyRouter:URLRequestConvertible{
             return "/api/posting/comment/\(commentId)"
         case let .deleteReply(commentId):
             return "/api/posting/comment/\(commentId)"
+        case .readReplyList:
+            return "/api/posting/comment/list"
         }
     }
     
     var method:HTTPMethod{
         switch self{
+        case .readReplyList:
+            return .get
         case .addReply:
             return .post
         case .modifyReply:
@@ -41,6 +45,15 @@ enum ReplyRouter:URLRequestConvertible{
     }
     var parameters:Parameters{
         switch self{
+        case let.readReplyList(postingId, commentType, page, sort, order, parentId):
+            var params = Parameters()
+            params["posting_id"] = postingId
+            params["parent_id"] = parentId
+            params["comment_type"] = commentType
+            params["page"] = page
+            params["sort"] = sort
+            params["order"] = order
+            return params
         case let .addReply(postingId, parentId, content):
             var params = Parameters()
             params["posting_id"] = postingId
@@ -60,7 +73,11 @@ enum ReplyRouter:URLRequestConvertible{
         let url = baseUrl.appendingPathComponent(endPoint)  //url 설정
         var request = URLRequest(url: url)
         request.method = method
-        return try JSONEncoding.default.encode(request, with: parameters)
-        
+        switch self{
+        case .readReplyList:
+            return try URLEncoding(destination: .queryString).encode(request, with: parameters)
+        default:
+            return try JSONEncoding.default.encode(request, with: parameters)
+        }
     }
 }

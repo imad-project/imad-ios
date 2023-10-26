@@ -13,7 +13,6 @@ struct CommentDetailsView: View {
     let commentId:Int
     @FocusState var reply:Bool
     @State var reviewText = ""
-    @State var modify = false
     @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -35,31 +34,48 @@ struct CommentDetailsView: View {
                 }.padding(.leading)
                 Divider()
                 parentComment
-                ScrollView{
-//                    ForEach(vm)
+                Group{
+                    if !vm.replys.isEmpty{
+                        ScrollView{
+                            ForEach(vm.replys,id:\.self) { item in
+                                if !item.removed{
+                                    CommentRowView(commentMode:false,comment: item)
+                                        .environmentObject(vm)
+                                        .environmentObject(vmAuth)
+                                        .padding(.leading)
+                                        .onReceive(vm.commentDeleteSuccess){ comment in
+                                            vm.replys = vm.replys.filter({$0 != comment})
+                                        }
+                                    if vm.replys.last == item,vm.replys.count % 10 == 0{
+                                        ProgressView()
+                                            .onAppear{
+                                                vm.page += 1
+                                                vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: SortFilter.createdDate.rawValue, order: 1, parentId: commentId)
+                                            }
+                                    }
+                                }
+                            }.padding(.top)
+                        }
+                    }else{
+                        VStack(spacing:5){
+                            Image(systemName: "pencil.slash").font(.largeTitle)
+                            Text("댓글이 없습니다").font(.callout)
+                        }
+                        .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity)
+                            .frame(maxHeight: .infinity)
+                    }
                 }
                 .background(Color.gray.opacity(0.1))
             }
             commentInputView
         }
+        
         .foregroundColor(.black)
         .onAppear{
             vm.readComment(commentId: commentId)
+            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: SortFilter.createdDate.rawValue, order: 1, parentId: commentId)
         }
-        .confirmationDialog("일정 수정", isPresented: $modify, actions: {
-            Button(role:.none){
-                modify = true
-            } label: {
-                Text("수정하기")
-            }
-            Button(role:.destructive){
-//                vm.deleteCommunity(postingId: postingId)
-            } label: {
-                Text("삭제하기")
-            }
-        },message: {
-            Text("게시물을 수정하거나 삭제하시겠습니까?")
-        })
     }
     
     
@@ -121,13 +137,8 @@ extension CommentDetailsView{
             VStack(alignment: .leading) {
                 HStack{
                     Text(vm.parentComment?.userNickname ?? "aa").bold()
-                    Text("• " + (vm.parentComment?.modifiedAt.relativeTime() ?? "")).font(.caption)
+                    Text("•  " + (vm.parentComment?.modifiedAt.relativeTime() ?? "")).font(.caption)
                     Spacer()
-                    Button {
-                        modify = true
-                    } label: {
-                        Image(systemName: "ellipsis").foregroundColor(.black)
-                    }
                 }.padding(.bottom)
                 Text(vm.parentComment?.content ?? "")
             }

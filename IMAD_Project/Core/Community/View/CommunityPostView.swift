@@ -264,12 +264,13 @@ extension CommunityPostView{
             VStack{
                 ForEach(vm.communityDetail?.commentListResponse.commentDetailsResponseList ?? [],id: \.self){ comment in
                     if !comment.removed{
-                        CommentRowView(comment: comment)
+                        CommentRowView(commentMode:true,comment: comment)
                             .environmentObject(vmAuth)
                             .environmentObject(vm)
                             .onReceive(vm.commentDeleteSuccess) { deleteComment in
                                 vm.communityDetail?.commentListResponse.commentDetailsResponseList = vm.communityDetail?.commentListResponse.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
                             }
+                        
                     }
         //            else{
         //                VStack(alignment: .leading){

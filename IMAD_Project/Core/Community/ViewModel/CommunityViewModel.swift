@@ -18,8 +18,9 @@ class CommunityViewModel:ObservableObject{
     @Published var communityDetail:CommunityDetailsResponse? = nil
     
     @Published var parentComment:CommentResponse? = nil
-    
-    @Published var addedComment:CommentResponse? = nil
+    @Published var replyList:CommentListReponse? = nil
+    @Published var replys:[CommentResponse] = []
+//    @Published var addedComment:CommentResponse? = nil
     
     var modifyComment = PassthroughSubject<(Int,Int),Never>()
     
@@ -194,7 +195,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 switch response.status{
 //                case 200...300:
-//                    self?.commentDeleteSuccess.send()
+//                    self?.commentDeleteSuccess.send(response.)
                 case 401:
                     AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
@@ -212,6 +213,7 @@ class CommunityViewModel:ObservableObject{
                 case 200...300:
                     guard let data = response.data else {return}
                     self?.communityDetail?.commentListResponse.commentDetailsResponseList.append(data)
+                    self?.replys.append(data)
                 case 401:
                     AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
@@ -227,7 +229,6 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 switch response.status{
                 case 200...300:
-                    guard let data = response.data else {return}
                     self?.parentComment = response.data
                 case 401:
                     AuthApiService.getToken()
@@ -236,5 +237,24 @@ class CommunityViewModel:ObservableObject{
                     break
                 }
             }.store(in: &cancelable)
+    }
+    func readComments(postingId:Int,commentType:Int,page:Int,sort:String,order:Int,parentId:Int){
+        ReplyApiService.readListReply(postingId: postingId, commentType: commentType, page: page, sort: sort, order: order, parentId: parentId)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { [weak self] response in
+                switch response.status{
+                case 200...300:
+                    guard let data = response.data else {return}
+                    self?.replyList = data
+                    self?.replys.append(contentsOf: data.commentDetailsResponseList)
+                case 401:
+                    AuthApiService.getToken()
+                    self?.tokenExpired.send(response.message)
+                default:
+                    break
+                }
+            }.store(in: &cancelable)
+
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentRowView: View {
-    
+    let commentMode:Bool
     @State var comment:CommentResponse
     @State var statingOffsetY:CGFloat = 0
     @State var currentDragOffstY:CGFloat = 0
@@ -27,16 +27,16 @@ struct CommentRowView: View {
             HStack{
                 Image(ProfileFilter.allCases.first(where: {$0.num == comment.userProfileImage})?.rawValue ?? "soso")
                     .resizable()
-                    .frame(width: 40, height: 40)
+                    .frame(width: 20, height: 20)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .shadow(radius: 10)
                     .padding(.trailing,7)
                 Text(comment.userNickname).bold()
-                Spacer()
-                Text(comment.modifiedAt.relativeTime())
+                
+                Text("•  " + comment.modifiedAt.relativeTime())
                     .font(.caption)
                     .foregroundColor(.gray)
-                
+                Spacer()
                 
             }
             .padding(.bottom,10)
@@ -75,17 +75,16 @@ struct CommentRowView: View {
                 }else{
                     Text(comment.content ?? "")
                         .padding(.bottom)
-                    Button {
-                        vm.modifyComment.send((vm.communityDetail?.postingID ?? 0,comment.commentID))
-                    } label: {
-                        Text("댓글작성").font(.caption2).foregroundColor(.gray)
+                    if commentMode{
+                        Button {
+                            vm.modifyComment.send((vm.communityDetail?.postingID ?? 0,comment.commentID))
+                        } label: {
+                            Text("답글작성").font(.caption2).foregroundColor(.gray)
+                        }
                     }
-
-                    
                 }
             }
             .padding(.leading).font(.footnote)
-            Divider()
             
         }.padding(.horizontal)
             .padding(.vertical,3)
@@ -155,7 +154,7 @@ struct CommentRowView: View {
                     
                 }
             }
-            .background(Color.white)
+            .background(Color.white.opacity(0.1))
             .offset(x:statingOffsetY)
             .offset(x:currentDragOffstY )
             .offset(x:endingOffsetY )
@@ -197,7 +196,7 @@ struct CommentRowView: View {
 struct CommentRowView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            CommentRowView(comment: CustomData.instance.comment)
+            CommentRowView(commentMode: true, comment: CustomData.instance.comment)
                 .environmentObject(AuthViewModel())
                 .environmentObject(CommunityViewModel())
         }

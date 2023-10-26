@@ -48,4 +48,16 @@ class ReplyApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func readListReply(postingId:Int,commentType:Int,page:Int,sort:String,order:Int,parentId:Int)-> AnyPublisher<CommentReadListResponse,AFError>{
+        print("댓글 리스트 api호출")
+        return ApiClient.shared.session
+            .request(ReplyRouter.readReplyList(postingId:postingId,commentType:commentType,page:page,sort:sort,order:order,parentId:parentId),interceptor: intercept)
+            .publishDecodable(type: CommentReadListResponse.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }
