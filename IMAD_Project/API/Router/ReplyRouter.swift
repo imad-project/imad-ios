@@ -13,6 +13,7 @@ enum ReplyRouter:URLRequestConvertible{
     case modifyReply(commentId:Int,content:String)
     case deleteReply(commentId:Int)
     case readReplyList(postingId:Int,commentType:Int,page:Int,sort:String,order:Int,parentId:Int)
+    case like(commentId:Int,likeStatus:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -28,6 +29,8 @@ enum ReplyRouter:URLRequestConvertible{
             return "/api/posting/comment/\(commentId)"
         case .readReplyList:
             return "/api/posting/comment/list"
+        case let .like(commentId,_):
+            return "/api/posting/comment/like/\(commentId)"
         }
     }
     
@@ -37,10 +40,11 @@ enum ReplyRouter:URLRequestConvertible{
             return .get
         case .addReply:
             return .post
-        case .modifyReply:
+        case .modifyReply,.like:
             return .patch
         case .deleteReply:
             return .delete
+        
         }
     }
     var parameters:Parameters{
@@ -63,6 +67,10 @@ enum ReplyRouter:URLRequestConvertible{
         case let .modifyReply(_, content):
             var params = Parameters()
             params["content"] = content
+            return params
+        case let .like(_, likeStatus):
+            var params = Parameters()
+            params["like_status"] = likeStatus
             return params
         case .deleteReply:
             return Parameters()

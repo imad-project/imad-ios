@@ -257,4 +257,18 @@ class CommunityViewModel:ObservableObject{
             }.store(in: &cancelable)
 
     }
+    func commentLike(commentId:Int,likeStatus:Int){
+        ReplyApiService.like(commentId: commentId, likeStatus: likeStatus)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { [weak self] response in
+                switch response.status{
+                case 401:
+                    AuthApiService.getToken()
+                    self?.tokenExpired.send(response.message)
+                default:
+                    break
+                }
+            }.store(in: &cancelable)
+    }
 }

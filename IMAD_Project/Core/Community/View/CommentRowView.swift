@@ -70,16 +70,61 @@ struct CommentRowView: View {
                                 .background(Color.customIndigo)
                                 .cornerRadius(10)
                         }
-                    }
                     .padding(.bottom,5)
+                    }
                 }else{
                     Text(comment.content ?? "")
                         .padding(.bottom)
-                    if commentMode{
+                    HStack{
+                        if commentMode{
+                            Button {
+                                vm.modifyComment.send((vm.communityDetail?.postingID ?? 0,comment.commentID))
+                            } label: {
+                                if comment.childCnt > 0 {
+                                    Text("답글 \(comment.childCnt)개").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
+                                }else{
+                                    Text("답글작성").font(.caption2).foregroundColor(.gray)
+                                }
+                            }
+                        }
+                        Spacer()
                         Button {
-                            vm.modifyComment.send((vm.communityDetail?.postingID ?? 0,comment.commentID))
+                            if comment.likeStatus < 1 {
+                                if comment.likeStatus < 0{
+                                    comment.dislikeCnt -= 1
+                                    comment.likeStatus = 1
+                                }else{
+                                    comment.likeStatus = 1
+                                }
+                                comment.likeCnt += 1
+                            }
+                            else{
+                                comment.likeCnt -= 1
+                                comment.likeStatus = 0
+                            }
+                            vm.commentLike(commentId: comment.commentID, likeStatus: comment.likeStatus)
                         } label: {
-                            Text("답글작성").font(.caption2).foregroundColor(.gray)
+                            Image(systemName: comment.likeStatus > 0 ? "heart.fill" : "heart").foregroundColor(.red)
+                            Text("\(comment.likeCnt)").foregroundColor(.black)
+                        }
+                        Button {
+                            if comment.likeStatus > -1{
+                                if comment.likeStatus > 0{
+                                    comment.likeCnt -= 1
+                                    comment.likeStatus = -1
+                                }else{
+                                    comment.likeStatus = -1
+                                }
+                                comment.dislikeCnt += 1
+                            }
+                            else{
+                                comment.dislikeCnt -= 1
+                                comment.likeStatus = 0
+                            }
+                            vm.commentLike(commentId: comment.commentID, likeStatus: comment.likeStatus)
+                        } label: {
+                            Image(systemName: comment.likeStatus < 0 ? "heart.slash.fill" : "heart.slash").foregroundColor(.blue)
+                            Text("\(comment.dislikeCnt)").foregroundColor(.black)
                         }
                     }
                 }

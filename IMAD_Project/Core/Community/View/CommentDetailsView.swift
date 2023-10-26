@@ -55,7 +55,7 @@ struct CommentDetailsView: View {
                                     }
                                 }
                             }.padding(.top)
-                        }
+                        }.padding(.bottom,25)
                     }else{
                         VStack(spacing:5){
                             Image(systemName: "pencil.slash").font(.largeTitle)
@@ -129,19 +129,72 @@ extension CommentDetailsView{
 
     }
     var parentComment:some View{
-        HStack(alignment: .top){
-            Image(ProfileFilter.allCases.first(where: {$0.num == vm.parentComment?.userProfileImage})?.rawValue ?? "")
-                .resizable()
-                .frame(width: 30,height: 30)
-                .clipShape(Circle())
-            VStack(alignment: .leading) {
-                HStack{
-                    Text(vm.parentComment?.userNickname ?? "aa").bold()
-                    Text("•  " + (vm.parentComment?.modifiedAt.relativeTime() ?? "")).font(.caption)
-                    Spacer()
-                }.padding(.bottom)
-                Text(vm.parentComment?.content ?? "")
+        VStack{
+            HStack(alignment: .top){
+                Image(ProfileFilter.allCases.first(where: {$0.num == vm.parentComment?.userProfileImage})?.rawValue ?? "")
+                    .resizable()
+                    .frame(width: 30,height: 30)
+                    .clipShape(Circle())
+                VStack(alignment: .leading) {
+                    HStack{
+                        Text(vm.parentComment?.userNickname ?? "").bold()
+                        Text("•  " + (vm.parentComment?.modifiedAt.relativeTime() ?? "")).font(.caption)
+                        Spacer()
+                    }.padding(.bottom)
+                    Text(vm.parentComment?.content ?? "")
+                }
             }
-        }.padding(.horizontal)
+            HStack{
+                Spacer()
+                    Button {
+                        guard let comment = vm.parentComment else {return}
+                        if comment.likeStatus < 1 {
+                            if comment.likeStatus < 0{
+                                vm.parentComment?.dislikeCnt -= 1
+                                vm.parentComment?.likeStatus = 1
+                            }else{
+                                vm.parentComment?.likeStatus = 1
+                            }
+                            vm.parentComment?.likeCnt += 1
+                        }
+                        else{
+                            vm.parentComment?.likeCnt -= 1
+                            vm.parentComment?.likeStatus = 0
+                        }
+                        vm.commentLike(commentId: vm.parentComment?.commentID ?? 0, likeStatus: vm.parentComment?.likeStatus ?? 0)
+                    } label: {
+                        Image(systemName: (vm.parentComment?.likeStatus ?? 0) > 0 ? "heart.fill" : "heart").foregroundColor(.red)
+                        Text("\(vm.parentComment?.likeCnt ?? 0)").foregroundColor(.black)
+                    }
+                    .padding(.trailing)
+                    .foregroundColor(vm.parentComment?.likeStatus == 1 ? .red : .gray)
+                    Button {
+                        guard let comment = vm.parentComment else {return}
+                        if comment.likeStatus > -1{
+                            if comment.likeStatus > 0{
+                                vm.parentComment?.likeCnt -= 1
+                                vm.parentComment?.likeStatus = -1
+                            }else{
+                                vm.parentComment?.likeStatus = -1
+                            }
+                            vm.parentComment?.dislikeCnt += 1
+                        }
+                        else{
+                            vm.parentComment?.dislikeCnt -= 1
+                            vm.parentComment?.likeStatus = 0
+                        }
+                        vm.commentLike(commentId: vm.parentComment?.commentID ?? 0, likeStatus: vm.parentComment?.likeStatus ?? 0)
+                    } label: {
+                        HStack{
+                            Image(systemName:(vm.parentComment?.likeStatus ?? 0) < 0 ? "heart.slash.fill" : "heart.slash").foregroundColor(.blue)
+                            Text("\( vm.parentComment?.dislikeCnt ?? 0)").foregroundColor(.black)
+                        }
+                    }
+                    .foregroundColor(vm.parentComment?.likeStatus == -1 ? .blue : .gray)
+                
+            }
+            
+        }
+        .padding(.horizontal)
     }
 }
