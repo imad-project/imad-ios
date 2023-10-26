@@ -12,7 +12,11 @@ struct CommentDetailsView: View {
     let postingId:Int
     let commentId:Int
     @FocusState var reply:Bool
+    
     @State var reviewText = ""
+    @State var sort:SortFilter = .createdDate
+    @State var order:OrderFilter = .ascending
+    
     @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -34,38 +38,29 @@ struct CommentDetailsView: View {
                 }.padding(.leading)
                 Divider()
                 parentComment
-                Group{
+                ScrollView{
                     if !vm.replys.isEmpty{
-                        ScrollView{
-                            ForEach(vm.replys,id:\.self) { item in
-                                if !item.removed{
-                                    CommentRowView(commentMode:false,comment: item)
-                                        .environmentObject(vm)
-                                        .environmentObject(vmAuth)
-                                        .padding(.leading)
-                                        .onReceive(vm.commentDeleteSuccess){ comment in
-                                            vm.replys = vm.replys.filter({$0 != comment})
-                                        }
-                                    if vm.replys.last == item,vm.replys.count % 10 == 0{
-                                        ProgressView()
-                                            .onAppear{
-                                                vm.page += 1
-                                                vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: SortFilter.createdDate.rawValue, order: 1, parentId: commentId)
-                                            }
+                        ForEach(vm.replys,id:\.self) { item in
+                            if !item.removed{
+                                CommentRowView(commentMode:false,comment: item)
+                                    .environmentObject(vm)
+                                    .environmentObject(vmAuth)
+                                    .padding(.leading)
+                                    .onReceive(vm.commentDeleteSuccess){ comment in
+                                        vm.replys = vm.replys.filter({$0 != comment})
                                     }
+                                if vm.replys.last == item,vm.replys.count % 10 == 0{
+                                    ProgressView()
+                                        .onAppear{
+                                            vm.page += 1
+                                            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: SortFilter.createdDate.rawValue, order: 1, parentId: commentId)
+                                        }
                                 }
-                            }.padding(.top)
-                        }.padding(.bottom,25)
-                    }else{
-                        VStack(spacing:5){
-                            Image(systemName: "pencil.slash").font(.largeTitle)
-                            Text("댓글이 없습니다").font(.callout)
-                        }
-                        .foregroundColor(.gray)
-                            .frame(maxWidth: .infinity)
-                            .frame(maxHeight: .infinity)
+                            }
+                        }.padding(.top)
                     }
                 }
+                .padding(.bottom,25)
                 .background(Color.gray.opacity(0.1))
             }
             commentInputView
@@ -74,7 +69,7 @@ struct CommentDetailsView: View {
         .foregroundColor(.black)
         .onAppear{
             vm.readComment(commentId: commentId)
-            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: SortFilter.createdDate.rawValue, order: 1, parentId: commentId)
+            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
         }
     }
     
@@ -126,7 +121,7 @@ extension CommentDetailsView{
         }
         .padding(.bottom,25)
         .background(Color.white)
-
+        
     }
     var parentComment:some View{
         VStack{
@@ -150,54 +145,97 @@ extension CommentDetailsView{
             }
             HStack{
                 Spacer()
-                    Button {
-                        guard let comment = vm.parentComment else {return}
-                        if comment.likeStatus < 1 {
-                            if comment.likeStatus < 0{
-                                vm.parentComment?.dislikeCnt -= 1
-                                vm.parentComment?.likeStatus = 1
-                            }else{
-                                vm.parentComment?.likeStatus = 1
-                            }
-                            vm.parentComment?.likeCnt += 1
-                        }
-                        else{
-                            vm.parentComment?.likeCnt -= 1
-                            vm.parentComment?.likeStatus = 0
-                        }
-                        vm.commentLike(commentId: vm.parentComment?.commentID ?? 0, likeStatus: vm.parentComment?.likeStatus ?? 0)
-                    } label: {
-                        Image(systemName: (vm.parentComment?.likeStatus ?? 0) > 0 ? "heart.fill" : "heart").foregroundColor(.red)
-                        Text("\(vm.parentComment?.likeCnt ?? 0)").foregroundColor(.black)
-                    }
-                    .padding(.trailing)
-                    .foregroundColor(vm.parentComment?.likeStatus == 1 ? .red : .gray)
-                    Button {
-                        guard let comment = vm.parentComment else {return}
-                        if comment.likeStatus > -1{
-                            if comment.likeStatus > 0{
-                                vm.parentComment?.likeCnt -= 1
-                                vm.parentComment?.likeStatus = -1
-                            }else{
-                                vm.parentComment?.likeStatus = -1
-                            }
-                            vm.parentComment?.dislikeCnt += 1
-                        }
-                        else{
+                Button {
+                    guard let comment = vm.parentComment else {return}
+                    if comment.likeStatus < 1 {
+                        if comment.likeStatus < 0{
                             vm.parentComment?.dislikeCnt -= 1
-                            vm.parentComment?.likeStatus = 0
+                            vm.parentComment?.likeStatus = 1
+                        }else{
+                            vm.parentComment?.likeStatus = 1
                         }
-                        vm.commentLike(commentId: vm.parentComment?.commentID ?? 0, likeStatus: vm.parentComment?.likeStatus ?? 0)
-                    } label: {
-                        HStack{
-                            Image(systemName:(vm.parentComment?.likeStatus ?? 0) < 0 ? "heart.slash.fill" : "heart.slash").foregroundColor(.blue)
-                            Text("\( vm.parentComment?.dislikeCnt ?? 0)").foregroundColor(.black)
-                        }
+                        vm.parentComment?.likeCnt += 1
                     }
-                    .foregroundColor(vm.parentComment?.likeStatus == -1 ? .blue : .gray)
+                    else{
+                        vm.parentComment?.likeCnt -= 1
+                        vm.parentComment?.likeStatus = 0
+                    }
+                    vm.commentLike(commentId: vm.parentComment?.commentID ?? 0, likeStatus: vm.parentComment?.likeStatus ?? 0)
+                } label: {
+                    Image(systemName: (vm.parentComment?.likeStatus ?? 0) > 0 ? "heart.fill" : "heart").foregroundColor(.red)
+                    Text("\(vm.parentComment?.likeCnt ?? 0)").foregroundColor(.black)
+                }
+                .padding(.trailing)
+                .foregroundColor(vm.parentComment?.likeStatus == 1 ? .red : .gray)
+                Button {
+                    guard let comment = vm.parentComment else {return}
+                    if comment.likeStatus > -1{
+                        if comment.likeStatus > 0{
+                            vm.parentComment?.likeCnt -= 1
+                            vm.parentComment?.likeStatus = -1
+                        }else{
+                            vm.parentComment?.likeStatus = -1
+                        }
+                        vm.parentComment?.dislikeCnt += 1
+                    }
+                    else{
+                        vm.parentComment?.dislikeCnt -= 1
+                        vm.parentComment?.likeStatus = 0
+                    }
+                    vm.commentLike(commentId: vm.parentComment?.commentID ?? 0, likeStatus: vm.parentComment?.likeStatus ?? 0)
+                } label: {
+                    HStack{
+                        Image(systemName:(vm.parentComment?.likeStatus ?? 0) < 0 ? "heart.slash.fill" : "heart.slash").foregroundColor(.blue)
+                        Text("\( vm.parentComment?.dislikeCnt ?? 0)").foregroundColor(.black)
+                    }
+                }
+                .foregroundColor(vm.parentComment?.likeStatus == -1 ? .blue : .gray)
                 
             }
-            
+            Divider()
+            HStack{
+                ForEach(SortFilter.allCases,id:\.self){ sort in
+                    if sort != .score{
+                        Button {
+                            self.sort = sort
+                            vm.page = 1
+                            vm.replys = []
+                            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+                        } label: {
+                            Capsule()
+                                .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
+                                .frame(width: 70,height: 25)
+                                .overlay {
+                                    Text(sort.name).font(.caption).foregroundColor(.white)
+                                }
+                        }
+                    }
+                }
+                Spacer()
+                Button {
+                    if order == .ascending{
+                        withAnimation{
+                            order = .descending
+                            vm.page = 1
+                            vm.replys = []
+                            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+                        }
+                    }else{
+                        withAnimation{
+                            order = .ascending
+                            vm.page = 1
+                            vm.replys = []
+                            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+                        }
+                    }
+                } label: {
+                    HStack{
+                        Text(order.name)
+                        Image(systemName: order == .ascending ? "chevron.up" : "chevron.down")
+                    } .font(.caption)
+                }
+                
+            }.padding(.vertical,5)
         }
         .padding(.horizontal)
     }
