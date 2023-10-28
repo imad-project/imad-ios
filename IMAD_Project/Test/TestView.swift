@@ -73,20 +73,31 @@ struct TestView: View {
     @State var num = 0
     @State var nums:[Int] = [0,1,2,3,4]
     @State var category:CommunityFilter = .question
+    let comuns:[GridItem] = [GridItem(.flexible()),GridItem(.flexible())]
     var ddd = PassthroughSubject<(),Never>()
     var body: some View{
         VStack{
-            Picker("",selection: $category){
-                ForEach(CommunityFilter.allCases,id: \.self){ item in
-                    if item != .all{
-                        Text(item.name)
-                            .tag(item)
+            LazyVGrid(columns: comuns) {
+                ForEach(0...10,id:\.self){ _ in
+                    GeometryReader { geo in
+                        let width = geo.size.width
+                        RoundedRectangle(cornerRadius: 20)
+                            .frame(height: width * 2)
                     }
-                }.foregroundColor(.black)
+                    
+                }
             }
-            .pickerStyle(.segmented)
-            .environment(\.colorScheme, .light)
-            .padding(.horizontal,30)
+//            Picker("",selection: $category){
+//                ForEach(CommunityFilter.allCases,id: \.self){ item in
+//                    if item != .all{
+//                        Text(item.name)
+//                            .tag(item)
+//                    }
+//                }.foregroundColor(.black)
+//            }
+//            .pickerStyle(.segmented)
+//            .environment(\.colorScheme, .light)
+//            .padding(.horizontal,30)
 //            HStack{
 //                ForEach(num,id: \.self){ num in
 //                    Text("\(num)")
