@@ -19,6 +19,8 @@ struct WorkView: View {
     @State var anima = false
     @State var writeReview = false
     @State var writeCommunity = false
+    @State var message = ""
+    @State var showMyRevie = false
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel
     @StateObject var vmReview = ReviewViewModel()
@@ -95,11 +97,24 @@ struct WorkView: View {
         .navigationBarBackButtonHidden()
         .onReceive(vmReview.tokenExpired) { messages in
             tokenExpired = (true,messages)
+            message = "토큰 만료됨"
         }
         .alert(isPresented: $tokenExpired.0) {
-            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vmAuth.loginMode = false
+            Alert(title: Text(message),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                if message == "토큰 만료됨"{
+                    vmAuth.loginMode = false
+                }else{
+                    showMyRevie = true
+                }
             })
+        }
+        .navigationDestination(isPresented: $showMyRevie) {
+            if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
+                ReviewDetailsView(reviewId: review.reviewID)
+                    .environmentObject(vmAuth)
+                    .navigationBarBackButtonHidden()
+                
+            }
         }
     }
 }
@@ -204,7 +219,12 @@ extension WorkView{
             HStack(spacing:0){
                 Group{
                     Button {
-                        writeReview = true
+                        if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}){
+                            message = "리뷰 작성함"
+                            tokenExpired = (true,"이미 작성한 리뷰가 존재합니다!")
+                        }else{
+                            writeReview = true
+                        }
                     } label: {
                         VStack(spacing:5){
                             Image(systemName: "rectangle.and.pencil.and.ellipsis")
@@ -254,9 +274,7 @@ extension WorkView{
                 .padding(.top)
                 .bold()
             VStack{
-                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}){
-                    ForEach(vmReview.reviewList,id:\.self){ review in
-                        if review == my{
+                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
                             NavigationLink {
                                 ReviewDetailsView(reviewId: review.reviewID)
                                     .environmentObject(vmAuth)
@@ -276,8 +294,7 @@ extension WorkView{
                                 .padding(.vertical)
                                 .background(Color.white).cornerRadius(5)
                             }
-                        }
-                    }
+                    
                 }else{
                     VStack{
                         Text("내 리뷰가 존재하지 않습니다.")
