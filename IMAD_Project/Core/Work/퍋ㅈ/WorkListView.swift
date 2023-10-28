@@ -58,7 +58,7 @@ struct WorkListView: View {
                                                    emptyPoster
                                                }
                                                .resizable()
-                                               .frame(height: (UIScreen.main.bounds.width/3)*1.5)
+                                               .frame(height: (UIScreen.main.bounds.width/3)*1.25)
                                                .cornerRadius(15)
                                            Text(result.title == nil ? result.name ?? "" : result.title ?? "")
                                            .bold()
