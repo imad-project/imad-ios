@@ -14,9 +14,8 @@ struct IMAD_ProjectApp: App {
         WindowGroup {
             NavigationStack{
                ContentView()
-//                MenuTabView()
-//                    .environmentObject(AuthViewModel())
             }
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }
