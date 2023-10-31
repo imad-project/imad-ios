@@ -10,13 +10,17 @@ import Kingfisher
 
 struct WorkView: View {
     
-    let id:Int
-    let type:String
+    var id:Int?
+    var type:String?
+    var contentsId:Int?
+    
     @State var tokenExpired = (false,"")
     @State var width:Bool = false
     @State var anima = false
     @State var writeReview = false
     @State var writeCommunity = false
+    @State var message = ""
+    @State var showMyRevie = false
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel
     @StateObject var vmReview = ReviewViewModel()
@@ -45,7 +49,7 @@ struct WorkView: View {
                     collection
                     VStack{
                         if let work = vm.workInfo{
-                            WorkInfoView(work: work, type: type)
+                            WorkInfoView(work: work, type: type ?? "")
                         }
                         reviewList
                     }
@@ -62,20 +66,23 @@ struct WorkView: View {
                 }
                 header
             }
-            
         }
-        
         .foregroundColor(.white)
         .onAppear {
-            vm.getWorkInfo(id: id, type: type)
             vmAuth.getUser()
             vm.getBookmark(page: vm.page)
             withAnimation(.linear(duration: 0.5)){
                 anima = true
             }
+            if let contentsId{
+                vm.getWorkInfo(contentsId: contentsId)
+            }else{
+                guard let id,let type else {return}
+                vm.getWorkInfo(id: id, type: type)
+            }
         }
         .onReceive(vm.success){
-            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: vmReview.page, sort: ReviewSortFilter.createdDate.rawValue, order: 0)
+            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: vmReview.page, sort: SortFilter.createdDate.rawValue, order: 0)
         }
         .navigationDestination(isPresented: $writeReview) {
             WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
@@ -83,17 +90,31 @@ struct WorkView: View {
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
-            CommunityWriteView(image: vm.workInfo?.posterPath?.getImadImage() ?? "")
+            CommunityWriteView(contentsId: vm.workInfo?.contentsId ?? 0,image: vm.workInfo?.posterPath?.getImadImage() ?? "")
+                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationBarBackButtonHidden()
         .onReceive(vmReview.tokenExpired) { messages in
             tokenExpired = (true,messages)
+            message = "토큰 만료됨"
         }
         .alert(isPresented: $tokenExpired.0) {
-            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vmAuth.loginMode = false
+            Alert(title: Text(message),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                if message == "토큰 만료됨"{
+                    vmAuth.loginMode = false
+                }else{
+                    showMyRevie = true
+                }
             })
+        }
+        .navigationDestination(isPresented: $showMyRevie) {
+            if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
+                ReviewDetailsView(goWork: false, reviewId: review.reviewID)
+                    .environmentObject(vmAuth)
+                    .navigationBarBackButtonHidden()
+                
+            }
         }
     }
 }
@@ -198,7 +219,12 @@ extension WorkView{
             HStack(spacing:0){
                 Group{
                     Button {
-                        writeReview = true
+                        if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}){
+                            message = "리뷰 작성함"
+                            tokenExpired = (true,"이미 작성한 리뷰가 존재합니다!")
+                        }else{
+                            writeReview = true
+                        }
                     } label: {
                         VStack(spacing:5){
                             Image(systemName: "rectangle.and.pencil.and.ellipsis")
@@ -248,11 +274,9 @@ extension WorkView{
                 .padding(.top)
                 .bold()
             VStack{
-                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}){
-                    ForEach(vmReview.reviewList,id:\.self){ review in
-                        if review == my{
+                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
                             NavigationLink {
-                                ReviewDetailsView(reviewId: review.reviewID)
+                                ReviewDetailsView(goWork: false, reviewId: review.reviewID)
                                     .environmentObject(vmAuth)
                                     .navigationBarBackButtonHidden()
                             } label: {
@@ -270,8 +294,7 @@ extension WorkView{
                                 .padding(.vertical)
                                 .background(Color.white).cornerRadius(5)
                             }
-                        }
-                    }
+                    
                 }else{
                     VStack{
                         Text("내 리뷰가 존재하지 않습니다.")
@@ -303,7 +326,7 @@ extension WorkView{
                 .bold()
             ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
                 NavigationLink {
-                    ReviewDetailsView(reviewId: review.reviewID)
+                    ReviewDetailsView(goWork: false, reviewId: review.reviewID)
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {

@@ -12,7 +12,10 @@ class CustomData{
     
     static let instance = CustomData()
     
-    let community = Community(title: "최고의 영화", image: "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", like: 12, hate: 2, content: "1918년 제1차 세계 대전 말 뉴올리언즈. 80세의 외모를 가진 사내 아이가 태어난다. 그의 이름은 벤자민 버튼. 생김새때문에 양로원에 버려져 노인들과 함께 지내던 그는 시간이 지날수록 젊어진다는 것을 알게 된다. 12살이 되며 60대의 외모를 가지게 된 어느 날, 5살 소녀 데이지를 만난 후 그녀의 푸른 눈동자를 잊지 못하게 된다. 점차 중년이 되어 세상으로 나간 벤자민은 숙녀가 된 데이지와 만나 만남과 헤어짐을 반복하다 비로소 둘은 사랑에 빠지게 된다. 하지만 벤자민은 날마다 젊어지고 데이지는 점점 늙어가는데…", date: "2023/04/05 12:24:04",reply: 4)
+    let comment = CommentResponse(commentID: 1, userID: 1, userNickname: "콰랑", userProfileImage: 4, parentID: nil, content: "좋다로", childCnt: 2,likeStatus: 1,likeCnt: 20,dislikeCnt: 10, createdAt: "2023-10-17T11:55:25.525746", modifiedAt: "2023-10-17T11:55:25.525746", removed: false)
+    
+    let community = CommuityDetailsResponseList(postingID: 1, contentsID: 1, contentsTitle: "죠죠의 기묘한 모험", contentsPosterPath: "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", userID: 1, userNickname: "콰랑", userProfileImage: 1, title: "최고의 아이", category: 0, viewCnt: 45, likeCnt: 3, dislikeCnt: 1, likeStatus: 0, commentCnt: 4, createdAt: "2023-10-16T12:33:35.007579", modifiedAt: "2023-10-16T12:33:35.007579", spoiler: true)
+    
     let movieList = [
         "https://i.namu.wiki/i/I52GG9t2PRgVqG6UK-umxRuMYAi6g9dplO3eLIWSPcMMqkJ1mnXo8-mOSzrW43EGyrT6MsBAfnMlWvRdUGRUEMHSAhqNptnLznZgTJhr1AXi_bMNGihiuLZEEHZXdHdI9dfS7kHcftSQ-5zZRyfgfQ.webp",
         "https://image.yes24.com/goods/98829094/XL",

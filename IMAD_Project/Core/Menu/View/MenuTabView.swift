@@ -24,6 +24,7 @@ struct MenuTabView: View {
                     .environmentObject(vmAuth)
                     .tag(Tab.home)
                 CommunityView()
+                    .environmentObject(vmAuth)
                     .tag(Tab.community)
                 ExploreView()
                     .tag(Tab.notification)
@@ -94,8 +95,9 @@ extension MenuTabView{
             }
             .overlay(alignment:.leading){
                 Capsule()
-                    .frame(width: 30,height: 3)
-                    .padding(.horizontal,width/11.25)
+                    .padding(.horizontal,UIScreen.main.bounds.width/11)
+                    .frame(width: UIScreen.main.bounds.width/4,height: 3)
+//                    .padding(.horizontal,width/8)
                     .padding(.bottom,55)
                     .offset(x:vm.indicatorOffset(width: width))
             }

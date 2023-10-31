@@ -38,6 +38,18 @@ enum WorkApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func workInfo(contentsId:Int) -> AnyPublisher<Work,AFError>{
+        print("작품상세정보 api호출")
+        return ApiClient.shared.session
+            .request(WorkRouter.workDetailInfo(contentsId: contentsId),interceptor: intercept)
+            .publishDecodable(type: Work.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
     static func bookRead(page:Int) -> AnyPublisher<Bookmark,AFError>{
         print("북마크 조회 api호출")
         return ApiClient.shared.session

@@ -177,9 +177,12 @@ struct RegisterView: View {
         .alert(isPresented: $notRegex) {
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
                 if success{
-                    dismiss()
+                    vm.login(email: "\(email)@\(domain.domain)", password: password)
                 }
             })
+        }
+        .onReceive(vm.loginSuccess){ status in
+            vm.loginMode = status
         }
     }
     func isVaildInfo()->Int{

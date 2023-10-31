@@ -9,48 +9,62 @@ import SwiftUI
 import Kingfisher
 
 struct CommunityWriteView: View {
+    var id:Int?
+    var type:String?
+    @State var contentsId:Int?
+    var postingId:Int?
     let image:String
-    let maximumRating: Double = 5.0
     
+    @State var loading = false
+    @State var tokenExpired = (false,"")
+    @State var category:CommunityFilter = .free
+    @State var spoiler = false
     @State var text = ""
     @State var title = ""
-    @State private var rating: Double = 0.0
     
     @Environment(\.dismiss) var dismiss
-    
+    @StateObject var vm = CommunityViewModel()
+    @StateObject var vmWork = WorkViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         
         ZStack{
             Color.white.ignoresSafeArea()
             ScrollView(showsIndicators: false){
-            
-                VStack(alignment: .leading){
                 
-                ZStack(alignment: .top){
-                    MovieBackgroundView(url: image,height: 2.7)
-                    Text("자유롭게 작성해보세요!")
-                        .bold()
-                    HStack(alignment: .center){
-                        KFImage(URL(string: image))
-                            .resizable()
-                            .frame(width: 200,height: 250)
-                            .cornerRadius(20)
-                            .shadow(radius: 10)
-                        
-                    }.padding(.top,70)
+                VStack(alignment: .leading){
                     
-                }.padding(.top,20)
+                    ZStack(alignment: .top){
+                        MovieBackgroundView(url: image,height: 2.7)
+                        Text("자유롭게 작성해보세요!")
+                            .bold()
+                        HStack(alignment: .center){
+                            KFImage(URL(string: image))
+                                .resizable()
+                                .frame(width: 200,height: 250)
+                                .cornerRadius(20)
+                                .shadow(radius: 10)
+                            
+                        }.padding(.top,70)
+                        
+                    }.padding(.top,20)
                     HStack{
                         Text("제목")
-                            
                             .bold()
-                            .font(.title3)
-                            
+                        
                         Spacer()
-                        Label("스포일러", systemImage: "checkmark")
-                            .foregroundColor(.gray)
-                            .font(.caption)
+                        if spoiler{
+                            Text("이 게시물은 스포일러를 포함하고 있습니다.").font(.caption).foregroundColor(.gray)
+                        }
+                        Button {
+                            spoiler.toggle()
+                        } label: {
+                            Label("스포일러", systemImage: "checkmark")
+                                .foregroundColor(spoiler ? .customIndigo : .gray)
+                                .font(.caption)
+                                .bold()
+                        }
                     }.padding(.horizontal,30)
                         .foregroundColor(.black)
                         .padding(.top,40)
@@ -62,34 +76,51 @@ struct CommunityWriteView: View {
                                 .foregroundColor(.customIndigo)
                         }
                         .padding(.horizontal,30)
-                    
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.customIndigo, lineWidth: 2)
-                                .frame(height: 360)
-                                .overlay(
-                                    TextEditor(text: $text)
-                                        .background(Color.clear)
-                                        .padding(8)
-                                        .overlay(alignment: .topLeading){
-                                            if text == ""{
-                                                Text("게시물을 작성해주세요..")
-                                                    .allowsHitTesting(false)
-                                                    .opacity(0.5)
-                                                    .padding()
-                                            }
-                                            
+                    Text("카테고리")
+                        .foregroundColor(.black)
+                        .padding(.leading,30)
+                        .padding(.top)
+                        .bold()
+                    Picker("",selection: $category){
+                        ForEach(CommunityFilter.allCases,id: \.self){ item in
+                            if item != .all{
+                                Text(item.name)
+                                    .tag(item)
+                            }
+                        }.foregroundColor(.black)
+                    }
+                    .pickerStyle(.segmented)
+                    .environment(\.colorScheme, .light)
+                    .padding(.horizontal,30)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.customIndigo, lineWidth: 2)
+                            .frame(height: 360)
+                            .overlay(
+                                TextEditor(text: $text)
+                                    .background(Color.clear)
+                                    .padding(8)
+                                    .overlay(alignment: .topLeading){
+                                        if text == ""{
+                                            Text("게시물을 작성해주세요..")
+                                                .allowsHitTesting(false)
+                                                .opacity(0.5)
+                                                .padding()
                                         }
-                                        .scrollContentBackground(.hidden)
-                                        .foregroundColor(.black)
-                                    
-                                )
-                                .padding()
-                                .padding(.horizontal)
-                        }
-                    
+                                        
+                                    }
+                                    .scrollContentBackground(.hidden)
+                                    .foregroundColor(.black)
+                                
+                            )
+                            .padding()
+                            .padding(.horizontal)
+                    }
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
+                    }
                 }
-                    
+                
             }
             HStack{
                 HStack{
@@ -103,13 +134,19 @@ struct CommunityWriteView: View {
                             .background(Circle().foregroundColor(.white))
                             .shadow(radius: 20)
                             .padding(.leading)
-                            
+                        
                     }
                     Spacer()
                 }
                 if text != "" && title != ""{
                     Button {
-                      
+                        if let postingId{
+                            vm.modifyCommunity(postingId: postingId, title: title, content: text, category: category.num, spoiler: spoiler)
+                        }
+                        else if let contentsId{
+                            vm.writeCommunity(contentsId: contentsId, title: title, content: text, category: category.num, spoiler: spoiler)
+                        }
+                        loading = true
                     } label: {
                         Text("완료")
                             .font(.body)
@@ -125,18 +162,37 @@ struct CommunityWriteView: View {
             }
             .frame(maxHeight: .infinity,alignment: .top)
             .padding()
-        }
-        
-        .foregroundColor(.white)
-            .onTapGesture {
-                UIApplication.shared.endEditing()
+            if loading{
+                Color.black.opacity(0.5).ignoresSafeArea()
+                CustomProgressView()
             }
+        }
+        .onAppear{
+            guard let id,let type else {return}
+            vmWork.getWorkInfo(id: id, type: type)
+        }
+        .foregroundColor(.white)
+        .onReceive(vm.tokenExpired) { messages in
+            tokenExpired = (true,messages)
+        }
+        .alert(isPresented: $tokenExpired.0) {
+            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                vmAuth.loginMode = false
+            })
+        }
+        .onReceive(vm.success) {
+            dismiss()
+        }
+        .onReceive(vmWork.contentsIdSuccess) { contentsId in
+            self.contentsId = contentsId
+        }
         
     }
 }
 
 struct CommunityWriteView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityWriteView(image: CustomData.instance.movieList.first!)
+        CommunityWriteView(contentsId: 1, image: CustomData.instance.movieList.first!)
+            .environmentObject(AuthViewModel())
     }
 }

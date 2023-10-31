@@ -10,6 +10,7 @@ import Kingfisher
 
 struct ReviewDetailsView: View {
     
+    let goWork:Bool
     let reviewId:Int
     @State var like = 0
     @State var anima = false
@@ -25,12 +26,12 @@ struct ReviewDetailsView: View {
             LazyVStack(alignment: .leading,pinnedViews: [.sectionHeaders]) {
                 Section {
                     HStack{
-                        Image(ProfileFilter.allCases.first(where: {$0.num == vm.reviewInfo?.userProfileImage })?.rawValue ?? "")
+                        Image(ProfileFilter.allCases.first(where: {$0.num == vm.reviewInfo?.userProfileImage })?.rawValue ?? "soso")
                             .resizable()
                             .scaledToFill()
                             .frame(width: 30,height: 30)
                             .clipShape(Circle())
-                        Text(vm.reviewInfo?.userNickname ?? "")
+                        Text(vm.reviewInfo?.userNickname ?? "11")
                         Spacer()
                         Group{
                             if vm.reviewInfo?.createdAt ?? "" != vm.reviewInfo?.modifiedAt ?? ""{
@@ -41,50 +42,63 @@ struct ReviewDetailsView: View {
                             }
                         }.foregroundColor(.gray)
                             .font(.caption)
-                        
-                        
                     }
-                    .padding()
-                    VStack(alignment: .leading){
-                        
-                        HStack{
-                            KFImage(URL(string: vm.reviewInfo?.contentsPosterPath?.getImadImage() ?? ""))
-                                .resizable()
-                                .frame(width: 80,height: 120)
-                                .scaledToFill()
-                                .cornerRadius(10)
-                            VStack(alignment: .leading){
-                                Circle()
-                                    .trim(from: 0.0, to: anima ? (vm.reviewInfo?.score ?? 0) * 0.1 : 0)
-                                    .stroke(lineWidth: 3)
-                                    .rotation(Angle(degrees: 270))
-                                    .frame(width: 50,height: 50)
-                                    .overlay{
-                                        VStack{
-                                            Image(systemName: "star.fill")
-                                            Text(String(format: "%0.1f", (vm.reviewInfo?.score ?? 0)))
-                                        }
-                                        .font(.caption)
-                                        Circle().stroke(lineWidth:0.1)
-                                    }
-                                    .shadow(radius: 20)
-                                    .padding(.bottom)
-                                HStack{
-                                    Text(vm.reviewInfo?.contentsTitle ?? "").bold().font(.subheadline)
-                                    Text((vm.reviewInfo?.spoiler ?? false) ? "스포일러" : "클린")
-                                        .font(.caption)
-                                        .padding(2)
-                                        .padding(.horizontal)
-                                        .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1))
+                    .padding(.horizontal)
+                    
+                    
+                    HStack(alignment: .top) {
+                        KFImage(URL(string: vm.reviewInfo?.contentsPosterPath?.getImadImage() ?? CustomData.instance.movieList.first!))
+                            .resizable()
+                            .frame(width: 100,height: 120)
+                            .scaledToFill()
+                            .cornerRadius(10)
+                        VStack(alignment: .leading) {
+                            Text("#" + (vm.reviewInfo?.contentsTitle ?? "")).bold().font(.subheadline)
+                            Text((vm.reviewInfo?.spoiler ?? false) ? "스포일러" : "클린")
+                                .font(.caption)
+                                .padding(2)
+                                .padding(.horizontal)
+                                .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1))
+                            Text(vm.reviewInfo?.title ?? "")
+                                .font(.subheadline).bold()
+                            
+                        }
+                        Spacer()
+                        Circle()
+                            .trim(from: 0.0, to: anima ? (vm.reviewInfo?.score ?? 0) * 0.1 : 0)
+                            .stroke(lineWidth: 3)
+                            .rotation(Angle(degrees: 270))
+                            .frame(width: 50,height: 50)
+                            .overlay{
+                                VStack{
+                                    Image(systemName: "star.fill")
+                                    Text(String(format: "%0.1f", (vm.reviewInfo?.score ?? 0)))
                                 }
-                                
+                                .font(.caption)
+                                Circle().stroke(lineWidth:0.1)
                             }
-                            .padding(.leading)
-                        }.padding(.bottom)
-                        Text(vm.reviewInfo?.title ?? "").bold().font(.title3)
+                            .shadow(radius: 20)
                             .padding(.bottom)
-                        Text(vm.reviewInfo?.content ?? "")
-                            .font(.subheadline)
+                    }.padding(.horizontal)
+                    if goWork{
+                        NavigationLink {
+                            WorkView(contentsId:vm.reviewInfo?.contentsID ?? 0)
+                                .environmentObject(vmAuth)
+                        } label: {
+                            HStack(spacing:1){
+                                Text(vm.reviewInfo?.contentsTitle ?? "").bold()
+                                Text("의 상세정보 보러가기")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }.font(.caption)
+                                .padding(10)
+                                .background(Color.white).cornerRadius(10).shadow(radius: 1)
+                                .padding(.horizontal)
+                        }.padding(.vertical,7.5)
+                    }
+                    Text(vm.reviewInfo?.content ?? "")
+                        .font(.subheadline).padding(.horizontal)
+                    VStack(alignment: .leading){
                         VStack(alignment: .trailing){
                             Divider()
                             HStack{
@@ -182,7 +196,7 @@ struct ReviewDetailsView: View {
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ReviewDetailsView(reviewId: 1)
+            ReviewDetailsView(goWork: true, reviewId: 1)
                 .environmentObject(AuthViewModel())
         }
     }

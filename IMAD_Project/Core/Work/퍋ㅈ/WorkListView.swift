@@ -10,6 +10,7 @@ import Kingfisher
 
 struct WorkListView: View {
    
+    let postingMode:Bool
     let title:String
     let columns =  [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
     
@@ -40,12 +41,16 @@ struct WorkListView: View {
                 .padding(.horizontal)
                 .padding(.bottom,5)
                 ScrollView{
-                    
                         LazyVGrid(columns: columns) {
                             ForEach(vm.work){ result in
                                 NavigationLink {
-                                    WorkView(id:result.id,type:result.mediaType ?? "")
-                                        .environmentObject(vmAuth)
+                                    if postingMode{
+                                        CommunityWriteView(id: result.id,type:result.mediaType ,image: result.posterPath?.getImadImage() ?? "")
+                                            .navigationBarBackButtonHidden()
+                                    }else{
+                                        WorkView(id:result.id,type:result.mediaType ?? "")
+                                            .environmentObject(vmAuth)
+                                    }
                                    } label: {
                                        VStack{
                                            KFImage(URL(string: result.posterPath?.getImadImage() ?? ""))
@@ -53,7 +58,7 @@ struct WorkListView: View {
                                                    emptyPoster
                                                }
                                                .resizable()
-                                               .frame(height: 170)
+                                               .frame(height: (UIScreen.main.bounds.width/3)*1.25)
                                                .cornerRadius(15)
                                            Text(result.title == nil ? result.name ?? "" : result.title ?? "")
                                            .bold()
@@ -95,7 +100,7 @@ struct WorkListView: View {
 
 struct MovieListView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkListView(title: "내 작품", back: .constant(false))
+        WorkListView(postingMode: false, title: "내 작품", back: .constant(false))
             .environmentObject(AuthViewModel())
     }
 }

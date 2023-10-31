@@ -30,6 +30,9 @@ struct ContentView: View {
                     }else{
                         LoginAllView().environmentObject(vm)
                             .ignoresSafeArea(.keyboard)
+                            .onAppear{
+                                vm.getUser()
+                            }
                     }
                 }else{
                     OnBoardingTabView(isFirstLaunch: $isFirstLaunch)
@@ -53,9 +56,6 @@ struct ContentView: View {
                 vm.guestMode = false
             }
         }
-//        .onReceive(vm.getTokenSuccess) { _ in
-//            vm.getUser()
-//        }
         
     }
 }

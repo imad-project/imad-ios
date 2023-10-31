@@ -14,25 +14,28 @@ struct MyReviewListRowView: View {
     let review:ReviewDetailsResponseList
     
     var body: some View {
-        VStack{
-            HStack{
-                Text("작품명 : " + review.contentsTitle).bold()
-                Spacer()
-                Text(review.modifiedAt.relativeTime()).font(.caption).foregroundColor(.gray)
-            }
+
             HStack{
                 
                 KFImage(URL(string: review.contentsPosterPath.getImadImage()))
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 100,height: 150)
+                    .frame(width: 100,height: 120)
                     .cornerRadius(10)
                     .shadow(radius: 10)
                 
-                VStack(alignment: .leading) {
-                    Text(review.title).bold()
-                        .padding(.vertical)
-                        .font(.subheadline)
+                VStack(alignment: .leading,spacing: 0) {
+                    HStack(alignment: .top){
+                        VStack(alignment: .leading){
+                            Text("#" + review.contentsTitle).font(.caption)
+                            Text(review.title).bold()
+                                .font(.subheadline)
+                                .padding(.bottom,5)
+                        }
+                        
+                        Spacer()
+                        Text(review.modifiedAt.relativeTime()).font(.caption).foregroundColor(.gray)
+                    }
                     HStack{
                         Text(review.content)
                             .font(.caption)
@@ -41,41 +44,59 @@ struct MyReviewListRowView: View {
                             .padding(.bottom,5)
                             .padding(.horizontal,5)
                         Spacer()
+                        VStack(alignment: .trailing){
+                            Circle()
+                                .trim(from: 0.0, to: anima ? (review.score) * 0.1 : 0)
+                                .stroke(lineWidth: 1)
+                                .rotation(Angle(degrees: 270))
+                                .frame(width: 40,height: 40)
+                                .overlay{
+                                    VStack{
+                                        Image(systemName: "star.fill").font(.system(size: 10))
+                                        Text(String(format: "%0.1f", (review.score)))
+                                    }
+                                    .font(.caption2)
+                                    Circle().stroke(lineWidth:0.01)
+                                }
+                                .shadow(radius: 20)
+                                .padding(.bottom,5)
+                            HStack{
+                                HStack{
+                                    Image(systemName: "heart.fill")
+                                    Text("\((review.likeCnt))").foregroundColor(.black)
+                                        .padding(.trailing,2)
+                                }
+                                .padding(.horizontal,10)
+                                .padding(.vertical,2)
+                                .overlay {
+                                    Capsule().stroke(lineWidth: 1)
+                                }
+                                .foregroundColor(.red)
+                                HStack{
+                                    Image(systemName: "heart.slash.fill")
+                                    Text("\((review.dislikeCnt))").foregroundColor(.black)
+                                        .padding(.trailing,2)
+                                }
+                                .padding(.horizontal,10)
+                                .padding(.vertical,2)
+                                .overlay {
+                                    Capsule().stroke(lineWidth: 1)
+                                }
+                                .foregroundColor(.blue)
+                            }.font(.caption2).padding(.top)
+                            
+                        }.padding(.leading)
                     }
+                    
+                    
+                    
                     
                 }
                 Spacer()
-                VStack{
-                    Circle()
-                        .trim(from: 0.0, to: anima ? (review.score) * 0.1 : 0)
-                        .stroke(lineWidth: 3)
-                        .rotation(Angle(degrees: 270))
-                        .frame(width: 50,height: 50)
-                        .overlay{
-                            VStack{
-                                Image(systemName: "star.fill")
-                                Text(String(format: "%0.1f", (review.score)))
-                            }
-                            .font(.caption)
-                            Circle().stroke(lineWidth:0.1)
-                        }
-                        .shadow(radius: 20)
-                        .padding(.bottom)
-                    HStack(spacing: 15){
-                        HStack(spacing: 2){
-                            Image(systemName: "heart.fill").foregroundColor(.red)
-                            Text("\((review.likeCnt))")
-                                .padding(.trailing)
-                            Image(systemName: "heart.slash.fill").foregroundColor(.blue)
-                            Text("\((review.dislikeCnt))")
-                        }
-                        .font(.subheadline)
-                    }
-                    .font(.subheadline)
-                }.padding(.horizontal)
+               
                 
             }
-        }
+        
         
         .onAppear{
             DispatchQueue.main.async {

@@ -25,4 +25,16 @@ enum CommunityFilter:CaseIterable{
             return "토론글"
         }
     }
+    var num:Int {
+        switch self{
+        case .all:
+            return 0
+        case .free:
+            return 1
+        case .question:
+            return 2
+        case .debate:
+            return 3
+        }
+    }
 }

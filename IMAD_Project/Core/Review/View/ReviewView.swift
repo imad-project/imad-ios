@@ -12,8 +12,8 @@ struct ReviewView: View {
     let id:Int
     
     @State var tokenExpired = (false,"")
-    @State var sort:ReviewSortFilter = .createdDate //정렬기준
-    @State var order:ReviewOrderFilter = .ascending   //오름차순 - 0,내림차순 - 1
+    @State var sort:SortFilter = .createdDate //정렬기준
+    @State var order:OrderFilter = .ascending   //오름차순 - 0,내림차순 - 1
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = ReviewViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -24,7 +24,7 @@ struct ReviewView: View {
                 Section {
                     ForEach(vm.reviewList,id:\.self){ review in
                         NavigationLink {
-                            ReviewDetailsView(reviewId: review.reviewID)
+                            ReviewDetailsView(goWork: false, reviewId: review.reviewID)
                                 .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {
@@ -105,7 +105,7 @@ extension ReviewView{
                 
                 Group{
                     Picker("", selection: $sort) {
-                        ForEach(ReviewSortFilter.allCases,id:\.self){
+                        ForEach(SortFilter.allCases,id:\.self){
                             Text($0.name).font(.system(size: 20))
                             
                         }
@@ -127,7 +127,7 @@ extension ReviewView{
                         
                     }
                     Picker("", selection: $order) {
-                        ForEach(ReviewOrderFilter.allCases,id:\.self){
+                        ForEach(OrderFilter.allCases,id:\.self){
                             Text($0.name)
                         }
                     }
