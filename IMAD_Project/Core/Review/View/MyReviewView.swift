@@ -163,7 +163,7 @@ extension MyReviewView{
                 ScrollView{
                     ForEach(mode == 0 ? list : list.filter({like ? $0.likeStatus == 1 : $0.likeStatus == -1 }),id:\.self){ item in
                         NavigationLink {
-                            ReviewDetailsView(reviewId: item.reviewID)
+                            ReviewDetailsView(goWork: true, reviewId: item.reviewID)
                                 .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {

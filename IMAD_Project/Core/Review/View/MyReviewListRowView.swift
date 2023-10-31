@@ -20,7 +20,7 @@ struct MyReviewListRowView: View {
                 KFImage(URL(string: review.contentsPosterPath.getImadImage()))
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 80,height: 120)
+                    .frame(width: 100,height: 120)
                     .cornerRadius(10)
                     .shadow(radius: 10)
                 

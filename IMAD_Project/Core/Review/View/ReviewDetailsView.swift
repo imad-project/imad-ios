@@ -10,6 +10,7 @@ import Kingfisher
 
 struct ReviewDetailsView: View {
     
+    let goWork:Bool
     let reviewId:Int
     @State var like = 0
     @State var anima = false
@@ -42,7 +43,9 @@ struct ReviewDetailsView: View {
                         }.foregroundColor(.gray)
                             .font(.caption)
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    
+                    
                     HStack(alignment: .top) {
                         KFImage(URL(string: vm.reviewInfo?.contentsPosterPath?.getImadImage() ?? CustomData.instance.movieList.first!))
                             .resizable()
@@ -77,6 +80,22 @@ struct ReviewDetailsView: View {
                             .shadow(radius: 20)
                             .padding(.bottom)
                     }.padding(.horizontal)
+                    if goWork{
+                        NavigationLink {
+                            WorkView(contentsId:vm.reviewInfo?.contentsID ?? 0)
+                                .environmentObject(vmAuth)
+                        } label: {
+                            HStack(spacing:1){
+                                Text(vm.reviewInfo?.contentsTitle ?? "").bold()
+                                Text("의 상세정보 보러가기")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }.font(.caption)
+                                .padding(10)
+                                .background(Color.white).cornerRadius(10).shadow(radius: 1)
+                                .padding(.horizontal)
+                        }.padding(.vertical,7.5)
+                    }
                     Text(vm.reviewInfo?.content ?? "")
                         .font(.subheadline).padding(.horizontal)
                     VStack(alignment: .leading){
@@ -177,7 +196,7 @@ struct ReviewDetailsView: View {
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ReviewDetailsView(reviewId: 1)
+            ReviewDetailsView(goWork: true, reviewId: 1)
                 .environmentObject(AuthViewModel())
         }
     }

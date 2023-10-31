@@ -143,9 +143,10 @@ extension CommunityPostView{
                 HStack(alignment: .top){
                     KFImage(URL(string: vm.communityDetail?.contentsPosterPath.getImadImage() ?? ""))
                         .resizable()
-                        .frame(width: 100,height: 100)
+                        .frame(width: 90,height: 110)
                         .cornerRadius(20)
                         .shadow(radius: 10)
+                       
                     VStack(alignment: .leading,spacing: 5){
                         Text("#" + (vm.communityDetail?.contentsTitle ?? ""))
                             .font(.footnote)
@@ -171,12 +172,26 @@ extension CommunityPostView{
                     }
                     Text(vm.communityDetail?.modifiedAt.relativeTime() ?? "").font(.caption).foregroundColor(.gray)
                     
-                }
+                } .padding(.top)
                 .padding(.horizontal)
+                NavigationLink {
+                    WorkView(contentsId:vm.communityDetail?.contentsID ?? 0)
+                        .environmentObject(vmAuth)
+                } label: {
+                    HStack(spacing:1){
+                        Text(vm.communityDetail?.contentsTitle ?? "").bold()
+                        Text("의 상세정보 보러가기")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }.font(.caption)
+                        .padding(10)
+                        .background(Color.white).cornerRadius(10).shadow(radius: 1)
+                        .padding(.horizontal)
+                }
                 Text(vm.communityDetail?.content ?? "")
                     .padding(.horizontal)
                 collection
-            }.padding(.top)
+            }//.padding(.top)
            
             comment
         }
