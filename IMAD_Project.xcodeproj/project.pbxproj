@@ -64,7 +64,6 @@
 		8154B1EC2AE0DA7000AD2F83 /* ReplyRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EB2AE0DA7000AD2F83 /* ReplyRouter.swift */; };
 		8154B1EE2AE0DB9800AD2F83 /* ReplyApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1ED2AE0DB9800AD2F83 /* ReplyApiService.swift */; };
 		8154B1F02AE0DC4300AD2F83 /* AddCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EF2AE0DC4300AD2F83 /* AddCommentResponse.swift */; };
-		815809912ACEB4EF00B5E07D /* MyBookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */; };
 		817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860112A2992D6004639F6 /* ContriesFilter.swift */; };
 		817860152A29A6C3004639F6 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860142A29A6C3004639F6 /* WorkView.swift */; };
 		817860172A29B1DD004639F6 /* WorkFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860162A29B1DD004639F6 /* WorkFilter.swift */; };
@@ -226,7 +225,6 @@
 		8154B1EB2AE0DA7000AD2F83 /* ReplyRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyRouter.swift; sourceTree = "<group>"; };
 		8154B1ED2AE0DB9800AD2F83 /* ReplyApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyApiService.swift; sourceTree = "<group>"; };
 		8154B1EF2AE0DC4300AD2F83 /* AddCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentResponse.swift; sourceTree = "<group>"; };
-		815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookmarkListView.swift; sourceTree = "<group>"; };
 		817860112A2992D6004639F6 /* ContriesFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContriesFilter.swift; sourceTree = "<group>"; };
 		817860142A29A6C3004639F6 /* WorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
 		817860162A29B1DD004639F6 /* WorkFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkFilter.swift; sourceTree = "<group>"; };
@@ -552,7 +550,6 @@
 				812EF9D229E1B5E700CE19DA /* ProfileView.swift */,
 				817BBB3729EE982F00E1CBA6 /* ProfileChangeView.swift */,
 				817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */,
-				815809902ACEB4EF00B5E07D /* MyBookmarkListView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1158,7 +1155,6 @@
 				8154B1D42ADA5DA400AD2F83 /* CommunityApiService.swift in Sources */,
 				81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */,
 				817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */,
-				815809912ACEB4EF00B5E07D /* MyBookmarkListView.swift in Sources */,
 				81D1212F2A2739F2003F3780 /* ExploreView.swift in Sources */,
 				8154B1E82ADE328400AD2F83 /* CommentRowView.swift in Sources */,
 				81C1EB7D2AB3581E00FB265D /* ReviewView.swift in Sources */,
