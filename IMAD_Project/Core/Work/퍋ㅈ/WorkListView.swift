@@ -9,13 +9,15 @@ import SwiftUI
 import Kingfisher
 
 struct WorkListView: View {
-    @State var text = ""
-    @StateObject var vm = SearchViewModel()
+   
+    let postingMode:Bool
     let title:String
-    let writeCommunity:Bool
+    let columns =  [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
     
-    let columns = [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
+    @State var tokenExpired = (false,"")
     @Binding var back:Bool
+    @StateObject var vm = SearchViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         NavigationView {
@@ -39,11 +41,16 @@ struct WorkListView: View {
                 .padding(.horizontal)
                 .padding(.bottom,5)
                 ScrollView{
-                    
                         LazyVGrid(columns: columns) {
                             ForEach(vm.work){ result in
                                 NavigationLink {
-                                    WorkView(id:result.id,type:result.mediaType ?? "")
+                                    if postingMode{
+                                        CommunityWriteView(id: result.id,type:result.mediaType ,image: result.posterPath?.getImadImage() ?? "")
+                                            .navigationBarBackButtonHidden()
+                                    }else{
+                                        WorkView(id:result.id,type:result.mediaType ?? "")
+                                            .environmentObject(vmAuth)
+                                    }
                                    } label: {
                                        VStack{
                                            KFImage(URL(string: result.posterPath?.getImadImage() ?? ""))
@@ -51,7 +58,7 @@ struct WorkListView: View {
                                                    emptyPoster
                                                }
                                                .resizable()
-                                               .frame(height: 170)
+                                               .frame(height: (UIScreen.main.bounds.width/3)*1.25)
                                                .cornerRadius(15)
                                            Text(result.title == nil ? result.name ?? "" : result.title ?? "")
                                            .bold()
@@ -80,12 +87,21 @@ struct WorkListView: View {
                     UIApplication.shared.endEditing()
                 }
         }
+        .onReceive(vm.tokenExpired) { messages in
+            tokenExpired = (true,messages)
+        }
+        .alert(isPresented: $tokenExpired.0) {
+            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+                vmAuth.loginMode = false
+            })
+        }
     }
 }
 
 struct MovieListView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkListView(title: "내 작품", writeCommunity: false, back: .constant(false))
+        WorkListView(postingMode: false, title: "내 작품", back: .constant(false))
+            .environmentObject(AuthViewModel())
     }
 }
 extension WorkListView{
