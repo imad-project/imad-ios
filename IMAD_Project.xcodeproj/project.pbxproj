@@ -145,6 +145,7 @@
 		81F259372AB0892300C54668 /* ReadReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F259362AB0892300C54668 /* ReadReview.swift */; };
 		81F259392AB09A4300C54668 /* UpdateReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F259382AB09A4300C54668 /* UpdateReview.swift */; };
 		81F2593B2AB09FA200C54668 /* DeleteReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F2593A2AB09FA200C54668 /* DeleteReview.swift */; };
+		81F3566E2AF21F1D00A46A6D /* MyBookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -305,6 +306,7 @@
 		81F259362AB0892300C54668 /* ReadReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadReview.swift; sourceTree = "<group>"; };
 		81F259382AB09A4300C54668 /* UpdateReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateReview.swift; sourceTree = "<group>"; };
 		81F2593A2AB09FA200C54668 /* DeleteReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReview.swift; sourceTree = "<group>"; };
+		81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookmarkListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -550,6 +552,7 @@
 				812EF9D229E1B5E700CE19DA /* ProfileView.swift */,
 				817BBB3729EE982F00E1CBA6 /* ProfileChangeView.swift */,
 				817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */,
+				81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1072,6 +1075,7 @@
 				81C2649E2A13B7AA00405B01 /* UserApiService.swift in Sources */,
 				8154B1E32ADE1CE600AD2F83 /* CommunityInfoResponse.swift in Sources */,
 				8115A6472A8395C500B7C3FE /* WorkApiService.swift in Sources */,
+				81F3566E2AF21F1D00A46A6D /* MyBookmarkListView.swift in Sources */,
 				817B60D42A237436000099A9 /* Validation.swift in Sources */,
 				819D499E2A933A5C008B7BFE /* Network.swift in Sources */,
 				8154B1EE2AE0DB9800AD2F83 /* ReplyApiService.swift in Sources */,
