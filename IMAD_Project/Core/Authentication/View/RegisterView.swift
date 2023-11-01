@@ -71,7 +71,7 @@ struct RegisterView: View {
                         Spacer()
                         Button {
                             if email != ""{
-                                vmCheck.checkEmail(email: email)
+                                vmCheck.checkEmail(email: "\(email)@\(domain.domain)")
                             }else{
                                 blankMsg = "이메일을 제대로 입력해주세요!"
                                 blankColor = false
