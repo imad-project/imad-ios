@@ -10,6 +10,9 @@ import SwiftUIFlowLayout
 
 struct SelectGenreView: View {
     
+    @State var movieList:[Int] = []
+    @State var tvList:[Int] = []
+    
     @EnvironmentObject var vm:AuthViewModel
     let columns = [ GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
     
@@ -25,6 +28,8 @@ struct SelectGenreView: View {
                     Spacer()
                     Button {
                         vm.selection = .profile
+                        vm.profileInfo.movieGenre = nil
+                        vm.profileInfo.tvGenre = nil
                     } label: {
                         Text("건너뛰기 > ")
                             .bold()
@@ -40,20 +45,21 @@ struct SelectGenreView: View {
                             .bold()
                         FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases){ item in
                             Button {
-                                guard !(vm.profileInfo.movieGenre ?? []).contains(item.rawValue) else { return vm.profileInfo.movieGenre = (vm.profileInfo.movieGenre ?? []).filter{$0 != item.rawValue}}
-                                vm.profileInfo.movieGenre?.append(item.rawValue)
+                                guard !movieList.contains(item.rawValue) else { return movieList = movieList.filter({$0 != item.rawValue})}
+                                movieList.append(item.rawValue)
+                                vm.profileInfo.movieGenre = movieList
                             } label: {
                                 HStack{
                                     Text(item.name)
                                     Text(item.image)
                                 }
-                                .foregroundColor(!(vm.profileInfo.movieGenre ?? []).contains(item.rawValue) ? .customIndigo : .white)
+                                .foregroundColor(!movieList.contains(item.rawValue) ? .customIndigo : .white)
                                 .font(.subheadline)
                                 .bold()
                                 .padding(8)
                                 .padding(.horizontal)
                                 .background{
-                                    if !(vm.profileInfo.movieGenre ?? []).contains(item.rawValue){
+                                    if !movieList.contains(item.rawValue){
                                         Capsule().stroke(lineWidth: 1)
                                     }else{
                                         Capsule()
@@ -70,20 +76,21 @@ struct SelectGenreView: View {
                             .padding(.top)
                         FlowLayout(mode: .scrollable, items: TVGenreFilter.allCases) { item in
                             Button {
-                                guard !(vm.profileInfo.tvGenre ?? []).contains(item.rawValue) else { return vm.profileInfo.tvGenre = vm.profileInfo.tvGenre?.filter{$0 != item.rawValue}}
-                                vm.profileInfo.tvGenre?.append(item.rawValue)
+                                guard !tvList.contains(item.rawValue) else { return tvList = tvList.filter({$0 != item.rawValue})}
+                                tvList.append(item.rawValue)
+                                vm.profileInfo.tvGenre = tvList
                             } label: {
                                 HStack{
                                     Text(item.name)
                                     Text(item.image)
                                 }
-                                .foregroundColor(!(vm.profileInfo.tvGenre ?? []).contains(item.rawValue) ? .customIndigo : .white)
+                                .foregroundColor(!tvList.contains(item.rawValue) ? .customIndigo : .white)
                                 .font(.subheadline)
                                 .bold()
                                 .padding(8)
                                 .padding(.horizontal)
                                 .background{
-                                    if !(vm.profileInfo.tvGenre ?? []).contains(item.rawValue){
+                                    if !tvList.contains(item.rawValue){
                                         Capsule().stroke(lineWidth: 1)
                                     }else{
                                         Capsule()
@@ -120,9 +127,7 @@ struct SelectGenreView: View {
 
 struct SelectGenreView_Previews: PreviewProvider {
     static var previews: some View {
-        //SelectGenreView(preveous: .constant(true))
         SelectGenreView()
             .environmentObject(AuthViewModel())
-//            .background(Color.customIndigo)
     }
 }
