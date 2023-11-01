@@ -11,7 +11,7 @@ import Kingfisher
 struct WorkView: View {
     
     var id:Int?
-    var type:String?
+    @State var type:String?
     var contentsId:Int?
     
     @State var tokenExpired = (false,"")
@@ -21,6 +21,8 @@ struct WorkView: View {
     @State var writeCommunity = false
     @State var message = ""
     @State var showMyRevie = false
+    @State var goPosting = (false,0)
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel
     @StateObject var vmReview = ReviewViewModel()
@@ -30,9 +32,9 @@ struct WorkView: View {
     
     var returnType:Bool{
         switch type{
-        case "movie":
+        case "MOVIE":
             return false
-        case "tv":
+        case "TV":
             return true
         default:
             return true
@@ -82,6 +84,7 @@ struct WorkView: View {
             }
         }
         .onReceive(vm.success){
+            type =  vm.workInfo?.contentsType
             vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: vmReview.page, sort: SortFilter.createdDate.rawValue, order: 0)
         }
         .navigationDestination(isPresented: $writeReview) {
@@ -107,6 +110,13 @@ struct WorkView: View {
                     showMyRevie = true
                 }
             })
+        }
+        .onReceive(vmAuth.postingSuccess){ postingId in
+            goPosting = (true,postingId)
+        }
+        .navigationDestination(isPresented: $goPosting.0){
+            CommunityPostView(postingId:goPosting.1)
+                .environmentObject(vmAuth)
         }
         .navigationDestination(isPresented: $showMyRevie) {
             if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
@@ -219,7 +229,7 @@ extension WorkView{
             HStack(spacing:0){
                 Group{
                     Button {
-                        if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}){
+                        if vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}) != nil{
                             message = "리뷰 작성함"
                             tokenExpired = (true,"이미 작성한 리뷰가 존재합니다!")
                         }else{

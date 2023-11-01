@@ -34,6 +34,7 @@ class AuthViewModel:ObservableObject{
     var passwordChangeSuccess = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
     var tokenExpired = PassthroughSubject<String,Never>()
+    var postingSuccess = PassthroughSubject<Int,Never>()
     
     
     func register(email:String,password:String,authProvider:String){

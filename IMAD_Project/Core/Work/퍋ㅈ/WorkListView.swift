@@ -15,6 +15,7 @@ struct WorkListView: View {
     let columns =  [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
     
     @State var tokenExpired = (false,"")
+    @State var goPosting = (false,0)
     @Binding var back:Bool
     @StateObject var vm = SearchViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -46,6 +47,7 @@ struct WorkListView: View {
                                 NavigationLink {
                                     if postingMode{
                                         CommunityWriteView(id: result.id,type:result.mediaType ,image: result.posterPath?.getImadImage() ?? "")
+                                            .environmentObject(vmAuth)
                                             .navigationBarBackButtonHidden()
                                     }else{
                                         WorkView(id:result.id,type:result.mediaType ?? "")
@@ -86,6 +88,13 @@ struct WorkListView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
+        }
+        .onReceive(vmAuth.postingSuccess){ postingId in
+            goPosting = (true,postingId)
+        }
+        .navigationDestination(isPresented: $goPosting.0){
+            CommunityPostView(postingId:goPosting.1)
+                .environmentObject(vmAuth)
         }
         .onReceive(vm.tokenExpired) { messages in
             tokenExpired = (true,messages)

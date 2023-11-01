@@ -180,8 +180,9 @@ struct CommunityWriteView: View {
                 vmAuth.loginMode = false
             })
         }
-        .onReceive(vm.success) {
+        .onReceive(vm.success){
             dismiss()
+            vmAuth.postingSuccess.send(vm.posting?.data?.postingID ?? 0)
         }
         .onReceive(vmWork.contentsIdSuccess) { contentsId in
             self.contentsId = contentsId
