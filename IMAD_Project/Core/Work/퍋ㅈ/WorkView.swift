@@ -112,7 +112,10 @@ struct WorkView: View {
             })
         }
         .onReceive(vmAuth.postingSuccess){ postingId in
-            goPosting = (true,postingId)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                goPosting = (true,postingId)
+            }
+            
         }
         .navigationDestination(isPresented: $goPosting.0){
             CommunityPostView(postingId:goPosting.1)
