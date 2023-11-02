@@ -70,119 +70,160 @@ struct Dummy:View{
 //
 //}
 struct TestView: View {
-    @State var num = 0
-    @State var nums:[Int] = [0,1,2,3,4]
-    @State var category:CommunityFilter = .question
-    let comuns:[GridItem] = [GridItem(.flexible()),GridItem(.flexible())]
-    var ddd = PassthroughSubject<(),Never>()
-    var body: some View{
-        VStack{
-            LazyVGrid(columns: comuns) {
-                ForEach(0...10,id:\.self){ _ in
-                    GeometryReader { geo in
-                        let width = geo.size.width
-                        RoundedRectangle(cornerRadius: 20)
-                            .frame(height: width * 2)
-                    }
-                    
-                }
-            }
-//            Picker("",selection: $category){
-//                ForEach(CommunityFilter.allCases,id: \.self){ item in
-//                    if item != .all{
-//                        Text(item.name)
-//                            .tag(item)
-//                    }
-//                }.foregroundColor(.black)
-//            }
-//            .pickerStyle(.segmented)
-//            .environment(\.colorScheme, .light)
-//            .padding(.horizontal,30)
-//            HStack{
-//                ForEach(num,id: \.self){ num in
-//                    Text("\(num)")
-//                }
-//            }
-//
-//
-//            Button {
-//                var cancel = Set<AnyCancellable>()
-//
-//                [1,2,3].publisher
-//                    .sink { com in
-//                        print(com)
-//                        ddd.send()
-//                    } receiveValue: { int in
-//                        num.append(int)
-//                        [4,5,6].publisher
-//                            .sink { com in
-//                                print(com)
-//                            } receiveValue: { int in
-//                                num.append(int)
-//                            }.store(in: &cancel)
-//                    }.store(in: &cancel)
-//
-//                num.append(333333)
-//
-//
-//
-//            } label: {
-//                Text("go")
-//            }
-//            .onReceive(ddd) {
-//                var cancel = Set<AnyCancellable>()
-//                [7,8,9].publisher
-//                    .sink { com in
-//                        print(com)
-//                    } receiveValue: { int in
-//                        num.append(int)
-//                    }.store(in: &cancel)
-//            }
-        }
-        
+    @State private var isPresentingBView = false
+       
+       var body: some View {
+           NavigationView {
+               VStack {
+                   Text("A View")
+                   Button("Go to B View") {
+                       isPresentingBView.toggle()
+                   }
+                   .sheet(isPresented: $isPresentingBView) {
+                       BView()
+                   }
+               }
+           }
+       }
+   }
 
-//        ScrollView{
-//            LazyVStack(alignment: .leading,pinnedViews: [.sectionHeaders]){
-//                Section {
-//                    ForEach(0...10,id: \.self) { int in
-//                        Text("\(int)")
+   // B뷰
+   struct BView: View {
+       @State private var isPresentingCView = false
+       
+       var body: some View {
+           VStack {
+               Text("B View")
+               Button("Go to C View") {
+                   isPresentingCView.toggle()
+               }
+               .sheet(isPresented: $isPresentingCView) {
+                   CView()
+               }
+           }
+       }
+   }
+
+   // C뷰
+   struct CView: View {
+       var body: some View {
+           Text("C View")
+       }
+   }
+//struct TestView: View {
+//    @State var num = 0
+//    @State var nums:[Int] = [0,1,2,3,4]
+//    @State var category:CommunityFilter = .question
+//    let comuns:[GridItem] = [GridItem(.flexible()),GridItem(.flexible())]
+//    var ddd = PassthroughSubject<(),Never>()
+//    var body: some View{
+//        VStack{
+//            LazyVGrid(columns: comuns) {
+//                ForEach(0...10,id:\.self){ _ in
+//                    GeometryReader { geo in
+//                        let width = geo.size.width
+//                        RoundedRectangle(cornerRadius: 20)
+//                            .frame(height: width * 2)
 //                    }
-//                } header: {
-//                    GeometryReader { geo -> AnyView in
-//                        let offset = geo.frame(in: .global).minY
-//        //                if {
-//                            DispatchQueue.main.async {
-//                                withAnimation {
-//                                    -offset >= 0 ? (width = true) : (width = false)
-//                                }
-//
-//                                print(width)
-//                            }
-//        //                }
-//                        return AnyView(header)
-//                    }
-//
 //
 //                }
-//
-//
 //            }
-//
-////                Color.red
-////            }.frame(height: 200)
-//        }.ignoresSafeArea()
-    
-        
-            
-    }
-//    var header:some View{
-//        VStack{
-//            Spacer()
-//            Text("dasdasd")
-//                .font(width ? .largeTitle :.body)
-//                .background(Color.red)
+////            Picker("",selection: $category){
+////                ForEach(CommunityFilter.allCases,id: \.self){ item in
+////                    if item != .all{
+////                        Text(item.name)
+////                            .tag(item)
+////                    }
+////                }.foregroundColor(.black)
+////            }
+////            .pickerStyle(.segmented)
+////            .environment(\.colorScheme, .light)
+////            .padding(.horizontal,30)
+////            HStack{
+////                ForEach(num,id: \.self){ num in
+////                    Text("\(num)")
+////                }
+////            }
+////
+////
+////            Button {
+////                var cancel = Set<AnyCancellable>()
+////
+////                [1,2,3].publisher
+////                    .sink { com in
+////                        print(com)
+////                        ddd.send()
+////                    } receiveValue: { int in
+////                        num.append(int)
+////                        [4,5,6].publisher
+////                            .sink { com in
+////                                print(com)
+////                            } receiveValue: { int in
+////                                num.append(int)
+////                            }.store(in: &cancel)
+////                    }.store(in: &cancel)
+////
+////                num.append(333333)
+////
+////
+////
+////            } label: {
+////                Text("go")
+////            }
+////            .onReceive(ddd) {
+////                var cancel = Set<AnyCancellable>()
+////                [7,8,9].publisher
+////                    .sink { com in
+////                        print(com)
+////                    } receiveValue: { int in
+////                        num.append(int)
+////                    }.store(in: &cancel)
+////            }
 //        }
-    }
+//
+//
+////        ScrollView{
+////            LazyVStack(alignment: .leading,pinnedViews: [.sectionHeaders]){
+////                Section {
+////                    ForEach(0...10,id: \.self) { int in
+////                        Text("\(int)")
+////                    }
+////                } header: {
+////                    GeometryReader { geo -> AnyView in
+////                        let offset = geo.frame(in: .global).minY
+////        //                if {
+////                            DispatchQueue.main.async {
+////                                withAnimation {
+////                                    -offset >= 0 ? (width = true) : (width = false)
+////                                }
+////
+////                                print(width)
+////                            }
+////        //                }
+////                        return AnyView(header)
+////                    }
+////
+////
+////                }
+////
+////
+////            }
+////
+//////                Color.red
+//////            }.frame(height: 200)
+////        }.ignoresSafeArea()
+//
+//
+//
+//    }
+////    var header:some View{
+////        VStack{
+////            Spacer()
+////            Text("dasdasd")
+////                .font(width ? .largeTitle :.body)
+////                .background(Color.red)
+////        }
+//    }
 //    let text = ".AdYOmQHnrpYwoedHju6p6m518KN0YEDOsOxS6lb5hrBT9ZSdmvV0pbfoI8TvKiWliqo8JigZR2ENjP0nzzZrJbiYJTKgGK4w8NzvId2VPy82qbNFfKxGRLUhSyibvgeYgHWnB4VWRuFk0rTHG34F8WY1jihlX2EcfU86dMwowVoguzIHPI6Pkohq1WNuByJZXDFyizaBk68pTzCrKWIZV4RIwyJ43IbfxpHaP4cVt3TZ5mHBpDrXrnNm7AuYtE8ASI1CDZio7pvsdotL5jWROBY6CvWmPQ7qX0Fkliv6eZO6MTlSvhs2IttVlhIIed2lhg4elcZv2hgg50CYAoDa61g1D1BDEFRoi3S6qeARh35wf8QLk8lFfqTmmnpPm8vDQNw8YukaVbrnIbKvg8Cq8b9q2a3j1nTKkdG1bCRi5RW8KhAZg8cA98v3Q9FOFANdbmcjhhqk58jYs78T2f3Cpq8bhKwQO4isuxRXkzdBqZpfWnJOuxE4HQ4SG2K1uWlkBpmlotvYkWyggmXaAq1fgCmI49vyiTDDvdGLzQu687j9j7Nhx8up4rw0VkKErSRYdFOAiGynPAR6RRx5JKF1hM3bMPVqQc3VJuWMyld7gO89GoAqyHPQ7p2S4qpESYqgxUpfmOtf3XxJxi2JHPUfdHpOhhohFqjCKIlZdljSohdmKaIIlB8QWq3YlOK3xyGjnJBj2w5yLhkwbukyNvmkpxb3YLycO9rjfhqFbXL8RPUCHaduxZpqpbO47T0uHhsxbRDRhpF3a4pZngxisTjy436c44hNHn9U88iyMFSGiBPd5Os6WrsSASzB7gddz8dvumuQMaCDZZGiGWs4VFCkMaoWqlBEdVYVx3bliW" // (your text here)
 //    let work = CustomData.instance.workInfo
 //    var body: some View {

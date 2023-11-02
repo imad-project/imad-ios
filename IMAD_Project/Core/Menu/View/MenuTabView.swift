@@ -97,7 +97,6 @@ extension MenuTabView{
                 Capsule()
                     .padding(.horizontal,UIScreen.main.bounds.width/11)
                     .frame(width: UIScreen.main.bounds.width/4,height: 3)
-//                    .padding(.horizontal,width/8)
                     .padding(.bottom,55)
                     .offset(x:vm.indicatorOffset(width: width))
             }
