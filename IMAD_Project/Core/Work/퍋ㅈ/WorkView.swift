@@ -12,7 +12,7 @@ struct WorkView: View {
     
     var id:Int?
     @State var type:String?
-    var contentsId:Int?
+    @State var contentsId:Int?
     
     @State var tokenExpired = (false,"")
     @State var width:Bool = false
@@ -32,9 +32,9 @@ struct WorkView: View {
     
     var returnType:Bool{
         switch type{
-        case "MOVIE":
+        case "movie":
             return false
-        case "TV":
+        case "tv":
             return true
         default:
             return true
@@ -76,15 +76,11 @@ struct WorkView: View {
             withAnimation(.linear(duration: 0.5)){
                 anima = true
             }
-            if let contentsId{
-                vm.getWorkInfo(contentsId: contentsId)
-            }else{
-                guard let id,let type else {return}
-                vm.getWorkInfo(id: id, type: type)
-            }
+            guard let contentsId else {return}
+            vm.getWorkInfo(contentsId: contentsId)
         }
         .onReceive(vm.success){
-            type =  vm.workInfo?.contentsType
+            self.contentsId = vm.workInfo?.contentsId ?? 0
             vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: vmReview.page, sort: SortFilter.createdDate.rawValue, order: 0)
         }
         .navigationDestination(isPresented: $writeReview) {

@@ -44,23 +44,36 @@ struct CommunityView: View {
                                     CommunityListRowView(community: community)
                                         .padding(5)
                                 }
+                                if list.last == community{
+                                    if vm.communityList.count % 10 == 0,let element = vm.communityListResponse?.totalElements,element >= vm.communityList.count{
+                                        ProgressView()
+                                            .onAppear{
+                                                vm.page += 1
+                                                vm.readCommunityList(page: vm.page)
+                                            }
+                                    }
+                                }
+                               
                             }
-                        }
+                        }.padding(.bottom,55)
                     }
                 }
                 .background(Color.white)
                 .ignoresSafeArea()
                 .onAppear{
+                    vm.page = 1
                     vm.communityList = []
                     vm.readCommunityList(page: vm.page)
                 }
                 .onChange(of: tab.communityTab){ newValue in
                     if tab.communityTab == .all{
+                        vm.page = 1
                         vm.communityList = []
                         vm.readCommunityList(page: vm.page)
                         //전체리스트 조회
                     }else{
                         vm.communityList = []
+                        vm.page = 1
                         vm.readListConditionsAll(searchType: 0, query: "", page: vm.page, sort: "createdDate", order: 0)
                         //특정 필터 리스트 조회
                     }
@@ -108,11 +121,7 @@ extension CommunityView{
                         .font(.title3).bold()
                 }.padding(.trailing)
             }
-            
-            
-            
             category
-            
         }
         .foregroundColor(.customIndigo)
         .padding(.vertical)
