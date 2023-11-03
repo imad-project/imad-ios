@@ -69,6 +69,9 @@ struct Dummy:View{
 //
 //
 //}
+class Class:ObservableObject{
+    @Published var a  = false
+}
 struct TestView: View {
     @State private var isPresentingBView = false
        
