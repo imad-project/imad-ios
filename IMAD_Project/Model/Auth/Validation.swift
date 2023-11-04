@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - 이메일/닉네임 중복검사 data Response
 struct Validation:Codable{
     let status:Int
     let data:ValidationResponse?

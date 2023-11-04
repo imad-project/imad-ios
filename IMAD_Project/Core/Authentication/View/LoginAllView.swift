@@ -231,7 +231,7 @@ struct LoginAllView: View {
                 msg = value
             }
             .alert(isPresented: $success) {
-                Alert(title: Text(vm.getUserRes?.message ?? ""),dismissButton: .default(Text("확인")) {
+                Alert(title: Text(vm.getUserRes?.message),dismissButton: .default(Text("확인")) {
                     vm.loginMode = msg
                     loading = false
                 })

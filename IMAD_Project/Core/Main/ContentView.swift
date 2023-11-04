@@ -28,7 +28,8 @@ struct ContentView: View {
                             MenuTabView().environmentObject(vm)
                         }
                     }else{
-                        LoginAllView().environmentObject(vm)
+                        LoginAllView()
+                            .environmentObject(vm)
                             .ignoresSafeArea(.keyboard)
                     }
                 }else{

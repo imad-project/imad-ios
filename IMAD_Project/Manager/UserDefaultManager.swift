@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class UserDefaultManager{
   
@@ -27,5 +28,23 @@ class UserDefaultManager{
         let accessToken = UserDefaults.standard.string(forKey: Key.accessToken.rawValue) ?? ""
         let refreshToken = UserDefaults.standard.string(forKey: Key.refreshToken.rawValue) ?? ""
         return Token(accessToken: accessToken, refreshToken: refreshToken)
+    }
+    
+    func checkToken(response:HTTPURLResponse?){
+        var accessToken = ""
+        var refreshToken = ""
+        
+        if let access = response?.allHeaderFields["Authorization"] as? String{
+            accessToken = access
+        }
+        if let refresh = response?.allHeaderFields["Authorization-refresh"] as? String{
+            refreshToken = refresh
+        }else if let refresh = response?.allHeaderFields["authorization-refresh"] as? String{
+            refreshToken = refresh
+        }
+        
+        if !accessToken.isEmpty,!refreshToken.isEmpty{
+            UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+        }
     }
 }

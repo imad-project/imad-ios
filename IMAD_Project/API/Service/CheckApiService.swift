@@ -11,9 +11,7 @@ import Combine
 
 enum CheckApiService{
     
-    
     static var intercept = BaseIntercept()
-    
     
     static func checkEmail(email:String) -> AnyPublisher<Validation,AFError>{
         print("email중복검사 api 호출")
@@ -22,7 +20,7 @@ enum CheckApiService{
             .publishDecodable(type: Validation.self)
             .value()
             .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message ?? "")")
+                print("결과 메세지  : \(receivedValue.message)")
                 return receivedValue.self
             }
             .eraseToAnyPublisher()
@@ -34,12 +32,10 @@ enum CheckApiService{
             .publishDecodable(type: Validation.self)
             .value()
             .map{ receivedValue in
-                print(nickname)
-                print("\(receivedValue.status)")
+                print("결과 메세지  : \(receivedValue.message)")
                 return receivedValue.self
             }
             .eraseToAnyPublisher()
     }
-
 
 }

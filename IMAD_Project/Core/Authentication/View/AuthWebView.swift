@@ -22,24 +22,7 @@ struct AuthWebView: View {
                 decisionHandler(.cancel)
                 return
             }
-            
-            print("액세스\(httpResponse.allHeaderFields["Authorization"] as? String ?? "") 리프레쉬\(httpResponse.allHeaderFields["authorization-refresh"] as? String ?? "")")
-            
-            var accessToken = ""
-            var refreshToken = ""
-            
-            if let access = httpResponse.allHeaderFields["Authorization"] as? String{
-                accessToken = access
-            }
-            if let refresh = httpResponse.allHeaderFields["Authorization-refresh"] as? String{
-                refreshToken = refresh
-            }else if let refresh = httpResponse.allHeaderFields["authorization-refresh"] as? String{
-                refreshToken = refresh
-            }
-//            if !accessToken.isEmpty,!refreshToken.isEmpty{
-                UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-//            }
-            
+            UserDefaultManager.shared.checkToken(response: httpResponse)
             success.send()
             decisionHandler(.allow)
         }
@@ -70,12 +53,10 @@ struct AuthWebView: View {
             } else {
                 url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.rawValue)")!
             }
-            let request = URLRequest(url: url!)
-            print(request)
             // WebView에 로드된 페이지에 대한 Delegate 지정
             webView.navigationDelegate = webViewDelegate
             // 로드된 페이지 요청
-            webView.load(request)
+            webView.load(URLRequest(url: url!))
         }
         .onReceive(webViewDelegate.success) { _ in
             vm.getUser()
@@ -84,29 +65,24 @@ struct AuthWebView: View {
 }
 
 struct WebView: UIViewRepresentable {
+    // userAgent를 설정 - google로그인
     let webView:WKWebView
-    let userAgent: String // userAgent 프로퍼티를 추가합니다
+    let userAgent: String
+    class Coordinator: NSObject, WKUIDelegate, WKNavigationDelegate {}
     
     func makeUIView(context: Context) -> WKWebView {
         webView.uiDelegate = context.coordinator
         webView.navigationDelegate = context.coordinator
-        
-        // 여기서 userAgent를 설정합니다
         webView.customUserAgent = userAgent
         
         return webView
     }
     
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-    }
+    func updateUIView(_ uiView: WKWebView, context: Context) {}
     
     // 델리게이트 메소드를 처리할 Coordinator를 생성합니다
     func makeCoordinator() -> Coordinator {
         Coordinator()
-    }
-    
-    class Coordinator: NSObject, WKUIDelegate, WKNavigationDelegate {
-        // 델리게이트 메소드를 여기서 처리합니다
     }
 }
 
