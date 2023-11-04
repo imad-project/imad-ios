@@ -58,7 +58,7 @@ class SearchViewModel:ObservableObject{
                     }
                     self?.maxPage = work.data?.totalPages ?? 0
                 }else if work.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(work.message)
                 }
             }.store(in: &cancel)

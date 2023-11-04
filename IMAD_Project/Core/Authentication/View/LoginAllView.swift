@@ -37,6 +37,9 @@ struct LoginAllView: View {
                 ScrollView{
                     VStack(spacing: 10){
                         Text("환영합니다")
+                            .onTapGesture {
+                                vm.getUser()
+                            }
                             .font(.title)
                             .bold()
                             .foregroundColor(.customIndigo)

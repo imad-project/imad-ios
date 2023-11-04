@@ -44,7 +44,7 @@ class CommunityViewModel:ObservableObject{
                     self?.posting = response
                     self?.success.send()
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -63,7 +63,7 @@ class CommunityViewModel:ObservableObject{
                     guard let list = response.data?.postingDetailsResponseList else {return}
                     self?.communityList.append(contentsOf: list)
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -83,7 +83,7 @@ class CommunityViewModel:ObservableObject{
                     print(list)
                     self?.communityList.append(contentsOf: list)
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -102,7 +102,7 @@ class CommunityViewModel:ObservableObject{
                     guard let data = response.data?.commentListResponse else {return}
                     self?.replys.append(contentsOf: data.commentDetailsResponseList)
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -116,7 +116,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 switch response.status{
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -133,7 +133,7 @@ class CommunityViewModel:ObservableObject{
                     self?.posting = response
                     self?.success.send()
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -150,7 +150,7 @@ class CommunityViewModel:ObservableObject{
                 case 200...300:
                     self?.deleteSuccess.send()
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -167,7 +167,7 @@ class CommunityViewModel:ObservableObject{
                     self?.addCommentInList(commentId: response.data.commentId)
 //                    self?.communityDetail?.commentListResponse.commentDetailsResponseList.append(<#T##newElement: CommentResponse##CommentResponse#>)
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -183,7 +183,7 @@ class CommunityViewModel:ObservableObject{
                 case 200...300:
                     self?.modifySuccess.send()
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -199,7 +199,7 @@ class CommunityViewModel:ObservableObject{
 //                case 200...300:
 //                    self?.commentDeleteSuccess.send(response.)
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -217,7 +217,7 @@ class CommunityViewModel:ObservableObject{
                     self?.communityDetail?.commentListResponse.commentDetailsResponseList.append(data)
                     self?.replys.append(data)
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -233,7 +233,7 @@ class CommunityViewModel:ObservableObject{
                 case 200...300:
                     self?.parentComment = response.data
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -251,7 +251,7 @@ class CommunityViewModel:ObservableObject{
                     self?.replyList = data
                     self?.replys.append(contentsOf: data.commentDetailsResponseList)
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break
@@ -266,7 +266,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 switch response.status{
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(response.message)
                 default:
                     break

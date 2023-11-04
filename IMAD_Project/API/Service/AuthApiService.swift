@@ -30,8 +30,10 @@ enum AuthApiService{
                 }else if let refresh = response.response?.allHeaderFields["authorization-refresh"] as? String{
                     refreshToken = refresh
                 }
+//                if !accessToken.isEmpty,!refreshToken.isEmpty{
                 UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
                 print(UserDefaultManager.shared.getToken())
+//                }
             }
             .publishDecodable(type: GetUserInfo.self)
             .value()
@@ -72,36 +74,36 @@ enum AuthApiService{
             .eraseToAnyPublisher()
         
     }
-    static func getToken() {
-        let intercept = GetTokenIntercept()
-        print("토큰 재발급 api 호출")
-        ApiClient.shared.session
-            .request(AuthRouter.token,interceptor: intercept)
-            .response{ response in
-                
-                var accessToken = ""
-                var refreshToken = ""
-                
-                print("--------요청----------")
-                print(response.request?.allHTTPHeaderFields as Any)
-                print("--------응답----------")
-                print(response.response?.allHeaderFields as Any)
-                
-                print("--------받은 토큰----------")
-                if let access = response.response?.allHeaderFields["Authorization"] as? String{
-                    accessToken = access
-                }
-                if let refresh = response.response?.allHeaderFields["Authorization-refresh"] as? String{
-                    refreshToken = refresh
-                }else if let refresh = response.response?.allHeaderFields["authorization-refresh"] as? String{
-                    refreshToken = refresh
-                }
-                UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-                
-                print(accessToken)
-                print(refreshToken)
-            }
-    }
+//    static func getToken() {
+//        let intercept = GetTokenIntercept()
+//        print("토큰 재발급 api 호출")
+//        ApiClient.shared.session
+//            .request(AuthRouter.token,interceptor: intercept)
+//            .response{ response in
+//
+//                var accessToken = ""
+//                var refreshToken = ""
+//
+//                print("--------요청----------")
+//                print(response.request?.allHTTPHeaderFields as Any)
+//                print("--------응답----------")
+//                print(response.response?.allHeaderFields as Any)
+//
+//                print("--------받은 토큰----------")
+//                if let access = response.response?.allHeaderFields["Authorization"] as? String{
+//                    accessToken = access
+//                }
+//                if let refresh = response.response?.allHeaderFields["Authorization-refresh"] as? String{
+//                    refreshToken = refresh
+//                }else if let refresh = response.response?.allHeaderFields["authorization-refresh"] as? String{
+//                    refreshToken = refresh
+//                }
+//                UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+//
+//                print(accessToken)
+//                print(refreshToken)
+//            }
+//    }
     
 }
 

@@ -8,7 +8,7 @@
 import Foundation
 
 class UserDefaultManager{
-    
+  
     static let shared = UserDefaultManager()    //싱글톤
     
     enum Key:String,CaseIterable{

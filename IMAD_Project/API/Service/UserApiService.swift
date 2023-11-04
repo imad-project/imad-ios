@@ -11,17 +11,17 @@ import Combine
 
 enum UserApiService{
     
-    
     static var intercept = BaseIntercept()
     
     static func user() -> AnyPublisher<GetUserInfo,AFError>{
         print("유저정보 api 호출")
         return ApiClient.shared.session
             .request(UserRouter.user,interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: GetUserInfo.self)
             .value()
             .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message ?? "")")
+                print("결과 메세지  : \(receivedValue.message)")
                 return receivedValue.self
             }
             .eraseToAnyPublisher()
@@ -33,7 +33,7 @@ enum UserApiService{
             .publishDecodable(type: GetUserInfo.self)
             .value()
             .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message ?? "")")
+                print("결과 메세지  : \(receivedValue.message)")
                 return receivedValue.self
             }
             .eraseToAnyPublisher()
@@ -45,7 +45,7 @@ enum UserApiService{
             .publishDecodable(type: GetUserInfo.self)
             .value()
             .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message ?? "")")
+                print("결과 메세지  : \(receivedValue.message)")
                 return receivedValue.self
             }
             .eraseToAnyPublisher()

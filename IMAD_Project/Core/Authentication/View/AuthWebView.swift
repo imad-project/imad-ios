@@ -22,19 +22,26 @@ struct AuthWebView: View {
                 decisionHandler(.cancel)
                 return
             }
-//            print("액세스\(httpResponse.allHeaderFields["Authorization"] as? String ?? "") 리프레쉬\(httpResponse.allHeaderFields["authorization-refresh"] as? String ?? "")")
             
-            if let accessToken = httpResponse.allHeaderFields["Authorization"] as? String{
-                if let refreshToken = httpResponse.allHeaderFields["Authorization-refresh"] as? String{
-                    print(accessToken)
-                    print(refreshToken)
-                    UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-                    success.send()
-                }else if let refreshToken = httpResponse.allHeaderFields["authorization-refresh"] as? String{
-                    UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-                    success.send()
-                }
+            print("액세스\(httpResponse.allHeaderFields["Authorization"] as? String ?? "") 리프레쉬\(httpResponse.allHeaderFields["authorization-refresh"] as? String ?? "")")
+            
+            var accessToken = ""
+            var refreshToken = ""
+            
+            if let access = httpResponse.allHeaderFields["Authorization"] as? String{
+                accessToken = access
             }
+            if let refresh = httpResponse.allHeaderFields["Authorization-refresh"] as? String{
+                refreshToken = refresh
+            }else if let refresh = httpResponse.allHeaderFields["authorization-refresh"] as? String{
+                refreshToken = refresh
+            }
+            if !accessToken.isEmpty,!refreshToken.isEmpty{
+                UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+                print(UserDefaultManager.shared.getToken())
+            }
+            
+            
             decisionHandler(.allow)
         }
         

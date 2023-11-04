@@ -30,21 +30,17 @@ struct ContentView: View {
                     }else{
                         LoginAllView().environmentObject(vm)
                             .ignoresSafeArea(.keyboard)
-                            .onAppear{
-                                vm.getUser()
-                            }
                     }
                 }else{
                     OnBoardingTabView(isFirstLaunch: $isFirstLaunch)
                 }
             }else{
                 SplashView()
-                    .onAppear{
-                        vm.getUser()
-                    }
+                    
             }
         }
         .onAppear{
+            vm.getUser()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 withAnimation(.easeOut(duration: 1.5)){
                     splash = true
@@ -56,7 +52,6 @@ struct ContentView: View {
                 vm.guestMode = false
             }
         }
-        
     }
 }
 

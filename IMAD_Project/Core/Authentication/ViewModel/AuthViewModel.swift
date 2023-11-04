@@ -78,22 +78,25 @@ class AuthViewModel:ObservableObject{
             .sink { completion in
                 print(completion)
             } receiveValue: { [weak self] receivedValue in
-                switch receivedValue.status{
-                case 200...300:
-                    self?.getUserRes = receivedValue
-                    guard let data = receivedValue.data else {return}
-                    self?.profileInfo = data
-                    self?.loginMode = true
-                    if receivedValue.data?.role == "GUEST"{
-                        self?.guestMode = true
-                    }
-                    self?.getToken = 0
-                case 401:
-                    AuthApiService.getToken()
-                default:
-                    print(receivedValue.status)
-                    break
+                self?.loginMode = true
+                if receivedValue.data?.role == "GUEST"{
+                    self?.guestMode = true
                 }
+//                switch receivedValue.status{
+//
+////                case 200...300:
+////                    print(receivedValue.message)
+////                    self?.getUserRes = receivedValue
+////                    guard let data = receivedValue.data else {return}
+////                    self?.profileInfo = data
+//
+////                    self?.getToken = 0
+////                case 401:
+////                    AuthApiService.getToken()
+//                default:
+////                    print(receivedValue.status)
+//                    break
+//                }
             }.store(in: &cancelable)
     }
     func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?){
@@ -108,7 +111,7 @@ class AuthViewModel:ObservableObject{
                     guard let data = receivedValue.data else {return}
                     self?.profileInfo = data
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(receivedValue.message)
                 default: break
                 }
@@ -132,7 +135,7 @@ class AuthViewModel:ObservableObject{
                     self?.loginMode = false
                     UserDefaultManager.shared.clearAll()
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(receivedValue.message)
                 default: break
                 }
@@ -149,7 +152,7 @@ class AuthViewModel:ObservableObject{
                     self?.passwordChangeRes = receivedValue
                     self?.passwordChangeSuccess.send()
                 case 401:
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(receivedValue.message)
                 default: break
                 }

@@ -24,9 +24,8 @@ class CheckDataViewModel:ObservableObject{
             } receiveValue: { [weak self] receivedValue in
                 if receivedValue.status >= 200 && receivedValue.status <= 300{
                     self?.check = receivedValue.data?.validation
-                    print(self?.check)
                 }else if receivedValue.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(receivedValue.message)
                 }
                 self?.checkRes = receivedValue
@@ -43,7 +42,7 @@ class CheckDataViewModel:ObservableObject{
                 if receivedValue.status >= 200 && receivedValue.status <= 300{
                     self?.check = receivedValue.data?.validation
                 }else if receivedValue.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(receivedValue.message)
                 }
                 self?.checkRes = receivedValue

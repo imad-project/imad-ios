@@ -44,7 +44,7 @@ class ReviewViewModel:ObservableObject{
                     self?.reviewWriteError.send()
                 }
                 else if recievedValue.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)
@@ -60,7 +60,7 @@ class ReviewViewModel:ObservableObject{
                     self?.success.send()
                 }
                 else if recievedValue.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)
@@ -75,7 +75,7 @@ class ReviewViewModel:ObservableObject{
                     self?.success.send()
                 }
                 else if recievedValue.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)
@@ -90,7 +90,7 @@ class ReviewViewModel:ObservableObject{
                     self?.success.send()
                 }
                 else if recievedValue.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)
@@ -109,7 +109,7 @@ class ReviewViewModel:ObservableObject{
                     }
                 }
                 else if recievedValue.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)
@@ -124,7 +124,7 @@ class ReviewViewModel:ObservableObject{
                     self?.readReview(id: id)
                 }
                 else if recievedValue.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)
@@ -142,7 +142,7 @@ class ReviewViewModel:ObservableObject{
                     }
                 }
                 else if recievedValue.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)
@@ -161,7 +161,7 @@ class ReviewViewModel:ObservableObject{
                     }
                 }
                 else if recievedValue.status == 401{
-                    AuthApiService.getToken()
+//                    AuthApiService.getToken()
                     self?.tokenExpired.send(recievedValue.message)
                 }
             }.store(in: &cancelable)

@@ -102,9 +102,9 @@ struct MainView_Previews: PreviewProvider {
 }
 
 extension MainView{
+    
     func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
-            // 반복적으로 실행되는 코드
             DispatchQueue.main.async {
                 withAnimation(.easeIn(duration: 3.0)){
                     movieIndex = (movieIndex + 1) % CustomData.instance.movieList.count
@@ -113,10 +113,10 @@ extension MainView{
                 withAnimation(Animation.linear(duration: 0.5)) {
                     rotationAngle += .degrees(180)
                 }
-                
             }
         }
     }
+    
     var header:some View{
         HStack{
             HStack{

@@ -42,20 +42,20 @@ struct Dummy:View{
     
     let text:String
     var body: some View{
-                    GeometryReader { geo in
-                        let pp = geo.size.height
-                        
-                        Text(text)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .lineLimit(nil)
-                        
-                        .ignoresSafeArea()
-//                        .frame(height: pp)
-                        .onAppear{
-//                            height = pp
-                            print(pp)
-                        }
-                    }
+        GeometryReader { geo in
+            let pp = geo.size.height
+            
+            Text(text)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(nil)
+            
+                .ignoresSafeArea()
+            //                        .frame(height: pp)
+                .onAppear{
+                    //                            height = pp
+                    print(pp)
+                }
+        }
         
     }
 }
@@ -71,48 +71,65 @@ struct Dummy:View{
 //}
 class Class:ObservableObject{
     @Published var a  = false
+    var b = PassthroughSubject<(),Never>()
 }
 struct TestView: View {
     @State private var isPresentingBView = false
-       
-       var body: some View {
-           NavigationView {
-               VStack {
-                   Text("A View")
-                   Button("Go to B View") {
-                       isPresentingBView.toggle()
-                   }
-                   .sheet(isPresented: $isPresentingBView) {
-                       BView()
-                   }
-               }
-           }
-       }
-   }
+    @State var go = false
+    @StateObject var vm = Class()
+    var body: some View {
+        NavigationStack {
+            VStack {
+                Text("A View")
+                Button("Go to B View") {
+                    isPresentingBView.toggle()
+                }
+                .sheet(isPresented: $isPresentingBView) {
+                    BView()
+                        .environmentObject(vm)
+                }
+            }
+            .onReceive(vm.b){
+                go = true
+            }
+//            .onChange(of: isPresentingBView) { newValue in
+//                if !newValue{
+//                    go = true
+//                    print(go)
+//                }
+//            }
+            
+            .navigationDestination(isPresented: $go) {
+                CView()
+            }
+        }
+    }
+}
 
-   // B뷰
-   struct BView: View {
-       @State private var isPresentingCView = false
-       
-       var body: some View {
-           VStack {
-               Text("B View")
-               Button("Go to C View") {
-                   isPresentingCView.toggle()
-               }
-               .sheet(isPresented: $isPresentingCView) {
-                   CView()
-               }
-           }
-       }
-   }
+// B뷰
+struct BView: View {
+    
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var vm:Class
+//    @Binding var cview:Bool
+    var body: some View {
+        VStack {
+            Text("B View")
+            Button("Go to C View") {
+//                cview = false
+                dismiss()
+                vm.b.send()
+            }
+        }
+    }
+}
 
-   // C뷰
-   struct CView: View {
-       var body: some View {
-           Text("C View")
-       }
-   }
+// C뷰
+struct CView: View {
+    var body: some View {
+        Text("C View")
+    }
+}
 //struct TestView: View {
 //    @State var num = 0
 //    @State var nums:[Int] = [0,1,2,3,4]
@@ -266,7 +283,7 @@ struct TestView: View {
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
         TestView()
-//        Dummy()
+        //        Dummy()
     }
 }
 
@@ -274,14 +291,14 @@ extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-    
+        
         return ceil(boundingBox.height)
     }
-
+    
     func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-
+        
         return ceil(boundingBox.width)
     }
 }
