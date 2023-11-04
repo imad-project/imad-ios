@@ -36,12 +36,11 @@ struct AuthWebView: View {
             }else if let refresh = httpResponse.allHeaderFields["authorization-refresh"] as? String{
                 refreshToken = refresh
             }
-            if !accessToken.isEmpty,!refreshToken.isEmpty{
+//            if !accessToken.isEmpty,!refreshToken.isEmpty{
                 UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-                print(UserDefaultManager.shared.getToken())
-            }
+//            }
             
-            
+            success.send()
             decisionHandler(.allow)
         }
         

@@ -21,6 +21,9 @@ enum TokenApiService{
                     var accessToken = ""
                     var refreshToken = ""
                     
+                    print("요청 \(response.request?.headers)")
+                    print("응답 \(response.response?.headers)")
+                    
                     if let access = response.response?.allHeaderFields["Authorization"] as? String{
                         accessToken = access
                     }
@@ -30,9 +33,9 @@ enum TokenApiService{
                         refreshToken = refresh
                     }
                     
-//                    if !accessToken.isEmpty,!refreshToken.isEmpty{
+                    if !accessToken.isEmpty,!refreshToken.isEmpty{
                         UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-//                    }
+                    }
                 }
         }
 }

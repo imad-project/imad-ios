@@ -32,7 +32,6 @@ enum AuthApiService{
                 }
 //                if !accessToken.isEmpty,!refreshToken.isEmpty{
                 UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-                print(UserDefaultManager.shared.getToken())
 //                }
             }
             .publishDecodable(type: GetUserInfo.self)
