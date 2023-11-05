@@ -23,24 +23,24 @@ struct AgeSelectView: View {
                 .padding(.leading)
                 HStack{
                     Spacer()
-                    Picker("", selection: $vm.profileInfo.ageRange) {
-                        ForEach(0...100, id: \.self) {
-                            Text("\($0) 세")
-                        }
-                    }
-                    .pickerStyle(InlinePickerStyle())
-                    .colorScheme(.light)
-                    .frame(width:150,height: 150)
-                    .overlay(alignment:.leading){
-                        Text("만").offset(x:-20)
-                    }
+//                    Picker("", selection: $vm.profileInfo.ageRange) {
+//                        ForEach(0...100, id: \.self) {
+//                            Text("\($0) 세")
+//                        }
+//                    }
+//                    .pickerStyle(InlinePickerStyle())
+//                    .colorScheme(.light)
+//                    .frame(width:150,height: 150)
+//                    .overlay(alignment:.leading){
+//                        Text("만").offset(x:-20)
+//                    }
                     Spacer()
                 }
                 
                 Button {
-                    withAnimation(.linear){
-                        vm.selection = .genre
-                    }
+//                    withAnimation(.linear){
+//                        vm.selection = .genre
+//                    }
                 } label: {
                     RoundedRectangle(cornerRadius: 20)
                         .frame(height: 60)

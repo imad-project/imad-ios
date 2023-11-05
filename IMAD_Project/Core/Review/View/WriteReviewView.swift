@@ -63,7 +63,7 @@ struct WriteReviewView: View {
                                                     .font(.title2)
                                             }
                                         }
-                                    Text("\(vmAuth.getUserRes?.data?.nickname ?? "")님의 평점")
+//                                    Text("\(vmAuth.getUserRes?.data?.nickname ?? "")님의 평점")
                                     Circle()
                                         .trim(from: 0.0, to: rating * 0.1)
                                         .stroke(lineWidth: 3)

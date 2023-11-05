@@ -37,31 +37,31 @@ struct InfoChangeView: View {
                     }
                     Spacer()
                     Button {
-                        if password{
-                            switch isVaildInfo(){
-                            case 1:
-                                alertMsg = "비밀번호는 영문 대,소문자, 숫자, 특수문자만 허용되며 8~20자 사이여야 합니다!"
-                                return notRegex = true
-                            case 2:
-                                alertMsg = "비밀번호가 일치하지 않습니다!"
-                                return notRegex = true
-                            default:
-                                return vmAuth.passwordChange(old: old, new: text) //SHA256
-                                
-                            }
-                        }else{
-                            guard let data = vmAuth.getUserRes?.data else {return}
-                            switch title{
-                            case "닉네임":
-                                vmAuth.patchUser(gender: data.gender ?? "", ageRange: data.ageRange, image:data.profileImage, nickname: text, tvGenre: data.tvGenre ?? [],movieGenre: data.movieGenre ?? [])
-                            case "성별":
-                                vmAuth.patchUser(gender: gender, ageRange: data.ageRange, image:data.profileImage, nickname: data.nickname ?? "", tvGenre: data.tvGenre ?? [],movieGenre: data.movieGenre ?? [])
-                            case "나이":
-                                vmAuth.patchUser(gender: data.gender, ageRange: age, image:data.profileImage, nickname: data.nickname ?? "", tvGenre: data.tvGenre ?? [],movieGenre: data.movieGenre ?? [])
-                            default:
-                                return
-                            }
-                        }
+//                        if password{
+//                            switch isVaildInfo(){
+//                            case 1:
+//                                alertMsg = "비밀번호는 영문 대,소문자, 숫자, 특수문자만 허용되며 8~20자 사이여야 합니다!"
+//                                return notRegex = true
+//                            case 2:
+//                                alertMsg = "비밀번호가 일치하지 않습니다!"
+//                                return notRegex = true
+//                            default:
+//                                return vmAuth.passwordChange(old: old, new: text) //SHA256
+//
+//                            }
+//                        }else{
+//                            guard let data = vmAuth.getUserRes?.data else {return}
+//                            switch title{
+//                            case "닉네임":
+//                                vmAuth.patchUser(gender: data.gender ?? "", ageRange: data.ageRange, image:data.profileImage, nickname: text, tvGenre: data.tvGenre ?? [],movieGenre: data.movieGenre ?? [])
+//                            case "성별":
+//                                vmAuth.patchUser(gender: gender, ageRange: data.ageRange, image:data.profileImage, nickname: data.nickname ?? "", tvGenre: data.tvGenre ?? [],movieGenre: data.movieGenre ?? [])
+//                            case "나이":
+//                                vmAuth.patchUser(gender: data.gender, ageRange: age, image:data.profileImage, nickname: data.nickname ?? "", tvGenre: data.tvGenre ?? [],movieGenre: data.movieGenre ?? [])
+//                            default:
+//                                return
+//                            }
+//                        }
                         dismiss()
                     } label: {
                         Text("변경")
@@ -177,14 +177,14 @@ struct InfoChangeView: View {
         .foregroundColor(.black)
         .padding()
         .onAppear{
-            age = vmAuth.getUserRes?.data?.ageRange ?? -1
-            gender = vmAuth.getUserRes?.data?.gender ?? ""
+//            age = vmAuth.getUserRes?.data?.ageRange ?? -1
+//            gender = vmAuth.getUserRes?.data?.gender ?? ""
         }
-        .onReceive(vmAuth.passwordChangeSuccess){
-            success = true
-            alertMsg = vmAuth.passwordChangeRes?.message ?? ""
-            notRegex = true
-        }
+//        .onReceive(vmAuth.passwordChangeSuccess){
+//            success = true
+//            alertMsg = vmAuth.passwordChangeRes?.message ?? ""
+//            notRegex = true
+//        }
         .background(Color.white.ignoresSafeArea())
         .alert(isPresented: $notRegex){
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
@@ -193,15 +193,15 @@ struct InfoChangeView: View {
                 }
             })
         }
-        .onReceive(vmAuth.tokenExpired) { messages in
-            tokenExpired = (true,messages)
-        }
-        .alert(isPresented: $tokenExpired.0) {
-            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vmAuth.loginMode = false
-            })
-        }
-        .navigationBarBackButtonHidden(true)
+//        .onReceive(vmAuth.tokenExpired) { messages in
+//            tokenExpired = (true,messages)
+//        }
+//        .alert(isPresented: $tokenExpired.0) {
+//            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+//                vmAuth.loginMode = false
+//            })
+//        }
+//        .navigationBarBackButtonHidden(true)
     }
     func isVaildInfo()->Int{
         

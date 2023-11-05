@@ -21,17 +21,28 @@ struct ContentView: View {
         ZStack {
             if splash{
                 if isFirstLaunch{
-                    if vm.loginMode{
-                        if vm.guestMode{
+                    if let user = vm.user?.data{
+                        if user.role == "GUEST"{
                             RegisterTabView().environmentObject(vm)
                         }else{
                             MenuTabView().environmentObject(vm)
                         }
                     }else{
                         LoginAllView()
-                            .environmentObject(vm)
-                            .ignoresSafeArea(.keyboard)
+                                                   .environmentObject(vm)
+                                                   .ignoresSafeArea(.keyboard)
                     }
+//                    if vm.loginMode{
+//                        if vm.guestMode{
+//                            RegisterTabView().environmentObject(vm)
+//                        }else{
+//                            MenuTabView().environmentObject(vm)
+//                        }
+//                    }else{
+//                        LoginAllView()
+//                            .environmentObject(vm)
+//                            .ignoresSafeArea(.keyboard)
+//                    }
                 }else{
                     OnBoardingTabView(isFirstLaunch: $isFirstLaunch)
                 }
@@ -48,11 +59,12 @@ struct ContentView: View {
                 }
             }
 
-        }.onReceive(vm.patchInfoSuccess) { value in
-            withAnimation(.default){
-                vm.guestMode = false
-            }
         }
+//        .onReceive(vm.patchInfoSuccess) { value in
+//            withAnimation(.default){
+//                vm.guestMode = false
+//            }
+//        }
     }
 }
 

@@ -53,7 +53,7 @@ struct ReviewView: View {
         }
         .alert(isPresented: $tokenExpired.0) {
             Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vmAuth.loginMode = false
+//                vmAuth.loginMode = false
             })
         }
         .foregroundColor(.black)

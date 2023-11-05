@@ -41,7 +41,7 @@ struct ProfileChangeView: View {
                         List{
                             Group{
                                 NavigationLink {
-                                    InfoChangeView(title: "닉네임", password: false, text: vmAuth.getUserRes?.data?.nickname ?? "").environmentObject(vmAuth)
+//                                    InfoChangeView(title: "닉네임", password: false, text: vmAuth.getUserRes?.data?.nickname ?? "").environmentObject(vmAuth)
                                         
                                 } label: {
                                     Text("닉네임 변경")
@@ -58,15 +58,15 @@ struct ProfileChangeView: View {
                                 } label: {
                                     Text("나이 변경")
                                 }
-                                if vmAuth.getUserRes?.data?.authProvider == "IMAD"{
-                                    NavigationLink {
-                                        InfoChangeView(title: "비밀번호", password: true)
-                                            .environmentObject(vmAuth)
-                                          
-                                    } label: {
-                                        Text("비밀번호 변경")
-                                    }
-                                }
+//                                if vmAuth.getUserRes?.data?.authProvider == "IMAD"{
+//                                    NavigationLink {
+//                                        InfoChangeView(title: "비밀번호", password: true)
+//                                            .environmentObject(vmAuth)
+//
+//                                    } label: {
+//                                        Text("비밀번호 변경")
+//                                    }
+//                                }
                                 Button {
                                     logout = true
                                     delete = false
@@ -92,12 +92,12 @@ struct ProfileChangeView: View {
                     
                 }
         }
-        .onReceive(vmAuth.tokenExpired) { messages in
-            tokenExpired = (true,messages)
-        }
+//        .onReceive(vmAuth.tokenExpired) { messages in
+//            tokenExpired = (true,messages)
+//        }
         .alert(isPresented: $tokenExpired.0) {
             Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vmAuth.loginMode = false
+//                vmAuth.loginMode = false
             })
         }
         .navigationBarBackButtonHidden()
@@ -110,20 +110,20 @@ struct ProfileChangeView: View {
                 secondaryButton: .destructive(delete ? Text("탈퇴") : Text("로그아웃"), action: {
                     if delete{
                         dismiss()
-                        if let authProvier = vmAuth.getUserRes?.data?.authProvider{
-                            switch authProvier{
-                            case "KAKAO":
-                                vmAuth.delete(authProvier: "kakao")
-                            case "GOOGLE":
-                                vmAuth.delete(authProvier: "google")
-                            case "NAVER":
-                                vmAuth.delete(authProvier: "naver")
-                            case "APPLE":
-                                vmAuth.delete(authProvier: "apple")
-                            default:
-                                vmAuth.delete(authProvier: authProvier)
-                            }
-                        }
+//                        if let authProvier = vmAuth.getUserRes?.data?.authProvider{
+//                            switch authProvier{
+//                            case "KAKAO":
+//                                vmAuth.delete(authProvier: "kakao")
+//                            case "GOOGLE":
+//                                vmAuth.delete(authProvier: "google")
+//                            case "NAVER":
+//                                vmAuth.delete(authProvier: "naver")
+//                            case "APPLE":
+//                                vmAuth.delete(authProvier: "apple")
+//                            default:
+//                                vmAuth.delete(authProvier: authProvier)
+//                            }
+//                        }
                     }else{
                         dismiss()
                         vmAuth.logout()

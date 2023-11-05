@@ -47,12 +47,12 @@ struct ProfileView: View {
                         } label: {
                             Group{
                                 ZStack{
-                                    ForEach(ProfileFilter.allCases.filter({$0.num == vmAuth.getUserRes?.data?.profileImage ?? 0}),id:\.self){ image in
-                                        Image("\(image)")
-                                            .resizable()
-                                            .frame(width:80,height:80)
-                                            .cornerRadius(15)
-                                    }
+//                                    ForEach(ProfileFilter.allCases.filter({$0.num == vmAuth.getUserRes?.data?.profileImage ?? 0}),id:\.self){ image in
+//                                        Image("\(image)")
+//                                            .resizable()
+//                                            .frame(width:80,height:80)
+//                                            .cornerRadius(15)
+//                                    }
                                 }
                             }
                             .frame(width: 100,height: 100)
@@ -71,30 +71,30 @@ struct ProfileView: View {
                         
                         
                     }
-                    Text(vmAuth.getUserRes?.data?.nickname ?? "콰랑")
-                        .font(.title3)
-                        .bold()
-                        .padding(.top)
+//                    Text(vmAuth.getUserRes?.data?.nickname ?? "콰랑")
+//                        .font(.title3)
+//                        .bold()
+//                        .padding(.top)
                     Text(authProvider)
                         .font(.caption)
                         .foregroundColor(.gray)
                         .onAppear{
-                            switch vmAuth.getUserRes?.data?.authProvider{
-                            case "IMAD":
-                                authProvider = "아이매드 회원"
-                            case "KAKAO":
-                                authProvider = "카카오 회원"
-                            case "APPLE":
-                                authProvider = "애플 회원"
-                            case "NAVER":
-                                authProvider = "네이버 회원"
-                            case "GOOGLE":
-                                authProvider = "구글 회원"
-                            case .none:
-                                return
-                            case .some(_):
-                                return
-                            }
+//                            switch vmAuth.getUserRes?.data?.authProvider{
+//                            case "IMAD":
+//                                authProvider = "아이매드 회원"
+//                            case "KAKAO":
+//                                authProvider = "카카오 회원"
+//                            case "APPLE":
+//                                authProvider = "애플 회원"
+//                            case "NAVER":
+//                                authProvider = "네이버 회원"
+//                            case "GOOGLE":
+//                                authProvider = "구글 회원"
+//                            case .none:
+//                                return
+//                            case .some(_):
+//                                return
+//                            }
                         }
                     VStack(alignment: .leading) {
                         Text("내 활동").bold()
@@ -259,7 +259,7 @@ struct ProfileView: View {
                 
             }
             .onChange(of: imageCode) { newValue in
-                vmAuth.patchUser(gender: vmAuth.profileInfo.gender, ageRange: vmAuth.profileInfo.ageRange, image:imageCode.num, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre:vmAuth.profileInfo.tvGenre ?? [],movieGenre:vmAuth.profileInfo.movieGenre ?? [])
+//                vmAuth.patchUser(gender: vmAuth.profileInfo.gender, ageRange: vmAuth.profileInfo.ageRange, image:imageCode.num, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre:vmAuth.profileInfo.tvGenre ?? [],movieGenre:vmAuth.profileInfo.movieGenre ?? [])
             }
             .sheet(isPresented: $tv) {
                 tvGenreSelect
@@ -273,19 +273,19 @@ struct ProfileView: View {
                 vmWork.page = 1
                 vmWork.myBookmarkList = []
                 vmWork.getBookmark(page: vmWork.page)
-                guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
-                tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
+//                guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
+//                tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
             }
             .onAppear{
-                guard let movieGenres = vmAuth.profileInfo.movieGenre else {return}
-                movieCollection = MovieGenreFilter.allCases.filter({movieGenres.contains($0.rawValue)})
+//                guard let movieGenres = vmAuth.profileInfo.movieGenre else {return}
+//                movieCollection = MovieGenreFilter.allCases.filter({movieGenres.contains($0.rawValue)})
             }
             .onReceive(vm.tokenExpired) { messages in
                 tokenExpired = (true,messages)
             }
             .alert(isPresented: $tokenExpired.0) {
                 Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                    vmAuth.loginMode = false
+//                    vmAuth.loginMode = false
                 })
             }
     }
@@ -438,7 +438,7 @@ extension ProfileView{
                 }.foregroundColor(.customIndigo.opacity(0.5)).padding(.horizontal)
                 Button {
                     movie = false
-                    vmAuth.patchUser(gender: vmAuth.profileInfo.gender ?? "", ageRange: vmAuth.profileInfo.ageRange, image: vmAuth.profileInfo.profileImage, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre: vmAuth.profileInfo.tvGenre, movieGenre: movieCollection.map({$0.rawValue}))
+//                    vmAuth.patchUser(gender: vmAuth.profileInfo.gender ?? "", ageRange: vmAuth.profileInfo.ageRange, image: vmAuth.profileInfo.profileImage, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre: vmAuth.profileInfo.tvGenre, movieGenre: movieCollection.map({$0.rawValue}))
                 } label: {
                     RoundedRectangle(cornerRadius: 20)
                         .frame(height: 60)
@@ -507,7 +507,7 @@ extension ProfileView{
                 }.foregroundColor(.customIndigo.opacity(0.5)).padding(.horizontal)
                 Button {
                     tv = false
-                    vmAuth.patchUser(gender: vmAuth.profileInfo.gender ?? "", ageRange: vmAuth.profileInfo.ageRange, image: vmAuth.profileInfo.profileImage, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre: tvCollection.map({$0.rawValue}), movieGenre: vmAuth.profileInfo.movieGenre)
+//                    vmAuth.patchUser(gender: vmAuth.profileInfo.gender ?? "", ageRange: vmAuth.profileInfo.ageRange, image: vmAuth.profileInfo.profileImage, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre: tvCollection.map({$0.rawValue}), movieGenre: vmAuth.profileInfo.movieGenre)
                 } label: {
                     RoundedRectangle(cornerRadius: 20)
                         .frame(height: 60)

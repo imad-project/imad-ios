@@ -103,29 +103,29 @@ extension CommunityPostView{
                 }
                
                 Spacer()
-                if let userName = vmAuth.getUserRes?.data?.nickname,userName == vm.communityDetail?.userNickname{
-                    Button {
-                        menu.toggle()
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .bold()
-                            .padding()
-                    }
-                    .confirmationDialog("일정 수정", isPresented: $menu,actions: {
-                        Button(role:.none){
-                            modify = true
-                        } label: {
-                            Text("수정하기")
-                        }
-                        Button(role:.destructive){
-                            vm.deleteCommunity(postingId: postingId)
-                        } label: {
-                            Text("삭제하기")
-                        }
-                    },message: {
-                        Text("게시물을 수정하거나 삭제하시겠습니까?")
-                    })
-                }
+//                if let userName = vmAuth.getUserRes?.data?.nickname,userName == vm.communityDetail?.userNickname{
+//                    Button {
+//                        menu.toggle()
+//                    } label: {
+//                        Image(systemName: "ellipsis")
+//                            .bold()
+//                            .padding()
+//                    }
+//                    .confirmationDialog("일정 수정", isPresented: $menu,actions: {
+//                        Button(role:.none){
+//                            modify = true
+//                        } label: {
+//                            Text("수정하기")
+//                        }
+//                        Button(role:.destructive){
+//                            vm.deleteCommunity(postingId: postingId)
+//                        } label: {
+//                            Text("삭제하기")
+//                        }
+//                    },message: {
+//                        Text("게시물을 수정하거나 삭제하시겠습니까?")
+//                    })
+//                }
             }
             HStack{
                 Image(ProfileFilter.allCases.first(where: {$0.num == vm.communityDetail?.userProfileImage ?? 1})!.rawValue)

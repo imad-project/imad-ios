@@ -52,11 +52,11 @@ struct MyReviewView: View {
         .onReceive(vm.tokenExpired) { messages in
             tokenExpired = (true,messages)
         }
-        .alert(isPresented: $tokenExpired.0) {
-            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vmAuth.loginMode = false
-            })
-        }
+//        .alert(isPresented: $tokenExpired.0) {
+//            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+//                vmAuth.loginMode = false
+//            })
+//        }
     }
 }
 

@@ -89,12 +89,12 @@ struct WorkListView: View {
                     UIApplication.shared.endEditing()
                 }
         }
-        .onReceive(vmAuth.postingSuccess){ postingId in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                goPosting = (true,postingId)
-            }
-            
-        }
+//        .onReceive(vmAuth.postingSuccess){ postingId in
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+//                goPosting = (true,postingId)
+//            }
+//
+//        }
         .navigationDestination(isPresented: $goPosting.0){
             CommunityPostView(postingId:goPosting.1)
                 .environmentObject(vmAuth)
@@ -104,7 +104,7 @@ struct WorkListView: View {
         }
         .alert(isPresented: $tokenExpired.0) {
             Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vmAuth.loginMode = false
+//                vmAuth.loginMode = false
             })
         }
     }

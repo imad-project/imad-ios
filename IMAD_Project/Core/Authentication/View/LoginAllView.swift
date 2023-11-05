@@ -226,16 +226,16 @@ struct LoginAllView: View {
             .onTapGesture {
                 UIApplication.shared.endEditing()
             }
-            .onReceive(vm.loginSuccess) { value in
-                success = true
-                msg = value
-            }
-            .alert(isPresented: $success) {
-                Alert(title: Text(vm.getUserRes?.message),dismissButton: .default(Text("확인")) {
-                    vm.loginMode = msg
-                    loading = false
-                })
-            }
+//            .onReceive(vm.loginSuccess) { value in
+//                success = true
+//                msg = value
+//            }
+//            .alert(isPresented: $success) {
+//                Alert(title: Text(vm.getUserRes?.message),dismissButton: .default(Text("확인")) {
+//                    vm.loginMode = msg
+//                    loading = false
+//                })
+//            }
         }
 }
 

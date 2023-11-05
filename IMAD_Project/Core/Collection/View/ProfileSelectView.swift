@@ -61,28 +61,28 @@ struct ProfileSelectView: View {
                 
                 Button{
                     
-                    vm.profileInfo.profileImage = image.num
-                    
-                    if vm.profileInfo.nickname == ""{
-                        msg = "닉네임을 설정해주세요!"
-                        withAnimation(.linear){
-                            vm.selection = .nickname
-                        }
-                        alert = true
-                    }else if vm.profileInfo.profileImage == -1{
-                        msg = "프로필 이미지를 선택해주세요!"
-                        alert = true
-                    }else if vm.profileInfo.gender == ""{
-                        msg = "성별을 선택해 주세요!"
-                        withAnimation(.linear){
-                            vm.selection = .gender
-                        }
-                        alert = true
-                    }else{
-                        vm.patchUser(gender: vm.profileInfo.gender ?? "", ageRange: vm.profileInfo.ageRange, image: vm.profileInfo.profileImage, nickname: vm.profileInfo.nickname ?? "", tvGenre:vm.profileInfo.tvGenre,movieGenre: vm.profileInfo.movieGenre)
-                        vm.selection = .nickname
-                        loading = true
-                    }
+//                    vm.profileInfo.profileImage = image.num
+//
+//                    if vm.profileInfo.nickname == ""{
+//                        msg = "닉네임을 설정해주세요!"
+//                        withAnimation(.linear){
+//                            vm.selection = .nickname
+//                        }
+//                        alert = true
+//                    }else if vm.profileInfo.profileImage == -1{
+//                        msg = "프로필 이미지를 선택해주세요!"
+//                        alert = true
+//                    }else if vm.profileInfo.gender == ""{
+//                        msg = "성별을 선택해 주세요!"
+//                        withAnimation(.linear){
+//                            vm.selection = .gender
+//                        }
+//                        alert = true
+//                    }else{
+//                        vm.patchUser(gender: vm.profileInfo.gender ?? "", ageRange: vm.profileInfo.ageRange, image: vm.profileInfo.profileImage, nickname: vm.profileInfo.nickname ?? "", tvGenre:vm.profileInfo.tvGenre,movieGenre: vm.profileInfo.movieGenre)
+//                        vm.selection = .nickname
+//                        loading = true
+//                    }
                 }label:{
                     RoundedRectangle(cornerRadius: 20)
                         .frame(height: 60)
@@ -106,12 +106,12 @@ struct ProfileSelectView: View {
                  CustomProgressView()
             }
         }
-        .onReceive(vm.tokenExpired) { messages in
-            tokenExpired = (true,messages)
-        }
+//        .onReceive(vm.tokenExpired) { messages in
+//            tokenExpired = (true,messages)
+//        }
         .alert(isPresented: $tokenExpired.0) {
             Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vm.loginMode = false
+//                vm.loginMode = false
             })
         }
     }

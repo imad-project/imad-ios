@@ -187,7 +187,7 @@ struct ReviewDetailsView: View {
         }
         .alert(isPresented: $tokenExpired.0) {
             Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vmAuth.loginMode = false
+//                vmAuth.loginMode = false
             })
         }
     }
@@ -213,20 +213,20 @@ extension ReviewDetailsView{
                         .font(.title3)
                 }
                 Spacer()
-                if vm.reviewInfo?.userNickname == vmAuth.profileInfo.nickname{
-                    ZStack{
-                        Button {
-                            withAnimation {
-                                menu.toggle()
-                            }
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .font(.title3)
-                        }
-                        
-                    }
-                    
-                }
+//                if vm.reviewInfo?.userNickname == vmAuth.profileInfo.nickname{
+//                    ZStack{
+//                        Button {
+//                            withAnimation {
+//                                menu.toggle()
+//                            }
+//                        } label: {
+//                            Image(systemName: "ellipsis")
+//                                .font(.title3)
+//                        }
+//                        
+//                    }
+//                    
+//                }
             }
             .overlay{
                 Text("리뷰").bold()

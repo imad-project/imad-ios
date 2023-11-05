@@ -71,7 +71,7 @@ struct WorkView: View {
         }
         .foregroundColor(.white)
         .onAppear {
-            vmAuth.getUser()
+//            vmAuth.getUser()
             vm.getBookmark(page: vm.page)
             withAnimation(.linear(duration: 0.5)){
                 anima = true
@@ -101,29 +101,29 @@ struct WorkView: View {
         .alert(isPresented: $tokenExpired.0) {
             Alert(title: Text(message),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
                 if message == "토큰 만료됨"{
-                    vmAuth.loginMode = false
+//                    vmAuth.loginMode = false
                 }else{
                     showMyRevie = true
                 }
             })
         }
-        .onReceive(vmAuth.postingSuccess){ postingId in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                goPosting = (true,postingId)
-            }
-            
-        }
+//        .onReceive(vmAuth.postingSuccess){ postingId in
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+//                goPosting = (true,postingId)
+//            }
+//
+//        }
         .navigationDestination(isPresented: $goPosting.0){
             CommunityPostView(postingId:goPosting.1)
                 .environmentObject(vmAuth)
         }
         .navigationDestination(isPresented: $showMyRevie) {
-            if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
-                ReviewDetailsView(goWork: false, reviewId: review.reviewID)
-                    .environmentObject(vmAuth)
-                    .navigationBarBackButtonHidden()
-                
-            }
+//            if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
+//                ReviewDetailsView(goWork: false, reviewId: review.reviewID)
+//                    .environmentObject(vmAuth)
+//                    .navigationBarBackButtonHidden()
+//
+//            }
         }
     }
 }
@@ -228,12 +228,12 @@ extension WorkView{
             HStack(spacing:0){
                 Group{
                     Button {
-                        if vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}) != nil{
-                            message = "리뷰 작성함"
-                            tokenExpired = (true,"이미 작성한 리뷰가 존재합니다!")
-                        }else{
-                            writeReview = true
-                        }
+//                        if vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}) != nil{
+//                            message = "리뷰 작성함"
+//                            tokenExpired = (true,"이미 작성한 리뷰가 존재합니다!")
+//                        }else{
+//                            writeReview = true
+//                        }
                     } label: {
                         VStack(spacing:5){
                             Image(systemName: "rectangle.and.pencil.and.ellipsis")
@@ -283,51 +283,51 @@ extension WorkView{
                 .padding(.top)
                 .bold()
             VStack{
-                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
-                            NavigationLink {
-                                ReviewDetailsView(goWork: false, reviewId: review.reviewID)
-                                    .environmentObject(vmAuth)
-                                    .navigationBarBackButtonHidden()
-                            } label: {
-                                HStack(spacing: 0){
-                                    Text(vmAuth.getUserRes?.data?.nickname ?? "")
-                                        .bold()
-                                        .padding(.leading)
-                                        .font(.subheadline)
-                                    Text("님이 작성한 리뷰가 있네요?")
-                                        .font(.subheadline)
-                                    Spacer()
-                                    Text("리뷰 확인하기 >").foregroundColor(.gray).font(.caption).padding(.trailing)
-                                }
-                                .padding(5)
-                                .padding(.vertical)
-                                .background(Color.white).cornerRadius(5)
-                            }
-                    
-                }else{
-                    VStack{
-                        Text("내 리뷰가 존재하지 않습니다.")
-                            .font(.subheadline)
-                        NavigationLink {
-                            WriteReviewView(id: vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0, reviewId: nil)
-                                .navigationBarBackButtonHidden()
-                                .environmentObject(vmAuth)
-                        } label: {
-                            Text("리뷰작성")
-                                .foregroundColor(.white)
-                                .font(.caption)
-                                .padding(.horizontal)
-                                .padding(10)
-                                .background(Color.customIndigo)
-                                .cornerRadius(10)
-                        }
-                        
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal)
-                    .padding(.vertical,20)
-                    .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.customIndigo))
-                }
+//                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
+//                            NavigationLink {
+//                                ReviewDetailsView(goWork: false, reviewId: review.reviewID)
+//                                    .environmentObject(vmAuth)
+//                                    .navigationBarBackButtonHidden()
+//                            } label: {
+//                                HStack(spacing: 0){
+//                                    Text(vmAuth.getUserRes?.data?.nickname ?? "")
+//                                        .bold()
+//                                        .padding(.leading)
+//                                        .font(.subheadline)
+//                                    Text("님이 작성한 리뷰가 있네요?")
+//                                        .font(.subheadline)
+//                                    Spacer()
+//                                    Text("리뷰 확인하기 >").foregroundColor(.gray).font(.caption).padding(.trailing)
+//                                }
+//                                .padding(5)
+//                                .padding(.vertical)
+//                                .background(Color.white).cornerRadius(5)
+//                            }
+//
+//                }else{
+//                    VStack{
+//                        Text("내 리뷰가 존재하지 않습니다.")
+//                            .font(.subheadline)
+//                        NavigationLink {
+//                            WriteReviewView(id: vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0, reviewId: nil)
+//                                .navigationBarBackButtonHidden()
+//                                .environmentObject(vmAuth)
+//                        } label: {
+//                            Text("리뷰작성")
+//                                .foregroundColor(.white)
+//                                .font(.caption)
+//                                .padding(.horizontal)
+//                                .padding(10)
+//                                .background(Color.customIndigo)
+//                                .cornerRadius(10)
+//                        }
+//
+//                    }
+//                    .frame(maxWidth: .infinity)
+//                    .padding(.horizontal)
+//                    .padding(.vertical,20)
+//                    .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.customIndigo))
+//                }
             }
             
             Text("리뷰 보기")

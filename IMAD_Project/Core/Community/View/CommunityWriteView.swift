@@ -175,14 +175,14 @@ struct CommunityWriteView: View {
         .onReceive(vm.tokenExpired) { messages in
             tokenExpired = (true,messages)
         }
-        .alert(isPresented: $tokenExpired.0) {
-            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vmAuth.loginMode = false
-            })
-        }
+//        .alert(isPresented: $tokenExpired.0) {
+//            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+//                vmAuth.loginMode = false
+//            })
+//        }
         .onReceive(vm.success){
             dismiss()
-            vmAuth.postingSuccess.send(vm.posting?.data?.postingID ?? 0)
+//            vmAuth.postingSuccess.send(vm.posting?.data?.postingID ?? 0)
         }
         .onReceive(vmWork.contentsIdSuccess) { contentsId in
             self.contentsId = contentsId

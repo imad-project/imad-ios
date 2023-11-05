@@ -88,10 +88,10 @@ extension CommentDetailsView{
         VStack{
             Divider()
             HStack{
-                Image(ProfileFilter.allCases.first(where: {$0.num == vmAuth.getUserRes?.data?.profileImage ?? 1})!.rawValue)
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .clipShape(Circle())
+//                Image(ProfileFilter.allCases.first(where: {$0.num == vmAuth.getUserRes?.data?.profileImage ?? 1})!.rawValue)
+//                    .resizable()
+//                    .frame(width: 30, height: 30)
+//                    .clipShape(Circle())
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
                     .focused($reply)
                     .padding(10)

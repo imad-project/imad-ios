@@ -138,70 +138,70 @@ struct CommentRowView: View {
         }.padding(.horizontal)
             .padding(.vertical,3)
             .overlay(alignment: .trailing){
-                HStack{
-                    if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
-                        Button {
-                            withAnimation(.spring()){
-                                statingOffsetY = 0
-                                focus = true
-                                input = true
-                                text = comment.content ?? ""
-                            }
-                        } label: {
-                            VStack{
-                                Image(systemName: "square.and.pencil")
-                                    .font(.title3)
-                                Text("수정")
-                            }
-                            .padding(15)
-                            .padding(.horizontal,10)
-                            .font(.caption)
-                            .bold()
-                            .foregroundColor(.white)
-                            .background(Color.customIndigo.opacity(0.6))
-                            .cornerRadius(10)
-                            
-                        }
-                        .offset(x:200)
-                        Button {
-                            vm.deleteyReply(commentId: comment.commentID)
-                            vm.commentDeleteSuccess.send(comment)
-                        } label: {
-                            VStack{
-                                Image(systemName: "trash")
-                                    .font(.title3)
-                                Text("삭제")
-                                
-                            }
-                            .padding(15)
-                            .padding(.horizontal,10)
-                            .font(.caption)
-                            .bold()
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                           
-                        }
-                        .offset(x:195)
-                        
-                    }else {
-                        VStack{
-                            Image(systemName: "exclamationmark.square")
-                                .font(.title3)
-                            Text("신고")
-
-                        }
-                        .padding(15)
-                        .padding(.horizontal,10)
-                        .font(.caption)
-                        .bold()
-                        .background(Color.yellow)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .offset(x:90)
-                    }
-                    
-                }
+//                HStack{
+//                    if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
+//                        Button {
+//                            withAnimation(.spring()){
+//                                statingOffsetY = 0
+//                                focus = true
+//                                input = true
+//                                text = comment.content ?? ""
+//                            }
+//                        } label: {
+//                            VStack{
+//                                Image(systemName: "square.and.pencil")
+//                                    .font(.title3)
+//                                Text("수정")
+//                            }
+//                            .padding(15)
+//                            .padding(.horizontal,10)
+//                            .font(.caption)
+//                            .bold()
+//                            .foregroundColor(.white)
+//                            .background(Color.customIndigo.opacity(0.6))
+//                            .cornerRadius(10)
+//                            
+//                        }
+//                        .offset(x:200)
+//                        Button {
+//                            vm.deleteyReply(commentId: comment.commentID)
+//                            vm.commentDeleteSuccess.send(comment)
+//                        } label: {
+//                            VStack{
+//                                Image(systemName: "trash")
+//                                    .font(.title3)
+//                                Text("삭제")
+//                                
+//                            }
+//                            .padding(15)
+//                            .padding(.horizontal,10)
+//                            .font(.caption)
+//                            .bold()
+//                            .background(Color.red)
+//                            .foregroundColor(.white)
+//                            .cornerRadius(10)
+//                           
+//                        }
+//                        .offset(x:195)
+//                        
+//                    }else {
+//                        VStack{
+//                            Image(systemName: "exclamationmark.square")
+//                                .font(.title3)
+//                            Text("신고")
+//
+//                        }
+//                        .padding(15)
+//                        .padding(.horizontal,10)
+//                        .font(.caption)
+//                        .bold()
+//                        .background(Color.yellow)
+//                        .foregroundColor(.white)
+//                        .cornerRadius(10)
+//                        .offset(x:90)
+//                    }
+//                    
+//                }
             }
             .background(Color.white.opacity(0.1))
             .offset(x:statingOffsetY)
@@ -215,24 +215,24 @@ struct CommentRowView: View {
                         }
                     }
                     .onEnded{ value in
-                        withAnimation(.spring()){
-                            if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
-                                if currentDragOffstY < -100{
-                                    statingOffsetY = -200
-                                }else if currentDragOffstY > 100{
-                                    statingOffsetY = 0
-                                }
-                                currentDragOffstY = 0
-                            }else{
-                                if currentDragOffstY < -50{
-                                    statingOffsetY = -100
-                                }else if currentDragOffstY > 50{
-                                    statingOffsetY = 0
-                                }
-                                currentDragOffstY = 0
-                            }
-                            
-                        }
+//                        withAnimation(.spring()){
+//                            if let nickname = vmAuth.getUserRes?.data?.nickname,nickname == comment.userNickname{
+//                                if currentDragOffstY < -100{
+//                                    statingOffsetY = -200
+//                                }else if currentDragOffstY > 100{
+//                                    statingOffsetY = 0
+//                                }
+//                                currentDragOffstY = 0
+//                            }else{
+//                                if currentDragOffstY < -50{
+//                                    statingOffsetY = -100
+//                                }else if currentDragOffstY > 50{
+//                                    statingOffsetY = 0
+//                                }
+//                                currentDragOffstY = 0
+//                            }
+//                            
+//                        }
                     }
             )
             .onReceive(vm.modifySuccess) {

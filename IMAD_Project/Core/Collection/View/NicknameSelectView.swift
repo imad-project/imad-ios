@@ -64,12 +64,12 @@ struct NicknameSelectView: View {
                     .padding(.horizontal)
                 Button {
                     if let cheack = vmCheck.check{
-                        if cheack{
-                            vm.profileInfo.nickname = text
-                            withAnimation(.linear){
-                                vm.selection = .gender
-                            }
-                        }
+//                        if cheack{
+//                            vm.profileInfo.nickname = text
+//                            withAnimation(.linear){
+//                                vm.selection = .gender
+//                            }
+//                        }
                     }else{
                         self.blankMsg =  "닉네임 중복확인을 해주세요"
                         blankColor = false
@@ -96,7 +96,7 @@ struct NicknameSelectView: View {
         }
         .alert(isPresented: $tokenExpired.0) {
             Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vm.loginMode = false
+//                vm.loginMode = false
             })
         }
         .onChange(of: vmCheck.check){ value in

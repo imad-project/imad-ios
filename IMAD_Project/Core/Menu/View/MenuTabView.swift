@@ -76,11 +76,11 @@ extension MenuTabView{
                                     vm.tab = tab
                                 }
                             } label: {
-                                Image("\(ProfileFilter.allCases.first(where: {$0.num == vmAuth.getUserRes?.data?.profileImage ?? 0})?.rawValue ?? "")")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 30,height: 30)
-                                    .clipShape(Circle())
+//                                Image("\(ProfileFilter.allCases.first(where: {$0.num == vmAuth.getUserRes?.data?.profileImage ?? 0})?.rawValue ?? "")")
+//                                    .resizable()
+//                                    .scaledToFill()
+//                                    .frame(width: 30,height: 30)
+//                                    .clipShape(Circle())
                                     
                             }
                             .frame(height: 30)

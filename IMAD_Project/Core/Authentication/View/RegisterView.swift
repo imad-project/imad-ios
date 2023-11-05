@@ -157,11 +157,11 @@ struct RegisterView: View {
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
-        .onReceive(vm.registerSuccess) { value in
-            notRegex = true
-            success = value
-            alertMsg = vm.registerRes?.message ?? ""
-        }
+//        .onReceive(vm.registerSuccess) { value in
+//            notRegex = true
+//            success = value
+//            alertMsg = vm.registerRes?.message ?? ""
+//        }
         .onChange(of: vmCheck.check){ value in
             if let check = value{
                 if check{
@@ -177,13 +177,13 @@ struct RegisterView: View {
         .alert(isPresented: $notRegex) {
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
                 if success{
-                    vm.login(email: "\(email)@\(domain.domain)", password: password)
+//                    vm.login(email: "\(email)@\(domain.domain)", password: password)
                 }
             })
         }
-        .onReceive(vm.loginSuccess){ status in
-            vm.loginMode = status
-        }
+//        .onReceive(vm.loginSuccess){ status in
+//            vm.loginMode = status
+//        }
     }
     func isVaildInfo()->Int{
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"

@@ -27,9 +27,9 @@ struct SelectGenreView: View {
                 HStack{
                     Spacer()
                     Button {
-                        vm.selection = .profile
-                        vm.profileInfo.movieGenre = nil
-                        vm.profileInfo.tvGenre = nil
+//                        vm.selection = .profile
+//                        vm.profileInfo.movieGenre = nil
+//                        vm.profileInfo.tvGenre = nil
                     } label: {
                         Text("건너뛰기 > ")
                             .bold()
@@ -47,7 +47,7 @@ struct SelectGenreView: View {
                             Button {
                                 guard !movieList.contains(item.rawValue) else { return movieList = movieList.filter({$0 != item.rawValue})}
                                 movieList.append(item.rawValue)
-                                vm.profileInfo.movieGenre = movieList
+//                                vm.profileInfo.movieGenre = movieList
                             } label: {
                                 HStack{
                                     Text(item.name)
@@ -78,7 +78,7 @@ struct SelectGenreView: View {
                             Button {
                                 guard !tvList.contains(item.rawValue) else { return tvList = tvList.filter({$0 != item.rawValue})}
                                 tvList.append(item.rawValue)
-                                vm.profileInfo.tvGenre = tvList
+//                                vm.profileInfo.tvGenre = tvList
                             } label: {
                                 HStack{
                                     Text(item.name)
@@ -102,7 +102,7 @@ struct SelectGenreView: View {
                         .padding(.horizontal)
                         Button {
                             withAnimation(.linear){
-                                vm.selection = .profile
+//                                vm.selection = .profile
                             }
                         } label: {
                             RoundedRectangle(cornerRadius: 20)

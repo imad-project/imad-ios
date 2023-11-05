@@ -29,17 +29,17 @@ struct GenderSelectView: View {
                     HStack(spacing: 30){
                         VStack{
                             Button {
-                                vm.profileInfo.gender = "MALE"
+//                                vm.profileInfo.gender = "MALE"
                             } label: {
                                 RoundedRectangle(cornerRadius: 20)
                                     .frame(width: 150,height: 150)
                                     .foregroundColor(.white)
                                     .padding(10)
                                     .overlay {
-                                        if vm.profileInfo.gender == "MALE"{
-                                            RoundedRectangle(cornerRadius: 20).foregroundColor(.black.opacity(0.3))
-                                                .frame(width: 150,height: 150)
-                                        }
+//                                        if vm.profileInfo.gender == "MALE"{
+//                                            RoundedRectangle(cornerRadius: 20).foregroundColor(.black.opacity(0.3))
+//                                                .frame(width: 150,height: 150)
+//                                        }
                                         Image("MALE")
                                                 .resizable()
                                                 .frame(width: 90,height: 100)
@@ -47,22 +47,22 @@ struct GenderSelectView: View {
                                     .shadow(radius: 20)
                             }
                             Text("남성")
-                                .fontWeight(vm.profileInfo.gender == "MALE" ? .bold:.none)
+//                                .fontWeight(vm.profileInfo.gender == "MALE" ? .bold:.none)
                         }
                         //Spacer().frame(width: 50)
                         VStack{
                             Button {
-                                vm.profileInfo.gender = "FEMALE"
+//                                vm.profileInfo.gender = "FEMALE"
                             } label: {
                                 RoundedRectangle(cornerRadius: 20)
                                     .frame(width: 150,height: 150)
                                     .foregroundColor(.white)
                                     .padding(10)
                                     .overlay {
-                                        if vm.profileInfo.gender == "FEMALE"{
-                                            RoundedRectangle(cornerRadius: 20).foregroundColor(.black.opacity(0.3))
-                                                .frame(width: 150,height: 150)
-                                        }
+//                                        if vm.profileInfo.gender == "FEMALE"{
+//                                            RoundedRectangle(cornerRadius: 20).foregroundColor(.black.opacity(0.3))
+//                                                .frame(width: 150,height: 150)
+//                                        }
                                         Image("FEMALE")
                                                 .resizable()
                                                 .frame(width: 90,height: 100)
@@ -70,14 +70,14 @@ struct GenderSelectView: View {
                                     .shadow(radius: 20)
                             }
                             Text("여성")
-                                .fontWeight(vm.profileInfo.gender == "FEMALE" ? .bold:.none)
+//                                .fontWeight(vm.profileInfo.gender == "FEMALE" ? .bold:.none)
                         }
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical)
                 Button {
                     withAnimation(.linear){
-                        vm.selection = .age
+//                        vm.selection = .age
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 20)
