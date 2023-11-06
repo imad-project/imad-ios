@@ -30,7 +30,7 @@ class UserDefaultManager{
         return Token(accessToken: accessToken, refreshToken: refreshToken)
     }
     
-    func checkToken(response:HTTPURLResponse?){
+    func checkToken(response:HTTPURLResponse?) -> Bool{
         var accessToken = ""
         var refreshToken = ""
         
@@ -45,6 +45,9 @@ class UserDefaultManager{
         
         if !accessToken.isEmpty,!refreshToken.isEmpty{
             UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+            return true
+        }else{
+            return false
         }
     }
 }

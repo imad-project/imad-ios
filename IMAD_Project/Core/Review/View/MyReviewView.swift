@@ -63,7 +63,7 @@ struct MyReviewView: View {
 struct MyReviewView_Previews: PreviewProvider {
     static var previews: some View {
         MyReviewView(mode: 0)
-            .environmentObject(ReviewViewModel())
+            .environmentObject(ReviewViewModel(reviewList: CustomData.instance.reviewDetail))
     }
 }
 

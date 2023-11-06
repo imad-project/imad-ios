@@ -12,10 +12,16 @@ enum TokenApiService{
     
     static let intercept = GetTokenIntercept()
     
-        static func getToken() {
+        static func getToken() -> Bool{
             print("토큰 재발급 api 호출")
+            
+            var getTokenSuccess = false
+            
             ApiClient.shared.session
                 .request(TokenRouter.token,interceptor: intercept)
-                .response{UserDefaultManager.shared.checkToken(response: $0.response)}
+                .response{
+                    getTokenSuccess =  UserDefaultManager.shared.checkToken(response: $0.response)
+                }
+            return getTokenSuccess
         }
 }

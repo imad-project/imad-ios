@@ -10,7 +10,7 @@ import Alamofire
 
 class BaseIntercept:RequestInterceptor{
     
-    
+    var requestStatus = true
     
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         
@@ -26,7 +26,9 @@ class BaseIntercept:RequestInterceptor{
             guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 else {
                 return completion(.doNotRetryWithError(error)) //액세스,리프레시 토큰을 첨부후 요청 수행했는데도 토큰발급이 불가하다면 에러반환
             }
-            TokenApiService.getToken()
+            if requestStatus{   //토큰 수신 한번만 하기 위함
+                requestStatus = TokenApiService.getToken()
+            }
             completion(.retry)
         }
     }

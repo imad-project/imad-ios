@@ -18,7 +18,7 @@ struct ReviewDetailsView: View {
     @State var delete = false
     @State var tokenExpired = (false,"")
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm = ReviewViewModel()
+    @StateObject var vm = ReviewViewModel(reviewList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -196,7 +196,7 @@ struct ReviewDetailsView: View {
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ReviewDetailsView(goWork: true, reviewId: 1)
+            ReviewDetailsView(goWork: true, reviewId: 1,vm: ReviewViewModel(reviewList: CustomData.instance.reviewDetail))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }

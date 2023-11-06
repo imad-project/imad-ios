@@ -70,39 +70,44 @@ struct Dummy:View{
 //
 //}
 class Class:ObservableObject{
-    @Published var a  = false
-    var b = PassthroughSubject<(),Never>()
+//    @Published var path:[any View] = [TestView.Type]
+//    @Published var a  = false
+//    var b = PassthroughSubject<(),Never>()
+    
 }
 struct TestView: View {
     @State private var isPresentingBView = false
     @State var go = false
     @StateObject var vm = Class()
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text("A View")
-                Button("Go to B View") {
-                    isPresentingBView.toggle()
-                }
-                .sheet(isPresented: $isPresentingBView) {
-                    BView()
-                        .environmentObject(vm)
-                }
-            }
-            .onReceive(vm.b){
-                go = true
-            }
-//            .onChange(of: isPresentingBView) { newValue in
-//                if !newValue{
-//                    go = true
-//                    print(go)
+        NavigationStack{
+//            Navigation
+        }
+//        NavigationStack {
+//            VStack {
+//                Text("A View")
+//                Button("Go to B View") {
+//                    isPresentingBView.toggle()
+//                }
+//                .sheet(isPresented: $isPresentingBView) {
+//                    BView()
+//                        .environmentObject(vm)
 //                }
 //            }
-            
-            .navigationDestination(isPresented: $go) {
-                CView()
-            }
-        }
+//            .onReceive(vm.b){
+//                go = true
+//            }
+////            .onChange(of: isPresentingBView) { newValue in
+////                if !newValue{
+////                    go = true
+////                    print(go)
+////                }
+////            }
+//
+//            .navigationDestination(isPresented: $go) {
+//                CView()
+//            }
+//        }
     }
 }
 

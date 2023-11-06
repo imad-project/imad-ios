@@ -10,7 +10,7 @@ import SwiftUI
 struct NoImageView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 20)
-            .foregroundColor(.gray.opacity(0.3))
+            .foregroundColor(.white.opacity(0.9))
             .overlay {
                 RoundedRectangle(cornerRadius: 15)
                     .stroke(lineWidth:2)

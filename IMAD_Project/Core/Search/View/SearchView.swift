@@ -36,9 +36,10 @@ struct SearchView: View {
                                             vm.searchWork(query: vm.searchText, type: vm.type, page: vm.currentPage + 1)
                                         }
                                 }
-                            }
+                            } .padding(.top)
                         }.padding(.horizontal,10)
                 }
+               
             }
             .foregroundColor(.black)
             .background(Color.white)
@@ -123,7 +124,7 @@ extension SearchView{
                 if postingMode{
                     CommunityWriteView(image: result.posterPath?.getImadImage() ?? "", goMain: .constant(true))
                 }else{
-                    WorkView(id:result.id,type:result.mediaType ?? "")
+                    WorkView(id:result.id)
                 }
             }
             .environmentObject(vmAuth)

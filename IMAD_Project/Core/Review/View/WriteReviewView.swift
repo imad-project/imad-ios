@@ -25,7 +25,7 @@ struct WriteReviewView: View {
     
     @State var error = false
     
-    @StateObject var vm = ReviewViewModel()
+    @StateObject var vm = ReviewViewModel(reviewList: [])
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel
     

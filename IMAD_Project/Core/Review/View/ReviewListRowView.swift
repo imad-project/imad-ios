@@ -13,7 +13,7 @@ struct ReviewListRowView: View {
     @State var like = 0
     @State var isExtend = false
     @State var anima = false
-    @StateObject var vm = ReviewViewModel()
+    @StateObject var vm = ReviewViewModel(reviewList: [])
     
     var body: some View {
         VStack(alignment: .leading){
@@ -147,6 +147,6 @@ struct ReviewListRowView: View {
 
 struct ReviewListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewListRowView(review: CustomData.instance.reviewDetail[1])
+        ReviewListRowView(review: CustomData.instance.reviewDetail[1],vm: ReviewViewModel(reviewList: CustomData.instance.reviewDetail))
     }
 }

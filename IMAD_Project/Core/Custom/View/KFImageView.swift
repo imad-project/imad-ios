@@ -17,7 +17,7 @@ struct KFImageView: View {
         KFImage(URL(string: image))
             .resizable()
             .placeholder{
-                emptyPoster
+                NoImageView()
             }
             .frame(width: width,height: height)
             .cornerRadius(20)
@@ -31,20 +31,3 @@ struct KFImageView_Previews: PreviewProvider {
     }
 }
 
-extension KFImageView{
-    var emptyPoster:some View{
-        RoundedRectangle(cornerRadius: 15)
-            .foregroundColor(.gray.opacity(0.4))
-            .overlay {
-                VStack{
-                    Image(systemName: "xmark.app.fill")
-                        .font(.title)
-                        .padding(.bottom)
-                    Text("포스터 없음")
-                }
-                .bold()
-                .foregroundColor(.white)
-            }
-    }
-
-}

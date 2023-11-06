@@ -15,7 +15,7 @@ struct ReviewView: View {
     @State var sort:SortFilter = .createdDate //정렬기준
     @State var order:OrderFilter = .ascending   //오름차순 - 0,내림차순 - 1
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm = ReviewViewModel()
+    @StateObject var vm = ReviewViewModel(reviewList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -78,7 +78,7 @@ struct ReviewView: View {
 
 struct ReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewView(id: 1)
+        ReviewView(id: 1,vm: ReviewViewModel(reviewList: CustomData.instance.reviewDetail))
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
