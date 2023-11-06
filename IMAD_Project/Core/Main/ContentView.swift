@@ -15,7 +15,7 @@ struct ContentView: View {
     @State var alert = false
     @State var splash = false
     @State var login = false
-    @StateObject var vm = AuthViewModel()
+    @StateObject var vm = AuthViewModel(user: nil)
     
     var body: some View {
         ZStack {

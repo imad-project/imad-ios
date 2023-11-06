@@ -24,6 +24,10 @@ class SearchViewModel:ObservableObject{
     @Published var currentPage = 1
     @Published var maxPage = 0
     
+    init(work:[WorkResults]) {
+        self.work = work
+    }
+    
     init(){
         textCancellable = $searchText
             .debounce(for: .seconds(0.5), scheduler: RunLoop.main)

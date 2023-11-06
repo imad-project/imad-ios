@@ -138,7 +138,7 @@ struct ProfileChangeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ProfileChangeView()
-                .environmentObject(AuthViewModel())
+                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
         
     }

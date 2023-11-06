@@ -17,6 +17,7 @@ enum WorkApiService{
         print("작품검색 api호출")
         return ApiClient.shared.session
             .request(WorkRouter.workSearch(query: query, type: type, page: page),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: SearchWork.self)
             .value()
             .map{ receivedValue in
@@ -30,6 +31,7 @@ enum WorkApiService{
         print("작품상세정보 api호출")
         return ApiClient.shared.session
             .request(WorkRouter.workInfo(id: id, type: type),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: Work.self)
             .value()
             .map{ receivedValue in
@@ -42,6 +44,7 @@ enum WorkApiService{
         print("작품상세정보 api호출")
         return ApiClient.shared.session
             .request(WorkRouter.workDetailInfo(contentsId: contentsId),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: Work.self)
             .value()
             .map{ receivedValue in
@@ -54,6 +57,7 @@ enum WorkApiService{
         print("북마크 조회 api호출")
         return ApiClient.shared.session
             .request(WorkRouter.bookmarkRead(page: page),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: Bookmark.self)
             .value()
             .map{ receivedValue in
@@ -66,6 +70,7 @@ enum WorkApiService{
         print("북마크 추가 api호출")
         return ApiClient.shared.session
             .request(WorkRouter.bookmarkCreate(id:id),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: Bookmark.self)
             .value()
             .map{ receivedValue in
@@ -78,6 +83,7 @@ enum WorkApiService{
         print("북마크 삭제 api호출")
         return ApiClient.shared.session
             .request(WorkRouter.bookmarkDelete(id:id),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: Bookmark.self)
             .value()
             .map{ receivedValue in

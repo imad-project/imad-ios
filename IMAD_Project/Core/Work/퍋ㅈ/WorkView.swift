@@ -89,11 +89,10 @@ struct WorkView: View {
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
-            CommunityWriteView(contentsId: vm.workInfo?.contentsId ?? 0,image: vm.workInfo?.posterPath?.getImadImage() ?? "")
+            CommunityWriteView(contentsId: vm.workInfo?.contentsId ?? 0,image: vm.workInfo?.posterPath?.getImadImage() ?? "", goMain: .constant(true))
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
-        .navigationBarBackButtonHidden()
         .onReceive(vmReview.tokenExpired) { messages in
             tokenExpired = (true,messages)
             message = "토큰 만료됨"
@@ -131,7 +130,7 @@ struct WorkView: View {
 struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
         WorkView(id: 1396, type: "tv")
-            .environmentObject(AuthViewModel())
+            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
 

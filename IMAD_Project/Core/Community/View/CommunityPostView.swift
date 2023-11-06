@@ -58,7 +58,7 @@ struct CommunityPostView: View {
         .navigationBarBackButtonHidden(true)
         .navigationDestination(isPresented: $modify) {
             if let community = vm.communityDetail{
-                CommunityWriteView(contentsId: community.contentsID, postingId: vm.communityDetail?.postingID ?? 0, image: community.contentsPosterPath.getImadImage(),category:CommunityFilter.allCases.first(where: {$0.num == community.category})!, spoiler: community.spoiler, text:community.content, title: community.title)
+                CommunityWriteView(contentsId: community.contentsID, postingId: vm.communityDetail?.postingID ?? 0, image: community.contentsPosterPath.getImadImage(),category:CommunityFilter.allCases.first(where: {$0.num == community.category})!, spoiler: community.spoiler, text:community.content, title: community.title, goMain: .constant(true))
                     .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             }
@@ -85,7 +85,7 @@ struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             CommunityPostView(postingId: 1)
-                .environmentObject(AuthViewModel())
+                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
 }

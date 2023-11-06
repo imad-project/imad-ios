@@ -41,6 +41,9 @@ class AuthViewModel:ObservableObject{
 //    var tokenExpired = PassthroughSubject<String,Never>()
 //    var postingSuccess = PassthroughSubject<Int,Never>()
     
+    init(user: UserInfo?) {
+        self.user = user
+    }
     
     func register(email:String,password:String,authProvider:String){
         AuthApiService.register(email: email, password: password,authProvider:authProvider)

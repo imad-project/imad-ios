@@ -80,7 +80,7 @@ struct CommunityView: View {
                 }
         }
         .navigationDestination(isPresented: $search){
-            WorkListView(postingMode: true, title: "검색", back: $search)
+            SearchView(postingMode: true, back: $search)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
@@ -93,7 +93,7 @@ struct CommunityView: View {
 struct CommunityView_Previews: PreviewProvider {
     static var previews: some View {
         CommunityView()
-            .environmentObject(AuthViewModel())
+            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
 

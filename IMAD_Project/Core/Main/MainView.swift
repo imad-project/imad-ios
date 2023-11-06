@@ -57,7 +57,7 @@ struct MainView: View {
                             search = true
                         }
                     reviewPosting
-                    movieList
+//                    movieList
                     Spacer().frame(height: 100).foregroundColor(.white)
                 }
             }
@@ -78,7 +78,7 @@ struct MainView: View {
         })
         .ignoresSafeArea()
         .navigationDestination(isPresented: $search) {
-            WorkListView(postingMode: false, title: "검색", back: $search)
+            SearchView(postingMode: false, back: $search)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }.foregroundColor(.white)
@@ -95,7 +95,7 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         //  NavigationStack{
         MainView(search: .constant(false))
-            .environmentObject(AuthViewModel())
+            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         //.environment(\.colorScheme, .dark)
         //   }
     }
@@ -306,55 +306,51 @@ extension MainView{
             }
         }.font(.caption)
     }
-    var movieList:some View{
-        VStack{
-            
-            ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
-                // Section(header:){
-                ScrollView(.horizontal,showsIndicators: false){
-                    genreHeader(name: genre.name).padding(.top)
-                    HStack(spacing: 0){
-                        ForEach(CustomData.instance.workList){ work in
-                            Button {
-                                //                                poster = work
-                                isReview = true
-                            } label: {
-                                KFImage(URL(string: ("https://image.tmdb.org/t/p" + "/original" + (work.posterPath ?? "")))!)
-                                    .resizable()
-                                    .frame(width: 150,height: 200)
-                                    .cornerRadius(15)
-                                    .shadow(radius: 5)
-                                    .padding(.leading)
-                                    .overlay(alignment:.topTrailing) {
-                                        Circle()
-                                            .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
-                                            .stroke(lineWidth: 3)
-                                            .rotation(Angle(degrees: 270))
-                                            .frame(width: 40,height: 40)
-                                            .overlay{
-                                                VStack{
-                                                    Image(systemName: "star.fill")
-                                                        .font(.caption)
-                                                    Text(String(format: "%0.1f", 4))
-                                                        .font(.caption)
-                                                }
-                                            }
-                                            .background{
-                                                Circle().foregroundColor(.black.opacity(0.7))
-                                            }
-                                            .padding(5)
-                                        
-                                    }
-                            }
-                            
-                        }
-                        
-                    }
-                }.padding(.bottom,5)
-            }
-            
-            
-        }
-    }
+//    var movieList:some View{
+//        VStack{
+//
+//            ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
+//                // Section(header:){
+//                ScrollView(.horizontal,showsIndicators: false){
+//                    genreHeader(name: genre.name).padding(.top)
+//                    HStack(spacing: 0){
+//                        ForEach(CustomData.instance.workList){ work in
+//                            Button {
+//                                //                                poster = work
+//                                isReview = true
+//                            } label: {
+//                                KFImageView(image: work.posterPath.getImadImage() ?? "",width: 150,height: 200)
+//
+//                                    .overlay(alignment:.topTrailing) {
+//                                        Circle()
+//                                            .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
+//                                            .stroke(lineWidth: 3)
+//                                            .rotation(Angle(degrees: 270))
+//                                            .frame(width: 40,height: 40)
+//                                            .overlay{
+//                                                VStack{
+//                                                    Image(systemName: "star.fill")
+//                                                        .font(.caption)
+//                                                    Text(String(format: "%0.1f", 4))
+//                                                        .font(.caption)
+//                                                }
+//                                            }
+//                                            .background{
+//                                                Circle().foregroundColor(.black.opacity(0.7))
+//                                            }
+//                                            .padding(5)
+//
+//                                    }
+//                            }
+//
+//                        }
+//
+//                    }
+//                }.padding(.bottom,5)
+//            }
+//
+//
+//        }
+//    }
     
 }

@@ -197,7 +197,7 @@ struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             ReviewDetailsView(goWork: true, reviewId: 1)
-                .environmentObject(AuthViewModel())
+                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
 }

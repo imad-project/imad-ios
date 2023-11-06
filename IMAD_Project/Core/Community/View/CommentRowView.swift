@@ -246,7 +246,7 @@ struct CommentRowView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             CommentRowView(commentMode: true, comment: CustomData.instance.comment)
-                .environmentObject(AuthViewModel())
+                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
                 .environmentObject(CommunityViewModel())
         }
         

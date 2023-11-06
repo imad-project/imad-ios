@@ -79,7 +79,7 @@ struct CommentDetailsView: View {
 struct CommentDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         CommentDetailsView(postingId: 0, commentId: 0)
-            .environmentObject(AuthViewModel())
+            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
 

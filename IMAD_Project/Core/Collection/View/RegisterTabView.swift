@@ -91,7 +91,7 @@ struct RegisterTabView: View {
 
 struct RegisterTabView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterTabView().environmentObject(AuthViewModel())
+        RegisterTabView().environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
 

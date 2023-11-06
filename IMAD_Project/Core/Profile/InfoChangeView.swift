@@ -222,6 +222,6 @@ struct InfoChangeView_Previews: PreviewProvider {
     static var previews: some View {
         
         InfoChangeView(title: "나이", password: false, text: "quarang")
-            .environmentObject(AuthViewModel())
+            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
