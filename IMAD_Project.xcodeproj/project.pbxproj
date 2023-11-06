@@ -447,13 +447,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		811981C52AF91C1D00952ED2 /* Work */ = {
+		811981C52AF91C1D00952ED2 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				811981C72AF91C2400952ED2 /* WorkInfoView.swift */,
 				811981C62AF91C2400952ED2 /* WorkView.swift */,
 			);
-			path = Work;
+			path = View;
 			sourceTree = "<group>";
 		};
 		811DA16529E92FD800482A6A /* Review */ = {
@@ -594,7 +594,7 @@
 		817860132A29A6B0004639F6 /* Work */ = {
 			isa = PBXGroup;
 			children = (
-				811981C52AF91C1D00952ED2 /* Work */,
+				811981C52AF91C1D00952ED2 /* View */,
 				8115A6602A8F317D00B7C3FE /* ViewModel */,
 			);
 			path = Work;

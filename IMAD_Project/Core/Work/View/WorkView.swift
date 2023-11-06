@@ -16,14 +16,14 @@ struct WorkView: View {
     //    @State var tokenExpired = (false,"")
     @State var width:Bool = false   //작품 제목 섹션 생성
     //    @State var anima = false
-    @State var writeReview = false
+    @State var writeReview = false//리뷰작성
     @State var writeCommunity = false
     @State var message = ""
     @State var showMyRevie = false
 //    @State var goPosting = (false,0)
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @EnvironmentObject var vmAuth:AuthViewModel//
     @StateObject var vmReview = ReviewViewModel(reviewList: [])
     @StateObject var tab = CommunityTabViewModel()
     @StateObject var vm = WorkViewModel(workInfo: nil)
