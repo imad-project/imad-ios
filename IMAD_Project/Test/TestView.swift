@@ -81,7 +81,7 @@ struct TestView: View {
     @StateObject var vm = Class()
     var body: some View {
         NavigationStack{
-//            Navigation
+            
         }
 //        NavigationStack {
 //            VStack {
@@ -123,7 +123,7 @@ struct BView: View {
             Button("Go to C View") {
 //                cview = false
                 dismiss()
-                vm.b.send()
+//                vm.b.send()
             }
         }
     }
