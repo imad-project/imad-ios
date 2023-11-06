@@ -23,7 +23,7 @@ struct WorkView: View {
 //    @State var goPosting = (false,0)
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @EnvironmentObject var vmAuth:AuthViewModel//
     @StateObject var vmReview = ReviewViewModel(reviewList: [])
     @StateObject var tab = CommunityTabViewModel()
     @StateObject var vm = WorkViewModel(workInfo: nil)
