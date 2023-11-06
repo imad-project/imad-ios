@@ -24,13 +24,13 @@ struct ContentView: View {
                     if let user = vm.user?.data{
                         if user.role == "GUEST"{
                             RegisterTabView().environmentObject(vm)
-                        }else{
+                        }else{ 
                             MenuTabView().environmentObject(vm)
                         }
                     }else{
                         LoginAllView()
-                                                   .environmentObject(vm)
-                                                   .ignoresSafeArea(.keyboard)
+                           .environmentObject(vm)
+                           .ignoresSafeArea(.keyboard)
                     }
 //                    if vm.loginMode{
 //                        if vm.guestMode{

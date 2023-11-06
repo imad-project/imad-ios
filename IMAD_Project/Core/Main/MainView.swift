@@ -19,7 +19,7 @@ struct MainView: View {
     @State var select = 0
     @State var anima = false
     @Binding var search:Bool
-    @Binding var filterSelect:Bool
+//   filterSelect @Binding var filterSelect:Bool
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -94,7 +94,7 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         //  NavigationStack{
-        MainView(search: .constant(false), filterSelect: .constant(false))
+        MainView(search: .constant(false))
             .environmentObject(AuthViewModel())
         //.environment(\.colorScheme, .dark)
         //   }
