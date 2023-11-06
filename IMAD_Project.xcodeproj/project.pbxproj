@@ -31,8 +31,6 @@
 		8115A6622A8F320B00B7C3FE /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8115A6612A8F320B00B7C3FE /* Array.swift */; };
 		8115A6642A8F38A800B7C3FE /* WorkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8115A6632A8F38A800B7C3FE /* WorkViewModel.swift */; };
 		8115A6672A8F3B3E00B7C3FE /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8115A6662A8F3B3E00B7C3FE /* String.swift */; };
-		811981C82AF91C2400952ED2 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811981C62AF91C2400952ED2 /* WorkView.swift */; };
-		811981C92AF91C2400952ED2 /* WorkInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811981C72AF91C2400952ED2 /* WorkInfoView.swift */; };
 		811DA16929E9332500482A6A /* WriteReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16829E9332500482A6A /* WriteReview.swift */; };
 		811DA16B29E94D9D00482A6A /* UserReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16A29E94D9D00482A6A /* UserReview.swift */; };
 		811DA16D29E978DB00482A6A /* CommunityPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16C29E978DB00482A6A /* CommunityPostView.swift */; };
@@ -124,6 +122,8 @@
 		81C2649A2A137D2900405B01 /* LoginAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C264992A137D2900405B01 /* LoginAllView.swift */; };
 		81C2649C2A13B73600405B01 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2649B2A13B73600405B01 /* UserRouter.swift */; };
 		81C2649E2A13B7AA00405B01 /* UserApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2649D2A13B7AA00405B01 /* UserApiService.swift */; };
+		81C3E4722AF9327C008F333D /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C3E4702AF9327C008F333D /* WorkView.swift */; };
+		81C3E4732AF9327C008F333D /* WorkInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C3E4712AF9327C008F333D /* WorkInfoView.swift */; };
 		81C731292AF51B260076D230 /* TokenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C731282AF51B260076D230 /* TokenRouter.swift */; };
 		81C7312B2AF6183C0076D230 /* TokenApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C7312A2AF6183C0076D230 /* TokenApiService.swift */; };
 		81C7312D2AF66CF40076D230 /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C7312C2AF66CF40076D230 /* UserResponse.swift */; };
@@ -198,8 +198,6 @@
 		8115A6612A8F320B00B7C3FE /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		8115A6632A8F38A800B7C3FE /* WorkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkViewModel.swift; sourceTree = "<group>"; };
 		8115A6662A8F3B3E00B7C3FE /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
-		811981C62AF91C2400952ED2 /* WorkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
-		811981C72AF91C2400952ED2 /* WorkInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkInfoView.swift; sourceTree = "<group>"; };
 		811DA16829E9332500482A6A /* WriteReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReview.swift; sourceTree = "<group>"; };
 		811DA16A29E94D9D00482A6A /* UserReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReview.swift; sourceTree = "<group>"; };
 		811DA16C29E978DB00482A6A /* CommunityPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityPostView.swift; sourceTree = "<group>"; };
@@ -291,6 +289,8 @@
 		81C264992A137D2900405B01 /* LoginAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAllView.swift; sourceTree = "<group>"; };
 		81C2649B2A13B73600405B01 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
 		81C2649D2A13B7AA00405B01 /* UserApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApiService.swift; sourceTree = "<group>"; };
+		81C3E4702AF9327C008F333D /* WorkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
+		81C3E4712AF9327C008F333D /* WorkInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkInfoView.swift; sourceTree = "<group>"; };
 		81C731282AF51B260076D230 /* TokenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRouter.swift; sourceTree = "<group>"; };
 		81C7312A2AF6183C0076D230 /* TokenApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenApiService.swift; sourceTree = "<group>"; };
 		81C7312C2AF66CF40076D230 /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
@@ -447,15 +447,6 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		811981C52AF91C1D00952ED2 /* Work */ = {
-			isa = PBXGroup;
-			children = (
-				811981C72AF91C2400952ED2 /* WorkInfoView.swift */,
-				811981C62AF91C2400952ED2 /* WorkView.swift */,
-			);
-			path = Work;
-			sourceTree = "<group>";
-		};
 		811DA16529E92FD800482A6A /* Review */ = {
 			isa = PBXGroup;
 			children = (
@@ -594,7 +585,7 @@
 		817860132A29A6B0004639F6 /* Work */ = {
 			isa = PBXGroup;
 			children = (
-				811981C52AF91C1D00952ED2 /* Work */,
+				81C3E46F2AF9323D008F333D /* Work */,
 				8115A6602A8F317D00B7C3FE /* ViewModel */,
 			);
 			path = Work;
@@ -827,6 +818,15 @@
 				81BB11132A0622AC005654AA /* AuthViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		81C3E46F2AF9323D008F333D /* Work */ = {
+			isa = PBXGroup;
+			children = (
+				81C3E4712AF9327C008F333D /* WorkInfoView.swift */,
+				81C3E4702AF9327C008F333D /* WorkView.swift */,
+			);
+			path = Work;
 			sourceTree = "<group>";
 		};
 		81C7312E2AF66D210076D230 /* Token */ = {
@@ -1230,7 +1230,7 @@
 				81E2F8AA2A8F4FDD003E53DC /* CertificationFilter.swift in Sources */,
 				8115A6582A8A166200B7C3FE /* TVGenreFilter.swift in Sources */,
 				81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */,
-				811981C92AF91C2400952ED2 /* WorkInfoView.swift in Sources */,
+				81C3E4732AF9327C008F333D /* WorkInfoView.swift in Sources */,
 				8115A6452A83940800B7C3FE /* WorkRouter.swift in Sources */,
 				81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */,
 				81DB1FCA29E6C2E2002C0840 /* GenderSelectView.swift in Sources */,
@@ -1238,7 +1238,7 @@
 				81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */,
 				818CF7F22A207CFF00BABA1F /* OnBoardingTabView.swift in Sources */,
 				811DA16929E9332500482A6A /* WriteReview.swift in Sources */,
-				811981C82AF91C2400952ED2 /* WorkView.swift in Sources */,
+				81C3E4722AF9327C008F333D /* WorkView.swift in Sources */,
 				8154B1D42ADA5DA400AD2F83 /* CommunityApiService.swift in Sources */,
 				81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */,
 				817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */,
