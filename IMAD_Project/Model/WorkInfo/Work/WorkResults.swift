@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WorkResults:Identifiable,Codable,Equatable{
+struct WorkListResponse:Identifiable,Codable,Equatable{
     
     var id:Int
     var title:String?
@@ -44,7 +44,7 @@ struct WorkResults:Identifiable,Codable,Equatable{
         case genreIds = "genre_ids"
         case video
     }
-    static func == (lhs:WorkResults,rhs:WorkResults)->Bool{
+    static func == (lhs:WorkListResponse,rhs:WorkListResponse)->Bool{
             return lhs.id == rhs.id
         }
 }

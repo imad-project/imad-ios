@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct WorkInfoView: View {
-    let work:WorkInfo
+    let work:WorkResponse
     @State var detail:Season?
     @State var isExtend = false
     @StateObject var vm = ContriesFilter()

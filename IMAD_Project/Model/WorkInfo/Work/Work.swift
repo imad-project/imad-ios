@@ -9,6 +9,6 @@ import Foundation
 
 struct Work:Codable{
     var status:Int
-    var data:WorkInfo?
+    var data:WorkResponse?
     var message:String
 }

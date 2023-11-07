@@ -14,7 +14,7 @@ struct MainView: View {
     
     @State private var rotationAngle: Angle = .zero
     @State var movieIndex = 0
-    @State var poster:WorkInfo = CustomData.instance.workInfo
+    @State var poster:WorkResponse = CustomData.instance.workInfo
     @State var isReview = false
     @State var select = 0
     @State var anima = false

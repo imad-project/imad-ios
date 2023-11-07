@@ -19,12 +19,12 @@ class SearchViewModel:ObservableObject{
     var tokenExpired = PassthroughSubject<String,Never>()
     
     @Published var searchText = ""
-    @Published var work:[WorkResults] = []
+    @Published var work:[WorkListResponse] = []
     @Published var type:MovieTypeFilter = .multi
     @Published var currentPage = 1
     @Published var maxPage = 0
     
-    init(work:[WorkResults]) {
+    init(work:[WorkListResponse]) {
         self.work = work
     }
     
@@ -53,18 +53,19 @@ class SearchViewModel:ObservableObject{
     func searchWork(query:String,type:MovieTypeFilter,page:Int){
         WorkApiService.workSearch(query: query, type: type.rawValue, page: page)
             .sink { completion in
-                print(completion)
+//                print(completion)
                 self.currentPage = page
             } receiveValue: { [weak self] work in
-                if work.status >= 200 && work.status < 300{
-                    if let results = work.data?.results{
-                        self?.work.append(contentsOf: results)
+//                if work.status >= 200 && work.status < 300{
+                    if let results = work.data{
+                        self?.work.append(contentsOf: results.results)
+                        self?.maxPage = results.totalPages
                     }
-                    self?.maxPage = work.data?.totalPages ?? 0
-                }else if work.status == 401{
-//                    AuthApiService.getToken()
-                    self?.tokenExpired.send(work.message)
-                }
+                    
+//                }else if work.status == 401{
+////                    AuthApiService.getToken()
+//                    self?.tokenExpired.send(work.message)
+//                }
             }.store(in: &cancel)
         }
 }

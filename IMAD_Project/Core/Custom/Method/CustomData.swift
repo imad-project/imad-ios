@@ -34,7 +34,7 @@ class CustomData{
     ]
     
     
-    let workInfo:WorkInfo = WorkInfo(genres: [
+    let workInfo:WorkResponse = WorkResponse(genres: [
         80,
         18
     ],
@@ -78,8 +78,8 @@ class CustomData{
                                         Person(gender: "MALE", id: 121197, creditID: "52fe4255c3a36847f8016037", name: "Richard D. Zanuck", profilePath: "/xnqVhmH5MAEuBEZMVpBRjVb2fIN.jpg", character: nil, knownForDepartment: "Production", department: "Production", job: "Producer", importanceOrder: 0, creditType: "CREW")
                                      ])
     )
-    let workList:[WorkResults] = [
-        WorkResults(id: 4125790,
+    let workList:[WorkListResponse] = [
+        WorkListResponse(id: 4125790,
                     title: nil,
                     originalTitle: nil,
                     releaseDate: nil,
@@ -101,7 +101,7 @@ class CustomData{
                         10765
                     ],
                     video: false),
-        WorkResults(id: 4579080,
+        WorkListResponse(id: 4579080,
                     title: nil,
                     originalTitle: nil,
                     releaseDate: nil,
@@ -123,7 +123,7 @@ class CustomData{
                         10765
                     ],
                     video: false),
-        WorkResults(id: 4514790,
+        WorkListResponse(id: 4514790,
                     title: nil,
                     originalTitle: nil,
                     releaseDate: nil,
@@ -145,7 +145,7 @@ class CustomData{
                         10765
                     ],
                     video: false),
-        WorkResults(id: 4577590,
+        WorkListResponse(id: 4577590,
                     title: nil,
                     originalTitle: nil,
                     releaseDate: nil,
@@ -167,7 +167,7 @@ class CustomData{
                         10765
                     ],
                     video: false),
-        WorkResults(id: 457987990,
+        WorkListResponse(id: 457987990,
                     title: nil,
                     originalTitle: nil,
                     releaseDate: nil,
@@ -189,7 +189,7 @@ class CustomData{
                         10765
                     ],
                     video: false),
-        WorkResults(id: 453123790,
+        WorkListResponse(id: 453123790,
                     title: nil,
                     originalTitle: nil,
                     releaseDate: nil,
@@ -211,7 +211,7 @@ class CustomData{
                         10765
                     ],
                     video: false),
-        WorkResults(id: 4577576590,
+        WorkListResponse(id: 4577576590,
                     title: nil,
                     originalTitle: nil,
                     releaseDate: nil,
@@ -233,7 +233,7 @@ class CustomData{
                         10765
                     ],
                     video: false),
-        WorkResults(id: 3213,
+        WorkListResponse(id: 3213,
                     title: nil,
                     originalTitle: nil,
                     releaseDate: nil,

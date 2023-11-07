@@ -118,7 +118,7 @@ extension SearchView{
         .padding(.horizontal)
         .padding(.bottom,5)
     }
-    func workListRow(result:WorkResults) ->some View{
+    func workListRow(result:WorkListResponse) ->some View{
         NavigationLink {
             Group{
                 if postingMode{

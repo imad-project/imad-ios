@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WorkInfo:Codable{
+struct WorkResponse:Codable{
     
     let genres: [Int]
     let productionCountries: [String]?

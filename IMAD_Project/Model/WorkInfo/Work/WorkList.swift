@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct WorkData:Codable{
+struct WorkList:Codable{
     var page:Int
     var totalPages:Int
     var totalResults:Int
-    var results:[WorkResults]
+    var results:[WorkListResponse]
     
     enum CodingKeys:String,CodingKey {
         case page

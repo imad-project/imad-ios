@@ -10,7 +10,7 @@ import Combine
 
 class WorkViewModel:ObservableObject{
     
-    @Published var workInfo:WorkInfo? = nil
+    @Published var workInfo:WorkResponse? = nil
     @Published var bookmarkList:BookmarkResponse? = nil
     @Published var bookmarkResponse:Bookmark? = nil
     
@@ -22,7 +22,7 @@ class WorkViewModel:ObservableObject{
     var contentsIdSuccess = PassthroughSubject<Int,Never>()
     var cancelable = Set<AnyCancellable>()
     
-    init(workInfo:WorkInfo?){
+    init(workInfo:WorkResponse?){
         self.workInfo = workInfo
     }
     func getWorkInfo(contentsId:Int){
