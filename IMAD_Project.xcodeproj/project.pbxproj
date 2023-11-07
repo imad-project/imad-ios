@@ -17,7 +17,7 @@
 		810B4E9E2A2CDE0E00714A2B /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810B4E9D2A2CDE0E00714A2B /* CustomProgressView.swift */; };
 		81135F492AB7DBE900E784FD /* ReviewLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81135F482AB7DBE900E784FD /* ReviewLike.swift */; };
 		811536D42A173EED003F8273 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811536D32A173EED003F8273 /* Data.swift */; };
-		8115A6432A8391BE00B7C3FE /* WorkResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8115A6422A8391BE00B7C3FE /* WorkResults.swift */; };
+		8115A6432A8391BE00B7C3FE /* WorkListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8115A6422A8391BE00B7C3FE /* WorkListResponse.swift */; };
 		8115A6452A83940800B7C3FE /* WorkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8115A6442A83940800B7C3FE /* WorkRouter.swift */; };
 		8115A6472A8395C500B7C3FE /* WorkApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8115A6462A8395C500B7C3FE /* WorkApiService.swift */; };
 		8115A64A2A8396C800B7C3FE /* WorkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8115A6492A8396C800B7C3FE /* WorkList.swift */; };
@@ -184,7 +184,7 @@
 		810B4E9D2A2CDE0E00714A2B /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
 		81135F482AB7DBE900E784FD /* ReviewLike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewLike.swift; sourceTree = "<group>"; };
 		811536D32A173EED003F8273 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
-		8115A6422A8391BE00B7C3FE /* WorkResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkResults.swift; sourceTree = "<group>"; };
+		8115A6422A8391BE00B7C3FE /* WorkListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkListResponse.swift; sourceTree = "<group>"; };
 		8115A6442A83940800B7C3FE /* WorkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkRouter.swift; sourceTree = "<group>"; };
 		8115A6462A8395C500B7C3FE /* WorkApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkApiService.swift; sourceTree = "<group>"; };
 		8115A6492A8396C800B7C3FE /* WorkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkList.swift; sourceTree = "<group>"; };
@@ -692,7 +692,7 @@
 				8115A65D2A8F30F700B7C3FE /* Work.swift */,
 				8115A65B2A8F2EF400B7C3FE /* WorkResponse.swift */,
 				8115A6492A8396C800B7C3FE /* WorkList.swift */,
-				8115A6422A8391BE00B7C3FE /* WorkResults.swift */,
+				8115A6422A8391BE00B7C3FE /* WorkListResponse.swift */,
 				819D49A42A933B3B008B7BFE /* WorkInfo */,
 			);
 			path = Work;
@@ -1161,7 +1161,7 @@
 				8154B1EE2AE0DB9800AD2F83 /* ReplyApiService.swift in Sources */,
 				81F2593B2AB09FA200C54668 /* DeleteReview.swift in Sources */,
 				81FF75AE2AF8C4DE00DB1AC2 /* ProfileImageView.swift in Sources */,
-				8115A6432A8391BE00B7C3FE /* WorkResults.swift in Sources */,
+				8115A6432A8391BE00B7C3FE /* WorkListResponse.swift in Sources */,
 				81C7312B2AF6183C0076D230 /* TokenApiService.swift in Sources */,
 				81BB11042A061457005654AA /* ApiClient.swift in Sources */,
 				817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */,
