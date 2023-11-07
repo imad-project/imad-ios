@@ -13,10 +13,3 @@ struct WriteReview:Codable,Hashable{
     var message:String
 }
 
-struct WriteReviewResponse:Codable,Hashable{
-    
-    var id:Int
-    enum CodingKeys:String, CodingKey{
-        case id = "review_id"
-    }
-}

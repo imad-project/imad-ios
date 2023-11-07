@@ -11,7 +11,7 @@ import Kingfisher
 struct MyReviewListRowView: View {
     
     @State var anima = false
-    let review:ReviewDetailsResponseList
+    let review:ReadReviewResponse
     
     var body: some View {
 

@@ -47,7 +47,7 @@ struct ReviewDetailsView: View {
                     
                     
                     HStack(alignment: .top) {
-                        KFImage(URL(string: vm.reviewInfo?.contentsPosterPath?.getImadImage() ?? CustomData.instance.movieList.first!))
+                        KFImage(URL(string: vm.reviewInfo?.contentsPosterPath.getImadImage() ?? CustomData.instance.movieList.first!))
                             .resizable()
                             .frame(width: 100,height: 120)
                             .scaledToFill()
@@ -241,7 +241,7 @@ extension ReviewDetailsView{
             if menu{
                 VStack{
                     NavigationLink {
-                        WriteReviewView(id: vm.reviewInfo?.contentsID ?? 0, image:vm.reviewInfo?.contentsPosterPath?.getImadImage() ?? "", gradeAvg: vm.reviewInfo?.score ?? 0,reviewId : vm.reviewInfo?.reviewID ?? 0, title: vm.reviewInfo?.title ?? "",text: vm.reviewInfo?.content ?? "",spoiler: vm.reviewInfo?.spoiler ?? false,rating: vm.reviewInfo?.score ?? 0)
+                        WriteReviewView(id: vm.reviewInfo?.contentsID ?? 0, image:vm.reviewInfo?.contentsPosterPath.getImadImage() ?? "", gradeAvg: vm.reviewInfo?.score ?? 0,reviewId : vm.reviewInfo?.reviewID ?? 0, title: vm.reviewInfo?.title ?? "",text: vm.reviewInfo?.content ?? "",spoiler: vm.reviewInfo?.spoiler ?? false,rating: vm.reviewInfo?.score ?? 0)
                             .navigationBarBackButtonHidden()
                             .environmentObject(vmAuth)
                     } label: {

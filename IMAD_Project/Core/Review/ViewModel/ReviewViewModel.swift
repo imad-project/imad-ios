@@ -17,11 +17,11 @@ class ReviewViewModel:ObservableObject{
     var tokenExpired = PassthroughSubject<String,Never>()
     
     @Published var reviewInfo:ReadReviewResponse?
-    @Published var reviewList:[ReviewDetailsResponseList] = []  //리뷰 리스트
-    @Published var reviewDetailsInfo:ReviewDetails?
+    @Published var reviewList:[ReadReviewResponse] = []  //리뷰 리스트
+    @Published var reviewDetailsInfo:ReadReviewListResponse?
     
-    @Published var myReview:[ReviewDetailsResponseList] = []
-    @Published var myLikeReview:[ReviewDetailsResponseList] = []
+    @Published var myReview:[ReadReviewResponse] = []
+    @Published var myLikeReview:[ReadReviewResponse] = []
     
     @Published var myReviewCnt = 0
     @Published var myLikeReviewCnt = 0
@@ -30,7 +30,7 @@ class ReviewViewModel:ObservableObject{
     
     @Published var error = ""
     
-    init(reviewList:[ReviewDetailsResponseList]){
+    init(reviewList:[ReadReviewResponse]){
         self.reviewList = reviewList
     }
     
@@ -141,9 +141,7 @@ class ReviewViewModel:ObservableObject{
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     guard let data = recievedValue.data else {return}
                     self?.myReviewCnt = data.totalElements ?? 0
-                    if let list = data.reviewDetailsResponseList{
-                        self?.myReview.append(contentsOf: list)
-                    }
+                    self?.myReview.append(contentsOf: data.reviewDetailsResponseList)
                 }
                 else if recievedValue.status == 401{
 //                    AuthApiService.getToken()
@@ -160,9 +158,9 @@ class ReviewViewModel:ObservableObject{
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     guard let data = recievedValue.data else {return}
                     self?.myLikeReviewCnt = data.totalElements ?? 0
-                    if let list = data.reviewDetailsResponseList{
-                        self?.myLikeReview.append(contentsOf: list)
-                    }
+//                    if let list = data.reviewDetailsResponseList{
+                    self?.myLikeReview.append(contentsOf: data.reviewDetailsResponseList)
+//                    }
                 }
                 else if recievedValue.status == 401{
 //                    AuthApiService.getToken()

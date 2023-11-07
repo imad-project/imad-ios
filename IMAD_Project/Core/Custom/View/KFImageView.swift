@@ -27,7 +27,7 @@ struct KFImageView: View {
 
 struct KFImageView_Previews: PreviewProvider {
     static var previews: some View {
-        KFImageView(image: CustomData.instance.review.contentsPosterPath?.getImadImage() ?? "",width: 200,height: 300)
+        KFImageView(image: CustomData.instance.review.contentsPosterPath.getImadImage(),width: 200,height: 300)
     }
 }
 

@@ -26,7 +26,7 @@ struct MyReviewView: View {
             return ()
         }
     }
-    var list:[ReviewDetailsResponseList]{
+    var list:[ReadReviewResponse]{
         switch mode{
         case 0:
             return vm.myReview

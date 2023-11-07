@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct ReviewListRowView: View {
-    @State var review:ReviewDetailsResponseList
+    @State var review:ReadReviewResponse
     @State var like = 0
     @State var isExtend = false
     @State var anima = false
