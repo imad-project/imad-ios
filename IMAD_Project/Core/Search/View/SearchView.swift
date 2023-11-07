@@ -29,7 +29,7 @@ struct SearchView: View {
                         LazyVGrid(columns: columns) {
                             ForEach(vm.work){ result in
                                 workListRow(result: result)
-                                if vm.work.last == result,vm.maxPage != vm.currentPage{
+                                if vm.work.last == result,vm.maxPage > vm.currentPage{
                                     ProgressView()
                                         .environment(\.colorScheme, .light)
                                         .onAppear{

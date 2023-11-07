@@ -10,9 +10,9 @@ import Foundation
 struct ReadReviewListResponse: Codable,Hashable {
     
     var reviewDetailsResponseList: [ReadReviewResponse]
-    let totalElements, totalPages, pageNumber, numberOfElements: Int?
-    let sizeOfPage, sortDirection: Int?
-    let sortProperty: String?
+    let totalElements, totalPages, pageNumber, numberOfElements: Int
+    let sizeOfPage, sortDirection: Int
+    let sortProperty: String
 
     enum CodingKeys: String, CodingKey {
         case reviewDetailsResponseList = "review_details_response_list"

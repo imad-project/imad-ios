@@ -19,9 +19,9 @@ struct MyReviewView: View {
     var profileMode:(){
         switch mode{
         case 0:
-            return vm.myReviewList(page: vm.page)
+            return vm.myReviewList(page: vm.currentPage)
         case 1:
-            return vm.myLikeReviewList(page: vm.page)
+            return vm.myLikeReviewList(page: vm.currentPage)
         default:
             return ()
         }
@@ -174,7 +174,7 @@ extension MyReviewView{
                         if list.count > 10{
                             ProgressView()
                                 .onAppear{
-                                    vm.page += 1
+                                    vm.currentPage += 1
                                     profileMode
                                 }
                         }

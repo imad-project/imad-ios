@@ -136,8 +136,8 @@ struct ReviewListRowView: View {
             }
         }
         .onReceive(vm.success) {
-            review.likeCnt = vm.reviewInfo?.likeCnt ?? 0
-            review.dislikeCnt = vm.reviewInfo?.dislikeCnt ?? 0
+            review.likeCnt = vm.review?.likeCnt ?? 0
+            review.dislikeCnt = vm.review?.dislikeCnt ?? 0
         }
         
     }

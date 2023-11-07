@@ -10,11 +10,14 @@ import Kingfisher
 
 struct WriteReviewView: View {
     
+
     let id:Int
     let image:String
     let gradeAvg:Double
-    let maximumRating: Double = 5.0
     let reviewId:Int?
+    
+    let maximumRating: Double = 5.0
+    
     
     @State var title = ""
     @State var text = ""
@@ -175,9 +178,9 @@ struct WriteReviewView: View {
                 if text != "",title != "",rating > 0{
                     Button {
                         if let reviewId{
-                            vm.updateReview(id: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
+                            vm.updateReview(reviewId: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
                         }else{
-                            vm.writeReview(id: id, title: title, content: text, score: rating, spoiler: spoiler)
+                            vm.writeReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
                         }
                     } label: {
                         Text(reviewId != nil ? "수정" : "완료")
@@ -222,7 +225,6 @@ struct WriteReviewView_Previews: PreviewProvider {
 
 extension WriteReviewView{
     var sliderView:some View{
-        
         ZStack{
             HStack {
                 ForEach(0..<Int(maximumRating), id: \.self) { star in
@@ -249,7 +251,6 @@ extension WriteReviewView{
                 .accentColor(.clear)
                 .opacity(0.1)
         }
-        
     }
     func getStarColor(star: Int, rating: Double) -> Color {
         let fillAmount = getFillAmount(star: star, rating: rating)

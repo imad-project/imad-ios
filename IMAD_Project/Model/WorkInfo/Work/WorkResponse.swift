@@ -11,7 +11,7 @@ struct WorkResponse:Codable{
     
     let genres: [Int]
     let productionCountries: [String]?
-    let contentsId: Int?
+    let contentsId: Int
     let tmdbId:Int
     let tmdbType:String
     let tagline:String
@@ -20,9 +20,9 @@ struct WorkResponse:Codable{
     let title, originalTitle, releaseDate: String?
     let runtime: Int?
     let status, name, originalName, firstAirDate: String?
-    let lastAirDate: String?
+    let lastAirDate: String
     let reviewCnt:Int
-    let imadScore:Double?
+    let imadScore:Double
     let numberOfEpisodes, numberOfSeasons: Int?
     var bookmark:Bool
     var bookmarkId:Int?

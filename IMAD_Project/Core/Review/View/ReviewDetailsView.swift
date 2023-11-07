@@ -26,19 +26,19 @@ struct ReviewDetailsView: View {
             LazyVStack(alignment: .leading,pinnedViews: [.sectionHeaders]) {
                 Section {
                     HStack{
-                        Image(ProfileFilter.allCases.first(where: {$0.num == vm.reviewInfo?.userProfileImage })?.rawValue ?? "soso")
+                        Image(ProfileFilter.allCases.first(where: {$0.num == vm.review?.userProfileImage })?.rawValue ?? "soso")
                             .resizable()
                             .scaledToFill()
                             .frame(width: 30,height: 30)
                             .clipShape(Circle())
-                        Text(vm.reviewInfo?.userNickname ?? "11")
+                        Text(vm.review?.userNickname ?? "11")
                         Spacer()
                         Group{
-                            if vm.reviewInfo?.createdAt ?? "" != vm.reviewInfo?.modifiedAt ?? ""{
+                            if vm.review?.createdAt ?? "" != vm.review?.modifiedAt ?? ""{
                                 Text("수정됨 ·").bold()
-                                Text(vm.reviewInfo?.modifiedAt.relativeTime() ?? "")
+                                Text(vm.review?.modifiedAt.relativeTime() ?? "")
                             }else{
-                                Text(vm.reviewInfo?.createdAt.relativeTime() ?? "")
+                                Text(vm.review?.createdAt.relativeTime() ?? "")
                             }
                         }.foregroundColor(.gray)
                             .font(.caption)
@@ -47,32 +47,32 @@ struct ReviewDetailsView: View {
                     
                     
                     HStack(alignment: .top) {
-                        KFImage(URL(string: vm.reviewInfo?.contentsPosterPath.getImadImage() ?? CustomData.instance.movieList.first!))
+                        KFImage(URL(string: vm.review?.contentsPosterPath.getImadImage() ?? CustomData.instance.movieList.first!))
                             .resizable()
                             .frame(width: 100,height: 120)
                             .scaledToFill()
                             .cornerRadius(10)
                         VStack(alignment: .leading) {
-                            Text("#" + (vm.reviewInfo?.contentsTitle ?? "")).bold().font(.subheadline)
-                            Text((vm.reviewInfo?.spoiler ?? false) ? "스포일러" : "클린")
+                            Text("#" + (vm.review?.contentsTitle ?? "")).bold().font(.subheadline)
+                            Text((vm.review?.spoiler ?? false) ? "스포일러" : "클린")
                                 .font(.caption)
                                 .padding(2)
                                 .padding(.horizontal)
                                 .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1))
-                            Text(vm.reviewInfo?.title ?? "")
+                            Text(vm.review?.title ?? "")
                                 .font(.subheadline).bold()
                             
                         }
                         Spacer()
                         Circle()
-                            .trim(from: 0.0, to: anima ? (vm.reviewInfo?.score ?? 0) * 0.1 : 0)
+                            .trim(from: 0.0, to: anima ? (vm.review?.score ?? 0) * 0.1 : 0)
                             .stroke(lineWidth: 3)
                             .rotation(Angle(degrees: 270))
                             .frame(width: 50,height: 50)
                             .overlay{
                                 VStack{
                                     Image(systemName: "star.fill")
-                                    Text(String(format: "%0.1f", (vm.reviewInfo?.score ?? 0)))
+                                    Text(String(format: "%0.1f", (vm.review?.score ?? 0)))
                                 }
                                 .font(.caption)
                                 Circle().stroke(lineWidth:0.1)
@@ -82,11 +82,11 @@ struct ReviewDetailsView: View {
                     }.padding(.horizontal)
                     if goWork{
                         NavigationLink {
-                            WorkView(contentsId:vm.reviewInfo?.contentsID ?? 0)
+                            WorkView(contentsId:vm.review?.contentsID ?? 0)
                                 .environmentObject(vmAuth)
                         } label: {
                             HStack(spacing:1){
-                                Text(vm.reviewInfo?.contentsTitle ?? "").bold()
+                                Text(vm.review?.contentsTitle ?? "").bold()
                                 Text("의 상세정보 보러가기")
                                 Spacer()
                                 Image(systemName: "chevron.right")
@@ -96,7 +96,7 @@ struct ReviewDetailsView: View {
                                 .padding(.horizontal)
                         }.padding(.vertical,7.5)
                     }
-                    Text(vm.reviewInfo?.content ?? "")
+                    Text(vm.review?.content ?? "")
                         .font(.subheadline).padding(.horizontal)
                     VStack(alignment: .leading){
                         VStack(alignment: .trailing){
@@ -106,10 +106,10 @@ struct ReviewDetailsView: View {
                                     Button {
                                         if like < 1{
                                             like = 1
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                                            vm.likeReview(id: vm.review?.reviewID ?? 0, status: like)
                                         }else{
                                             like = 0
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                                            vm.likeReview(id: vm.review?.reviewID ?? 0, status: like)
                                         }
                                     } label: {
                                         Image(systemName: like == 1 ? "heart.fill":"heart")
@@ -119,10 +119,10 @@ struct ReviewDetailsView: View {
                                     Button {
                                         if like > -1{
                                             like = -1
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                                            vm.likeReview(id: vm.review?.reviewID ?? 0, status: like)
                                         }else{
                                             like = 0
-                                            vm.likeReview(id: vm.reviewInfo?.reviewID ?? 0, status: like)
+                                            vm.likeReview(id: vm.review?.reviewID ?? 0, status: like)
                                         }
                                     } label: {
                                         HStack{
@@ -138,10 +138,10 @@ struct ReviewDetailsView: View {
                             Divider()
                             HStack(spacing: 2){
                                 Image(systemName: "heart.fill").foregroundColor(.red)
-                                Text("\((vm.reviewInfo?.likeCnt ?? 0))개")
+                                Text("\((vm.review?.likeCnt ?? 0))개")
                                     .padding(.trailing)
                                 Image(systemName: "heart.slash.fill").foregroundColor(.blue)
-                                Text("\((vm.reviewInfo?.dislikeCnt ?? 0))개")
+                                Text("\((vm.review?.dislikeCnt ?? 0))개")
                             }
                             .font(.subheadline)
                         }.padding(.vertical)
@@ -177,7 +177,7 @@ struct ReviewDetailsView: View {
             }
         }
         .onReceive(vm.success) {
-            like = vm.reviewInfo?.likeStatus ?? 0
+            like = vm.review?.likeStatus ?? 0
         }
         .onDisappear{
             menu = false
@@ -241,7 +241,7 @@ extension ReviewDetailsView{
             if menu{
                 VStack{
                     NavigationLink {
-                        WriteReviewView(id: vm.reviewInfo?.contentsID ?? 0, image:vm.reviewInfo?.contentsPosterPath.getImadImage() ?? "", gradeAvg: vm.reviewInfo?.score ?? 0,reviewId : vm.reviewInfo?.reviewID ?? 0, title: vm.reviewInfo?.title ?? "",text: vm.reviewInfo?.content ?? "",spoiler: vm.reviewInfo?.spoiler ?? false,rating: vm.reviewInfo?.score ?? 0)
+                        WriteReviewView(id: vm.review?.contentsID ?? 0, image:vm.review?.contentsPosterPath.getImadImage() ?? "", gradeAvg: vm.review?.score ?? 0,reviewId : vm.review?.reviewID ?? 0, title: vm.review?.title ?? "",text: vm.review?.content ?? "",spoiler: vm.review?.spoiler ?? false,rating: vm.review?.score ?? 0)
                             .navigationBarBackButtonHidden()
                             .environmentObject(vmAuth)
                     } label: {

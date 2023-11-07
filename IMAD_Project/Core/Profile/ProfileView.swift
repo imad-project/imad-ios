@@ -268,8 +268,8 @@ struct ProfileView: View {
                 movieGenreSelect
             }
             .onAppear{
-                vm.myReviewList(page: vm.page)
-                vm.myLikeReviewList(page: vm.page)
+                vm.myReviewList(page: vm.currentPage)
+                vm.myLikeReviewList(page: vm.currentPage)
                 vmWork.page = 1
                 vmWork.myBookmarkList = []
                 vmWork.getBookmark(page: vmWork.page)

@@ -16,8 +16,9 @@ class ReviewViewModel:ObservableObject{
     var reviewWriteError = PassthroughSubject<(),Never>()
     var tokenExpired = PassthroughSubject<String,Never>()
     
-    @Published var reviewInfo:ReadReviewResponse?
+    @Published var review:ReadReviewResponse?
     @Published var reviewList:[ReadReviewResponse] = []  //리뷰 리스트
+    
     @Published var reviewDetailsInfo:ReadReviewListResponse?
     
     @Published var myReview:[ReadReviewResponse] = []
@@ -26,7 +27,8 @@ class ReviewViewModel:ObservableObject{
     @Published var myReviewCnt = 0
     @Published var myLikeReviewCnt = 0
     
-    @Published var page = 1
+    @Published var currentPage = 1
+    @Published var maxPage = 0
     
     @Published var error = ""
     
@@ -34,103 +36,109 @@ class ReviewViewModel:ObservableObject{
         self.reviewList = reviewList
     }
     
-    func writeReview(id:Int,title:String,content:String,score:Double,spoiler:Bool){
-        ReviewApiService.reviewWrite(id: id, title: title, content: content, score: score, spoiler: spoiler)
-            .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] recievedValue in
-                print(recievedValue.message)
-                if recievedValue.status >= 200 && recievedValue.status < 300{
-                    self?.success.send()
-                }
-                else if recievedValue.status == 409{
-                    self?.error = recievedValue.message
-                    self?.reviewWriteError.send()
-                }
-                else if recievedValue.status == 401{
-//                    AuthApiService.getToken()
-                    self?.tokenExpired.send(recievedValue.message)
-                }
+    func writeReview(contentsId:Int,title:String,content:String,score:Double,spoiler:Bool){
+        ReviewApiService.reviewWrite(id: contentsId, title: title, content: content, score: score, spoiler: spoiler)
+            .sink { _ in } receiveValue: { _ in
+                self.success.send()
+//                print(recievedValue.message)
+//                if recievedValue.status >= 200 && recievedValue.status < 300{
+//                    self?.success.send()
+//                }
+//                else if recievedValue.status == 409{
+//                    self?.error = recievedValue.message
+//                    self?.reviewWriteError.send()
+//                }
+//                else if recievedValue.status == 401{
+////                    AuthApiService.getToken()
+//                    self?.tokenExpired.send(recievedValue.message)
+//                }
             }.store(in: &cancelable)
     }
     func readReview(id:Int){
         ReviewApiService.reviewRead(id: id)
-            .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] recievedValue in
-                print(recievedValue.message)
-                if recievedValue.status >= 200 && recievedValue.status < 300{
-                    self?.reviewInfo = recievedValue.data
-                    self?.success.send()
-                }
-                else if recievedValue.status == 401{
-//                    AuthApiService.getToken()
-                    self?.tokenExpired.send(recievedValue.message)
-                }
+            .sink { _ in } receiveValue: { [weak self] review in
+                self?.review = review.data
+//                print(recievedValue.message)
+//                if recievedValue.status >= 200 && recievedValue.status < 300{
+//                    self?.reviewInfo = recievedValue.data
+//                    self?.success.send()
+//                }
+//                else if recievedValue.status == 401{
+////                    AuthApiService.getToken()
+//                    self?.tokenExpired.send(recievedValue.message)
+//                }
             }.store(in: &cancelable)
     }
-    func updateReview(id:Int,title:String,content:String,score:Double,spoiler:Bool){
-        ReviewApiService.reviewUpdate(id: id, title: title, content: content, score: score, spoiler: spoiler)
+    
+    func readReviewList(id:Int,page:Int,sort:String,order:Int){
+        ReviewApiService.reviewReadList(id: id, page: page, sort: sort, order: order)
             .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] recievedValue in
-                print(recievedValue.message)
-                if recievedValue.status >= 200 && recievedValue.status < 300{
-                    self?.success.send()
+                self.currentPage = page
+            } receiveValue: { [weak self] review in
+                if let data = review.data{
+                    self?.reviewList.append(contentsOf: data.reviewDetailsResponseList)
+                    self?.maxPage = data.totalPages
                 }
-                else if recievedValue.status == 401{
-//                    AuthApiService.getToken()
-                    self?.tokenExpired.send(recievedValue.message)
-                }
+                
+//                print(recievedValue.message)
+//                if recievedValue.status >= 200 && recievedValue.status < 300{
+//                    if let list = recievedValue.data?.reviewDetailsResponseList{
+//                        self?.reviewDetailsInfo = recievedValue.data
+//                        self?.reviewList = list
+//                    }
+//                }
+//                else if recievedValue.status == 401{
+////                    AuthApiService.getToken()
+//                    self?.tokenExpired.send(recievedValue.message)
+//                }
+            }.store(in: &cancelable)
+    }
+    func updateReview(reviewId:Int,title:String,content:String,score:Double,spoiler:Bool){
+        ReviewApiService.reviewUpdate(id: reviewId, title: title, content: content, score: score, spoiler: spoiler)
+            .sink { _ in } receiveValue: { _ in
+                self.success.send()
+//                print(recievedValue.message)
+//                if recievedValue.status >= 200 && recievedValue.status < 300{
+//                    self?.success.send()
+//                }
+//                else if recievedValue.status == 401{
+////                    AuthApiService.getToken()
+//                    self?.tokenExpired.send(recievedValue.message)
+//                }
             }.store(in: &cancelable)
     }
     func deleteReview(id:Int){
         ReviewApiService.reviewDelete(id: id)
-            .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] recievedValue in
-                print(recievedValue.message)
-                if recievedValue.status >= 200 && recievedValue.status < 300{
-                    self?.success.send()
-                }
-                else if recievedValue.status == 401{
-//                    AuthApiService.getToken()
-                    self?.tokenExpired.send(recievedValue.message)
-                }
-            }.store(in: &cancelable)
-    }
-    func readReviewList(id:Int,page:Int,sort:String,order:Int){
-        ReviewApiService.reviewReadList(id: id, page: page, sort: sort, order: order)
-            .sink { completion in
-                print(completion)
+            .sink { _ in } receiveValue: { _ in
                 self.success.send()
-            } receiveValue: { [weak self] recievedValue in
-                print(recievedValue.message)
-                if recievedValue.status >= 200 && recievedValue.status < 300{
-                    if let list = recievedValue.data?.reviewDetailsResponseList{
-                        self?.reviewDetailsInfo = recievedValue.data
-                        self?.reviewList = list
-                    }
-                }
-                else if recievedValue.status == 401{
-//                    AuthApiService.getToken()
-                    self?.tokenExpired.send(recievedValue.message)
-                }
+//            .sink { completion in
+//                print(completion)
+//            } receiveValue: { [weak self] recievedValue in
+//                print(recievedValue.message)
+//                if recievedValue.status >= 200 && recievedValue.status < 300{
+//                    self?.success.send()
+//                }
+//                else if recievedValue.status == 401{
+////                    AuthApiService.getToken()
+//                    self?.tokenExpired.send(recievedValue.message)
+//                }
             }.store(in: &cancelable)
     }
+   
     
     func likeReview(id:Int,status:Int){
         ReviewApiService.reviewLike(id: id, status: status)
-            .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] recievedValue in
-                if recievedValue.status >= 200 && recievedValue.status < 300{
-                    self?.readReview(id: id)
-                }
-                else if recievedValue.status == 401{
-//                    AuthApiService.getToken()
-                    self?.tokenExpired.send(recievedValue.message)
-                }
+            .sink { _ in } receiveValue: { _ in
+                self.success.send()
+//                print(completion)
+//            } receiveValue: { [weak self] recievedValue in
+//                if recievedValue.status >= 200 && recievedValue.status < 300{
+//                    self?.readReview(id: id)
+//                }
+//                else if recievedValue.status == 401{
+////                    AuthApiService.getToken()
+//                    self?.tokenExpired.send(recievedValue.message)
+//                }
             }.store(in: &cancelable)
     }
     func myReviewList(page:Int){
