@@ -15,10 +15,10 @@ struct WorkInfoView: View {
     @StateObject var vm = ContriesFilter()
     
     var isTV:Bool{
-        switch "type"{
-        case "movie":
+        switch work.tmdbType{
+        case "MOVIE":
             return false
-        case "tv":
+        case "TV":
             return true
         default:
             return true

@@ -424,7 +424,6 @@
 			children = (
 				819AA9E92ACD3C330048CF7B /* Bookmark */,
 				819D49A32A933B1A008B7BFE /* Search */,
-				8115A65D2A8F30F700B7C3FE /* Work.swift */,
 				819D49A52A933B4D008B7BFE /* Work */,
 			);
 			path = WorkInfo;
@@ -690,6 +689,7 @@
 		819D49A52A933B4D008B7BFE /* Work */ = {
 			isa = PBXGroup;
 			children = (
+				8115A65D2A8F30F700B7C3FE /* Work.swift */,
 				8115A6422A8391BE00B7C3FE /* WorkResults.swift */,
 				8115A6492A8396C800B7C3FE /* WorkData.swift */,
 				8115A65B2A8F2EF400B7C3FE /* WorkInfo.swift */,

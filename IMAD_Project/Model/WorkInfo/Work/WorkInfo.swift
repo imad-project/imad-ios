@@ -13,6 +13,7 @@ struct WorkInfo:Codable{
     let productionCountries: [String]?
     let contentsId: Int?
     let tmdbId:Int
+    let tmdbType:String
     let tagline:String
     let overview, posterPath, originalLanguage: String?
     let certification, contentsType: String?
@@ -25,9 +26,12 @@ struct WorkInfo:Codable{
     let numberOfEpisodes, numberOfSeasons: Int?
     var bookmark:Bool
     var bookmarkId:Int?
+    var reviewId:Int?
+    var reviewStatus:Bool
     let seasons:[Season]?
     let networks:[Network]?
     let credits:Credit?
+    
     
     enum CodingKeys: String, CodingKey {
         case genres
@@ -53,6 +57,9 @@ struct WorkInfo:Codable{
         case seasons,networks,credits
         case bookmark = "bookmark_status"
         case bookmarkId = "bookmark_id"
+        case reviewId = "review_id"
+        case reviewStatus = "review_status"
+        case tmdbType = "tmdb_type"
     }
 }
 

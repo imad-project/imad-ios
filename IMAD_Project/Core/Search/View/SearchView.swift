@@ -132,13 +132,6 @@ extension SearchView{
            } label: {
                VStack{
                    KFImageView(image: result.posterPath?.getImadImage() ?? "", height: (UIScreen.main.bounds.width/3)*1.25)
-//                   KFImage(URL(string: ))
-//                       .placeholder{ _ in
-//                           emptyPoster
-//                       }
-//                       .resizable()
-//                       .frame(height: )
-//                       .cornerRadius(15)
                    Text(result.title == nil ? result.name ?? "" : result.title ?? "")
                    .bold()
                    .font(.subheadline)

@@ -30,10 +30,10 @@ struct WorkView: View {
     
     
     var returnType:Bool{
-        switch "tv"{ //mediaType으로 교체될 예정
-        case "movie":
+        switch vm.workInfo?.tmdbType{ //mediaType으로 교체될 예정
+        case "MOVIE":
             return false
-        case "tv":
+        case "TV":
             return true
         default:
             return true
@@ -63,8 +63,8 @@ struct WorkView: View {
             vm.getBookmark(page: vm.page)
             if let contentsId{
                 vm.getWorkInfo(contentsId: contentsId)
-            }else if let id{
-                vm.getWorkInfo(id: id, type: "tv")
+            }else if let id, let type = vm.workInfo?.tmdbType{
+                vm.getWorkInfo(id: id, type: type)
             }
         }
 //        .onReceive(vm.success){
@@ -262,10 +262,11 @@ extension WorkView{
                 .padding(.top)
                 .bold()
             VStack{
-                if let review = vmReview.reviewList.first{
+//                if let review = vmReview.reviewList.first{
+                    if let myReviewId = vm.workInfo?.reviewId{
                     //                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
                     NavigationLink {
-                        ReviewDetailsView(goWork: false, reviewId: review.reviewID)
+                        ReviewDetailsView(goWork: false, reviewId: myReviewId)
                             .environmentObject(vmAuth)
                             .navigationBarBackButtonHidden()
                     } label: {

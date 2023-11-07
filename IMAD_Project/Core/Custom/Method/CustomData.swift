@@ -43,6 +43,7 @@ class CustomData{
                                      ],
                                      contentsId: 3,
                                      tmdbId: 1396,
+                                     tmdbType: "TV",
                                      tagline: "", overview: "2008년 1월 AMC에서 방영을 시작한 범죄 스릴러. Breaking Bad는 막가기를 뜻하는 미국 남부 지방의 속어이다. 한때 노벨화학상까지 바라 볼 정도로 뛰어난 과학자였던 고등학교 화학 교사 월터 화이트는 자신의 50세 생일 날에 폐암 3기 진단을 받는다. 어느 날 동서와 함께 마약 단속 현장을 참관한 그는 현장에서 달아나는 옛 제자 제시를 발견한다. 뇌성마비에 걸린 고등학생 아들과 임신한 아내를 위해 제시에게 동업을 제의한 월터는 자신의 화학지식을 이용해 전례없는 고순도 고품질의 메스암페타민을 제조한다.",
                                      posterPath: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg",
                                      originalLanguage: "en",
@@ -60,8 +61,8 @@ class CustomData{
                                      reviewCnt: 62,
                                      imadScore: 5,
                                      numberOfEpisodes:7,
-                                     numberOfSeasons: 0, bookmark: true,bookmarkId: 1,
-                                     seasons: [
+                                     numberOfSeasons: 0, bookmark: true,bookmarkId: 1,reviewId: 1,
+                                     reviewStatus: true, seasons: [
                                         Season(airDate: "1987-04-19", id: 3581, name: "스페셜", episodeCount: 80, overview: "", posterPath: "/oICoFoPJuEk5VJbEP2HYLEmEQi3.jpg", seasonNumber: 0),
                                         Season(airDate: "1989-12-17", id: 3582, name: "시즌 1", episodeCount: 13, overview: "", posterPath: "/t544zSFUNyvmyeP4sHotlcEX3zH.jpg", seasonNumber: 1),
                                         Season(airDate: "1990-10-11", id: 3583, name: "시즌 2", episodeCount: 22, overview: "", posterPath: "/bRyDlUQQafSoIT052jpjLBMe8TH.jpg", seasonNumber: 2)
