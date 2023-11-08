@@ -32,7 +32,8 @@ class ReviewViewModel:ObservableObject{
     
     @Published var error = ""
     
-    init(reviewList:[ReadReviewResponse]){
+    init(review:ReadReviewResponse?,reviewList:[ReadReviewResponse]){
+        self.review = review
         self.reviewList = reviewList
     }
     
@@ -165,7 +166,7 @@ class ReviewViewModel:ObservableObject{
             } receiveValue: { [weak self] recievedValue in
                 if recievedValue.status >= 200 && recievedValue.status < 300{
                     guard let data = recievedValue.data else {return}
-                    self?.myLikeReviewCnt = data.totalElements ?? 0
+                    self?.myLikeReviewCnt = data.totalElements
 //                    if let list = data.reviewDetailsResponseList{
                     self?.myLikeReview.append(contentsOf: data.reviewDetailsResponseList)
 //                    }
@@ -176,5 +177,34 @@ class ReviewViewModel:ObservableObject{
                 }
             }.store(in: &cancelable)
 
+    }
+    func like(review:ReadReviewResponse){
+        if review.likeStatus < 1{
+            if review.likeStatus < 0{
+                self.review?.dislikeCnt -= 1
+            }
+            self.review?.likeCnt += 1
+            
+            self.review?.likeStatus = 1
+            self.likeReview(id: review.reviewID, status: 1)
+        }else{
+            self.review?.likeCnt -= 1
+            self.review?.likeStatus = 0
+            self.likeReview(id: review.reviewID, status: 0)
+        }
+    }
+    func disLike(review:ReadReviewResponse){
+        if review.likeStatus > -1{
+            if review.likeStatus > 0{
+                self.review?.likeCnt -= 1
+            }
+            self.review?.dislikeCnt += 1
+            self.review?.likeStatus = -1
+            self.likeReview(id: review.reviewID, status: -1)
+        }else{
+            self.review?.likeStatus = 0
+            self.review?.dislikeCnt -= 1
+            self.likeReview(id: review.reviewID, status: 0)
+        }
     }
 }

@@ -17,7 +17,7 @@ struct ReviewView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    @StateObject var vm = ReviewViewModel(reviewList: [])
+    @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -81,7 +81,7 @@ struct ReviewView: View {
 
 struct ReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewView(id: 1,vm: ReviewViewModel(reviewList: CustomData.instance.reviewDetail))
+        ReviewView(id: 1,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }

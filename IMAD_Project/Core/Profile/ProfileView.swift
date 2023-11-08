@@ -18,7 +18,7 @@ struct ProfileView: View {
     @State var profileSelect = false
     let columns = [ GridItem(.flexible()), GridItem(.flexible())]
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
-    @StateObject var vm = ReviewViewModel(reviewList: [])
+    @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vmWork = WorkViewModel(workInfo: nil)
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -293,7 +293,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(vm: ReviewViewModel(reviewList: CustomData.instance.reviewDetail))
+        ProfileView(vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }

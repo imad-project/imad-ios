@@ -11,7 +11,7 @@ struct MyReviewView: View {
     let mode:Int
     @State var like = true
     
-    @State var tokenExpired = (false,"")
+//    @State var tokenExpired = (false,"")
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel
     @EnvironmentObject var vm:ReviewViewModel
@@ -49,9 +49,9 @@ struct MyReviewView: View {
             vm.myLikeReview = []
             profileMode
         }
-        .onReceive(vm.tokenExpired) { messages in
-            tokenExpired = (true,messages)
-        }
+//        .onReceive(vm.tokenExpired) { messages in
+//            tokenExpired = (true,messages)
+//        }
 //        .alert(isPresented: $tokenExpired.0) {
 //            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
 //                vmAuth.loginMode = false
@@ -63,7 +63,7 @@ struct MyReviewView: View {
 struct MyReviewView_Previews: PreviewProvider {
     static var previews: some View {
         MyReviewView(mode: 0)
-            .environmentObject(ReviewViewModel(reviewList: CustomData.instance.reviewDetail))
+            .environmentObject(ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
     }
 }
 

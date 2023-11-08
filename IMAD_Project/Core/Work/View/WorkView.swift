@@ -24,7 +24,7 @@ struct WorkView: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel//
-    @StateObject var vmReview = ReviewViewModel(reviewList: [])
+    @StateObject var vmReview = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var tab = CommunityTabViewModel()
     @StateObject var vm = WorkViewModel(workInfo: nil)
     
@@ -118,7 +118,7 @@ struct WorkView: View {
 struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            WorkView(vmReview: ReviewViewModel(reviewList: CustomData.instance.reviewDetail), vm: WorkViewModel(workInfo: CustomData.instance.workInfo))
+            WorkView(vmReview: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail), vm: WorkViewModel(workInfo: CustomData.instance.workInfo))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
@@ -174,7 +174,7 @@ extension WorkView{
                         }
                     }.font(.caption)
                     Spacer()
-                    ScoreView(score: CGFloat(vm.workInfo?.imadScore ?? 0.0))
+                    ScoreView(score: CGFloat(vm.workInfo?.imadScore ?? 0.0), color: .white,font:.body,widthHeight:70)
                     Spacer()
                 }
                 GeometryReader { geo -> AnyView in
