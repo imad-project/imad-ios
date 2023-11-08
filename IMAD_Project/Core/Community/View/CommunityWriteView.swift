@@ -50,7 +50,6 @@ struct CommunityWriteView: View {
             header
            
             if loading{
-                Color.black.opacity(0.5).ignoresSafeArea()
                 CustomProgressView()
             }
         }.foregroundColor(.black)
@@ -58,7 +57,6 @@ struct CommunityWriteView: View {
         //            guard let id,let type else {return}
         //            vmWork.getWorkInfo(id: id, type: type)
         //        }
-            .foregroundColor(.white)
         //        .onReceive(vm.tokenExpired) { messages in
         //            tokenExpired = (true,messages)
         //        }

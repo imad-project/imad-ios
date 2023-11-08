@@ -162,17 +162,17 @@ struct RegisterView: View {
 //            success = value
 //            alertMsg = vm.registerRes?.message ?? ""
 //        }
-        .onChange(of: vmCheck.check){ value in
-            if let check = value{
-                if check{
-                    self.blankMsg = "사용할 수 있는 이메일입니다!"
-                    blankColor = true
-                }else{
-                    self.blankMsg = "사용 중인 이메일입니다!"
-                    blankColor = false
-                }
-            }
-        }
+//        .onChange(of: vmCheck.check){ value in
+//            if let check = value{
+//                if check{
+//                    self.blankMsg = "사용할 수 있는 이메일입니다!"
+//                    blankColor = true
+//                }else{
+//                    self.blankMsg = "사용 중인 이메일입니다!"
+//                    blankColor = false
+//                }
+//            }
+//        }
 
         .alert(isPresented: $notRegex) {
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){

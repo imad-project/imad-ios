@@ -104,6 +104,8 @@
 		81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF829DD6BE70001A366 /* Tab.swift */; };
 		81A285F52AAC5CC300703C55 /* MovieBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A285F42AAC5CC300703C55 /* MovieBackgroundView.swift */; };
 		81AFC7212A25A11E00051F59 /* EmailFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFC7202A25A11E00051F59 /* EmailFilter.swift */; };
+		81B1848C2AFB5D6000CCDBEC /* PatchUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B1848B2AFB5D6000CCDBEC /* PatchUserInfo.swift */; };
+		81B184902AFB615000CCDBEC /* CustomNextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B1848F2AFB615000CCDBEC /* CustomNextButton.swift */; };
 		81BB10FF2A061055005654AA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB10FE2A061055005654AA /* Alamofire */; };
 		81BB11022A061198005654AA /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11012A061198005654AA /* AuthRouter.swift */; };
 		81BB11042A061457005654AA /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11032A061457005654AA /* ApiClient.swift */; };
@@ -271,6 +273,8 @@
 		81A1ECF829DD6BE70001A366 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		81A285F42AAC5CC300703C55 /* MovieBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieBackgroundView.swift; sourceTree = "<group>"; };
 		81AFC7202A25A11E00051F59 /* EmailFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFilter.swift; sourceTree = "<group>"; };
+		81B1848B2AFB5D6000CCDBEC /* PatchUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchUserInfo.swift; sourceTree = "<group>"; };
+		81B1848F2AFB615000CCDBEC /* CustomNextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNextButton.swift; sourceTree = "<group>"; };
 		81BB11012A061198005654AA /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		81BB11032A061457005654AA /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		81BB11052A0614D1005654AA /* ApiLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiLogger.swift; sourceTree = "<group>"; };
@@ -811,6 +815,7 @@
 				81C7312C2AF66CF40076D230 /* UserResponse.swift */,
 				817B60D32A237436000099A9 /* Validation.swift */,
 				817B60D52A23747F000099A9 /* ValidationResponse.swift */,
+				81B1848B2AFB5D6000CCDBEC /* PatchUserInfo.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -869,6 +874,7 @@
 				81FF75AD2AF8C4DE00DB1AC2 /* ProfileImageView.swift */,
 				81FF75AF2AF8CE7600DB1AC2 /* ScoreView.swift */,
 				81FD22522AFB1A5C00678CAC /* CustomWhiteCircleButton.swift */,
+				81B1848F2AFB615000CCDBEC /* CustomNextButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1153,6 +1159,7 @@
 				8154B1E32ADE1CE600AD2F83 /* CommunityInfoResponse.swift in Sources */,
 				8115A6472A8395C500B7C3FE /* WorkApiService.swift in Sources */,
 				81F3566E2AF21F1D00A46A6D /* MyBookmarkListView.swift in Sources */,
+				81B1848C2AFB5D6000CCDBEC /* PatchUserInfo.swift in Sources */,
 				817B60D42A237436000099A9 /* Validation.swift in Sources */,
 				81FD22532AFB1A5C00678CAC /* CustomWhiteCircleButton.swift in Sources */,
 				819D499E2A933A5C008B7BFE /* Network.swift in Sources */,
@@ -1205,6 +1212,7 @@
 				819AA9ED2ACD3CEC0048CF7B /* BookmarkDetailsList.swift in Sources */,
 				8115A6672A8F3B3E00B7C3FE /* String.swift in Sources */,
 				81DB1FD629E7D03B002C0840 /* KeyBoard.swift in Sources */,
+				81B184902AFB615000CCDBEC /* CustomNextButton.swift in Sources */,
 				8103094129D1BDEF0021717B /* IMAD_ProjectApp.swift in Sources */,
 				8124CB3A29F0175F00B446D5 /* SearchView.swift in Sources */,
 				818CF7FA2A20AAE500BABA1F /* AgeSelectView.swift in Sources */,

@@ -179,7 +179,6 @@ struct LoginAllView: View {
                         
                 }
                 if loading{
-                    Color.gray.opacity(0.5).ignoresSafeArea()
                      CustomProgressView()
                 }
                 

@@ -16,7 +16,7 @@ class AuthViewModel:ObservableObject{
 //    @Published var registerRes:RegisterResponse? = nil
 //    @Published var getUserRes:GetUserInfo? = nil
 //    @Published var passwordChangeRes:GetUserInfo? = nil
-//    @Published var selection:RegisterFilter = .nickname     //탭뷰
+    @Published var selection:RegisterFilter = .nickname     //탭뷰
 //
 //    @Published var getToken = 0
 //
@@ -24,7 +24,7 @@ class AuthViewModel:ObservableObject{
 //    @Published var loginMode = false
 //
 //    @Published var profileInfo:LoginResponse = LoginResponse(email: "", nickname: "", gender: "", ageRange: 20, profileImage: -1, tvGenre: [], movieGenre: [], authProvider: "", role: "")
-    
+    @Published var patchUser:PatchUserInfo = PatchUserInfo(nickname: "", gender: "", age: 0,movieGenre: [],tvGenre: [], profileImageCode: 0)
     @Published var message = ""
     @Published var user:UserInfo? = nil
     var success = PassthroughSubject<(),Never>()
@@ -123,8 +123,8 @@ class AuthViewModel:ObservableObject{
 //                }
 //            }.store(in: &cancelable)
     }
-    func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?){
-        UserApiService.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, tvGenre: tvGenre,movieGenre:movieGenre)
+    func patchUserInfo(){
+        UserApiService.patchUser(gender: patchUser.gender, ageRange: patchUser.age, image: patchUser.profileImageCode, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
             .sink { _ in
                 self.success.send()
             } receiveValue: { [weak self] user in

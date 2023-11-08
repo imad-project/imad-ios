@@ -15,12 +15,13 @@ struct WorkView: View {
     
     //    @State var tokenExpired = (false,"")
     @State var width:Bool = false   //작품 제목 섹션 생성
+    @State var written = false  //리뷰가 작성되있을 경우
     //    @State var anima = false
     @State var writeReview = false//리뷰작성
     @State var writeCommunity = false
-    @State var message = ""
+    //    @State var message = ""
     @State var showMyRevie = false
-//    @State var goPosting = (false,0)
+    //    @State var goPosting = (false,0)
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel//
@@ -67,10 +68,19 @@ struct WorkView: View {
                 vm.getWorkInfo(id: id, type: type)
             }
         }
-//        .onReceive(vm.success){
-//            self.contentsId = vm.workInfo?.contentsId ?? 0
-//            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: vmReview.page, sort: SortFilter.createdDate.rawValue, order: 0)
-//        }
+        .alert(isPresented: $written) {
+            let yes = Alert.Button.default(Text("아니오")) {}
+            let no = Alert.Button.cancel(Text("예")) {
+                showMyRevie = true
+            }
+            return Alert(title: Text("리뷰 작성함"),
+                         message: Text("이미 작성한 리뷰가 존재합니다!\n리뷰를 확인하시겠습니까?"),
+                         primaryButton: yes, secondaryButton: no)
+        }
+        //        .onReceive(vm.success){
+        //            self.contentsId = vm.workInfo?.contentsId ?? 0
+        //            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: vmReview.page, sort: SortFilter.createdDate.rawValue, order: 0)
+        //        }
         .navigationDestination(isPresented: $writeReview) {
             WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
                 .environmentObject(vmAuth)
@@ -85,31 +95,31 @@ struct WorkView: View {
         //            tokenExpired = (true,messages)
         //            message = "토큰 만료됨"
         //        }
-        //        .alert(isPresented: $tokenExpired.0) {
-        //            Alert(title: Text(message),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-        //                if message == "토큰 만료됨"{
-        ////                    vmAuth.loginMode = false
-        //                }else{
-        //                    showMyRevie = true
+        //                .alert(isPresented: $tokenExpired.0) {
+        //                    Alert(title: Text(message),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
+        //                        if message == "토큰 만료됨"{
+        //        //                    vmAuth.loginMode = false
+        //                        }else{
+        //                            showMyRevie = true
+        //                        }
+        //                    })
         //                }
-        //            })
-        //        }
         //        .onReceive(vmAuth.postingSuccess){ postingId in
         //            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
         //                goPosting = (true,postingId)
         //            }
         //
         //        }
-//        .navigationDestination(isPresented: $goPosting.0){
-//            CommunityPostView(postingId:goPosting.1)
-//                .environmentObject(vmAuth)
-//        }
+        //        .navigationDestination(isPresented: $goPosting.0){
+        //            CommunityPostView(postingId:goPosting.1)
+        //                .environmentObject(vmAuth)
+        //        }
         .navigationDestination(isPresented: $showMyRevie) {
             if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.user?.data?.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
                 ReviewDetailsView(goWork: false, reviewId: review.reviewID)
                     .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
-
+                
             }
         }
     }
@@ -208,12 +218,11 @@ extension WorkView{
             HStack(spacing:0){
                 Group{
                     Button {
-                        //                        if vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}) != nil{
-                        //                            message = "리뷰 작성함"
-                        //                            tokenExpired = (true,"이미 작성한 리뷰가 존재합니다!")
-                        //                        }else{
-                        //                            writeReview = true
-                        //                        }
+                        if let writtenReview = vm.workInfo?.reviewStatus,writtenReview{
+                            written = true
+                        }else{
+                            writeReview = true
+                        }
                     } label: {
                         VStack(spacing:5){
                             Image(systemName: "rectangle.and.pencil.and.ellipsis")
@@ -262,8 +271,8 @@ extension WorkView{
                 .padding(.top)
                 .bold()
             VStack{
-//                if let review = vmReview.reviewList.first{
-                    if let myReviewId = vm.workInfo?.reviewId{
+                //                if let review = vmReview.reviewList.first{
+                if let myReviewId = vm.workInfo?.reviewId{
                     //                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
                     NavigationLink {
                         ReviewDetailsView(goWork: false, reviewId: myReviewId)

@@ -149,7 +149,7 @@ extension ReviewView{
         }
         .padding(.horizontal)
         .padding(.top,60)
-        .background(Color.white)
+        .background(Color.red)
     }
     
 }
