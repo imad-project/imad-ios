@@ -69,7 +69,9 @@ extension MenuTabView{
                                 Image(systemName: tab.name)
                                     .frame(width: 30,height: 30)
                             }else{
-                                ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0)
+                                ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0,widthHeigt: 25)
+                                    .padding(.top,5)
+                                    
                             }
                             Text(tab.menu)
                                 .font(.caption2)

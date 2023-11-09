@@ -52,6 +52,7 @@
 		8131C55A2AFA0AA4006B761D /* ReadReviewResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8131C5592AFA0AA4006B761D /* ReadReviewResponse.swift */; };
 		8131C55C2AFA0C89006B761D /* ReadReviewListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8131C55B2AFA0C89006B761D /* ReadReviewListResponse.swift */; };
 		8131C55E2AFA0CC9006B761D /* WriteReviewResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8131C55D2AFA0CC9006B761D /* WriteReviewResponse.swift */; };
+		81372A812AFB7E3000870331 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81372A802AFB7E3000870331 /* Int.swift */; };
 		814046FE2A284BC200B77EFD /* FilterCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814046FD2A284BC200B77EFD /* FilterCoverView.swift */; };
 		8154B1D22ADA5BDD00AD2F83 /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1D12ADA5BDD00AD2F83 /* CommunityRouter.swift */; };
 		8154B1D42ADA5DA400AD2F83 /* CommunityApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1D32ADA5DA400AD2F83 /* CommunityApiService.swift */; };
@@ -222,6 +223,7 @@
 		8131C5592AFA0AA4006B761D /* ReadReviewResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadReviewResponse.swift; sourceTree = "<group>"; };
 		8131C55B2AFA0C89006B761D /* ReadReviewListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadReviewListResponse.swift; sourceTree = "<group>"; };
 		8131C55D2AFA0CC9006B761D /* WriteReviewResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReviewResponse.swift; sourceTree = "<group>"; };
+		81372A802AFB7E3000870331 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		814046FD2A284BC200B77EFD /* FilterCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCoverView.swift; sourceTree = "<group>"; };
 		8154B1D12ADA5BDD00AD2F83 /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
 		8154B1D32ADA5DA400AD2F83 /* CommunityApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityApiService.swift; sourceTree = "<group>"; };
@@ -722,6 +724,7 @@
 				811536D32A173EED003F8273 /* Data.swift */,
 				8115A6612A8F320B00B7C3FE /* Array.swift */,
 				8115A6662A8F3B3E00B7C3FE /* String.swift */,
+				81372A802AFB7E3000870331 /* Int.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1207,6 +1210,7 @@
 				81BB110C2A0617B8005654AA /* BaseIntercept.swift in Sources */,
 				8124CB3529EFB16A00B446D5 /* WriteReviewView.swift in Sources */,
 				81F259392AB09A4300C54668 /* UpdateReview.swift in Sources */,
+				81372A812AFB7E3000870331 /* Int.swift in Sources */,
 				819D499C2A933A3F008B7BFE /* Credit.swift in Sources */,
 				812CDE9E29DEA22D0003B993 /* CommunityTabViewModel.swift in Sources */,
 				819AA9ED2ACD3CEC0048CF7B /* BookmarkDetailsList.swift in Sources */,

@@ -148,7 +148,7 @@ extension ReviewDetailsView{
     }
     func profileAndDataView(review:ReadReviewResponse) -> some View{
         HStack{
-            ProfileImageView(imageCode: review.userProfileImage)
+            ProfileImageView(imageCode: review.userProfileImage,widthHeigt: 25)
             Text(vm.review?.userNickname ?? "")
             Spacer()
             Group{
