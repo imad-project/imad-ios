@@ -98,50 +98,6 @@ struct ProfileView: View {
                                     
                                 }
                                 .foregroundColor(.black)
-//                                VStack(alignment: .leading) {
-//                                    HStack{
-//                                        Text("관심 시리즈 장르").bold()
-//                                        Spacer()
-//                                        Button {
-//                                            tv = true
-//                                        } label: {
-//                                            Text("수정하기 >")
-//                                                .font(.caption)
-//                                        }
-//                                    }
-//                                    .padding(.top)
-//                                    tvGenre
-//                                    HStack{
-//                                        Text("관심 영화 장르").bold()
-//                                        Spacer()
-//                                        Button {
-//                                            movie = true
-//                                        } label: {
-//                                            Text("수정하기 >")
-//                                                .font(.caption)
-//                                        }
-//                                    }
-//                                    .padding(.top)
-//                                    movieGenre
-//                                    HStack{
-//                                        Text("찜 작품 목록").bold()
-//                                        Spacer()
-//                                        if vmWork.myBookmarkList.count > 6{
-//                                            NavigationLink {
-//                                                MyBookmarkListView()
-//                                                    .navigationBarBackButtonHidden()
-//                                                    .environmentObject(vmWork)
-//                                                    .environmentObject(vmAuth)
-//                                            } label: {
-//                                                Text("전체보기 >")
-//                                                    .font(.caption)
-//                                            }
-//                                        }
-//                                    }
-//                                    .padding(.top)
-//                                    movieList
-//                                        .padding(.bottom,80)
-//                                }.padding(.horizontal)
                                     .background(Color.gray.opacity(0.1))
                                 movieList
                             }
@@ -216,6 +172,7 @@ extension ProfileView{
             NavigationLink {
                 ProfileChangeView()
                     .environmentObject(vmAuth)
+                    .navigationBarBackButtonHidden()
             } label: {
                 Image(systemName: "gearshape.fill")
                     .font(.title3)
