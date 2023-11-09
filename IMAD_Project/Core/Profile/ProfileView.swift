@@ -20,19 +20,21 @@ struct ProfileView: View {
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vmWork = WorkViewModel(workInfo: nil)
+//    @Environment(\.dismiss)
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @State var tv = false
-    @State var tvCollection:[TVGenreFilter] = []
+//    @State var tvCollection:[TVGenreFilter] = []
     @State var movie = false
-    @State var movieCollection:[MovieGenreFilter] = []
+//    @State var movieCollection:[MovieGenreFilter] = []
     
     @State var review = false
     @State var posting = false
     @State var bookmark = false
-    @State var qna = false
-    @State var notice = false
-    @State var setting = false
+    
+//    @State var qna = false
+//    @State var notice = false
+//    @State var setting = false
     
     var authProvider:String{
         if let user = vmAuth.user?.data{
@@ -87,8 +89,8 @@ struct ProfileView: View {
                                         .padding([.horizontal,.top],10)
                                     VStack(alignment: .leading) {
                                         Text("내 장르").bold()
-                                        navigationListRowView(view: MyReviewView(mode:1), image: "popcorn", text: "영화")
-                                        navigationListRowView(view: MyReviewView(mode:1), image: "tv", text: "TV/시리즈")
+                                        buttonListRowView(action: {movie  = true}, image: "popcorn", text: "영화")
+                                        buttonListRowView(action: {tv  = true} , image: "tv", text: "TV/시리즈")
                                     }.padding()
                                         .background(Color.white)
                                         .cornerRadius(10)
@@ -162,28 +164,30 @@ struct ProfileView: View {
         }.colorScheme(.light)
             
         
-            .onChange(of: imageCode) { newValue in
-                //                vmAuth.patchUser(gender: vmAuth.profileInfo.gender, ageRange: vmAuth.profileInfo.ageRange, image:imageCode.num, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre:vmAuth.profileInfo.tvGenre ?? [],movieGenre:vmAuth.profileInfo.movieGenre ?? [])
-            }
+            
             .sheet(isPresented: $tv) {
-                tvGenreSelect
+                GenreSelectView(movieMode: true, dismiss: $movie)
+                    .environmentObject(vmAuth)
+                    .presentationDetents([.fraction(0.8)])
             }
             .sheet(isPresented: $movie) {
-                movieGenreSelect
+                GenreSelectView(movieMode: false, dismiss: $tv)
+                    .environmentObject(vmAuth)
+                    .presentationDetents([.fraction(0.7)])
             }
             .onAppear{
-                vm.myReviewList(page: vm.currentPage)
-                vm.myLikeReviewList(page: vm.currentPage)
-                vmWork.page = 1
-                vmWork.myBookmarkList = []
+//                vm.myReviewList(page: vm.currentPage)
+//                vm.myLikeReviewList(page: vm.currentPage)
+//                vmWork.page = 1
+//                vmWork.myBookmarkList = []
                 vmWork.getBookmark(page: vmWork.page)
                 //                guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
                 //                tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
             }
-            .onAppear{
+//            .onAppear{
                 //                guard let movieGenres = vmAuth.profileInfo.movieGenre else {return}
                 //                movieCollection = MovieGenreFilter.allCases.filter({movieGenres.contains($0.rawValue)})
-            }
+//            }
         //            .onReceive(vm.tokenExpired) { messages in
         //                tokenExpired = (true,messages)
         //            }
@@ -289,61 +293,25 @@ extension ProfileView{
             }
         }
     }
-    var movieGenre:some View{
-        ZStack{
-            if movieCollection.isEmpty{
-                Text("관심있는 영화 장르가 없습니다")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .padding(.leading)
-                    .padding(.top,5)
-            }else{
-                FlowLayout(mode: .scrollable, items: movieCollection) { item in
-                    HStack{
-                        Text(item.name)
-                        Text(item.image)
-                    }
-                    .font(.subheadline)
-                    .bold()
-                    .padding(8)
-                    .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
-                }.foregroundColor(.customIndigo.opacity(0.5))
+    func buttonListRowView(action: @escaping ()->(),image:String,text:String) -> some View{
+        VStack{
+            Divider()
+            Button (action:action){
+                HStack{
+                    Image(systemName: image)
+                    Text(text)
+                    Spacer()
+                }.padding(.vertical,5)
             }
         }
     }
-    var tvGenre:some View{
-        ZStack{
-            if tvCollection.isEmpty{
-                Text("관심있는 시리즈 장르가 없습니다")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .padding(.leading)
-                    .padding(.top,5)
-            }else{
-                FlowLayout(mode: .scrollable, items: tvCollection) { item in
-                    HStack{
-                        Text(item.name)
-                        Text(item.image)
-                    }
-                    .font(.subheadline)
-                    .bold()
-                    .padding(8)
-                    .padding(.horizontal)
-                    .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
-                    
-                }.foregroundColor(.customIndigo.opacity(0.5))
-                
-            }
-        }
-        
-    }
+
     var movieList:some View{
         VStack(alignment: .leading) {
             HStack{
                 Text("내가 찜한 작품").padding(.top,5).bold()
                 Spacer()
             }
-            
             ZStack{
                 if  vmWork.myBookmarkList.isEmpty{
                     Text("찜한 작품이 존재하지 않습니다")
@@ -359,10 +327,7 @@ extension ProfileView{
                                     .environmentObject(vmAuth)
                             } label: {
                                 VStack{
-                                    KFImage(URL(string: item.contentsPosterPath.getImadImage()))
-                                        .resizable()
-                                        .frame(height: 170)
-                                        .cornerRadius(10)
+                                    KFImageView(image: item.contentsPosterPath.getImadImage(),height: 170)
                                     Text(item.contentsTitle)
                                         .font(.caption)
                                         .frame(width: 200)
@@ -374,145 +339,6 @@ extension ProfileView{
                 }
             }
         }.padding(.horizontal)
-    }
-    
-    var movieGenreSelect:some View{
-        ZStack{
-            Color.white.ignoresSafeArea()
-            VStack(alignment: .leading){
-                Text("내 장르 수정").bold()
-                    .padding(.leading)
-                FlowLayout(mode: .scrollable, items: movieCollection) { item in
-                    Button {
-                        movieCollection = movieCollection.filter({$0 != item})
-                    } label: {
-                        HStack{
-                            Text(item.name)
-                            Text(item.image)
-                            
-                        }
-                        .font(.subheadline)
-                        .bold()
-                        .padding(8)
-                        .padding(.trailing)
-                        .overlay(alignment:.trailing) {
-                            Image(systemName: "xmark").font(.caption)
-                        }
-                        .padding(.horizontal).background(Capsule().stroke(lineWidth: 1))
-                        .foregroundColor(.customIndigo)
-                    }
-                }
-                .padding()
-                
-                Divider()
-                    .padding(.vertical)
-                FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases) { item in
-                    Button {
-                        if movieCollection.contains(item){
-                            movieCollection = movieCollection.filter({$0 != item})
-                        }else{
-                            movieCollection.append(item)
-                        }
-                    } label: {
-                        HStack{
-                            Text(item.name)
-                            Text(item.image)
-                        }
-                        .font(.subheadline)
-                        .bold()
-                        .padding(8)
-                        
-                        .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
-                        
-                    }
-                    
-                }.foregroundColor(.customIndigo.opacity(0.5)).padding(.horizontal)
-                Button {
-                    movie = false
-                    //                    vmAuth.patchUser(gender: vmAuth.profileInfo.gender ?? "", ageRange: vmAuth.profileInfo.ageRange, image: vmAuth.profileInfo.profileImage, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre: vmAuth.profileInfo.tvGenre, movieGenre: movieCollection.map({$0.rawValue}))
-                } label: {
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(height: 60)
-                        .foregroundColor(.customIndigo)
-                        .overlay {
-                            Text("완료")
-                                .bold()
-                                .foregroundColor(.white)
-                                .shadow(radius: 20)
-                        }
-                }
-                .padding()
-                
-            }
-        }.foregroundColor(.customIndigo)
-        
-    }
-    var tvGenreSelect:some View{
-        ZStack{
-            Color.white.ignoresSafeArea()
-            VStack(alignment: .leading){
-                Text("내 장르 수정").bold()
-                    .padding(.leading)
-                FlowLayout(mode: .scrollable, items: tvCollection) { item in
-                    Button {
-                        tvCollection = tvCollection.filter({$0 != item})
-                    } label: {
-                        HStack{
-                            Text(item.name)
-                            Text(item.image)
-                        }
-                        .font(.subheadline)
-                        .bold()
-                        .padding(8)
-                        .padding(.trailing)
-                        .overlay(alignment:.trailing) {
-                            Image(systemName: "xmark").font(.caption)
-                        }
-                        .padding(.horizontal).background(Capsule().stroke(lineWidth: 1))
-                        .foregroundColor(.customIndigo)
-                    }
-                }
-                .padding()
-                
-                Divider()
-                    .padding(.vertical)
-                FlowLayout(mode: .scrollable, items: TVGenreFilter.allCases) { item in
-                    Button {
-                        if tvCollection.contains(item){
-                            tvCollection = tvCollection.filter({$0 != item})
-                        }else{
-                            tvCollection.append(item)
-                        }
-                        
-                    } label: {
-                        HStack{
-                            Text(item.name)
-                            Text(item.image)
-                        }
-                        .font(.subheadline)
-                        .bold()
-                        .padding(8)
-                        .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
-                    }
-                    
-                }.foregroundColor(.customIndigo.opacity(0.5)).padding(.horizontal)
-                Button {
-                    tv = false
-                    //                    vmAuth.patchUser(gender: vmAuth.profileInfo.gender ?? "", ageRange: vmAuth.profileInfo.ageRange, image: vmAuth.profileInfo.profileImage, nickname: vmAuth.profileInfo.nickname ?? "", tvGenre: tvCollection.map({$0.rawValue}), movieGenre: vmAuth.profileInfo.movieGenre)
-                } label: {
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(height: 60)
-                        .foregroundColor(.customIndigo)
-                        .overlay {
-                            Text("완료")
-                                .bold()
-                                .foregroundColor(.white)
-                                .shadow(radius: 20)
-                        }
-                }
-                .padding()
-            }
-        }.foregroundColor(.customIndigo)
     }
     func profileSelectView(user:UserResponse) ->some View{
         ZStack{
@@ -530,6 +356,7 @@ extension ProfileView{
                             if item != .none{
                                 Button {
                                     vmAuth.patchUser.profileImageCode = item.num
+                                    vmAuth.patchUserInfo()
                                     profileSelect = false
                                 } label: {
                                     VStack{
