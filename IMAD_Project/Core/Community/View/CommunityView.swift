@@ -14,7 +14,7 @@ struct CommunityView: View {
     @State var search = false
 
     
-    @StateObject var tab = CommunityTabViewModel()
+    @StateObject var tab = CommunityTabManager()
     @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CommunityTabViewModel:ObservableObject{
+class CommunityTabManager:ObservableObject{
     
  
     @Published var communityTab:CommunityFilter = .all

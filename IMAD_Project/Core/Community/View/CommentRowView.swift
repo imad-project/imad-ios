@@ -19,6 +19,7 @@ struct CommentRowView: View {
     @FocusState var focus:Bool
     @State private var text = ""
     @State var input = false
+    @StateObject var vmComment = CommentViewModel()
     @EnvironmentObject var vm:CommunityViewModel
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -53,7 +54,7 @@ struct CommentRowView: View {
                             if text.isEmpty{
                                 input = false
                             }else{
-                                vm.modifyReply(commentId: comment.commentID, content: text)
+                                vmComment.modifyReply(commentId: comment.commentID, content: text)
                                 comment.content = text
                             }
                         } label: {
@@ -106,7 +107,7 @@ struct CommentRowView: View {
                                 comment.likeCnt -= 1
                                 comment.likeStatus = 0
                             }
-                            vm.commentLike(commentId: comment.commentID, likeStatus: comment.likeStatus)
+                            vmComment.commentLike(commentId: comment.commentID, likeStatus: comment.likeStatus)
                         } label: {
                             Image(systemName: comment.likeStatus > 0 ? "heart.fill" : "heart").foregroundColor(.red)
                             Text("\(comment.likeCnt)").foregroundColor(.black)
@@ -125,7 +126,7 @@ struct CommentRowView: View {
                                 comment.dislikeCnt -= 1
                                 comment.likeStatus = 0
                             }
-                            vm.commentLike(commentId: comment.commentID, likeStatus: comment.likeStatus)
+                            vmComment.commentLike(commentId: comment.commentID, likeStatus: comment.likeStatus)
                         } label: {
                             Image(systemName: comment.likeStatus < 0 ? "heart.slash.fill" : "heart.slash").foregroundColor(.blue)
                             Text("\(comment.dislikeCnt)").foregroundColor(.black)

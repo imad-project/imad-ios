@@ -17,7 +17,7 @@ struct CommentDetailsView: View {
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
     
-    @StateObject var vm = CommunityViewModel()
+    @StateObject var vm = CommentViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @Environment(\.dismiss) var dismiss
@@ -52,8 +52,8 @@ struct CommentDetailsView: View {
                                 if vm.replys.last == item,vm.replys.count % 10 == 0{
                                     ProgressView()
                                         .onAppear{
-                                            vm.page += 1
-                                            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: SortFilter.createdDate.rawValue, order: 1, parentId: commentId)
+                                            vm.currentPage += 1
+                                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: SortFilter.createdDate.rawValue, order: 1, parentId: commentId)
                                         }
                                 }
                             }
@@ -69,7 +69,7 @@ struct CommentDetailsView: View {
         .foregroundColor(.black)
         .onAppear{
             vm.readComment(commentId: commentId)
-            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
         }
     }
     
@@ -198,9 +198,9 @@ extension CommentDetailsView{
                     if sort != .score{
                         Button {
                             self.sort = sort
-                            vm.page = 1
+                            vm.currentPage = 1
                             vm.replys = []
-                            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
                         } label: {
                             Capsule()
                                 .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
@@ -216,16 +216,16 @@ extension CommentDetailsView{
                     if order == .ascending{
                         withAnimation{
                             order = .descending
-                            vm.page = 1
+                            vm.currentPage = 1
                             vm.replys = []
-                            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
                         }
                     }else{
                         withAnimation{
                             order = .ascending
-                            vm.page = 1
+                            vm.currentPage = 1
                             vm.replys = []
-                            vm.readComments(postingId: postingId, commentType: 1, page: vm.page, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
                         }
                     }
                 } label: {

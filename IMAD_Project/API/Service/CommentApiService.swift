@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 import Combine
 
-class ReplyApiService{
+class CommentApiService{
     static var intercept = BaseIntercept()
     
     static func addReply(postingId:Int,parentId:Int?,content:String) -> AnyPublisher<AddCommentResponse,AFError>{

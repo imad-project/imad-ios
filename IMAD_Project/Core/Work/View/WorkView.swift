@@ -27,7 +27,7 @@ struct WorkView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel//
     @StateObject var vmReview = ReviewViewModel(review:nil,reviewList: [])
-    @StateObject var tab = CommunityTabViewModel()
+    @StateObject var tab = CommunityTabManager()
     @StateObject var vm = WorkViewModel(workInfo: nil,bookmarkList: [])
     
     

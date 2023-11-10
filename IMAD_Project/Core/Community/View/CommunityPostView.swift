@@ -26,6 +26,7 @@ struct CommunityPostView: View {
     @FocusState var reply:Bool
     
     @StateObject var vm = CommunityViewModel()
+    @StateObject var vmComment = CommentViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @Environment(\.dismiss) var dismiss
@@ -44,7 +45,7 @@ struct CommunityPostView: View {
             commentInputView
         }
         .onAppear{
-            vm.replys = []
+            vmComment.replys = []
             vm.readDetailCommunity(postingId: postingId)
         }
         .onReceive(vm.success) {
@@ -282,8 +283,8 @@ extension CommunityPostView{
                             Button {
                                 self.sort = sort
                                 vm.page = 1
-                                vm.replys = []
-                                vm.readComments(postingId: postingId, commentType: 0, page: vm.page, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
+                                vmComment.replys = []
+                                vmComment.readComments(postingId: postingId, commentType: 0, page: vm.page, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
                             } label: {
                                 Capsule()
                                     .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
@@ -300,15 +301,15 @@ extension CommunityPostView{
                             withAnimation{
                                 order = .descending
                                 vm.page = 1
-                                vm.replys = []
-                                vm.readComments(postingId: postingId, commentType: 0, page: vm.page, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
+                                vmComment.replys = []
+                                vmComment.readComments(postingId: postingId, commentType: 0, page: vm.page, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
                             }
                         }else{
                             withAnimation{
                                 order = .ascending
                                 vm.page = 1
-                                vm.replys = []
-                                vm.readComments(postingId: postingId, commentType: 0, page: vm.page, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
+                                vmComment.replys = []
+                                vmComment.readComments(postingId: postingId, commentType: 0, page: vm.page, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
                             }
                         }
                     } label: {
@@ -325,12 +326,12 @@ extension CommunityPostView{
     var comment:some View{
         ZStack{
             VStack{
-                ForEach(vm.replys,id: \.self){ comment in
+                ForEach(vmComment.replys,id: \.self){ comment in
                     if !comment.removed{
                         CommentRowView(commentMode:true,comment: comment)
                             .environmentObject(vmAuth)
                             .environmentObject(vm)
-                            .onReceive(vm.commentDeleteSuccess) { deleteComment in
+                            .onReceive(vmComment.commentDeleteSuccess) { deleteComment in
                                 vm.communityDetail?.commentListResponse.commentDetailsResponseList = vm.communityDetail?.commentListResponse.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
                             }
                         
@@ -375,7 +376,7 @@ extension CommunityPostView{
                         
                     }
                 Button {
-                    vm.addReply(postingId: postingId, parentId: nil, content: reviewText)
+                    vmComment.addReply(postingId: postingId, parentId: nil, content: reviewText)
                     reviewText = ""
                     UIApplication.shared.endEditing()
                 } label: {
