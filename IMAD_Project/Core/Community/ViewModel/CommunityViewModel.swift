@@ -12,10 +12,10 @@ class CommunityViewModel:ObservableObject{
     
     @Published var page = 1
     
-    @Published var communityList:[CommuityDetailsResponseList] = []
-    @Published var posting:CommunityResponse? = nil
-    @Published var communityListResponse:CommunityDetails? = nil
-    @Published var communityDetail:CommunityDetailsResponse? = nil
+    @Published var communityList:[CommunityDetailsListResponse] = []
+    @Published var posting:WriteCommnunity? = nil
+    @Published var communityListResponse:CommunityDetailsList? = nil
+    @Published var communityDetail:CommunityResponse? = nil
     
    
 //    @Published var addedComment:CommentResponse? = nil

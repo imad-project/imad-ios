@@ -18,7 +18,7 @@ struct CommunityView: View {
     @StateObject var vm = CommunityViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
-    var list:[CommuityDetailsResponseList]{
+    var list:[CommunityDetailsListResponse]{
         switch tab.communityTab{
         case .all:
             return vm.communityList

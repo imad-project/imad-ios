@@ -13,12 +13,12 @@ class CommunityApiService{
     
     static var intercept = BaseIntercept()
     
-    static func writeCommunity(contentsId:Int,title:String,content:String,category:Int,spoiler:Bool) -> AnyPublisher<CommunityResponse,AFError>{
+    static func writeCommunity(contentsId:Int,title:String,content:String,category:Int,spoiler:Bool) -> AnyPublisher<WriteCommnunity,AFError>{
         print("게시물작성 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.write(contentsId: contentsId, title: title, content: content, category: category, spoiler: spoiler),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: CommunityResponse.self)
+            .publishDecodable(type: WriteCommnunity.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")
@@ -52,12 +52,12 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func readPosting(postingId:Int) -> AnyPublisher<CommunityInfoResponse,AFError>{
+    static func readPosting(postingId:Int) -> AnyPublisher<Community,AFError>{
         print("게시물 상세 조회 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.readPosting(postingId: postingId),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: CommunityInfoResponse.self)
+            .publishDecodable(type: Community.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")
@@ -78,12 +78,12 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func modifyCommunity(postingId:Int,title:String,content:String,category:Int,spoiler:Bool) -> AnyPublisher<CommunityResponse,AFError>{
+    static func modifyCommunity(postingId:Int,title:String,content:String,category:Int,spoiler:Bool) -> AnyPublisher<WriteCommnunity,AFError>{
         print("게시물수정 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.modify(postingId: postingId, title: title, content: content, category: category, spoiler: spoiler),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: CommunityResponse.self)
+            .publishDecodable(type: WriteCommnunity.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")

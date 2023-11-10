@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct CommunityListRowView: View {
-    let community:CommuityDetailsResponseList
+    let community:CommunityDetailsListResponse
     var body: some View {
         VStack(alignment: .leading) {
             HStack{

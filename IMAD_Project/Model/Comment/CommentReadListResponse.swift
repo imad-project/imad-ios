@@ -9,6 +9,6 @@ import Foundation
 
 struct CommentReadListResponse:Codable{
     let status:Int
-    var data:CommentListReponse?
+    var data:CommentList?
     let message:String
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CommunityDataResponse:Codable{
+struct WriteCommunityResponse:Codable{
     let postingID: Int
 
     enum CodingKeys: String, CodingKey {
