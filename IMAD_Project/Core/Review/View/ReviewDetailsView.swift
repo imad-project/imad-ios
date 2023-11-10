@@ -199,7 +199,7 @@ extension ReviewDetailsView{
         }.padding(.vertical,7.5)
     }
     func contentAndLikeView(review:ReadReviewResponse) -> some View{
-        VStack{
+        VStack(alignment: .leading){
             Text(review.content)
                 .font(.subheadline).padding(.horizontal)
             VStack(alignment: .leading){

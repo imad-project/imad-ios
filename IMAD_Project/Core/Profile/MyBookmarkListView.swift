@@ -45,7 +45,7 @@ struct MyBookmarkListView: View {
                                 ProgressView()
                                     .environment(\.colorScheme, .light)
                                     .onAppear{
-                                        vm.getBookmark(page: vm.page + 1)
+                                        vm.getBookmark(page: vm.currentPage + 1)
                                     }
                             }
                         }

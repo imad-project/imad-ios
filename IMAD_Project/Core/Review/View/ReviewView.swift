@@ -38,7 +38,7 @@ struct ReviewView: View {
                             ProgressView()
                                 .environment(\.colorScheme, .light)
                                 .onAppear{
-                                    vm.readReviewList(id: id, page: (vm.reviewDetailsInfo?.pageNumber ?? 0) + 1, sort: sort.rawValue, order: order.rawValue)
+                                    vm.readReviewList(id: id, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue)
                                 }
                         }
                     }
@@ -149,7 +149,7 @@ extension ReviewView{
         }
         .padding(.horizontal)
         .padding(.top,60)
-        .background(Color.red)
+        .background(Color.white)
     }
     
 }

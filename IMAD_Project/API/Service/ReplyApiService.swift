@@ -16,6 +16,7 @@ class ReplyApiService{
         print("댓글 작성 api호출")
         return ApiClient.shared.session
             .request(ReplyRouter.addReply(postingId: postingId, parentId: parentId, content: content),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: AddCommentResponse.self)
             .value()
             .map{ receivedValue in
@@ -28,6 +29,7 @@ class ReplyApiService{
         print("댓글 수정 api호출")
         return ApiClient.shared.session
             .request(ReplyRouter.modifyReply(commentId: commentId, content: content),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: AddCommentResponse.self)
             .value()
             .map{ receivedValue in
@@ -40,6 +42,7 @@ class ReplyApiService{
         print("댓글 삭제 api호출")
         return ApiClient.shared.session
             .request(ReplyRouter.deleteReply(commentId: commentId),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: AddCommentResponse.self)
             .value()
             .map{ receivedValue in
@@ -52,6 +55,7 @@ class ReplyApiService{
         print("댓글 리스트 api호출")
         return ApiClient.shared.session
             .request(ReplyRouter.readReplyList(postingId:postingId,commentType:commentType,page:page,sort:sort,order:order,parentId:parentId),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: CommentReadListResponse.self)
             .value()
             .map{ receivedValue in
@@ -64,6 +68,7 @@ class ReplyApiService{
         print("댓글 좋아요/싫어요 api호출")
         return ApiClient.shared.session
             .request(ReplyRouter.like(commentId: commentId, likeStatus: likeStatus),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: NoDataResponse.self)
             .value()
             .map{ receivedValue in

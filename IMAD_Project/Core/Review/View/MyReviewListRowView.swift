@@ -15,7 +15,6 @@ struct MyReviewListRowView: View {
     var body: some View {
             HStack{
                 KFImageView(image: review.contentsPosterPath.getImadImage(),width: 100,height: 120)
-                
                 VStack(alignment: .leading,spacing: 0) {
                     titleView
                     mainContents

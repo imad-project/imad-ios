@@ -12,14 +12,16 @@ class WorkViewModel:ObservableObject{
     
     @Published var workInfo:WorkResponse? = nil
     @Published var bookmarkList:BookmarkResponse? = nil
-    @Published var bookmarkResponse:Bookmark? = nil
+//    @Published var bookmarkResponse:Bookmark? = nil
     
-    @Published var myBookmarkList:[BookmarkDetailsList] = []
+    @Published var myBookmarkList:[BookmarkListResponse] = []
     
-    @Published var page = 1
+    @Published var currentPage = 1
+    @Published var maxPage = 1
     
-    var success = PassthroughSubject<(),Never>()
-    var contentsIdSuccess = PassthroughSubject<Int,Never>()
+    var success = PassthroughSubject<Int?,Never>()  // 작품정보 불러오기 성공 후 contentsId 불러오기 위함
+//    var success = PassthroughSubject<(),Never>()
+//    var contentsIdSuccess = PassthroughSubject<Int,Never>()
     var cancelable = Set<AnyCancellable>()
     
     init(workInfo:WorkResponse?){
@@ -27,52 +29,43 @@ class WorkViewModel:ObservableObject{
     }
     func getWorkInfo(contentsId:Int){
         WorkApiService.workInfo(contentsId:contentsId)
-            .sink { comp in
-                print(comp)
-                self.success.send()
-            } receiveValue: { [weak self] work in
+            .sink { _ in } receiveValue: { [weak self] work in
                 self?.workInfo = work.data
+                self?.success.send(work.data?.contentsId)
             }.store(in: &cancelable)
 
     }
     func getWorkInfo(id:Int,type:String){
         WorkApiService.workInfo(id: id, type: type)
-            .sink { comp in
-                print(comp)
-                self.contentsIdSuccess.send(self.workInfo?.contentsId ?? 0)
-                self.success.send()
-            } receiveValue: { [weak self] work in
+            .sink { _ in } receiveValue: { [weak self] work in
                 self?.workInfo = work.data
+                self?.success.send(work.data?.contentsId)
             }.store(in: &cancelable)
 
     }
     func getBookmark(page:Int){
         WorkApiService.bookRead(page: page)
-            .sink { comp in
-                print(comp)
+            .sink { _ in
+                self.currentPage = page
             } receiveValue: { [weak self] bookmark in
-                guard let data = bookmark.data else {return}
-                self?.bookmarkList = data
-                if let list = data.bookmarkDetailsList{
-                    self?.myBookmarkList.append(contentsOf: list)
+                if let data = bookmark.data{
+                    self?.myBookmarkList.append(contentsOf: data.bookmarkDetailsList)
+                    self?.maxPage = data.totalPages
                 }
+//                guard let data = bookmark.data else {return}
+//                self?.bookmarkList = data
+//                if let list = data.bookmarkDetailsList{
+//                    self?.myBookmarkList.append(contentsOf: list)
+//                }
             }.store(in: &cancelable)
     }
     func addBookmark(id:Int){
         WorkApiService.bookCreate(id: id)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] bookmark in
-                self?.bookmarkResponse = bookmark
-            }.store(in: &cancelable)
+            .sink { _ in } receiveValue: { _ in}.store(in: &cancelable)
 
     }
     func deleteBookmark(id:Int){
         WorkApiService.bookDelete(id: id)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] bookmark in
-                self?.bookmarkResponse = bookmark
-            }.store(in: &cancelable)
+            .sink { _ in } receiveValue: { _ in}.store(in: &cancelable)
     }
 }

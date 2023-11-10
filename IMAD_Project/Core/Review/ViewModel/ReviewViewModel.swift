@@ -8,24 +8,25 @@
 import Foundation
 import Combine
 
-@MainActor
+//@MainActor
 class ReviewViewModel:ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()
-    var reviewWriteError = PassthroughSubject<(),Never>()
-    var tokenExpired = PassthroughSubject<String,Never>()
+//    var reviewWriteError = PassthroughSubject<(),Never>()
+//    var tokenExpired = PassthroughSubject<String,Never>()
     
     @Published var review:ReadReviewResponse?
     @Published var reviewList:[ReadReviewResponse] = []  //리뷰 리스트
     
-    @Published var reviewDetailsInfo:ReadReviewListResponse?
+//    @Published var reviewDetailsInfo:ReadReviewListResponse?
     
-    @Published var myReview:[ReadReviewResponse] = []
-    @Published var myLikeReview:[ReadReviewResponse] = []
-    
-    @Published var myReviewCnt = 0
-    @Published var myLikeReviewCnt = 0
+//
+//    @Published var myReview:[ReadReviewResponse] = []
+//    @Published var myLikeReview:[ReadReviewResponse] = []
+//
+//    @Published var reviewCnt = 0
+//    @Published var myLikeReviewCnt = 0
     
     @Published var currentPage = 1
     @Published var maxPage = 0
@@ -59,6 +60,7 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewRead(id: id)
             .sink { _ in } receiveValue: { [weak self] review in
                 self?.review = review.data
+                
 //                print(recievedValue.message)
 //                if recievedValue.status >= 200 && recievedValue.status < 300{
 //                    self?.reviewInfo = recievedValue.data
@@ -73,12 +75,13 @@ class ReviewViewModel:ObservableObject{
     
     func readReviewList(id:Int,page:Int,sort:String,order:Int){
         ReviewApiService.reviewReadList(id: id, page: page, sort: sort, order: order)
-            .sink { completion in
+            .sink { _ in
                 self.currentPage = page
             } receiveValue: { [weak self] review in
                 if let data = review.data{
                     self?.reviewList.append(contentsOf: data.reviewDetailsResponseList)
                     self?.maxPage = data.totalPages
+//                    self?.reviewCnt = data.numberOfElements
                 }
                 
 //                print(recievedValue.message)
@@ -144,37 +147,47 @@ class ReviewViewModel:ObservableObject{
     }
     func myReviewList(page:Int){
         ReviewApiService.myReview(page: page)
-            .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] recievedValue in
-                if recievedValue.status >= 200 && recievedValue.status < 300{
-                    guard let data = recievedValue.data else {return}
-                    self?.myReviewCnt = data.totalElements ?? 0
-                    self?.myReview.append(contentsOf: data.reviewDetailsResponseList)
+            .sink { _ in
+                self.currentPage = page
+            } receiveValue: { [weak self] data in
+                if let data = data.data{
+                    self?.reviewList.append(contentsOf: data.reviewDetailsResponseList)
+                    self?.maxPage = data.totalPages
+//                    self?.reviewCnt = data.totalElements
                 }
-                else if recievedValue.status == 401{
-//                    AuthApiService.getToken()
-                    self?.tokenExpired.send(recievedValue.message)
-                }
+//                if recievedValue.status >= 200 && recievedValue.status < 300{
+//                    guard let data = recievedValue.data else {return}
+//                    self?.myReviewCnt = data.totalElements ?? 0
+//                    self?.myReview.append(contentsOf: data.reviewDetailsResponseList)
+//                }
+//                else if recievedValue.status == 401{
+////                    AuthApiService.getToken()
+//                    self?.tokenExpired.send(recievedValue.message)
+//                }
             }.store(in: &cancelable)
 
     }
     func myLikeReviewList(page:Int){
         ReviewApiService.myLikeReview(page: page)
-            .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] recievedValue in
-                if recievedValue.status >= 200 && recievedValue.status < 300{
-                    guard let data = recievedValue.data else {return}
-                    self?.myLikeReviewCnt = data.totalElements
-//                    if let list = data.reviewDetailsResponseList{
-                    self?.myLikeReview.append(contentsOf: data.reviewDetailsResponseList)
-//                    }
+            .sink { _ in
+                self.currentPage = page
+            } receiveValue: { [weak self] data in
+                if let data = data.data{
+                    self?.reviewList.append(contentsOf: data.reviewDetailsResponseList)
+                    self?.maxPage = data.totalPages
+//                    self?.reviewCnt = data.totalElements
                 }
-                else if recievedValue.status == 401{
-//                    AuthApiService.getToken()
-                    self?.tokenExpired.send(recievedValue.message)
-                }
+//                if recievedValue.status >= 200 && recievedValue.status < 300{
+//                    guard let data = recievedValue.data else {return}
+//                    self?.myLikeReviewCnt = data.totalElements
+////                    if let list = data.reviewDetailsResponseList{
+//                    self?.myLikeReview.append(contentsOf: data.reviewDetailsResponseList)
+////                    }
+//                }
+//                else if recievedValue.status == 401{
+////                    AuthApiService.getToken()
+//                    self?.tokenExpired.send(recievedValue.message)
+//                }
             }.store(in: &cancelable)
 
     }

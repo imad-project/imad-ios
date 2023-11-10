@@ -28,9 +28,9 @@ struct ProfileView: View {
     @State var movie = false
 //    @State var movieCollection:[MovieGenreFilter] = []
     
-    @State var review = false
-    @State var posting = false
-    @State var bookmark = false
+//    @State var review = false
+//    @State var posting = false
+//    @State var bookmark = false
     
 //    @State var qna = false
 //    @State var notice = false
@@ -68,21 +68,19 @@ struct ProfileView: View {
                                 profileImageView(user: user)
                                 Divider()
                                 HStack{
-                                    myInfoView(view:  MyReviewView(mode:0),
+                                    myInfoView(view:  MyReviewView(writeType: .myself),
                                                image: "star.bubble",
-                                               color: .customIndigo.opacity(0.5),
-                                               text: "내 리뷰", count: vm.myReviewCnt)
-                                    myInfoView(view:  MyReviewView(mode:1),
+                                               text: "내 리뷰", count: 0)
+                                    myInfoView(view:  MyReviewView(writeType: .myself),
                                                image:  "text.word.spacing",
-                                               color: .customIndigo.opacity(0.5),
-                                               text: "내 게시물", count: vm.myReviewCnt)
-                                    myInfoView(view: MyReviewView(mode:1), image: "scroll", color: .customIndigo.opacity(0.5), text: "내 스크랩", count: vm.myLikeReviewCnt)
+                                               text: "내 게시물", count: 0)
+                                    myInfoView(view: MyReviewView(writeType: .myself), image: "scroll", text: "내 스크랩", count: 0)
                                 }
                                 VStack{
                                     VStack(alignment: .leading) {
                                         Text("내 반응").bold()
-                                        navigationListRowView(view: MyReviewView(mode:1), image: "star.leadinghalf.filled", text: "리뷰")
-                                        navigationListRowView(view: MyReviewView(mode:1), image: "note.text", text: "게시물")
+                                        navigationListRowView(view: MyReviewView(writeType: .myself), image: "star.leadinghalf.filled", text: "리뷰")
+                                        navigationListRowView(view: MyReviewView(writeType: .myself), image: "note.text", text: "게시물")
                                     }.padding()
                                         .background(Color.white)
                                         .cornerRadius(10)
@@ -118,9 +116,6 @@ struct ProfileView: View {
             }
             
         }.colorScheme(.light)
-            
-        
-            
             .sheet(isPresented: $tv) {
                 GenreSelectView(movieMode: true, dismiss: $movie)
                     .environmentObject(vmAuth)
@@ -136,7 +131,7 @@ struct ProfileView: View {
 //                vm.myLikeReviewList(page: vm.currentPage)
 //                vmWork.page = 1
 //                vmWork.myBookmarkList = []
-                vmWork.getBookmark(page: vmWork.page)
+                vmWork.getBookmark(page: 1)
                 //                guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
                 //                tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
             }
@@ -211,17 +206,16 @@ extension ProfileView{
         .frame(maxWidth: .infinity)
         
     }
-    func myInfoView(view:some View,image:String,color:Color,text:String,count:Int) -> some View{
+    func myInfoView(view:some View,image:String,text:String,count:Int) -> some View{
         NavigationLink {
             view
-                .environmentObject(vm)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden()
         } label: {
             VStack(spacing:10){
                 HStack{
                     Image(systemName: image)
-                        .foregroundColor(color)
+                        .foregroundColor(.customIndigo.opacity(0.5))
                     Text(text).font(.caption)
                 }
                 
@@ -292,6 +286,16 @@ extension ProfileView{
                                 }
                             }
                         }
+                    }
+                    if vmWork.myBookmarkList.count > 6{
+                        HStack{
+                            Spacer()
+                            Text("찜한 작품 더보기")
+                                .font(.subheadline)
+                            Image(systemName: "chevron.right")
+                            Spacer()
+                        }
+                        .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1).foregroundColor(.gray))
                     }
                 }
             }

@@ -22,7 +22,7 @@ struct WorkResponse:Codable{
     let status, name, originalName, firstAirDate: String?
     let lastAirDate: String
     let reviewCnt:Int
-    let imadScore:Double
+    let imadScore:Double?
     let numberOfEpisodes, numberOfSeasons: Int?
     var bookmark:Bool
     var bookmarkId:Int?

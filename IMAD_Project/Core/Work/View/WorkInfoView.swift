@@ -314,9 +314,8 @@ extension WorkInfoView{
                                         .font(.caption2)
                                 }
                             }
-                        }
+                        }.padding(.top)
                     }
-                    
                     .padding(.horizontal,20)
                 }
                 else{
@@ -340,7 +339,7 @@ extension WorkInfoView{
                                     .frame(width: 90)
                                     .fixedSize(horizontal: false, vertical: true)
                             }
-                        }
+                        }.padding(.top)
                     }.padding(.leading,20)
                 }
             }else{

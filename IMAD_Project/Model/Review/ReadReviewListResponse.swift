@@ -15,7 +15,7 @@ struct ReadReviewListResponse: Codable,Hashable {
     let sortProperty: String
 
     enum CodingKeys: String, CodingKey {
-        case reviewDetailsResponseList = "review_details_response_list"
+        case reviewDetailsResponseList = "details_list"
         case totalElements = "total_elements"
         case totalPages = "total_pages"
         case pageNumber = "page_number"

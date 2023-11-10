@@ -124,7 +124,7 @@ extension SearchView{
                 if postingMode{
                     CommunityWriteView(image: result.posterPath?.getImadImage() ?? "", goMain: .constant(true))
                 }else{
-                    WorkView(id:result.id)
+                    WorkView(id:result.id,type: result.mediaType)
                 }
             }
             .environmentObject(vmAuth)

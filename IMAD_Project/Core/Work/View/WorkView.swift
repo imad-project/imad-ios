@@ -11,6 +11,7 @@ import Kingfisher
 struct WorkView: View {
     
     var id:Int?
+    var type:String?
     var contentsId:Int?
     
     //    @State var tokenExpired = (false,"")
@@ -61,12 +62,20 @@ struct WorkView: View {
         }
         .foregroundColor(.white)
         .onAppear {
-            vm.getBookmark(page: vm.page)
+            vm.getBookmark(page: vm.currentPage)
             if let contentsId{
                 vm.getWorkInfo(contentsId: contentsId)
-            }else if let id, let type = vm.workInfo?.tmdbType{
+                
+            }else if let id, let type{
                 vm.getWorkInfo(id: id, type: type)
             }
+        }
+        .onDisappear{
+            vmReview.reviewList.removeAll()
+        }
+        .onReceive(vm.success){ contentsId in
+            guard let contentsId else {return}
+            vmReview.readReviewList(id: contentsId, page: 1, sort: "createdDate", order: 0)
         }
         .alert(isPresented: $written) {
             let yes = Alert.Button.default(Text("아니오")) {}
@@ -77,10 +86,6 @@ struct WorkView: View {
                          message: Text("이미 작성한 리뷰가 존재합니다!\n리뷰를 확인하시겠습니까?"),
                          primaryButton: yes, secondaryButton: no)
         }
-        //        .onReceive(vm.success){
-        //            self.contentsId = vm.workInfo?.contentsId ?? 0
-        //            vmReview.readReviewList(id: vm.workInfo?.contentsId ?? 0, page: vmReview.page, sort: SortFilter.createdDate.rawValue, order: 0)
-        //        }
         .navigationDestination(isPresented: $writeReview) {
             WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
                 .environmentObject(vmAuth)
@@ -91,29 +96,7 @@ struct WorkView: View {
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
-        //        .onReceive(vmReview.tokenExpired) { messages in
-        //            tokenExpired = (true,messages)
-        //            message = "토큰 만료됨"
-        //        }
-        //                .alert(isPresented: $tokenExpired.0) {
-        //                    Alert(title: Text(message),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-        //                        if message == "토큰 만료됨"{
-        //        //                    vmAuth.loginMode = false
-        //                        }else{
-        //                            showMyRevie = true
-        //                        }
-        //                    })
-        //                }
-        //        .onReceive(vmAuth.postingSuccess){ postingId in
-        //            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-        //                goPosting = (true,postingId)
-        //            }
-        //
-        //        }
-        //        .navigationDestination(isPresented: $goPosting.0){
-        //            CommunityPostView(postingId:goPosting.1)
-        //                .environmentObject(vmAuth)
-        //        }
+       
         .navigationDestination(isPresented: $showMyRevie) {
             if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.user?.data?.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
                 ReviewDetailsView(goWork: false, reviewId: review.reviewID)
@@ -301,7 +284,7 @@ extension WorkView{
                             .font(.subheadline)
                         NavigationLink {
                             if let work = vm.workInfo{
-                                WriteReviewView(id: work.contentsId ?? 0, image: work.posterPath?.getImadImage() ?? "", gradeAvg: work.imadScore ?? 0, reviewId: nil)
+                                WriteReviewView(id: work.contentsId, image: work.posterPath?.getImadImage() ?? "", gradeAvg: work.imadScore ?? 0, reviewId: nil)
                                     .navigationBarBackButtonHidden()
                                     .environmentObject(vmAuth)
                             }
@@ -342,7 +325,7 @@ extension WorkView{
                         .navigationBarBackButtonHidden()
                 } label: {
                     HStack{
-                        Text("리뷰 \(vmReview.reviewDetailsInfo?.numberOfElements ?? 0)개 모두보기")
+                        Text("리뷰 \(0)개 모두보기")
                         Image(systemName: "chevron.right")
                     }
                     .font(.caption)

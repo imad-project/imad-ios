@@ -17,6 +17,7 @@ class CommunityApiService{
         print("게시물작성 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.write(contentsId: contentsId, title: title, content: content, category: category, spoiler: spoiler),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: CommunityResponse.self)
             .value()
             .map{ receivedValue in
@@ -29,6 +30,7 @@ class CommunityApiService{
         print("게시물 전체리스트 조회 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.readListAll(page:page),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: CommunityList.self)
             .value()
             .map{ receivedValue in
@@ -41,6 +43,7 @@ class CommunityApiService{
         print("게시물 조건 전체리스트 조회 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: CommunityList.self)
             .value()
             .map{ receivedValue in
@@ -53,6 +56,7 @@ class CommunityApiService{
         print("게시물 상세 조회 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.readPosting(postingId: postingId),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: CommunityInfoResponse.self)
             .value()
             .map{ receivedValue in
@@ -65,6 +69,7 @@ class CommunityApiService{
         print("게시물 좋아요/싫어요 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.like(postingId: postingId, status: status),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: NoDataResponse.self)
             .value()
             .map{ receivedValue in
@@ -77,6 +82,7 @@ class CommunityApiService{
         print("게시물수정 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.modify(postingId: postingId, title: title, content: content, category: category, spoiler: spoiler),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: CommunityResponse.self)
             .value()
             .map{ receivedValue in
@@ -89,6 +95,7 @@ class CommunityApiService{
         print("게시물 삭제 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.delete(postingId: postingId),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: NoDataResponse.self)
             .value()
             .map{ receivedValue in
@@ -101,6 +108,7 @@ class CommunityApiService{
         print("게시물 댓글 조회 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.readComment(commentId: commentId),interceptor: intercept)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type: CommentReadResponse.self)
             .value()
             .map{ receivedValue in
