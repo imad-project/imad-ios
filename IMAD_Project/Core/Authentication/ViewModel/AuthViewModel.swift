@@ -24,7 +24,7 @@ class AuthViewModel:ObservableObject{
 //    @Published var loginMode = false
 //
 //    @Published var profileInfo:LoginResponse = LoginResponse(email: "", nickname: "", gender: "", ageRange: 20, profileImage: -1, tvGenre: [], movieGenre: [], authProvider: "", role: "")
-    @Published var patchUser:PatchUserInfo = PatchUserInfo(nickname: "", gender: "", age: 0,movieGenre: [],tvGenre: [], profileImageCode: 0)
+    @Published var patchUser:PatchUserInfo = PatchUserInfo(user: nil)
     @Published var message = ""
     @Published var user:UserInfo? = nil
     var success = PassthroughSubject<(),Never>()
@@ -47,11 +47,12 @@ class AuthViewModel:ObservableObject{
     
     func register(email:String,password:String,authProvider:String){
         AuthApiService.register(email: email, password: password,authProvider:authProvider)
-            .sink(receiveCompletion: { _ in
+            .sink{ completion in
+                print(completion)
                 self.success.send()
-            }, receiveValue: { [weak self] noData in
+            } receiveValue: { [weak self] noData in
                 self?.message = noData.message
-            }).store(in: &cancelable)
+            }.store(in: &cancelable)
 
 
 //            .sink { completion in
@@ -67,7 +68,8 @@ class AuthViewModel:ObservableObject{
     }
     func login(email:String,password:String){
         AuthApiService.login(email: email, password: password)
-            .sink { _ in
+            .sink { completion in
+                print(completion)
                 self.success.send()
             } receiveValue: { [weak self] user in
                 self?.user = user
@@ -93,10 +95,12 @@ class AuthViewModel:ObservableObject{
 
     func getUser(){
         UserApiService.user()
-            .sink { _ in
+            .sink { completion in
+                print(completion)
                 self.success.send()
             } receiveValue: { [weak self] user in
                 self?.user = user
+                self?.patchUser = PatchUserInfo(user: user.data)
             }.store(in: &cancelable)
 
 //            .sink { completion in
@@ -125,10 +129,12 @@ class AuthViewModel:ObservableObject{
     }
     func patchUserInfo(){
         UserApiService.patchUser(gender: patchUser.gender, ageRange: patchUser.age, image: patchUser.profileImageCode, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
-            .sink { _ in
+            .sink { completion in
+                print(completion)
                 self.success.send()
             } receiveValue: { [weak self] user in
                 self?.user = user
+                self?.patchUser = PatchUserInfo(user: user.data)
             }.store(in: &cancelable)
 
 //            .sink { completion in
@@ -156,7 +162,8 @@ class AuthViewModel:ObservableObject{
     }
     func delete(authProvier:String){
         AuthApiService.delete(authProvier:authProvier)
-            .sink { _ in
+            .sink { completion in
+                print(completion)
                 self.success.send()
             } receiveValue: { [weak self] noData in
                 self?.message = noData.message
@@ -181,7 +188,8 @@ class AuthViewModel:ObservableObject{
     }
     func passwordChange(old:String,new:String){
         UserApiService.passwordChange(old: old, new: new)
-            .sink { _ in
+            .sink { completion in
+                print(completion)
                 self.success.send()
             } receiveValue: { [weak self] noData in
                 self?.message = noData.message

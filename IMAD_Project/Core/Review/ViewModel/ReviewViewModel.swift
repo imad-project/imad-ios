@@ -40,7 +40,9 @@ class ReviewViewModel:ObservableObject{
     
     func writeReview(contentsId:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.reviewWrite(id: contentsId, title: title, content: content, score: score, spoiler: spoiler)
-            .sink { _ in } receiveValue: { _ in
+            .sink {completion in
+                print(completion)
+            } receiveValue: { _ in
                 self.success.send()
 //                print(recievedValue.message)
 //                if recievedValue.status >= 200 && recievedValue.status < 300{
@@ -58,7 +60,9 @@ class ReviewViewModel:ObservableObject{
     }
     func readReview(id:Int){
         ReviewApiService.reviewRead(id: id)
-            .sink { _ in } receiveValue: { [weak self] review in
+            .sink { completion in
+                print(completion)
+            } receiveValue: { [weak self] review in
                 self?.review = review.data
                 
 //                print(recievedValue.message)
@@ -75,7 +79,8 @@ class ReviewViewModel:ObservableObject{
     
     func readReviewList(id:Int,page:Int,sort:String,order:Int){
         ReviewApiService.reviewReadList(id: id, page: page, sort: sort, order: order)
-            .sink { _ in
+            .sink { completion in
+                print(completion)
                 self.currentPage = page
             } receiveValue: { [weak self] review in
                 if let data = review.data{
@@ -99,7 +104,9 @@ class ReviewViewModel:ObservableObject{
     }
     func updateReview(reviewId:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.reviewUpdate(id: reviewId, title: title, content: content, score: score, spoiler: spoiler)
-            .sink { _ in } receiveValue: { _ in
+            .sink { completion in
+                print(completion)
+            } receiveValue: { _ in
                 self.success.send()
 //                print(recievedValue.message)
 //                if recievedValue.status >= 200 && recievedValue.status < 300{
@@ -113,7 +120,9 @@ class ReviewViewModel:ObservableObject{
     }
     func deleteReview(id:Int){
         ReviewApiService.reviewDelete(id: id)
-            .sink { _ in } receiveValue: { _ in
+            .sink { completion in
+                print(completion)
+            } receiveValue: { _ in
                 self.success.send()
 //            .sink { completion in
 //                print(completion)
@@ -132,7 +141,9 @@ class ReviewViewModel:ObservableObject{
     
     func likeReview(id:Int,status:Int){
         ReviewApiService.reviewLike(id: id, status: status)
-            .sink { _ in } receiveValue: { _ in
+            .sink { completion in
+                print(completion)
+            } receiveValue: { _ in
                 self.success.send()
 //                print(completion)
 //            } receiveValue: { [weak self] recievedValue in
@@ -147,7 +158,8 @@ class ReviewViewModel:ObservableObject{
     }
     func myReviewList(page:Int){
         ReviewApiService.myReview(page: page)
-            .sink { _ in
+            .sink {  completion in
+                print(completion)
                 self.currentPage = page
             } receiveValue: { [weak self] data in
                 if let data = data.data{
@@ -169,7 +181,8 @@ class ReviewViewModel:ObservableObject{
     }
     func myLikeReviewList(page:Int){
         ReviewApiService.myLikeReview(page: page)
-            .sink { _ in
+            .sink { completion in
+                print(completion)
                 self.currentPage = page
             } receiveValue: { [weak self] data in
                 if let data = data.data{

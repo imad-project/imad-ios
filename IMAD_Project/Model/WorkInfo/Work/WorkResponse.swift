@@ -13,14 +13,14 @@ struct WorkResponse:Codable{
     let productionCountries: [String]?
     let contentsId: Int
     let tmdbId:Int
-    let tmdbType:String
+    let tmdbType:String?
     let tagline:String
     let overview, posterPath, originalLanguage: String?
     let certification, contentsType: String?
     let title, originalTitle, releaseDate: String?
     let runtime: Int?
     let status, name, originalName, firstAirDate: String?
-    let lastAirDate: String
+    let lastAirDate: String?
     let reviewCnt:Int
     let imadScore:Double?
     let numberOfEpisodes, numberOfSeasons: Int?

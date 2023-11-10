@@ -14,7 +14,7 @@ struct BookmarkResponse: Codable,Hashable {
     let sortProperty: Int?
 
     enum CodingKeys: String, CodingKey {
-        case bookmarkDetailsList = "bookmark_details_list"
+        case bookmarkDetailsList = "details_list"
         case totalElements = "total_elements"
         case totalPages = "total_pages"
         case pageNumber = "page_number"

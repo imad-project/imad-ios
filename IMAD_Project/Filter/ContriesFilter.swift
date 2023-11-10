@@ -1286,7 +1286,6 @@ class ContriesFilter:ObservableObject{
             do {
                 // JSON 데이터를 파싱하여 배열로 읽어옴
                 if let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
-                    var countryDictionary = [String: String]()
 
                     // 각 항목을 순회하면서 "iso_3166_1"을 key로, "native_name"을 value로 저장
                     for item in jsonArray {

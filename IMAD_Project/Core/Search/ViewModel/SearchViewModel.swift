@@ -53,7 +53,7 @@ class SearchViewModel:ObservableObject{
     func searchWork(query:String,type:MovieTypeFilter,page:Int){
         WorkApiService.workSearch(query: query, type: type.rawValue, page: page)
             .sink { completion in
-//                print(completion)
+                print(completion)
                 self.currentPage = page
             } receiveValue: { [weak self] work in
 //                if work.status >= 200 && work.status < 300{

@@ -52,10 +52,6 @@ struct InfoChangeView: View {
         }
         .foregroundColor(.black)
         .padding()
-//        .onAppear{
-            //            age = vmAuth.getUserRes?.data?.ageRange ?? -1
-            //            gender = vmAuth.getUserRes?.data?.gender ?? ""
-//        }
 //        .onReceive(vmAuth.passwordChangeSuccess){
 //            success = true
 //            alertMsg = vmAuth.passwordChangeRes?.message ?? ""
@@ -137,20 +133,20 @@ extension InfoChangeView{
         HStack{
             VStack{
                 Button {
-                    vmAuth.patchUser.gender = gender
+                    self.gender = gender
                 } label: {
                     Image(gender)
                         .resizable()
                         .frame(width: 65,height: 80)
                         .padding(30)
                         .overlay {
-                            if vmAuth.patchUser.gender == gender{
+                            if self.gender == gender{
                                 Circle().foregroundColor(.black.opacity(0.5))
                             }
                         }
                 }
                 Text(gender == "MALE" ? "남성" : "여성")
-                    .fontWeight(vmAuth.patchUser.gender == gender ? .bold:.none)
+                    .fontWeight(self.gender  == gender ? .bold:.none)
             }
         }
         .frame(maxWidth: .infinity)

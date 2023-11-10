@@ -45,6 +45,9 @@ struct MyReviewView: View {
         .onAppear{
             profileMode
         }
+        .onDisappear{
+            vm.reviewList.removeAll()
+        }
         //        .onReceive(vm.tokenExpired) { messages in
         //            tokenExpired = (true,messages)
         //        }

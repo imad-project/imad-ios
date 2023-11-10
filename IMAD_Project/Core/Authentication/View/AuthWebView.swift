@@ -22,7 +22,7 @@ struct AuthWebView: View {
                 decisionHandler(.cancel)
                 return
             }
-            UserDefaultManager.shared.checkToken(response: httpResponse)
+            let _ = UserDefaultManager.shared.checkToken(response: httpResponse)
             success.send()
             decisionHandler(.allow)
         }

@@ -8,13 +8,14 @@
 import Foundation
 import Combine
 
+
 class WorkViewModel:ObservableObject{
     
     @Published var workInfo:WorkResponse? = nil
-    @Published var bookmarkList:BookmarkResponse? = nil
+//    @Published var bookmarkList:BookmarkResponse? = nil
 //    @Published var bookmarkResponse:Bookmark? = nil
     
-    @Published var myBookmarkList:[BookmarkListResponse] = []
+    @Published var bookmarkList:[BookmarkListResponse] = []
     
     @Published var currentPage = 1
     @Published var maxPage = 1
@@ -24,12 +25,15 @@ class WorkViewModel:ObservableObject{
 //    var contentsIdSuccess = PassthroughSubject<Int,Never>()
     var cancelable = Set<AnyCancellable>()
     
-    init(workInfo:WorkResponse?){
+    init(workInfo:WorkResponse?,bookmarkList:[BookmarkListResponse] ){
         self.workInfo = workInfo
+        self.bookmarkList = bookmarkList
     }
     func getWorkInfo(contentsId:Int){
         WorkApiService.workInfo(contentsId:contentsId)
-            .sink { _ in } receiveValue: { [weak self] work in
+            .sink { completion in
+                print(completion)
+            } receiveValue: { [weak self] work in
                 self?.workInfo = work.data
                 self?.success.send(work.data?.contentsId)
             }.store(in: &cancelable)
@@ -37,7 +41,9 @@ class WorkViewModel:ObservableObject{
     }
     func getWorkInfo(id:Int,type:String){
         WorkApiService.workInfo(id: id, type: type)
-            .sink { _ in } receiveValue: { [weak self] work in
+            .sink { compeltion in
+              print(compeltion)
+            } receiveValue: { [weak self] work in
                 self?.workInfo = work.data
                 self?.success.send(work.data?.contentsId)
             }.store(in: &cancelable)
@@ -45,11 +51,12 @@ class WorkViewModel:ObservableObject{
     }
     func getBookmark(page:Int){
         WorkApiService.bookRead(page: page)
-            .sink { _ in
+            .sink { completion in
+                print(completion)
                 self.currentPage = page
             } receiveValue: { [weak self] bookmark in
                 if let data = bookmark.data{
-                    self?.myBookmarkList.append(contentsOf: data.bookmarkDetailsList)
+                    self?.bookmarkList.append(contentsOf: data.bookmarkDetailsList)
                     self?.maxPage = data.totalPages
                 }
 //                guard let data = bookmark.data else {return}
@@ -61,11 +68,15 @@ class WorkViewModel:ObservableObject{
     }
     func addBookmark(id:Int){
         WorkApiService.bookCreate(id: id)
-            .sink { _ in } receiveValue: { _ in}.store(in: &cancelable)
+            .sink { completion in
+                print(completion)
+            } receiveValue: { _ in}.store(in: &cancelable)
 
     }
     func deleteBookmark(id:Int){
         WorkApiService.bookDelete(id: id)
-            .sink { _ in } receiveValue: { _ in}.store(in: &cancelable)
+            .sink { completion in
+                print(completion)
+            } receiveValue: { _ in }.store(in: &cancelable)
     }
 }

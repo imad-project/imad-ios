@@ -23,8 +23,9 @@ struct ReviewDetailsView: View {
     
     var body: some View {
         ScrollView{
-            if let review = vm.review{
-                LazyVStack(alignment: .leading,pinnedViews: [.sectionHeaders]) {
+            
+            LazyVStack(alignment: .leading,pinnedViews: [.sectionHeaders]) {
+                if let review = vm.review{
                     Section {
                         profileAndDataView(review: review)
                         workInfoView(review: review)
@@ -185,6 +186,7 @@ extension ReviewDetailsView{
     func workInfoNavigation(review:ReadReviewResponse) -> some View{
         NavigationLink {
             WorkView(contentsId:review.contentsID)
+                .navigationBarBackButtonHidden()
                 .environmentObject(vmAuth)
         } label: {
             HStack(spacing:1){

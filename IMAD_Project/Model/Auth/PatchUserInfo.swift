@@ -14,4 +14,13 @@ struct PatchUserInfo{
     var movieGenre:[Int]
     var tvGenre:[Int]
     var profileImageCode:Int
+    
+    init(user:UserResponse?) {
+        self.nickname = user?.nickname ?? ""
+        self.gender = user?.gender ?? ""
+        self.age = user?.ageRange ?? 0
+        self.movieGenre = user?.movieGenre ?? []
+        self.tvGenre = user?.tvGenre ?? []
+        self.profileImageCode = user?.profileImage ?? 0
+    }
 }

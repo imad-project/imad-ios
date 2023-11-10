@@ -19,22 +19,22 @@ struct ProfileView: View {
     //    let columns = [ GridItem(.flexible()), GridItem(.flexible())]
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
-    @StateObject var vmWork = WorkViewModel(workInfo: nil)
-//    @Environment(\.dismiss)
+    @StateObject var vmWork = WorkViewModel(workInfo: nil,bookmarkList: [])
+    //    @Environment(\.dismiss)
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @State var tv = false
-//    @State var tvCollection:[TVGenreFilter] = []
+    //    @State var tvCollection:[TVGenreFilter] = []
     @State var movie = false
-//    @State var movieCollection:[MovieGenreFilter] = []
+    //    @State var movieCollection:[MovieGenreFilter] = []
     
-//    @State var review = false
-//    @State var posting = false
-//    @State var bookmark = false
+    //    @State var review = false
+    //    @State var posting = false
+    //    @State var bookmark = false
     
-//    @State var qna = false
-//    @State var notice = false
-//    @State var setting = false
+    //    @State var qna = false
+    //    @State var notice = false
+    //    @State var setting = false
     
     var authProvider:String{
         if let user = vmAuth.user?.data{
@@ -59,86 +59,86 @@ struct ProfileView: View {
     }
     
     var body: some View {
-        NavigationView {
+        ScrollView(showsIndicators: false){
             if let user = vmAuth.user?.data{
-                ScrollView(showsIndicators: false){
-                    LazyVStack(pinnedViews: [.sectionHeaders]){
-                        Section {
-                            VStack(spacing: 0){
-                                profileImageView(user: user)
-                                Divider()
-                                HStack{
-                                    myInfoView(view:  MyReviewView(writeType: .myself),
-                                               image: "star.bubble",
-                                               text: "내 리뷰", count: 0)
-                                    myInfoView(view:  MyReviewView(writeType: .myself),
-                                               image:  "text.word.spacing",
-                                               text: "내 게시물", count: 0)
-                                    myInfoView(view: MyReviewView(writeType: .myself), image: "scroll", text: "내 스크랩", count: 0)
-                                }
-                                VStack{
-                                    VStack(alignment: .leading) {
-                                        Text("내 반응").bold()
-                                        navigationListRowView(view: MyReviewView(writeType: .myself), image: "star.leadinghalf.filled", text: "리뷰")
-                                        navigationListRowView(view: MyReviewView(writeType: .myself), image: "note.text", text: "게시물")
-                                    }.padding()
-                                        .background(Color.white)
-                                        .cornerRadius(10)
-                                        .padding([.horizontal,.top],10)
-                                    VStack(alignment: .leading) {
-                                        Text("내 장르").bold()
-                                        buttonListRowView(action: {movie  = true}, image: "popcorn", text: "영화")
-                                        buttonListRowView(action: {tv  = true} , image: "tv", text: "TV/시리즈")
-                                    }.padding()
-                                        .background(Color.white)
-                                        .cornerRadius(10)
-                                        .padding([.horizontal,.bottom],10)
-                                    
-                                }
-                                .foregroundColor(.black)
-                                    .background(Color.gray.opacity(0.1))
-                                movieList
+                LazyVStack(pinnedViews: [.sectionHeaders]){
+                    Section {
+                        VStack(spacing: 0){
+                            profileImageView
+                            Divider()
+                            HStack{
+                                myInfoView(view:  MyReviewView(writeType: .myself),
+                                           image: "star.bubble",
+                                           text: "내 리뷰", count: 0)
+                                myInfoView(view:  MyReviewView(writeType: .myself),
+                                           image:  "text.word.spacing",
+                                           text: "내 게시물", count: 0)
+                                myInfoView(view: MyReviewView(writeType: .myself), image: "scroll", text: "내 스크랩", count: 0)
                             }
-                        } header: {
-                            header
+                            VStack{
+                                VStack(alignment: .leading) {
+                                    Text("내 반응").bold()
+                                    navigationListRowView(view: MyReviewView(writeType: .myselfLike), image: "star.leadinghalf.filled", text: "리뷰")
+                                    navigationListRowView(view: MyReviewView(writeType: .myselfLike), image: "note.text", text: "게시물")
+                                }.padding()
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+                                    .padding([.horizontal,.top],10)
+                                VStack(alignment: .leading) {
+                                    Text("내 장르").bold()
+                                    buttonListRowView(action: {movie  = true}, image: "popcorn", text: "영화")
+                                    buttonListRowView(action: {tv  = true} , image: "tv", text: "TV/시리즈")
+                                }.padding()
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+                                    .padding([.horizontal,.bottom],10)
+                                
+                            }
+                            .foregroundColor(.black)
+                            .background(Color.gray.opacity(0.1))
+                            movieList
                         }
-
-                        
+                    } header: {
+                        header
                     }
+                    
+                    
                 }
-                .ignoresSafeArea()
                 .sheet(isPresented: $profileSelect) {
                     profileSelectView(user: user)
                 }
-                
-                .foregroundColor(.customIndigo)
-                
             }
+        }
+        .ignoresSafeArea()
+        .foregroundColor(.customIndigo)
+        .colorScheme(.light)
+        .sheet(isPresented: $tv) {
+            TvGenreSelectView(dismiss: $tv)
+                .environmentObject(vmAuth)
+                .presentationDetents([.fraction(0.7)])
+        }
+        .sheet(isPresented: $movie) {
+            MovieGenreSelectView(dismiss: $movie)
+                .environmentObject(vmAuth)
+                .presentationDetents([.fraction(0.7)])
+        }
+        .onAppear{
+            //                vm.myReviewList(page: vm.currentPage)
+            //                vm.myLikeReviewList(page: vm.currentPage)
+            //                vmWork.page = 1
+            //                vmWork.myBookmarkList = []
+            vmWork.getBookmark(page: 1)
             
-        }.colorScheme(.light)
-            .sheet(isPresented: $tv) {
-                GenreSelectView(movieMode: true, dismiss: $movie)
-                    .environmentObject(vmAuth)
-                    .presentationDetents([.fraction(0.8)])
-            }
-            .sheet(isPresented: $movie) {
-                GenreSelectView(movieMode: false, dismiss: $tv)
-                    .environmentObject(vmAuth)
-                    .presentationDetents([.fraction(0.7)])
-            }
-            .onAppear{
-//                vm.myReviewList(page: vm.currentPage)
-//                vm.myLikeReviewList(page: vm.currentPage)
-//                vmWork.page = 1
-//                vmWork.myBookmarkList = []
-                vmWork.getBookmark(page: 1)
-                //                guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
-                //                tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
-            }
-//            .onAppear{
-                //                guard let movieGenres = vmAuth.profileInfo.movieGenre else {return}
-                //                movieCollection = MovieGenreFilter.allCases.filter({movieGenres.contains($0.rawValue)})
-//            }
+            //                guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
+            //                tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
+        }
+        .onDisappear{
+            vmWork.bookmarkList.removeAll()
+        }
+        //            .onAppear{
+        //                guard let movieGenres = vmAuth.profileInfo.movieGenre else {return}
+        //                movieCollection = MovieGenreFilter.allCases.filter({movieGenres.contains($0.rawValue)})
+        //            }
         //            .onReceive(vm.tokenExpired) { messages in
         //                tokenExpired = (true,messages)
         //            }
@@ -152,8 +152,10 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        NavigationStack{
+            ProfileView(vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
+                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        }
     }
 }
 
@@ -177,33 +179,43 @@ extension ProfileView{
         .padding(.top,60)
         .background(Color.white)
     }
-    func profileImageView(user:UserResponse) -> some View{
-        VStack(spacing:0){
+    var profileImageView:some View{
+        HStack(spacing:0){
             Button {
                 profileSelect = true
             } label: {
-                ProfileImageView(imageCode: user.profileImage,widthHeigt: 100)
+                ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0,widthHeigt: 60)
                     .overlay(alignment:.bottomTrailing){
                         Circle()
                             .foregroundColor(.black.opacity(0.7))
-                            .frame(width: 30,height: 30)
+                            .frame(width: 25)
                             .overlay {
                                 Image(systemName: "photo")
                                     .foregroundColor(.white)
-                                    .font(.caption)
+                                    .font(.caption2)
                             }
                     }
             }
-            Text(user.nickname ?? "")
-                .font(.title3)
-                .bold()
-                .padding(.top)
-            Text(authProvider)
-                .font(.caption)
-                .foregroundColor(.gray)
-                .padding(.top,2)
+            VStack(alignment: .leading,spacing: 0) {
+                HStack(spacing:0){
+                    Text(vmAuth.user?.data?.nickname ?? "")
+                        .font(.title3)
+                        .bold()
+                    Image(vmAuth.user?.data?.gender ?? "")
+                        .resizable()
+                        .frame(width: 20,height: 25)
+                }
+                Text(authProvider)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .padding(.top,2)
+                Text("만 \(vmAuth.user?.data?.ageRange ?? 0)세")
+                    .font(.caption)
+                
+                
+            }.padding(.leading)
         }.padding(.vertical)
-        .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity)
         
     }
     func myInfoView(view:some View,image:String,text:String,count:Int) -> some View{
@@ -233,7 +245,8 @@ extension ProfileView{
             Divider()
             NavigationLink {
                 view
-                .navigationBarBackButtonHidden()
+                    .environmentObject(vmAuth)
+                    .navigationBarBackButtonHidden()
             } label: {
                 HStack{
                     Image(systemName: image)
@@ -243,6 +256,7 @@ extension ProfileView{
                 }.padding(.vertical,5)
             }
         }
+        
     }
     func buttonListRowView(action: @escaping ()->(),image:String,text:String) -> some View{
         VStack{
@@ -256,7 +270,7 @@ extension ProfileView{
             }
         }
     }
-
+    
     var movieList:some View{
         VStack(alignment: .leading) {
             HStack{
@@ -264,42 +278,54 @@ extension ProfileView{
                 Spacer()
             }
             ZStack{
-                if  vmWork.myBookmarkList.isEmpty{
+                if  vmWork.bookmarkList.isEmpty{
                     Text("찜한 작품이 존재하지 않습니다")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .padding(.leading)
                         .padding(.top,5)
                 }else{
-                    LazyVGrid(columns: genreColumns) {
-                        ForEach(vmWork.myBookmarkList.prefix(6),id:\.self){ item in
-                            NavigationLink {
-                                WorkView(contentsId: item.contentsID)
-                                    .environmentObject(vmAuth)
-                            } label: {
-                                VStack{
-                                    KFImageView(image: item.contentsPosterPath.getImadImage(),height: 170)
-                                    Text(item.contentsTitle)
-                                        .font(.caption)
-                                        .frame(width: 200)
-                                        .bold()
+                    VStack{
+                        LazyVGrid(columns: genreColumns) {
+                            ForEach(vmWork.bookmarkList.prefix(6),id:\.self){ item in
+                                NavigationLink {
+                                    WorkView(contentsId: item.contentsID)
+                                        .environmentObject(vmAuth)
+                                        .navigationBarBackButtonHidden()
+                                } label: {
+                                    VStack{
+                                        KFImageView(image: item.contentsPosterPath.getImadImage(),height: 170)
+                                        Text(item.contentsTitle)
+                                            .font(.caption)
+                                            .frame(width: 200)
+                                            .bold()
+                                    }
                                 }
                             }
                         }
-                    }
-                    if vmWork.myBookmarkList.count > 6{
-                        HStack{
-                            Spacer()
-                            Text("찜한 작품 더보기")
-                                .font(.subheadline)
-                            Image(systemName: "chevron.right")
-                            Spacer()
+                        if vmWork.bookmarkList.count > 6{
+                            NavigationLink {
+                                MyBookmarkListView()
+                                    .environmentObject(vmWork)
+                                    .environmentObject(vmAuth)
+                                    .navigationBarBackButtonHidden()
+                            } label: {
+                                HStack{
+                                    Spacer()
+                                    Text("찜한 작품 더보기")
+                                        .bold()
+                                        .font(.subheadline)
+                                    Image(systemName: "chevron.right")
+                                    Spacer()
+                                }
+                                .padding(.vertical,5)
+                                .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1).foregroundColor(.gray))
+                            }
                         }
-                        .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1).foregroundColor(.gray))
                     }
                 }
             }
-        }.padding(.horizontal)
+        }.padding(.horizontal).padding(.bottom)
     }
     func profileSelectView(user:UserResponse) ->some View{
         ZStack{
@@ -340,7 +366,7 @@ extension ProfileView{
                 .padding(.bottom,30)
             }
         }
-        .presentationDetents([.fraction(0.2)])
+        .presentationDetents([.fraction(0.3)])
     }
     
 }

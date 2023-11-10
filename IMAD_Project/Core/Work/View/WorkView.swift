@@ -28,7 +28,7 @@ struct WorkView: View {
     @EnvironmentObject var vmAuth:AuthViewModel//
     @StateObject var vmReview = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var tab = CommunityTabViewModel()
-    @StateObject var vm = WorkViewModel(workInfo: nil)
+    @StateObject var vm = WorkViewModel(workInfo: nil,bookmarkList: [])
     
     
     var returnType:Bool{
@@ -65,7 +65,6 @@ struct WorkView: View {
             vm.getBookmark(page: vm.currentPage)
             if let contentsId{
                 vm.getWorkInfo(contentsId: contentsId)
-                
             }else if let id, let type{
                 vm.getWorkInfo(id: id, type: type)
             }
@@ -78,13 +77,13 @@ struct WorkView: View {
             vmReview.readReviewList(id: contentsId, page: 1, sort: "createdDate", order: 0)
         }
         .alert(isPresented: $written) {
-            let yes = Alert.Button.default(Text("아니오")) {}
-            let no = Alert.Button.cancel(Text("예")) {
+            let no = Alert.Button.default(Text("아니오")) {}
+            let yes = Alert.Button.cancel(Text("예")) {
                 showMyRevie = true
             }
             return Alert(title: Text("리뷰 작성함"),
                          message: Text("이미 작성한 리뷰가 존재합니다!\n리뷰를 확인하시겠습니까?"),
-                         primaryButton: yes, secondaryButton: no)
+                         primaryButton: no, secondaryButton: yes)
         }
         .navigationDestination(isPresented: $writeReview) {
             WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
@@ -96,14 +95,11 @@ struct WorkView: View {
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
-       
+        
         .navigationDestination(isPresented: $showMyRevie) {
-            if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.user?.data?.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
-                ReviewDetailsView(goWork: false, reviewId: review.reviewID)
-                    .environmentObject(vmAuth)
-                    .navigationBarBackButtonHidden()
-                
-            }
+            ReviewDetailsView(goWork: false, reviewId: vm.workInfo?.reviewId ?? 0)
+                .environmentObject(vmAuth)
+                .navigationBarBackButtonHidden()
         }
     }
 }
@@ -111,7 +107,7 @@ struct WorkView: View {
 struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            WorkView(vmReview: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail), vm: WorkViewModel(workInfo: CustomData.instance.workInfo))
+            WorkView(vmReview: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail), vm: WorkViewModel(workInfo: CustomData.instance.workInfo,bookmarkList: CustomData.instance.bookmarkList))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }

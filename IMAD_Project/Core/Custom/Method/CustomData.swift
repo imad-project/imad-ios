@@ -12,7 +12,7 @@ class CustomData{
     
     static let instance = CustomData()
     
-    let user = UserResponse(email: "quarang@gamil.com", nickname: "콰랑",gender: "FEMALE", ageRange: 25, profileImage: 3, authProvider: "IMAD", role: "USER")
+    let user = UserResponse(email: "quarang@gamil.com", nickname: "콰랑",gender: "FEMALE", ageRange: 25, profileImage: 3,tvGenre: [10759,16,35],movieGenre: [28,12,16], authProvider: "IMAD", role: "USER")
     let comment = CommentResponse(commentID: 1, userID: 1, userNickname: "콰랑", userProfileImage: 4, parentID: nil, content: "좋다로", childCnt: 2,likeStatus: 1,likeCnt: 20,dislikeCnt: 10, createdAt: "2023-10-17T11:55:25.525746", modifiedAt: "2023-10-17T11:55:25.525746", removed: false)
     
     let community = CommuityDetailsResponseList(postingID: 1, contentsID: 1, contentsTitle: "죠죠의 기묘한 모험", contentsPosterPath: "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", userID: 1, userNickname: "콰랑", userProfileImage: 1, title: "최고의 아이", category: 0, viewCnt: 45, likeCnt: 3, dislikeCnt: 1, likeStatus: 0, commentCnt: 4, createdAt: "2023-10-16T12:33:35.007579", modifiedAt: "2023-10-16T12:33:35.007579", spoiler: true)
@@ -33,7 +33,13 @@ class CustomData{
         Notific(icon: "envelope", content: "개발자의 편지 - 오늘의 새로운 영화!")
     ]
     
+    let bookmarkList = [
     
+        BookmarkListResponse(bookmarkID: 1, userID: 1, contentsID: 1, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579"),
+        BookmarkListResponse(bookmarkID: 3, userID: 1, contentsID: 3, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579"),
+        BookmarkListResponse(bookmarkID: 4, userID: 1, contentsID: 4, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579"),
+        BookmarkListResponse(bookmarkID: 7, userID: 1, contentsID: 5, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579")
+    ]
     let workInfo:WorkResponse = WorkResponse(genres: [
         80,
         18

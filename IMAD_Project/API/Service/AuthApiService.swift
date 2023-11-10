@@ -17,7 +17,7 @@ enum AuthApiService{
         print("로그인 api 호출")
         return ApiClient.shared.session
             .request(AuthRouter.login(email: email, password: password))
-            .response{UserDefaultManager.shared.checkToken(response: $0.response)}
+            .response{let _ = UserDefaultManager.shared.checkToken(response: $0.response)}
             .publishDecodable(type: UserInfo.self)
             .value()
             .map{ receivedValue in
