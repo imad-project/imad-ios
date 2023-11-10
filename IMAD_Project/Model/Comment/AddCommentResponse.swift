@@ -1,20 +1,14 @@
 //
-//  AddCommentResponse.swift
+//  AddCommetResponse.swift
 //  IMAD_Project
 //
-//  Created by 유영웅 on 2023/10/19.
+//  Created by 유영웅 on 2023/11/10.
 //
 
 import Foundation
 
-struct AddCommentResponse:Codable{
-    let status:Int
-    var data:CommentIdResponse
-    let message:String
-}
-struct CommentIdResponse:Codable{
+struct AddCommentIdResponse:Codable{
     var commentId:Int
-    
     enum CodingKeys:String,CodingKey{
         case commentId = "comment_id"
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CommentList:Codable {
+struct CommentListResponse:Codable {
     var commentDetailsResponseList: [CommentResponse]
     let totalElements, totalPages, pageNumber, numberOfElements: Int
     let sizeOfPage, sortDirection: Int

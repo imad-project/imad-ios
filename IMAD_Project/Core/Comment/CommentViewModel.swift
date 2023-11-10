@@ -16,7 +16,7 @@ class CommentViewModel:ObservableObject{
     var tokenExpired = PassthroughSubject<String,Never>()
     
     @Published var parentComment:CommentResponse? = nil
-    @Published var replyList:CommentList? = nil
+    @Published var replyList:CommentListResponse? = nil
     @Published var replys:[CommentResponse] = []
     
     @Published var currentPage = 1
