@@ -534,9 +534,7 @@
 				812CDE9F29DEAA850003B993 /* CommunityListRowView.swift */,
 				811DA16C29E978DB00482A6A /* CommunityPostView.swift */,
 				817860202A29ECA7004639F6 /* CommunityWriteView.swift */,
-				8154B1E72ADE328400AD2F83 /* CommentRowView.swift */,
 				8154B1E92ADE78A500AD2F83 /* CommunitySearchView.swift */,
-				8128C12B2AEA3DCD0032D310 /* CommentDetailsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -615,6 +613,8 @@
 		81588D4F2AFE64E300E19F8D /* Comment */ = {
 			isa = PBXGroup;
 			children = (
+				81A15FAD2AFF528A0051F5B7 /* View */,
+				81A15FAC2AFF52840051F5B7 /* ViewModel */,
 				81588D502AFE65A300E19F8D /* CommentViewModel.swift */,
 			);
 			path = Comment;
@@ -735,6 +735,22 @@
 				819D499F2A933AEC008B7BFE /* Person.swift */,
 			);
 			path = Credit;
+			sourceTree = "<group>";
+		};
+		81A15FAC2AFF52840051F5B7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		81A15FAD2AFF528A0051F5B7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8154B1E72ADE328400AD2F83 /* CommentRowView.swift */,
+				8128C12B2AEA3DCD0032D310 /* CommentDetailsView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		81A1ECDE29DACB430001A366 /* Main */ = {

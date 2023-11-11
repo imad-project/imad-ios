@@ -53,7 +53,6 @@ struct CommunityView: View {
                                             }
                                     }
                                 }
-                               
                             }
                         }.padding(.bottom,55)
                     }
