@@ -32,19 +32,17 @@ struct CommentRowView: View {
                 if input{
                     modifyView
                 }else{
-                    Text(comment.content ?? "")
+                    ExtandView(text: comment.content)
                         .padding(.bottom)
                     HStack{
-                        if comment.childCnt > 0{
-                            NavigationLink {
-                                CommentDetailsView(postingId:comment.postingId,parentsId: comment.commentID)
+                        NavigationLink {
+                            CommentDetailsView(postingId:comment.postingId,parentsId: comment.commentID)
 //                                vm.modifyComment.send((vm.community?.postingID ?? 0,comment.commentID))
-                            } label: {
-                                if comment.childCnt > 0 {
-                                    Text("답글 \(comment.childCnt)개").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
-                                }else{
-                                    Text("답글작성").font(.caption2).foregroundColor(.gray)
-                                }
+                        } label: {
+                            if comment.childCnt > 0 {
+                                Text("답글 \(comment.childCnt)개").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
+                            }else{
+                                Text("답글작성").font(.caption2).foregroundColor(.gray)
                             }
                         }
                         Spacer()

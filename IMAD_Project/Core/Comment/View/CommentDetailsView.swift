@@ -13,7 +13,7 @@ struct CommentDetailsView: View {
     let parentsId:Int
     @FocusState var reply:Bool
     
-    @State var extand = false
+    
     @State var reviewText = ""
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
@@ -137,25 +137,7 @@ extension CommentDetailsView{
                         }
                         Spacer()
                     }.padding(.bottom)
-                    if let textLength = vm.comment?.content,textLength.count > 100{
-                        Text(extand ? "\(vm.comment?.content ?? "")" : ((vm.comment?.content?.prefix(100) ?? "") + ".."))
-                            .padding(.trailing)
-                        Button {
-                            withAnimation {
-                                extand.toggle()
-                            }
-                        } label: {
-                            Text(extand ? "닫기":"더보기")
-                                .underline()
-                        }
-                        .padding(.top,10)
-                        .foregroundColor(.gray)
-                        .font(.caption)
-                        
-                    }else{
-                        Text(vm.comment?.content ?? "")
-                            .padding(.trailing)
-                    }
+                    ExtandView(text: vm.comment?.content)
                 }
             }
             HStack{
