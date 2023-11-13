@@ -295,11 +295,11 @@ extension CommunityPostView{
     }
     var comment:some View{
         ForEach(vm.community?.commentListResponse?.commentDetailsResponseList ?? [],id: \.self){ comment in
-            CommentRowView(comment: comment)
+            CommentRowView(replyMode: false, replyOfReply: false, comment: comment)
                 .environmentObject(vmAuth)
-//                .onReceive(vmComment.commentDeleteSuccess) { deleteComment in
-//                    vm.community?.commentListResponse?.commentDetailsResponseList = vm.community?.commentListResponse?.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
-//                }
+                .onReceive(vmComment.commentDeleteSuccess) { deleteComment in
+                    vm.community?.commentListResponse?.commentDetailsResponseList = vm.community?.commentListResponse?.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
+                }
             //        ZStack{
             //            VStack{
             //                ForEach(vmComment.replys,id: \.self){ comment in

@@ -23,7 +23,7 @@ struct ExtandView: View {
                             extand.toggle()
                         }
                     } label: {
-                        Text(extand ? "닫기":"더보기")
+                        Text(extand ? "접기":"더보기")
                             .underline()
                     }
                     .padding(.top,10)

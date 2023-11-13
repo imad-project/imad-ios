@@ -14,16 +14,14 @@ class CommentViewModel:ObservableObject{
 //    var addSuccess = PassthroughSubject<Int,Never>()
     
     @Published var currentPage = 1
-    @Published var masPage = 0
+    @Published var maxPage = 0
     
     
     
     
     var success = PassthroughSubject<(),Never>()
-    
-    
     var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
-    var tokenExpired = PassthroughSubject<String,Never>()
+//    var tokenExpired = PassthroughSubject<String,Never>()
     
     @Published var comment:CommentResponse? = nil
 //    @Published var replyList:CommentListResponse? = nil
@@ -55,10 +53,11 @@ class CommentViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func modifyReply(commentId:Int,content:String){
-//        CommentApiService.modifyReply(commentId: commentId, content: content)
-//            .sink { comp in
-//                print(comp)
-//            } receiveValue: { [weak self] response in
+        CommentApiService.modifyReply(commentId: commentId, content: content)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { _ in
+                self.success.send()
 //                switch response.status{
 //                case 200...300:
 //                    self?.modifySuccess.send()
@@ -68,13 +67,13 @@ class CommentViewModel:ObservableObject{
 //                default:
 //                    break
 //                }
-//            }.store(in: &cancelable)
+            }.store(in: &cancelable)
     }
     func deleteyReply(commentId:Int){
-//        CommentApiService.deleteReply(commentId: commentId)
-//            .sink { comp in
-//                print(comp)
-//            } receiveValue: { [weak self] response in
+        CommentApiService.deleteReply(commentId: commentId)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { _ in
 //                switch response.status{
 ////                case 200...300:
 ////                    self?.commentDeleteSuccess.send(response.)
@@ -84,9 +83,9 @@ class CommentViewModel:ObservableObject{
 //                default:
 //                    break
 //                }
-//            }.store(in: &cancelable)
+            }.store(in: &cancelable)
     }
-    func addCommentInList(commentId:Int){
+//    func addCommentInList(commentId:Int){
 //        CommunityApiService.readComment(commentId: commentId)
 //            .sink { comp in
 //                print(comp)
@@ -103,7 +102,7 @@ class CommentViewModel:ObservableObject{
 //                    break
 //                }
 //            }.store(in: &cancelable)
-    }
+//    }
     func readComment(commentId:Int){
         CommunityApiService.readComment(commentId: commentId)
             .sink { comp in
@@ -127,10 +126,14 @@ class CommentViewModel:ObservableObject{
 //            }.store(in: &cancelable)
     }
     func readComments(postingId:Int,commentType:Int,page:Int,sort:String,order:Int,parentId:Int){
-//        CommentApiService.readListReply(postingId: postingId, commentType: commentType, page: page, sort: sort, order: order, parentId: parentId)
-//            .sink { comp in
-//                print(comp)
-//            } receiveValue: { [weak self] response in
+        CommentApiService.readListReply(postingId: postingId, commentType: commentType, page: page, sort: sort, order: order, parentId: parentId)
+            .sink { comp in
+                print(comp)
+                self.currentPage = page
+            } receiveValue: { [weak self] response in
+                guard let data = response.data else {return}
+                self?.replys.append(contentsOf: data.commentDetailsResponseList)
+                self?.maxPage = data.totalPages
 //                switch response.status{
 //                case 200...300:
 //                    guard let data = response.data else {return}
@@ -142,14 +145,15 @@ class CommentViewModel:ObservableObject{
 //                default:
 //                    break
 //                }
-//            }.store(in: &cancelable)
+            }.store(in: &cancelable)
 
     }
     func commentLike(commentId:Int,likeStatus:Int){
-//        CommentApiService.like(commentId: commentId, likeStatus: likeStatus)
-//            .sink { comp in
-//                print(comp)
-//            } receiveValue: { [weak self] response in
+        CommentApiService.like(commentId: commentId, likeStatus: likeStatus)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { _ in
+            self.success.send()
 //                switch response.status{
 //                case 401:
 ////                    AuthApiService.getToken()
@@ -157,7 +161,7 @@ class CommentViewModel:ObservableObject{
 //                default:
 //                    break
 //                }
-//            }.store(in: &cancelable)
+            }.store(in: &cancelable)
     }
 
 }

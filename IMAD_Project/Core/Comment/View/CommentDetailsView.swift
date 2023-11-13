@@ -33,18 +33,13 @@ struct CommentDetailsView: View {
                     if !vm.replys.isEmpty{
                         ForEach(vm.replys,id:\.self) { item in
                             if !item.removed{
-                                CommentRowView(comment: item)
-                                    .environmentObject(vm)
+                                CommentRowView(replyMode: true, replyOfReply: false, comment: item)
                                     .environmentObject(vmAuth)
                                     .padding(.leading)
-                                    .onReceive(vm.commentDeleteSuccess){ comment in
-                                        vm.replys = vm.replys.filter({$0 != comment})
-                                    }
-                                if vm.replys.last == item,vm.replys.count % 10 == 0{
+                                if vm.replys.last == item,vm.maxPage > vm.currentPage{
                                     ProgressView()
                                         .onAppear{
-                                            vm.currentPage += 1
-//                                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: SortFilter.createdDate.rawValue, order: 1, parentId: commentId)
+                                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
                                         }
                                 }
                             }
@@ -143,21 +138,7 @@ extension CommentDetailsView{
             HStack{
                 Spacer()
                 Button {
-                    guard let comment = vm.comment else {return}
-                    if comment.likeStatus < 1 {
-                        if comment.likeStatus < 0{
-                            vm.comment?.dislikeCnt -= 1
-                            vm.comment?.likeStatus = 1
-                        }else{
-                            vm.comment?.likeStatus = 1
-                        }
-                        vm.comment?.likeCnt += 1
-                    }
-                    else{
-                        vm.comment?.likeCnt -= 1
-                        vm.comment?.likeStatus = 0
-                    }
-                    vm.commentLike(commentId: vm.comment?.commentID ?? 0, likeStatus: vm.comment?.likeStatus ?? 0)
+                    like()
                 } label: {
                     Image(systemName: (vm.comment?.likeStatus ?? 0) > 0 ? "heart.fill" : "heart").foregroundColor(.red)
                     Text("\(vm.comment?.likeCnt ?? 0)").foregroundColor(.black)
@@ -165,21 +146,7 @@ extension CommentDetailsView{
                 .padding(.trailing)
                 .foregroundColor(vm.comment?.likeStatus == 1 ? .red : .gray)
                 Button {
-                    guard let comment = vm.comment else {return}
-                    if comment.likeStatus > -1{
-                        if comment.likeStatus > 0{
-                            vm.comment?.likeCnt -= 1
-                            vm.comment?.likeStatus = -1
-                        }else{
-                            vm.comment?.likeStatus = -1
-                        }
-                        vm.comment?.dislikeCnt += 1
-                    }
-                    else{
-                        vm.comment?.dislikeCnt -= 1
-                        vm.comment?.likeStatus = 0
-                    }
-                    vm.commentLike(commentId: vm.comment?.commentID ?? 0, likeStatus: vm.comment?.likeStatus ?? 0)
+                   disLike()
                 } label: {
                     HStack{
                         Image(systemName:(vm.comment?.likeStatus ?? 0) < 0 ? "heart.slash.fill" : "heart.slash").foregroundColor(.blue)
@@ -235,5 +202,39 @@ extension CommentDetailsView{
             }.padding(.vertical,5)
         }
         .padding(.horizontal)
+    }
+    func like(){
+        guard let comment = vm.comment else {return}
+        if comment.likeStatus < 1 {
+            if comment.likeStatus < 0{
+                vm.comment?.dislikeCnt -= 1
+                vm.comment?.likeStatus = 1
+            }else{
+                vm.comment?.likeStatus = 1
+            }
+            vm.comment?.likeCnt += 1
+        }
+        else{
+            vm.comment?.likeCnt -= 1
+            vm.comment?.likeStatus = 0
+        }
+        vm.commentLike(commentId: vm.comment?.commentID ?? 0, likeStatus: vm.comment?.likeStatus ?? 0)
+    }
+    func disLike(){
+        guard let comment = vm.comment else {return}
+        if comment.likeStatus > -1{
+            if comment.likeStatus > 0{
+                vm.comment?.likeCnt -= 1
+                vm.comment?.likeStatus = -1
+            }else{
+                vm.comment?.likeStatus = -1
+            }
+            vm.comment?.dislikeCnt += 1
+        }
+        else{
+            vm.comment?.dislikeCnt -= 1
+            vm.comment?.likeStatus = 0
+        }
+        vm.commentLike(commentId: vm.comment?.commentID ?? 0, likeStatus: vm.comment?.likeStatus ?? 0)
     }
 }
