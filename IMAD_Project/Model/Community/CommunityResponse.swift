@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CommunityResponse:Codable{
+struct CommunityResponse:Codable,Hashable{
     
     let postingID, contentsID: Int
     let contentsTitle, contentsPosterPath: String
@@ -17,11 +17,11 @@ struct CommunityResponse:Codable{
     let title, content: String
     let category, viewCnt:Int
     var likeCnt, dislikeCnt: Int
-    let likeStatus: Int
+    var likeStatus: Int
     let createdAt, modifiedAt: String
     let commentCnt: Int
-    var commentListResponse: CommentListResponse
-    let scrapId:Int?
+    var commentListResponse: CommentListResponse?
+    var scrapId:Int?
     var scrapStatus:Bool
     let spoiler: Bool
     

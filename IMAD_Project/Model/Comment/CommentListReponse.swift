@@ -7,12 +7,11 @@
 
 import Foundation
 
-struct CommentListResponse:Codable {
+struct CommentListResponse:Codable,Hashable {
     var commentDetailsResponseList: [CommentResponse]
     let totalElements, totalPages, pageNumber, numberOfElements: Int
     let sizeOfPage, sortDirection: Int
     let sortProperty: String
-    let searchType: Int
 
     enum CodingKeys: String, CodingKey {
         case commentDetailsResponseList = "comment_details_response_list"
@@ -23,6 +22,5 @@ struct CommentListResponse:Codable {
         case sizeOfPage = "size_of_page"
         case sortDirection = "sort_direction"
         case sortProperty = "sort_property"
-        case searchType = "search_type"
     }
 }

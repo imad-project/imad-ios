@@ -29,7 +29,7 @@ struct CommunityWriteView: View {
     
     @Binding var goMain:Bool
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm = CommunityViewModel()
+    @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     //    @StateObject var vmWork = WorkViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -78,7 +78,7 @@ struct CommunityWriteView: View {
 
 struct CommunityWriteView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityWriteView(contentsId: 1, image: CustomData.instance.movieList.first!, goMain: .constant(true))
+        CommunityWriteView(contentsId: 1, image: CustomData.instance.movieList.first!, goMain: .constant(true),vm: CommunityViewModel(community:nil, communityList: []))
             .environment(\.colorScheme, .light)
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }

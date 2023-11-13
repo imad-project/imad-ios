@@ -15,8 +15,9 @@ struct CommunityView: View {
 
     
     @StateObject var tab = CommunityTabManager()
-    @StateObject var vm = CommunityViewModel()
+    @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
+    
     
     var list:[CommunityDetailsListResponse]{
         switch tab.communityTab{
@@ -36,47 +37,30 @@ struct CommunityView: View {
                 VStack(spacing: 0) {
                     Section(header:header){
                         ScrollView{
-                            ForEach(list,id:\.self){ community in
-                                NavigationLink {
-                                    CommunityPostView(postingId: community.postingID)
-                                        .environmentObject(vmAuth)
-                                } label: {
-                                    CommunityListRowView(community: community)
-                                        .padding(5)
-                                }
-                                if list.last == community{
-                                    if vm.communityList.count % 10 == 0,let element = vm.communityListResponse?.totalElements,element >= vm.communityList.count{
-                                        ProgressView()
-                                            .onAppear{
-                                                vm.page += 1
-                                                vm.readCommunityList(page: vm.page)
-                                            }
-                                    }
-                                }
-                            }
+                            listView
                         }.padding(.bottom,55)
                     }
                 }
                 .background(Color.white)
                 .ignoresSafeArea()
-                .onAppear{
-                    vm.page = 1
-                    vm.communityList = []
-                    vm.readCommunityList(page: vm.page)
-                }
+               
                 .onChange(of: tab.communityTab){ newValue in
-                    if tab.communityTab == .all{
-                        vm.page = 1
-                        vm.communityList = []
-                        vm.readCommunityList(page: vm.page)
-                        //전체리스트 조회
-                    }else{
-                        vm.communityList = []
-                        vm.page = 1
-                        vm.readListConditionsAll(searchType: 0, query: "", page: vm.page, sort: "createdDate", order: 0)
-                        //특정 필터 리스트 조회
-                    }
+//                    if tab.communityTab == .all{
+//                        vm.page = 1
+//                        vm.communityList = []
+//                        vm.readCommunityList(page: vm.page)
+//                        //전체리스트 조회
+//                    }else{
+//                        vm.communityList = []
+//                        vm.page = 1
+//                        vm.readListConditionsAll(searchType: 0, query: "", page: vm.page, sort: "createdDate", order: 0)
+//                        //특정 필터 리스트 조회
+//                    }
+                   listUpdate()
                 }
+        }
+        .onAppear{
+            vm.readCommunityList(page: vm.currentPage)
         }
         .navigationDestination(isPresented: $search){
             SearchView(postingMode: true, back: $search)
@@ -91,7 +75,7 @@ struct CommunityView: View {
 
 struct CommunityView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityView()
+        CommunityView(vm: CommunityViewModel(community:CustomData.instance.community, communityList: CustomData.instance.communityList))
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
@@ -164,6 +148,31 @@ extension CommunityView{
         
         
             
+    }
+    var listView:some View{
+        ForEach(list,id:\.self){ community in
+            NavigationLink {
+                CommunityPostView(postingId: community.postingID)
+                    .environmentObject(vmAuth)
+            } label: {
+                CommunityListRowView(community: community)
+                    .padding(5)
+            }
+            if list.last == community{
+                if vm.communityList.count % 10 == 0{
+                    ProgressView()
+                        .onAppear{
+                            vm.currentPage += 1
+                            vm.readCommunityList(page: vm.currentPage)
+                        }
+                }
+            }
+        }
+    }
+    func listUpdate(){
+        vm.currentPage = 1
+        vm.communityList = []
+        vm.readCommunityList(page: vm.currentPage)
     }
 //    func communityList() -> some View{
 //        ScrollView(showsIndicators: false){

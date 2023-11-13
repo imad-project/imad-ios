@@ -11,33 +11,48 @@ import Combine
 class CommentViewModel:ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
-    var success = PassthroughSubject<(),Never>()
-    var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
-    var tokenExpired = PassthroughSubject<String,Never>()
-    
-    @Published var parentComment:CommentResponse? = nil
-    @Published var replyList:CommentListResponse? = nil
-    @Published var replys:[CommentResponse] = []
+//    var addSuccess = PassthroughSubject<Int,Never>()
     
     @Published var currentPage = 1
     @Published var masPage = 0
     
+    
+    
+    
+    var success = PassthroughSubject<(),Never>()
+    
+    
+    var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
+    var tokenExpired = PassthroughSubject<String,Never>()
+    
+    @Published var comment:CommentResponse? = nil
+//    @Published var replyList:CommentListResponse? = nil
+    @Published var replys:[CommentResponse] = []
+    
+    init(comment:CommentResponse?,replys:[CommentResponse]){
+        self.comment = comment
+        self.replys = replys
+    }
+    
+    
     func addReply(postingId:Int,parentId:Int?,content:String){
-//        CommentApiService.addReply(postingId: postingId, parentId: parentId, content: content)
-//            .sink { comp in
-//                print(comp)
-//            } receiveValue: { [weak self] response in
+        CommentApiService.addReply(postingId: postingId, parentId: parentId, content: content)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { _ in
+//                guard let commentId = response.data?.commentId else {return}
+                self.success.send()
 //                switch response.status{
 //                case 200...300:
 //                    self?.addCommentInList(commentId: response.data.commentId)
-////                    self?.communityDetail?.commentListResponse.commentDetailsResponseList.append(<#T##newElement: CommentResponse##CommentResponse#>)
+//                    self?.communityDetail?.commentListResponse.commentDetailsResponseList.append(<#T##newElement: CommentResponse##CommentResponse#>)
 //                case 401:
 ////                    AuthApiService.getToken()
 //                    self?.tokenExpired.send(response.message)
 //                default:
 //                    break
 //                }
-//            }.store(in: &cancelable)
+            }.store(in: &cancelable)
     }
     func modifyReply(commentId:Int,content:String){
 //        CommentApiService.modifyReply(commentId: commentId, content: content)
@@ -90,7 +105,13 @@ class CommentViewModel:ObservableObject{
 //            }.store(in: &cancelable)
     }
     func readComment(commentId:Int){
-//        CommunityApiService.readComment(commentId: commentId)
+        CommunityApiService.readComment(commentId: commentId)
+            .sink { comp in
+                print(comp)
+            } receiveValue: { [weak self] data in
+                self?.comment = data.data
+            }.store(in: &cancelable)
+
 //            .sink { comp in
 //                print(comp)
 //            } receiveValue: { [weak self] response in

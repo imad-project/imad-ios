@@ -9,7 +9,7 @@ import Foundation
 
 struct CommunityDetailsList: Codable,Hashable {
     
-    var postingDetailsResponseList: [CommunityDetailsListResponse]?
+    var postingDetailsResponseList: [CommunityDetailsListResponse]
     let totalElements, totalPages, pageNumber, numberOfElements: Int
     let sizeOfPage, sortDirection: Int
     let sortProperty: String

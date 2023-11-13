@@ -10,6 +10,7 @@ import Foundation
 
 struct CommentResponse: Codable,Hashable {
     let commentID, userID: Int
+    let postingId:Int
     let userNickname: String
     let userProfileImage: Int
     let parentID: Int?
@@ -22,6 +23,7 @@ struct CommentResponse: Codable,Hashable {
     enum CodingKeys: String, CodingKey {
         case commentID = "comment_id"
         case userID = "user_id"
+        case postingId = "posting_id"
         case userNickname = "user_nickname"
         case userProfileImage = "user_profile_image"
         case parentID = "parent_id"

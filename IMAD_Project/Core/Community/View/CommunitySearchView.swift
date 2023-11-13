@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CommunitySearchView: View {
     
-    @StateObject var vm = CommunityViewModel()
+    @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     
     @State var sortButton = false
     @State var orderButton = false
@@ -43,7 +43,7 @@ struct CommunitySearchView: View {
                     .padding(.leading)
                 Button {
                     vm.communityList = []
-                    vm.readListConditionsAll(searchType: type.num, query: text, page: vm.page, sort: sort.rawValue, order: order.rawValue)
+                    vm.readListConditionsAll(searchType: type.num, query: text, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue)
                 } label: {
                     Text("검색")
                         .foregroundColor(.white)
@@ -131,6 +131,6 @@ struct CommunitySearchView: View {
 
 struct CommunitySearchView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunitySearchView()
+        CommunitySearchView(vm:CommunityViewModel(community: nil, communityList: []))
     }
 }

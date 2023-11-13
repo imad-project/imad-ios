@@ -10,14 +10,15 @@ import SwiftUI
 struct CommentDetailsView: View {
     
     let postingId:Int
-    let commentId:Int
+    let parentsId:Int
     @FocusState var reply:Bool
     
+    @State var extand = false
     @State var reviewText = ""
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
     
-    @StateObject var vm = CommentViewModel()
+    @StateObject var vm = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @Environment(\.dismiss) var dismiss
@@ -25,24 +26,14 @@ struct CommentDetailsView: View {
         ZStack(alignment: .bottom){
             Color.white.ignoresSafeArea()
             VStack(alignment: .leading){
-                Button {
-                    dismiss()
-                } label: {
-                    HStack{
-                        Image(systemName: "chevron.left")
-                        Text("답글")
-                    }
-                    .font(.title3)
-                    .bold()
-                    .foregroundColor(.black )
-                }.padding(.leading)
+               header
                 Divider()
                 parentComment
                 ScrollView{
                     if !vm.replys.isEmpty{
                         ForEach(vm.replys,id:\.self) { item in
                             if !item.removed{
-                                CommentRowView(commentMode:false,comment: item)
+                                CommentRowView(comment: item)
                                     .environmentObject(vm)
                                     .environmentObject(vmAuth)
                                     .padding(.leading)
@@ -53,7 +44,7 @@ struct CommentDetailsView: View {
                                     ProgressView()
                                         .onAppear{
                                             vm.currentPage += 1
-                                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: SortFilter.createdDate.rawValue, order: 1, parentId: commentId)
+//                                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: SortFilter.createdDate.rawValue, order: 1, parentId: commentId)
                                         }
                                 }
                             }
@@ -65,11 +56,10 @@ struct CommentDetailsView: View {
             }
             commentInputView
         }
-        
         .foregroundColor(.black)
         .onAppear{
-            vm.readComment(commentId: commentId)
-            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+            vm.readComment(commentId: parentsId)
+            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
         }
     }
     
@@ -78,20 +68,30 @@ struct CommentDetailsView: View {
 
 struct CommentDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentDetailsView(postingId: 0, commentId: 0)
+        CommentDetailsView(postingId: 1, parentsId: 12,vm: CommentViewModel(comment: CustomData.instance.comment, replys: CustomData.instance.commentList))
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
 
 extension CommentDetailsView{
+    var header:some View{
+        Button {
+            dismiss()
+        } label: {
+            HStack{
+                Image(systemName: "chevron.left")
+                Text("답글")
+            }
+            .font(.title3)
+            .bold()
+            .foregroundColor(.black)
+        }.padding(.leading)
+    }
     var commentInputView:some View{
         VStack{
             Divider()
             HStack{
-//                Image(ProfileFilter.allCases.first(where: {$0.num == vmAuth.getUserRes?.data?.profileImage ?? 1})!.rawValue)
-//                    .resizable()
-//                    .frame(width: 30, height: 30)
-//                    .clipShape(Circle())
+                ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0, widthHeigt: 30)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
                     .focused($reply)
                     .padding(10)
@@ -102,7 +102,7 @@ extension CommentDetailsView{
                         
                     }
                 Button {
-                    vm.addReply(postingId: postingId, parentId: commentId, content: reviewText)
+//                    vm.addReply(postingId: postingId, parentId: commentId, content: reviewText)
                     reviewText = ""
                     UIApplication.shared.endEditing()
                 } label: {
@@ -126,70 +126,85 @@ extension CommentDetailsView{
     var parentComment:some View{
         VStack{
             HStack(alignment: .top){
-                Image(ProfileFilter.allCases.first(where: {$0.num == vm.parentComment?.userProfileImage})?.rawValue ?? "")
-                    .resizable()
-                    .frame(width: 30,height: 30)
-                    .clipShape(Circle())
+                ProfileImageView(imageCode: vm.comment?.userProfileImage ?? 0, widthHeigt: 30)
                 VStack(alignment: .leading) {
                     HStack{
-                        Text(vm.parentComment?.userNickname ?? "").bold()
-                        if vm.parentComment?.modifiedAt != vm.parentComment?.createdAt{
-                            Text("수정됨  •  " + (vm.parentComment?.modifiedAt.relativeTime() ?? "")).font(.caption)
+                        Text(vm.comment?.userNickname ?? "").bold()
+                        if vm.comment?.modifiedAt != vm.comment?.createdAt{
+                            Text("수정됨  •  " + (vm.comment?.modifiedAt.relativeTime() ?? "")).font(.caption)
                         }else{
-                            Text("•  " + (vm.parentComment?.modifiedAt.relativeTime() ?? "")).font(.caption)
+                            Text("•  " + (vm.comment?.modifiedAt.relativeTime() ?? "")).font(.caption)
                         }
                         Spacer()
                     }.padding(.bottom)
-                    Text(vm.parentComment?.content ?? "")
+                    if let textLength = vm.comment?.content,textLength.count > 100{
+                        Text(extand ? "\(vm.comment?.content ?? "")" : ((vm.comment?.content?.prefix(100) ?? "") + ".."))
+                            .padding(.trailing)
+                        Button {
+                            withAnimation {
+                                extand.toggle()
+                            }
+                        } label: {
+                            Text(extand ? "닫기":"더보기")
+                                .underline()
+                        }
+                        .padding(.top,10)
+                        .foregroundColor(.gray)
+                        .font(.caption)
+                        
+                    }else{
+                        Text(vm.comment?.content ?? "")
+                            .padding(.trailing)
+                    }
                 }
             }
             HStack{
                 Spacer()
                 Button {
-                    guard let comment = vm.parentComment else {return}
+                    guard let comment = vm.comment else {return}
                     if comment.likeStatus < 1 {
                         if comment.likeStatus < 0{
-                            vm.parentComment?.dislikeCnt -= 1
-                            vm.parentComment?.likeStatus = 1
+                            vm.comment?.dislikeCnt -= 1
+                            vm.comment?.likeStatus = 1
                         }else{
-                            vm.parentComment?.likeStatus = 1
+                            vm.comment?.likeStatus = 1
                         }
-                        vm.parentComment?.likeCnt += 1
+                        vm.comment?.likeCnt += 1
                     }
                     else{
-                        vm.parentComment?.likeCnt -= 1
-                        vm.parentComment?.likeStatus = 0
+                        vm.comment?.likeCnt -= 1
+                        vm.comment?.likeStatus = 0
                     }
-                    vm.commentLike(commentId: vm.parentComment?.commentID ?? 0, likeStatus: vm.parentComment?.likeStatus ?? 0)
+                    vm.commentLike(commentId: vm.comment?.commentID ?? 0, likeStatus: vm.comment?.likeStatus ?? 0)
                 } label: {
-                    Image(systemName: (vm.parentComment?.likeStatus ?? 0) > 0 ? "heart.fill" : "heart").foregroundColor(.red)
-                    Text("\(vm.parentComment?.likeCnt ?? 0)").foregroundColor(.black)
+                    Image(systemName: (vm.comment?.likeStatus ?? 0) > 0 ? "heart.fill" : "heart").foregroundColor(.red)
+                    Text("\(vm.comment?.likeCnt ?? 0)").foregroundColor(.black)
                 }
                 .padding(.trailing)
-                .foregroundColor(vm.parentComment?.likeStatus == 1 ? .red : .gray)
+                .foregroundColor(vm.comment?.likeStatus == 1 ? .red : .gray)
                 Button {
-                    guard let comment = vm.parentComment else {return}
+                    guard let comment = vm.comment else {return}
                     if comment.likeStatus > -1{
                         if comment.likeStatus > 0{
-                            vm.parentComment?.likeCnt -= 1
-                            vm.parentComment?.likeStatus = -1
+                            vm.comment?.likeCnt -= 1
+                            vm.comment?.likeStatus = -1
                         }else{
-                            vm.parentComment?.likeStatus = -1
+                            vm.comment?.likeStatus = -1
                         }
-                        vm.parentComment?.dislikeCnt += 1
+                        vm.comment?.dislikeCnt += 1
                     }
                     else{
-                        vm.parentComment?.dislikeCnt -= 1
-                        vm.parentComment?.likeStatus = 0
+                        vm.comment?.dislikeCnt -= 1
+                        vm.comment?.likeStatus = 0
                     }
-                    vm.commentLike(commentId: vm.parentComment?.commentID ?? 0, likeStatus: vm.parentComment?.likeStatus ?? 0)
+                    vm.commentLike(commentId: vm.comment?.commentID ?? 0, likeStatus: vm.comment?.likeStatus ?? 0)
                 } label: {
                     HStack{
-                        Image(systemName:(vm.parentComment?.likeStatus ?? 0) < 0 ? "heart.slash.fill" : "heart.slash").foregroundColor(.blue)
-                        Text("\( vm.parentComment?.dislikeCnt ?? 0)").foregroundColor(.black)
+                        Image(systemName:(vm.comment?.likeStatus ?? 0) < 0 ? "heart.slash.fill" : "heart.slash").foregroundColor(.blue)
+                        Text("\( vm.comment?.dislikeCnt ?? 0)").foregroundColor(.black)
                     }
                 }
-                .foregroundColor(vm.parentComment?.likeStatus == -1 ? .blue : .gray)
+                .foregroundColor(vm.comment?.likeStatus == -1 ? .blue : .gray)
                 
             }
             Divider()
@@ -200,7 +215,7 @@ extension CommentDetailsView{
                             self.sort = sort
                             vm.currentPage = 1
                             vm.replys = []
-                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+//                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
                         } label: {
                             Capsule()
                                 .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
@@ -218,14 +233,14 @@ extension CommentDetailsView{
                             order = .descending
                             vm.currentPage = 1
                             vm.replys = []
-                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+//                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
                         }
                     }else{
                         withAnimation{
                             order = .ascending
                             vm.currentPage = 1
                             vm.replys = []
-                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
+//                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
                         }
                     }
                 } label: {

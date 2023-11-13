@@ -17,9 +17,9 @@ struct MyReviewView: View {
     var profileMode:(){
         switch writeType{
         case .myself:
-            return vm.myReviewList(page: vm.currentPage)
+            return vm.myReviewList(page: vm.currentPage + 1)
         case .myselfLike:
-            return vm.myLikeReviewList(page: vm.currentPage)
+            return vm.myLikeReviewList(page: vm.currentPage + 1)
         }
     }
     var reviewList:[ReadReviewResponse]{
@@ -117,7 +117,6 @@ extension MyReviewView{
                                 ProgressView()
                                     .environment(\.colorScheme, .light)
                                     .onAppear{
-                                        vm.currentPage += 1
                                         profileMode
                                     }
                             }
