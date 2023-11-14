@@ -12,7 +12,7 @@ import Combine
 class CheckDataViewModel:ObservableObject{
     
     @Published var message = ""
-    @Published var checkResponse:ValidationResponse? = nil
+//    @Published var checkResponse:ValidationResponse? = nil
     @Published var possible:Bool = false
     
     var cancelable = Set<AnyCancellable>()
@@ -27,8 +27,8 @@ class CheckDataViewModel:ObservableObject{
 ////                    AuthApiService.getToken()
 //                    self?.tokenExpired.send(receivedValue.message)
 //                }
-                self?.checkResponse = data.data
-                if let chekRes = self?.checkResponse,chekRes.validation{
+//                self?.checkResponse = data.data
+                if let chekRes = data.data?.validation{
                     self?.showMessage(message: "사용할 수 있는 이메일입니다!", possible: true)
                 }else{
                     self?.showMessage(message: "사용 중인 이메일입니다!", possible: false)
@@ -47,8 +47,8 @@ class CheckDataViewModel:ObservableObject{
 ////                    AuthApiService.getToken()
 //                    self?.tokenExpired.send(receivedValue.message)
 //                }
-                self?.checkResponse = data.data
-                if let chekRes = self?.checkResponse,chekRes.validation{
+//                self?.checkResponse = data.data
+                if let chekRes = data.data?.validation{
                     self?.showMessage(message: "사용할 수 있는 닉네임입니다!", possible: true)
                 }else{
                     self?.showMessage(message: "사용 중인 닉네임입니다!", possible: false)

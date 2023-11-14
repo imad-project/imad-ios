@@ -32,23 +32,11 @@ struct ContentView: View {
                            .environmentObject(vm)
                            .ignoresSafeArea(.keyboard)
                     }
-//                    if vm.loginMode{
-//                        if vm.guestMode{
-//                            RegisterTabView().environmentObject(vm)
-//                        }else{
-//                            MenuTabView().environmentObject(vm)
-//                        }
-//                    }else{
-//                        LoginAllView()
-//                            .environmentObject(vm)
-//                            .ignoresSafeArea(.keyboard)
-//                    }
                 }else{
                     OnBoardingTabView(isFirstLaunch: $isFirstLaunch)
                 }
             }else{
                 SplashView()
-                    
             }
         }
         .onAppear{
@@ -60,11 +48,6 @@ struct ContentView: View {
             }
 
         }
-//        .onReceive(vm.patchInfoSuccess) { value in
-//            withAnimation(.default){
-//                vm.guestMode = false
-//            }
-//        }
     }
 }
 

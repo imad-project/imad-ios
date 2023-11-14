@@ -33,9 +33,7 @@ class SearchViewModel:ObservableObject{
             .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink(receiveValue: { [weak self] value in
-                self?.work = []
-                self?.currentPage = 1
-                self?.maxPage = 0
+                self?.initializingOption()
                 if value != ""{
                     self?.searchWork(query: value,type: self?.type ?? .multi,page: self?.currentPage ?? 0)
                 }
@@ -44,11 +42,14 @@ class SearchViewModel:ObservableObject{
             .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink(receiveValue: { [weak self] value in
-                self?.work = []
-                self?.currentPage = 1
-                self?.maxPage = 0
+                self?.initializingOption()
                 self?.searchWork(query: self?.searchText ?? "",type: value,page: self?.currentPage ?? 0)
             })
+    }
+    private func initializingOption(){
+        self.work = []
+        self.currentPage = 1
+        self.maxPage = 0
     }
     func searchWork(query:String,type:MovieTypeFilter,page:Int){
         WorkApiService.workSearch(query: query, type: type.rawValue, page: page)
@@ -68,4 +69,5 @@ class SearchViewModel:ObservableObject{
 //                }
             }.store(in: &cancel)
         }
+   
 }

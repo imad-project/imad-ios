@@ -76,13 +76,38 @@ class Class:ObservableObject{
     
 }
 struct TestView: View {
-    @State private var isPresentingBView = false
-    @State var go = false
-    @StateObject var vm = Class()
+//    @State private var isPresentingBView = false
+//    @State var go = false
+//    @StateObject var vm = Class()
+    @State var a:Int?
     var body: some View {
-        NavigationStack{
+        VStack{
+            if let a{
+                Text("\(a)")
+                    .background(Color.red)
+                if a == 1{
+                    Text("\(a + 1)")
+                }
+            }
             
+            Button {
+                a = 1
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                   a = nil
+                }
+            } label: {
+                Text("click1!")
+            }
+//            Button {
+//                a = nil
+//            } label: {
+//                Text("click2!")
+//            }
+
         }
+//        NavigationStack{
+//
+//        }
 //        NavigationStack {
 //            VStack {
 //                Text("A View")

@@ -97,7 +97,7 @@ extension CommentDetailsView{
                         
                     }
                 Button {
-//                    vm.addReply(postingId: postingId, parentId: commentId, content: reviewText)
+                    vm.addReply(postingId: postingId, parentId: parentsId, content: reviewText)
                     reviewText = ""
                     UIApplication.shared.endEditing()
                 } label: {

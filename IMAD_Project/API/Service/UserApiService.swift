@@ -18,6 +18,14 @@ enum UserApiService{
         return ApiClient.shared.session
             .request(UserRouter.user,interceptor: intercept)
             .validate(statusCode: 200..<300)
+//            .response{ response in
+//                switch response.result{
+//                case .success:
+//                    print("요청성공")
+//                case .failure(let error):
+//                    print("요청실패 : \(error.localizedDescription)")
+//                }
+//            }
             .publishDecodable(type: UserInfo.self)
             .value()
             .map{ receivedValue in

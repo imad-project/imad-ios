@@ -14,7 +14,7 @@ class BaseIntercept:RequestInterceptor{
     
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         
-
+        print("인터셉트")
         var urlReq = urlRequest
         let token = UserDefaultManager.shared.getToken()
         urlReq.headers.add(.authorization(bearerToken: token.accessToken))
@@ -23,11 +23,12 @@ class BaseIntercept:RequestInterceptor{
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         Task{
+            print("인터셉트 재시도")
             guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 else {
                 return completion(.doNotRetryWithError(error)) //액세스,리프레시 토큰을 첨부후 요청 수행했는데도 토큰발급이 불가하다면 에러반환
             }
-            if requestStatus{   //토큰 수신 한번만 하기 위함
-                requestStatus = TokenApiService.getToken()
+            if requestStatus{
+                requestStatus = TokenApiService.getToken()    //토큰 수신 한번만 하기 위함
             }
             completion(.retry)
         }

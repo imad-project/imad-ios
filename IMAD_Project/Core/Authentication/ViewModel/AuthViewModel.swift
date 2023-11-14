@@ -29,10 +29,11 @@ class AuthViewModel:ObservableObject{
     @Published var user:UserInfo? = nil
     var success = PassthroughSubject<(),Never>()
     
-//    var registerSuccess = PassthroughSubject<Bool,Never>()
+    var registerSuccess = PassthroughSubject<Bool,Never>()
+//    @Published var alertMsg = ""
 //
 //
-//    var loginSuccess = PassthroughSubject<Bool,Never>()
+    var loginSuccess = PassthroughSubject<String,Never>()
 //    var getUserSuccess = PassthroughSubject<Bool,Never>()
 //    var patchInfoSuccess = PassthroughSubject<Bool,Never>()
 //    var deleteSuccess = PassthroughSubject<Bool,Never>()
@@ -52,6 +53,12 @@ class AuthViewModel:ObservableObject{
                 self.success.send()
             } receiveValue: { [weak self] noData in
                 self?.message = noData.message
+                switch noData.status{
+                case 200..<300:
+                    self?.registerSuccess.send(true)
+                default:
+                    self?.registerSuccess.send(false)
+                }
             }.store(in: &cancelable)
 
 
@@ -70,9 +77,14 @@ class AuthViewModel:ObservableObject{
         AuthApiService.login(email: email, password: password)
             .sink { completion in
                 print(completion)
-                self.success.send()
             } receiveValue: { [weak self] user in
                 self?.user = user
+                switch user.status{
+                case 200..<300:
+                    self?.loginSuccess.send(user.message)
+                default:
+                    self?.loginSuccess.send(user.message)
+                }
             }.store(in: &cancelable)
 
 //                if let code = self.getUserRes?.status,code >= 200 && code <= 300{
@@ -97,7 +109,12 @@ class AuthViewModel:ObservableObject{
         UserApiService.user()
             .sink { completion in
                 print(completion)
-                self.success.send()
+                switch completion{
+                case .failure:
+                    self.logout()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { [weak self] user in
                 self?.user = user
                 self?.patchUser = PatchUserInfo(user: user.data)
@@ -210,4 +227,13 @@ class AuthViewModel:ObservableObject{
 //            }.store(in: &cancelable)
 
     }
+//    func error(_ error:Subscribers.Completion<AFError>){
+//        switch error{
+//        case .failure:
+//            self.logout()
+//        case .finished:
+//            print(error)
+//            self.success.send()
+//        }
+//    }
 }
