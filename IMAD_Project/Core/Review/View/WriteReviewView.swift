@@ -27,8 +27,7 @@ struct WriteReviewView: View {
     @State var animation = false
     @State var animation1 = false
     
-    
-    //    @State var error = false
+    @State var error = false
     
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @Environment(\.dismiss) var dismiss
@@ -79,14 +78,6 @@ struct WriteReviewView: View {
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
-        //        .onReceive(vm.reviewWriteError){
-        //            error = true
-        //        }
-        //        .alert(vm.error,isPresented: $error) {
-        //            Button("OK", role: .cancel) {
-        //                dismiss()
-        //            }
-        //        }
     }
 }
 

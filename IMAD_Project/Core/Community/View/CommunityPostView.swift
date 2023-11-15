@@ -11,7 +11,6 @@ import Kingfisher
 struct CommunityPostView: View {
     
     let postingId:Int
-    //    @State var like = 0
     @State var reviewText = ""
     
     @State var menu = false
@@ -21,8 +20,6 @@ struct CommunityPostView: View {
     @State var order:OrderFilter = .ascending
     
     @Binding var back:Bool
-    //    @State var commentRequest:(Int,Int)?
-    //    @State var viewComment = false
     
     @FocusState var reply:Bool
     
@@ -30,7 +27,6 @@ struct CommunityPostView: View {
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
-//    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack(alignment: .bottom){
@@ -51,8 +47,6 @@ struct CommunityPostView: View {
             commentInputView
         }
         .onAppear{
-            print(back)
-            //            vmComment.replys = []
             vm.readDetailCommunity(postingId: postingId)
         }
         .onTapGesture {
@@ -63,7 +57,7 @@ struct CommunityPostView: View {
         }
         .navigationDestination(isPresented: $modify) {
             if let community = vm.community{
-                CommunityWriteView(contentsId: community.contentsID, postingId: vm.community?.postingID ?? 0, image: community.contentsPosterPath.getImadImage(),category:CommunityFilter.allCases.first(where: {$0.num == community.category})!, spoiler: community.spoiler, text:community.content, title: community.title, goMain: .constant(true))
+                CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, image: community.contentsPosterPath.getImadImage(),category:CommunityFilter.allCases.first(where: {$0.num == community.category})!, spoiler: community.spoiler, text:community.content, title: community.title, goMain: .constant(true))
                     .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             }
@@ -71,21 +65,6 @@ struct CommunityPostView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
-        //        .onReceive(vm.deleteSuccess) {
-        //            dismiss()
-        //        }
-        //        .onReceive(vm.modifyComment) { commentStatus in
-        //            reply = true
-        //            commentRequest = commentStatus
-        //            viewComment = true
-        //        }
-        //        .navigationDestination(isPresented: $viewComment){
-        //            if let commentRequest{
-        //                CommentDetailsView(postingId: commentRequest.0, commentId: commentRequest.1)
-        //                    .environmentObject(vmAuth)
-        //                    .navigationBarBackButtonHidden()
-        //            }
-        //        }
     }
 }
 
@@ -125,6 +104,7 @@ extension CommunityPostView{
                             Text("수정하기")
                         }
                         Button(role:.destructive){
+                            back = true
                             vm.deleteCommunity(postingId: postingId)
                         } label: {
                             Text("삭제하기")
@@ -305,38 +285,6 @@ extension CommunityPostView{
                 .onReceive(vmComment.commentDeleteSuccess) { deleteComment in
                     vm.community?.commentListResponse?.commentDetailsResponseList = vm.community?.commentListResponse?.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
                 }
-            //        ZStack{
-            //            VStack{
-            //                ForEach(vmComment.replys,id: \.self){ comment in
-            //                    if !comment.removed{
-            //                        CommentRowView(commentMode:true,comment: comment)
-            //                            .environmentObject(vmAuth)
-            //                            .environmentObject(vm)
-            //                            .onReceive(vmComment.commentDeleteSuccess) { deleteComment in
-            //                                vm.community?.commentListResponse?.commentDetailsResponseList = vm.community?.commentListResponse?.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
-            //                            }
-            //
-            //                    }
-            //            else{
-            //                VStack(alignment: .leading){
-            //                    HStack{
-            //                        Text("작성자에 의해 삭제된 댓글입니다.")
-            //                        Spacer()
-            //                        Text(comment.modifiedAt.relativeTime()).foregroundColor(.gray)
-            //                    }
-            //
-            //                    Button {
-            //                        vm.modifyComment.send((comment.userNickname,comment.commentID))
-            //                    } label: {
-            //                        Text("답글작성").foregroundColor(.gray)
-            //                    }.padding(.top)
-            //                    Divider()
-            //                }
-            //                .font(.caption)
-            //                    .padding(.horizontal)
-            //            }
-            //                }.padding(.bottom)
-            //            }
         }
     }
     var commentInputView:some View{

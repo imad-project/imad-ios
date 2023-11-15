@@ -60,19 +60,6 @@ struct SearchView: View {
             .environmentObject(vmAuth)
             .navigationBarBackButtonHidden()
         }
-        //        }
-        //        .navigationDestination(isPresented: $goPosting.0){
-        //            CommunityPostView(postingId:goPosting.1)
-        //                .environmentObject(vmAuth)
-        //        }
-        //        .onReceive(vm.tokenExpired) { messages in
-        //            tokenExpired = (true,messages)
-        //        }
-        //        .alert(isPresented: $tokenExpired.0) {
-        //            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-        ////                vmAuth.loginMode = false
-        //            })
-        //        }
     }
 }
 
@@ -135,18 +122,6 @@ extension SearchView{
     var workListView:some View{
         LazyVGrid(columns: columns) {
             ForEach(vm.work){ result in
-//                Button {
-//                    work = result
-//                    goWork = false
-//                } label: {
-//                    VStack{
-//                        KFImageView(image: result.posterPath?.getImadImage() ?? "", height: (UIScreen.main.bounds.width/3)*1.25)
-//                        Text(result.title == nil ? result.name ?? "" : result.title ?? "")
-//                            .bold()
-//                            .font(.subheadline)
-//                            .frame(maxWidth:130,maxHeight:5)
-//                    }
-//                }.padding(.bottom,10)
                 Button {
                     work = result
                     vmWork.getWorkInfo(id: result.id, type: result.mediaType ?? "")
@@ -161,36 +136,6 @@ extension SearchView{
                     }
                 }
                 .padding(.bottom,10)
-//                NavigationLink {
-//                    Group{
-//                        if postingMode{
-//                            CommunityWriteView(image: result.posterPath?.getImadImage() ?? "", goMain: $back)
-//                        }else{
-//                            WorkView(id:result.id,type: result.mediaType)
-//                        }
-//                    }
-//                    .environmentObject(vmAuth)
-//                    .navigationBarBackButtonHidden()
-//                } label: {
-//                    VStack{
-//                        KFImageView(image: result.posterPath?.getImadImage() ?? "", height: (UIScreen.main.bounds.width/3)*1.25)
-//                        Text(result.title == nil ? result.name ?? "" : result.title ?? "")
-//                            .bold()
-//                            .font(.subheadline)
-//                            .frame(maxWidth:130,maxHeight:5)
-//                    }
-//                }.padding(.bottom,10)
-
-//                NavigationLink(value: result) {
-//                    VStack{
-//                        KFImageView(image: result.posterPath?.getImadImage() ?? "", height: (UIScreen.main.bounds.width/3)*1.25)
-//                        Text(result.title == nil ? result.name ?? "" : result.title ?? "")
-//                            .bold()
-//                            .font(.subheadline)
-//                            .frame(maxWidth:130,maxHeight:5)
-//                    }
-//                }.padding(.bottom,10)
-//
                 if vm.work.last == result,vm.maxPage > vm.currentPage{
                     ProgressView()
                         .environment(\.colorScheme, .light)
@@ -201,49 +146,5 @@ extension SearchView{
             } .padding(.top)
         }
         .padding(.horizontal,10)
-//        .navigationDestination(for: WorkListResponse.self) { worklist in
-//            Group{
-//                if postingMode{
-//                    CommunityWriteView(image: worklist.posterPath?.getImadImage() ?? "", goMain: $back)
-//                }else{
-//                    WorkView(id:worklist.id,type: worklist.mediaType)
-//                }
-//            }
-//            .environmentObject(vmAuth)
-//            .navigationBarBackButtonHidden()
-//        }
-//        .navigationDestination(isPresented: $goWork) {
-//            Group{
-//                if let work{
-//                    if postingMode{
-//                        CommunityWriteView(image: work.posterPath?.getImadImage() ?? "", goMain: $back)
-//                    }else{
-//                        WorkView(id:work.id,type: work.mediaType)
-//                    }
-//                }
-//            }
-//            .environmentObject(vmAuth)
-//            .navigationBarBackButtonHidden()
-//        }
-        //        NavigationLink {
-        //            Group{
-        //                if postingMode{
-        //                    CommunityWriteView(image: result.posterPath?.getImadImage() ?? "", goMain: $back)
-        //                }else{
-        //                    WorkView(id:result.id,type: result.mediaType)
-        //                }
-        //            }
-        //            .environmentObject(vmAuth)
-        //            .navigationBarBackButtonHidden()
-        //           } label: {
-        //               VStack{
-        //                   KFImageView(image: result.posterPath?.getImadImage() ?? "", height: (UIScreen.main.bounds.width/3)*1.25)
-        //                   Text(result.title == nil ? result.name ?? "" : result.title ?? "")
-        //                   .bold()
-        //                   .font(.subheadline)
-        //                   .frame(maxWidth:130,maxHeight:5)
-        //               }
-        //           }
-        //           .padding(.bottom,10)
     }
 }

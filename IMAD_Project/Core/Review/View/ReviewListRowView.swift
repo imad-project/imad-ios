@@ -26,13 +26,7 @@ struct ReviewListRowView: View {
         }
         .onAppear{
             vm.review = review
-//            like = review.likeStatus
         }
-//        .onReceive(vm.success) {
-//            review.likeCnt = vm.review?.likeCnt ?? 0
-//            review.dislikeCnt = vm.review?.dislikeCnt ?? 0
-//        }
-        
     }
     
     

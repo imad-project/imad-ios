@@ -12,9 +12,6 @@ import Combine
 class WorkViewModel:ObservableObject{
     
     @Published var workInfo:WorkResponse? = nil
-//    @Published var bookmarkList:BookmarkResponse? = nil
-//    @Published var bookmarkResponse:Bookmark? = nil
-    
     @Published var bookmarkList:[BookmarkListResponse] = []
     
     @Published var currentPage = 1
@@ -22,8 +19,6 @@ class WorkViewModel:ObservableObject{
     var refreschTokenExpired = PassthroughSubject<(),Never>()
     
     var success = PassthroughSubject<Int?,Never>()  // 작품정보 불러오기 성공 후 contentsId 불러오기 위함
-//    var success = PassthroughSubject<(),Never>()
-//    var contentsIdSuccess = PassthroughSubject<Int,Never>()
     var cancelable = Set<AnyCancellable>()
     
     init(workInfo:WorkResponse?,bookmarkList:[BookmarkListResponse] ){
@@ -78,11 +73,6 @@ class WorkViewModel:ObservableObject{
                     self?.bookmarkList.append(contentsOf: data.bookmarkDetailsList)
                     self?.maxPage = data.totalPages
                 }
-//                guard let data = bookmark.data else {return}
-//                self?.bookmarkList = data
-//                if let list = data.bookmarkDetailsList{
-//                    self?.myBookmarkList.append(contentsOf: list)
-//                }
             }.store(in: &cancelable)
     }
     func addBookmark(id:Int){

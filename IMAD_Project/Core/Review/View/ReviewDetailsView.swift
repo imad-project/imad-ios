@@ -12,11 +12,8 @@ struct ReviewDetailsView: View {
     
     let goWork:Bool //작품상세정보
     let reviewId:Int
-    //    @State var like = 0
-    //    @State var anima = false
     @State var menu = false
     @State var delete = false
-    //    @State var tokenExpired = (false,"")
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -65,14 +62,6 @@ struct ReviewDetailsView: View {
         .onDisappear{
             menu = false
         }
-        //        .onReceive(vm.tokenExpired) { messages in
-        //            tokenExpired = (true,messages)
-        //        }
-        //        .alert(isPresented: $tokenExpired.0) {
-        //            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-        ////                vmAuth.loginMode = false
-        //            })
-        //        }
     }
 }
 

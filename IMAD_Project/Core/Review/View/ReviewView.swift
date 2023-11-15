@@ -11,7 +11,6 @@ struct ReviewView: View {
     
     let id:Int
     
-//    @State var tokenExpired = (false,"")
     @State var sort:SortFilter = .createdDate //정렬기준
     @State var order:OrderFilter = .ascending   //오름차순 - 0,내림차순 - 1
     
@@ -50,14 +49,6 @@ struct ReviewView: View {
                 
             }
         }
-//        .onReceive(vm.tokenExpired) { messages in
-//            tokenExpired = (true,messages)
-//        }
-//        .alert(isPresented: $tokenExpired.0) {
-//            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-////                vmAuth.loginMode = false
-//            })
-//        }
         .foregroundColor(.black)
         .ignoresSafeArea()
         .background(Color.white.ignoresSafeArea())

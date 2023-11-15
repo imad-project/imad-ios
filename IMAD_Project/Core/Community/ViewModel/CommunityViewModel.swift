@@ -16,22 +16,11 @@ class CommunityViewModel:ObservableObject{
     
     @Published var community:CommunityResponse?
     @Published var communityList:[CommunityDetailsListResponse] = []
-//    @Published var communityListResponse:CommunityDetailsList? = nil
     
-   
-//    @Published var addedComment:CommentResponse? = nil
-    
-//    var modifyComment = PassthroughSubject<(Int,Int),Never>()
     var refreschTokenExpired = PassthroughSubject<(),Never>()
     var wrtiesuccess = PassthroughSubject<Int,Never>()
     var success = PassthroughSubject<(),Never>()
-//
-//    var modifySuccess = PassthroughSubject<(),Never>()
-//    var deleteSuccess = PassthroughSubject<(),Never>()
-////    var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
-//    var tokenExpired = PassthroughSubject<String,Never>()
-//
-//
+
     var cancelable = Set<AnyCancellable>()
 
     
@@ -53,16 +42,6 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] data in
                 guard let postingId = data.data?.postingID else {return}
                 self?.wrtiesuccess.send(postingId)
-//                switch response.status{
-//                case 200...300:
-//                    self?.posting = response
-//                    self?.success.send()
-//                case 401:
-////                    AuthApiService.getToken()
-//                    self?.tokenExpired.send(response.message)
-//                default:
-//                    break
-//                }
             }.store(in: &cancelable)
 
     }
@@ -82,17 +61,6 @@ class CommunityViewModel:ObservableObject{
                     self?.communityList.append(contentsOf: data.postingDetailsResponseList)
                     self?.maxPage = data.totalPages
                 }
-//                switch response.status{
-//                case 200...300:
-//                    self?.communityListResponse = response.data
-//                    guard let list = response.data?.postingDetailsResponseList else {return}
-//                    self?.communityList.append(contentsOf: list)
-//                case 401:
-////                    AuthApiService.getToken()
-//                    self?.tokenExpired.send(response.message)
-//                default:
-//                    break
-//                }
             }.store(in: &cancelable)
 
     }
@@ -112,18 +80,6 @@ class CommunityViewModel:ObservableObject{
                     self?.communityList.append(contentsOf: data.postingDetailsResponseList)
                     self?.maxPage = data.totalPages
                 }
-//                switch response.status{
-//                case 200...300:
-//                    self?.communityListResponse = response.data
-//                    guard let list = response.data?.postingDetailsResponseList else {return}
-//                    print(list)
-//                    self?.communityList.append(contentsOf: list)
-//                case 401:
-////                    AuthApiService.getToken()
-//                    self?.tokenExpired.send(response.message)
-//                default:
-//                    break
-//                }
             }.store(in: &cancelable)
     }
     func readDetailCommunity(postingId:Int){
@@ -136,20 +92,8 @@ class CommunityViewModel:ObservableObject{
                 case .finished:
                     print(completion)
                 }
-//                self.success.send()
             } receiveValue: { [weak self] response in
                 self?.community = response.data
-//                switch response.status{
-//                case 200...300:
-//                    self?.communityDetail = response.data
-//                    guard let data = response.data?.commentListResponse else {return}
-////                    self?.replys.append(contentsOf: data.commentDetailsResponseList)
-//                case 401:
-////                    AuthApiService.getToken()
-//                    self?.tokenExpired.send(response.message)
-//                default:
-//                    break
-//                }
             }.store(in: &cancelable)
     }
     func like(postingId:Int,status:Int){
@@ -162,16 +106,7 @@ class CommunityViewModel:ObservableObject{
                 case .finished:
                     print(completion)
                 }
-            } receiveValue: { _ in
-                self.success.send()
-//                switch response.status{
-//                case 401:
-////                    AuthApiService.getToken()
-//                    self?.tokenExpired.send(response.message)
-//                default:
-//                    break
-//                }
-            }.store(in: &cancelable)
+            } receiveValue: { _ in }.store(in: &cancelable)
     }
     func modifyCommunity(postingId:Int,title:String,content:String,category:Int,spoiler:Bool){
         CommunityApiService.modifyCommunity(postingId: postingId, title: title, content: content, category: category, spoiler: spoiler)
@@ -185,16 +120,6 @@ class CommunityViewModel:ObservableObject{
                 }
             } receiveValue: { _ in
                 self.success.send()
-//                switch response.status{
-//                case 200...300:
-//                    self?.posting = response
-//                    self?.success.send()
-//                case 401:
-////                    AuthApiService.getToken()
-//                    self?.tokenExpired.send(response.message)
-//                default:
-//                    break
-//                }
             }.store(in: &cancelable)
 
     }
@@ -208,17 +133,6 @@ class CommunityViewModel:ObservableObject{
                 case .finished:
                     print(completion)
                 }
-            } receiveValue: { _ in
-                self.success.send()
-//                switch response.status{
-//                case 200...300:
-//                    self?.deleteSuccess.send()
-//                case 401:
-////                    AuthApiService.getToken()
-//                    self?.tokenExpired.send(response.message)
-//                default:
-//                    break
-//                }
-            }.store(in: &cancelable)
+            } receiveValue: { _ in }.store(in: &cancelable)
     }
 }

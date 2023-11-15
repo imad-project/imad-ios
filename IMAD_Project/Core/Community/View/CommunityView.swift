@@ -20,20 +20,6 @@ struct CommunityView: View {
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
-    
-//    var list:[CommunityDetailsListResponse]{
-//        switch tab.communityTab{
-//        case .all:
-//            return vm.communityList
-//        case .free:
-//            return vm.communityList.filter({$0.category == 1})
-//        case .question:
-//            return vm.communityList.filter({$0.category == 2})
-//        case .debate:
-//            return vm.communityList.filter({$0.category == 3})
-//        }
-//    }
-    
     var body: some View {
         NavigationView{
                 VStack(spacing: 0) {
@@ -46,24 +32,12 @@ struct CommunityView: View {
                 .background(Color.white)
                 .ignoresSafeArea()
                 .onChange(of: tab.communityTab){ tab in
-//                    if tab.communityTab == .all{
-//                        vm.page = 1
-//                        vm.communityList = []
-//                        vm.readCommunityList(page: vm.page)
-//                        //전체리스트 조회
-//                    }else{
-//                        vm.communityList = []
-//                        vm.page = 1
-//                        vm.readListConditionsAll(searchType: 0, query: "", page: vm.page, sort: "createdDate", order: 0)
-//                        //특정 필터 리스트 조회
-//                    }
                     listUpdate(category: tab.num)
                 }
         }
         .onAppear{
             print("나타남")
             listUpdate(category: tab.communityTab.num)
-//            vm.readCommunityList(page: vm.currentPage,category:0)
         }
         .navigationDestination(isPresented: $goWork) {
             if let workInfo{
@@ -191,19 +165,5 @@ extension CommunityView{
         vm.communityList.removeAll()
         vm.readCommunityList(page: vm.currentPage,category:category)
     }
-//    func communityList() -> some View{
-//        ScrollView(showsIndicators: false){
-//            ForEach(CustomData.instance.reviewList.shuffled(),id: \.self){ item in
-//                NavigationLink {
-//                    CommunityPostView(review: post)
-//                } label: {
-//                    CommunityListRowView(title:item.title, image: item.thumbnail,community: CustomData.instance.community).padding()
-//
-//                }
-//                Divider().padding(.horizontal)
-//            }
-//            .tag(CommunityFilter.all)
-//        }.padding(.bottom,40).background(Color.white)
-//    }
 
 }

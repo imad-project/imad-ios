@@ -13,7 +13,6 @@ struct MenuTabView: View {
     @StateObject var vm = TabViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
-    //    @State var selectFilter = false //필터 선택
     @State var search = false
     
     var body: some View {
@@ -34,9 +33,6 @@ struct MenuTabView: View {
                 
             }
             menu
-            //            if selectFilter{
-            //                filterSelectView
-            //            }
         }
         .onAppear{
             UITabBar.appearance().isHidden = true   //탭바 숨김
@@ -99,42 +95,8 @@ extension MenuTabView{
             
         }
         .frame(height: 70)
-//        .frame(maxHeight: .infinity,alignment: .bottom)
         
     }
-    
-    //    var filterSelectView:some View{
-    //        VStack{
-    //            Text("장르")
-    //                .font(.title3)
-    //                .bold().padding(.top,70)
-    //                .padding(.bottom,50)
-    //            ScrollView {
-    //                LazyVStack{
-    //                    ForEach(MovieGenreFilter.allCases,id:\.self){
-    //                        Text($0.name)
-    //                            .padding(10)
-    //                    }
-    //                }
-    //
-    //            }
-    //            .foregroundColor(.white)
-    //
-    //            Button {
-    //                withAnimation(.easeIn(duration: 0.05)){
-    //                    selectFilter = false
-    //                }
-    //            } label: {
-    //                Image(systemName: "xmark")
-    //                    .background(Color.white.clipShape(Circle()).frame(width: 50,height: 50).shadow(radius: 10))
-    //                    .padding(.bottom,100)
-    //                    .foregroundColor(.black)
-    //
-    //            }
-    //
-    //        }.foregroundColor(.white)
-    //            .ignoresSafeArea()
-    //    }
 }
 
 

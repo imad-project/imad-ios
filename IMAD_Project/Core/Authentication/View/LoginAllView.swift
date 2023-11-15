@@ -18,7 +18,6 @@ struct LoginAllView: View {
     
     @State var success = false
     @State var msg = ""
-//    @State var oauth = false
     
     @State var kakao = false
     @State var naver = false

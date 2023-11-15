@@ -17,19 +17,14 @@ struct RegisterView: View {
     @State var success = false
     @State var notRegex = false
     
-    
-//    @State var register = false
+
     @Binding var login:Bool
     @StateObject var vmCheck = CheckDataViewModel()
     @EnvironmentObject var vm:AuthViewModel
     
     @Environment(\.dismiss) var dismiss
     
-   
-    
-//    @State var blank = false
-//    @State var blankMsg = ""
-//    @State var blankColor = false
+
     @State var domain = EmailFilter.gmail
     
     var body: some View {
@@ -67,17 +62,6 @@ struct RegisterView: View {
             notRegex = true
             success = value
         }
-//        .onChange(of: vmCheck.possible){ value in
-//            if let check = value{
-//                if check{
-//                    self.blankMsg = "사용할 수 있는 이메일입니다!"
-//                    blankColor = true
-//                }else{
-//                    self.blankMsg = "사용 중인 이메일입니다!"
-//                    blankColor = false
-//                }
-//            }
-//        }
 
         .alert(isPresented: $notRegex) {
             Alert(title: Text(success ? "성공":"오류"),message: Text(vm.message),dismissButton: .default(Text("확인")){
@@ -86,9 +70,6 @@ struct RegisterView: View {
                 }
             })
         }
-//        .onReceive(vm.loginSuccess){ status in
-//            vm.loginMode = status
-//        }
     }
     func isVaildInfo()->Int{
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"

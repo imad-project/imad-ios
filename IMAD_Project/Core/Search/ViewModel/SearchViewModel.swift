@@ -17,7 +17,6 @@ class SearchViewModel:ObservableObject{
     var typeCancellable1:AnyCancellable?
     
     var refreschTokenExpired = PassthroughSubject<(),Never>()
-//    var tokenExpired = PassthroughSubject<String,Never>()
     
     @Published var searchText = ""
     @Published var work:[WorkListResponse] = []
@@ -64,16 +63,10 @@ class SearchViewModel:ObservableObject{
                 }
                 self.currentPage = page
             } receiveValue: { [weak self] work in
-//                if work.status >= 200 && work.status < 300{
                     if let results = work.data{
                         self?.work.append(contentsOf: results.results)
                         self?.maxPage = results.totalPages
                     }
-                    
-//                }else if work.status == 401{
-////                    AuthApiService.getToken()
-//                    self?.tokenExpired.send(work.message)
-//                }
             }.store(in: &cancel)
         }
    

@@ -167,7 +167,6 @@ extension CommentDetailsView{
                             self.sort = sort
                             vm.currentPage = 1
                             vm.replys = []
-//                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
                         } label: {
                             Capsule()
                                 .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
@@ -185,14 +184,12 @@ extension CommentDetailsView{
                             order = .descending
                             vm.currentPage = 1
                             vm.replys = []
-//                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
                         }
                     }else{
                         withAnimation{
                             order = .ascending
                             vm.currentPage = 1
                             vm.replys = []
-//                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: commentId)
                         }
                     }
                 } label: {

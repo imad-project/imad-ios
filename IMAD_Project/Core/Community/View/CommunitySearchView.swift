@@ -11,6 +11,7 @@ struct CommunitySearchView: View {
     
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     
+    @State var community:CommunityDetailsListResponse?
     @State var sortButton = false
     @State var orderButton = false
     @State var typeButton = false
@@ -40,11 +41,11 @@ struct CommunitySearchView: View {
             if !vm.communityList.isEmpty{
                 ScrollView{
                     ForEach(vm.communityList,id: \.self){ community in
-    //                    NavigationLink("\(community.contentsID)", value: community)
-                        NavigationLink(value: community) {
+                        Button {
+                            self.community = community
+                            goCommunity = true
+                        } label: {
                             CommunityListRowView(community: community)
-                                .navigationBarBackButtonHidden()
-                                .environmentObject(vmAuth)
                                 .padding()
                         }
                         if vm.communityList.last == community,vm.maxPage > vm.currentPage{
@@ -53,19 +54,18 @@ struct CommunitySearchView: View {
                                     vm.readListConditionsAll(searchType: type.num, query: text, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue,category: category.num)
                                 }
                         }
-    //                    NavigationLink {
-    //                        CommunityPostView(postingId: community.postingID, back: .constant(true))
-    //                    } label: {
-    //                        CommunityListRowView(community: community).padding()
-    //                    }
                     }
                 }
             }else{
                 Spacer()
             }
         }
-        .navigationDestination(for: CommunityDetailsListResponse.self){ community in
-            CommunityPostView(postingId: community.postingID, back: $goCommunity)
+        .navigationDestination(isPresented: $goCommunity){
+            if let community{
+                CommunityPostView(postingId: community.postingID, back: $goCommunity)
+                    .navigationBarBackButtonHidden()
+                    .environmentObject(vmAuth)
+            }
         }
         .foregroundColor(.customIndigo)
         .background(Color.white.ignoresSafeArea())
@@ -105,8 +105,6 @@ extension CommunitySearchView{
                 .padding(.leading)
             Button {
                 listUpdate()
-//                vm.communityList = []
-//                vm.readListConditionsAll(searchType: type.num, query: text, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue)
             } label: {
                 Text("검색")
                     .foregroundColor(.white)
@@ -177,6 +175,5 @@ extension CommunitySearchView{
         vm.currentPage = 1
         vm.communityList.removeAll()
         vm.readListConditionsAll(searchType: type.num, query: text, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue,category: category.num)
-//        vm.readCommunityList(page: vm.currentPage,category:category)
     }
 }
