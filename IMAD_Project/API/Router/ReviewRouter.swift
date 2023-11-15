@@ -16,7 +16,7 @@ enum ReviewRouter:URLRequestConvertible{
     case readList(id:Int,page:Int,sort:String,order:Int)
     case like(id:Int,status:Int)
     case myReview(page:Int)
-    case myLikeReview(page:Int)
+    case myLikeReview(page:Int,likeStatus:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -84,9 +84,10 @@ enum ReviewRouter:URLRequestConvertible{
             var params = Parameters()
             params["page"] = page
             return params
-        case let .myLikeReview(page):
+        case let .myLikeReview(page,likeStatus):
             var params = Parameters()
             params["page"] = page
+            params["like_status"] = likeStatus
             return params
         default:
             return Parameters()

@@ -104,10 +104,10 @@ enum ReviewApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func myLikeReview(page:Int) -> AnyPublisher<ReadReviewList,AFError>{
+    static func myLikeReview(page:Int,likeStatus:Int) -> AnyPublisher<ReadReviewList,AFError>{
         print("내 좋아요/싫어요 리뷰 리스트 api 호출")
         return ApiClient.shared.session
-            .request(ReviewRouter.myLikeReview(page: page),interceptor: intercept)
+            .request(ReviewRouter.myLikeReview(page: page,likeStatus:likeStatus),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: ReadReviewList.self)
             .value()

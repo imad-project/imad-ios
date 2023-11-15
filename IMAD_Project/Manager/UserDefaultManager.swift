@@ -45,9 +45,9 @@ class UserDefaultManager{
         
         if !accessToken.isEmpty,!refreshToken.isEmpty{
             UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
-            return true
+            return true     //토큰저장 성공했으니 받은 토큰으로 정보 재요청
         }else{
-            return false
+            return false    //토큰 저장 실패했으니 요청을 멈추고 초기화면으로 돌아감
         }
     }
 }

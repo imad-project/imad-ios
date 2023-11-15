@@ -179,8 +179,8 @@ class ReviewViewModel:ObservableObject{
             }.store(in: &cancelable)
 
     }
-    func myLikeReviewList(page:Int){
-        ReviewApiService.myLikeReview(page: page)
+    func myLikeReviewList(page:Int,likeStatus:Int){
+        ReviewApiService.myLikeReview(page: page,likeStatus: likeStatus)
             .sink { completion in
                 print(completion)
                 self.currentPage = page

@@ -14,12 +14,12 @@ struct MyReviewView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel
     
-    var profileMode:(){
+    func profileMode(next:Bool)->(){
         switch writeType{
         case .myself:
-            return vm.myReviewList(page: vm.currentPage + 1)
+            return vm.myReviewList(page: next ? vm.currentPage + 1 : vm.currentPage)
         case .myselfLike:
-            return vm.myLikeReviewList(page: vm.currentPage + 1)
+            return vm.myLikeReviewList(page: next ? vm.currentPage + 1 : vm.currentPage, likeStatus: like ? 1 : -1)
         }
     }
     var reviewList:[ReadReviewResponse]{
@@ -43,7 +43,7 @@ struct MyReviewView: View {
         .foregroundColor(.black)
         .background(Color.white)
         .onAppear{
-            profileMode
+            profileMode(next: false)
         }
         .onDisappear{
             vm.reviewList.removeAll()
@@ -117,7 +117,7 @@ extension MyReviewView{
                                 ProgressView()
                                     .environment(\.colorScheme, .light)
                                     .onAppear{
-                                        profileMode
+                                        profileMode(next: true)
                                     }
                             }
                         }
@@ -130,6 +130,8 @@ extension MyReviewView{
         Button {
             withAnimation {
                 self.like = like
+                vm.reviewList.removeAll()
+                profileMode(next: false)
             }
         } label: {
             HStack{
