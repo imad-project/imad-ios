@@ -45,8 +45,7 @@ struct CommunityView: View {
                 }
                 .background(Color.white)
                 .ignoresSafeArea()
-               
-                .onChange(of: tab.communityTab){ newValue in
+                .onChange(of: tab.communityTab){ tab in
 //                    if tab.communityTab == .all{
 //                        vm.page = 1
 //                        vm.communityList = []
@@ -58,12 +57,12 @@ struct CommunityView: View {
 //                        vm.readListConditionsAll(searchType: 0, query: "", page: vm.page, sort: "createdDate", order: 0)
 //                        //특정 필터 리스트 조회
 //                    }
-                   listUpdate()
+                    listUpdate(category: tab.num)
                 }
         }
         .onAppear{
             print("나타남")
-            listUpdate()
+            listUpdate(category: tab.communityTab.num)
 //            vm.readCommunityList(page: vm.currentPage,category:0)
         }
         .navigationDestination(isPresented: $goWork) {
@@ -181,16 +180,16 @@ extension CommunityView{
             if vm.communityList.last == community,vm.maxPage > vm.currentPage{
                     ProgressView()
                         .onAppear{
-                            vm.readCommunityList(page: vm.currentPage + 1,category:0)
+                            vm.readCommunityList(page: vm.currentPage + 1,category:tab.communityTab.num)
                         }
                 
             }
         }
     }
-    func listUpdate(){
+    func listUpdate(category:Int){
         vm.currentPage = 1
         vm.communityList.removeAll()
-        vm.readCommunityList(page: vm.currentPage,category:0)
+        vm.readCommunityList(page: vm.currentPage,category:category)
     }
 //    func communityList() -> some View{
 //        ScrollView(showsIndicators: false){
