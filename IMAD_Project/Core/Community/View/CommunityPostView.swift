@@ -66,6 +66,9 @@ struct CommunityPostView: View {
                     .navigationBarBackButtonHidden()
             }
         }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
         //        .onReceive(vm.deleteSuccess) {
         //            dismiss()
         //        }

@@ -56,6 +56,9 @@ struct CommentDetailsView: View {
             vm.readComment(commentId: parentsId)
             vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
         }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
     }
     
     

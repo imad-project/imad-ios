@@ -19,6 +19,7 @@ class WorkViewModel:ObservableObject{
     
     @Published var currentPage = 1
     @Published var maxPage = 1
+    var refreschTokenExpired = PassthroughSubject<(),Never>()
     
     var success = PassthroughSubject<Int?,Never>()  // 작품정보 불러오기 성공 후 contentsId 불러오기 위함
 //    var success = PassthroughSubject<(),Never>()
@@ -32,7 +33,12 @@ class WorkViewModel:ObservableObject{
     func getWorkInfo(contentsId:Int){
         WorkApiService.workInfo(contentsId:contentsId)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { [weak self] work in
                 self?.workInfo = work.data
                 self?.success.send(work.data?.contentsId)
@@ -41,8 +47,13 @@ class WorkViewModel:ObservableObject{
     }
     func getWorkInfo(id:Int,type:String){
         WorkApiService.workInfo(id: id, type: type)
-            .sink { compeltion in
-              print(compeltion)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { [weak self] work in
                 self?.workInfo = work.data
                 self?.success.send(work.data?.contentsId)
@@ -52,7 +63,12 @@ class WorkViewModel:ObservableObject{
     func getBookmark(page:Int){
         WorkApiService.bookRead(page: page)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
                 self.currentPage = page
             } receiveValue: { [weak self] bookmark in
                 if let data = bookmark.data{
@@ -69,14 +85,24 @@ class WorkViewModel:ObservableObject{
     func addBookmark(id:Int){
         WorkApiService.bookCreate(id: id)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in}.store(in: &cancelable)
 
     }
     func deleteBookmark(id:Int){
         WorkApiService.bookDelete(id: id)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in }.store(in: &cancelable)
     }
 }

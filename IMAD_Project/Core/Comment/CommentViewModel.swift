@@ -10,6 +10,7 @@ import Combine
 
 class CommentViewModel:ObservableObject{
     
+    var refreschTokenExpired = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
 //    var addSuccess = PassthroughSubject<Int,Never>()
     
@@ -35,8 +36,13 @@ class CommentViewModel:ObservableObject{
     
     func addReply(postingId:Int,parentId:Int?,content:String){
         CommentApiService.addReply(postingId: postingId, parentId: parentId, content: content)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
 //                guard let commentId = response.data?.commentId else {return}
                 self.success.send()
@@ -54,8 +60,13 @@ class CommentViewModel:ObservableObject{
     }
     func modifyReply(commentId:Int,content:String){
         CommentApiService.modifyReply(commentId: commentId, content: content)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
                 self.success.send()
 //                switch response.status{
@@ -71,8 +82,13 @@ class CommentViewModel:ObservableObject{
     }
     func deleteyReply(commentId:Int){
         CommentApiService.deleteReply(commentId: commentId)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
 //                switch response.status{
 ////                case 200...300:
@@ -105,8 +121,13 @@ class CommentViewModel:ObservableObject{
 //    }
     func readComment(commentId:Int){
         CommunityApiService.readComment(commentId: commentId)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { [weak self] data in
                 self?.comment = data.data
             }.store(in: &cancelable)
@@ -127,8 +148,13 @@ class CommentViewModel:ObservableObject{
     }
     func readComments(postingId:Int,commentType:Int,page:Int,sort:String,order:Int,parentId:Int){
         CommentApiService.readListReply(postingId: postingId, commentType: commentType, page: page, sort: sort, order: order, parentId: parentId)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
                 self.currentPage = page
             } receiveValue: { [weak self] response in
                 guard let data = response.data else {return}
@@ -150,8 +176,13 @@ class CommentViewModel:ObservableObject{
     }
     func commentLike(commentId:Int,likeStatus:Int){
         CommentApiService.like(commentId: commentId, likeStatus: likeStatus)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
             self.success.send()
 //                switch response.status{

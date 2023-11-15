@@ -48,6 +48,9 @@ struct MyReviewView: View {
         .onDisappear{
             vm.reviewList.removeAll()
         }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
         //        .onReceive(vm.tokenExpired) { messages in
         //            tokenExpired = (true,messages)
         //        }

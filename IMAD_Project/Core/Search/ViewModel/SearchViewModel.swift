@@ -16,7 +16,8 @@ class SearchViewModel:ObservableObject{
     var textCancellable:AnyCancellable?
     var typeCancellable1:AnyCancellable?
     
-    var tokenExpired = PassthroughSubject<String,Never>()
+    var refreschTokenExpired = PassthroughSubject<(),Never>()
+//    var tokenExpired = PassthroughSubject<String,Never>()
     
     @Published var searchText = ""
     @Published var work:[WorkListResponse] = []
@@ -54,7 +55,12 @@ class SearchViewModel:ObservableObject{
     func searchWork(query:String,type:MovieTypeFilter,page:Int){
         WorkApiService.workSearch(query: query, type: type.rawValue, page: page)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
                 self.currentPage = page
             } receiveValue: { [weak self] work in
 //                if work.status >= 200 && work.status < 300{

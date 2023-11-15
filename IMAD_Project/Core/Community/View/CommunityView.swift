@@ -69,6 +69,10 @@ struct CommunityView: View {
         }
         .navigationDestination(isPresented: $searchView) {
             CommunitySearchView()
+                .environmentObject(vmAuth)
+        }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
         }
     }
 }

@@ -21,15 +21,15 @@ struct CommunitySearchView: View {
     @State var type:SearchTypeFilter = .titleContents
     
     @Environment(\.dismiss) var dismiss
-    
+    @EnvironmentObject var vmAuth:AuthViewModel
     var body: some View {
         VStack(alignment: .leading){
-           header
+            header
             searchView
             ScrollView(.horizontal){
                 HStack{
-                   filterView(type: "search").padding(.leading)
-                   filterView(type: "order")
+                    filterView(type: "search").padding(.leading)
+                    filterView(type: "order")
                     filterView(type: "sort")
                 }
             }
@@ -42,15 +42,20 @@ struct CommunitySearchView: View {
                     }
                 }
             }
-        }.foregroundColor(.customIndigo)
-            .background(Color.white.ignoresSafeArea())
-            .navigationBarBackButtonHidden()
+        }
+        .foregroundColor(.customIndigo)
+        .background(Color.white.ignoresSafeArea())
+        .navigationBarBackButtonHidden()
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
     }
 }
 
 struct CommunitySearchView_Previews: PreviewProvider {
     static var previews: some View {
         CommunitySearchView(vm:CommunityViewModel(community: nil, communityList: []))
+            .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
     }
 }
 extension CommunitySearchView{
@@ -130,8 +135,8 @@ extension CommunitySearchView{
         }
         .padding(.vertical,5)
         .padding(.horizontal)
-            .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo))
-            
-            .padding(.vertical,5)
+        .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo))
+        
+        .padding(.vertical,5)
     }
 }

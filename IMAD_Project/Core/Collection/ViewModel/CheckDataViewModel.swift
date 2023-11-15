@@ -20,7 +20,9 @@ class CheckDataViewModel:ObservableObject{
     
     func checkEmail(email:String){
         CheckApiService.checkEmail(email: email)
-            .sink { _ in } receiveValue: { [weak self] data in
+            .sink { completion in
+                print(completion)
+            } receiveValue: { [weak self] data in
 //                if receivedValue.status >= 200 && receivedValue.status <= 300{
 //                    self?.check = receivedValue.data?.validation
 //                }else if receivedValue.status == 401{
@@ -29,9 +31,7 @@ class CheckDataViewModel:ObservableObject{
 //                }
 //                self?.checkResponse = data.data
                 if let chekRes = data.data?.validation{
-                    self?.showMessage(message: "사용할 수 있는 이메일입니다!", possible: true)
-                }else{
-                    self?.showMessage(message: "사용 중인 이메일입니다!", possible: false)
+                    self?.showMessage(message: chekRes ? "사용할 수 있는 이메일입니다!" :"사용 중인 이메일입니다!" , possible: chekRes)
                 }
             }.store(in: &cancelable)
 
@@ -39,7 +39,9 @@ class CheckDataViewModel:ObservableObject{
     
     func checkNickname(nickname:String){
         CheckApiService.checkNickname(nickname: nickname)
-            .sink { _ in } receiveValue: { [weak self] data in
+            .sink { completion in
+                print(completion)
+            } receiveValue: { [weak self] data in
 //                print(receivedValue.message)
 //                if receivedValue.status >= 200 && receivedValue.status <= 300{
 //                    self?.check = receivedValue.data?.validation
@@ -49,11 +51,8 @@ class CheckDataViewModel:ObservableObject{
 //                }
 //                self?.checkResponse = data.data
                 if let chekRes = data.data?.validation{
-                    self?.showMessage(message: "사용할 수 있는 닉네임입니다!", possible: true)
-                }else{
-                    self?.showMessage(message: "사용 중인 닉네임입니다!", possible: false)
+                    self?.showMessage(message: chekRes ? "사용할 수 있는 닉네임입니다!" : "사용 중인 닉네임입니다!" , possible: chekRes)
                 }
-                
             }.store(in: &cancelable)
 
     }

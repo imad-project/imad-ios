@@ -72,6 +72,9 @@ struct ReviewView: View {
             initializingArr()
             vm.readReviewList(id: id, page: vm.currentPage, sort: sort.rawValue, order: newValue.rawValue)
         }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
         .onDisappear{
            initializingArr()
         }

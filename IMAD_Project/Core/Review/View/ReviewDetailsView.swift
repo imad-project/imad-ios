@@ -39,6 +39,9 @@ struct ReviewDetailsView: View {
                 }
             }
         }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
         .onTapGesture {
             menu = false
         }

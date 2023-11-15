@@ -48,7 +48,6 @@ struct WorkInfoView: View {
             }
             .padding(.top)
         }
-        
         .foregroundColor(.black)
         
     }

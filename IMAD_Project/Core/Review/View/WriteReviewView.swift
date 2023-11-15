@@ -72,6 +72,9 @@ struct WriteReviewView: View {
         .onReceive(vm.success){
             dismiss()
         }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
         .foregroundColor(.white)
         .onTapGesture {
             UIApplication.shared.endEditing()

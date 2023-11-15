@@ -13,6 +13,7 @@ class ReviewViewModel:ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()
+    var refreschTokenExpired = PassthroughSubject<(),Never>()
 //    var reviewWriteError = PassthroughSubject<(),Never>()
 //    var tokenExpired = PassthroughSubject<String,Never>()
     
@@ -41,7 +42,12 @@ class ReviewViewModel:ObservableObject{
     func writeReview(contentsId:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.reviewWrite(id: contentsId, title: title, content: content, score: score, spoiler: spoiler)
             .sink {completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
                 self.success.send()
 //                print(recievedValue.message)
@@ -61,7 +67,12 @@ class ReviewViewModel:ObservableObject{
     func readReview(id:Int){
         ReviewApiService.reviewRead(id: id)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { [weak self] review in
                 self?.review = review.data
                 
@@ -80,7 +91,12 @@ class ReviewViewModel:ObservableObject{
     func readReviewList(id:Int,page:Int,sort:String,order:Int){
         ReviewApiService.reviewReadList(id: id, page: page, sort: sort, order: order)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
                 self.currentPage = page
             } receiveValue: { [weak self] review in
                 if let data = review.data{
@@ -105,7 +121,12 @@ class ReviewViewModel:ObservableObject{
     func updateReview(reviewId:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.reviewUpdate(id: reviewId, title: title, content: content, score: score, spoiler: spoiler)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
                 self.success.send()
 //                print(recievedValue.message)
@@ -121,7 +142,12 @@ class ReviewViewModel:ObservableObject{
     func deleteReview(id:Int){
         ReviewApiService.reviewDelete(id: id)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
                 self.success.send()
 //            .sink { completion in
@@ -142,7 +168,12 @@ class ReviewViewModel:ObservableObject{
     func likeReview(id:Int,status:Int){
         ReviewApiService.reviewLike(id: id, status: status)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
                 self.success.send()
 //                print(completion)
@@ -159,7 +190,12 @@ class ReviewViewModel:ObservableObject{
     func myReviewList(page:Int){
         ReviewApiService.myReview(page: page)
             .sink {  completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
                 self.currentPage = page
             } receiveValue: { [weak self] data in
                 if let data = data.data{
@@ -182,7 +218,12 @@ class ReviewViewModel:ObservableObject{
     func myLikeReviewList(page:Int,likeStatus:Int){
         ReviewApiService.myLikeReview(page: page,likeStatus: likeStatus)
             .sink { completion in
-                print(completion)
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
                 self.currentPage = page
             } receiveValue: { [weak self] data in
                 if let data = data.data{

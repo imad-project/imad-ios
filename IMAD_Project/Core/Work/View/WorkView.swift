@@ -76,6 +76,9 @@ struct WorkView: View {
             guard let contentsId else {return}
             vmReview.readReviewList(id: contentsId, page: 1, sort: "createdDate", order: 0)
         }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
         .alert(isPresented: $written) {
             let no = Alert.Button.default(Text("아니오")) {}
             let yes = Alert.Button.cancel(Text("예")) {

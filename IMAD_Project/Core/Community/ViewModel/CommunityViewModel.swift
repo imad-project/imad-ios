@@ -22,7 +22,7 @@ class CommunityViewModel:ObservableObject{
 //    @Published var addedComment:CommentResponse? = nil
     
 //    var modifyComment = PassthroughSubject<(Int,Int),Never>()
-    
+    var refreschTokenExpired = PassthroughSubject<(),Never>()
     var success = PassthroughSubject<(),Never>()
 //
 //    var modifySuccess = PassthroughSubject<(),Never>()
@@ -41,8 +41,13 @@ class CommunityViewModel:ObservableObject{
     
     func writeCommunity(contentsId:Int,title:String,content:String,category:Int,spoiler:Bool){
         CommunityApiService.writeCommunity(contentsId: contentsId, title: title, content: content, category: category, spoiler: spoiler)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
                 self.success.send()
 //                switch response.status{
@@ -60,8 +65,13 @@ class CommunityViewModel:ObservableObject{
     }
     func readCommunityList(page:Int){
         CommunityApiService.readAllCommunityList(page: page)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
                 self.currentPage = page
             } receiveValue: { [weak self] response in
                 if let data = response.data{
@@ -84,8 +94,13 @@ class CommunityViewModel:ObservableObject{
     }
     func readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int){
         CommunityApiService.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
                 self.currentPage = page
             } receiveValue: { [weak self] response in
                 if let data = response.data{
@@ -108,8 +123,13 @@ class CommunityViewModel:ObservableObject{
     }
     func readDetailCommunity(postingId:Int){
         CommunityApiService.readPosting(postingId: postingId)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
 //                self.success.send()
             } receiveValue: { [weak self] response in
                 self?.community = response.data
@@ -128,8 +148,13 @@ class CommunityViewModel:ObservableObject{
     }
     func like(postingId:Int,status:Int){
         CommunityApiService.postingLike(postingId: postingId, status: status)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
                 self.success.send()
 //                switch response.status{
@@ -143,8 +168,13 @@ class CommunityViewModel:ObservableObject{
     }
     func modifyCommunity(postingId:Int,title:String,content:String,category:Int,spoiler:Bool){
         CommunityApiService.modifyCommunity(postingId: postingId, title: title, content: content, category: category, spoiler: spoiler)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
                 self.success.send()
 //                switch response.status{
@@ -162,8 +192,13 @@ class CommunityViewModel:ObservableObject{
     }
     func deleteCommunity(postingId:Int){
         CommunityApiService.deletePosting(postingId: postingId)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure:
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
             } receiveValue: { _ in
                 self.success.send()
 //                switch response.status{

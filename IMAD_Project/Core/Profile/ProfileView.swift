@@ -135,6 +135,9 @@ struct ProfileView: View {
         .onDisappear{
             vmWork.bookmarkList.removeAll()
         }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
         //            .onAppear{
         //                guard let movieGenres = vmAuth.profileInfo.movieGenre else {return}
         //                movieCollection = MovieGenreFilter.allCases.filter({movieGenres.contains($0.rawValue)})

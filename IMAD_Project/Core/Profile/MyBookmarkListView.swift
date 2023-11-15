@@ -35,6 +35,9 @@ struct MyBookmarkListView: View {
             .onDisappear{
                 vm.bookmarkList.removeAll()
             }
+            .onReceive(vm.refreschTokenExpired){
+                vmAuth.logout(tokenExpired: true)
+            }
         }
     }
 }

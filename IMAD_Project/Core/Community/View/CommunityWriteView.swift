@@ -69,6 +69,9 @@ struct CommunityWriteView: View {
                 dismiss()
                 //            vmAuth.postingSuccess.send(vm.posting?.data?.postingID ?? 0)
             }
+            .onReceive(vm.refreschTokenExpired){
+                vmAuth.logout(tokenExpired: true)
+            }
         //        .onReceive(vmWork.contentsIdSuccess) { contentsId in
         //            self.contentsId = contentsId
         //        }

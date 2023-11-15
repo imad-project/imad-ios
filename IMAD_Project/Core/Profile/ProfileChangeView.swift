@@ -124,7 +124,7 @@ extension ProfileChangeView{
                     dismiss()
                 }else{
                     dismiss()
-                    vmAuth.logout()
+                    vmAuth.logout(tokenExpired: false)
                 }
             })
         )

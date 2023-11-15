@@ -43,6 +43,9 @@ struct SearchView: View {
             }
             .foregroundColor(.black)
             .background(Color.white)
+            .onReceive(vm.refreschTokenExpired){
+                vmAuth.logout(tokenExpired: true)
+            }
             .onTapGesture {
                 UIApplication.shared.endEditing()
             }

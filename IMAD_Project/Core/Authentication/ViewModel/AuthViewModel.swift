@@ -27,6 +27,9 @@ class AuthViewModel:ObservableObject{
     @Published var patchUser:PatchUserInfo = PatchUserInfo(user: nil)
     @Published var message = ""
     @Published var user:UserInfo? = nil
+    
+    @Published var tokenExpiredMessage = ""
+    
     var success = PassthroughSubject<(),Never>()
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
@@ -108,10 +111,9 @@ class AuthViewModel:ObservableObject{
     func getUser(){
         UserApiService.user()
             .sink { completion in
-                print(completion)
                 switch completion{
                 case .failure:
-                    self.logout()
+                    self.logout(tokenExpired: true)
                 case .finished:
                     print(completion)
                 }
@@ -147,8 +149,13 @@ class AuthViewModel:ObservableObject{
     func patchUserInfo(){
         UserApiService.patchUser(gender: patchUser.gender, ageRange: patchUser.age, image: patchUser.profileImageCode, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
             .sink { completion in
-                print(completion)
-                self.success.send()
+                switch completion{
+                case .failure:
+                    self.logout(tokenExpired: true)
+                case .finished:
+                    print(completion)
+                }
+//                self.success.send()
             } receiveValue: { [weak self] user in
                 self?.user = user
                 self?.patchUser = PatchUserInfo(user: user.data)
@@ -171,17 +178,22 @@ class AuthViewModel:ObservableObject{
 //
 //            }.store(in: &cancelable)
     }
-    func logout(){
+    func logout(tokenExpired:Bool){
         print("로그아웃 및 토큰 삭제")
-//        loginMode = false
+        self.tokenExpiredMessage = tokenExpired ? "토큰이 만료 되었습니다.\n다시 로그인 해주세요" : "로그인이 완료 되었습나다."
         user = nil
         UserDefaultManager.shared.clearAll()
     }
     func delete(authProvier:String){
         AuthApiService.delete(authProvier:authProvier)
             .sink { completion in
-                print(completion)
-                self.success.send()
+                switch completion{
+                case .failure:
+                    self.logout(tokenExpired: true)
+                case .finished:
+                    print(completion)
+                }
+//                self.success.send()
             } receiveValue: { [weak self] noData in
                 self?.message = noData.message
             }.store(in: &cancelable)
@@ -206,8 +218,13 @@ class AuthViewModel:ObservableObject{
     func passwordChange(old:String,new:String){
         UserApiService.passwordChange(old: old, new: new)
             .sink { completion in
-                print(completion)
-                self.success.send()
+                switch completion{
+                case .failure:
+                    self.logout(tokenExpired: true)
+                case .finished:
+                    print(completion)
+                }
+//                self.success.send()
             } receiveValue: { [weak self] noData in
                 self?.message = noData.message
             }.store(in: &cancelable)
