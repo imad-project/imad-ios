@@ -20,9 +20,11 @@ struct CommunitySearchView: View {
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
     @State var type:SearchTypeFilter = .titleContents
+    @State var category:CommunityFilter = .all
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel
+    
     var body: some View {
         VStack(alignment: .leading){
             header
@@ -32,20 +34,34 @@ struct CommunitySearchView: View {
                     filterView(type: "search").padding(.leading)
                     filterView(type: "order")
                     filterView(type: "sort")
+                    filterView(type: "category")
                 }
             }
-            ScrollView{
-                ForEach(vm.communityList,id: \.self){ community in
-//                    NavigationLink("\(community.contentsID)", value: community)
-                    NavigationLink(value: community) {
-                        CommunityListRowView(community: community).padding()
+            if !vm.communityList.isEmpty{
+                ScrollView{
+                    ForEach(vm.communityList,id: \.self){ community in
+    //                    NavigationLink("\(community.contentsID)", value: community)
+                        NavigationLink(value: community) {
+                            CommunityListRowView(community: community)
+                                .navigationBarBackButtonHidden()
+                                .environmentObject(vmAuth)
+                                .padding()
+                        }
+                        if vm.communityList.last == community,vm.maxPage > vm.currentPage{
+                            ProgressView()
+                                .onAppear{
+                                    vm.readListConditionsAll(searchType: type.num, query: text, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue,category: category.num)
+                                }
+                        }
+    //                    NavigationLink {
+    //                        CommunityPostView(postingId: community.postingID, back: .constant(true))
+    //                    } label: {
+    //                        CommunityListRowView(community: community).padding()
+    //                    }
                     }
-//                    NavigationLink {
-//                        CommunityPostView(postingId: community.postingID, back: .constant(true))
-//                    } label: {
-//                        CommunityListRowView(community: community).padding()
-//                    }
                 }
+            }else{
+                Spacer()
             }
         }
         .navigationDestination(for: CommunityDetailsListResponse.self){ community in
@@ -62,7 +78,7 @@ struct CommunitySearchView: View {
 
 struct CommunitySearchView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunitySearchView(vm:CommunityViewModel(community: nil, communityList: []))
+        CommunitySearchView(vm:CommunityViewModel(community: nil, communityList: CustomData.instance.communityList))
             .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
     }
 }
@@ -88,8 +104,9 @@ extension CommunitySearchView{
                 .background(Color.gray.opacity(0.2).cornerRadius(20))
                 .padding(.leading)
             Button {
-                vm.communityList = []
-                vm.readListConditionsAll(searchType: type.num, query: text, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue)
+                listUpdate()
+//                vm.communityList = []
+//                vm.readListConditionsAll(searchType: type.num, query: text, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue)
             } label: {
                 Text("검색")
                     .foregroundColor(.white)
@@ -121,6 +138,12 @@ extension CommunitySearchView{
                         Text(sort.name)
                     }
                 } label: {}
+            case "category":
+                Picker(selection: $category) {
+                    ForEach(CommunityFilter.allCases,id:\.self){ category in
+                        Text(category.name)
+                    }
+                } label: {}
             default: Text("")
             }
         } label: {
@@ -135,6 +158,9 @@ extension CommunitySearchView{
                 case "sort":
                     Text(self.sort.name)
                         .font(.caption)
+                case "category":
+                    Text(self.category.name)
+                        .font(.caption)
                 default: Text("")
                 }
                 Image(systemName: "chevron.down")
@@ -146,5 +172,11 @@ extension CommunitySearchView{
         .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo))
         
         .padding(.vertical,5)
+    }
+    func listUpdate(){
+        vm.currentPage = 1
+        vm.communityList.removeAll()
+        vm.readListConditionsAll(searchType: type.num, query: text, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue,category: category.num)
+//        vm.readCommunityList(page: vm.currentPage,category:category)
     }
 }

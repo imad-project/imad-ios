@@ -39,10 +39,10 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int) -> AnyPublisher<CommunityList,AFError>{
+    static func readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int,category:Int) -> AnyPublisher<CommunityList,AFError>{
         print("게시물 조건 전체리스트 조회 api호출")
         return ApiClient.shared.session
-            .request(CommunityRouter.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order),interceptor: intercept)
+            .request(CommunityRouter.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order,category:category),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: CommunityList.self)
             .value()

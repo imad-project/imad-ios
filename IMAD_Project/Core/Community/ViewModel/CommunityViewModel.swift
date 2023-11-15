@@ -96,8 +96,8 @@ class CommunityViewModel:ObservableObject{
             }.store(in: &cancelable)
 
     }
-    func readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int){
-        CommunityApiService.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order)
+    func readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int,category:Int){
+        CommunityApiService.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order,category: category)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
