@@ -34,7 +34,8 @@ class WorkViewModel:ObservableObject{
         WorkApiService.workInfo(contentsId:contentsId)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -49,7 +50,8 @@ class WorkViewModel:ObservableObject{
         WorkApiService.workInfo(id: id, type: type)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -64,7 +66,8 @@ class WorkViewModel:ObservableObject{
         WorkApiService.bookRead(page: page)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -86,7 +89,8 @@ class WorkViewModel:ObservableObject{
         WorkApiService.bookCreate(id: id)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -98,7 +102,8 @@ class WorkViewModel:ObservableObject{
         WorkApiService.bookDelete(id: id)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)

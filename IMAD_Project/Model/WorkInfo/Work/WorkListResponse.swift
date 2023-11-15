@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WorkListResponse:Identifiable,Codable,Equatable{
+struct WorkListResponse:Identifiable,Codable,Equatable,Hashable{
     
     var id:Int
     var title:String?

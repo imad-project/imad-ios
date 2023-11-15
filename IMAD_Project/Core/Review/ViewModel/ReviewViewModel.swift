@@ -43,7 +43,8 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewWrite(id: contentsId, title: title, content: content, score: score, spoiler: spoiler)
             .sink {completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -68,7 +69,8 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewRead(id: id)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -92,7 +94,8 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewReadList(id: id, page: page, sort: sort, order: order)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -122,7 +125,8 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewUpdate(id: reviewId, title: title, content: content, score: score, spoiler: spoiler)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -143,7 +147,8 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewDelete(id: id)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -169,7 +174,8 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.reviewLike(id: id, status: status)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -191,7 +197,8 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.myReview(page: page)
             .sink {  completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -219,7 +226,8 @@ class ReviewViewModel:ObservableObject{
         ReviewApiService.myLikeReview(page: page,likeStatus: likeStatus)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)

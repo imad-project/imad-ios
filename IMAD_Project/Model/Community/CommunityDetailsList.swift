@@ -16,7 +16,7 @@ struct CommunityDetailsList: Codable,Hashable {
     let searchType: Int?
     
     enum CodingKeys: String, CodingKey {
-        case postingDetailsResponseList = "posting_details_response_list"
+        case postingDetailsResponseList = "details_list"
         case totalElements = "total_elements"
         case totalPages = "total_pages"
         case pageNumber = "page_number"

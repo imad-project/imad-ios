@@ -11,7 +11,7 @@ import Alamofire
 enum CommunityRouter:URLRequestConvertible{
     
     case write(contentsId:Int,title:String,content:String,category:Int,spoiler:Bool)
-    case readListAll(page:Int)
+    case readListAll(page:Int,category:Int)
     case readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int)
     case readPosting(postingId:Int)
     case like(postingId:Int,status:Int)
@@ -67,9 +67,10 @@ enum CommunityRouter:URLRequestConvertible{
             params["category"] = category
             params["is_spoiler"] = spoiler
             return params
-        case let .readListAll(page):
+        case let .readListAll(page,category):
             var params = Parameters()
             params["page"] = page
+            params["category"] = category
             return params
         case let .readListConditionsAll(searchType, query, page, sort, order):
             var params = Parameters()

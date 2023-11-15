@@ -76,35 +76,90 @@ class Class:ObservableObject{
     
 }
 struct TestView: View {
-//    @State private var isPresentingBView = false
-//    @State var go = false
-//    @StateObject var vm = Class()
-    @State var a:Int?
     var body: some View {
-        VStack{
-            if let a{
-                Text("\(a)")
-                    .background(Color.red)
-                if a == 1{
-                    Text("\(a + 1)")
+        NavigationStack{
+            List {
+                NavigationLink("SubView1") {
+                    SubView1()
+                }
+                NavigationLink("SubView2") {
+                    SubView2()
                 }
             }
-            
-            Button {
-                a = 1
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-                   a = nil
-                }
-            } label: {
-                Text("click1!")
+        }
+    }
+}
+
+struct SubView1: View {
+   
+    @State private var isPresent: Bool = false
+    var body: some View {
+        Button("A") {
+            isPresent = true
+        }
+        .navigationDestination(isPresented: $isPresent) {
+            Text("TEST")
+        }
+    }
+}
+
+struct SubView2: View {
+    
+    @State var a = false
+    @State var b = 0
+//    @State private var selection: ViewType? = nil
+//    let viewTypes: [ViewType] = [.a, .b, .c]
+
+    var body: some View {
+        ForEach(0...10, id: \.self) { t in
+            Button("\(t)"){
+//                Text("\(String(describing: t))")
+                b = t
+                a = true
             }
+        }
+        .navigationDestination(isPresented:$a) {
+            SubView3(num: b, back: $a)
+        }
+    }
+}
+struct SubView3:View{
+    let num:Int
+    @Binding var back:Bool
+    var body: some View{
+        Button {
+            back = false
+        } label: {
+            Text("\(num)")
+        }
+
+    }
+}
+       
+
+//            if let a{
+//                Text("\(a)")
+//                    .background(Color.red)
+//                if a == 1{
+//                    Text("\(a + 1)")
+//                }
+//            }
+//
+//            Button {
+//                a = 1
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+//                   a = nil
+//                }
+//            } label: {
+//                Text("click1!")
+//            }
 //            Button {
 //                a = nil
 //            } label: {
 //                Text("click2!")
 //            }
 
-        }
+        
 //        NavigationStack{
 //
 //        }
@@ -133,8 +188,7 @@ struct TestView: View {
 //                CView()
 //            }
 //        }
-    }
-}
+
 
 // B뷰
 struct BView: View {

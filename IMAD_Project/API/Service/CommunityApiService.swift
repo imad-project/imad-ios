@@ -26,10 +26,10 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func readAllCommunityList(page:Int) -> AnyPublisher<CommunityList,AFError>{
+    static func readAllCommunityList(page:Int,category:Int) -> AnyPublisher<CommunityList,AFError>{
         print("게시물 전체리스트 조회 api호출")
         return ApiClient.shared.session
-            .request(CommunityRouter.readListAll(page:page),interceptor: intercept)
+            .request(CommunityRouter.readListAll(page:page,category:category),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: CommunityList.self)
             .value()

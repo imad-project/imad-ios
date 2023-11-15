@@ -20,6 +20,7 @@ struct CommunityPostView: View {
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
     
+    @Binding var back:Bool
     //    @State var commentRequest:(Int,Int)?
     //    @State var viewComment = false
     
@@ -29,7 +30,7 @@ struct CommunityPostView: View {
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
-    @Environment(\.dismiss) var dismiss
+//    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack(alignment: .bottom){
@@ -50,6 +51,7 @@ struct CommunityPostView: View {
             commentInputView
         }
         .onAppear{
+            print(back)
             //            vmComment.replys = []
             vm.readDetailCommunity(postingId: postingId)
         }
@@ -90,7 +92,7 @@ struct CommunityPostView: View {
 struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            CommunityPostView(postingId: 1,vm: CommunityViewModel(community: CustomData.instance.community, communityList: []))
+            CommunityPostView(postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.instance.community, communityList: []))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
@@ -101,7 +103,7 @@ extension CommunityPostView{
         ZStack{
             HStack{
                 Button {
-                    dismiss()
+                    back = false
                 } label: {
                     Image(systemName: "chevron.left")
                         .bold()

@@ -27,6 +27,8 @@ struct CommunityWriteView: View {
     @State var text = ""
     @State var title = ""
     
+    @State var showCommunity:(Bool,Int) = (false,0)
+    
     @Binding var goMain:Bool
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
@@ -65,12 +67,18 @@ struct CommunityWriteView: View {
         //                vmAuth.loginMode = false
         //            })
         //        }
-            .onReceive(vm.success){
-                dismiss()
+            .onReceive(vm.wrtiesuccess){ postingId in
+                showCommunity = (true,postingId)
+//                showCommunity = (true,postingId)
                 //            vmAuth.postingSuccess.send(vm.posting?.data?.postingID ?? 0)
             }
             .onReceive(vm.refreschTokenExpired){
                 vmAuth.logout(tokenExpired: true)
+            }
+            .navigationDestination(isPresented: $showCommunity.0) {
+                CommunityPostView(postingId: showCommunity.1,back: $goMain)
+                    .navigationBarBackButtonHidden()
+                    .environmentObject(vmAuth)
             }
         //        .onReceive(vmWork.contentsIdSuccess) { contentsId in
         //            self.contentsId = contentsId

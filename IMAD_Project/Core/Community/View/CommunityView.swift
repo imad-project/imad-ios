@@ -12,25 +12,27 @@ struct CommunityView: View {
     
     @State var searchView = false
     @State var search = false
-
+    
+    @State var goWork = false
+    @State var workInfo:CommunityDetailsListResponse?
     
     @StateObject var tab = CommunityTabManager()
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
     
-    var list:[CommunityDetailsListResponse]{
-        switch tab.communityTab{
-        case .all:
-            return vm.communityList
-        case .free:
-            return vm.communityList.filter({$0.category == 1})
-        case .question:
-            return vm.communityList.filter({$0.category == 2})
-        case .debate:
-            return vm.communityList.filter({$0.category == 3})
-        }
-    }
+//    var list:[CommunityDetailsListResponse]{
+//        switch tab.communityTab{
+//        case .all:
+//            return vm.communityList
+//        case .free:
+//            return vm.communityList.filter({$0.category == 1})
+//        case .question:
+//            return vm.communityList.filter({$0.category == 2})
+//        case .debate:
+//            return vm.communityList.filter({$0.category == 3})
+//        }
+//    }
     
     var body: some View {
         NavigationView{
@@ -38,7 +40,7 @@ struct CommunityView: View {
                     Section(header:header){
                         ScrollView{
                             listView
-                        }.padding(.bottom,55)
+                        }
                     }
                 }
                 .background(Color.white)
@@ -60,16 +62,26 @@ struct CommunityView: View {
                 }
         }
         .onAppear{
-            vm.readCommunityList(page: vm.currentPage)
+            print("나타남")
+            listUpdate()
+//            vm.readCommunityList(page: vm.currentPage,category:0)
+        }
+        .navigationDestination(isPresented: $goWork) {
+            if let workInfo{
+                CommunityPostView(postingId: workInfo.postingID, back: $goWork)
+                    .navigationBarBackButtonHidden()
+                    .environmentObject(vmAuth)
+            }
         }
         .navigationDestination(isPresented: $search){
             SearchView(postingMode: true, back: $search)
                 .environmentObject(vmAuth)
-                .navigationBarBackButtonHidden(true)
+                .navigationBarBackButtonHidden()
         }
         .navigationDestination(isPresented: $searchView) {
             CommunitySearchView()
                 .environmentObject(vmAuth)
+                .navigationBarBackButtonHidden()
         }
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
@@ -79,8 +91,11 @@ struct CommunityView: View {
 
 struct CommunityView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityView(vm: CommunityViewModel(community:CustomData.instance.community, communityList: CustomData.instance.communityList))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        NavigationStack{
+            CommunityView(vm: CommunityViewModel(community:CustomData.instance.community, communityList: CustomData.instance.communityList))
+                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        }
+       
     }
 }
 
@@ -154,29 +169,28 @@ extension CommunityView{
             
     }
     var listView:some View{
-        ForEach(list,id:\.self){ community in
-            NavigationLink {
-                CommunityPostView(postingId: community.postingID)
-                    .environmentObject(vmAuth)
+        ForEach(vm.communityList,id:\.self){ community in
+            Button {
+                workInfo = community
+                goWork = true
             } label: {
                 CommunityListRowView(community: community)
                     .padding(5)
             }
-            if list.last == community{
-                if vm.communityList.count % 10 == 0{
+          
+            if vm.communityList.last == community,vm.maxPage > vm.currentPage{
                     ProgressView()
                         .onAppear{
-                            vm.currentPage += 1
-                            vm.readCommunityList(page: vm.currentPage)
+                            vm.readCommunityList(page: vm.currentPage + 1,category:0)
                         }
-                }
+                
             }
         }
     }
     func listUpdate(){
         vm.currentPage = 1
-        vm.communityList = []
-        vm.readCommunityList(page: vm.currentPage)
+        vm.communityList.removeAll()
+        vm.readCommunityList(page: vm.currentPage,category:0)
     }
 //    func communityList() -> some View{
 //        ScrollView(showsIndicators: false){

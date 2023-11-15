@@ -94,7 +94,7 @@ struct WorkView: View {
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
-            CommunityWriteView(contentsId: vm.workInfo?.contentsId ?? 0,image: vm.workInfo?.posterPath?.getImadImage() ?? "", goMain: .constant(true))
+            CommunityWriteView(contentsId: vm.workInfo?.contentsId ?? 0,image: vm.workInfo?.posterPath?.getImadImage() ?? "", goMain: $writeCommunity)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }

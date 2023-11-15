@@ -112,7 +112,8 @@ class AuthViewModel:ObservableObject{
         UserApiService.user()
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.logout(tokenExpired: true)
                 case .finished:
                     print(completion)
@@ -150,7 +151,8 @@ class AuthViewModel:ObservableObject{
         UserApiService.patchUser(gender: patchUser.gender, ageRange: patchUser.age, image: patchUser.profileImageCode, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.logout(tokenExpired: true)
                 case .finished:
                     print(completion)
@@ -188,7 +190,8 @@ class AuthViewModel:ObservableObject{
         AuthApiService.delete(authProvier:authProvier)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.logout(tokenExpired: true)
                 case .finished:
                     print(completion)
@@ -219,7 +222,8 @@ class AuthViewModel:ObservableObject{
         UserApiService.passwordChange(old: old, new: new)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.logout(tokenExpired: true)
                 case .finished:
                     print(completion)

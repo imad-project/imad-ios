@@ -16,6 +16,7 @@ struct CommunitySearchView: View {
     @State var typeButton = false
     @State var text = ""
     
+    @State var goCommunity = false
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
     @State var type:SearchTypeFilter = .titleContents
@@ -35,13 +36,20 @@ struct CommunitySearchView: View {
             }
             ScrollView{
                 ForEach(vm.communityList,id: \.self){ community in
-                    NavigationLink {
-                        CommunityPostView(postingId: community.postingID)
-                    } label: {
+//                    NavigationLink("\(community.contentsID)", value: community)
+                    NavigationLink(value: community) {
                         CommunityListRowView(community: community).padding()
                     }
+//                    NavigationLink {
+//                        CommunityPostView(postingId: community.postingID, back: .constant(true))
+//                    } label: {
+//                        CommunityListRowView(community: community).padding()
+//                    }
                 }
             }
+        }
+        .navigationDestination(for: CommunityDetailsListResponse.self){ community in
+            CommunityPostView(postingId: community.postingID, back: $goCommunity)
         }
         .foregroundColor(.customIndigo)
         .background(Color.white.ignoresSafeArea())

@@ -23,6 +23,7 @@ class CommunityViewModel:ObservableObject{
     
 //    var modifyComment = PassthroughSubject<(Int,Int),Never>()
     var refreschTokenExpired = PassthroughSubject<(),Never>()
+    var wrtiesuccess = PassthroughSubject<Int,Never>()
     var success = PassthroughSubject<(),Never>()
 //
 //    var modifySuccess = PassthroughSubject<(),Never>()
@@ -43,13 +44,15 @@ class CommunityViewModel:ObservableObject{
         CommunityApiService.writeCommunity(contentsId: contentsId, title: title, content: content, category: category, spoiler: spoiler)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
                 }
-            } receiveValue: { _ in
-                self.success.send()
+            } receiveValue: { [weak self] data in
+                guard let postingId = data.data?.postingID else {return}
+                self?.wrtiesuccess.send(postingId)
 //                switch response.status{
 //                case 200...300:
 //                    self?.posting = response
@@ -63,11 +66,12 @@ class CommunityViewModel:ObservableObject{
             }.store(in: &cancelable)
 
     }
-    func readCommunityList(page:Int){
-        CommunityApiService.readAllCommunityList(page: page)
+    func readCommunityList(page:Int,category:Int){
+        CommunityApiService.readAllCommunityList(page: page,category:category)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -96,7 +100,8 @@ class CommunityViewModel:ObservableObject{
         CommunityApiService.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -125,7 +130,8 @@ class CommunityViewModel:ObservableObject{
         CommunityApiService.readPosting(postingId: postingId)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -150,7 +156,8 @@ class CommunityViewModel:ObservableObject{
         CommunityApiService.postingLike(postingId: postingId, status: status)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -170,7 +177,8 @@ class CommunityViewModel:ObservableObject{
         CommunityApiService.modifyCommunity(postingId: postingId, title: title, content: content, category: category, spoiler: spoiler)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -194,7 +202,8 @@ class CommunityViewModel:ObservableObject{
         CommunityApiService.deletePosting(postingId: postingId)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)

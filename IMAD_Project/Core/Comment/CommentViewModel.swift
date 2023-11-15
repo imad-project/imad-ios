@@ -38,7 +38,8 @@ class CommentViewModel:ObservableObject{
         CommentApiService.addReply(postingId: postingId, parentId: parentId, content: content)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -62,7 +63,8 @@ class CommentViewModel:ObservableObject{
         CommentApiService.modifyReply(commentId: commentId, content: content)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -84,7 +86,8 @@ class CommentViewModel:ObservableObject{
         CommentApiService.deleteReply(commentId: commentId)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -123,7 +126,8 @@ class CommentViewModel:ObservableObject{
         CommunityApiService.readComment(commentId: commentId)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -150,7 +154,8 @@ class CommentViewModel:ObservableObject{
         CommentApiService.readListReply(postingId: postingId, commentType: commentType, page: page, sort: sort, order: order, parentId: parentId)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
@@ -178,7 +183,8 @@ class CommentViewModel:ObservableObject{
         CommentApiService.like(commentId: commentId, likeStatus: likeStatus)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)

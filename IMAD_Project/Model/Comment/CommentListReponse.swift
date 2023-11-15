@@ -14,7 +14,7 @@ struct CommentListResponse:Codable,Hashable {
     let sortProperty: String
 
     enum CodingKeys: String, CodingKey {
-        case commentDetailsResponseList = "comment_details_response_list"
+        case commentDetailsResponseList = "details_list"
         case totalElements = "total_elements"
         case totalPages = "total_pages"
         case pageNumber = "page_number"

@@ -56,7 +56,8 @@ class SearchViewModel:ObservableObject{
         WorkApiService.workSearch(query: query, type: type.rawValue, page: page)
             .sink { completion in
                 switch completion{
-                case .failure:
+                case .failure(let error):
+                    print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
