@@ -42,20 +42,20 @@ struct Dummy:View{
     
     let text:String
     var body: some View{
-                    GeometryReader { geo in
-                        let pp = geo.size.height
-                        
-                        Text(text)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .lineLimit(nil)
-                        
-                        .ignoresSafeArea()
-//                        .frame(height: pp)
-                        .onAppear{
-//                            height = pp
-                            print(pp)
-                        }
-                    }
+        GeometryReader { geo in
+            let pp = geo.size.height
+            
+            Text(text)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(nil)
+            
+                .ignoresSafeArea()
+            //                        .frame(height: pp)
+                .onAppear{
+                    //                            height = pp
+                    print(pp)
+                }
+        }
         
     }
 }
@@ -69,47 +69,151 @@ struct Dummy:View{
 //
 //
 //}
+class Class:ObservableObject{
+//    @Published var path:[any View] = [TestView.Type]
+//    @Published var a  = false
+//    var b = PassthroughSubject<(),Never>()
+    
+}
 struct TestView: View {
-    @State private var isPresentingBView = false
-       
-       var body: some View {
-           NavigationView {
-               VStack {
-                   Text("A View")
-                   Button("Go to B View") {
-                       isPresentingBView.toggle()
-                   }
-                   .sheet(isPresented: $isPresentingBView) {
-                       BView()
-                   }
-               }
-           }
-       }
-   }
+    var body: some View {
+        NavigationStack{
+            List {
+                NavigationLink("SubView1") {
+                    SubView1()
+                }
+                NavigationLink("SubView2") {
+                    SubView2()
+                }
+            }
+        }
+    }
+}
 
-   // B뷰
-   struct BView: View {
-       @State private var isPresentingCView = false
-       
-       var body: some View {
-           VStack {
-               Text("B View")
-               Button("Go to C View") {
-                   isPresentingCView.toggle()
-               }
-               .sheet(isPresented: $isPresentingCView) {
-                   CView()
-               }
-           }
-       }
-   }
+struct SubView1: View {
+   
+    @State private var isPresent: Bool = false
+    var body: some View {
+        Button("A") {
+            isPresent = true
+        }
+        .navigationDestination(isPresented: $isPresent) {
+            Text("TEST")
+        }
+    }
+}
 
-   // C뷰
-   struct CView: View {
-       var body: some View {
-           Text("C View")
-       }
-   }
+struct SubView2: View {
+    
+    @State var a = false
+    @State var b = 0
+//    @State private var selection: ViewType? = nil
+//    let viewTypes: [ViewType] = [.a, .b, .c]
+
+    var body: some View {
+        ForEach(0...10, id: \.self) { t in
+            Button("\(t)"){
+//                Text("\(String(describing: t))")
+                b = t
+                a = true
+            }
+        }
+        .navigationDestination(isPresented:$a) {
+            SubView3(num: b, back: $a)
+        }
+    }
+}
+struct SubView3:View{
+    let num:Int
+    @Binding var back:Bool
+    var body: some View{
+        Button {
+            back = false
+        } label: {
+            Text("\(num)")
+        }
+
+    }
+}
+       
+
+//            if let a{
+//                Text("\(a)")
+//                    .background(Color.red)
+//                if a == 1{
+//                    Text("\(a + 1)")
+//                }
+//            }
+//
+//            Button {
+//                a = 1
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+//                   a = nil
+//                }
+//            } label: {
+//                Text("click1!")
+//            }
+//            Button {
+//                a = nil
+//            } label: {
+//                Text("click2!")
+//            }
+
+        
+//        NavigationStack{
+//
+//        }
+//        NavigationStack {
+//            VStack {
+//                Text("A View")
+//                Button("Go to B View") {
+//                    isPresentingBView.toggle()
+//                }
+//                .sheet(isPresented: $isPresentingBView) {
+//                    BView()
+//                        .environmentObject(vm)
+//                }
+//            }
+//            .onReceive(vm.b){
+//                go = true
+//            }
+////            .onChange(of: isPresentingBView) { newValue in
+////                if !newValue{
+////                    go = true
+////                    print(go)
+////                }
+////            }
+//
+//            .navigationDestination(isPresented: $go) {
+//                CView()
+//            }
+//        }
+
+
+// B뷰
+struct BView: View {
+    
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var vm:Class
+//    @Binding var cview:Bool
+    var body: some View {
+        VStack {
+            Text("B View")
+            Button("Go to C View") {
+//                cview = false
+                dismiss()
+//                vm.b.send()
+            }
+        }
+    }
+}
+
+// C뷰
+struct CView: View {
+    var body: some View {
+        Text("C View")
+    }
+}
 //struct TestView: View {
 //    @State var num = 0
 //    @State var nums:[Int] = [0,1,2,3,4]
@@ -263,7 +367,7 @@ struct TestView: View {
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
         TestView()
-//        Dummy()
+        //        Dummy()
     }
 }
 
@@ -271,14 +375,14 @@ extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-    
+        
         return ceil(boundingBox.height)
     }
-
+    
     func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-
+        
         return ceil(boundingBox.width)
     }
 }

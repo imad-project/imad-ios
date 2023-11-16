@@ -16,9 +16,12 @@ enum CountryKey: String {
 
 class ContriesFilter:ObservableObject{
     
-    var contriesData: [[String: String]] = []
+    @Published var contriesData:[String: String] = [:]
     @Published var nativename = [String]()
     // JSON 데이터를 가져오는 함수
+    init(){
+        fetchDataFromURL()
+    }
     func fetchDataFromURL() {
         let contries = """
             [
@@ -1279,22 +1282,42 @@ class ContriesFilter:ObservableObject{
               }
             ]
             """
-        //        let data = contries.publisher
-        let data = contries.data(using: .utf8)!
-        
-        do {
-            contriesData = try JSONSerialization.jsonObject(with: data, options: []) as! [[String: String]]
-        } catch {
-            print("Error: \(error.localizedDescription)")
-        }
-        for countryData in contriesData {
-            countryData.forEach { dic in
-                if dic.key == CountryKey.nativeName.rawValue{
-                    nativename.append(dic.value)
+        if let jsonData = contries.data(using: .utf8) {
+            do {
+                // JSON 데이터를 파싱하여 배열로 읽어옴
+                if let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
+
+                    // 각 항목을 순회하면서 "iso_3166_1"을 key로, "native_name"을 value로 저장
+                    for item in jsonArray {
+                        if let iso3166 = item["iso_3166_1"] as? String, let nativeName = item["native_name"] as? String {
+                            contriesData[iso3166] = nativeName
+                        }
+                    }
+                    contriesData.forEach { dic in
+                        if dic.key == CountryKey.nativeName.rawValue{
+                            nativename.append(dic.value)
+
+                        }
+                    }
+                } else {
+                    print("JSON 데이터를 배열로 파싱할 수 없습니다.")
                 }
+            } catch {
+                print("JSON 데이터 파싱 중 오류 발생: \(error)")
             }
-            
+        } else {
+            print("JSON 데이터를 Data로 변환할 수 없습니다.")
         }
+        //        let data = contries.publisher
+//        let data = contries.data(using: .utf8)!
+//
+//
+//        do {
+//            contriesData = try JSONSerialization.jsonObject(with: data, options: []) as! [String: String]
+//        } catch {
+//            print("Error: \(error.localizedDescription)")
+//        }
+        
     }
     
     

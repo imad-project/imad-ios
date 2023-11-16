@@ -15,6 +15,7 @@ struct IMAD_ProjectApp: App {
             NavigationStack{
                ContentView()
             }
+            .environment(\.colorScheme, .light)
             .navigationViewStyle(StackNavigationViewStyle())
         }
     }

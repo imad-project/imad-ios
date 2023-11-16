@@ -14,8 +14,8 @@
             filePath = "IMAD_Project/API/Service/AuthApiService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "register(email:password:authProvider:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "IMAD_Project/Core/Authentication/ViewModel/AuthViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "login(email:password:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "IMAD_Project/Core/Authentication/ViewModel/AuthViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "register(email:password:authProvider:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "IMAD_Project/Core/Authentication/ViewModel/AuthViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "register(email:password:authProvider:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "IMAD_Project/API/Service/AuthApiService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "register(email:password:authProvider:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "IMAD_Project/API/Service/AuthApiService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "register(email:password:authProvider:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "IMAD_Project/API/Service/AuthApiService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
             landmarkName = "register(email:password:authProvider:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,24 +126,8 @@
             filePath = "IMAD_Project/API/Service/AuthApiService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "register(email:password:authProvider:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A6A5C92C-49B5-4397-8B53-9123BCC557F9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IMAD_Project/Core/Authentication/ViewModel/AuthViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "register(email:password:authProvider:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,10 +142,42 @@
             filePath = "IMAD_Project/API/Service/UserApiService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
             landmarkName = "user()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B50848B4-0AD2-457C-809A-9F6D03A9D36B - 962d5d597b039b67"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IMAD_Project.UserApiService.user() -&gt; Combine.AnyPublisher&lt;IMAD_Project.GetUserInfo, Alamofire.AFError&gt;"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Service/UserApiService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "384">
+               </Location>
+               <Location
+                  uuid = "B50848B4-0AD2-457C-809A-9F6D03A9D36B - 962d5d597b039b67"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IMAD_Project.UserApiService.user() -&gt; Combine.AnyPublisher&lt;IMAD_Project.GetUserInfo, Alamofire.AFError&gt;"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Service/UserApiService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "536">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -183,22 +199,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F7F59339-28F8-42F7-9E04-C37BB51C7621"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IMAD_Project/API/Service/AuthApiService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "getToken()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "F9BCF11E-51CA-45F0-BEF1-C08606CA12EC"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -206,9 +206,9 @@
             filePath = "IMAD_Project/Core/Review/ViewModel/ReviewViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
-            landmarkName = "readReviewList(id:page:sort:order:)"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "deleteReview(id:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -222,42 +222,10 @@
             filePath = "IMAD_Project/Core/Review/ViewModel/ReviewViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
-            landmarkName = "likeReview(id:status:)"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "deleteReview(id:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A9B602FA-D3A0-4D2C-843C-7561AC95A366"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IMAD_Project/Core/Review/ViewModel/ReviewViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "likeReview(id:status:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "452E807D-977E-4B68-8D2A-A20214877D00"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IMAD_Project/Core/Community/View/CommunityWriteView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "body"
-            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -321,6 +289,453 @@
                   offsetFromSymbolStart = "336">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CBD4891D-A4EC-49FC-B5D7-FE5D1567FE62"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Intercept/BaseIntercept.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "BaseIntercept"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "CBD4891D-A4EC-49FC-B5D7-FE5D1567FE62 - 2d4765fbd75fdd2c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IMAD_Project.BaseIntercept.retry(_: Alamofire.Request, for: Alamofire.Session, dueTo: Swift.Error, completion: (Alamofire.RetryResult) -&gt; ()) -&gt; ()"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Intercept/BaseIntercept.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "128">
+               </Location>
+               <Location
+                  uuid = "CBD4891D-A4EC-49FC-B5D7-FE5D1567FE62 - 2d4765fbd75fdd2c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IMAD_Project.BaseIntercept.retry(_: Alamofire.Request, for: Alamofire.Session, dueTo: Swift.Error, completion: (Alamofire.RetryResult) -&gt; ()) -&gt; ()"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Intercept/BaseIntercept.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "CBD4891D-A4EC-49FC-B5D7-FE5D1567FE62 - 2d4765fbd75fdf13"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IMAD_Project.BaseIntercept.retry(_: Alamofire.Request, for: Alamofire.Session, dueTo: Swift.Error, completion: (Alamofire.RetryResult) -&gt; ()) -&gt; ()"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Intercept/BaseIntercept.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "41"
+                  endingLineNumber = "41"
+                  offsetFromSymbolStart = "112">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AA7654F6-42CC-482B-9670-AA4049E133AC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Intercept/BaseIntercept.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "BaseIntercept"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E82C9C96-6D7B-4DDD-BEAE-CB2570D80C15"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Service/TokenApiService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "getToken(completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E82C9C96-6D7B-4DDD-BEAE-CB2570D80C15 - dacb9249113b2f96"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IMAD_Project.TokenApiService.getToken() -&gt; ()"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Service/TokenApiService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "436">
+               </Location>
+               <Location
+                  uuid = "E82C9C96-6D7B-4DDD-BEAE-CB2570D80C15 - baef8c4d4591a2a2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Swift.Optional&lt;Foundation.Data&gt;, Alamofire.AFError&gt;) -&gt; () in static IMAD_Project.TokenApiService.getToken() -&gt; ()"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Service/TokenApiService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "160">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "503574B0-072F-4330-BF1D-F82453245B31"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Service/UserApiService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "user()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C98A501A-EE68-4FD2-B9F1-BE74CDE6DD7B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/Core/Authentication/View/AuthWebView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "C98A501A-EE68-4FD2-B9F1-BE74CDE6DD7B - 168538dc2be12e79"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IMAD_Project.AuthWebView.body.getter : some"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/Core/Authentication/View/AuthWebView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "1148">
+               </Location>
+               <Location
+                  uuid = "C98A501A-EE68-4FD2-B9F1-BE74CDE6DD7B - ae81f22025482c5a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (()) -&gt; () in IMAD_Project.AuthWebView.body.getter : some"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/Core/Authentication/View/AuthWebView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "104">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "36044C3E-AE30-4E58-9D11-97AA7EB90A28"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/Core/Authentication/View/AuthWebView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FBC62E43-E202-49AD-91A2-3A0B4D090ABC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/Filter/ContriesFilter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "fetchDataFromURL()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BF5F6EBB-46F4-496B-815F-91FB515606B5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/Core/Review/ViewModel/ReviewViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "readReviewList(id:page:sort:order:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9633C8A2-8ED7-4331-8474-344BD0EDB997"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/Core/Review/ViewModel/ReviewViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "readReviewList(id:page:sort:order:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ABEA0FAB-EC39-4166-9D85-192A601C0AF3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Service/ReviewApiService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "reviewReadList(id:page:sort:order:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "53F3CF4F-4761-4E59-9099-C012453CDBD9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Service/ReviewApiService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "reviewReadList(id:page:sort:order:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F011D17-3600-4851-A65B-964E4AC4151D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Service/ReviewApiService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "reviewReadList(id:page:sort:order:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5F011D17-3600-4851-A65B-964E4AC4151D - 59d9d03ef98b18b4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IMAD_Project.ReviewApiService.reviewReadList(id: Swift.Int, page: Swift.Int, sort: Swift.String, order: Swift.Int) -&gt; Combine.AnyPublisher&lt;IMAD_Project.ReadReviewList, Alamofire.AFError&gt;"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Service/ReviewApiService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "1176">
+               </Location>
+               <Location
+                  uuid = "5F011D17-3600-4851-A65B-964E4AC4151D - 29e843097cdd79c5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (IMAD_Project.ReadReviewList) -&gt; IMAD_Project.ReadReviewList in static IMAD_Project.ReviewApiService.reviewReadList(id: Swift.Int, page: Swift.Int, sort: Swift.String, order: Swift.Int) -&gt; Combine.AnyPublisher&lt;IMAD_Project.ReadReviewList, Alamofire.AFError&gt;"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Service/ReviewApiService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "244">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "39372C0D-7C6E-4FA6-B802-90F4F90DD4E0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Service/ReviewApiService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "reviewReadList(id:page:sort:order:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "39372C0D-7C6E-4FA6-B802-90F4F90DD4E0 - 59d9d03ef98b1895"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IMAD_Project.ReviewApiService.reviewReadList(id: Swift.Int, page: Swift.Int, sort: Swift.String, order: Swift.Int) -&gt; Combine.AnyPublisher&lt;IMAD_Project.ReadReviewList, Alamofire.AFError&gt;"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Service/ReviewApiService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "812">
+               </Location>
+               <Location
+                  uuid = "39372C0D-7C6E-4FA6-B802-90F4F90DD4E0 - 29e843097cdd79c5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (IMAD_Project.ReadReviewList) -&gt; IMAD_Project.ReadReviewList in static IMAD_Project.ReviewApiService.reviewReadList(id: Swift.Int, page: Swift.Int, sort: Swift.String, order: Swift.Int) -&gt; Combine.AnyPublisher&lt;IMAD_Project.ReadReviewList, Alamofire.AFError&gt;"
+                  moduleName = "IMAD_Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/quarang/Documents/QUARANG&apos;S/Project/IMad_Project/IMAD_Project/API/Service/ReviewApiService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "244">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "472CB2C5-1357-4078-8676-6FCC2E6514EE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Router/ReviewRouter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "asURLRequest()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4EAAC456-5599-4739-BF06-248BE7234E70"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Service/UserApiService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "patchUser(gender:ageRange:image:nickname:tvGenre:movieGenre:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4A3CBEA1-3A69-4576-A4A0-51FE483398EE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/API/Service/UserApiService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "patchUser(gender:ageRange:image:nickname:tvGenre:movieGenre:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "41D3A96B-4CB7-403A-868D-C91656FF3543"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMAD_Project/Core/Profile/GenreSelectView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

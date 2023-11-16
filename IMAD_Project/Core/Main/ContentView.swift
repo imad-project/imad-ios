@@ -15,48 +15,38 @@ struct ContentView: View {
     @State var alert = false
     @State var splash = false
     @State var login = false
-    @StateObject var vm = AuthViewModel()
+    @StateObject var vm = AuthViewModel(user: nil)
     
     var body: some View {
         ZStack {
             if splash{
                 if isFirstLaunch{
-                    if vm.loginMode{
-                        if vm.guestMode{
+                    if let user = vm.user?.data{
+                        if user.role == "GUEST"{
                             RegisterTabView().environmentObject(vm)
-                        }else{
+                        }else{ 
                             MenuTabView().environmentObject(vm)
                         }
                     }else{
-                        LoginAllView().environmentObject(vm)
-                            .ignoresSafeArea(.keyboard)
-                            .onAppear{
-                                vm.getUser()
-                            }
+                        LoginAllView()
+                           .environmentObject(vm)
+                           .ignoresSafeArea(.keyboard)
                     }
                 }else{
                     OnBoardingTabView(isFirstLaunch: $isFirstLaunch)
                 }
             }else{
                 SplashView()
-                    .onAppear{
-                        vm.getUser()
-                    }
             }
         }
         .onAppear{
+            vm.getUser()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 withAnimation(.easeOut(duration: 1.5)){
                     splash = true
                 }
             }
-
-        }.onReceive(vm.patchInfoSuccess) { value in
-            withAnimation(.default){
-                vm.guestMode = false
-            }
         }
-        
     }
 }
 

@@ -9,6 +9,6 @@ import Foundation
 
 struct SearchWork:Codable{
     var status:Int
-    var data:WorkData?
+    var data:WorkList?
     var message:String
 }

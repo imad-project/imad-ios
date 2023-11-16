@@ -13,147 +13,114 @@ import Alamofire
 class AuthViewModel:ObservableObject{
     
     
-    @Published var registerRes:RegisterResponse? = nil
-    @Published var getUserRes:GetUserInfo? = nil
-    @Published var passwordChangeRes:GetUserInfo? = nil
     @Published var selection:RegisterFilter = .nickname     //탭뷰
+    @Published var patchUser:PatchUserInfo = PatchUserInfo(user: nil)
+    @Published var message = ""
+    @Published var user:UserInfo? = nil
     
-    @Published var getToken = 0
+    @Published var tokenExpiredMessage = ""
     
-    @Published var guestMode = false
-    @Published var loginMode = false
-    
-    @Published var profileInfo:LoginResponse = LoginResponse(email: "", nickname: "", gender: "", ageRange: 20, profileImage: -1, tvGenre: [], movieGenre: [], authProvider: "", role: "")
-    
+    var success = PassthroughSubject<(),Never>()
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
-    var loginSuccess = PassthroughSubject<Bool,Never>()
-    var getUserSuccess = PassthroughSubject<Bool,Never>()
-    var patchInfoSuccess = PassthroughSubject<Bool,Never>()
-    var deleteSuccess = PassthroughSubject<Bool,Never>()
-    var passwordChangeSuccess = PassthroughSubject<(),Never>()
+    var loginSuccess = PassthroughSubject<String,Never>()
     var cancelable = Set<AnyCancellable>()
-    var tokenExpired = PassthroughSubject<String,Never>()
-    var postingSuccess = PassthroughSubject<Int,Never>()
     
+    init(user: UserInfo?) {
+        self.user = user
+    }
     
     func register(email:String,password:String,authProvider:String){
         AuthApiService.register(email: email, password: password,authProvider:authProvider)
-            .sink { completion in
-                if let code = self.registerRes?.statusCode,code >= 200 && code <= 300{
-                    self.registerSuccess.send(true)
-                    self.guestMode = true
-                    print("회원가입 완료 \(completion)")
-                }else{
-                    self.registerSuccess.send(false)
-                    print("회원가입 실패 \(completion)")
+            .sink{ completion in
+                print(completion)
+                self.success.send()
+            } receiveValue: { [weak self] noData in
+                self?.message = noData.message
+                switch noData.status{
+                case 200..<300:
+                    self?.registerSuccess.send(true)
+                default:
+                    self?.registerSuccess.send(false)
                 }
-            } receiveValue: { [weak self] receivedValue in
-                self?.registerRes = receivedValue
             }.store(in: &cancelable)
     }
     func login(email:String,password:String){
         AuthApiService.login(email: email, password: password)
             .sink { completion in
-                if let code = self.getUserRes?.status,code >= 200 && code <= 300{
-                    if self.getUserRes?.data?.role == "GUEST"{
-                        self.guestMode = true
-                    }
-                    self.loginSuccess.send(true)
-                    print("로그인 완료 \(completion)")
-                }else{
-                    self.loginSuccess.send(false)
-                    print("로그인 실패 \(completion)")
+                print(completion)
+            } receiveValue: { [weak self] user in
+                self?.user = user
+                switch user.status{
+                case 200..<300:
+                    self?.loginSuccess.send(user.message)
+                default:
+                    self?.loginSuccess.send(user.message)
                 }
-            } receiveValue: { [weak self] receivedValue in
-                self?.getUserRes = receivedValue
-                guard let data = receivedValue.data else {return}
-                self?.profileInfo = data
             }.store(in: &cancelable)
     }
-    
-
     func getUser(){
         UserApiService.user()
             .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] receivedValue in
-                switch receivedValue.status{
-                case 200...300:
-                    self?.getUserRes = receivedValue
-                    guard let data = receivedValue.data else {return}
-                    self?.profileInfo = data
-                    self?.loginMode = true
-                    if receivedValue.data?.role == "GUEST"{
-                        self?.guestMode = true
-                    }
-                    self?.getToken = 0
-                case 401:
-                    AuthApiService.getToken()
-                default:
-                    print(receivedValue.status)
-                    break
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.logout(tokenExpired: true)
+                case .finished:
+                    print(completion)
                 }
+            } receiveValue: { [weak self] user in
+                self?.user = user
+                self?.patchUser = PatchUserInfo(user: user.data)
             }.store(in: &cancelable)
     }
-    func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?){
-        UserApiService.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, tvGenre: tvGenre,movieGenre:movieGenre)
+    func patchUserInfo(){
+        UserApiService.patchUser(gender: patchUser.gender, ageRange: patchUser.age, image: patchUser.profileImageCode, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
             .sink { completion in
-                self.patchInfoSuccess.send(true)
-                print(completion)
-            } receiveValue: { [weak self] receivedValue in
-                switch receivedValue.status{
-                case 200...300:
-                    self?.getUserRes = receivedValue
-                    guard let data = receivedValue.data else {return}
-                    self?.profileInfo = data
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(receivedValue.message)
-                default: break
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.logout(tokenExpired: true)
+                case .finished:
+                    print(completion)
                 }
-                
+            } receiveValue: { [weak self] user in
+                self?.user = user
+                self?.patchUser = PatchUserInfo(user: user.data)
             }.store(in: &cancelable)
     }
-    func logout(){
+    func logout(tokenExpired:Bool){
         print("로그아웃 및 토큰 삭제")
-        loginMode = false
+        self.tokenExpiredMessage = tokenExpired ? "토큰이 만료 되었습니다.\n다시 로그인 해주세요" : "로그인이 완료 되었습나다."
+        user = nil
         UserDefaultManager.shared.clearAll()
     }
     func delete(authProvier:String){
         AuthApiService.delete(authProvier:authProvier)
             .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] receivedValue in
-                switch receivedValue.status{
-                case 200...300:
-                    self?.getUserRes = receivedValue
-                    self?.deleteSuccess.send(true)
-                    self?.loginMode = false
-                    UserDefaultManager.shared.clearAll()
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(receivedValue.message)
-                default: break
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.logout(tokenExpired: true)
+                case .finished:
+                    print(completion)
                 }
+            } receiveValue: { [weak self] noData in
+                self?.message = noData.message
             }.store(in: &cancelable)
-        
     }
     func passwordChange(old:String,new:String){
         UserApiService.passwordChange(old: old, new: new)
             .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] receivedValue in
-                switch receivedValue.status{
-                case 200...300:
-                    self?.passwordChangeRes = receivedValue
-                    self?.passwordChangeSuccess.send()
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(receivedValue.message)
-                default: break
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.logout(tokenExpired: true)
+                case .finished:
+                    print(completion)
                 }
+            } receiveValue: { [weak self] noData in
+                self?.message = noData.message
             }.store(in: &cancelable)
-
     }
 }

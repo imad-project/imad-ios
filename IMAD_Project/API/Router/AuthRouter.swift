@@ -15,7 +15,7 @@ enum AuthRouter:URLRequestConvertible{
     case login(email:String,password:String)
     case oauthDelete(authProvider:String)
     case delete
-    case token
+   
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -29,8 +29,6 @@ enum AuthRouter:URLRequestConvertible{
             return "/api/signup"
         case .delete:
             return "/api/user"
-        case .token:
-            return "/api/token"
         case .oauthDelete(let authProvier):
             return "/api/oauth2/revoke/\(authProvier)"
         }
@@ -41,8 +39,6 @@ enum AuthRouter:URLRequestConvertible{
             return .post
         case .delete,.oauthDelete:
             return .delete
-        case .token:
-            return .get
         }
     }
     var parameters:Parameters{
@@ -58,7 +54,7 @@ enum AuthRouter:URLRequestConvertible{
             param["password"] = password
             param["auth_provider"] = authProvider
             return param
-        case .delete,.token,.oauthDelete:
+        case .delete,.oauthDelete:
             return Parameters()
         }
     }
@@ -70,7 +66,7 @@ enum AuthRouter:URLRequestConvertible{
         switch self{
         case .login,.register:
             return try JSONEncoding.default.encode(request, with: parameters)
-        case .delete,.token,.oauthDelete:
+        case .delete,.oauthDelete:
             return request
         }
     }

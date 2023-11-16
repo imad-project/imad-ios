@@ -10,267 +10,129 @@ import Combine
 
 class CommunityViewModel:ObservableObject{
     
-    @Published var page = 1
     
-    @Published var communityList:[CommuityDetailsResponseList] = []
-    @Published var posting:CommunityResponse? = nil
-    @Published var communityListResponse:CommunityDetails? = nil
-    @Published var communityDetail:CommunityDetailsResponse? = nil
+    @Published var currentPage = 1
+    @Published var maxPage = 1
     
-    @Published var parentComment:CommentResponse? = nil
-    @Published var replyList:CommentListReponse? = nil
-    @Published var replys:[CommentResponse] = []
-//    @Published var addedComment:CommentResponse? = nil
+    @Published var community:CommunityResponse?
+    @Published var communityList:[CommunityDetailsListResponse] = []
     
-    var modifyComment = PassthroughSubject<(Int,Int),Never>()
-    
+    var refreschTokenExpired = PassthroughSubject<(),Never>()
+    var wrtiesuccess = PassthroughSubject<Int,Never>()
     var success = PassthroughSubject<(),Never>()
-    var modifySuccess = PassthroughSubject<(),Never>()
-    var deleteSuccess = PassthroughSubject<(),Never>()
-    var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
-    var tokenExpired = PassthroughSubject<String,Never>()
-    
-    
+
     var cancelable = Set<AnyCancellable>()
 
     
+    init(community: CommunityResponse?, communityList: [CommunityDetailsListResponse]) {
+        self.community = community
+        self.communityList = communityList
+    }
+    
     func writeCommunity(contentsId:Int,title:String,content:String,category:Int,spoiler:Bool){
         CommunityApiService.writeCommunity(contentsId: contentsId, title: title, content: content, category: category, spoiler: spoiler)
-            .sink { comp in
-                print(comp)
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
+            } receiveValue: { [weak self] data in
+                guard let postingId = data.data?.postingID else {return}
+                self?.wrtiesuccess.send(postingId)
+            }.store(in: &cancelable)
+
+    }
+    func readCommunityList(page:Int,category:Int){
+        CommunityApiService.readAllCommunityList(page: page,category:category)
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
+                self.currentPage = page
             } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    self?.posting = response
-                    self?.success.send()
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
+                if let data = response.data{
+                    self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
 
     }
-    func readCommunityList(page:Int){
-        CommunityApiService.readAllCommunityList(page: page)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    self?.communityListResponse = response.data
-                    guard let list = response.data?.postingDetailsResponseList else {return}
-                    self?.communityList.append(contentsOf: list)
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
+    func readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int,category:Int){
+        CommunityApiService.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order,category: category)
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
                 }
-            }.store(in: &cancelable)
-
-    }
-    func readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int){
-        CommunityApiService.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order)
-            .sink { comp in
-                print(comp)
+                self.currentPage = page
             } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    self?.communityListResponse = response.data
-                    guard let list = response.data?.postingDetailsResponseList else {return}
-                    print(list)
-                    self?.communityList.append(contentsOf: list)
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
+                if let data = response.data{
+                    self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
     }
     func readDetailCommunity(postingId:Int){
         CommunityApiService.readPosting(postingId: postingId)
-            .sink { comp in
-                print(comp)
-                self.success.send()
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    self?.communityDetail = response.data
-                    guard let data = response.data?.commentListResponse else {return}
-                    self?.replys.append(contentsOf: data.commentDetailsResponseList)
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
                 }
+            } receiveValue: { [weak self] response in
+                self?.community = response.data
             }.store(in: &cancelable)
     }
     func like(postingId:Int,status:Int){
         CommunityApiService.postingLike(postingId: postingId, status: status)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
                 }
-            }.store(in: &cancelable)
+            } receiveValue: { _ in }.store(in: &cancelable)
     }
     func modifyCommunity(postingId:Int,title:String,content:String,category:Int,spoiler:Bool){
         CommunityApiService.modifyCommunity(postingId: postingId, title: title, content: content, category: category, spoiler: spoiler)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    self?.posting = response
-                    self?.success.send()
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
                 }
+            } receiveValue: { _ in
+                self.success.send()
             }.store(in: &cancelable)
 
     }
     func deleteCommunity(postingId:Int){
         CommunityApiService.deletePosting(postingId: postingId)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    self?.deleteSuccess.send()
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
                 }
-            }.store(in: &cancelable)
-    }
-    func addReply(postingId:Int,parentId:Int?,content:String){
-        ReplyApiService.addReply(postingId: postingId, parentId: parentId, content: content)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    self?.addCommentInList(commentId: response.data.commentId)
-//                    self?.communityDetail?.commentListResponse.commentDetailsResponseList.append(<#T##newElement: CommentResponse##CommentResponse#>)
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
-                }
-            }.store(in: &cancelable)
-    }
-    func modifyReply(commentId:Int,content:String){
-        ReplyApiService.modifyReply(commentId: commentId, content: content)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    self?.modifySuccess.send()
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
-                }
-            }.store(in: &cancelable)
-    }
-    func deleteyReply(commentId:Int){
-        ReplyApiService.deleteReply(commentId: commentId)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-//                case 200...300:
-//                    self?.commentDeleteSuccess.send(response.)
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
-                }
-            }.store(in: &cancelable)
-    }
-    func addCommentInList(commentId:Int){
-        CommunityApiService.readComment(commentId: commentId)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    guard let data = response.data else {return}
-                    self?.communityDetail?.commentListResponse.commentDetailsResponseList.append(data)
-                    self?.replys.append(data)
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
-                }
-            }.store(in: &cancelable)
-    }
-    func readComment(commentId:Int){
-        CommunityApiService.readComment(commentId: commentId)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    self?.parentComment = response.data
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
-                }
-            }.store(in: &cancelable)
-    }
-    func readComments(postingId:Int,commentType:Int,page:Int,sort:String,order:Int,parentId:Int){
-        ReplyApiService.readListReply(postingId: postingId, commentType: commentType, page: page, sort: sort, order: order, parentId: parentId)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 200...300:
-                    guard let data = response.data else {return}
-                    self?.replyList = data
-                    self?.replys.append(contentsOf: data.commentDetailsResponseList)
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
-                }
-            }.store(in: &cancelable)
-
-    }
-    func commentLike(commentId:Int,likeStatus:Int){
-        ReplyApiService.like(commentId: commentId, likeStatus: likeStatus)
-            .sink { comp in
-                print(comp)
-            } receiveValue: { [weak self] response in
-                switch response.status{
-                case 401:
-                    AuthApiService.getToken()
-                    self?.tokenExpired.send(response.message)
-                default:
-                    break
-                }
-            }.store(in: &cancelable)
+            } receiveValue: { _ in }.store(in: &cancelable)
     }
 }

@@ -11,11 +11,12 @@ struct ReviewView: View {
     
     let id:Int
     
-    @State var tokenExpired = (false,"")
     @State var sort:SortFilter = .createdDate //정렬기준
     @State var order:OrderFilter = .ascending   //오름차순 - 0,내림차순 - 1
+    
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm = ReviewViewModel()
+    
+    @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -32,11 +33,11 @@ struct ReviewView: View {
                                 .padding(.horizontal)
                                 .background(Color.white)
                         }
-                        if vm.reviewList.last == review,vm.reviewDetailsInfo?.totalElements != vm.reviewList.count{
+                        if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
                             ProgressView()
                                 .environment(\.colorScheme, .light)
                                 .onAppear{
-                                    vm.readReviewList(id: id, page: (vm.reviewDetailsInfo?.pageNumber ?? 0) + 1, sort: sort.rawValue, order: order.rawValue)
+                                    vm.readReviewList(id: id, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue)
                                 }
                         }
                     }
@@ -48,42 +49,44 @@ struct ReviewView: View {
                 
             }
         }
-        .onReceive(vm.tokenExpired) { messages in
-            tokenExpired = (true,messages)
-        }
-        .alert(isPresented: $tokenExpired.0) {
-            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-                vmAuth.loginMode = false
-            })
-        }
         .foregroundColor(.black)
         .ignoresSafeArea()
         .background(Color.white.ignoresSafeArea())
         .onAppear{
-            vm.readReviewList(id: id, page: 0, sort: sort.rawValue, order: order.rawValue)
+            vm.readReviewList(id: id, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue)
         }
         .onChange(of: sort){ newValue in    //정렬기준 바뀔 시
-            vm.reviewList.removeAll()
-            vm.readReviewList(id: id, page: 0, sort: newValue.rawValue, order: order.rawValue)
+            initializingArr()
+            vm.readReviewList(id: id, page: vm.currentPage, sort: newValue.rawValue, order: order.rawValue)
         }
         .onChange(of: order){ newValue in   //오름/내림차순 바뀔 시
-            vm.reviewList.removeAll()
-            vm.readReviewList(id: id, page: 0, sort: sort.rawValue, order: newValue.rawValue)
+            initializingArr()
+            vm.readReviewList(id: id, page: vm.currentPage, sort: sort.rawValue, order: newValue.rawValue)
+        }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
         }
         .onDisappear{
-            vm.reviewList.removeAll()
+           initializingArr()
         }
     }
+    
 }
 
 struct ReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewView(id: 1)
-            .environmentObject(AuthViewModel())
+        ReviewView(id: 1,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
+            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
 
 extension ReviewView{
+    
+    func initializingArr(){
+        vm.reviewList.removeAll()
+        vm.maxPage = 0
+        vm.currentPage = 1
+    }
     var filterHeader:some View{
         VStack{
             Text("모든 리뷰")
@@ -116,14 +119,7 @@ extension ReviewView{
                             Text(sort.name)
                             Image(systemName: "chevron.up.chevron.down")
                         }
-                        .font(.caption2)
-                        .padding(7)
-                        .padding(.horizontal)
-                        .background(Color.white)
-                        .cornerRadius(30)
-                        .shadow(radius: 2)
-                        .allowsHitTesting(false)
-                        
+                        .modifier(CustomDatePicker())
                         
                     }
                     Picker("", selection: $order) {
@@ -137,13 +133,7 @@ extension ReviewView{
                             Text(order.name)
                             Image(systemName: "chevron.up.chevron.down")
                         }
-                        .font(.caption2)
-                        .padding(7)
-                        .padding(.horizontal)
-                        .background(Color.white)
-                        .cornerRadius(30)
-                        .shadow(radius: 2)
-                        .allowsHitTesting(false)
+                        .modifier(CustomDatePicker())
                     }
                     
                 }
@@ -151,9 +141,23 @@ extension ReviewView{
             }.padding(.vertical,5)
             Divider()
         }
-        
         .padding(.horizontal)
         .padding(.top,60)
         .background(Color.white)
+    }
+    
+}
+
+struct CustomDatePicker:ViewModifier{
+    func body(content: Content) -> some View {
+        content
+            .font(.caption2)
+            .padding(7)
+            .padding(.horizontal)
+            .background(Color.white)
+            .cornerRadius(30)
+            .shadow(radius: 2)
+            .allowsHitTesting(false)
+        
     }
 }

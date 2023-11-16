@@ -68,7 +68,6 @@ struct ExploreView: View {
                     .font(.caption)
                         .padding(.horizontal)
                         .background(Color.white)
-                    Spacer().frame(height: 120)
                 }
             }
                 .background(Color.white).ignoresSafeArea()
