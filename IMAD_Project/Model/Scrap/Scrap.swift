@@ -9,6 +9,6 @@ import Foundation
 
 struct Scrap:Codable{
     let status:Int
-    var data:ScrapList
+    var data:ScrapList?
     let message:String
 }

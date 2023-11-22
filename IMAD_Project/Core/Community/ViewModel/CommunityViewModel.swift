@@ -135,4 +135,5 @@ class CommunityViewModel:ObservableObject{
                 }
             } receiveValue: { _ in }.store(in: &cancelable)
     }
+    
 }
