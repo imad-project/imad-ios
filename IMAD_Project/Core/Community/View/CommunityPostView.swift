@@ -36,14 +36,15 @@ struct CommunityPostView: View {
                 Divider()
                 ScrollView {
                     workInfoView
-                    communityStatusView
                     communityinfoView
+                    communityStatusView
                     likeStatusView
                     collection
                     comment
                 }
-            }.foregroundColor(.black)
-                .padding(.bottom,100)
+            }
+            .foregroundColor(.black)
+            .padding(.bottom,100)
             commentInputView
         }
         .onAppear{
@@ -80,7 +81,7 @@ struct ComminityPostView_Previews: PreviewProvider {
 extension CommunityPostView{
     var header:some View{
         ZStack{
-            HStack{
+            HStack(spacing:0){
                 Button {
                     back = false
                 } label: {
@@ -89,6 +90,12 @@ extension CommunityPostView{
                         .padding()
                 }
                 Spacer()
+                Button {
+                    
+                } label: {
+                    Image(systemName: "bookmark")
+                }
+
                 if let userName = vmAuth.user?.data?.nickname,userName == vm.community?.userNickname{
                     Button {
                         menu.toggle()
@@ -208,6 +215,7 @@ extension CommunityPostView{
                 .font(.subheadline)
                 .padding(.bottom)
         }
+        .padding(.bottom)
     }
     var likeStatusView:some View{
         VStack{
@@ -238,44 +246,44 @@ extension CommunityPostView{
         }
     }
     var collection:some View{
-            VStack(alignment: .leading){
-                HStack{
-                    ForEach(SortFilter.allCases.filter({$0 != .score}),id:\.self){ sort in
-                        Button {
-                            guard self.sort != sort else { return}
-                                self.sort = sort
-                                readCommunity()
-                        } label: {
-                            Capsule()
-                                .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
-                                .frame(width: 70,height: 25)
-                                .overlay {
-                                    Text(sort.name).font(.caption).foregroundColor(.white)
-                                }
-                        }
-                    }
-                    Spacer()
+        VStack(alignment: .leading){
+            HStack{
+                ForEach(SortFilter.allCases.filter({$0 != .score}),id:\.self){ sort in
                     Button {
-                        if order == .ascending{
-                            withAnimation{
-                                order = .descending
-                                readCommunity()
-                            }
-                        }else{
-                            withAnimation{
-                                order = .ascending
-                                readCommunity()
-                            }
-                        }
+                        guard self.sort != sort else { return}
+                        self.sort = sort
+                        readCommunity()
                     } label: {
-                        HStack{
-                            Text(order.name)
-                            Image(systemName: order == .ascending ? "chevron.up" : "chevron.down")
-                        } .font(.caption)
+                        Capsule()
+                            .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
+                            .frame(width: 70,height: 25)
+                            .overlay {
+                                Text(sort.name).font(.caption).foregroundColor(.white)
+                            }
                     }
-                    
-                }.padding(.vertical,5)
-            }.padding(.horizontal)
+                }
+                Spacer()
+                Button {
+                    if order == .ascending{
+                        withAnimation{
+                            order = .descending
+                            readCommunity()
+                        }
+                    }else{
+                        withAnimation{
+                            order = .ascending
+                            readCommunity()
+                        }
+                    }
+                } label: {
+                    HStack{
+                        Text(order.name)
+                        Image(systemName: order == .ascending ? "chevron.up" : "chevron.down")
+                    } .font(.caption)
+                }
+                
+            }.padding(.vertical,5)
+        }.padding(.horizontal)
         
     }
     var comment:some View{
