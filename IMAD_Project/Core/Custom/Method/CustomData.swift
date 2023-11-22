@@ -319,4 +319,11 @@ class CustomData{
 //        BookmarkDetailsList(bookmarkID: 1, userID: 1, contentsID: 1, contentsTitle: "dasd", contentsPosterPath:CustomData.instance.movieList[0], createdDate: "2023-09-15T13:31:10.027532")
 //    ]
     let review:ReadReviewResponse = ReadReviewResponse(reviewID: 1, contentsID: 1, contentsTitle: "굳", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", userID: 1, userNickname: "콰랑", userProfileImage: 3, title: "죠죠", content: "묻힌 때 경, 까닭이요, 사랑과 내 까닭입니다. 지나가는 멀리 시인의 하늘에는 프랑시스 못 가난한 우는 하나에 까닭입니다. 가을로 된 별 아무 우는 당신은 까닭이요, 듯합니다. 무덤 풀이 파란 릴케 봅니무덤", score: 6.7, likeCnt: 2, dislikeCnt: 3, createdAt: "2023-09-15T13:31:10.027532", modifiedAt: "2023-09-15T13:31:10.027532", likeStatus: 1, spoiler: false)
+    
+    let scrapList:[ScrapListResponse] = [
+        ScrapListResponse(scrapId: 1, userId: 1, postingId: 1, postingTitle: "이거 개쩔지 않냐", createdDate: "2023-09-15T13:31:10.027532"),
+        ScrapListResponse(scrapId: 2, userId: 2, postingId: 2, postingTitle: "이거 개쩔지 않노", createdDate: "2023-09-15T13:31:10.027532"),
+        ScrapListResponse(scrapId: 3, userId: 3, postingId: 3, postingTitle: "이거 개쩔지 않군", createdDate: "2023-09-15T13:31:10.027532"),
+        ScrapListResponse(scrapId: 4, userId: 4, postingId: 4, postingTitle: "이거 개쩔지 않네", createdDate: "2023-09-15T13:31:10.027532")
+        ]
 }

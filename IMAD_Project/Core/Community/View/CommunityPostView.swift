@@ -23,7 +23,9 @@ struct CommunityPostView: View {
     
     @FocusState var reply:Bool
     
+    
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
+    @StateObject var vmScrap = ScrapViewModel(scrapList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -90,12 +92,19 @@ extension CommunityPostView{
                         .padding()
                 }
                 Spacer()
-                Button {
-                    
-                } label: {
-                    Image(systemName: "bookmark")
+                if let scrapStatus = vm.community?.scrapStatus{
+                    Button {
+                        if scrapStatus{
+                            vm.community?.scrapStatus = false
+                            vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0)
+                        }else{
+                            vm.community?.scrapStatus = true
+                            vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
+                        }
+                    } label: {
+                        Image(systemName:scrapStatus ? "bookmark.fill" : "bookmark")
+                    }
                 }
-
                 if let userName = vmAuth.user?.data?.nickname,userName == vm.community?.userNickname{
                     Button {
                         menu.toggle()

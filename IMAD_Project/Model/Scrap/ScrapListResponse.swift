@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ScrapListResponse:Codable{
+struct ScrapListResponse:Codable,Hashable{
     let scrapId:Int
     let userId:Int
     let postingId:Int                // 게시글 ID

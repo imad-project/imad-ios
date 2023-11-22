@@ -16,6 +16,11 @@ class ScrapViewModel:ObservableObject{
     
     var cancel = Set<AnyCancellable>()
     
+    
+    init(scrapList:[ScrapListResponse]) {
+        self.scrapList = scrapList
+    }
+    
     func readScrapList(page:Int){
         ScrapApiService.readScrap(page: page)
             .sink { completion in

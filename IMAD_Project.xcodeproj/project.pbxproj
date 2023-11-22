@@ -97,6 +97,7 @@
 		818B073A2B0D9E3A0013C426 /* ScrapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B07392B0D9E3A0013C426 /* ScrapList.swift */; };
 		818B073C2B0D9EAE0013C426 /* ScrapListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B073B2B0D9EAE0013C426 /* ScrapListResponse.swift */; };
 		818B073E2B0DA1EE0013C426 /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B073D2B0DA1EE0013C426 /* ScrapViewModel.swift */; };
+		818B07402B0DA4CA0013C426 /* MyScrapListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B073F2B0DA4CA0013C426 /* MyScrapListView.swift */; };
 		818CF7EF2A20764C00BABA1F /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7EE2A20764C00BABA1F /* OnBoardingView.swift */; };
 		818CF7F22A207CFF00BABA1F /* OnBoardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F12A207CFF00BABA1F /* OnBoardingTabView.swift */; };
 		818CF7F82A20929800BABA1F /* ProfileSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F72A20929800BABA1F /* ProfileSelectView.swift */; };
@@ -283,6 +284,7 @@
 		818B07392B0D9E3A0013C426 /* ScrapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapList.swift; sourceTree = "<group>"; };
 		818B073B2B0D9EAE0013C426 /* ScrapListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapListResponse.swift; sourceTree = "<group>"; };
 		818B073D2B0DA1EE0013C426 /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
+		818B073F2B0DA4CA0013C426 /* MyScrapListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapListView.swift; sourceTree = "<group>"; };
 		818CF7EE2A20764C00BABA1F /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		818CF7F12A207CFF00BABA1F /* OnBoardingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingTabView.swift; sourceTree = "<group>"; };
 		818CF7F72A20929800BABA1F /* ProfileSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectView.swift; sourceTree = "<group>"; };
@@ -592,9 +594,10 @@
 				812EF9D229E1B5E700CE19DA /* ProfileView.swift */,
 				817BBB3729EE982F00E1CBA6 /* ProfileChangeView.swift */,
 				817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */,
-				81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */,
 				81588D472AFCF7A300E19F8D /* MovieGenreSelectView.swift */,
 				81588D4D2AFE5E1700E19F8D /* TvGenreSelectView.swift */,
+				81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */,
+				818B073F2B0DA4CA0013C426 /* MyScrapListView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1250,6 +1253,7 @@
 				819D499E2A933A5C008B7BFE /* Network.swift in Sources */,
 				818B073C2B0D9EAE0013C426 /* ScrapListResponse.swift in Sources */,
 				8154B1EE2AE0DB9800AD2F83 /* CommentApiService.swift in Sources */,
+				818B07402B0DA4CA0013C426 /* MyScrapListView.swift in Sources */,
 				81FF75AE2AF8C4DE00DB1AC2 /* ProfileImageView.swift in Sources */,
 				8115A6432A8391BE00B7C3FE /* WorkListResponse.swift in Sources */,
 				81C7312B2AF6183C0076D230 /* TokenApiService.swift in Sources */,
