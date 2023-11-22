@@ -12,6 +12,8 @@ import Foundation
 // 토큰 재발급 response : /api/token
 // 비밀번호 수정 response : /api/user/password
 // 리뷰 좋아요 요청 response : /api/review/like/2
+// 북마크 조회/삭제 response
+// 스크랩 조회/삭제 response
  
 struct NoDataResponse:Codable{
     let status:Int
