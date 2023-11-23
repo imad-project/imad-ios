@@ -81,7 +81,6 @@
 		817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860112A2992D6004639F6 /* ContriesFilter.swift */; };
 		817860172A29B1DD004639F6 /* WorkFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860162A29B1DD004639F6 /* WorkFilter.swift */; };
 		8178601D2A29CDAA004639F6 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8178601C2A29CDAA004639F6 /* CustomSlider.swift */; };
-		8178601F2A29CDD3004639F6 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8178601E2A29CDD3004639F6 /* TestView.swift */; };
 		817860212A29ECA7004639F6 /* CommunityWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860202A29ECA7004639F6 /* CommunityWriteView.swift */; };
 		817B60CD2A236F00000099A9 /* CheckRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60CC2A236F00000099A9 /* CheckRouter.swift */; };
 		817B60CF2A2370C1000099A9 /* CheckApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60CE2A2370C1000099A9 /* CheckApiService.swift */; };
@@ -103,6 +102,7 @@
 		818CF7F82A20929800BABA1F /* ProfileSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F72A20929800BABA1F /* ProfileSelectView.swift */; };
 		818CF7FA2A20AAE500BABA1F /* AgeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */; };
 		818CF7FE2A21B7E000BABA1F /* RegisterFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */; };
+		818F71992B0F00AC008FDA84 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818F71982B0F00AC008FDA84 /* TestView.swift */; };
 		819AA9EB2ACD3C430048CF7B /* BookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EA2ACD3C430048CF7B /* BookmarkResponse.swift */; };
 		819AA9ED2ACD3CEC0048CF7B /* BookmarkListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EC2ACD3CEC0048CF7B /* BookmarkListResponse.swift */; };
 		819AA9F12ACD618D0048CF7B /* MyReviewListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9F02ACD618D0048CF7B /* MyReviewListRowView.swift */; };
@@ -268,7 +268,6 @@
 		817860112A2992D6004639F6 /* ContriesFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContriesFilter.swift; sourceTree = "<group>"; };
 		817860162A29B1DD004639F6 /* WorkFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkFilter.swift; sourceTree = "<group>"; };
 		8178601C2A29CDAA004639F6 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
-		8178601E2A29CDD3004639F6 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		817860202A29ECA7004639F6 /* CommunityWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityWriteView.swift; sourceTree = "<group>"; };
 		817B60CC2A236F00000099A9 /* CheckRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckRouter.swift; sourceTree = "<group>"; };
 		817B60CE2A2370C1000099A9 /* CheckApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckApiService.swift; sourceTree = "<group>"; };
@@ -290,6 +289,7 @@
 		818CF7F72A20929800BABA1F /* ProfileSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectView.swift; sourceTree = "<group>"; };
 		818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeSelectView.swift; sourceTree = "<group>"; };
 		818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterFilter.swift; sourceTree = "<group>"; };
+		818F71982B0F00AC008FDA84 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		819AA9EA2ACD3C430048CF7B /* BookmarkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkResponse.swift; sourceTree = "<group>"; };
 		819AA9EC2ACD3CEC0048CF7B /* BookmarkListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListResponse.swift; sourceTree = "<group>"; };
 		819AA9F02ACD618D0048CF7B /* MyReviewListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewListRowView.swift; sourceTree = "<group>"; };
@@ -713,7 +713,7 @@
 		819C50692A0E3E450008F4A5 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				8178601E2A29CDD3004639F6 /* TestView.swift */,
+				818F71982B0F00AC008FDA84 /* TestView.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -1227,6 +1227,7 @@
 				812CDEA029DEAA850003B993 /* CommunityListRowView.swift in Sources */,
 				81AFC7212A25A11E00051F59 /* EmailFilter.swift in Sources */,
 				81C731292AF51B260076D230 /* TokenRouter.swift in Sources */,
+				818F71992B0F00AC008FDA84 /* TestView.swift in Sources */,
 				81BB11092A061772005654AA /* AuthApiService.swift in Sources */,
 				81C2649C2A13B73600405B01 /* UserRouter.swift in Sources */,
 				810453A72B025A930062B4B6 /* ExtandView.swift in Sources */,
@@ -1261,7 +1262,6 @@
 				817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */,
 				81588D572AFE73B600E19F8D /* CommunityDetailsList.swift in Sources */,
 				81F259372AB0892300C54668 /* ReadReview.swift in Sources */,
-				8178601F2A29CDD3004639F6 /* TestView.swift in Sources */,
 				8115A65C2A8F2EF400B7C3FE /* WorkResponse.swift in Sources */,
 				8124CB3729F00FCD00B446D5 /* MyReviewView.swift in Sources */,
 				817860212A29ECA7004639F6 /* CommunityWriteView.swift in Sources */,

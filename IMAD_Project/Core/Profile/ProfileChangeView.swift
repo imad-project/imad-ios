@@ -32,7 +32,7 @@ struct ProfileChangeView: View {
                                 navigatoionChangeView(view: InfoChangeView(title: "성별", password: false,gender: vmAuth.user?.data?.gender ?? ""), text: "성별 변경")
                                 navigatoionChangeView(view: InfoChangeView(title: "나이", password: false,age: vmAuth.user?.data?.ageRange ?? 0), text: "나이 변경")
                                 if vmAuth.user?.data?.authProvider == "IMAD"{
-                                    navigatoionChangeView(view: InfoChangeView(title: "비밀번호", password: false), text: "비밀번호 변경")
+                                    navigatoionChangeView(view: InfoChangeView(title: "비밀번호", password: true), text: "비밀번호 변경")
                                 }
                                 actionButtonView(action: {
                                     logout = true

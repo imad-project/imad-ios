@@ -73,7 +73,7 @@ struct ProfileView: View {
                                 myInfoView(view:  MyReviewView(writeType: .myself),
                                            image:  "text.word.spacing",
                                            text: "내 게시물", count: 0)
-                                myInfoView(view: MyReviewView(writeType: .myself), image: "scroll", text: "내 스크랩", count: 0)
+                                myInfoView(view: MyScrapListView(), image: "scroll", text: "내 스크랩", count: 0)
                             }
                             VStack{
                                 VStack(alignment: .leading) {
@@ -156,7 +156,7 @@ struct ProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ProfileView(vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
+            ProfileView(vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail),vmWork:WorkViewModel(workInfo: nil, bookmarkList: CustomData.instance.bookmarkList))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }

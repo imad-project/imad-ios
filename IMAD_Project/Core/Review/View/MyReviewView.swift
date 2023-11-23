@@ -56,7 +56,7 @@ struct MyReviewView: View {
 
 struct MyReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        MyReviewView(writeType: .myself,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
+        MyReviewView(writeType: .myselfLike,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
             .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
     }
 }

@@ -78,10 +78,10 @@ class CustomData{
     
     let bookmarkList = [
     
-        BookmarkListResponse(bookmarkID: 1, userID: 1, contentsID: 1, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579"),
-        BookmarkListResponse(bookmarkID: 3, userID: 1, contentsID: 3, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579"),
-        BookmarkListResponse(bookmarkID: 4, userID: 1, contentsID: 4, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579"),
-        BookmarkListResponse(bookmarkID: 7, userID: 1, contentsID: 5, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579")
+        BookmarkListResponse(bookmarkID: 1, userID: 1, contentsID: 1, contentsTitle: "죠죠", contentsPosterPath:    "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", createdDate: "2023-10-16T12:33:35.007579"),
+        BookmarkListResponse(bookmarkID: 3, userID: 1, contentsID: 3, contentsTitle: "죠죠", contentsPosterPath:    "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", createdDate: "2023-10-16T12:33:35.007579"),
+        BookmarkListResponse(bookmarkID: 4, userID: 1, contentsID: 4, contentsTitle: "죠죠", contentsPosterPath:    "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", createdDate: "2023-10-16T12:33:35.007579"),
+        BookmarkListResponse(bookmarkID: 7, userID: 1, contentsID: 5, contentsTitle: "죠죠", contentsPosterPath:    "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", createdDate: "2023-10-16T12:33:35.007579")
     ]
     let workInfo:WorkResponse = WorkResponse(genres: [
         80,
@@ -250,9 +250,9 @@ class CustomData{
                     ],
                     originalLanguage: "ja",
                     adult: false,
-                    backdropPath: "/5mUYDoFjDlPmDvnUWSknhYjGBBh.jpg",
+                    backdropPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg",
                     overview: "유서 깊은 죠스타 가문에 얽힌 기묘한 이야기를 아는가. 각기 다른 세상에서 애칭 '죠죠'를 공유하며 살아가는 주인공들. 시간적 공간적 배경은 달라도, 추구하는 가치는 다르지 않다. 악의 세력을 물리치고 정의가 이기는 세상을 만들라.",
-                    posterPath: "/7OzIcqBOtqRo0ivrRJrgHyCJg1V.jpg",
+                    posterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg",
                     mediaType: "tv",
                     genreIds: [
                         16,
