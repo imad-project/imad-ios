@@ -103,6 +103,7 @@
 		818CF7FA2A20AAE500BABA1F /* AgeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */; };
 		818CF7FE2A21B7E000BABA1F /* RegisterFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */; };
 		818F71992B0F00AC008FDA84 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818F71982B0F00AC008FDA84 /* TestView.swift */; };
+		8199DD9E2B15C50600FBE14D /* SwiftUIWave in Frameworks */ = {isa = PBXBuildFile; productRef = 8199DD9D2B15C50600FBE14D /* SwiftUIWave */; };
 		819AA9EB2ACD3C430048CF7B /* BookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EA2ACD3C430048CF7B /* BookmarkResponse.swift */; };
 		819AA9ED2ACD3CEC0048CF7B /* BookmarkListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EC2ACD3CEC0048CF7B /* BookmarkListResponse.swift */; };
 		819AA9F12ACD618D0048CF7B /* MyReviewListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9F02ACD618D0048CF7B /* MyReviewListRowView.swift */; };
@@ -154,7 +155,6 @@
 		81DB1FB929E549C5002C0840 /* RoundShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FB829E549C5002C0840 /* RoundShape.swift */; };
 		81DB1FBF29E56CA8002C0840 /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FBE29E56CA8002C0840 /* Wave.swift */; };
 		81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC129E56D1E002C0840 /* CustomTextField.swift */; };
-		81DB1FC729E6A8BB002C0840 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC629E6A8BB002C0840 /* BackgroundView.swift */; };
 		81DB1FCA29E6C2E2002C0840 /* GenderSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC929E6C2E2002C0840 /* GenderSelectView.swift */; };
 		81DB1FCF29E6D34F002C0840 /* NicknameSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FCE29E6D34F002C0840 /* NicknameSelectView.swift */; };
 		81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD029E6D717002C0840 /* SelectGenreView.swift */; };
@@ -340,7 +340,6 @@
 		81DB1FB829E549C5002C0840 /* RoundShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShape.swift; sourceTree = "<group>"; };
 		81DB1FBE29E56CA8002C0840 /* Wave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wave.swift; sourceTree = "<group>"; };
 		81DB1FC129E56D1E002C0840 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
-		81DB1FC629E6A8BB002C0840 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		81DB1FC929E6C2E2002C0840 /* GenderSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectView.swift; sourceTree = "<group>"; };
 		81DB1FCE29E6D34F002C0840 /* NicknameSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameSelectView.swift; sourceTree = "<group>"; };
 		81DB1FD029E6D717002C0840 /* SelectGenreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenreView.swift; sourceTree = "<group>"; };
@@ -365,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81D121322A276D08003F3780 /* SwiftUIFlowLayout in Frameworks */,
+				8199DD9E2B15C50600FBE14D /* SwiftUIWave in Frameworks */,
 				81A1ECEA29DC44370001A366 /* Kingfisher in Frameworks */,
 				81BB10FF2A061055005654AA /* Alamofire in Frameworks */,
 			);
@@ -505,7 +505,6 @@
 				818CF7ED2A20762A00BABA1F /* OnBoarding */,
 				811DA16529E92FD800482A6A /* Review */,
 				81DB1FC829E6C2B9002C0840 /* Collection */,
-				81DB1FC529E6A8A6002C0840 /* BackGround */,
 				81DB1FC029E56D06002C0840 /* Custom */,
 				81DB1FBA29E55079002C0840 /* Authentication */,
 				812EF9D129E1B5D800CE19DA /* Profile */,
@@ -998,14 +997,6 @@
 			path = Custom;
 			sourceTree = "<group>";
 		};
-		81DB1FC529E6A8A6002C0840 /* BackGround */ = {
-			isa = PBXGroup;
-			children = (
-				81DB1FC629E6A8BB002C0840 /* BackgroundView.swift */,
-			);
-			path = BackGround;
-			sourceTree = "<group>";
-		};
 		81DB1FC829E6C2B9002C0840 /* Collection */ = {
 			isa = PBXGroup;
 			children = (
@@ -1083,6 +1074,7 @@
 				81A1ECE929DC44370001A366 /* Kingfisher */,
 				81BB10FE2A061055005654AA /* Alamofire */,
 				81D121312A276D08003F3780 /* SwiftUIFlowLayout */,
+				8199DD9D2B15C50600FBE14D /* SwiftUIWave */,
 			);
 			productName = IMAD_Project;
 			productReference = 8103093D29D1BDEF0021717B /* IMAD_Project.app */;
@@ -1160,6 +1152,7 @@
 				81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				81BB10FD2A061054005654AA /* XCRemoteSwiftPackageReference "Alamofire" */,
 				81D121302A276D08003F3780 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
+				8199DD9C2B15C50600FBE14D /* XCRemoteSwiftPackageReference "SwiftUIWave" */,
 			);
 			productRefGroup = 8103093E29D1BDEF0021717B /* Products */;
 			projectDirPath = "";
@@ -1212,7 +1205,6 @@
 				8115A65E2A8F30F700B7C3FE /* Work.swift in Sources */,
 				81A285F52AAC5CC300703C55 /* MovieBackgroundView.swift in Sources */,
 				81DB1FCF29E6D34F002C0840 /* NicknameSelectView.swift in Sources */,
-				81DB1FC729E6A8BB002C0840 /* BackgroundView.swift in Sources */,
 				812CDEAA29DF0BF20003B993 /* Notific.swift in Sources */,
 				8131C55C2AFA0C89006B761D /* ReadReviewListResponse.swift in Sources */,
 				8115A64A2A8396C800B7C3FE /* WorkList.swift in Sources */,
@@ -1709,6 +1701,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8199DD9C2B15C50600FBE14D /* XCRemoteSwiftPackageReference "SwiftUIWave" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/QuaRang1225/SwiftUIWave.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -1736,6 +1736,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8199DD9D2B15C50600FBE14D /* SwiftUIWave */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8199DD9C2B15C50600FBE14D /* XCRemoteSwiftPackageReference "SwiftUIWave" */;
+			productName = SwiftUIWave;
+		};
 		81A1ECE929DC44370001A366 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */;

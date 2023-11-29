@@ -6,25 +6,11 @@
 //
 
 import SwiftUI
+import SwiftUIWave
 
 struct TestView: View {
     var body: some View {
-        VStack(alignment: .leading){
-            ScrollView{
-                ForEach(0...10,id:\.self) { _ in
-                    Button {
-                        print("안녕")
-                    } label: {
-                        Text("안뇽하세용")
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color.red)
-                            .cornerRadius(10)
-                    }
-                }
-            }
-            
-        }
+        WaveImage(color: .red, height: .low, speed: .slow, amplitude: .low)
     }
 }
 

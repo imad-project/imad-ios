@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUIWave
 
 struct RegisterView: View {
     
@@ -30,7 +31,7 @@ struct RegisterView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing){
             Color.white.ignoresSafeArea()
-            BackgroundView(height: 0.23, height1: 0.27,height2: 0.25,height3: 0.26)
+            WaveImage(color: .customIndigo, height: .low, speed: .slow, amplitude: .low)
             VStack(alignment: .leading){
                 Text("회원가입하기")
                     .font(.title3)
