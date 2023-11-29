@@ -17,7 +17,7 @@ enum CommunityRouter:URLRequestConvertible{
     case like(postingId:Int,status:Int)
     case modify(postingId:Int,title:String,content:String,category:Int,spoiler:Bool)
     case delete(postingId:Int)
-    case readComment(commentId:Int)
+    
     case myCommunity(page:Int)
     case myLikeCommunity(page:Int,likeStatus:Int)
     
@@ -40,10 +40,7 @@ enum CommunityRouter:URLRequestConvertible{
         case let .modify(postingId,_,_,_,_):
             return "/api/posting/\(postingId)"
         case let .delete(postingId):
-            return "/api/posting/\(postingId)"
-        case let .readComment(commentId):
-            return "/api/posting/comment/\(commentId)"
-        case .myCommunity:
+            return "/api/posting/\(postingId)"        case .myCommunity:
             return "/api/profile/posting/list"
         case .myLikeCommunity:
             return "/api/profile/like/posting/list"
@@ -54,7 +51,7 @@ enum CommunityRouter:URLRequestConvertible{
         switch self{
         case .write:
             return .post
-        case .readListAll,.readListConditionsAll,.readPosting,.readComment,.myCommunity,.myLikeCommunity:
+        case .readListAll,.readListConditionsAll,.readPosting,.myCommunity,.myLikeCommunity:
             return .get
         case .like,.modify:
             return .patch
@@ -107,7 +104,7 @@ enum CommunityRouter:URLRequestConvertible{
             params["page"] = page
             params["like_status"] = likeStatus
             return params
-        case .readPosting,.delete,.readComment:
+        case .readPosting,.delete:
             return Parameters()
         
         }
@@ -118,9 +115,9 @@ enum CommunityRouter:URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         switch self{
-        case .readListAll,.readListConditionsAll,.readPosting,.delete,.readComment:
+        case .readListAll,.readListConditionsAll,.readPosting,.delete,.myCommunity,.myLikeCommunity:
             return try URLEncoding(destination: .queryString).encode(request, with: parameters)
-        case .write,.like,.modify,.myCommunity,.myLikeCommunity:
+        case .write,.like,.modify:
             return try JSONEncoding.default.encode(request, with: parameters)
         }
         

@@ -8,7 +8,8 @@
 import Foundation
 import Alamofire
 
-enum ReplyRouter:URLRequestConvertible{
+enum CommentRouter:URLRequestConvertible{
+    case readComment(commentId:Int)
     case addReply(postingId:Int,parentId:Int?,content:String)
     case modifyReply(commentId:Int,content:String)
     case deleteReply(commentId:Int)
@@ -21,6 +22,8 @@ enum ReplyRouter:URLRequestConvertible{
     
     var endPoint:String{
         switch self{
+        case let .readComment(commentId):
+            return "/api/posting/comment/\(commentId)"
         case .addReply:
             return "/api/posting/comment"
         case let .modifyReply(commentId,_):
@@ -36,7 +39,7 @@ enum ReplyRouter:URLRequestConvertible{
     
     var method:HTTPMethod{
         switch self{
-        case .readReplyList:
+        case .readReplyList,.readComment:
             return .get
         case .addReply:
             return .post
@@ -72,7 +75,7 @@ enum ReplyRouter:URLRequestConvertible{
             var params = Parameters()
             params["like_status"] = likeStatus
             return params
-        case .deleteReply:
+        case .deleteReply,.readComment:
             return Parameters()
         }
     }
@@ -82,7 +85,7 @@ enum ReplyRouter:URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         switch self{
-        case .readReplyList:
+        case .readReplyList,.readComment:
             return try URLEncoding(destination: .queryString).encode(request, with: parameters)
         default:
             return try JSONEncoding.default.encode(request, with: parameters)

@@ -65,7 +65,7 @@
 		8154B1E62ADE2F6600AD2F83 /* CommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E52ADE2F6600AD2F83 /* CommentResponse.swift */; };
 		8154B1E82ADE328400AD2F83 /* CommentRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E72ADE328400AD2F83 /* CommentRowView.swift */; };
 		8154B1EA2ADE78A500AD2F83 /* CommunitySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E92ADE78A500AD2F83 /* CommunitySearchView.swift */; };
-		8154B1EC2AE0DA7000AD2F83 /* ReplyRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EB2AE0DA7000AD2F83 /* ReplyRouter.swift */; };
+		8154B1EC2AE0DA7000AD2F83 /* CommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EB2AE0DA7000AD2F83 /* CommentRouter.swift */; };
 		8154B1EE2AE0DB9800AD2F83 /* CommentApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1ED2AE0DB9800AD2F83 /* CommentApiService.swift */; };
 		8154B1F02AE0DC4300AD2F83 /* AddComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EF2AE0DC4300AD2F83 /* AddComment.swift */; };
 		81588D482AFCF7A300E19F8D /* MovieGenreSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81588D472AFCF7A300E19F8D /* MovieGenreSelectView.swift */; };
@@ -252,7 +252,7 @@
 		8154B1E52ADE2F6600AD2F83 /* CommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentResponse.swift; sourceTree = "<group>"; };
 		8154B1E72ADE328400AD2F83 /* CommentRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRowView.swift; sourceTree = "<group>"; };
 		8154B1E92ADE78A500AD2F83 /* CommunitySearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitySearchView.swift; sourceTree = "<group>"; };
-		8154B1EB2AE0DA7000AD2F83 /* ReplyRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyRouter.swift; sourceTree = "<group>"; };
+		8154B1EB2AE0DA7000AD2F83 /* CommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRouter.swift; sourceTree = "<group>"; };
 		8154B1ED2AE0DB9800AD2F83 /* CommentApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentApiService.swift; sourceTree = "<group>"; };
 		8154B1EF2AE0DC4300AD2F83 /* AddComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddComment.swift; sourceTree = "<group>"; };
 		81588D472AFCF7A300E19F8D /* MovieGenreSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGenreSelectView.swift; sourceTree = "<group>"; };
@@ -860,7 +860,7 @@
 				8115A6442A83940800B7C3FE /* WorkRouter.swift */,
 				81F2592A2AB0656B00C54668 /* ReviewRouter.swift */,
 				8154B1D12ADA5BDD00AD2F83 /* CommunityRouter.swift */,
-				8154B1EB2AE0DA7000AD2F83 /* ReplyRouter.swift */,
+				8154B1EB2AE0DA7000AD2F83 /* CommentRouter.swift */,
 				81C731282AF51B260076D230 /* TokenRouter.swift */,
 				818B07322B0D96310013C426 /* ScrapRouter.swift */,
 			);
@@ -1252,7 +1252,6 @@
 				81FF75AE2AF8C4DE00DB1AC2 /* ProfileImageView.swift in Sources */,
 				8115A6432A8391BE00B7C3FE /* WorkListResponse.swift in Sources */,
 				81C7312B2AF6183C0076D230 /* TokenApiService.swift in Sources */,
-				8199DDA02B16FDB800FBE14D /* MyCommunityView.swift in Sources */,
 				81BB11042A061457005654AA /* ApiClient.swift in Sources */,
 				817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */,
 				81588D572AFE73B600E19F8D /* CommunityDetailsList.swift in Sources */,
@@ -1322,7 +1321,7 @@
 				8154B1EA2ADE78A500AD2F83 /* CommunitySearchView.swift in Sources */,
 				81F2592F2AB073BB00C54668 /* ReviewApiService.swift in Sources */,
 				81DB1FB929E549C5002C0840 /* RoundShape.swift in Sources */,
-				8154B1EC2AE0DA7000AD2F83 /* ReplyRouter.swift in Sources */,
+				8154B1EC2AE0DA7000AD2F83 /* CommentRouter.swift in Sources */,
 				81E2F8AA2A8F4FDD003E53DC /* CertificationFilter.swift in Sources */,
 				8115A6582A8A166200B7C3FE /* TVGenreFilter.swift in Sources */,
 				81A1ECF929DD6BE70001A366 /* Tab.swift in Sources */,
