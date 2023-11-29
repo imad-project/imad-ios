@@ -52,10 +52,13 @@ struct ProfileView: View {
                             profileImageView
                             Divider()
                             HStack{
-                                myInfoView(view:  MyReviewView(writeType: .myself),
+                                myInfoView(view:
+                                            MyReviewView(writeType: .myself)
+                                    .environmentObject(vmAuth),
                                            image: "star.bubble",
                                            text: "내 리뷰", count: 0)
-                                myInfoView(view:  MyReviewView(writeType: .myself),
+                                myInfoView(view:  MyCommunityListView(writeType: .myself)
+                                    .environmentObject(vmAuth),
                                            image:  "text.word.spacing",
                                            text: "내 게시물", count: 0)
                                 myInfoView(view: MyScrapListView(), image: "scroll", text: "내 스크랩", count: 0)
@@ -63,8 +66,8 @@ struct ProfileView: View {
                             VStack{
                                 VStack(alignment: .leading) {
                                     Text("내 반응").bold()
-                                    navigationListRowView(view: MyReviewView(writeType: .myselfLike), image: "star.leadinghalf.filled", text: "리뷰")
-                                    navigationListRowView(view: MyReviewView(writeType: .myselfLike), image: "note.text", text: "게시물")
+                                    navigationListRowView(view: MyReviewView(writeType: .myselfLike).environmentObject(vmAuth), image: "star.leadinghalf.filled", text: "리뷰")
+                                    navigationListRowView(view: MyCommunityListView(writeType: .myselfLike).environmentObject(vmAuth), image: "note.text", text: "게시물")
                                 }.padding()
                                     .background(Color.white)
                                     .cornerRadius(10)

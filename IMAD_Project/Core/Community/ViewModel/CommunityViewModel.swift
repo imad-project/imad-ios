@@ -135,5 +135,40 @@ class CommunityViewModel:ObservableObject{
                 }
             } receiveValue: { _ in }.store(in: &cancelable)
     }
-    
+    func myCommunity(page:Int){
+        CommunityApiService.myCommunity(page: page)
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
+                self.currentPage = page
+            } receiveValue: { [weak self] response in
+                if let data = response.data{
+                    self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.maxPage = data.totalPages
+                }
+            }.store(in: &cancelable)
+    }
+    func myLikeCommunity(page:Int,likeStatus:Int){
+        CommunityApiService.myLikeCommunity(page: page,likeStatus: likeStatus)
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
+                self.currentPage = page
+            } receiveValue: { [weak self] response in
+                if let data = response.data{
+                    self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.maxPage = data.totalPages
+                }
+            }.store(in: &cancelable)
+    }
 }

@@ -1,16 +1,19 @@
 //
-//  MyCommunityView.swift
+//  MyCommunityListView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/11/29.
 //
 
-
 import SwiftUI
 
-struct MyCommunityView: View {
+struct MyCommunityListView: View {
     let writeType:WriteTypeFilter
+    
+    @State var community:CommunityDetailsListResponse? = nil
+    @State var goPosting = false
     @State var like = true
+    
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -18,20 +21,20 @@ struct MyCommunityView: View {
     func profileMode(next:Bool)->(){
         switch writeType{
         case .myself:
-            return vm.myReviewList(page: next ? vm.currentPage + 1 : vm.currentPage)
+            return vm.myCommunity(page: next ? vm.currentPage + 1 : vm.currentPage)
         case .myselfLike:
-            return vm.myLikeReviewList(page: next ? vm.currentPage + 1 : vm.currentPage, likeStatus: like ? 1 : -1)
+            return vm.myLikeCommunity(page: next ? vm.currentPage + 1 : vm.currentPage, likeStatus: like ? 1 : -1)
         }
     }
-    var reviewList:[ReadReviewResponse]{
+    var reviewList:[CommunityDetailsListResponse]{
         switch writeType{
         case .myself:
-            return vm.reviewList
+            return vm.communityList
         case .myselfLike:
             if like{
-                return vm.reviewList.filter({$0.likeStatus == 1})
+                return vm.communityList.filter({$0.likeStatus == 1})
             }else{
-                return vm.reviewList.filter({$0.likeStatus == -1})
+                return vm.communityList.filter({$0.likeStatus == -1})
             }
         }
     }
@@ -47,22 +50,25 @@ struct MyCommunityView: View {
             profileMode(next: false)
         }
         .onDisappear{
-            vm.reviewList.removeAll()
+            vm.communityList.removeAll()
         }
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
+        .navigationDestination(isPresented: $goPosting){
+            CommunityPostView(postingId: community?.postingID ?? 0, back: $goPosting)
+        }
     }
 }
 
-struct MyCommunityView_Previews: PreviewProvider {
+struct MyCommunityListView_Previews: PreviewProvider {
     static var previews: some View {
-        MyCommunityView(writeType: .myselfLike,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
+        MyCommunityListView(writeType: .myselfLike,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
             .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
     }
 }
 
-extension MyCommunityView{
+extension MyCommunityListView{
     var header:some View{
         VStack{
             ZStack{
@@ -77,7 +83,7 @@ extension MyCommunityView{
                     }
                     Spacer()
                 }
-                Text(writeType == .myself ? "내 리뷰" : "내 리뷰 반응")
+                Text(writeType == .myself ? "내 게시물" : "내 게시물 반응")
                     .font(.title3)
                     .bold()
             }
@@ -94,22 +100,15 @@ extension MyCommunityView{
     
     var item:some View{
         VStack{
-            if vm.reviewList.isEmpty{
+            if vm.communityList.isEmpty{
                 emptyView
             }else{
                 ScrollView{
-                    ForEach(reviewList,id: \.self) { review in
+                    ForEach(reviewList,id: \.self) { community in
                         VStack{
-                            NavigationLink {
-                                ReviewDetailsView(goWork: true, reviewId: review.reviewID)
-                                    .environmentObject(vmAuth)
-                                    .navigationBarBackButtonHidden()
-                            } label: {
-                                MyReviewListRowView(review: review)
-                                    .padding(.horizontal)
-                            }.padding(.top,10)
+                            communityListRowView(community: community)
                             Divider().padding(.vertical)
-                            if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
+                            if vm.communityList.last == community,vm.maxPage > vm.currentPage{
                                 ProgressView()
                                     .environment(\.colorScheme, .light)
                                     .onAppear{
@@ -126,7 +125,7 @@ extension MyCommunityView{
         Button {
             withAnimation {
                 self.like = like
-                vm.reviewList.removeAll()
+                vm.communityList.removeAll()
                 profileMode(next: false)
             }
         } label: {
@@ -153,7 +152,7 @@ extension MyCommunityView{
                 Image(systemName: "text.badge.xmark")
                     .font(.largeTitle)
                     .padding(.bottom,5)
-                Text("작성한 리뷰가 없습니다")
+                Text("작성한 게시물이 없습니다")
             }else{
                 ZStack{
                     Image(systemName: "heart.fill")
@@ -171,5 +170,28 @@ extension MyCommunityView{
             }
             Spacer()
         }
+    }
+    func communityListRowView(community:CommunityDetailsListResponse) -> some View{
+        Button {
+            self.community = community
+            self.goPosting = true
+        } label: {
+            HStack{
+                VStack(alignment: .leading) {
+                    Text(community.contentsTitle ?? "")
+                        .lineLimit(2)
+                    HStack{
+                        Circle().frame(width: 20)
+                        Text("사용자 이름")
+                        Text("· \(community.createdAt.relativeTime())")
+                    }
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                }
+                Spacer()
+                KFImageView(image:community.contentsPosterPath?.getImadImage() ?? "" ,width: 80,height: 80)
+            }
+        }
+        .padding(.horizontal)
     }
 }

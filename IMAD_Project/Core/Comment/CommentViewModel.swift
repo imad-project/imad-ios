@@ -70,7 +70,7 @@ class CommentViewModel:ObservableObject{
             } receiveValue: { _ in  }.store(in: &cancelable)
     }
     func readComment(commentId:Int){
-        CommunityApiService.readComment(commentId: commentId)
+        CommentApiService.readComment(commentId: commentId)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
