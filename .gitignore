@@ -31,7 +31,7 @@ DerivedData/
 
 ## Obj-C/Swift specific
 *.hmap
-
+SwiftUIWave/
 ## App packaging
 *.ipa
 *.dSYM.zip
