@@ -12,29 +12,14 @@ import SwiftUIFlowLayout
 struct ProfileView: View {
     
     @State var imageCode:ProfileFilter = .none
-    //    @State var authProvider = ""
-    //    @State var tokenExpired = (false,"")
-    
     @State var profileSelect = false
-    //    let columns = [ GridItem(.flexible()), GridItem(.flexible())]
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vmWork = WorkViewModel(workInfo: nil,bookmarkList: [])
-    //    @Environment(\.dismiss)
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @State var tv = false
-    //    @State var tvCollection:[TVGenreFilter] = []
     @State var movie = false
-    //    @State var movieCollection:[MovieGenreFilter] = []
-    
-    //    @State var review = false
-    //    @State var posting = false
-    //    @State var bookmark = false
-    
-    //    @State var qna = false
-    //    @State var notice = false
-    //    @State var setting = false
     
     var authProvider:String{
         if let user = vmAuth.user?.data{
@@ -123,14 +108,7 @@ struct ProfileView: View {
                 .presentationDetents([.fraction(0.7)])
         }
         .onAppear{
-            //                vm.myReviewList(page: vm.currentPage)
-            //                vm.myLikeReviewList(page: vm.currentPage)
-            //                vmWork.page = 1
-            //                vmWork.myBookmarkList = []
             vmWork.getBookmark(page: 1)
-            
-            //                guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
-            //                tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
         }
         .onDisappear{
             vmWork.bookmarkList.removeAll()
@@ -138,18 +116,6 @@ struct ProfileView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
-        //            .onAppear{
-        //                guard let movieGenres = vmAuth.profileInfo.movieGenre else {return}
-        //                movieCollection = MovieGenreFilter.allCases.filter({movieGenres.contains($0.rawValue)})
-        //            }
-        //            .onReceive(vm.tokenExpired) { messages in
-        //                tokenExpired = (true,messages)
-        //            }
-        //            .alert(isPresented: $tokenExpired.0) {
-        //                Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-        ////                    vmAuth.loginMode = false
-        //                })
-        //            }
     }
 }
 

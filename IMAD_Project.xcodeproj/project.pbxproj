@@ -104,6 +104,7 @@
 		818CF7FE2A21B7E000BABA1F /* RegisterFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */; };
 		818F71992B0F00AC008FDA84 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818F71982B0F00AC008FDA84 /* TestView.swift */; };
 		8199DD9E2B15C50600FBE14D /* SwiftUIWave in Frameworks */ = {isa = PBXBuildFile; productRef = 8199DD9D2B15C50600FBE14D /* SwiftUIWave */; };
+		8199DDA02B16FDB800FBE14D /* MyCommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199DD9F2B16FDB800FBE14D /* MyCommunityView.swift */; };
 		819AA9EB2ACD3C430048CF7B /* BookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EA2ACD3C430048CF7B /* BookmarkResponse.swift */; };
 		819AA9ED2ACD3CEC0048CF7B /* BookmarkListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9EC2ACD3CEC0048CF7B /* BookmarkListResponse.swift */; };
 		819AA9F12ACD618D0048CF7B /* MyReviewListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AA9F02ACD618D0048CF7B /* MyReviewListRowView.swift */; };
@@ -290,6 +291,7 @@
 		818CF7F92A20AAE500BABA1F /* AgeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeSelectView.swift; sourceTree = "<group>"; };
 		818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterFilter.swift; sourceTree = "<group>"; };
 		818F71982B0F00AC008FDA84 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		8199DD9F2B16FDB800FBE14D /* MyCommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityView.swift; sourceTree = "<group>"; };
 		819AA9EA2ACD3C430048CF7B /* BookmarkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkResponse.swift; sourceTree = "<group>"; };
 		819AA9EC2ACD3CEC0048CF7B /* BookmarkListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListResponse.swift; sourceTree = "<group>"; };
 		819AA9F02ACD618D0048CF7B /* MyReviewListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewListRowView.swift; sourceTree = "<group>"; };
@@ -550,6 +552,7 @@
 				811DA16C29E978DB00482A6A /* CommunityPostView.swift */,
 				817860202A29ECA7004639F6 /* CommunityWriteView.swift */,
 				8154B1E92ADE78A500AD2F83 /* CommunitySearchView.swift */,
+				8199DD9F2B16FDB800FBE14D /* MyCommunityView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1250,6 +1253,7 @@
 				81FF75AE2AF8C4DE00DB1AC2 /* ProfileImageView.swift in Sources */,
 				8115A6432A8391BE00B7C3FE /* WorkListResponse.swift in Sources */,
 				81C7312B2AF6183C0076D230 /* TokenApiService.swift in Sources */,
+				8199DDA02B16FDB800FBE14D /* MyCommunityView.swift in Sources */,
 				81BB11042A061457005654AA /* ApiClient.swift in Sources */,
 				817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */,
 				81588D572AFE73B600E19F8D /* CommunityDetailsList.swift in Sources */,
