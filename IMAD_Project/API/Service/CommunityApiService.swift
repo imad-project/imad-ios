@@ -118,4 +118,17 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func myCommunity(page:Int,likeStatus:Int) -> AnyPublisher<Community,AFError>{
+        print("내 좋아요/싫어요 게시물 조회 api호출")
+        return ApiClient.shared.session
+            .request(CommunityRouter.myLikeCommunity(page: page, likeStatus: likeStatus),interceptor: intercept)
+            .validate(statusCode: 200..<300)
+            .publishDecodable(type: Community.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }
