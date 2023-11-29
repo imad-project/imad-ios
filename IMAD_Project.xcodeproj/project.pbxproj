@@ -65,7 +65,7 @@
 		8154B1E62ADE2F6600AD2F83 /* CommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E52ADE2F6600AD2F83 /* CommentResponse.swift */; };
 		8154B1E82ADE328400AD2F83 /* CommentRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E72ADE328400AD2F83 /* CommentRowView.swift */; };
 		8154B1EA2ADE78A500AD2F83 /* CommunitySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1E92ADE78A500AD2F83 /* CommunitySearchView.swift */; };
-		8154B1EC2AE0DA7000AD2F83 /* CommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EB2AE0DA7000AD2F83 /* CommentRouter.swift */; };
+		8154B1EC2AE0DA7000AD2F83 /* ReplyRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EB2AE0DA7000AD2F83 /* ReplyRouter.swift */; };
 		8154B1EE2AE0DB9800AD2F83 /* CommentApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1ED2AE0DB9800AD2F83 /* CommentApiService.swift */; };
 		8154B1F02AE0DC4300AD2F83 /* AddComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EF2AE0DC4300AD2F83 /* AddComment.swift */; };
 		81588D482AFCF7A300E19F8D /* MovieGenreSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81588D472AFCF7A300E19F8D /* MovieGenreSelectView.swift */; };
