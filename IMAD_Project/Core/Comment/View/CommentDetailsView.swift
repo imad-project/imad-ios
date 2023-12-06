@@ -170,7 +170,8 @@ extension CommentDetailsView{
                         Button {
                             self.sort = sort
                             vm.currentPage = 1
-                            vm.replys = []
+                            vm.replys.removeAll()
+                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
                         } label: {
                             Capsule()
                                 .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
