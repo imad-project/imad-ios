@@ -318,7 +318,7 @@ extension CommunityPostView{
                             .foregroundColor(.customIndigo)
                     }
                 Button {
-                    vmComment.addReply(postingId: postingId, parentId: nil, content: reviewText)
+                    vmComment.addReply(postingId: postingId, parentId: nil, content: reviewText,commentMode: true)
                     reviewText = ""
                     UIApplication.shared.endEditing()
                 } label: {

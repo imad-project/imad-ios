@@ -59,6 +59,10 @@ struct CommentDetailsView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
+        .onReceive(vm.success){
+            vm.replys.removeAll()
+            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
+        }
     }
     
     
@@ -100,7 +104,7 @@ extension CommentDetailsView{
                         
                     }
                 Button {
-                    vm.addReply(postingId: postingId, parentId: parentsId, content: reviewText)
+                    vm.addReply(postingId: postingId, parentId: parentsId, content: reviewText,commentMode: true)
                     reviewText = ""
                     UIApplication.shared.endEditing()
                 } label: {

@@ -156,6 +156,8 @@ extension CommentRowView{
             }else{
                 NavigationLink {
                     CommentDetailsView(postingId:comment.postingId,parentsId: comment.commentID)
+                        .environmentObject(vmAuth)
+                        .navigationBarBackButtonHidden()
                 } label: {
                     if comment.childCnt > 0 {
                         Text("답글 \(comment.childCnt)개").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()

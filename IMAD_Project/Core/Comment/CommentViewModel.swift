@@ -16,8 +16,8 @@ class CommentViewModel:ObservableObject{
     @Published var currentPage = 1
     @Published var maxPage = 0
     
-    
     var success = PassthroughSubject<(),Never>()
+    var addSuccess = PassthroughSubject<Int,Never>()
     var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
     
     @Published var comment:CommentResponse? = nil
@@ -29,7 +29,7 @@ class CommentViewModel:ObservableObject{
     }
     
     
-    func addReply(postingId:Int,parentId:Int?,content:String){
+    func addReply(postingId:Int,parentId:Int?,content:String,commentMode:Bool){
         CommentApiService.addReply(postingId: postingId, parentId: parentId, content: content)
             .sink { completion in
                 switch completion{
@@ -39,8 +39,13 @@ class CommentViewModel:ObservableObject{
                 case .finished:
                     print(completion)
                 }
-            } receiveValue: { _ in
-                self.success.send()
+            } receiveValue: { data in
+                guard let data = data.data else {return}
+                if commentMode{
+                    self.success.send()
+                }else{
+                    self.addSuccess.send(data.commentId)
+                }
             }.store(in: &cancelable)
     }
     func modifyReply(commentId:Int,content:String){
