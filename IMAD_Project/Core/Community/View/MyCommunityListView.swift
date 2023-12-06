@@ -26,7 +26,7 @@ struct MyCommunityListView: View {
             return vm.myLikeCommunity(page: next ? vm.currentPage + 1 : vm.currentPage, likeStatus: like ? 1 : -1)
         }
     }
-    var reviewList:[CommunityDetailsListResponse]{
+    var communityList:[CommunityDetailsListResponse]{
         switch writeType{
         case .myself:
             return vm.communityList
@@ -63,7 +63,7 @@ struct MyCommunityListView: View {
 
 struct MyCommunityListView_Previews: PreviewProvider {
     static var previews: some View {
-        MyCommunityListView(writeType: .myselfLike,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
+        MyCommunityListView(writeType: .myself,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
             .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
     }
 }
@@ -104,7 +104,7 @@ extension MyCommunityListView{
                 emptyView
             }else{
                 ScrollView{
-                    ForEach(reviewList,id: \.self) { community in
+                    ForEach(communityList,id: \.self) { community in
                         VStack{
                             communityListRowView(community: community)
                             Divider().padding(.vertical)
@@ -181,12 +181,12 @@ extension MyCommunityListView{
                     Text(community.contentsTitle ?? "")
                         .lineLimit(2)
                     HStack{
-                        Circle().frame(width: 20)
-                        Text("사용자 이름")
+                        ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 20)
+                        Text(community.userNickname)
                         Text("· \(community.createdAt.relativeTime())")
+                            .foregroundColor(.gray)
                     }
                     .font(.caption)
-                    .foregroundColor(.gray)
                 }
                 Spacer()
                 KFImageView(image:community.contentsPosterPath?.getImadImage() ?? "" ,width: 80,height: 80)
