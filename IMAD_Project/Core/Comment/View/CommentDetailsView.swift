@@ -17,6 +17,7 @@ struct CommentDetailsView: View {
     @State var reviewText = ""
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
+    @State var replyWrite = false
     
     @StateObject var vm = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -33,7 +34,7 @@ struct CommentDetailsView: View {
                     if !vm.replys.isEmpty{
                         ForEach(vm.replys,id:\.self) { item in
                             if !item.removed{
-                                CommentRowView(replyMode: true, replyOfReply: false, comment: item)
+                                CommentRowView(replyMode: true, replyOfReply: false, comment: item, replyWrite: $replyWrite)
                                     .environmentObject(vmAuth)
                                     .padding(.leading)
                                 if vm.replys.last == item,vm.maxPage > vm.currentPage{
@@ -91,6 +92,9 @@ extension CommentDetailsView{
     }
     var commentInputView:some View{
         VStack{
+            if replyWrite{
+                Text("asdasd")
+            }
             Divider()
             HStack{
                 ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0, widthHeigt: 30)

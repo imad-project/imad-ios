@@ -297,7 +297,7 @@ extension CommunityPostView{
     }
     var comment:some View{
         ForEach(vm.community?.commentListResponse?.commentDetailsResponseList ?? [],id: \.self){ comment in
-            CommentRowView(replyMode: false, replyOfReply: false, comment: comment)
+            CommentRowView(replyMode: false, replyOfReply: false, comment: comment, replyWrite: .constant(false))
                 .environmentObject(vmAuth)
                 .onReceive(vmComment.commentDeleteSuccess) { deleteComment in
                     vm.community?.commentListResponse?.commentDetailsResponseList = vm.community?.commentListResponse?.commentDetailsResponseList.filter{$0 != deleteComment} ?? []

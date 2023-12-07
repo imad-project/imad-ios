@@ -21,6 +21,7 @@ struct CommentRowView: View {
     @State var delete = false
     
     @FocusState var focus:Bool
+    @Binding var replyWrite:Bool
     @State private var text = ""
     @State var input = false
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
@@ -79,7 +80,7 @@ struct CommentRowView: View {
 struct CommentRowView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            CommentRowView(replyMode: true, replyOfReply: false, comment: CustomData.instance.comment,vmComment: CommentViewModel(comment: nil, replys: CustomData.instance.commentList))
+            CommentRowView(replyMode: true, replyOfReply: false, comment: CustomData.instance.comment,replyWrite: .constant(true), vmComment: CommentViewModel(comment: nil, replys: CustomData.instance.commentList))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
         
@@ -148,7 +149,7 @@ extension CommentRowView{
                     }
                     Divider().frame(height: 10).bold()
                     Button {
-                        
+                        replyWrite = true
                     } label: {
                         Text("답글작성").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
                     }
@@ -162,7 +163,11 @@ extension CommentRowView{
                     if comment.childCnt > 0 {
                         Text("답글 \(comment.childCnt)개").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
                     }else{
-                        Text("답글작성").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
+                        Button {
+                            replyWrite = true
+                        } label: {
+                            Text("답글작성").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
+                        }
                     }
                 }
             }
@@ -183,7 +188,7 @@ extension CommentRowView{
     }
     var replysView:some View{
         ForEach(vmComment.replys,id:\.self) { reply in
-            CommentRowView(replyMode: true, replyOfReply: true,comment: reply)
+            CommentRowView(replyMode: true, replyOfReply: true,comment: reply, replyWrite: .constant(false))
                 .padding(.top,5)
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(10)
