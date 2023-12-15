@@ -55,6 +55,8 @@
 		8131C55E2AFA0CC9006B761D /* WriteReviewResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8131C55D2AFA0CC9006B761D /* WriteReviewResponse.swift */; };
 		81372A812AFB7E3000870331 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81372A802AFB7E3000870331 /* Int.swift */; };
 		814046FE2A284BC200B77EFD /* FilterCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814046FD2A284BC200B77EFD /* FilterCoverView.swift */; };
+		81407A702B2C2E16006550AF /* FactoryTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81407A6F2B2C2E16006550AF /* FactoryTestView.swift */; };
+		81407A722B2C3E7E006550AF /* GenreSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81407A712B2C3E7E006550AF /* GenreSelectView.swift */; };
 		8154B1D22ADA5BDD00AD2F83 /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1D12ADA5BDD00AD2F83 /* CommunityRouter.swift */; };
 		8154B1D42ADA5DA400AD2F83 /* CommunityApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1D32ADA5DA400AD2F83 /* CommunityApiService.swift */; };
 		8154B1D72ADA601B00AD2F83 /* WriteCommnunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1D62ADA601B00AD2F83 /* WriteCommnunity.swift */; };
@@ -241,6 +243,8 @@
 		8131C55D2AFA0CC9006B761D /* WriteReviewResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReviewResponse.swift; sourceTree = "<group>"; };
 		81372A802AFB7E3000870331 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		814046FD2A284BC200B77EFD /* FilterCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCoverView.swift; sourceTree = "<group>"; };
+		81407A6F2B2C2E16006550AF /* FactoryTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryTestView.swift; sourceTree = "<group>"; };
+		81407A712B2C3E7E006550AF /* GenreSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreSelectView.swift; sourceTree = "<group>"; };
 		8154B1D12ADA5BDD00AD2F83 /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
 		8154B1D32ADA5DA400AD2F83 /* CommunityApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityApiService.swift; sourceTree = "<group>"; };
 		8154B1D62ADA601B00AD2F83 /* WriteCommnunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteCommnunity.swift; sourceTree = "<group>"; };
@@ -592,6 +596,7 @@
 				812EF9D229E1B5E700CE19DA /* ProfileView.swift */,
 				817BBB3729EE982F00E1CBA6 /* ProfileChangeView.swift */,
 				817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */,
+				81407A712B2C3E7E006550AF /* GenreSelectView.swift */,
 				81588D472AFCF7A300E19F8D /* MovieGenreSelectView.swift */,
 				81588D4D2AFE5E1700E19F8D /* TvGenreSelectView.swift */,
 				81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */,
@@ -712,6 +717,7 @@
 			isa = PBXGroup;
 			children = (
 				818F71982B0F00AC008FDA84 /* TestView.swift */,
+				81407A6F2B2C2E16006550AF /* FactoryTestView.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -1208,6 +1214,7 @@
 				819D49A82A9383BA008B7BFE /* NoImageView.swift in Sources */,
 				81C264942A1376AE00405B01 /* OauthFilter.swift in Sources */,
 				8154B1DD2ADACAB600AD2F83 /* CommunityViewModel.swift in Sources */,
+				81407A702B2C2E16006550AF /* FactoryTestView.swift in Sources */,
 				8115A6622A8F320B00B7C3FE /* Array.swift in Sources */,
 				812CDE9A29DE9ECB0003B993 /* TabViewModel.swift in Sources */,
 				8115A65A2A8A170700B7C3FE /* MovieGenreFilter.swift in Sources */,
@@ -1284,6 +1291,7 @@
 				814046FE2A284BC200B77EFD /* FilterCoverView.swift in Sources */,
 				811DA16D29E978DB00482A6A /* CommunityPostView.swift in Sources */,
 				812CDE9429DE92000003B993 /* CommunityView.swift in Sources */,
+				81407A722B2C3E7E006550AF /* GenreSelectView.swift in Sources */,
 				81BB110C2A0617B8005654AA /* BaseIntercept.swift in Sources */,
 				81AF8E8F2B1714EC000BB984 /* MyCommunityListView.swift in Sources */,
 				81588D592AFE743900E19F8D /* CommunityDetailsListResponse.swift in Sources */,

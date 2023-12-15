@@ -101,12 +101,12 @@ struct ProfileView: View {
         .foregroundColor(.customIndigo)
         .colorScheme(.light)
         .sheet(isPresented: $tv) {
-            TvGenreSelectView(dismiss: $tv)
+            GenreSelectView(genreType: .tv, dismiss: $tv)
                 .environmentObject(vmAuth)
                 .presentationDetents([.fraction(0.7)])
         }
         .sheet(isPresented: $movie) {
-            MovieGenreSelectView(dismiss: $movie)
+            GenreSelectView(genreType: .movie, dismiss: $movie)
                 .environmentObject(vmAuth)
                 .presentationDetents([.fraction(0.7)])
         }
