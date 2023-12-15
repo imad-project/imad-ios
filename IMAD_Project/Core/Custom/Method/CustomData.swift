@@ -78,10 +78,10 @@ class CustomData{
     
     let bookmarkList = [
     
-        BookmarkListResponse(bookmarkID: 1, userID: 1, contentsID: 1, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579"),
-        BookmarkListResponse(bookmarkID: 3, userID: 1, contentsID: 3, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579"),
-        BookmarkListResponse(bookmarkID: 4, userID: 1, contentsID: 4, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579"),
-        BookmarkListResponse(bookmarkID: 7, userID: 1, contentsID: 5, contentsTitle: "죠죠", contentsPosterPath:    "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", createdDate: "2023-10-16T12:33:35.007579")
+        BookmarkListResponse(bookmarkID: 1, userID: 1, contentsID: 1, contentsTitle: "죠죠", contentsPosterPath:    "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", createdDate: "2023-10-16T12:33:35.007579"),
+        BookmarkListResponse(bookmarkID: 3, userID: 1, contentsID: 3, contentsTitle: "죠죠", contentsPosterPath:    "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", createdDate: "2023-10-16T12:33:35.007579"),
+        BookmarkListResponse(bookmarkID: 4, userID: 1, contentsID: 4, contentsTitle: "죠죠", contentsPosterPath:    "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", createdDate: "2023-10-16T12:33:35.007579"),
+        BookmarkListResponse(bookmarkID: 7, userID: 1, contentsID: 5, contentsTitle: "죠죠", contentsPosterPath:    "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", createdDate: "2023-10-16T12:33:35.007579")
     ]
     let workInfo:WorkResponse = WorkResponse(genres: [
         80,
@@ -250,9 +250,9 @@ class CustomData{
                     ],
                     originalLanguage: "ja",
                     adult: false,
-                    backdropPath: "/5mUYDoFjDlPmDvnUWSknhYjGBBh.jpg",
+                    backdropPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg",
                     overview: "유서 깊은 죠스타 가문에 얽힌 기묘한 이야기를 아는가. 각기 다른 세상에서 애칭 '죠죠'를 공유하며 살아가는 주인공들. 시간적 공간적 배경은 달라도, 추구하는 가치는 다르지 않다. 악의 세력을 물리치고 정의가 이기는 세상을 만들라.",
-                    posterPath: "/7OzIcqBOtqRo0ivrRJrgHyCJg1V.jpg",
+                    posterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg",
                     mediaType: "tv",
                     genreIds: [
                         16,
@@ -319,4 +319,11 @@ class CustomData{
 //        BookmarkDetailsList(bookmarkID: 1, userID: 1, contentsID: 1, contentsTitle: "dasd", contentsPosterPath:CustomData.instance.movieList[0], createdDate: "2023-09-15T13:31:10.027532")
 //    ]
     let review:ReadReviewResponse = ReadReviewResponse(reviewID: 1, contentsID: 1, contentsTitle: "굳", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", userID: 1, userNickname: "콰랑", userProfileImage: 3, title: "죠죠", content: "묻힌 때 경, 까닭이요, 사랑과 내 까닭입니다. 지나가는 멀리 시인의 하늘에는 프랑시스 못 가난한 우는 하나에 까닭입니다. 가을로 된 별 아무 우는 당신은 까닭이요, 듯합니다. 무덤 풀이 파란 릴케 봅니무덤", score: 6.7, likeCnt: 2, dislikeCnt: 3, createdAt: "2023-09-15T13:31:10.027532", modifiedAt: "2023-09-15T13:31:10.027532", likeStatus: 1, spoiler: false)
+    
+    let scrapList:[ScrapListResponse] = [
+        ScrapListResponse(scrapID: 1, userID: 1, userNickname: "콰랑", userProfileImage: 1, contentsID: 1, contentsTitle:  "죠죠", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", postingID: 1, postingTitle: "이거 개쩔지 않노", createdDate: "2023-09-15T13:31:10.027532"),
+        ScrapListResponse(scrapID: 1, userID: 1, userNickname: "콰랑", userProfileImage: 3, contentsID: 1, contentsTitle:  "죠죠", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", postingID: 1, postingTitle: "이거 개쩔지 않노", createdDate: "2023-09-15T13:31:10.027532"),
+        ScrapListResponse(scrapID: 1, userID: 1, userNickname: "콰랑", userProfileImage: 2, contentsID: 1, contentsTitle:  "죠죠", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", postingID: 1, postingTitle: "이거 개쩔지 않노", createdDate: "2023-09-15T13:31:10.027532"),
+        ScrapListResponse(scrapID: 1, userID: 1, userNickname: "콰랑", userProfileImage: 4, contentsID: 1, contentsTitle:  "죠죠", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", postingID: 1, postingTitle: "이거 개쩔지 않노", createdDate: "2023-09-15T13:31:10.027532")
+        ]
 }

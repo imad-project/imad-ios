@@ -17,6 +17,7 @@ struct CommentDetailsView: View {
     @State var reviewText = ""
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
+    @State var replyWrite = false
     
     @StateObject var vm = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -33,7 +34,7 @@ struct CommentDetailsView: View {
                     if !vm.replys.isEmpty{
                         ForEach(vm.replys,id:\.self) { item in
                             if !item.removed{
-                                CommentRowView(replyMode: true, replyOfReply: false, comment: item)
+                                CommentRowView(replyMode: true, replyOfReply: false, comment: item, replyWrite: $replyWrite)
                                     .environmentObject(vmAuth)
                                     .padding(.leading)
                                 if vm.replys.last == item,vm.maxPage > vm.currentPage{
@@ -58,6 +59,10 @@ struct CommentDetailsView: View {
         }
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
+        }
+        .onReceive(vm.success){
+            vm.replys.removeAll()
+            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
         }
     }
     
@@ -87,6 +92,9 @@ extension CommentDetailsView{
     }
     var commentInputView:some View{
         VStack{
+            if replyWrite{
+                Text("asdasd")
+            }
             Divider()
             HStack{
                 ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0, widthHeigt: 30)
@@ -100,7 +108,7 @@ extension CommentDetailsView{
                         
                     }
                 Button {
-                    vm.addReply(postingId: postingId, parentId: parentsId, content: reviewText)
+                    vm.addReply(postingId: postingId, parentId: parentsId, content: reviewText,commentMode: true)
                     reviewText = ""
                     UIApplication.shared.endEditing()
                 } label: {
@@ -166,7 +174,8 @@ extension CommentDetailsView{
                         Button {
                             self.sort = sort
                             vm.currentPage = 1
-                            vm.replys = []
+                            vm.replys.removeAll()
+                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
                         } label: {
                             Capsule()
                                 .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))

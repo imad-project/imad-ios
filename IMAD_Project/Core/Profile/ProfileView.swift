@@ -12,29 +12,14 @@ import SwiftUIFlowLayout
 struct ProfileView: View {
     
     @State var imageCode:ProfileFilter = .none
-    //    @State var authProvider = ""
-    //    @State var tokenExpired = (false,"")
-    
     @State var profileSelect = false
-    //    let columns = [ GridItem(.flexible()), GridItem(.flexible())]
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vmWork = WorkViewModel(workInfo: nil,bookmarkList: [])
-    //    @Environment(\.dismiss)
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @State var tv = false
-    //    @State var tvCollection:[TVGenreFilter] = []
     @State var movie = false
-    //    @State var movieCollection:[MovieGenreFilter] = []
-    
-    //    @State var review = false
-    //    @State var posting = false
-    //    @State var bookmark = false
-    
-    //    @State var qna = false
-    //    @State var notice = false
-    //    @State var setting = false
     
     var authProvider:String{
         if let user = vmAuth.user?.data{
@@ -67,19 +52,22 @@ struct ProfileView: View {
                             profileImageView
                             Divider()
                             HStack{
-                                myInfoView(view:  MyReviewView(writeType: .myself),
+                                myInfoView(view:
+                                            MyReviewView(writeType: .myself)
+                                    .environmentObject(vmAuth),
                                            image: "star.bubble",
-                                           text: "내 리뷰", count: 0)
-                                myInfoView(view:  MyReviewView(writeType: .myself),
+                                           text: "내 리뷰", count: vmWork.profileInfo?.myReviewCnt ?? 0)
+                                myInfoView(view:  MyCommunityListView(writeType: .myself)
+                                    .environmentObject(vmAuth),
                                            image:  "text.word.spacing",
-                                           text: "내 게시물", count: 0)
-                                myInfoView(view: MyReviewView(writeType: .myself), image: "scroll", text: "내 스크랩", count: 0)
+                                           text: "내 게시물", count: vmWork.profileInfo?.myPostingCnt ?? 0)
+                                myInfoView(view: MyScrapListView(), image: "scroll", text: "내 스크랩", count: vmWork.profileInfo?.myScrapCnt ?? 0)
                             }
                             VStack{
                                 VStack(alignment: .leading) {
                                     Text("내 반응").bold()
-                                    navigationListRowView(view: MyReviewView(writeType: .myselfLike), image: "star.leadinghalf.filled", text: "리뷰")
-                                    navigationListRowView(view: MyReviewView(writeType: .myselfLike), image: "note.text", text: "게시물")
+                                    navigationListRowView(view: MyReviewView(writeType: .myselfLike).environmentObject(vmAuth), image: "star.leadinghalf.filled", text: "리뷰")
+                                    navigationListRowView(view: MyCommunityListView(writeType: .myselfLike).environmentObject(vmAuth), image: "note.text", text: "게시물")
                                 }.padding()
                                     .background(Color.white)
                                     .cornerRadius(10)
@@ -113,24 +101,17 @@ struct ProfileView: View {
         .foregroundColor(.customIndigo)
         .colorScheme(.light)
         .sheet(isPresented: $tv) {
-            TvGenreSelectView(dismiss: $tv)
+            GenreSelectView(genreType: .tv, dismiss: $tv)
                 .environmentObject(vmAuth)
                 .presentationDetents([.fraction(0.7)])
         }
         .sheet(isPresented: $movie) {
-            MovieGenreSelectView(dismiss: $movie)
+            GenreSelectView(genreType: .movie, dismiss: $movie)
                 .environmentObject(vmAuth)
                 .presentationDetents([.fraction(0.7)])
         }
         .onAppear{
-            //                vm.myReviewList(page: vm.currentPage)
-            //                vm.myLikeReviewList(page: vm.currentPage)
-            //                vmWork.page = 1
-            //                vmWork.myBookmarkList = []
-            vmWork.getBookmark(page: 1)
-            
-            //                guard let tvGenres = vmAuth.profileInfo.tvGenre else {return}
-            //                tvCollection = TVGenreFilter.allCases.filter({tvGenres.contains($0.rawValue)})
+            vmWork.getProfile(page: 1)
         }
         .onDisappear{
             vmWork.bookmarkList.removeAll()
@@ -138,25 +119,13 @@ struct ProfileView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
-        //            .onAppear{
-        //                guard let movieGenres = vmAuth.profileInfo.movieGenre else {return}
-        //                movieCollection = MovieGenreFilter.allCases.filter({movieGenres.contains($0.rawValue)})
-        //            }
-        //            .onReceive(vm.tokenExpired) { messages in
-        //                tokenExpired = (true,messages)
-        //            }
-        //            .alert(isPresented: $tokenExpired.0) {
-        //                Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-        ////                    vmAuth.loginMode = false
-        //                })
-        //            }
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ProfileView(vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
+            ProfileView(vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail),vmWork:WorkViewModel(workInfo: nil, bookmarkList: CustomData.instance.bookmarkList))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }

@@ -1,5 +1,9 @@
 *.xcconfig
 *.plist
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
 # Created by https://www.toptal.com/developers/gitignore/api/swiftpackagemanager,swift,xcode
 # Edit at https://www.toptal.com/developers/gitignore?templates=swiftpackagemanager,swift,xcode
 
@@ -31,7 +35,7 @@ DerivedData/
 
 ## Obj-C/Swift specific
 *.hmap
-
+SwiftUIWave/
 ## App packaging
 *.ipa
 *.dSYM.zip

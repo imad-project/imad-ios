@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-
+import SwiftUIWave
 struct RegisterTabView: View {
-    
 
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -36,12 +35,14 @@ struct RegisterTabView: View {
             .ignoresSafeArea()
             .tabViewStyle(.page(indexDisplayMode: .never))
             tabViewbar
-            BackgroundView(height: 0.13, height1: 0.15,height2: 0.17,height3: 0.19)
+            WaveImage(color: .customIndigo, height: .veryLow, speed: .slow, amplitude: .low)
+            
             
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onAppear{
             vmAuth.selection = .nickname
+            
         }
         .navigationBarBackButtonHidden(true)
         .onTapGesture {

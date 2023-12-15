@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct ScoreView: View {
     
     @State var animaition = false
@@ -18,6 +19,7 @@ struct ScoreView: View {
     
     
     var body: some View {
+    
         Circle()
             .trim(from: 0.0, to: animaition ? score * 0.1 : 0)
             .stroke(lineWidth: 3)

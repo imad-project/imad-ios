@@ -17,7 +17,9 @@ enum CommunityRouter:URLRequestConvertible{
     case like(postingId:Int,status:Int)
     case modify(postingId:Int,title:String,content:String,category:Int,spoiler:Bool)
     case delete(postingId:Int)
-    case readComment(commentId:Int)
+    
+    case myCommunity(page:Int)
+    case myLikeCommunity(page:Int,likeStatus:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -38,9 +40,10 @@ enum CommunityRouter:URLRequestConvertible{
         case let .modify(postingId,_,_,_,_):
             return "/api/posting/\(postingId)"
         case let .delete(postingId):
-            return "/api/posting/\(postingId)"
-        case let .readComment(commentId):
-            return "/api/posting/comment/\(commentId)"
+            return "/api/posting/\(postingId)"        case .myCommunity:
+            return "/api/profile/posting/list"
+        case .myLikeCommunity:
+            return "/api/profile/like/posting/list"
         }
     }
     
@@ -48,7 +51,7 @@ enum CommunityRouter:URLRequestConvertible{
         switch self{
         case .write:
             return .post
-        case .readListAll,.readListConditionsAll,.readPosting,.readComment:
+        case .readListAll,.readListConditionsAll,.readPosting,.myCommunity,.myLikeCommunity:
             return .get
         case .like,.modify:
             return .patch
@@ -92,7 +95,16 @@ enum CommunityRouter:URLRequestConvertible{
             params["category"] = category
             params["is_spoiler"] = spoiler
             return params
-        case .readPosting,.delete,.readComment:
+        case let .myCommunity(page):
+            var params = Parameters()
+            params["page"] = page
+            return params
+        case let .myLikeCommunity(page,likeStatus):
+            var params = Parameters()
+            params["page"] = page
+            params["like_status"] = likeStatus
+            return params
+        case .readPosting,.delete:
             return Parameters()
         
         }
@@ -103,7 +115,7 @@ enum CommunityRouter:URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         switch self{
-        case .readListAll,.readListConditionsAll,.readPosting,.delete,.readComment:
+        case .readListAll,.readListConditionsAll,.readPosting,.delete,.myCommunity,.myLikeCommunity:
             return try URLEncoding(destination: .queryString).encode(request, with: parameters)
         case .write,.like,.modify:
             return try JSONEncoding.default.encode(request, with: parameters)

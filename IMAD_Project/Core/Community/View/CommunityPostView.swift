@@ -23,7 +23,9 @@ struct CommunityPostView: View {
     
     @FocusState var reply:Bool
     
+    
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
+    @StateObject var vmScrap = ScrapViewModel(scrapList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -90,12 +92,20 @@ extension CommunityPostView{
                         .padding()
                 }
                 Spacer()
-                Button {
-                    
-                } label: {
-                    Image(systemName: "bookmark")
+                if let scrapStatus = vm.community?.scrapStatus{
+                    Button {
+                        if scrapStatus{
+                            vm.community?.scrapStatus = false
+                            vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0)
+                        }else{
+                            vm.community?.scrapStatus = true
+                            vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
+                        }
+                    } label: {
+                        Image(systemName:scrapStatus ? "bookmark.fill" : "bookmark")
+                            .padding(.trailing)
+                    }
                 }
-
                 if let userName = vmAuth.user?.data?.nickname,userName == vm.community?.userNickname{
                     Button {
                         menu.toggle()
@@ -288,7 +298,7 @@ extension CommunityPostView{
     }
     var comment:some View{
         ForEach(vm.community?.commentListResponse?.commentDetailsResponseList ?? [],id: \.self){ comment in
-            CommentRowView(replyMode: false, replyOfReply: false, comment: comment)
+            CommentRowView(replyMode: false, replyOfReply: false, comment: comment, replyWrite: .constant(false))
                 .environmentObject(vmAuth)
                 .onReceive(vmComment.commentDeleteSuccess) { deleteComment in
                     vm.community?.commentListResponse?.commentDetailsResponseList = vm.community?.commentListResponse?.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
@@ -309,7 +319,7 @@ extension CommunityPostView{
                             .foregroundColor(.customIndigo)
                     }
                 Button {
-                    vmComment.addReply(postingId: postingId, parentId: nil, content: reviewText)
+                    vmComment.addReply(postingId: postingId, parentId: nil, content: reviewText,commentMode: true)
                     reviewText = ""
                     UIApplication.shared.endEditing()
                 } label: {
@@ -333,32 +343,35 @@ extension CommunityPostView{
     func likePosting(){
         guard let like = vm.community?.likeStatus else {return}
         if like < 1{
-            vm.community?.likeCnt += 1
             if like < 0{
                 vm.community?.dislikeCnt -= 1
             }
+            vm.community?.likeCnt += 1
+            
             vm.community?.likeStatus = 1
+            vm.like(postingId: vm.community?.postingID ?? 0, status: 1)
         }else{
-            vm.community?.likeStatus = 0
             vm.community?.likeCnt -= 1
+            vm.community?.likeStatus = 0
+            vm.like(postingId: vm.community?.postingID ?? 0, status: 0)
         }
-        vm.like(postingId: vm.community?.postingID ?? 0, status: like)
     }
     func disLikePosting(){
         guard let like = vm.community?.likeStatus else {return}
         if like > -1{
-            vm.community?.dislikeCnt += 1
             if like > 0{
                 vm.community?.likeCnt -= 1
             }
+            vm.community?.dislikeCnt += 1
             vm.community?.likeStatus = -1
-            
+            vm.like(postingId: vm.community?.postingID ?? 0, status: -1)
         }else{
             vm.community?.likeStatus = 0
             vm.community?.dislikeCnt -= 1
+            vm.like(postingId: vm.community?.postingID ?? 0, status: 0)
         }
-        vm.like(postingId: vm.community?.postingID ?? 0, status: like)
     }
+   
     func readCommunity(){
         vm.currentPage = 1
         vmComment.replys = []

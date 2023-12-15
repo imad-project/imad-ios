@@ -104,12 +104,26 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func readComment(commentId:Int) -> AnyPublisher<Comment,AFError>{
-        print("게시물 댓글 조회 api호출")
+  
+    static func myCommunity(page:Int) -> AnyPublisher<CommunityList,AFError>{
+        print("내 게시물 조회 api호출")
         return ApiClient.shared.session
-            .request(CommunityRouter.readComment(commentId: commentId),interceptor: intercept)
+            .request(CommunityRouter.myCommunity(page: page),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: Comment.self)
+            .publishDecodable(type: CommunityList.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
+    static func myLikeCommunity(page:Int,likeStatus:Int) -> AnyPublisher<CommunityList,AFError>{
+        print("내 좋아요/싫어요 게시물 조회 api호출")
+        return ApiClient.shared.session
+            .request(CommunityRouter.myLikeCommunity(page: page, likeStatus: likeStatus),interceptor: intercept)
+            .validate(statusCode: 200..<300)
+            .publishDecodable(type: CommunityList.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")

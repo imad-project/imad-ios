@@ -13,6 +13,7 @@ class WorkViewModel:ObservableObject{
     
     @Published var workInfo:WorkResponse? = nil
     @Published var bookmarkList:[BookmarkListResponse] = []
+    @Published var profileInfo:ProfileResponse? = nil
     
     @Published var currentPage = 1
     @Published var maxPage = 1
@@ -99,5 +100,25 @@ class WorkViewModel:ObservableObject{
                     print(completion)
                 }
             } receiveValue: { _ in }.store(in: &cancelable)
+    }
+    func getProfile(page:Int){
+        UserApiService.getProfile()
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
+                
+                self.currentPage = page
+            } receiveValue: { [weak self] profile in
+                if let data = profile.data{
+                    self?.profileInfo = data
+                    self?.bookmarkList.append(contentsOf: data.bookmarkListResponse.bookmarkDetailsList)
+                    self?.maxPage = data.bookmarkListResponse.totalPages
+                }
+            }.store(in: &cancelable)
     }
 }

@@ -12,6 +12,7 @@ enum UserRouter:URLRequestConvertible{
     case user
     case patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?)
     case passwordChange(old:String,new:String)
+    case profile
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -23,11 +24,13 @@ enum UserRouter:URLRequestConvertible{
             return "/api/user"
         case .passwordChange:
             return "api/user/password"
+        case .profile:
+            return "api/profile"
         }
     }
     var method:HTTPMethod{
         switch self{
-        case .user:
+        case .user,.profile:
             return .get
         case .patchUser,.passwordChange:
             return .patch
@@ -36,7 +39,7 @@ enum UserRouter:URLRequestConvertible{
     }
     var parameters:Parameters{
         switch self{
-        case .user:
+        case .user,.profile:
             return Parameters()
         case let .patchUser(gender,ageRange,image,nickname,tvGenre,movieGenre):
             var params = Parameters()
@@ -59,7 +62,7 @@ enum UserRouter:URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         switch self{
-        case .user:
+        case .user,.profile:
             return request
         case .patchUser,.passwordChange:
             return try JSONEncoding.default.encode(request, with: parameters)

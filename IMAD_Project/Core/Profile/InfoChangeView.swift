@@ -27,7 +27,14 @@ struct InfoChangeView: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel
-    
+    var currentDate :Int{
+        
+        let date = Date()
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+
+        return components.year!
+    }
     var body: some View {
         VStack(alignment: .leading,spacing: 0){
             header
@@ -52,11 +59,6 @@ struct InfoChangeView: View {
         }
         .foregroundColor(.black)
         .padding()
-//        .onReceive(vmAuth.passwordChangeSuccess){
-//            success = true
-//            alertMsg = vmAuth.passwordChangeRes?.message ?? ""
-//            notRegex = true
-//        }
         .background(Color.white.ignoresSafeArea())
         .alert(isPresented: $notRegex){
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
@@ -65,15 +67,6 @@ struct InfoChangeView: View {
                 }
             })
         }
-        //        .onReceive(vmAuth.tokenExpired) { messages in
-        //            tokenExpired = (true,messages)
-        //        }
-        //        .alert(isPresented: $tokenExpired.0) {
-        //            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-        //                vmAuth.loginMode = false
-        //            })
-        //        }
-        //        .navigationBarBackButtonHidden(true)
     }
     func isVaildInfo()->Int{
         
@@ -93,7 +86,7 @@ struct InfoChangeView: View {
 struct InfoChangeView_Previews: PreviewProvider {
     static var previews: some View {
         
-        InfoChangeView(title: "", password: true, text: "quarang")
+        InfoChangeView(title: "나이", password: true, text: "quarang")
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
@@ -156,15 +149,15 @@ extension InfoChangeView{
         HStack{
             Spacer()
             Picker("", selection: $age) {
-                ForEach(0...100, id: \.self) {
-                    Text("\($0) 세")
+                ForEach(1900...currentDate, id: \.self) {
+                    Text("\($0)")
                 }
             }
             .colorScheme(.light)
             .pickerStyle(InlinePickerStyle())
             .frame(width:150,height: 150)
-            .overlay(alignment:.leading){
-                Text("만").offset(x:-20)
+            .overlay(alignment:.trailing){
+                Text("년").offset(x:20)
             }
             Spacer()
         }

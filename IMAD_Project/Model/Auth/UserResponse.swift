@@ -15,8 +15,8 @@ struct UserResponse:Codable{
     var gender:String?
     var ageRange:Int
     var profileImage:Int
-    var tvGenre:[Int]?
-    var movieGenre:[Int]?
+    var tvGenre:[Int]
+    var movieGenre:[Int]
     let authProvider:String
     let role:String
     

@@ -7,7 +7,9 @@
 
 ### 관련링크
 
-- [IMAD 서버](https://github.com/NCookies/imad-server)
+- [IMAD Server](https://github.com/NCookies/imad-server)
+- [IMAD Anroid](https://github.com/imad-project/imad-android)
+- [IMAD Web](https://github.com/imad-project/imad-web)
 - [IMAD iOS 위키](https://github.com/QuaRang1225/IMad_Project/wiki)
 
 

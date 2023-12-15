@@ -26,6 +26,15 @@
         "revision" : "de7da3440c3b87ba94adfa98c698828d7746a76d",
         "version" : "1.0.5"
       }
+    },
+    {
+      "identity" : "swiftuiwave",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/QuaRang1225/SwiftUIWave.git",
+      "state" : {
+        "revision" : "97c9eab530dc38d5f547621cd64acdcca44a8e92",
+        "version" : "1.0.0"
+      }
     }
   ],
   "version" : 2

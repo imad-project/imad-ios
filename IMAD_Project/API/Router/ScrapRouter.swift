@@ -60,7 +60,7 @@ enum ScrapRouter:URLRequestConvertible{
         case .read,.delete:
             return try URLEncoding(destination: .queryString).encode(request, with: parameters)
         case .write:
-            return try URLEncoding(destination: .httpBody).encode(request, with: parameters)
+            return try JSONEncoding.default.encode(request, with: parameters)
         }
     }
 }

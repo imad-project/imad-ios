@@ -66,12 +66,12 @@ enum WorkApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func bookCreate(id:Int) -> AnyPublisher<Bookmark,AFError>{
+    static func bookCreate(id:Int) -> AnyPublisher<NoDataResponse,AFError>{
         print("북마크 추가 api호출")
         return ApiClient.shared.session
             .request(WorkRouter.bookmarkCreate(id:id),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: Bookmark.self)
+            .publishDecodable(type: NoDataResponse.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")
@@ -79,12 +79,12 @@ enum WorkApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func bookDelete(id:Int) -> AnyPublisher<Bookmark,AFError>{
+    static func bookDelete(id:Int) -> AnyPublisher<NoDataResponse,AFError>{
         print("북마크 삭제 api호출")
         return ApiClient.shared.session
             .request(WorkRouter.bookmarkDelete(id:id),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: Bookmark.self)
+            .publishDecodable(type: NoDataResponse.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")
