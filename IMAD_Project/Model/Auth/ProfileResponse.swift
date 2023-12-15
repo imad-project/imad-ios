@@ -6,3 +6,20 @@
 //
 
 import Foundation
+
+struct ProfileResponse:Codable{
+    let userID: Int
+    let userNickname: String
+    let userProfileImage, myReviewCnt, myPostingCnt, myScrapCnt: Int
+    let bookmarkListResponse: BookmarkResponse
+
+    enum CodingKeys: String, CodingKey {
+        case userID = "user_id"
+        case userNickname = "user_nickname"
+        case userProfileImage = "user_profile_image"
+        case myReviewCnt = "my_review_cnt"
+        case myPostingCnt = "my_posting_cnt"
+        case myScrapCnt = "my_scrap_cnt"
+        case bookmarkListResponse = "bookmark_list_response"
+    }
+}

@@ -53,6 +53,17 @@ enum UserApiService{
             }
             .eraseToAnyPublisher()
     }
-
-
+    static func getProfile() -> AnyPublisher<Profile,AFError>{
+        print("프로필 요청 정보 api 호출")
+        return ApiClient.shared.session
+            .request(UserRouter.profile,interceptor: intercept)
+            .validate(statusCode: 200..<300)
+            .publishDecodable(type: Profile.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
 }

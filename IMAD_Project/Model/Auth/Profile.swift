@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct Profile:Codable{
+    let status:Int
+    var data:ProfileResponse?
+    let message:String
+}
