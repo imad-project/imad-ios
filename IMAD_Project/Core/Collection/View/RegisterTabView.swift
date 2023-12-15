@@ -42,6 +42,7 @@ struct RegisterTabView: View {
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onAppear{
             vmAuth.selection = .nickname
+            
         }
         .navigationBarBackButtonHidden(true)
         .onTapGesture {
