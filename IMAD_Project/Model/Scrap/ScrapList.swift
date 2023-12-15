@@ -11,7 +11,7 @@ struct ScrapList:Codable{
     var detailList: [ScrapListResponse]
     let totalElements, totalPages, pageNumber, numberOfElements: Int
     let sizeOfPage, sortDirection: Int
-    let sortProperty: String
+    let sortProperty: String?
     let searchType: Int?
     
     enum CodingKeys: String, CodingKey {

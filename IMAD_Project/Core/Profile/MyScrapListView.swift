@@ -34,7 +34,9 @@ struct MyScrapListView: View {
             vm.readScrapList(page: vm.currentPage)
         }
         .navigationDestination(isPresented: $goPosting){
-            CommunityPostView(postingId: scrap?.postingId ?? 0, back: $goPosting)
+            CommunityPostView(postingId: scrap?.postingID ?? 0, back: $goPosting)
+                .environmentObject(vmAuth)
+                .navigationBarBackButtonHidden()
         }
         .foregroundColor(.black)
     }
@@ -76,15 +78,15 @@ extension MyScrapListView{
                     Text(scrap.postingTitle)
                         .lineLimit(2)
                     HStack{
-                        Circle().frame(width: 20)
-                        Text("사용자 이름")
+                        ProfileImageView(imageCode: scrap.userProfileImage, widthHeigt: 20)
+                        Text(scrap.userNickname)
                         Text("· \(scrap.createdDate.relativeTime())")
                     }
                     .font(.caption)
                     .foregroundColor(.gray)
                 }
                 Spacer()
-                KFImageView(image: CustomData.instance.movieList.first!,width: 80,height: 80)
+                KFImageView(image: scrap.contentsPosterPath.getImadImage(),width: 80,height: 80)
             }
         }
         .padding(.horizontal)

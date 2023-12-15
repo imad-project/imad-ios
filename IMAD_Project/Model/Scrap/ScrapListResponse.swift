@@ -8,16 +8,22 @@
 import Foundation
 
 struct ScrapListResponse:Codable,Hashable{
-    let scrapId:Int
-    let userId:Int
-    let postingId:Int                // 게시글 ID
-    let postingTitle:String        // 게시글 제목
-    let createdDate:String
+    let scrapID, userID: Int
+    let userNickname: String
+    let userProfileImage, contentsID: Int
+    let contentsTitle, contentsPosterPath: String
+    let postingID: Int
+    let postingTitle, createdDate: String
     
-    enum CodingKeys:String,CodingKey{
-        case scrapId = "scrap_id"
-        case userId = "user_id"
-        case postingId = "posting_id"
+    enum CodingKeys: String, CodingKey {
+        case scrapID = "scrap_id"
+        case userID = "user_id"
+        case userNickname = "user_nickname"
+        case userProfileImage = "user_profile_image"
+        case contentsID = "contents_id"
+        case contentsTitle = "contents_title"
+        case contentsPosterPath = "contents_poster_path"
+        case postingID = "posting_id"
         case postingTitle = "posting_title"
         case createdDate = "created_date"
     }
