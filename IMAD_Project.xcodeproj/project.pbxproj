@@ -33,6 +33,7 @@
 		8115A6672A8F3B3E00B7C3FE /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8115A6662A8F3B3E00B7C3FE /* String.swift */; };
 		811762272B2CB51B009AE845 /* ProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811762262B2CB51B009AE845 /* ProfileResponse.swift */; };
 		811762292B2CB7D6009AE845 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811762282B2CB7D6009AE845 /* Profile.swift */; };
+		8117622D2B2CCCBD009AE845 /* IMAD-Project-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8117622C2B2CCCBD009AE845 /* IMAD-Project-Info.plist */; };
 		811981C82AF91C2400952ED2 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811981C62AF91C2400952ED2 /* WorkView.swift */; };
 		811981C92AF91C2400952ED2 /* WorkInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811981C72AF91C2400952ED2 /* WorkInfoView.swift */; };
 		811DA16929E9332500482A6A /* WriteReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16829E9332500482A6A /* WriteReview.swift */; };
@@ -221,6 +222,7 @@
 		8115A6662A8F3B3E00B7C3FE /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		811762262B2CB51B009AE845 /* ProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResponse.swift; sourceTree = "<group>"; };
 		811762282B2CB7D6009AE845 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		8117622C2B2CCCBD009AE845 /* IMAD-Project-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IMAD-Project-Info.plist"; sourceTree = "<group>"; };
 		811981C62AF91C2400952ED2 /* WorkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
 		811981C72AF91C2400952ED2 /* WorkInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkInfoView.swift; sourceTree = "<group>"; };
 		811DA16829E9332500482A6A /* WriteReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReview.swift; sourceTree = "<group>"; };
@@ -320,7 +322,6 @@
 		81BB110B2A0617B8005654AA /* BaseIntercept.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseIntercept.swift; sourceTree = "<group>"; };
 		81BB110F2A061E42005654AA /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		81BB11132A0622AC005654AA /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		81BB11282A06421A005654AA /* IMAD-Project-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "IMAD-Project-Info.plist"; sourceTree = SOURCE_ROOT; };
 		81BB11292A0642E8005654AA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		81C0DC5A2A14B1220022A3EE /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilter.swift; sourceTree = "<group>"; };
@@ -412,8 +413,8 @@
 		8103093F29D1BDEF0021717B /* IMAD_Project */ = {
 			isa = PBXGroup;
 			children = (
+				8117622C2B2CCCBD009AE845 /* IMAD-Project-Info.plist */,
 				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
-				81BB11282A06421A005654AA /* IMAD-Project-Info.plist */,
 				819C506C2A0F465F0008F4A5 /* Manager */,
 				819C50692A0E3E450008F4A5 /* Test */,
 				81BB10FC2A05F706005654AA /* API */,
@@ -1175,6 +1176,7 @@
 			files = (
 				8103094829D1BDF00021717B /* Preview Assets.xcassets in Resources */,
 				8103094529D1BDF00021717B /* Assets.xcassets in Resources */,
+				8117622D2B2CCCBD009AE845 /* IMAD-Project-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

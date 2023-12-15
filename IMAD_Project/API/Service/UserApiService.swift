@@ -27,10 +27,10 @@ enum UserApiService{
             .eraseToAnyPublisher()
     }
     
-    static func patchUser(gender:String?,ageRange:Int?,image:Int,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?) -> AnyPublisher<UserInfo,AFError>{
+    static func patchUser(gender:String?,birthYear:Int?,image:Int,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?) -> AnyPublisher<UserInfo,AFError>{
         print("유저정보변경 api 호출")
         return ApiClient.shared.session
-            .request(UserRouter.patchUser(gender: gender, ageRange: ageRange, image: image, nickname: nickname, tvGenre: tvGenre,movieGenre: movieGenre),interceptor: intercept)
+            .request(UserRouter.patchUser(gender: gender, birthYear: birthYear, image: image, nickname: nickname, tvGenre: tvGenre,movieGenre: movieGenre),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: UserInfo.self)
             .value()

@@ -702,7 +702,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "38"
             endingLineNumber = "38"
-            landmarkName = "patchUser(gender:ageRange:image:nickname:tvGenre:movieGenre:)"
+            landmarkName = "patchUser(gender:birthYear:image:nickname:tvGenre:movieGenre:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -718,7 +718,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "35"
             endingLineNumber = "35"
-            landmarkName = "patchUser(gender:ageRange:image:nickname:tvGenre:movieGenre:)"
+            landmarkName = "patchUser(gender:birthYear:image:nickname:tvGenre:movieGenre:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

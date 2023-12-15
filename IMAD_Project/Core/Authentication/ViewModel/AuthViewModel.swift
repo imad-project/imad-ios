@@ -75,7 +75,7 @@ class AuthViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func patchUserInfo(){
-        UserApiService.patchUser(gender: patchUser.gender, ageRange: patchUser.age, image: patchUser.profileImageCode, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
+        UserApiService.patchUser(gender: patchUser.gender, birthYear: patchUser.age, image: patchUser.profileImageCode, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
             .sink { completion in
                 switch completion{
                 case .failure(let error):

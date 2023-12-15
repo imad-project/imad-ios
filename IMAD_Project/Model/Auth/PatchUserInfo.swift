@@ -18,7 +18,7 @@ struct PatchUserInfo{
     init(user:UserResponse?) {
         self.nickname = user?.nickname ?? ""
         self.gender = user?.gender ?? ""
-        self.age = user?.ageRange ?? 0
+        self.age = user?.birthYear ?? 0
         self.movieGenre = user?.movieGenre ?? []
         self.tvGenre = user?.tvGenre ?? []
         self.profileImageCode = user?.profileImage ?? 0

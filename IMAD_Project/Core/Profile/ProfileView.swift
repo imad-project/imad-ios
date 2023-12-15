@@ -181,7 +181,7 @@ extension ProfileView{
                     .font(.caption)
                     .foregroundColor(.gray)
                     .padding(.top,2)
-                Text("만 \(vmAuth.user?.data?.ageRange ?? 0)세")
+                Text("만 \(vmAuth.user?.data?.birthYear ?? 0)세")
                     .font(.caption)
                 
                 

@@ -13,7 +13,7 @@ struct UserResponse:Codable{
     var email:String
     var nickname:String?
     var gender:String?
-    var ageRange:Int
+    var birthYear:Int
     var profileImage:Int
     var tvGenre:[Int]
     var movieGenre:[Int]
@@ -26,7 +26,7 @@ struct UserResponse:Codable{
         case nickname
         case authProvider = "auth_provider"
         case gender
-        case ageRange = "age_range"
+        case birthYear = "birth_year"
         case profileImage = "profile_image"
         case tvGenre = "preferred_tv_genres"
         case movieGenre = "preferred_movie_genres"

@@ -17,6 +17,15 @@ struct ProfileChangeView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     @Environment(\.dismiss) var dismiss
     
+    var currentDate :Int{
+        
+        let date = Date()
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+
+        return components.year!
+    }
+    
     var body: some View {
         ZStack{
             Color.white.ignoresSafeArea()
@@ -26,7 +35,7 @@ struct ProfileChangeView: View {
                             Group{
                                 navigatoionChangeView(view: InfoChangeView(title: "닉네임", password: false, text:vmAuth.user?.data?.nickname ?? ""), text: "닉네임 변경")
                                 navigatoionChangeView(view: InfoChangeView(title: "성별", password: false,gender: vmAuth.user?.data?.gender ?? ""), text: "성별 변경")
-                                navigatoionChangeView(view: InfoChangeView(title: "나이", password: false,age: vmAuth.user?.data?.ageRange ?? 0), text: "나이 변경")
+                                navigatoionChangeView(view: InfoChangeView(title: "나이", password: false,age: vmAuth.user?.data?.birthYear ?? 0), text: "나이 변경")
                                 if vmAuth.user?.data?.authProvider == "IMAD"{
                                     navigatoionChangeView(view: InfoChangeView(title: "비밀번호", password: true), text: "비밀번호 변경")
                                 }
