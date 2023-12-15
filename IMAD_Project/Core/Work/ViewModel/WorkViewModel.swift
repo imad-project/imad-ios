@@ -13,6 +13,7 @@ class WorkViewModel:ObservableObject{
     
     @Published var workInfo:WorkResponse? = nil
     @Published var bookmarkList:[BookmarkListResponse] = []
+    @Published var profileInfo:ProfileResponse? = nil
     
     @Published var currentPage = 1
     @Published var maxPage = 1
@@ -110,9 +111,11 @@ class WorkViewModel:ObservableObject{
                 case .finished:
                     print(completion)
                 }
+                
                 self.currentPage = page
             } receiveValue: { [weak self] profile in
                 if let data = profile.data{
+                    self?.profileInfo = data
                     self?.bookmarkList.append(contentsOf: data.bookmarkListResponse.bookmarkDetailsList)
                     self?.maxPage = data.bookmarkListResponse.totalPages
                 }

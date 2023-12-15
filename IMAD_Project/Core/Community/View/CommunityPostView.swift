@@ -103,6 +103,7 @@ extension CommunityPostView{
                         }
                     } label: {
                         Image(systemName:scrapStatus ? "bookmark.fill" : "bookmark")
+                            .padding(.trailing)
                     }
                 }
                 if let userName = vmAuth.user?.data?.nickname,userName == vm.community?.userNickname{
@@ -342,32 +343,35 @@ extension CommunityPostView{
     func likePosting(){
         guard let like = vm.community?.likeStatus else {return}
         if like < 1{
-            vm.community?.likeCnt += 1
             if like < 0{
                 vm.community?.dislikeCnt -= 1
             }
+            vm.community?.likeCnt += 1
+            
             vm.community?.likeStatus = 1
+            vm.like(postingId: vm.community?.postingID ?? 0, status: 1)
         }else{
-            vm.community?.likeStatus = 0
             vm.community?.likeCnt -= 1
+            vm.community?.likeStatus = 0
+            vm.like(postingId: vm.community?.postingID ?? 0, status: 0)
         }
-        vm.like(postingId: vm.community?.postingID ?? 0, status: like)
     }
     func disLikePosting(){
         guard let like = vm.community?.likeStatus else {return}
         if like > -1{
-            vm.community?.dislikeCnt += 1
             if like > 0{
                 vm.community?.likeCnt -= 1
             }
+            vm.community?.dislikeCnt += 1
             vm.community?.likeStatus = -1
-            
+            vm.like(postingId: vm.community?.postingID ?? 0, status: -1)
         }else{
             vm.community?.likeStatus = 0
             vm.community?.dislikeCnt -= 1
+            vm.like(postingId: vm.community?.postingID ?? 0, status: 0)
         }
-        vm.like(postingId: vm.community?.postingID ?? 0, status: like)
     }
+   
     func readCommunity(){
         vm.currentPage = 1
         vmComment.replys = []

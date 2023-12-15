@@ -57,6 +57,8 @@ struct MyCommunityListView: View {
         }
         .navigationDestination(isPresented: $goPosting){
             CommunityPostView(postingId: community?.postingID ?? 0, back: $goPosting)
+                .environmentObject(vmAuth)
+                .navigationBarBackButtonHidden()
         }
     }
 }

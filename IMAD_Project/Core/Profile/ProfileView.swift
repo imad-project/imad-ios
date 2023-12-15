@@ -56,12 +56,12 @@ struct ProfileView: View {
                                             MyReviewView(writeType: .myself)
                                     .environmentObject(vmAuth),
                                            image: "star.bubble",
-                                           text: "내 리뷰", count: 0)
+                                           text: "내 리뷰", count: vmWork.profileInfo?.myReviewCnt ?? 0)
                                 myInfoView(view:  MyCommunityListView(writeType: .myself)
                                     .environmentObject(vmAuth),
                                            image:  "text.word.spacing",
-                                           text: "내 게시물", count: 0)
-                                myInfoView(view: MyScrapListView(), image: "scroll", text: "내 스크랩", count: 0)
+                                           text: "내 게시물", count: vmWork.profileInfo?.myPostingCnt ?? 0)
+                                myInfoView(view: MyScrapListView(), image: "scroll", text: "내 스크랩", count: vmWork.profileInfo?.myScrapCnt ?? 0)
                             }
                             VStack{
                                 VStack(alignment: .leading) {
@@ -111,7 +111,7 @@ struct ProfileView: View {
                 .presentationDetents([.fraction(0.7)])
         }
         .onAppear{
-            vmWork.getBookmark(page: 1)
+            vmWork.getProfile(page: 1)
         }
         .onDisappear{
             vmWork.bookmarkList.removeAll()
