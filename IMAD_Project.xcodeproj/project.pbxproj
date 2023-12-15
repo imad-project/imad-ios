@@ -70,10 +70,8 @@
 		8154B1EC2AE0DA7000AD2F83 /* CommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EB2AE0DA7000AD2F83 /* CommentRouter.swift */; };
 		8154B1EE2AE0DB9800AD2F83 /* CommentApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1ED2AE0DB9800AD2F83 /* CommentApiService.swift */; };
 		8154B1F02AE0DC4300AD2F83 /* AddComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B1EF2AE0DC4300AD2F83 /* AddComment.swift */; };
-		81588D482AFCF7A300E19F8D /* MovieGenreSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81588D472AFCF7A300E19F8D /* MovieGenreSelectView.swift */; };
 		81588D4A2AFDDB0500E19F8D /* WriterFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81588D492AFDDB0500E19F8D /* WriterFilter.swift */; };
 		81588D4C2AFE0C4000E19F8D /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81588D4B2AFE0C4000E19F8D /* Bookmark.swift */; };
-		81588D4E2AFE5E1700E19F8D /* TvGenreSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81588D4D2AFE5E1700E19F8D /* TvGenreSelectView.swift */; };
 		81588D512AFE65A300E19F8D /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81588D502AFE65A300E19F8D /* CommentViewModel.swift */; };
 		81588D532AFE6F5400E19F8D /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81588D522AFE6F5400E19F8D /* Community.swift */; };
 		81588D552AFE726800E19F8D /* CommunityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81588D542AFE726800E19F8D /* CommunityResponse.swift */; };
@@ -258,10 +256,8 @@
 		8154B1EB2AE0DA7000AD2F83 /* CommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRouter.swift; sourceTree = "<group>"; };
 		8154B1ED2AE0DB9800AD2F83 /* CommentApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentApiService.swift; sourceTree = "<group>"; };
 		8154B1EF2AE0DC4300AD2F83 /* AddComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddComment.swift; sourceTree = "<group>"; };
-		81588D472AFCF7A300E19F8D /* MovieGenreSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGenreSelectView.swift; sourceTree = "<group>"; };
 		81588D492AFDDB0500E19F8D /* WriterFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriterFilter.swift; sourceTree = "<group>"; };
 		81588D4B2AFE0C4000E19F8D /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
-		81588D4D2AFE5E1700E19F8D /* TvGenreSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvGenreSelectView.swift; sourceTree = "<group>"; };
 		81588D502AFE65A300E19F8D /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		81588D522AFE6F5400E19F8D /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		81588D542AFE726800E19F8D /* CommunityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityResponse.swift; sourceTree = "<group>"; };
@@ -597,8 +593,6 @@
 				817BBB3729EE982F00E1CBA6 /* ProfileChangeView.swift */,
 				817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */,
 				81407A712B2C3E7E006550AF /* GenreSelectView.swift */,
-				81588D472AFCF7A300E19F8D /* MovieGenreSelectView.swift */,
-				81588D4D2AFE5E1700E19F8D /* TvGenreSelectView.swift */,
 				81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */,
 				818B073F2B0DA4CA0013C426 /* MyScrapListView.swift */,
 			);
@@ -1336,9 +1330,7 @@
 				818CF7F22A207CFF00BABA1F /* OnBoardingTabView.swift in Sources */,
 				811DA16929E9332500482A6A /* WriteReview.swift in Sources */,
 				811981C82AF91C2400952ED2 /* WorkView.swift in Sources */,
-				81588D4E2AFE5E1700E19F8D /* TvGenreSelectView.swift in Sources */,
 				8154B1D42ADA5DA400AD2F83 /* CommunityApiService.swift in Sources */,
-				81588D482AFCF7A300E19F8D /* MovieGenreSelectView.swift in Sources */,
 				818B07352B0D9D560013C426 /* ScrapApitService.swift in Sources */,
 				81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */,
 				817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */,

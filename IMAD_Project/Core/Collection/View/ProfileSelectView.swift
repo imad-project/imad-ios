@@ -38,21 +38,12 @@ struct ProfileSelectView: View {
                 }, color:vm.patchUser.profileImageCode == 0 ? .customIndigo.opacity(0.5):.customIndigo)
             }.foregroundColor(.customIndigo).padding()
             if loading{
-                 CustomProgressView()
+                CustomProgressView()
             }
-    }.alert(isPresented: $alert) {
-        Alert(title: Text("오류"),message: Text(msg),dismissButton: .default(Text("확인")){
-        })
-    }
-//        .onReceive(vm.tokenExpired) { messages in
-//            tokenExpired = (true,messages)
-//        }
-        
-//        .alert(isPresented: $tokenExpired.0) {
-//            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-////                vm.loginMode = false
-//            })
-//        }
+        }.alert(isPresented: $alert) {
+            Alert(title: Text("오류"),message: Text(msg),dismissButton: .default(Text("확인")){
+            })
+        }
     }
 }
 
@@ -93,7 +84,7 @@ extension ProfileSelectView{
                             Text(item.name)
                                 .font(.caption)
                                 .foregroundColor(.customIndigo)
-                                
+                            
                         }
                         
                     }

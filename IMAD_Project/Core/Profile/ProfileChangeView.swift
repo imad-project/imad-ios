@@ -10,13 +10,9 @@ import Kingfisher
 import PhotosUI
 
 struct ProfileChangeView: View {
-    @State var phase:CGFloat = 0.0
-   // @State var profileImage = ""
-    
     
     @State var delete = false
     @State var logout = false
-//    @State var tokenExpired = (false,"")
     
     @EnvironmentObject var vmAuth:AuthViewModel
     @Environment(\.dismiss) var dismiss

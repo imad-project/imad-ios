@@ -12,7 +12,6 @@ struct SelectGenreView: View {
     
     @EnvironmentObject var vm:AuthViewModel
     
-    
     var body: some View {
         ZStack{
             VStack{
@@ -33,11 +32,12 @@ struct SelectGenreView: View {
                         vm.selection = .profile
                     }
                 }, color: .customIndigo.opacity(0.5))
+                .padding(.top,30)
                 Spacer()
             }
         }
         .foregroundColor(.customIndigo)
-        
+        .ignoresSafeArea()
     }
 }
 
@@ -66,9 +66,10 @@ extension SelectGenreView{
                     .font(.caption)
             }
         }.padding(.horizontal)
-            .padding(.top,60)
+            .padding(.top,100)
             .padding(.vertical,20)
             .background(Color.white)
+           
     }
     var movieGenreView:some View{
         VStack(alignment: .leading) {

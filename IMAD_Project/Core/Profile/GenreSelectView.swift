@@ -151,9 +151,7 @@ struct GenreSelectView: View {
                         }
                 }
                 .padding()
-                
             }
-            
         }
         .onAppear{
             guard let data = vmAuth.user?.data else {return}
@@ -161,20 +159,19 @@ struct GenreSelectView: View {
             case .tv:
                 for genre in data.tvGenre {
                     if let tvGenre = TVGenreFilter(rawValue: genre){
-                        collection.append(tvGenre as! Genre)
+                        collection.append(TVGenre(tvGenre: tvGenre))
                     }
                 }
             case .movie:
                 for genre in data.movieGenre {
-                    if let movieGenre = MovieGenreFilter(rawValue: genre){
-                        collection.append(movieGenre)
+                    if let movieGenre = MovieGenreFilter(rawValue: genre) {
+                        collection.append(MovieGenre(movieGenre: movieGenre))
                     }
                 }
             }
         }
         .foregroundColor(.customIndigo)
     }
-    
 }
 
 #Preview {

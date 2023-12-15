@@ -52,11 +52,6 @@ struct InfoChangeView: View {
         }
         .foregroundColor(.black)
         .padding()
-//        .onReceive(vmAuth.passwordChangeSuccess){
-//            success = true
-//            alertMsg = vmAuth.passwordChangeRes?.message ?? ""
-//            notRegex = true
-//        }
         .background(Color.white.ignoresSafeArea())
         .alert(isPresented: $notRegex){
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
@@ -65,15 +60,6 @@ struct InfoChangeView: View {
                 }
             })
         }
-        //        .onReceive(vmAuth.tokenExpired) { messages in
-        //            tokenExpired = (true,messages)
-        //        }
-        //        .alert(isPresented: $tokenExpired.0) {
-        //            Alert(title: Text("토큰 만료됨"),message: Text(tokenExpired.1),dismissButton:.cancel(Text("확인")){
-        //                vmAuth.loginMode = false
-        //            })
-        //        }
-        //        .navigationBarBackButtonHidden(true)
     }
     func isVaildInfo()->Int{
         
