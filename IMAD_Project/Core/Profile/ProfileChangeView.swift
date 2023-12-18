@@ -17,14 +17,7 @@ struct ProfileChangeView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     @Environment(\.dismiss) var dismiss
     
-    var currentDate :Int{
-        
-        let date = Date()
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day], from: date)
-
-        return components.year!
-    }
+    
     
     var body: some View {
         ZStack{
