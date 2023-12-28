@@ -31,6 +31,7 @@ enum AuthApiService{
         print("회원가입 api 호출")
         return ApiClient.shared.session
             .request(AuthRouter.register(email: email, password: password,authProvider:authProvider))
+            .response{let _ = UserDefaultManager.shared.checkToken(response: $0.response)}
             .publishDecodable(type: NoDataResponse.self)
             .value()
             .map{ receivedValue in

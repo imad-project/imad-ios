@@ -34,7 +34,6 @@ class AuthViewModel:ObservableObject{
         AuthApiService.register(email: email, password: password,authProvider:authProvider)
             .sink{ completion in
                 print(completion)
-                self.success.send()
             } receiveValue: { [weak self] noData in
                 self?.message = noData.message
                 switch noData.status{
