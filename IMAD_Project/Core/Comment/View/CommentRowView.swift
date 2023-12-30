@@ -233,7 +233,7 @@ extension CommentRowView{
                 Image(systemName: "arrow.turn.down.right")
                     .bold()
                     .foregroundStyle(.gray)
-                CommentRowView(filter: .detailsReply, postingId: postingId, deleted: reply.removed, comment: reply, reply: .constant(nil), commentFocus: FocusState<Bool>().projectedValue)
+                CommentRowView(filter: .detailsReply, postingId: postingId, deleted: reply.removed, comment: reply, reply: .constant(nil), commentFocus: $focus)
                     .padding(.vertical,5)
                     .background(Color.gray.opacity(0.05))
                     .cornerRadius(10)
