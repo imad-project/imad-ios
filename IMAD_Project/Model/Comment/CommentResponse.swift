@@ -18,7 +18,7 @@ struct CommentResponse: Codable,Hashable {
     let childCnt:Int
     var likeStatus, likeCnt, dislikeCnt: Int
     let createdAt, modifiedAt: String
-    let removed: Bool
+    var removed: Bool
 
     enum CodingKeys: String, CodingKey {
         case commentID = "comment_id"

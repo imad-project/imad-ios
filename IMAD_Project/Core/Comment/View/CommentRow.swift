@@ -9,13 +9,19 @@ import SwiftUI
 
 struct CommentRow: View {
     
-   
+    
     let filter:CommentFilter
     let postingId:Int
+    @State var deleted:Bool
+    
     @State var comment:CommentResponse
     @State var statingOffsetY:CGFloat = 0
     @State var currentDragOffstY:CGFloat = 0
     @State var endingOffsetY:CGFloat = 0
+    
+    //답글 관련
+    //    @State var replyView = false
+    @Binding var reply:CommentResponse?
     
     //댓글 수정
     @State var modifyingComment = false
@@ -23,38 +29,49 @@ struct CommentRow: View {
     @FocusState var focus:Bool
     @FocusState.Binding var commentFocus:Bool
     
+    @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        VStack(alignment: .leading){
-            profileView
-            if modifyingComment{
-                modifyView
-            }else{
-                ExtandView(text: comment.content)
-                    .font(.subheadline)
-                    .padding(.bottom)
+        VStack{
+            VStack(alignment: .leading){
+                if deleted{
+                    Text("삭제된 댓/답글입니다.")
+                        .font(.subheadline)
+                        .padding(.vertical)
+                }else{
+                    profileView
+                    if modifyingComment{
+                        modifyView
+                    }else{
+                        ExtandView(text: comment.content)
+                            .font(.subheadline)
+                            .padding(.bottom)
+                    }
+                }
+                buttonCollection
             }
-           buttonCollection
-            
+            .background(Color.white.opacity(0.1))
+            .overlay(alignment: .trailing){
+                settingView
+            }
+            .padding(.horizontal)
+            .offset(x:statingOffsetY)
+            .offset(x:currentDragOffstY)
+            .offset(x:endingOffsetY)
+            .gesture(dragAction())
+            if !vmComment.replys.isEmpty{
+                replysView
+                    .padding(.top)
+            }
         }
-        .background(Color.white.opacity(0.1))
-        .overlay(alignment: .trailing){
-            settingView
-        }
-        .padding(.horizontal)
-        .offset(x:statingOffsetY)
-        .offset(x:currentDragOffstY)
-        .offset(x:endingOffsetY)
-        .gesture(dragAction())
-        
     }
     
 }
 
 #Preview {
-    CommentRow(filter: .detailsComment ,postingId:0, comment:CustomData.instance.comment,commentFocus: FocusState<Bool>().projectedValue)
+    CommentRow(filter: .detailsComment ,postingId:0, deleted: false, comment:CustomData.instance.comment,reply: .constant(CustomData.instance.comment), commentFocus: FocusState<Bool>().projectedValue,vmComment: CommentViewModel(comment: nil, replys: CustomData.instance.commentList))
         .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
 }
 
@@ -63,7 +80,7 @@ extension CommentRow{
         HStack{
             ProfileImageView(imageCode: comment.userProfileImage, widthHeigt: 20)
             Text(comment.userNickname).bold()
-            Text(comment.modifiedAt != comment.createdAt ? "수정됨  •  " : "•  " + comment.modifiedAt.relativeTime())
+            Text((comment.modifiedAt != comment.createdAt ? "수정됨  •  " : "•  " ) + comment.modifiedAt.relativeTime())
                 .foregroundColor(.gray)
                 .font(.caption)
             
@@ -72,34 +89,7 @@ extension CommentRow{
         }
         .padding(.bottom,10)
     }
-    func dragAction()->some Gesture{
-        DragGesture()
-            .onChanged { value in
-                withAnimation(.spring()){
-                    currentDragOffstY = value.translation.width
-                }
-            }
-            .onEnded{ value in
-                withAnimation(.spring()){
-                    if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{
-                        if currentDragOffstY < -100{
-                            statingOffsetY = -200
-                        }else if currentDragOffstY > 100{
-                            statingOffsetY = 0
-                        }
-                        currentDragOffstY = 0
-                    }else{
-                        if currentDragOffstY < -50{
-                            statingOffsetY = -100
-                        }else if currentDragOffstY > 50{
-                            statingOffsetY = 0
-                        }
-                        currentDragOffstY = 0
-                    }
-                    
-                }
-            }
-    }
+    
     func infoChangeView(image:String,text:String,color:Color,x:CGFloat,action:@escaping ()->()) -> some View{
         Button(action: action){
             VStack{
@@ -130,8 +120,9 @@ extension CommentRow{
                 }
                 infoChangeView(image: "trash", text: "삭제", color: .red, x: 195) {
                     withAnimation(.spring()){
+                        self.deleted = true
+                        statingOffsetY = 0
                         vmComment.deleteyReply(commentId: comment.commentID)
-                        vmComment.commentDeleteSuccess.send(comment)
                     }
                 }
             }else {
@@ -153,16 +144,22 @@ extension CommentRow{
                     } label: {
                         Text("댓글 \(comment.childCnt)개 보기")
                     }
-
+                    
                 case .detailsComment:
                     HStack{
                         Button {
-                            
+                            if vmComment.replys.isEmpty{
+                                withAnimation(.easeIn){
+                                    vmComment.readComments(postingId: postingId, commentType: 1, page: vmComment.currentPage, sort: "createdDate", order: 1, parentId: comment.commentID)
+                                }
+                            }else{
+                                vmComment.replys.removeAll()
+                            }
                         } label: {
-                            Text("댓글 \(comment.childCnt)개 보기")
+                            Text(vmComment.replys.isEmpty ? "댓글 \(comment.childCnt)개 보기" : "닫기")
                         }.padding(.trailing)
                         Button {
-//                            commentFocus = true
+                            reply = comment
                         } label: {
                             Text("답글작성")
                         }
@@ -172,7 +169,10 @@ extension CommentRow{
                 }
             }
             .foregroundStyle(.gray)
-            likeView
+            Spacer()
+            if !deleted{
+                likeView
+            }
         }
         .font(.caption)
     }
@@ -203,6 +203,7 @@ extension CommentRow{
                 }else{
                     vmComment.modifyReply(commentId: comment.commentID, content: text)
                     comment.content = text
+                    modifyingComment = false
                 }
             } label: {
                 Text("수정")
@@ -225,6 +226,43 @@ extension CommentRow{
         }
         .font(.subheadline)
         .padding(.bottom)
+    }
+    var replysView:some View{
+        ForEach(vmComment.replys,id:\.self) { reply in
+            HStack{
+                Image(systemName: "arrow.turn.down.right")
+                    .bold()
+                    .foregroundStyle(.gray)
+                CommentRow(filter: .detailsReply, postingId: postingId, deleted: reply.removed, comment: reply, reply: .constant(nil), commentFocus: FocusState<Bool>().projectedValue)
+                    .padding(.vertical,5)
+                    .background(Color.gray.opacity(0.05))
+                    .cornerRadius(10)
+                    .onReceive(vmComment.commentDeleteSuccess) { deleteComment in
+                        vmComment.replys = vmComment.replys.filter{$0 != deleteComment}
+                    }
+            }
+            
+            if vmComment.replys.last == reply,vmComment.currentPage < vmComment.maxPage{
+                Button {
+                    vmComment.readComments(postingId: comment.postingId, commentType: 1, page: vm.currentPage + 1, sort: "createdDate", order: 1, parentId: comment.commentID)
+                } label: {
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(lineWidth: 1)
+                        .foregroundColor(.gray)
+                        .frame(height: 25)
+                        .overlay {
+                            HStack{
+                                Text("더보기")
+                                Image(systemName: "chevron.down")
+                            }
+                            .font(.caption)
+                        }.foregroundColor(.black)
+                }
+            }
+        }
+        
+        .padding(.horizontal)
+        
     }
     func like(){
         if comment.likeStatus < 1 {
@@ -257,5 +295,36 @@ extension CommentRow{
             comment.likeStatus = 0
         }
         vmComment.commentLike(commentId: comment.commentID, likeStatus: comment.likeStatus)
+    }
+    func dragAction()->some Gesture{
+        DragGesture()
+            .onChanged { value in
+                withAnimation(.spring()){
+                    if !deleted{
+                        currentDragOffstY = value.translation.width
+                        print(currentDragOffstY)
+                    }
+                }
+            }
+            .onEnded{ _ in
+                withAnimation(.spring()){
+                    if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{
+                        if currentDragOffstY < -100{
+                            statingOffsetY = -200
+                        }else if currentDragOffstY > 100{
+                            statingOffsetY = 0
+                        }
+                        currentDragOffstY = 0
+                    }else{
+                        if currentDragOffstY < -50{
+                            statingOffsetY = -100
+                        }else if currentDragOffstY > 50{
+                            statingOffsetY = 0
+                        }
+                        currentDragOffstY = 0
+                    }
+                    
+                }
+            }
     }
 }

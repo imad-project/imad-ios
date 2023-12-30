@@ -298,13 +298,10 @@ extension CommunityPostView{
     }
     var comment:some View{
         ForEach(vm.community?.commentListResponse?.commentDetailsResponseList ?? [],id: \.self){ comment in
-            CommentRow(filter: .postComment, postingId: postingId, comment: comment,commentFocus: $reply)
-//            CommentRowView(replyMode: true, replyOfReply: false, comment: comment, replyWrite: .constant(false))
+            CommentRow(filter: .postComment, postingId: postingId, deleted: comment.removed, comment: comment,reply:.constant(nil), commentFocus: $reply)
                 .environmentObject(vmAuth)
-                .onReceive(vmComment.commentDeleteSuccess) { deleteComment in
-                    vm.community?.commentListResponse?.commentDetailsResponseList = vm.community?.commentListResponse?.commentDetailsResponseList.filter{$0 != deleteComment} ?? []
-                }
         }
+        .padding(.bottom)
     }
     var commentInputView:some View{
         VStack{
