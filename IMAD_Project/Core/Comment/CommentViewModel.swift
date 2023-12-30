@@ -18,7 +18,7 @@ class CommentViewModel:ObservableObject{
     
     var success = PassthroughSubject<(),Never>()
     var addSuccess = PassthroughSubject<Int,Never>()
-    var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
+//    var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
     
     @Published var comment:CommentResponse? = nil
     @Published var replys:[CommentResponse] = []

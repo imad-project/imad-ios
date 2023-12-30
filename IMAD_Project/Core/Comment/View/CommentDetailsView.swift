@@ -15,9 +15,11 @@ struct CommentDetailsView: View {
     
     
     @State var reviewText = ""
+    
+    
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
-    @State var replyWrite = false
+    @State var replyWrite:CommentResponse?
     
     @StateObject var vm = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -32,9 +34,9 @@ struct CommentDetailsView: View {
                 parentComment
                 ScrollView{
                     if !vm.replys.isEmpty{
-                        ForEach(vm.replys,id:\.self) { item in
-                            if !item.removed{
-                                CommentRowView(replyMode: true, replyOfReply: false, comment: item, replyWrite: $replyWrite)
+                        VStack{
+                            ForEach(vm.replys,id:\.self) { item in
+                                CommentRowView(filter: .detailsComment, postingId: postingId, deleted: item.removed, comment: item,reply:$replyWrite,commentFocus: $reply)
                                     .environmentObject(vmAuth)
                                     .padding(.leading)
                                 if vm.replys.last == item,vm.maxPage > vm.currentPage{
@@ -43,12 +45,13 @@ struct CommentDetailsView: View {
                                             vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
                                         }
                                 }
-                            }
-                        }.padding(.top)
+                            }.padding(.top)
+                        }
+                        .padding(.bottom)
                     }
                 }
-                .padding(.bottom,25)
                 .background(Color.gray.opacity(0.1))
+                .padding(.bottom,replyWrite != nil ? 140:100)
             }
             commentInputView
         }
@@ -65,8 +68,6 @@ struct CommentDetailsView: View {
             vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
         }
     }
-    
-    
 }
 
 struct CommentDetailsView_Previews: PreviewProvider {
@@ -92,8 +93,19 @@ extension CommentDetailsView{
     }
     var commentInputView:some View{
         VStack{
-            if replyWrite{
-                Text("asdasd")
+            if let replyWrite{
+                HStack{
+                    Text("\(replyWrite.userNickname)님에게 답글")
+                    Spacer()
+                    Button {
+                        self.replyWrite = nil
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+                .padding(.vertical,7.5)
+                .padding(.horizontal)
+                .font(.subheadline)
             }
             Divider()
             HStack{
@@ -108,8 +120,14 @@ extension CommentDetailsView{
                         
                     }
                 Button {
-                    vm.addReply(postingId: postingId, parentId: parentsId, content: reviewText,commentMode: true)
+                    if let replyWrite{
+                        vm.addReply(postingId: postingId, parentId: replyWrite.commentID, content: reviewText,commentMode: true)
+                    }else{
+                        vm.addReply(postingId: postingId, parentId: parentsId, content: reviewText,commentMode: true)
+                    }
+                    
                     reviewText = ""
+                    replyWrite = nil
                     UIApplication.shared.endEditing()
                 } label: {
                     Text("전송")

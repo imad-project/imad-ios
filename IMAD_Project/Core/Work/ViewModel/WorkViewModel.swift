@@ -26,6 +26,7 @@ class WorkViewModel:ObservableObject{
         self.workInfo = workInfo
         self.bookmarkList = bookmarkList
     }
+    
     func getWorkInfo(contentsId:Int){
         WorkApiService.workInfo(contentsId:contentsId)
             .sink { completion in

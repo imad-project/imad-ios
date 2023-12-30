@@ -63,11 +63,11 @@ struct RegisterView: View {
             notRegex = true
             success = value
         }
-
         .alert(isPresented: $notRegex) {
             Alert(title: Text(success ? "성공":"오류"),message: Text(vm.message),dismissButton: .default(Text("확인")){
                 if success{
-                    vm.login(email: "\(email)@\(domain.domain)", password: password)
+                    vm.selection = .nickname
+                    vm.getUser()
                 }
             })
         }
