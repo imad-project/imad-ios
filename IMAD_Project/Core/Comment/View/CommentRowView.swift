@@ -1,96 +1,78 @@
 //
-//  CommentRowView.swift
+//  CommentRow.swift
 //  IMAD_Project
 //
-//  Created by 유영웅 on 2023/10/17.
+//  Created by 유영웅 on 12/30/23.
 //
 
 import SwiftUI
 
 struct CommentRowView: View {
-    let replyMode:Bool
-    var replyOfReply:Bool
+    
+    
+    let filter:CommentFilter
+    let postingId:Int
+    @State var deleted:Bool
+    
     @State var comment:CommentResponse
-    
-//    @State var replys = false
-    
     @State var statingOffsetY:CGFloat = 0
     @State var currentDragOffstY:CGFloat = 0
     @State var endingOffsetY:CGFloat = 0
     
-    @State var modify = false
-    @State var delete = false
+    //답글 관련
+    //    @State var replyView = false
+    @Binding var reply:CommentResponse?
     
+    //댓글 수정
+    @State var modifyingComment = false
+    @State var text = ""
     @FocusState var focus:Bool
-    @Binding var replyWrite:Bool
-    @State private var text = ""
-    @State var input = false
-    @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
+    @FocusState.Binding var commentFocus:Bool
+    
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
+    @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        VStack(alignment: .leading) {
-            profileView
-            Group{
-                if input{
-                    modifyView
+        VStack{
+            VStack(alignment: .leading){
+                if deleted{
+                    Text("삭제된 댓/답글입니다.")
+                        .font(.subheadline)
+                        .padding(.vertical)
                 }else{
-                    ExtandView(text: comment.content)
-                        .padding(.bottom)
-                    commentStatusView
-                }
-            }
-            .padding(.leading).font(.footnote)
-            replysView
-        }
-        .padding(.horizontal)
-        .padding(.vertical,3)
-        .overlay(alignment: .trailing){
-            VStack{
-                HStack{
-                    if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{
-                        infoChangeView(action:
-                                        {withAnimation(.spring()){
-                            statingOffsetY = 0
-                            focus = true
-                            input = true
-                            text = comment.content ?? ""
-                        }}, image: "square.and.pencil", text: "수정", color: Color.customIndigo.opacity(0.6), x: 200)
-                        
-                        infoChangeView(action:
-                                        {withAnimation(.spring()){
-                            vmComment.deleteyReply(commentId: comment.commentID)
-                            vmComment.commentDeleteSuccess.send(comment)
-                        }}, image: "trash", text: "삭제", color: .red, x: 195)
-                    }else {
-                        infoChangeView(action:
-                                        {withAnimation(.spring()){
-                            //추후 추가
-                        }}, image:"exclamationmark.square", text: "신고", color: .yellow, x: 90)
+                    profileView
+                    if modifyingComment{
+                        modifyView
+                    }else{
+                        ExtandView(text: comment.content)
+                            .font(.subheadline)
+                            .padding(.bottom)
                     }
                 }
-                Spacer()
+                buttonCollection
             }
-           
+            .background(Color.white.opacity(0.1))
+            .overlay(alignment: .trailing){
+                settingView
+            }
+            .padding(.horizontal)
+            .offset(x:statingOffsetY)
+            .offset(x:currentDragOffstY)
+            .offset(x:endingOffsetY)
+            .gesture(dragAction())
+            if !vmComment.replys.isEmpty{
+                replysView
+                    .padding(.top)
+            }
         }
-        .background(Color.white.opacity(0.1))
-        .offset(x:statingOffsetY)
-        .offset(x:currentDragOffstY)
-        .offset(x:endingOffsetY)
-        .gesture(dragAction())
-        
     }
+    
 }
 
-struct CommentRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack{
-            CommentRowView(replyMode: true, replyOfReply: false, comment: CustomData.instance.comment,replyWrite: .constant(true), vmComment: CommentViewModel(comment: nil, replys: CustomData.instance.commentList))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
-        }
-        
-    }
+#Preview {
+    CommentRowView(filter: .detailsComment ,postingId:0, deleted: false, comment:CustomData.instance.comment,reply: .constant(CustomData.instance.comment), commentFocus: FocusState<Bool>().projectedValue,vmComment: CommentViewModel(comment: nil, replys: CustomData.instance.commentList))
+        .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
 }
 
 extension CommentRowView{
@@ -98,7 +80,7 @@ extension CommentRowView{
         HStack{
             ProfileImageView(imageCode: comment.userProfileImage, widthHeigt: 20)
             Text(comment.userNickname).bold()
-            Text(comment.modifiedAt != comment.createdAt ? "수정됨  •  " : "•  " + comment.modifiedAt.relativeTime())
+            Text((comment.modifiedAt != comment.createdAt ? "수정됨  •  " : "•  " ) + comment.modifiedAt.relativeTime())
                 .foregroundColor(.gray)
                 .font(.caption)
             
@@ -107,76 +89,95 @@ extension CommentRowView{
         }
         .padding(.bottom,10)
     }
-    var modifyView:some View{
+    
+    func infoChangeView(image:String,text:String,color:Color,x:CGFloat,action:@escaping ()->()) -> some View{
+        Button(action: action){
+            VStack{
+                Image(systemName: image)
+                    .font(.title3)
+                Text(text)
+            }
+            .padding(15)
+            .padding(.horizontal,10)
+            .font(.caption)
+            .bold()
+            .foregroundColor(.white)
+            .background(color)
+            .cornerRadius(10)
+        }
+        .offset(x:x)
+    }
+    var settingView:some View{
         HStack{
-            CustomTextField(password: false, image: nil, placeholder: "댓글입력..", color: .black, text: $text)
-                .focused($focus)
-            Button {
-                if text.isEmpty{
-                    input = false
-                }else{
-                    vmComment.modifyReply(commentId: comment.commentID, content: text)
-                    comment.content = text
+            if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{
+                infoChangeView(image: "square.and.pencil", text: "수정", color: .customIndigo.opacity(0.6), x: 200){
+                    withAnimation(.spring()){
+                        statingOffsetY = 0
+                        focus = true
+                        modifyingComment = true
+                        text = comment.content ?? ""
+                    }
                 }
-            } label: {
-                Text("수정")
-                    .padding(.vertical,3)
-                    .padding(.horizontal)
-                    .foregroundColor(.white)
-                    .background(Color.customIndigo.opacity(0.5))
-                    .cornerRadius(10)
+                infoChangeView(image: "trash", text: "삭제", color: .red, x: 195) {
+                    withAnimation(.spring()){
+                        self.deleted = true
+                        statingOffsetY = 0
+                        vmComment.deleteyReply(commentId: comment.commentID)
+                    }
+                }
+            }else {
+                infoChangeView(image: "exclamationmark.square", text: "신고", color: .yellow, x: 90) {
+                    //추후 추가
+                }
             }
-            Button {
-                input = false
-            } label: {
-                Text("취소")
-                    .padding(.vertical,3)
-                    .padding(.horizontal)
-                    .foregroundColor(.white)
-                    .background(Color.customIndigo)
-                    .cornerRadius(10)
-            }
-            .padding(.bottom,5)
         }
     }
-    var commentStatusView:some View{
+    var buttonCollection:some View{
         HStack{
-            if replyMode{
-                if !replyOfReply{
-                    Button {
-//                        replys.toggle()
-//                        if replys{
-                            vmComment.readComments(postingId: comment.postingId, commentType: 1, page: vm.currentPage, sort: "createdDate", order: 1, parentId: comment.commentID)
-//                        }else{
-                            vmComment.replys.removeAll()
-//                        }
+            Group{
+                switch filter {
+                case .postComment:
+                    NavigationLink {
+                        CommentDetailsView(postingId: postingId, parentsId: comment.commentID)
+                            .navigationBarBackButtonHidden()
+                            .environmentObject(vmAuth)
                     } label: {
-                        Text("답글 \(comment.childCnt)개").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
+                        Text("댓글 \(comment.childCnt)개 보기")
                     }
-                    Divider().frame(height: 10).bold()
-                    Button {
-                        replyWrite = true
-                    } label: {
-                        Text("답글작성").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
-                    }
-                }
-            }else{
-                NavigationLink {
-                    CommentDetailsView(postingId:comment.postingId,parentsId: comment.commentID)
-                        .environmentObject(vmAuth)
-                        .navigationBarBackButtonHidden()
-                } label: {
-                    if comment.childCnt > 0 {
-                        Text("답글 \(comment.childCnt)개").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
-                    }else{
+                    
+                case .detailsComment:
+                    HStack{
                         Button {
-                            replyWrite = true
+                            if vmComment.replys.isEmpty{
+                                withAnimation(.easeIn){
+                                    vmComment.readComments(postingId: postingId, commentType: 1, page: vmComment.currentPage, sort: "createdDate", order: 1, parentId: comment.commentID)
+                                }
+                            }else{
+                                vmComment.replys.removeAll()
+                            }
                         } label: {
-                            Text("답글작성").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
+                            Text(vmComment.replys.isEmpty ? "댓글 \(comment.childCnt)개 보기" : "닫기")
+                        }.padding(.trailing)
+                        Button {
+                            reply = comment
+                        } label: {
+                            Text("답글작성")
                         }
                     }
+                case .detailsReply:
+                    Text("")
                 }
             }
+            .foregroundStyle(.gray)
+            Spacer()
+            if !deleted{
+                likeView
+            }
+        }
+        .font(.caption)
+    }
+    var likeView:some View{
+        HStack{
             Spacer()
             Button {
                 like()
@@ -192,12 +193,52 @@ extension CommentRowView{
             }
         }
     }
+    var modifyView:some View{
+        HStack{
+            CustomTextField(password: false, image: nil, placeholder: "댓글입력..", color: .black, text: $text)
+                .focused($focus)
+            Button {
+                if text.isEmpty{
+                    modifyingComment = false
+                }else{
+                    vmComment.modifyReply(commentId: comment.commentID, content: text)
+                    comment.content = text
+                    modifyingComment = false
+                }
+            } label: {
+                Text("수정")
+                    .padding(.vertical,2)
+                    .padding(.horizontal)
+                    .foregroundColor(.white)
+                    .background(Color.customIndigo.opacity(0.5))
+                    .cornerRadius(10)
+            }
+            Button {
+                modifyingComment = false
+            } label: {
+                Text("취소")
+                    .padding(.vertical,2)
+                    .padding(.horizontal)
+                    .foregroundColor(.white)
+                    .background(Color.customIndigo)
+                    .cornerRadius(10)
+            }
+        }
+        .font(.subheadline)
+        .padding(.bottom)
+    }
     var replysView:some View{
         ForEach(vmComment.replys,id:\.self) { reply in
-            CommentRowView(replyMode: true, replyOfReply: true,comment: reply, replyWrite: .constant(false))
-                .padding(.top,5)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(10)
+            HStack{
+                Image(systemName: "arrow.turn.down.right")
+                    .bold()
+                    .foregroundStyle(.gray)
+                CommentRowView(filter: .detailsReply, postingId: postingId, deleted: reply.removed, comment: reply, reply: .constant(nil), commentFocus: FocusState<Bool>().projectedValue)
+                    .padding(.vertical,5)
+                    .background(Color.gray.opacity(0.05))
+                    .cornerRadius(10)
+            }
+            
             if vmComment.replys.last == reply,vmComment.currentPage < vmComment.maxPage{
                 Button {
                     vmComment.readComments(postingId: comment.postingId, commentType: 1, page: vm.currentPage + 1, sort: "createdDate", order: 1, parentId: comment.commentID)
@@ -216,6 +257,8 @@ extension CommentRowView{
                 }
             }
         }
+        
+        .padding(.horizontal)
         
     }
     func like(){
@@ -250,32 +293,16 @@ extension CommentRowView{
         }
         vmComment.commentLike(commentId: comment.commentID, likeStatus: comment.likeStatus)
     }
-    
-    func infoChangeView(action:@escaping ()->(),image:String,text:String,color:Color,x:CGFloat) -> some View{
-        Button(action: action){
-            VStack{
-                Image(systemName: image)
-                    .font(.title3)
-                Text(text)
-            }
-            .padding(15)
-            .padding(.horizontal,10)
-            .font(.caption)
-            .bold()
-            .foregroundColor(.white)
-            .background(color)
-            .cornerRadius(10)
-        }
-        .offset(x:x)
-    }
     func dragAction()->some Gesture{
         DragGesture()
             .onChanged { value in
                 withAnimation(.spring()){
-                    currentDragOffstY = value.translation.width
+                    if !deleted{
+                        currentDragOffstY = value.translation.width
+                    }
                 }
             }
-            .onEnded{ value in
+            .onEnded{ _ in
                 withAnimation(.spring()){
                     if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{
                         if currentDragOffstY < -100{

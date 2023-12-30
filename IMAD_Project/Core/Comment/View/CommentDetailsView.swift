@@ -34,17 +34,20 @@ struct CommentDetailsView: View {
                 parentComment
                 ScrollView{
                     if !vm.replys.isEmpty{
-                        ForEach(vm.replys,id:\.self) { item in
-                            CommentRow(filter: .detailsComment, postingId: postingId, deleted: item.removed, comment: item,reply:$replyWrite,commentFocus: $reply)
-                                .environmentObject(vmAuth)
-                                .padding(.leading)
-                            if vm.replys.last == item,vm.maxPage > vm.currentPage{
-                                ProgressView()
-                                    .onAppear{
-                                        vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
-                                    }
-                            }
-                        }.padding(.top)
+                        VStack{
+                            ForEach(vm.replys,id:\.self) { item in
+                                CommentRowView(filter: .detailsComment, postingId: postingId, deleted: item.removed, comment: item,reply:$replyWrite,commentFocus: $reply)
+                                    .environmentObject(vmAuth)
+                                    .padding(.leading)
+                                if vm.replys.last == item,vm.maxPage > vm.currentPage{
+                                    ProgressView()
+                                        .onAppear{
+                                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
+                                        }
+                                }
+                            }.padding(.top)
+                        }
+                        .padding(.bottom)
                     }
                 }
                 .background(Color.gray.opacity(0.1))
@@ -64,15 +67,7 @@ struct CommentDetailsView: View {
             vm.replys.removeAll()
             vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
         }
-//        .onReceive(vm.commentDeleteSuccess) { deleteComment in
-//            if let index = vm.replys.firstIndex(where: {$0 == deleteComment}){
-//                vm.replys[index].removed = true
-//            }
-//            print(vm.replys)
-//        }
     }
-    
-    
 }
 
 struct CommentDetailsView_Previews: PreviewProvider {

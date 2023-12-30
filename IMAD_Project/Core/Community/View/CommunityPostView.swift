@@ -298,7 +298,7 @@ extension CommunityPostView{
     }
     var comment:some View{
         ForEach(vm.community?.commentListResponse?.commentDetailsResponseList ?? [],id: \.self){ comment in
-            CommentRow(filter: .postComment, postingId: postingId, deleted: comment.removed, comment: comment,reply:.constant(nil), commentFocus: $reply)
+            CommentRowView(filter: .postComment, postingId: postingId, deleted: comment.removed, comment: comment,reply:.constant(nil), commentFocus: $reply)
                 .environmentObject(vmAuth)
         }
         .padding(.bottom)
