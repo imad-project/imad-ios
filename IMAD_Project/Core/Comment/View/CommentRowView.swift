@@ -12,11 +12,12 @@ struct CommentRowView: View {
     var replyOfReply:Bool
     @State var comment:CommentResponse
     
-    @State var replys = false
+//    @State var replys = false
     
     @State var statingOffsetY:CGFloat = 0
     @State var currentDragOffstY:CGFloat = 0
     @State var endingOffsetY:CGFloat = 0
+    
     @State var modify = false
     @State var delete = false
     
@@ -42,9 +43,11 @@ struct CommentRowView: View {
             }
             .padding(.leading).font(.footnote)
             replysView
-        }.padding(.horizontal)
-            .padding(.vertical,3)
-            .overlay(alignment: .trailing){
+        }
+        .padding(.horizontal)
+        .padding(.vertical,3)
+        .overlay(alignment: .trailing){
+            VStack{
                 HStack{
                     if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{
                         infoChangeView(action:
@@ -67,12 +70,15 @@ struct CommentRowView: View {
                         }}, image:"exclamationmark.square", text: "신고", color: .yellow, x: 90)
                     }
                 }
+                Spacer()
             }
-            .background(Color.white.opacity(0.1))
-            .offset(x:statingOffsetY)
-            .offset(x:currentDragOffstY)
-            .offset(x:endingOffsetY)
-            .gesture(dragAction())
+           
+        }
+        .background(Color.white.opacity(0.1))
+        .offset(x:statingOffsetY)
+        .offset(x:currentDragOffstY)
+        .offset(x:endingOffsetY)
+        .gesture(dragAction())
         
     }
 }
@@ -138,12 +144,12 @@ extension CommentRowView{
             if replyMode{
                 if !replyOfReply{
                     Button {
-                        replys.toggle()
-                        if replys{
+//                        replys.toggle()
+//                        if replys{
                             vmComment.readComments(postingId: comment.postingId, commentType: 1, page: vm.currentPage, sort: "createdDate", order: 1, parentId: comment.commentID)
-                        }else{
+//                        }else{
                             vmComment.replys.removeAll()
-                        }
+//                        }
                     } label: {
                         Text("답글 \(comment.childCnt)개").font(.caption2).foregroundColor(.customIndigo.opacity(0.6)).bold()
                     }
@@ -269,7 +275,6 @@ extension CommentRowView{
                     currentDragOffstY = value.translation.width
                 }
             }
-        
             .onEnded{ value in
                 withAnimation(.spring()){
                     if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{

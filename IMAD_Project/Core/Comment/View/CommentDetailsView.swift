@@ -93,7 +93,7 @@ extension CommentDetailsView{
     var commentInputView:some View{
         VStack{
             if replyWrite{
-                Text("asdasd")
+                
             }
             Divider()
             HStack{

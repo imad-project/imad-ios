@@ -36,7 +36,6 @@ struct CommunityView: View {
                 }
         }
         .onAppear{
-            print("나타남")
             listUpdate(category: tab.communityTab.num)
         }
         .navigationDestination(isPresented: $goWork) {
