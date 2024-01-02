@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct CommunityListRowView: View {
     let community:CommunityDetailsListResponse
@@ -55,7 +54,7 @@ extension CommunityListRowView{
             .padding(.bottom,5)
     }
     var workInfoView:some View{
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading,spacing: 1) {
             Text("#" + (community.contentsTitle ?? "")).font(.footnote)
             Text(community.title)
                 .bold()
