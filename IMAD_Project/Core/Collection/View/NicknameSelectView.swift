@@ -64,8 +64,12 @@ extension NicknameSelectView{
     }
     var checkEmailView:some View{
         VStack(alignment: .leading){
+            Text("\(vm.patchUser.nickname.count)/10글자")
+                .padding(.horizontal)
+                .padding(.top,20)
+                .font(.subheadline)
             HStack{
-                CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, text: $vm.patchUser.nickname)
+                CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, textLimit: 10, text: $vm.patchUser.nickname)
                     .padding()
                     .background(Color.gray.opacity(0.5))
                     .cornerRadius(20)
@@ -87,8 +91,9 @@ extension NicknameSelectView{
                 }
                 
             }
-            .padding(.top,20)
+            
             .padding(.horizontal)
+            
             Text(vmCheck.message)
                 .foregroundColor(vmCheck.possible ? .green : .red)
                 .font(.caption)

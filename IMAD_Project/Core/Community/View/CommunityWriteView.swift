@@ -134,28 +134,36 @@ extension CommunityWriteView{
             Text("제목")
                 .bold()
             Spacer()
-            if spoiler{
-                Text("이 게시물은 스포일러를 포함하고 있습니다.").font(.caption).foregroundColor(.gray)
-            }
-            Button {
-                spoiler.toggle()
-            } label: {
-                Label("스포일러", systemImage: "checkmark")
-                    .foregroundColor(spoiler ? .customIndigo : .gray)
-                    .font(.caption)
-                    .bold()
-            }
+            Text("\(title.count)/15")
+                .font(.subheadline)
         }
         .padding(.top,40)
     }
     var titleView:some View{
-        CustomTextField(password: false, image: "pencil", placeholder: "제목을 입력해 주세요..", color: .gray, text: $title)
-            .padding()
-            .background{
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(lineWidth: 1.5)
-                    .foregroundColor(.customIndigo)
+        VStack(alignment: .trailing){
+            CustomTextField(password: false, image: "pencil", placeholder: "제목을 입력해 주세요..", color: .gray,textLimit: 15, text: $title)
+                .padding()
+                .background{
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(lineWidth: 1.5)
+                        .foregroundColor(.customIndigo)
+                }
+            HStack{
+                if spoiler{
+                    Text("이 게시물은 스포일러를 포함하고 있습니다.").font(.caption).foregroundColor(.gray)
+                }
+                Spacer()
+                Button {
+                    spoiler.toggle()
+                } label: {
+                    Label("스포일러", systemImage: "checkmark")
+                        .foregroundColor(spoiler ? .customIndigo : .gray)
+                        .font(.caption)
+                        .bold()
+                }
             }
+        }
+        
     }
     var categoryView:some View{
         VStack(alignment: .leading){
