@@ -10,6 +10,7 @@ import PhotosUI
 
 struct NicknameSelectView: View {
     
+    @State var temp = ""
     @StateObject var vmCheck = CheckDataViewModel()
     @EnvironmentObject var vm:AuthViewModel
     
@@ -25,9 +26,13 @@ struct NicknameSelectView: View {
                         withAnimation(.linear){
                             vm.selection = .gender
                         }
-                    }else{
+                    }else if vm.patchUser.nickname != temp{
+                        vmCheck.showMessage(message: "닉네임이 변경 되었습니다. 중복확인을 다시 해주세요", possible: false)
+                    }
+                    else{
                         vmCheck.showMessage(message: "닉네임 중복확인을 해주세요", possible: false)
                     }
+                    
                 }, color: .customIndigo.opacity(0.5))
                     .padding(.bottom,50)
                     .padding(.top,20)
@@ -70,6 +75,7 @@ extension NicknameSelectView{
                     }else{
                         vmCheck.showMessage(message: "닉네임을 제대로 입력해주세요!",possible: false)
                     }
+                    temp = vm.patchUser.nickname
                 } label: {
                     Text("중복확인")
                         .foregroundColor(.white)
