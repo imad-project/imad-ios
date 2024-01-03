@@ -155,18 +155,21 @@ extension MyReviewView{
                 Text("작성한 리뷰가 없습니다")
             }else{
                 ZStack{
-                    Image(systemName: "heart.fill")
-                        .font(.title)
-                        .foregroundColor(.blue)
-                        .offset(x:3)
-                        .rotationEffect(Angle(degrees: -10))
-                    Image(systemName: "heart.fill")
-                        .font(.title)
-                        .foregroundColor(.red)
-                        .offset(x:-3)
-                        .rotationEffect(Angle(degrees: 10))
+                    if like{
+                        Image(systemName: "heart.fill")
+                            .font(.title)
+                            .foregroundColor(.blue)
+                            .offset(x:3)
+                            .rotationEffect(Angle(degrees: -10))
+                    }else{
+                        Image(systemName: "heart.fill")
+                            .font(.title)
+                            .foregroundColor(.red)
+                            .offset(x:-3)
+                            .rotationEffect(Angle(degrees: 10))
+                    }
                 }.opacity(0.6)
-                Text("좋아요/싫어요가 없습니다")
+                Text(like ? "좋아요가 없습니다" : "싫어요가 없습니다")
             }
             Spacer()
         }

@@ -65,7 +65,7 @@ struct MyCommunityListView: View {
 
 struct MyCommunityListView_Previews: PreviewProvider {
     static var previews: some View {
-        MyCommunityListView(writeType: .myself,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
+        MyCommunityListView(writeType: .myselfLike,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
             .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
     }
 }
@@ -157,18 +157,21 @@ extension MyCommunityListView{
                 Text("작성한 게시물이 없습니다")
             }else{
                 ZStack{
-                    Image(systemName: "heart.fill")
-                        .font(.title)
-                        .foregroundColor(.blue)
-                        .offset(x:3)
-                        .rotationEffect(Angle(degrees: -10))
-                    Image(systemName: "heart.fill")
-                        .font(.title)
-                        .foregroundColor(.red)
-                        .offset(x:-3)
-                        .rotationEffect(Angle(degrees: 10))
+                    if like{
+                        Image(systemName: "heart.fill")
+                            .font(.title)
+                            .foregroundColor(.blue)
+                            .offset(x:3)
+                            .rotationEffect(Angle(degrees: -10))
+                    }else{
+                        Image(systemName: "heart.fill")
+                            .font(.title)
+                            .foregroundColor(.red)
+                            .offset(x:-3)
+                            .rotationEffect(Angle(degrees: 10))
+                    }
                 }.opacity(0.6)
-                Text("좋아요/싫어요가 없습니다")
+                Text(like ? "좋아요가 없습니다" : "싫어요가 없습니다")
             }
             Spacer()
         }
