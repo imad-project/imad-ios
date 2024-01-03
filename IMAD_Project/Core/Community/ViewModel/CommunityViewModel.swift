@@ -20,7 +20,7 @@ class CommunityViewModel:ObservableObject{
     var refreschTokenExpired = PassthroughSubject<(),Never>()
     var wrtiesuccess = PassthroughSubject<Int,Never>()
     var success = PassthroughSubject<(),Never>()
-
+    
     var cancelable = Set<AnyCancellable>()
 
     

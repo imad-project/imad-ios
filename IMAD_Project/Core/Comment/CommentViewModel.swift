@@ -18,7 +18,7 @@ class CommentViewModel:ObservableObject{
     
     var success = PassthroughSubject<(),Never>()
     var addSuccess = PassthroughSubject<Int,Never>()
-//    var commentDeleteSuccess = PassthroughSubject<CommentResponse,Never>()
+    var commentLoadSuccess = PassthroughSubject<[CommentResponse],Never>()
     
     @Published var comment:CommentResponse? = nil
     @Published var replys:[CommentResponse] = []
@@ -96,6 +96,7 @@ class CommentViewModel:ObservableObject{
                     print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
+                    self.commentLoadSuccess.send(self.replys)
                     print(completion)
                 }
                 self.currentPage = page

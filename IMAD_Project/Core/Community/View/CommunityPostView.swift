@@ -71,6 +71,9 @@ struct CommunityPostView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
+        .onReceive(vmComment.commentLoadSuccess){ commentList in
+            vm.community?.commentListResponse?.commentDetailsResponseList = commentList
+        }
     }
 }
 
@@ -267,7 +270,7 @@ extension CommunityPostView{
             HStack{
                 ForEach(SortFilter.allCases.filter({$0 != .score}),id:\.self){ sort in
                     Button {
-                        guard self.sort != sort else { return}
+                        guard self.sort != sort else { return }
                         self.sort = sort
                         readCommunity()
                     } label: {
@@ -328,6 +331,7 @@ extension CommunityPostView{
             }
             .padding(.bottom,endOffset == 0 ? 300 : 0)
         }
+        
         .background{
             RoundedRectangle(cornerRadius: 10)
                 .shadow(radius: 1)
@@ -430,8 +434,8 @@ extension CommunityPostView{
     }
     
     func readCommunity(){
-        vm.currentPage = 1
-        vmComment.replys = []
+        vmComment.currentPage = 1
+        vmComment.replys.removeAll()
         vmComment.readComments(postingId: postingId, commentType: 0, page: vm.currentPage, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
     }
     func offsetSetting(){
