@@ -304,7 +304,7 @@ extension WorkInfoView{
                     HStack(alignment: .top){
                         ForEach(crews){ crew in
                             VStack{
-                                KFImageView(image: crew.profilePath?.getImadImage() ?? "",width: 80,height: 100)
+                                ActorProfileView(image: crew.profilePath?.getImadImage() ?? "")
                                 Text(crew.name ?? "")
                                     .font(.caption)
                                 if let jobs = crew.job?.components(separatedBy: ","){
@@ -329,7 +329,7 @@ extension WorkInfoView{
                     HStack(alignment: .top){
                         ForEach(casts){ cast in
                             VStack{
-                                KFImageView(image: cast.profilePath?.getImadImage() ?? "",width: 80,height: 100)
+                                ActorProfileView(image: cast.profilePath?.getImadImage() ?? "")
                                 Text(cast.name ?? "")
                                     .font(.caption)
                                 Text("\(cast.character ?? "")역")

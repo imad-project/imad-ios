@@ -164,6 +164,7 @@
 		81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */; };
 		81E2F8AA2A8F4FDD003E53DC /* CertificationFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E2F8A92A8F4FDD003E53DC /* CertificationFilter.swift */; };
 		81EE0B442B4161DF00A58E5F /* IMAD-Project-info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81EE0B432B4161DF00A58E5F /* IMAD-Project-info.plist */; };
+		81EE0B482B454D5900A58E5F /* ActorProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EE0B472B454D5900A58E5F /* ActorProfileView.swift */; };
 		81F259292AB05D5B00C54668 /* ReviewDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F259282AB05D5B00C54668 /* ReviewDetailsView.swift */; };
 		81F2592B2AB0656B00C54668 /* ReviewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F2592A2AB0656B00C54668 /* ReviewRouter.swift */; };
 		81F2592F2AB073BB00C54668 /* ReviewApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F2592E2AB073BB00C54668 /* ReviewApiService.swift */; };
@@ -351,6 +352,7 @@
 		81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTabView.swift; sourceTree = "<group>"; };
 		81E2F8A92A8F4FDD003E53DC /* CertificationFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationFilter.swift; sourceTree = "<group>"; };
 		81EE0B432B4161DF00A58E5F /* IMAD-Project-info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IMAD-Project-info.plist"; sourceTree = "<group>"; };
+		81EE0B472B454D5900A58E5F /* ActorProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorProfileView.swift; sourceTree = "<group>"; };
 		81F259282AB05D5B00C54668 /* ReviewDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailsView.swift; sourceTree = "<group>"; };
 		81F2592A2AB0656B00C54668 /* ReviewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRouter.swift; sourceTree = "<group>"; };
 		81F2592E2AB073BB00C54668 /* ReviewApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewApiService.swift; sourceTree = "<group>"; };
@@ -964,6 +966,7 @@
 				81FD22522AFB1A5C00678CAC /* CustomWhiteCircleButton.swift */,
 				81B1848F2AFB615000CCDBEC /* CustomNextButton.swift */,
 				810453A62B025A930062B4B6 /* ExtandView.swift */,
+				81EE0B472B454D5900A58E5F /* ActorProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1292,6 +1295,7 @@
 				817B60CD2A236F00000099A9 /* CheckRouter.swift in Sources */,
 				8154B1F02AE0DC4300AD2F83 /* AddComment.swift in Sources */,
 				818CF7EF2A20764C00BABA1F /* OnBoardingView.swift in Sources */,
+				81EE0B482B454D5900A58E5F /* ActorProfileView.swift in Sources */,
 				81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */,
 				8103094329D1BDEF0021717B /* ContentView.swift in Sources */,
 				8178601D2A29CDAA004639F6 /* CustomSlider.swift in Sources */,

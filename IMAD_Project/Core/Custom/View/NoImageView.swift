@@ -9,20 +9,15 @@ import SwiftUI
 
 struct NoImageView: View {
     var body: some View {
-        RoundedRectangle(cornerRadius: 20)
-            .foregroundColor(.white.opacity(0.9))
+        Rectangle()
+            .foregroundColor(.gray.opacity(0.1))
             .overlay {
-                RoundedRectangle(cornerRadius: 15)
-                    .stroke(lineWidth:2)
-                    .foregroundColor(.gray.opacity(0.5))
-                    .padding(5)
-                
                 VStack{
                     Image(systemName: "photo")
-                        .font(.title3)
-                    Text("사진없음")
+                        .font(.title)
+                    Text("NO")
                         .bold()
-                        .font(.caption)
+                        .font(.subheadline)
                 }
                 .foregroundColor(.gray)
             }
