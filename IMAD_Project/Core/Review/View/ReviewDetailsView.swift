@@ -20,15 +20,11 @@ struct ReviewDetailsView: View {
     
     var body: some View {
         ScrollView{
-            
             LazyVStack(alignment: .leading,pinnedViews: [.sectionHeaders]) {
                 if let review = vm.review{
                     Section {
-                        profileAndDataView(review: review)
                         workInfoView(review: review)
-                        if goWork{
-                            workInfoNavigation(review: review)
-                        }
+                        
                         contentAndLikeView(review: review)
                     } header: {
                         header(review: review)
@@ -42,7 +38,7 @@ struct ReviewDetailsView: View {
         .onTapGesture {
             menu = false
         }
-        .confirmationDialog("ㅇㅇㅇ", isPresented: $delete){
+        .confirmationDialog("", isPresented: $delete){
             Button(role:.destructive){
                 vm.deleteReview(id: reviewId)
                 dismiss()
@@ -139,101 +135,87 @@ extension ReviewDetailsView{
         }
         
     }
-    func profileAndDataView(review:ReadReviewResponse) -> some View{
-        HStack{
-            ProfileImageView(imageCode: review.userProfileImage,widthHeigt: 25)
-            Text(vm.review?.userNickname ?? "")
-            Spacer()
-            Group{
-                if review.createdAt != review.modifiedAt{
-                    Text("수정됨 ·").bold()
-                    Text(review.modifiedAt.relativeTime())
+ 
+    func workInfoView(review:ReadReviewResponse)->some View{
+        VStack(alignment: .leading) {
+            Text("#" + review.contentsTitle)
+                .bold()
+            HStack(alignment: .top) {
+                if goWork{
+                    NavigationLink {
+                        WorkView(contentsId:review.contentsID)
+                            .navigationBarBackButtonHidden()
+                            .environmentObject(vmAuth)
+                    } label: {
+                        KFImageView(image: review.contentsPosterPath.getImadImage(),width: 100,height:120)
+                    }
                 }else{
-                    Text(review.createdAt.relativeTime())
+                    KFImageView(image: review.contentsPosterPath.getImadImage(),width: 100,height:120)
                 }
-            }.foregroundColor(.gray)
-                .font(.caption)
+                VStack(alignment: .leading) {
+                    HStack{
+                        ProfileImageView(imageCode: review.userID ?? 0, widthHeigt: 20)
+                        Text(review.userNickname)
+                        Group{
+                            if review.createdAt != review.modifiedAt{
+                                Text("수정됨").bold()
+                                Text("· " + review.modifiedAt.relativeTime())
+                            }else{
+                                Text("· " + review.createdAt.relativeTime())
+                            }
+                        }.foregroundColor(.gray)
+                            .font(.caption)
+                    }
+                    .font(.subheadline)
+                    Text(vm.review?.title ?? "").bold()
+                    
+                }
+                Spacer()
+                ScoreView(score: review.score,color:.black,font:.subheadline,widthHeight:70)
+                    .padding(.bottom)
+            }
         }
         .padding(.horizontal)
-    }
-    func workInfoView(review:ReadReviewResponse)->some View{
-        HStack(alignment: .top) {
-            KFImageView(image: review.contentsPosterPath.getImadImage(),width: 100,height:120)
-            VStack(alignment: .leading) {
-                Text("#" + (review.contentsTitle)).bold().font(.subheadline)
-                Text(review.spoiler ? "스포일러" : "클린")
-                    .font(.caption)
-                    .padding(2)
-                    .padding(.horizontal)
-                    .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1))
-                Text(vm.review?.title ?? "")
-                    .font(.subheadline).bold()
-                
-            }
-            Spacer()
-            ScoreView(score: review.score,color:.black,font:.subheadline,widthHeight:70)
-                .padding(.bottom)
-        }.padding(.horizontal)
-    }
-    func workInfoNavigation(review:ReadReviewResponse) -> some View{
-        NavigationLink {
-            WorkView(contentsId:review.contentsID)
-                .navigationBarBackButtonHidden()
-                .environmentObject(vmAuth)
-        } label: {
-            HStack(spacing:1){
-                Text(review.contentsTitle).bold()
-                Text("의 상세정보 보러가기")
-                Spacer()
-                Image(systemName: "chevron.right")
-            }.font(.caption)
-                .padding(10)
-                .background(Color.white).cornerRadius(10).shadow(radius: 1)
-                .padding(.horizontal)
-        }.padding(.vertical,7.5)
     }
     func contentAndLikeView(review:ReadReviewResponse) -> some View{
         VStack(alignment: .leading){
             Text(review.content)
                 .font(.subheadline).padding(.horizontal)
-            VStack(alignment: .leading){
-                VStack(alignment: .trailing){
-                    Divider()
-                    HStack{
-                        Group{
-                            Button {
-                                vm.like(review: review)
-                            } label: {
-                                Image(systemName: review.likeStatus == 1 ? "heart.fill":"heart")
-                                Text("좋아요")
-                            }
-                            .foregroundColor(review.likeStatus == 1 ? .red : .gray)
-                            Button {
-                                vm.disLike(review: review)
-                            } label: {
-                                HStack{
-                                    Image(systemName: review.likeStatus == -1 ? "heart.slash.fill" : "heart.slash")
-                                    Text("싫어요")
-                                }
-                            }
-                            .foregroundColor(review.likeStatus == -1 ? .blue : .gray)
-                        }
-                        .font(.subheadline)
-                        .frame(maxWidth: .infinity)
-                    }
-                    Divider()
-                    HStack(spacing: 2){
-                        Image(systemName: "heart.fill").foregroundColor(.red)
-                        Text("\((review.likeCnt))개")
-                            .padding(.trailing)
-                        Image(systemName: "heart.slash.fill").foregroundColor(.blue)
-                        Text("\((review.dislikeCnt))개")
-                    }
-                    .font(.subheadline)
-                }.padding(.vertical)
-            }.padding()
+                .padding(.vertical)
+            likeStatusView(review: review)
         }
     }
-    
-    
+    func likeStatusView(review:ReadReviewResponse) -> some View{
+        VStack{
+            HStack{
+                Text("\(vm.review?.likeCnt ?? 0)")
+                Button {
+                    vm.like(review: review)
+                } label: {
+                    Circle()
+                        .foregroundColor(vm.review?.likeStatus == 1 ? .red.opacity(0.7): .red.opacity(0.3))
+                        .frame(width: 50)
+                        .overlay {
+                            Image(systemName:"heart.fill")
+                                .foregroundColor(.white)
+                        }
+                }
+                Spacer().frame(width: 20)
+                Button {
+                    vm.disLike(review: review)
+                } label: {
+                    Circle()
+                        .foregroundColor(vm.review?.likeStatus == -1 ? .blue.opacity(0.7): .blue.opacity(0.3))
+                        .frame(width: 50)
+                        .overlay {
+                            Image(systemName:"hand.thumbsdown.fill")
+                                .foregroundColor(.white)
+                        }
+                }
+                Text("\(vm.review?.dislikeCnt ?? 0)")
+            }
+            .font(.title3)
+            .frame(maxWidth: .infinity)
+        }
+    }
 }
