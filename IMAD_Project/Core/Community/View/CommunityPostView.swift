@@ -29,7 +29,7 @@ struct CommunityPostView: View {
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
-    @State private var startingOffset: CGFloat = UIScreen.main.bounds.height/2
+    let startingOffset: CGFloat = UIScreen.main.bounds.height/2
     @State private var currentOffset:CGFloat = 0
     @State private var endOffset:CGFloat = 0
     
@@ -48,49 +48,7 @@ struct CommunityPostView: View {
                 }
                 .foregroundColor(.black)
                 .padding(.bottom,100)
-                VStack{
-                    Capsule()
-                        .frame(width: 100,height: 5)
-                        .opacity(0.3)
-                        .padding(.vertical)
-                    HStack{
-                        Text("댓글")
-                            .bold()
-                            .font(.title2)
-                        Spacer()
-                    }
-                    .padding([.leading,.bottom])
-                    ScrollView{
-                        if endOffset == -startingOffset + 100{
-                            collection
-                        }
-                        comment
-                            .padding(.top)
-                        Spacer()
-                    }
-                    .padding(.bottom,endOffset == 0 ? 300 : 0)
-                }
-                .background{
-                    RoundedRectangle(cornerRadius: 10)
-                        .shadow(radius: 1)
-                        .foregroundStyle(.white)
-                }
-                .offset(y:startingOffset - 100)
-                .offset(y:currentOffset)
-                .offset(y:endOffset)
-                .gesture(
-                    DragGesture()
-                        .onChanged{ value in
-                            withAnimation(.spring()){
-                                currentOffset = value.translation.height
-                            }
-                        }
-                        .onEnded{ value in
-                            withAnimation(.spring()){
-                               offsetSetting()
-                            }
-                        }
-                )
+                commentView
             }
             commentInputView
         }
@@ -298,7 +256,7 @@ extension CommunityPostView{
                         }
                 }
 
-                Text("댓글창 열기")
+                Text("댓글창 열기 (\((vm.community?.commentCnt ?? 0)))")
                     .font(.caption)
             }
         }
@@ -346,6 +304,52 @@ extension CommunityPostView{
             }.padding(.vertical,5)
         }.padding(.horizontal)
         
+    }
+    var commentView:some View{
+        VStack{
+            Capsule()
+                .frame(width: 100,height: 5)
+                .opacity(0.3)
+                .padding(.vertical)
+            HStack{
+                Text("댓글")
+                    .bold()
+                    .font(.title2)
+                Spacer()
+            }
+            .padding([.leading,.bottom])
+            ScrollView{
+                if endOffset == -startingOffset + 100{
+                    collection
+                }
+                comment
+                    .padding(.top)
+                Spacer()
+            }
+            .padding(.bottom,endOffset == 0 ? 300 : 0)
+        }
+        .background{
+            RoundedRectangle(cornerRadius: 10)
+                .shadow(radius: 1)
+                .foregroundStyle(.white)
+        }
+        .offset(y:startingOffset - 100)
+        .offset(y:currentOffset)
+        .offset(y:endOffset)
+        .gesture(
+            DragGesture()
+                .onChanged{ value in
+                    withAnimation(.spring()){
+                        currentOffset = value.translation.height
+                    }
+                }
+                .onEnded{ value in
+                    withAnimation(.spring()){
+                       offsetSetting()
+                    }
+                }
+        )
+
     }
     var comment:some View{
         ForEach(vm.community?.commentListResponse?.commentDetailsResponseList ?? [],id: \.self){ comment in
