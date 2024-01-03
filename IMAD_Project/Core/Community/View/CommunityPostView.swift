@@ -34,54 +34,65 @@ struct CommunityPostView: View {
     @State private var endOffset:CGFloat = 0
     
     var body: some View {
-        ZStack(alignment: .bottom){
-            Color.white.ignoresSafeArea()
-            VStack(spacing: 0){
-                header
-                Divider()
-                ScrollView{
-                    workInfoView
-                    communityinfoView
-                    likeStatusView
-                   
-                }
-            }
-            .foregroundColor(.black)
-            .padding(.bottom,100)
-            //            commentInputView
-            VStack{
-                Capsule()
-                    .frame(width: 100,height: 5)
-                    .opacity(0.3)
-                    .padding(.vertical)
-                ScrollView{
-                    collection
-                    comment
-                    
-                    Spacer()
-                }
-            }
-            .background{
-                RoundedRectangle(cornerRadius: 10)
-                    .shadow(radius: 1)
-                    .foregroundStyle(.white)
-            }
-            .offset(y:startingOffset - 50)
-            .offset(y:currentOffset)
-            .offset(y:endOffset)
-            .gesture(
-                DragGesture()
-                    .onChanged{ value in
-                        withAnimation(.spring()){
-                            currentOffset = value.translation.height
-                        }
+        VStack{
+            ZStack(alignment: .bottom){
+                Color.white.ignoresSafeArea()
+                VStack(spacing: 0){
+                    header
+                    Divider()
+                    ScrollView{
+                        workInfoView
+                        communityinfoView
+                        likeStatusView
                     }
-                    .onEnded{ value in
-                        withAnimation(.spring()){
-                           offsetSetting()
-                        }
+                }
+                .foregroundColor(.black)
+                .padding(.bottom,100)
+                VStack{
+                    Capsule()
+                        .frame(width: 100,height: 5)
+                        .opacity(0.3)
+                        .padding(.vertical)
+                    HStack{
+                        Text("댓글")
+                            .bold()
+                            .font(.title2)
+                        Spacer()
                     }
-            )
+                    .padding([.leading,.bottom])
+                    ScrollView{
+                        if endOffset == -startingOffset + 100{
+                            collection
+                        }
+                        comment
+                            .padding(.top)
+                        Spacer()
+                    }
+                    .padding(.bottom,endOffset == 0 ? 300 : 0)
+                }
+                .background{
+                    RoundedRectangle(cornerRadius: 10)
+                        .shadow(radius: 1)
+                        .foregroundStyle(.white)
+                }
+                .offset(y:startingOffset - 100)
+                .offset(y:currentOffset)
+                .offset(y:endOffset)
+                .gesture(
+                    DragGesture()
+                        .onChanged{ value in
+                            withAnimation(.spring()){
+                                currentOffset = value.translation.height
+                            }
+                        }
+                        .onEnded{ value in
+                            withAnimation(.spring()){
+                               offsetSetting()
+                            }
+                        }
+                )
+            }
+            commentInputView
         }
         .onAppear{
             vm.readDetailCommunity(postingId: postingId)
@@ -242,36 +253,56 @@ extension CommunityPostView{
         .padding(.bottom)
     }
     var likeStatusView:some View{
-        
-        HStack{
-            Text("\(vm.community?.likeCnt ?? 0)")
-            Button {
-                likePosting()
-            } label: {
-                Circle()
-                    .foregroundColor(vm.community?.likeStatus == 1 ? .red.opacity(0.7): .red.opacity(0.3))
-                    .frame(width: 50)
-                    .overlay {
-                        Image(systemName:"heart.fill")
-                            .foregroundColor(.white)
-                    }
+        VStack{
+            HStack{
+                Text("\(vm.community?.likeCnt ?? 0)")
+                Button {
+                    likePosting()
+                } label: {
+                    Circle()
+                        .foregroundColor(vm.community?.likeStatus == 1 ? .red.opacity(0.7): .red.opacity(0.3))
+                        .frame(width: 50)
+                        .overlay {
+                            Image(systemName:"heart.fill")
+                                .foregroundColor(.white)
+                        }
+                }
+                Spacer().frame(width: 20)
+                Button {
+                    disLikePosting()
+                } label: {
+                    Circle()
+                        .foregroundColor(vm.community?.likeStatus == -1 ? .blue.opacity(0.7): .blue.opacity(0.3))
+                        .frame(width: 50)
+                        .overlay {
+                            Image(systemName:"hand.thumbsdown.fill")
+                                .foregroundColor(.white)
+                        }
+                }
+                Text("\(vm.community?.dislikeCnt ?? 0)")
             }
-            Spacer().frame(width: 20)
-            Button {
-                disLikePosting()
-            } label: {
-                Circle()
-                    .foregroundColor(vm.community?.likeStatus == -1 ? .blue.opacity(0.7): .blue.opacity(0.3))
-                    .frame(width: 50)
-                    .overlay {
-                        Image(systemName:"hand.thumbsdown.fill")
-                            .foregroundColor(.white)
+            .font(.title3)
+            .frame(maxWidth: .infinity)
+            if endOffset == startingOffset {
+                Button {
+                    withAnimation(.spring()){
+                        endOffset = 0
                     }
+                } label: {
+                    Circle()
+                        .foregroundColor(.customIndigo)
+                        .frame(width: 50)
+                        .overlay {
+                            Image(systemName:"message.fill")
+                                .foregroundColor(.white)
+                        }
+                }
+
+                Text("댓글창 열기")
+                    .font(.caption)
             }
-            Text("\(vm.community?.dislikeCnt ?? 0)")
         }
-        .font(.title3)
-        .frame(maxWidth: .infinity)
+        
     }
     var collection:some View{
         VStack(alignment: .leading){
@@ -282,9 +313,9 @@ extension CommunityPostView{
                         self.sort = sort
                         readCommunity()
                     } label: {
-                        Capsule()
+                        RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
-                            .frame(width: 70,height: 25)
+                            .frame(width: 60,height: 30)
                             .overlay {
                                 Text(sort.name).font(.caption).foregroundColor(.white)
                             }
@@ -307,7 +338,9 @@ extension CommunityPostView{
                     HStack{
                         Text(order.name)
                         Image(systemName: order == .ascending ? "chevron.up" : "chevron.down")
-                    } .font(.caption)
+                    } 
+                    .font(.caption)
+                    .foregroundColor(.black)
                 }
                 
             }.padding(.vertical,5)
@@ -333,6 +366,11 @@ extension CommunityPostView{
                         RoundedRectangle(cornerRadius: 15)
                             .stroke(lineWidth: 1)
                             .foregroundColor(.customIndigo)
+                    }
+                    .onTapGesture {
+                        withAnimation(.spring()){
+                            endOffset = 0
+                        }
                     }
                 Button {
                     vmComment.addReply(postingId: postingId, parentId: nil, content: reviewText,commentMode: true)
@@ -395,21 +433,21 @@ extension CommunityPostView{
     func offsetSetting(){
         if currentOffset < -50{
             if currentOffset < -startingOffset{
-                endOffset = -startingOffset + 50
+                endOffset = -startingOffset + 100
             }else if endOffset == 0{
-                 endOffset = -startingOffset + 50
+                 endOffset = -startingOffset + 100
              }else if endOffset > 0{
                  endOffset = 0
              }
         }
          else if currentOffset > 50 {
              if currentOffset > startingOffset/2{
-                 endOffset = startingOffset - 100
+                 endOffset = startingOffset
              }
              else if endOffset < 0{
                  endOffset = 0
              }else if endOffset == 0{
-                 endOffset = startingOffset - 100
+                 endOffset = startingOffset
              }
          }
          currentOffset = 0
