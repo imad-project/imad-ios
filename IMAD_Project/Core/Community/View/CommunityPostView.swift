@@ -31,7 +31,7 @@ struct CommunityPostView: View {
     
     let startingOffset: CGFloat = UIScreen.main.bounds.height/2
     @State private var currentOffset:CGFloat = 0
-    @State private var endOffset:CGFloat = 0
+    @State private var endOffset:CGFloat = UIScreen.main.bounds.height/2
     
     var body: some View {
         VStack{
@@ -48,6 +48,7 @@ struct CommunityPostView: View {
                 }
                 .foregroundColor(.black)
                 .padding(.bottom,100)
+                
                 commentView
             }
             commentInputView
@@ -325,8 +326,18 @@ extension CommunityPostView{
                 if endOffset == -startingOffset + 100{
                     collection
                 }
-                comment
-                    .padding(.top)
+                if let comments = vm.community?.commentListResponse?.commentDetailsResponseList,comments.isEmpty{
+                    Group{
+                        Image(systemName: "ellipsis.message")
+                            .font(.largeTitle)
+                            .padding(.bottom,10)
+                        Text("아직 댓글이 없습니다.")
+                    }.foregroundStyle(.gray)
+                    
+                }else{
+                    comment
+                        .padding(.top)
+                }
                 Spacer()
             }
             .padding(.bottom,endOffset == 0 ? 300 : 0)
@@ -360,7 +371,7 @@ extension CommunityPostView{
             CommentRowView(filter: .postComment, postingId: postingId, deleted: comment.removed, comment: comment,reply:.constant(nil), commentFocus: $reply)
                 .environmentObject(vmAuth)
         }
-        .padding(.bottom)
+        .padding(.bottom,25)
     }
     var commentInputView:some View{
         VStack{
@@ -376,8 +387,10 @@ extension CommunityPostView{
                             .foregroundColor(.customIndigo)
                     }
                     .onTapGesture {
-                        withAnimation(.spring()){
-                            endOffset = 0
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                            withAnimation(.spring()){
+                                endOffset = -startingOffset + 100
+                            }
                         }
                     }
                 Button {
@@ -444,8 +457,6 @@ extension CommunityPostView{
                 endOffset = -startingOffset + 100
             }else if endOffset == 0{
                  endOffset = -startingOffset + 100
-             }else if endOffset > 0{
-                 endOffset = 0
              }
         }
          else if currentOffset > 50 {
