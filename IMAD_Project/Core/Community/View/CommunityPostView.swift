@@ -15,7 +15,7 @@ struct CommunityPostView: View {
     
     @State var menu = false
     @State var modify = false
-    
+    @State var commentSheet = true
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
     
@@ -29,6 +29,9 @@ struct CommunityPostView: View {
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
+    @State private var startingOffset: CGFloat = UIScreen.main.bounds.height/2
+    @State private var currentOffset:CGFloat = 0
+    @State private var endOffset:CGFloat = 0
     
     var body: some View {
         ZStack(alignment: .bottom){
@@ -40,13 +43,45 @@ struct CommunityPostView: View {
                     workInfoView
                     communityinfoView
                     likeStatusView
-                    collection
-                    comment
+                   
                 }
             }
             .foregroundColor(.black)
             .padding(.bottom,100)
-            commentInputView
+            //            commentInputView
+            VStack{
+                Capsule()
+                    .frame(width: 100,height: 5)
+                    .opacity(0.3)
+                    .padding(.vertical)
+                ScrollView{
+                    collection
+                    comment
+                    
+                    Spacer()
+                }
+            }
+            .background{
+                RoundedRectangle(cornerRadius: 10)
+                    .shadow(radius: 1)
+                    .foregroundStyle(.white)
+            }
+            .offset(y:startingOffset - 50)
+            .offset(y:currentOffset)
+            .offset(y:endOffset)
+            .gesture(
+                DragGesture()
+                    .onChanged{ value in
+                        withAnimation(.spring()){
+                            currentOffset = value.translation.height
+                        }
+                    }
+                    .onEnded{ value in
+                        withAnimation(.spring()){
+                           offsetSetting()
+                        }
+                    }
+            )
         }
         .onAppear{
             vm.readDetailCommunity(postingId: postingId)
@@ -356,5 +391,27 @@ extension CommunityPostView{
         vm.currentPage = 1
         vmComment.replys = []
         vmComment.readComments(postingId: postingId, commentType: 0, page: vm.currentPage, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
+    }
+    func offsetSetting(){
+        if currentOffset < -50{
+            if currentOffset < -startingOffset{
+                endOffset = -startingOffset + 50
+            }else if endOffset == 0{
+                 endOffset = -startingOffset + 50
+             }else if endOffset > 0{
+                 endOffset = 0
+             }
+        }
+         else if currentOffset > 50 {
+             if currentOffset > startingOffset/2{
+                 endOffset = startingOffset - 100
+             }
+             else if endOffset < 0{
+                 endOffset = 0
+             }else if endOffset == 0{
+                 endOffset = startingOffset - 100
+             }
+         }
+         currentOffset = 0
     }
 }
