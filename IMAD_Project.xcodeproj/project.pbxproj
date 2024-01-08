@@ -100,7 +100,7 @@
 		817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */; };
 		818206FB2AF8BB70004A7B21 /* KFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818206FA2AF8BB70004A7B21 /* KFImageView.swift */; };
 		818B07332B0D96310013C426 /* ScrapRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B07322B0D96310013C426 /* ScrapRouter.swift */; };
-		818B07352B0D9D560013C426 /* ScrapApitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B07342B0D9D560013C426 /* ScrapApitService.swift */; };
+		818B07352B0D9D560013C426 /* ScrapApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B07342B0D9D560013C426 /* ScrapApiService.swift */; };
 		818B07382B0D9DFF0013C426 /* Scrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B07372B0D9DFF0013C426 /* Scrap.swift */; };
 		818B073A2B0D9E3A0013C426 /* ScrapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B07392B0D9E3A0013C426 /* ScrapList.swift */; };
 		818B073C2B0D9EAE0013C426 /* ScrapListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B073B2B0D9EAE0013C426 /* ScrapListResponse.swift */; };
@@ -297,7 +297,7 @@
 		817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoChangeView.swift; sourceTree = "<group>"; };
 		818206FA2AF8BB70004A7B21 /* KFImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KFImageView.swift; sourceTree = "<group>"; };
 		818B07322B0D96310013C426 /* ScrapRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapRouter.swift; sourceTree = "<group>"; };
-		818B07342B0D9D560013C426 /* ScrapApitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapApitService.swift; sourceTree = "<group>"; };
+		818B07342B0D9D560013C426 /* ScrapApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapApiService.swift; sourceTree = "<group>"; };
 		818B07372B0D9DFF0013C426 /* Scrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scrap.swift; sourceTree = "<group>"; };
 		818B07392B0D9E3A0013C426 /* ScrapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapList.swift; sourceTree = "<group>"; };
 		818B073B2B0D9EAE0013C426 /* ScrapListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapListResponse.swift; sourceTree = "<group>"; };
@@ -909,7 +909,7 @@
 				8154B1D32ADA5DA400AD2F83 /* CommunityApiService.swift */,
 				8154B1ED2AE0DB9800AD2F83 /* CommentApiService.swift */,
 				81C7312A2AF6183C0076D230 /* TokenApiService.swift */,
-				818B07342B0D9D560013C426 /* ScrapApitService.swift */,
+				818B07342B0D9D560013C426 /* ScrapApiService.swift */,
 				817919CB2B4BDF1A0084779B /* RankingApiService.swift */,
 			);
 			path = Service;
@@ -1381,7 +1381,7 @@
 				811DA16929E9332500482A6A /* WriteReview.swift in Sources */,
 				811981C82AF91C2400952ED2 /* WorkView.swift in Sources */,
 				8154B1D42ADA5DA400AD2F83 /* CommunityApiService.swift in Sources */,
-				818B07352B0D9D560013C426 /* ScrapApitService.swift in Sources */,
+				818B07352B0D9D560013C426 /* ScrapApiService.swift in Sources */,
 				81DB1FD129E6D717002C0840 /* SelectGenreView.swift in Sources */,
 				817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */,
 				81D1212F2A2739F2003F3780 /* ExploreView.swift in Sources */,

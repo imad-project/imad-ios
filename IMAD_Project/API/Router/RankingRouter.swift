@@ -12,7 +12,7 @@ enum RankingRouter:URLRequestConvertible{
    
     
     case week
-    case mont
+    case month
     case all
     
     var baseURL:URL{
@@ -25,7 +25,7 @@ enum RankingRouter:URLRequestConvertible{
         switch self{
         case .week:
             return "/api/ranking/weekly/all"
-        case .mont:
+        case .month:
             return "/api/ranking/monthly/all"
         case .all:
             return "/api/ranking/alltime/all"

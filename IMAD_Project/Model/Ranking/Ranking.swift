@@ -9,6 +9,6 @@ import Foundation
 
 struct Ranking: Codable {
     let status: Int
-    let data: RankingResponse
+    let data: RankingResponse?
     let message: String
 }
