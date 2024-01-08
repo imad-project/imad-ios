@@ -85,6 +85,7 @@
 		817860172A29B1DD004639F6 /* WorkFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860162A29B1DD004639F6 /* WorkFilter.swift */; };
 		8178601D2A29CDAA004639F6 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8178601C2A29CDAA004639F6 /* CustomSlider.swift */; };
 		817860212A29ECA7004639F6 /* CommunityWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817860202A29ECA7004639F6 /* CommunityWriteView.swift */; };
+		817919C82B4BADC30084779B /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817919C72B4BADC20084779B /* CustomTextEditor.swift */; };
 		817B60CD2A236F00000099A9 /* CheckRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60CC2A236F00000099A9 /* CheckRouter.swift */; };
 		817B60CF2A2370C1000099A9 /* CheckApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60CE2A2370C1000099A9 /* CheckApiService.swift */; };
 		817B60D22A237248000099A9 /* CheckDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60D12A237248000099A9 /* CheckDataViewModel.swift */; };
@@ -276,6 +277,7 @@
 		817860162A29B1DD004639F6 /* WorkFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkFilter.swift; sourceTree = "<group>"; };
 		8178601C2A29CDAA004639F6 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		817860202A29ECA7004639F6 /* CommunityWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityWriteView.swift; sourceTree = "<group>"; };
+		817919C72B4BADC20084779B /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
 		817B60CC2A236F00000099A9 /* CheckRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckRouter.swift; sourceTree = "<group>"; };
 		817B60CE2A2370C1000099A9 /* CheckApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckApiService.swift; sourceTree = "<group>"; };
 		817B60D12A237248000099A9 /* CheckDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckDataViewModel.swift; sourceTree = "<group>"; };
@@ -955,6 +957,7 @@
 		81C731342AF671D80076D230 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				817919C72B4BADC20084779B /* CustomTextEditor.swift */,
 				81DB1FC129E56D1E002C0840 /* CustomTextField.swift */,
 				8178601C2A29CDAA004639F6 /* CustomSlider.swift */,
 				810B4E9D2A2CDE0E00714A2B /* CustomProgressView.swift */,
@@ -1237,6 +1240,7 @@
 				810453A72B025A930062B4B6 /* ExtandView.swift in Sources */,
 				81C731302AF66D4F0076D230 /* NoDataResponse.swift in Sources */,
 				811536D42A173EED003F8273 /* Data.swift in Sources */,
+				817919C82B4BADC30084779B /* CustomTextEditor.swift in Sources */,
 				8131C55E2AFA0CC9006B761D /* WriteReviewResponse.swift in Sources */,
 				81A1ECE329DC207F0001A366 /* ColorSet.swift in Sources */,
 				817B60D62A23747F000099A9 /* ValidationResponse.swift in Sources */,

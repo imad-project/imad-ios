@@ -207,29 +207,9 @@ extension WriteReviewView{
                 }
                 .padding(.horizontal,30)
             spoilerView
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.customIndigo, lineWidth: 2)
-                    .frame(height: 360)
-                    .overlay(
-                        TextEditor(text: $text)
-                            .background(Color.clear)
-                            .padding(8)
-                            .overlay(alignment: .topLeading){
-                                if text == ""{
-                                    Text("리뷰를 작성해주세요..")
-                                        .allowsHitTesting(false)
-                                        .opacity(0.5)
-                                        .padding()
-                                }
-                            }
-                            .scrollContentBackground(.hidden)
-                            .foregroundColor(.black)
-                        
-                    )
-                    .padding()
-                    .padding(.horizontal)
-            }
+            CustomTextEditor(placeholder: "내용을 입력해주세요..", color: .customIndigo, textLimit: 2500, text: $text)
+                .padding()
+                .padding(.horizontal)
         }
     }
     var spoilerView:some View{

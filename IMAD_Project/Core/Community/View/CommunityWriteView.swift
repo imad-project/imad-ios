@@ -180,26 +180,8 @@ extension CommunityWriteView{
         }
     }
     var contents:some View{
-        RoundedRectangle(cornerRadius: 10)
-            .stroke(Color.customIndigo, lineWidth: 1.5)
-            .frame(height: 360)
-            .overlay(
-                TextEditor(text: $text)
-                    .background(Color.clear)
-                    .padding(8)
-                    .overlay(alignment: .topLeading){
-                        if text == ""{
-                            Text("게시물을 작성해주세요..")
-                                .allowsHitTesting(false)
-                                .opacity(0.5)
-                                .padding()
-                        }
-                        
-                    }
-                    .scrollContentBackground(.hidden)
-                    .foregroundColor(.black)
-                
-            ).padding(.top,5)
+        CustomTextEditor(placeholder: "게시물을 작성해주세요..", color: .customIndigo, textLimit: 2500, text: $text)
+       .padding(.top,5)
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
