@@ -91,6 +91,7 @@
 		817919CE2B4BDF680084779B /* Ranking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817919CD2B4BDF680084779B /* Ranking.swift */; };
 		817919D12B4BDFA70084779B /* RankingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817919D02B4BDFA70084779B /* RankingResponse.swift */; };
 		817919D32B4BDFC80084779B /* RankingResponseList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817919D22B4BDFC80084779B /* RankingResponseList.swift */; };
+		817919D72B4BE2400084779B /* RankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817919D62B4BE2400084779B /* RankingViewModel.swift */; };
 		817B60CD2A236F00000099A9 /* CheckRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60CC2A236F00000099A9 /* CheckRouter.swift */; };
 		817B60CF2A2370C1000099A9 /* CheckApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60CE2A2370C1000099A9 /* CheckApiService.swift */; };
 		817B60D22A237248000099A9 /* CheckDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60D12A237248000099A9 /* CheckDataViewModel.swift */; };
@@ -288,6 +289,7 @@
 		817919CD2B4BDF680084779B /* Ranking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ranking.swift; sourceTree = "<group>"; };
 		817919D02B4BDFA70084779B /* RankingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingResponse.swift; sourceTree = "<group>"; };
 		817919D22B4BDFC80084779B /* RankingResponseList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingResponseList.swift; sourceTree = "<group>"; };
+		817919D62B4BE2400084779B /* RankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModel.swift; sourceTree = "<group>"; };
 		817B60CC2A236F00000099A9 /* CheckRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckRouter.swift; sourceTree = "<group>"; };
 		817B60CE2A2370C1000099A9 /* CheckApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckApiService.swift; sourceTree = "<group>"; };
 		817B60D12A237248000099A9 /* CheckDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckDataViewModel.swift; sourceTree = "<group>"; };
@@ -677,6 +679,24 @@
 			path = Ranking;
 			sourceTree = "<group>";
 		};
+		817919D42B4BE2280084779B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8103094229D1BDEF0021717B /* ContentView.swift */,
+				81A1ECDF29DACB720001A366 /* SplashView.swift */,
+				81A1ECE429DC3FA30001A366 /* MainView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		817919D52B4BE22D0084779B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				817919D62B4BE2400084779B /* RankingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		817B60D02A237233000099A9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -815,9 +835,8 @@
 		81A1ECDE29DACB430001A366 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				8103094229D1BDEF0021717B /* ContentView.swift */,
-				81A1ECDF29DACB720001A366 /* SplashView.swift */,
-				81A1ECE429DC3FA30001A366 /* MainView.swift */,
+				817919D52B4BE22D0084779B /* ViewModel */,
+				817919D42B4BE2280084779B /* View */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1343,6 +1362,7 @@
 				81372A812AFB7E3000870331 /* Int.swift in Sources */,
 				819D499C2A933A3F008B7BFE /* Credit.swift in Sources */,
 				817919D32B4BDFC80084779B /* RankingResponseList.swift in Sources */,
+				817919D72B4BE2400084779B /* RankingViewModel.swift in Sources */,
 				812CDE9E29DEA22D0003B993 /* CommunityTabManager.swift in Sources */,
 				819AA9ED2ACD3CEC0048CF7B /* BookmarkListResponse.swift in Sources */,
 				8115A6672A8F3B3E00B7C3FE /* String.swift in Sources */,
