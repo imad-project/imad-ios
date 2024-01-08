@@ -194,7 +194,7 @@ extension WriteReviewView{
     }
     var writeView:some View{
         VStack(alignment: .trailing){
-            Text("\(title.count)/15")
+            Text("\(title.count)/25")
                 .foregroundStyle(.black)
                 .padding(.horizontal,35)
                 .font(.subheadline)

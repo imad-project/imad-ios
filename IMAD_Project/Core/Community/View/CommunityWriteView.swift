@@ -132,14 +132,14 @@ extension CommunityWriteView{
             Text("제목")
                 .bold()
             Spacer()
-            Text("\(title.count)/15")
+            Text("\(title.count)/25")
                 .font(.subheadline)
         }
         .padding(.top,40)
     }
     var titleView:some View{
         VStack(alignment: .trailing){
-            CustomTextField(password: false, image: "pencil", placeholder: "제목을 입력해 주세요..", color: .gray,textLimit: 15, text: $title)
+            CustomTextField(password: false, image: "pencil", placeholder: "제목을 입력해 주세요..", color: .gray,textLimit: 25, text: $title)
                 .padding()
                 .background{
                     RoundedRectangle(cornerRadius: 10)
