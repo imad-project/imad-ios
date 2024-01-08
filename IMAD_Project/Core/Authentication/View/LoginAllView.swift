@@ -94,6 +94,7 @@ struct LoginAllView: View {
         }
         .sheet(isPresented:$kakao){
             AuthWebView(filter: .kakao)
+                .environmentObject(vm)
                 .ignoresSafeArea()
                 .onDisappear{
                     loading = false
@@ -101,6 +102,7 @@ struct LoginAllView: View {
         }
         .sheet(isPresented:$google){
             AuthWebView(filter: .google)
+                .environmentObject(vm)
                 .ignoresSafeArea()
                 .onDisappear{
                     loading = false

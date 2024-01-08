@@ -121,7 +121,7 @@ extension CommunityPostView{
                             Image(systemName: "ellipsis")
                                 .bold()
                         }
-                        .confirmationDialog("일정 수정", isPresented: $menu,actions: {
+                        .confirmationDialog("", isPresented: $menu,actions: {
                             Button(role:.none){
                                 modify = true
                             } label: {

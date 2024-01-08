@@ -18,7 +18,7 @@ struct CommunityView: View {
     
     @StateObject var tab = CommunityTabManager()
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
-//    @EnvironmentObject var vmAuth:AuthViewModel
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         NavigationView{
@@ -42,22 +42,22 @@ struct CommunityView: View {
             if let workInfo{
                 CommunityPostView(postingId: workInfo.postingID, back: $goWork)
                     .navigationBarBackButtonHidden()
-//                    .environmentObject(vmAuth)
+                    .environmentObject(vmAuth)
             }
         }
         .navigationDestination(isPresented: $search){
             SearchView(postingMode: true, back: $search)
-//                .environmentObject(vmAuth)
+                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden()
         }
         .navigationDestination(isPresented: $searchView) {
             CommunitySearchView()
-//                .environmentObject(vmAuth)
+                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden()
         }
-//        .onReceive(vm.refreschTokenExpired){
-//            vmAuth.logout(tokenExpired: true)
-//        }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
     }
 }
 

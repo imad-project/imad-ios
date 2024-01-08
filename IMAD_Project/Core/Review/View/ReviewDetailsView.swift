@@ -24,7 +24,6 @@ struct ReviewDetailsView: View {
                 if let review = vm.review{
                     Section {
                         workInfoView(review: review)
-                        
                         contentAndLikeView(review: review)
                     } header: {
                         header(review: review)
@@ -82,7 +81,7 @@ extension ReviewDetailsView{
                 }
                 Spacer()
                 
-                if vmAuth.user?.data?.nickname == review.userNickname{
+                if review.author{
                     ZStack{
                         Button {
                             withAnimation {
@@ -92,7 +91,22 @@ extension ReviewDetailsView{
                             Image(systemName: "ellipsis")
                                 .font(.title3)
                         }
-                        
+                        .confirmationDialog("", isPresented: $menu,actions: {
+                            NavigationLink {
+                                WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
+                                    .navigationBarBackButtonHidden()
+                                    .environmentObject(vmAuth)
+                            } label: {
+                                Text("수정하기")
+                            }
+                            Button(role:.destructive){
+                                delete = true
+                            } label: {
+                                Text("삭제하기")
+                            }
+                        },message: {
+                            Text("리뷰 수정하거나 삭제하시겠습니까?")
+                        })
                     }
                 }
             }
@@ -105,34 +119,6 @@ extension ReviewDetailsView{
         }
         .padding(.top,60)
         .background(Color.white)
-        .overlay(alignment: .bottomTrailing) {
-            if menu{
-                VStack{
-                    NavigationLink {
-                        WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
-                            .navigationBarBackButtonHidden()
-                            .environmentObject(vmAuth)
-                    } label: {
-                        Text("수정하기")
-                    }
-                    Divider()
-                    Button {
-                        delete = true
-                    } label: {
-                        Text("삭제하기")
-                            .foregroundColor(.red)
-                    }
-                }
-                .padding(.vertical)
-                .font(.subheadline)
-                .background(Color.white)
-                .frame(width: 100,height: 80)
-                .cornerRadius(5)
-                .shadow(radius: 10)
-                .offset(y:80)
-                .padding(.trailing)
-            }
-        }
         
     }
  
