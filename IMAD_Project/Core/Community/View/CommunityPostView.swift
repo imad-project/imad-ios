@@ -35,23 +35,27 @@ struct CommunityPostView: View {
     
     var body: some View {
         VStack{
-            ZStack(alignment: .bottom){
-                Color.white.ignoresSafeArea()
-                VStack(spacing: 0){
-                    header
-                    Divider()
-                    ScrollView{
-                        workInfoView
-                        communityinfoView
-                        likeStatusView
+            if let community = vm.community{
+                ZStack(alignment: .bottom){
+                    Color.white.ignoresSafeArea()
+                    VStack(spacing: 0){
+                        header(community: community)
+                        Divider()
+                        ScrollView{
+                            workInfoView(community: community)
+                            communityinfoView(community: community)
+                            likeStatusView(community: community)
+                        }
                     }
+                    .foregroundColor(.black)
+                    .padding(.bottom,100)
+                    
+                    commentView(community: community)
                 }
-                .foregroundColor(.black)
-                .padding(.bottom,100)
-                
-                commentView
+                commentInputView(community: community)
+            }else{
+                ProgressView().environment(\.colorScheme,.light)
             }
-            commentInputView
         }
         .onAppear{
             vmAuth.getUser()
@@ -90,7 +94,7 @@ struct ComminityPostView_Previews: PreviewProvider {
 }
 
 extension CommunityPostView{
-    var header:some View{
+    func header(community:CommunityResponse) ->some View{
         ZStack{
             HStack(spacing:0){
                 Button {
@@ -102,20 +106,15 @@ extension CommunityPostView{
                 }
                 Spacer()
                 Group{
-                    if let scrapStatus = vm.community?.scrapStatus{
+                    if community.scrapStatus{
                         Button {
-                            if scrapStatus{
-                                vm.community?.scrapStatus = false
-                                vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0)
-                            }else{
-                                vm.community?.scrapStatus = true
-                                vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
-                            }
+                            vm.community?.scrapStatus = !community.scrapStatus
+                            community.scrapStatus ? vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0) : vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
                         } label: {
-                            Image(systemName:scrapStatus ? "bookmark.fill" : "bookmark")
+                            Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
                         }
                     }
-                    if let userName = vmAuth.user?.data?.nickname,userName == vm.community?.userNickname{
+                    if community.author{
                         Button {
                             menu.toggle()
                         } label: {
@@ -142,24 +141,24 @@ extension CommunityPostView{
                 .padding(.trailing)
                 
             }
-            Text(vm.community?.contentsTitle ?? "")
+            Text(community.contentsTitle)
                 .bold()
             
             
         }.padding(.bottom,10)
     }
-    var workInfoView:some View{
+    func workInfoView(community:CommunityResponse) ->some View{
         HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
-                    ProfileImageView(imageCode: vm.community?.userProfileImage ?? 90, widthHeigt: 25)
-                    Text(vm.community?.userNickname ?? "")
+                    ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 25)
+                    Text(community.userNickname)
                         .font(.subheadline)
                         .bold()
                     HStack(spacing: 2){
-                        Text(CommunityFilter.allCases.first(where:{$0.num == vm.community?.category ?? 1})!.image)
+                        Text(CommunityFilter.allCases.first(where:{$0.num == community.category})!.image)
                             .font(.caption2)
-                        Text(CommunityFilter.allCases.first(where:{$0.num == vm.community?.category ?? 1})!.name)
+                        Text(CommunityFilter.allCases.first(where:{$0.num == community.category})!.name)
                             .font(.caption)
                         
                     }
@@ -170,18 +169,18 @@ extension CommunityPostView{
                     .background(Capsule().foregroundColor(.customIndigo))
                 }
                 HStack{
-                    if vm.community?.modifiedAt != vm.community?.createdAt{
+                    if community.modifiedAt != community.createdAt{
                         Text("수정됨 •").foregroundColor(.gray).font(.caption)
                     }
-                    Text(vm.community?.modifiedAt.relativeTime() ?? "").font(.caption).foregroundColor(.gray)
+                    Text(community.modifiedAt.relativeTime()).font(.caption).foregroundColor(.gray)
                     Group{
                         HStack(spacing: 2){
                             Image(systemName: "eye.fill")
-                            Text("\(vm.community?.viewCnt ?? 0)")
+                            Text("\(community.viewCnt)")
                         }
                         HStack(spacing: 2){
                             Image(systemName: "message.fill")
-                            Text("\(vm.community?.commentCnt ?? 0)")
+                            Text("\(community.commentCnt)")
                         }
                     }
                     .foregroundColor(.gray)
@@ -190,24 +189,24 @@ extension CommunityPostView{
                     .padding(.horizontal,7)
                     .background(Color.gray.opacity(0.1).cornerRadius(50))
                 }
-                Text(vm.community?.title ?? "")
+                Text(community.title)
                     .bold()
                 
             }
             Spacer()
             
             NavigationLink {
-                WorkView(contentsId:vm.community?.contentsID ?? 0)
+                WorkView(contentsId:community.contentsID)
                     .navigationBarBackButtonHidden()
             } label: {
-                KFImageView(image: vm.community?.contentsPosterPath.getImadImage() ?? "",width:90,height:110)
+                KFImageView(image: community.contentsPosterPath.getImadImage(),width:90,height:110)
             }
         } .padding(.top)
             .padding(.horizontal)
     }
-    var communityinfoView:some View{
+    func communityinfoView(community:CommunityResponse) ->some View{
         HStack{
-            Text(vm.community?.content ?? "")
+            Text(community.content)
                 .padding(.horizontal)
                 .font(.subheadline)
                 .padding(.bottom)
@@ -215,15 +214,15 @@ extension CommunityPostView{
         }
         .padding(.bottom)
     }
-    var likeStatusView:some View{
+    func likeStatusView(community:CommunityResponse) ->some View{
         VStack{
             HStack{
-                Text("\(vm.community?.likeCnt ?? 0)")
+                Text("\(community.likeCnt)")
                 Button {
-                    likePosting()
+                    likePosting(community: community)
                 } label: {
                     Circle()
-                        .foregroundColor(vm.community?.likeStatus == 1 ? .red.opacity(0.7): .red.opacity(0.3))
+                        .foregroundColor(community.likeStatus == 1 ? .red.opacity(0.7): .red.opacity(0.3))
                         .frame(width: 50)
                         .overlay {
                             Image(systemName:"heart.fill")
@@ -232,17 +231,17 @@ extension CommunityPostView{
                 }
                 Spacer().frame(width: 20)
                 Button {
-                    disLikePosting()
+                    disLikePosting(community: community)
                 } label: {
                     Circle()
-                        .foregroundColor(vm.community?.likeStatus == -1 ? .blue.opacity(0.7): .blue.opacity(0.3))
+                        .foregroundColor(community.likeStatus == -1 ? .blue.opacity(0.7): .blue.opacity(0.3))
                         .frame(width: 50)
                         .overlay {
                             Image(systemName:"hand.thumbsdown.fill")
                                 .foregroundColor(.white)
                         }
                 }
-                Text("\(vm.community?.dislikeCnt ?? 0)")
+                Text("\(community.dislikeCnt)")
             }
             .font(.title3)
             .frame(maxWidth: .infinity)
@@ -261,7 +260,7 @@ extension CommunityPostView{
                         }
                 }
 
-                Text("댓글창 열기 (\((vm.community?.commentCnt ?? 0)))")
+                Text("댓글창 열기 (\((community.commentCnt)))")
                     .font(.caption)
             }
         }
@@ -310,7 +309,7 @@ extension CommunityPostView{
         }.padding(.horizontal)
         
     }
-    var commentView:some View{
+    func commentView(community:CommunityResponse) ->some View{
         VStack{
             Capsule()
                 .frame(width: 100,height: 5)
@@ -327,7 +326,7 @@ extension CommunityPostView{
                 if endOffset == -startingOffset + 100{
                     collection
                 }
-                if let comments = vm.community?.commentListResponse?.commentDetailsResponseList,comments.isEmpty{
+                if let comments = community.commentListResponse?.commentDetailsResponseList,comments.isEmpty{
                     Group{
                         Image(systemName: "ellipsis.message")
                             .font(.largeTitle)
@@ -374,11 +373,11 @@ extension CommunityPostView{
         }
         .padding(.bottom,25)
     }
-    var commentInputView:some View{
+    func commentInputView(community:CommunityResponse) ->some View{
         VStack{
             Divider()
             HStack{
-                ProfileImageView(imageCode: vm.community?.userProfileImage ?? 0, widthHeigt: 40)
+                ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 40)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
                     .focused($reply)
                     .padding(10)
@@ -415,7 +414,7 @@ extension CommunityPostView{
         .padding(.bottom,25)
         .background(Color.white)
     }
-    func likePosting(){
+    func likePosting(community:CommunityResponse){
         guard let like = vm.community?.likeStatus else {return}
         if like < 1{
             if like < 0{
@@ -431,7 +430,7 @@ extension CommunityPostView{
             vm.like(postingId: vm.community?.postingID ?? 0, status: 0)
         }
     }
-    func disLikePosting(){
+    func disLikePosting(community:CommunityResponse){
         guard let like = vm.community?.likeStatus else {return}
         if like > -1{
             if like > 0{
