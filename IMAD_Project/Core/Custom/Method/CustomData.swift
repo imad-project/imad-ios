@@ -52,11 +52,11 @@ class CustomData{
         CommunityDetailsListResponse(postingID: 4, contentsID: 2, contentsTitle: "죠죠의 기묘한 모험", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", userID: 1, userNickname: "콰랑", userProfileImage: 1, title: "최고의 아이", category: 1, viewCnt: 45, likeCnt: 3, dislikeCnt: 1, likeStatus: 0, commentCnt: 4, createdAt: "2023-10-16T12:33:35.007579", modifiedAt: "2023-10-16T12:33:35.007579",scrapId: 1,scrapStatus: false, author: true, spoiler: true)
     ]
     
-//    let commentList = [
-//        CommentResponse(commentID: 1, userID: 1, postingId: 1, userNickname: "콰랑", userProfileImage: 4, parentID: nil, content: "좋다로", childCnt: 2,likeStatus: 1,likeCnt: 20,dislikeCnt: 10, createdAt: "2023-10-17T11:55:25.525746", modifiedAt: "2023-10-17T11:55:25.525746", removed: false),
-//        CommentResponse(commentID: 1, userID: 1, postingId: 1, userNickname: "콰랑", userProfileImage: 4, parentID: nil, content: "좋다로", childCnt: 2,likeStatus: 1,likeCnt: 20,dislikeCnt: 10, createdAt: "2023-10-17T11:55:25.525746", modifiedAt: "2023-10-17T11:55:25.525746", removed: false),
-//        CommentResponse(commentID: 1, userID: 1, postingId: 1, userNickname: "콰랑", userProfileImage: 4, parentID: nil, content: "좋다로", childCnt: 2,likeStatus: 1,likeCnt: 20,dislikeCnt: 10, createdAt: "2023-10-17T11:55:25.525746", modifiedAt: "2023-10-17T11:55:25.525746", removed: false)
-//    ]
+    let rankingList:[RankingResponseList] = [
+        RankingResponseList(contentsID: 1, contentsType: "ANIMATION", title: "안뇽하세요", posterPath:  "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", rankChanged: 2, rank: 1),
+        RankingResponseList(contentsID: 2, contentsType: "ANIMATION", title: "안뇽하세요", posterPath:  "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", rankChanged: 2, rank: 2),
+        RankingResponseList(contentsID: 3, contentsType: "ANIMATION", title: "안뇽하세요", posterPath:  "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", rankChanged: 2, rank: 3)
+    ]
     
     let communityDetails = CommunityDetailsListResponse(postingID: 1, contentsID: 1, contentsTitle: "죠죠의 기묘한 모험", contentsPosterPath: "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", userID: 1, userNickname: "콰랑", userProfileImage: 1, title: "최고의 아이", category: 0, viewCnt: 45, likeCnt: 3, dislikeCnt: 1, likeStatus: 0, commentCnt: 4, createdAt: "2023-10-16T12:33:35.007579", modifiedAt: "2023-10-16T12:33:35.007579",scrapId: 1,scrapStatus: false, author: true, spoiler: true)
     

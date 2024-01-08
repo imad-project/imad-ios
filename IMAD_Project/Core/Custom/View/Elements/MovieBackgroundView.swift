@@ -18,7 +18,7 @@ struct MovieBackgroundView: View {
                 KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (url))!)
                     .resizable()
                     .overlay{
-                        LinearGradient(colors: isBottomTransparency ?  [Color.black.opacity(0.2),Color.black.opacity(0.2),Color.black.opacity(0.2),.white] : [Color.black.opacity(0.2)], startPoint: .top, endPoint: .bottom) .background(Material.thin)
+                        LinearGradient(colors: isBottomTransparency ?  [Color.black.opacity(0.2),Color.black.opacity(0.2),Color.black.opacity(0.2),.white] : [Color.black.opacity(0.2)], startPoint: .top, endPoint: .bottom) .background(Material.ultraThin)
                             .environment(\.colorScheme, .dark)
                     }
                     .offset(x: pro.frame(in: .global).minY > 0 ? -pro.frame(in: .global).minY : 0,

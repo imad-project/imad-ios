@@ -10,10 +10,10 @@ import Alamofire
 
 enum RankingRouter:URLRequestConvertible{
    
-    
+    case all
     case week
     case month
-    case all
+   
     
     var baseURL:URL{
         return URL(string: ApiClient.baseURL)!
@@ -34,11 +34,12 @@ enum RankingRouter:URLRequestConvertible{
     var parameters:Parameters{
         return Parameters()
     }
+
     
     func asURLRequest() throws -> URLRequest {
         let url = baseURL.appendingPathComponent(endPoint)
         var request = URLRequest(url: url)
         request.method = method
-        return try JSONEncoding.default.encode(request, with: parameters)
+        return try URLEncoding(destination: .queryString).encode(request, with: parameters)
     }
 }

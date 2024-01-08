@@ -12,14 +12,18 @@ import Kingfisher
 
 struct MainView: View {
     
+    @State var ranking:RankingFilter = .week
+    @StateObject var vm = RankingViewModel(rankingList: [])
+    @EnvironmentObject var vmAuth:AuthViewModel
+    
     @State private var rotationAngle: Angle = .zero
     @State var movieIndex = 0
-    @State var poster:WorkResponse = CustomData.instance.workInfo
+    
     @State var isReview = false
     @State var select = 0
     @State var anima = false
     @Binding var search:Bool
-//   filterSelect @Binding var filterSelect:Bool
+    //   filterSelect @Binding var filterSelect:Bool
     
     var body: some View {
         ZStack{
@@ -28,15 +32,15 @@ struct MainView: View {
                 VStack(spacing:10){
                     VStack(spacing: 0){
                         header
-                        filer
-                            .foregroundColor(.white)
+                        filter
                             .padding(.bottom)
-                        thumnail
+                        rankingView
                             .padding(.bottom)
                         
                     }
+                    .foregroundColor(.white)
                     .background{
-                        MovieBackgroundView(url: "" ,height: 1.8, isBottomTransparency: false)
+                        MovieBackgroundView(url: vm.poster,height: 2, isBottomTransparency: false)
                     }
                     RoundedRectangle(cornerRadius: 20)
                         .frame(height: 50)
@@ -54,59 +58,61 @@ struct MainView: View {
                             search = true
                         }
                         .padding()
-                        
+                    
                     reviewPosting
-//                    movieList
+                    //                    movieList
                     Spacer().frame(height: 100).foregroundColor(.white)
                 }
             }
-            
-            
         }
-        
         .navigationDestination(isPresented: $isReview){
             //            ReviewView(isReview: $isReview, review: poster)
             //                .navigationBarBackButtonHidden(true)
             //            WorkView(id: poster.id, type: poster.)
         }
-        .navigationBarItems(leading: Text("리뷰").font(.title).bold().padding(.bottom,20),trailing: Button {
-            search = true
-        } label: {
-            Image(systemName: "magnifyingglass")
-                .font(.title3)
-        })
+        
         .ignoresSafeArea()
         .navigationDestination(isPresented: $search) {
             SearchView(postingMode: false, back: $search)
+                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
-        }.foregroundColor(.white)
-            .onAppear {
-                startTimer()
-                withAnimation(.linear(duration: 0.5)){
-                    anima = true
-                }
+        }
+        .onAppear {
+            vm.getWeekRanking()
+            withAnimation(.linear(duration: 0.5)){
+                anima = true
             }
+        }
+        .onReceive(vm.success){
+            if !vm.rankingList.isEmpty{
+                startTimer()
+            }
+        }
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        //  NavigationStack{
-        MainView(search: .constant(false))
-            
-        //.environment(\.colorScheme, .dark)
-        //   }
+        NavigationStack{
+            MainView(vm:RankingViewModel(rankingList: CustomData.instance.rankingList), search: .constant(false))
+                .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        }
     }
 }
 
 extension MainView{
     
     func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
             DispatchQueue.main.async {
                 withAnimation(.easeIn(duration: 3.0)){
-                    movieIndex = (movieIndex + 1) % CustomData.instance.movieList.count
-                    
+                    if movieIndex < vm.rankingList.count - 1 {
+                        movieIndex += 1
+                        vm.poster = vm.rankingList[movieIndex].posterPath.getImadImage()
+                    }else{
+                        movieIndex = 0
+                        vm.poster = vm.rankingList[movieIndex].posterPath.getImadImage()
+                    }
                 }
                 withAnimation(Animation.linear(duration: 0.5)) {
                     rotationAngle += .degrees(180)
@@ -216,139 +222,135 @@ extension MainView{
         }.foregroundColor(.black)
     }
     
-    var thumnail:some View{
+    var rankingView:some View{
         
         TabView{
-            //            ForEach(CustomData.instance.reviewList.chunks(ofCount: 3),id:\.self){ item in
-            //                HStack{
-            //                    ForEach(Array(item.enumerated()),id:\.0){ (index,element) in
-            //                        VStack(spacing: 15){
-            //                            Text("\(index + 1). \(element.title)")
-            //                                .font(.caption)
-            //                            KFImage(URL(string: element.thumbnail)!)
-            //                                .resizable()
-            //                                .frame(width: 120,height:180)
-            //                                .cornerRadius(20)
-            //                            Circle()
-            //                                .trim(from: 0.0, to: anima ? element.gradeAvg * 0.1 : 0)
-            //                                .stroke(lineWidth: 3)
-            //                                .rotation(Angle(degrees: 270))
-            //                                .frame(width: 50,height: 50)
-            //                                .overlay{
-            //                                    VStack{
-            //                                        Image(systemName: "star.fill")
-            //                                            .font(.caption)
-            //                                        Text(String(format: "%0.1f", element.gradeAvg))
-            //                                            .font(.caption)
-            //                                    }
-            //                                }
-            //                        }.padding(.horizontal,5)
-            //                    }
-            //                }
-            //            }
+            ForEach(vm.rankingList.chunks(ofCount: 3),id:\.self){ item in
+                HStack{
+                    ForEach(item,id:\.self){ element in
+                        VStack(spacing: 15){
+                            Text("\(element.rank). \(element.title)")
+                                .font(.caption)
+                            KFImageView(image: element.posterPath.getImadImage(),height: 150)
+                                .cornerRadius(5)
+                            Circle()
+                                .trim(from: 0.0, to: anima ? 9.9 * 0.1 : 0)
+                                .stroke(lineWidth: 3)
+                                .rotation(Angle(degrees: 270))
+                                .frame(width: 50,height: 50)
+                                .overlay{
+                                    VStack{
+                                        Image(systemName: "star.fill")
+                                            .font(.caption)
+                                        Text(String(format: "%0.1f",  9.9))
+                                            .font(.caption)
+                                    }
+                                }
+                        }.padding(.horizontal,5)
+                    }
+                }
+            }
         }
-        .frame(height: 300)
+        .frame(height: UIScreen.main.bounds.height/3 - 25)
+        .padding(.horizontal)
         .tabViewStyle(.page(indexDisplayMode: .never))
         
     }
-    var filer:some View{
-        VStack(spacing: 0){
+    var filter:some View{
+        VStack(alignment:.leading,spacing: 5){
             ScrollView(.horizontal,showsIndicators: false){
                 HStack{
-                    Capsule()
-                        .stroke(lineWidth: 1)
-                        .frame(width: 60,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text("전체")
+                    ForEach(RankingFilter.allCases,id:\.self){ ranking in
+                        Button {
+                            self.ranking = ranking
+                            self.movieIndex = 0
+                            switch self.ranking{
+                            case .all:
+                                vm.getAllRanking()
+                            case .week:
+                                vm.getWeekRanking()
+                            case .month:
+                                vm.getMonthRanking()
+                            }
+                        } label: {
+                            Group{
+                                if self.ranking == ranking{
+                                    Capsule()
+                                }else{
+                                    Capsule()
+                                        .stroke(lineWidth: 1)
+                                }
+                            }
+                            .frame(width: 60,height: 25)
+                            .padding(.vertical,5)
+                            .overlay {
+                                Text(ranking.name)
+                                    .foregroundColor(self.ranking == ranking ? .customIndigo : .white)
+                            }
                         }
-                    Capsule()
-                        .stroke(lineWidth: 1)
-                        .frame(width: 60,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text("이번달")
-                            Spacer()
-                        }
-                }.padding(.leading)
+                    }
+                }
             }
-            ScrollView(.horizontal,showsIndicators: false){
-                HStack{
-                    Capsule()
-                        .stroke(lineWidth: 1)
-                        .frame(width: 60,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text("영화")
-                        }
-                    Capsule()
-                        .stroke(lineWidth: 1)
-                        .frame(width: 60,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text("시리즈")
-                        }
-                    Capsule()
-                        .stroke(lineWidth: 1)
-                        .frame(width: 80,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text("애니메이션")
-                        }
-                    Spacer()
-                    Text("전체보기 >")
-                        .font(.caption)
-                        .padding(.horizontal)
-                    
-                }.padding(.leading)
+            NavigationLink {
+                
+            } label: {
+                Label {
+                    Text("전체보기")
+                } icon: {
+                    Image(systemName: "line.3.horizontal")
+                        .font(.subheadline)
+                }
             }
-        }.font(.caption)
+        }
+        .font(.caption)
+        .padding(.leading)
     }
-//    var movieList:some View{
-//        VStack{
-//
-//            ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
-//                // Section(header:){
-//                ScrollView(.horizontal,showsIndicators: false){
-//                    genreHeader(name: genre.name).padding(.top)
-//                    HStack(spacing: 0){
-//                        ForEach(CustomData.instance.workList){ work in
-//                            Button {
-//                                //                                poster = work
-//                                isReview = true
-//                            } label: {
-//                                KFImageView(image: work.posterPath.getImadImage() ?? "",width: 150,height: 200)
-//
-//                                    .overlay(alignment:.topTrailing) {
-//                                        Circle()
-//                                            .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
-//                                            .stroke(lineWidth: 3)
-//                                            .rotation(Angle(degrees: 270))
-//                                            .frame(width: 40,height: 40)
-//                                            .overlay{
-//                                                VStack{
-//                                                    Image(systemName: "star.fill")
-//                                                        .font(.caption)
-//                                                    Text(String(format: "%0.1f", 4))
-//                                                        .font(.caption)
-//                                                }
-//                                            }
-//                                            .background{
-//                                                Circle().foregroundColor(.black.opacity(0.7))
-//                                            }
-//                                            .padding(5)
-//
-//                                    }
-//                            }
-//
-//                        }
-//
-//                    }
-//                }.padding(.bottom,5)
-//            }
-//
-//
-//        }
-//    }
+    
+    //    var movieList:some View{
+    //        VStack{
+    //
+    //            ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
+    //                // Section(header:){
+    //                ScrollView(.horizontal,showsIndicators: false){
+    //                    genreHeader(name: genre.name).padding(.top)
+    //                    HStack(spacing: 0){
+    //                        ForEach(CustomData.instance.workList){ work in
+    //                            Button {
+    //                                //                                poster = work
+    //                                isReview = true
+    //                            } label: {
+    //                                KFImageView(image: work.posterPath.getImadImage() ?? "",width: 150,height: 200)
+    //
+    //                                    .overlay(alignment:.topTrailing) {
+    //                                        Circle()
+    //                                            .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
+    //                                            .stroke(lineWidth: 3)
+    //                                            .rotation(Angle(degrees: 270))
+    //                                            .frame(width: 40,height: 40)
+    //                                            .overlay{
+    //                                                VStack{
+    //                                                    Image(systemName: "star.fill")
+    //                                                        .font(.caption)
+    //                                                    Text(String(format: "%0.1f", 4))
+    //                                                        .font(.caption)
+    //                                                }
+    //                                            }
+    //                                            .background{
+    //                                                Circle().foregroundColor(.black.opacity(0.7))
+    //                                            }
+    //                                            .padding(5)
+    //
+    //                                    }
+    //                            }
+    //
+    //                        }
+    //
+    //                    }
+    //                }.padding(.bottom,5)
+    //            }
+    //
+    //
+    //        }
+    //    }
     
 }

@@ -14,8 +14,10 @@ class RankingApiService{
     static let interseptor = BaseIntercept()
     
     static func weekRanking() -> AnyPublisher<Ranking,AFError>{
+        print("주간랭킹 api 호출")
         return ApiClient.shared.session
             .request(RankingRouter.week,interceptor: interseptor)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type:Ranking.self)
             .value()
             .map{ receivedValue in
@@ -25,8 +27,10 @@ class RankingApiService{
             .eraseToAnyPublisher()
     }
     static func monthRanking() -> AnyPublisher<Ranking,AFError>{
+        print("월간랭킹 api 호출")
         return ApiClient.shared.session
             .request(RankingRouter.month,interceptor: interseptor)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type:Ranking.self)
             .value()
             .map{ receivedValue in
@@ -36,8 +40,10 @@ class RankingApiService{
             .eraseToAnyPublisher()
     }
     static func allRanking() -> AnyPublisher<Ranking,AFError>{
+        print("전체랭킹 api 호출")
         return ApiClient.shared.session
             .request(RankingRouter.all,interceptor: interseptor)
+            .validate(statusCode: 200..<300)
             .publishDecodable(type:Ranking.self)
             .value()
             .map{ receivedValue in

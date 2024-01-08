@@ -11,19 +11,28 @@ import Combine
 class RankingViewModel:ObservableObject{
     
     var canelable = Set<AnyCancellable>()
+    var success = PassthroughSubject<(),Never>()
+    
     @Published var rankingList:[RankingResponseList] = []
+    @Published var poster = ""
+    
+    init(rankingList: [RankingResponseList]) {
+        self.rankingList = rankingList
+    }
     
     func getWeekRanking(){
         RankingApiService.weekRanking()
             .sink { completion in
                 switch completion{
                 case .finished:
+                    self.success.send()
                     print(completion)
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
-            } receiveValue: { [weak self] week in
-                self?.rankingList = week.data?.contentsDataSet ?? []
+            } receiveValue: { [weak self] rank in
+                self?.rankingList = rank.data?.contentsDataSet ?? []
+                self?.poster = rank.data?.contentsDataSet.first?.posterPath.getImadImage() ?? ""
             }.store(in: &canelable)
 
     }
@@ -32,12 +41,14 @@ class RankingViewModel:ObservableObject{
             .sink { completion in
                 switch completion{
                 case .finished:
+                    self.success.send()
                     print(completion)
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
-            } receiveValue: { [weak self] week in
-                self?.rankingList = week.data?.contentsDataSet ?? []
+            } receiveValue: { [weak self] rank in
+                self?.rankingList = rank.data?.contentsDataSet ?? []
+                self?.poster = rank.data?.contentsDataSet.first?.posterPath.getImadImage() ?? ""
             }.store(in: &canelable)
 
     }
@@ -46,12 +57,14 @@ class RankingViewModel:ObservableObject{
             .sink { completion in
                 switch completion{
                 case .finished:
+                    self.success.send()
                     print(completion)
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
-            } receiveValue: { [weak self] week in
-                self?.rankingList = week.data?.contentsDataSet ?? []
+            } receiveValue: { [weak self] rank in
+                self?.rankingList = rank.data?.contentsDataSet ?? []
+                self?.poster = rank.data?.contentsDataSet.first?.posterPath.getImadImage() ?? ""
             }.store(in: &canelable)
 
     }

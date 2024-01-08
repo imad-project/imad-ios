@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RankingResponseList: Codable {
+struct RankingResponseList: Codable,Hashable {
     let contentsID: Int
     let contentsType, title, posterPath: String
     let rankChanged: Int?
