@@ -34,19 +34,10 @@ struct MainView: View {
                         thumnail
                             .padding(.bottom)
                         
-                    }.background {
-                        ZStack{
-                            KFImage(URL(string: CustomData.instance.movieList[movieIndex])!)
-                                .resizable()
-                                .frame(height: 1000)
-                            Color.black.opacity(0.2)
-                            Color.clear
-                                .background(Material.thin)
-                                .environment(\.colorScheme, .dark)
-                        }
-                        
-                        .padding(.bottom,500)
-                    }.ignoresSafeArea()
+                    }
+                    .background{
+                        MovieBackgroundView(url: "" ,height: 1.8, isBottomTransparency: false)
+                    }
                     RoundedRectangle(cornerRadius: 20)
                         .frame(height: 50)
                         .foregroundStyle(Color.gray.opacity(0.3))

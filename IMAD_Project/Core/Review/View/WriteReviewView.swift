@@ -41,7 +41,7 @@ struct WriteReviewView: View {
             ScrollView(showsIndicators: false){
                 VStack{
                     ZStack(alignment: .top){
-                        MovieBackgroundView(url: image,height: 2.7)
+                        MovieBackgroundView(url: image,height: 2.7, isBottomTransparency: true)
                         Text("이 작품 어떠셨나요?")
                             .bold()
                         scoreView
