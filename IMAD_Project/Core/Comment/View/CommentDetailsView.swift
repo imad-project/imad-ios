@@ -209,16 +209,17 @@ extension CommentDetailsView{
                     if order == .ascending{
                         withAnimation{
                             order = .descending
-                            vm.currentPage = 1
-                            vm.replys = []
+                            
                         }
                     }else{
                         withAnimation{
                             order = .ascending
-                            vm.currentPage = 1
-                            vm.replys = []
                         }
                     }
+                    vm.currentPage = 1
+                    vm.replys = []
+                    vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: self.sort.rawValue, order: self.order.rawValue, parentId: parentsId)
+                    
                 } label: {
                     HStack{
                         Text(order.name)

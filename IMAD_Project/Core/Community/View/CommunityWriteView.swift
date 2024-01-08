@@ -11,8 +11,6 @@ import Kingfisher
 struct CommunityWriteView: View {
     
     //MARK: 초기 변수/상수
-//    var id:Int?
-    //    var type:String?
     var contentsId:Int?  //게시물 등록
     var postingId:Int?  //게시물 수정
     let image:String
@@ -134,28 +132,36 @@ extension CommunityWriteView{
             Text("제목")
                 .bold()
             Spacer()
-            if spoiler{
-                Text("이 게시물은 스포일러를 포함하고 있습니다.").font(.caption).foregroundColor(.gray)
-            }
-            Button {
-                spoiler.toggle()
-            } label: {
-                Label("스포일러", systemImage: "checkmark")
-                    .foregroundColor(spoiler ? .customIndigo : .gray)
-                    .font(.caption)
-                    .bold()
-            }
+            Text("\(title.count)/25")
+                .font(.subheadline)
         }
         .padding(.top,40)
     }
     var titleView:some View{
-        CustomTextField(password: false, image: "pencil", placeholder: "제목을 입력해 주세요..", color: .gray, text: $title)
-            .padding()
-            .background{
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(lineWidth: 1.5)
-                    .foregroundColor(.customIndigo)
+        VStack(alignment: .trailing){
+            CustomTextField(password: false, image: "pencil", placeholder: "제목을 입력해 주세요..", color: .gray,textLimit: 25, text: $title)
+                .padding()
+                .background{
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(lineWidth: 1.5)
+                        .foregroundColor(.customIndigo)
+                }
+            HStack{
+                if spoiler{
+                    Text("이 게시물은 스포일러를 포함하고 있습니다.").font(.caption).foregroundColor(.gray)
+                }
+                Spacer()
+                Button {
+                    spoiler.toggle()
+                } label: {
+                    Label("스포일러", systemImage: "checkmark")
+                        .foregroundColor(spoiler ? .customIndigo : .gray)
+                        .font(.caption)
+                        .bold()
+                }
             }
+        }
+        
     }
     var categoryView:some View{
         VStack(alignment: .leading){
@@ -174,26 +180,8 @@ extension CommunityWriteView{
         }
     }
     var contents:some View{
-        RoundedRectangle(cornerRadius: 10)
-            .stroke(Color.customIndigo, lineWidth: 1.5)
-            .frame(height: 360)
-            .overlay(
-                TextEditor(text: $text)
-                    .background(Color.clear)
-                    .padding(8)
-                    .overlay(alignment: .topLeading){
-                        if text == ""{
-                            Text("게시물을 작성해주세요..")
-                                .allowsHitTesting(false)
-                                .opacity(0.5)
-                                .padding()
-                        }
-                        
-                    }
-                    .scrollContentBackground(.hidden)
-                    .foregroundColor(.black)
-                
-            ).padding(.top,5)
+        CustomTextEditor(placeholder: "게시물을 작성해주세요..", color: .customIndigo, textLimit: 2500, text: $text)
+       .padding(.top,5)
         .onTapGesture {
             UIApplication.shared.endEditing()
         }

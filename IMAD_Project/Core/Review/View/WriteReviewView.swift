@@ -50,7 +50,6 @@ struct WriteReviewView: View {
                     
                     if animation1{
                         sliderView
-                        spoilerView
                         writeView
                     }
                 }
@@ -194,8 +193,12 @@ extension WriteReviewView{
         }.padding(.top,70)
     }
     var writeView:some View{
-        VStack{
-            CustomTextField(password: false, image: "pencil", placeholder: "제목..", color: .customIndigo, text: $title)
+        VStack(alignment: .trailing){
+            Text("\(title.count)/25")
+                .foregroundStyle(.black)
+                .padding(.horizontal,35)
+                .font(.subheadline)
+            CustomTextField(password: false, image: "pencil", placeholder: "제목..", color: .customIndigo,textLimit: 15, text: $title)
                 .padding(15)
                 .background{
                     RoundedRectangle(cornerRadius: 20)
@@ -203,47 +206,32 @@ extension WriteReviewView{
                         .foregroundColor(.customIndigo)
                 }
                 .padding(.horizontal,30)
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.customIndigo, lineWidth: 2)
-                    .frame(height: 360)
-                    .overlay(
-                        TextEditor(text: $text)
-                            .background(Color.clear)
-                            .padding(8)
-                            .overlay(alignment: .topLeading){
-                                if text == ""{
-                                    Text("리뷰를 작성해주세요..")
-                                        .allowsHitTesting(false)
-                                        .opacity(0.5)
-                                        .padding()
-                                }
-                            }
-                            .scrollContentBackground(.hidden)
-                            .foregroundColor(.black)
-                        
-                    )
-                    .padding()
-                    .padding(.horizontal)
-            }
+            spoilerView
+            CustomTextEditor(placeholder: "내용을 입력해주세요..", color: .customIndigo, textLimit: 2500, text: $text)
+                .padding()
+                .padding(.horizontal)
         }
     }
     var spoilerView:some View{
-        HStack(alignment: .bottom){
-            if spoiler{
-                Text("이 리뷰는 스포일러성 리뷰입니다.")
-                    .foregroundColor(.gray)
-            }
-            Spacer()
-            Label("스포일러", systemImage: "checkmark")
-                .foregroundColor(spoiler ? .customIndigo : .gray)
-            
-                .bold()
-                .onTapGesture {
-                    withAnimation {
-                        spoiler.toggle()
-                    }
+        VStack{
+            HStack(alignment: .bottom){
+                if spoiler{
+                    Text("이 리뷰는 스포일러성 리뷰입니다.")
+                        .foregroundColor(.gray)
                 }
-        }.padding(.horizontal,35).font(.subheadline)
+                Spacer()
+                Label("스포일러", systemImage: "checkmark")
+                    .foregroundColor(spoiler ? .customIndigo : .gray)
+                
+                    .bold()
+                    .onTapGesture {
+                        withAnimation {
+                            spoiler.toggle()
+                        }
+                    }
+                
+            }
+        }
+        .padding(.horizontal,35).font(.subheadline)
     }
 }

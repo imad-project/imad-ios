@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct CustomTextField: View {
     
@@ -13,6 +14,7 @@ struct CustomTextField: View {
     let image:String?
     let placeholder:String
     let color:Color
+    var textLimit:Int?
     
     @Binding var text:String
     
@@ -33,6 +35,11 @@ struct CustomTextField: View {
                     .bold()
                     .background(alignment:.leading){
                         Text(placeholder).foregroundColor(color.opacity(text != "" ? 0.0:0.8))
+                            .onReceive(Just(text)) { _ in
+                                if let textLimit{
+                                    limitText(textLimit)
+                                }
+                            }
                     }
             }
             if text != ""{
@@ -43,8 +50,11 @@ struct CustomTextField: View {
                 }
             }
         }.foregroundColor(color)
-            
-        
+    }
+    func limitText(_ upper: Int) {
+        if text.count > upper {
+            text = String(text.prefix(upper))
+        }
     }
 }
 

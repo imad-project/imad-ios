@@ -18,7 +18,8 @@ struct RegisterView: View {
     @State var success = false
     @State var notRegex = false
     
-
+    @State var temp = ""
+    
     @Binding var login:Bool
     @StateObject var vmCheck = CheckDataViewModel()
     @EnvironmentObject var vm:AuthViewModel
@@ -72,28 +73,7 @@ struct RegisterView: View {
             })
         }
     }
-    func isVaildInfo()->Int{
-        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        
-        let passwordRegex = "[A-Za-z0-9!_@$%^&+=]{8,20}"
-        let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
-        
-        if email.isEmpty || password.isEmpty || passwordConfirm.isEmpty{
-            return 1
-        }else if !emailPredicate.evaluate(with: "\(email)@\(domain.domain)"){
-            print("\(email)@\(domain.domain)")
-            return 2
-        }else if !passwordPredicate.evaluate(with: password){
-            return 3
-        }else if password != passwordConfirm{
-            return 4
-        }else if vmCheck.message == ""{
-            return 5
-        }else{
-            return 0
-        }
-    }
+    
 }
 
 struct RegisterView_Previews: PreviewProvider {
@@ -142,6 +122,7 @@ extension RegisterView{
                 }else{
                     vmCheck.showMessage(message: "이메일을 제대로 입력해주세요!",possible: false)
                 }
+                temp = "\(email)@\(domain.domain)"
             } label: {
                 Text("중복확인")
                     .cornerRadius(20)
@@ -190,6 +171,30 @@ extension RegisterView{
         }
         .frame(maxWidth: .infinity)
     }
+    func isVaildInfo()->Int{
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        
+        let passwordRegex = "[A-Za-z0-9!_@$%^&+=]{8,20}"
+        let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
+        
+        if email.isEmpty || password.isEmpty || passwordConfirm.isEmpty{
+            return 1
+        }else if !emailPredicate.evaluate(with: "\(email)@\(domain.domain)"){
+            return 2
+        }else if !passwordPredicate.evaluate(with: password){
+            return 3
+        }else if password != passwordConfirm{
+            return 4
+        }else if vmCheck.message == ""{
+            return 5
+        }else if temp != email{
+            return 6
+        }
+        else{
+            return 0
+        }
+    }
     func registerCheck(){
         switch isVaildInfo(){
         case 1:
@@ -206,6 +211,9 @@ extension RegisterView{
             return notRegex = true
         case 5:
             vm.message = "이메일 중복확인을 해주세요!"
+            return notRegex = true
+        case 6:
+            vm.message = "이메일이 변경되었습니다. 중복확인을 다시 해주세요!"
             return notRegex = true
         default:
             return vm.register(email: "\(email)@\(domain.domain)", password: password, authProvider: "IMAD") //SHA256

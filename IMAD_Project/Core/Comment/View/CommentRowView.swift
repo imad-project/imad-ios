@@ -109,7 +109,7 @@ extension CommentRowView{
     }
     var settingView:some View{
         HStack{
-            if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{
+            if comment.author{
                 infoChangeView(image: "square.and.pencil", text: "수정", color: .customIndigo.opacity(0.6), x: 200){
                     withAnimation(.spring()){
                         statingOffsetY = 0
@@ -195,7 +195,7 @@ extension CommentRowView{
     }
     var modifyView:some View{
         HStack{
-            CustomTextField(password: false, image: nil, placeholder: "댓글입력..", color: .black, text: $text)
+            CustomTextField(password: false, image: nil, placeholder: "댓글입력..", color: .black, textLimit: 400, text: $text)
                 .focused($focus)
             Button {
                 if text.isEmpty{

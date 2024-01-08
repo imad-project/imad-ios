@@ -10,6 +10,7 @@ import PhotosUI
 
 struct NicknameSelectView: View {
     
+    @State var temp = ""
     @StateObject var vmCheck = CheckDataViewModel()
     @EnvironmentObject var vm:AuthViewModel
     
@@ -25,9 +26,13 @@ struct NicknameSelectView: View {
                         withAnimation(.linear){
                             vm.selection = .gender
                         }
-                    }else{
+                    }else if vm.patchUser.nickname != temp{
+                        vmCheck.showMessage(message: "닉네임이 변경 되었습니다. 중복확인을 다시 해주세요", possible: false)
+                    }
+                    else{
                         vmCheck.showMessage(message: "닉네임 중복확인을 해주세요", possible: false)
                     }
+                    
                 }, color: .customIndigo.opacity(0.5))
                     .padding(.bottom,50)
                     .padding(.top,20)
@@ -59,8 +64,12 @@ extension NicknameSelectView{
     }
     var checkEmailView:some View{
         VStack(alignment: .leading){
+            Text("\(vm.patchUser.nickname.count)/10글자")
+                .padding(.horizontal)
+                .padding(.top,20)
+                .font(.subheadline)
             HStack{
-                CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, text: $vm.patchUser.nickname)
+                CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, textLimit: 10, text: $vm.patchUser.nickname)
                     .padding()
                     .background(Color.gray.opacity(0.5))
                     .cornerRadius(20)
@@ -70,6 +79,7 @@ extension NicknameSelectView{
                     }else{
                         vmCheck.showMessage(message: "닉네임을 제대로 입력해주세요!",possible: false)
                     }
+                    temp = vm.patchUser.nickname
                 } label: {
                     Text("중복확인")
                         .foregroundColor(.white)
@@ -81,8 +91,9 @@ extension NicknameSelectView{
                 }
                 
             }
-            .padding(.top,20)
+            
             .padding(.horizontal)
+            
             Text(vmCheck.message)
                 .foregroundColor(vmCheck.possible ? .green : .red)
                 .font(.caption)

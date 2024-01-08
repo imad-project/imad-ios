@@ -24,7 +24,7 @@ struct CommunitySearchView: View {
     @State var category:CommunityFilter = .all
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user: nil)
     
     var body: some View {
         VStack(alignment: .leading){
@@ -64,7 +64,6 @@ struct CommunitySearchView: View {
             if let community{
                 CommunityPostView(postingId: community.postingID, back: $goCommunity)
                     .navigationBarBackButtonHidden()
-                    .environmentObject(vmAuth)
             }
         }
         .foregroundColor(.customIndigo)

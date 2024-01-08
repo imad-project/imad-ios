@@ -23,6 +23,7 @@ struct CommunityResponse:Codable,Hashable{
     var commentListResponse: CommentListResponse?
     var scrapId:Int?
     var scrapStatus:Bool
+    var author:Bool
     let spoiler: Bool
     
     enum CodingKeys: String, CodingKey {
@@ -44,6 +45,6 @@ struct CommunityResponse:Codable,Hashable{
         case commentListResponse = "comment_list_response"
         case scrapId = "scrap_id"
         case scrapStatus = "scrap_status"
-        case spoiler
+        case spoiler,author
     }
 }

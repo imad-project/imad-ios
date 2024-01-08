@@ -20,7 +20,6 @@ struct MainView: View {
     @State var anima = false
     @Binding var search:Bool
 //   filterSelect @Binding var filterSelect:Bool
-    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         ZStack{
@@ -48,14 +47,23 @@ struct MainView: View {
                         
                         .padding(.bottom,500)
                     }.ignoresSafeArea()
-                    CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요..", color: .gray, text: .constant(""))
-                        .padding()
-                        .background(Color.gray.opacity(0.3))
-                        .cornerRadius(20)
-                        .padding()
+                    RoundedRectangle(cornerRadius: 20)
+                        .frame(height: 50)
+                        .foregroundStyle(Color.gray.opacity(0.3))
+                        .overlay{
+                            HStack{
+                                Image(systemName: "magnifyingglass")
+                                Text("작품을 검색해주세요..")
+                                Spacer()
+                            }
+                            .padding(.leading)
+                            .foregroundStyle(.gray)
+                        }
                         .onTapGesture {
                             search = true
                         }
+                        .padding()
+                        
                     reviewPosting
 //                    movieList
                     Spacer().frame(height: 100).foregroundColor(.white)
@@ -79,7 +87,6 @@ struct MainView: View {
         .ignoresSafeArea()
         .navigationDestination(isPresented: $search) {
             SearchView(postingMode: false, back: $search)
-                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }.foregroundColor(.white)
             .onAppear {
@@ -95,7 +102,7 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         //  NavigationStack{
         MainView(search: .constant(false))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            
         //.environment(\.colorScheme, .dark)
         //   }
     }
@@ -133,7 +140,7 @@ extension MainView{
             
             Spacer()
             Button {
-                //                search = true
+                
             } label: {
                 Image(systemName: "bell.fill")
                     .font(.title3)

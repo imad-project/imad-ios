@@ -20,8 +20,7 @@ struct KFImageView: View {
                 NoImageView()
             }
             .frame(width: width,height: height)
-            .cornerRadius(20)
-            .shadow(radius: 5)
+            .shadow(radius: 1)
     }
 }
 

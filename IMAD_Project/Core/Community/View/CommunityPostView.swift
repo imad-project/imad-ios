@@ -15,7 +15,7 @@ struct CommunityPostView: View {
     
     @State var menu = false
     @State var modify = false
-    
+    @State var commentSheet = true
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
     
@@ -27,29 +27,38 @@ struct CommunityPostView: View {
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var vmScrap = ScrapViewModel(scrapList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user: nil)
     
+    let startingOffset: CGFloat = UIScreen.main.bounds.height/2
+    @State private var currentOffset:CGFloat = 0
+    @State private var endOffset:CGFloat = UIScreen.main.bounds.height/2
     
     var body: some View {
-        ZStack(alignment: .bottom){
-            Color.white.ignoresSafeArea()
-            VStack(spacing: 0){
-                header
-                Divider()
-                ScrollView {
-                    workInfoView
-                    communityinfoView
-                    communityStatusView
-                    likeStatusView
-                    collection
-                    comment
+        VStack{
+            if let community = vm.community{
+                ZStack(alignment: .bottom){
+                    Color.white.ignoresSafeArea()
+                    VStack(spacing: 0){
+                        header(community: community)
+                        Divider()
+                        ScrollView{
+                            workInfoView(community: community)
+                            communityinfoView(community: community)
+                            likeStatusView(community: community)
+                        }
+                    }
+                    .foregroundColor(.black)
+                    .padding(.bottom,100)
+                    
+                    commentView(community: community)
                 }
+                commentInputView(community: community)
+            }else{
+                ProgressView().environment(\.colorScheme,.light)
             }
-            .foregroundColor(.black)
-            .padding(.bottom,100)
-            commentInputView
         }
         .onAppear{
+            vmAuth.getUser()
             vm.readDetailCommunity(postingId: postingId)
         }
         .onTapGesture {
@@ -60,13 +69,17 @@ struct CommunityPostView: View {
         }
         .navigationDestination(isPresented: $modify) {
             if let community = vm.community{
-                CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, image: community.contentsPosterPath.getImadImage(),category:CommunityFilter.allCases.first(where: {$0.num == community.category})!, spoiler: community.spoiler, text:community.content, title: community.title, goMain: .constant(true))
+                let category = CommunityFilter.allCases.first(where: {$0.num == community.category})!
+                CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, image: community.contentsPosterPath.getImadImage(),category:category, spoiler: community.spoiler, text:community.content, title: community.title, goMain: .constant(true))
                     .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             }
         }
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
+        }
+        .onReceive(vmComment.commentLoadSuccess){ commentList in
+            vm.community?.commentListResponse?.commentDetailsResponseList = commentList
         }
     }
 }
@@ -81,7 +94,7 @@ struct ComminityPostView_Previews: PreviewProvider {
 }
 
 extension CommunityPostView{
-    var header:some View{
+    func header(community:CommunityResponse) ->some View{
         ZStack{
             HStack(spacing:0){
                 Button {
@@ -92,181 +105,179 @@ extension CommunityPostView{
                         .padding()
                 }
                 Spacer()
-                if let scrapStatus = vm.community?.scrapStatus{
-                    Button {
-                        if scrapStatus{
-                            vm.community?.scrapStatus = false
-                            vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0)
-                        }else{
-                            vm.community?.scrapStatus = true
-                            vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
+                Group{
+                    if community.scrapStatus{
+                        Button {
+                            vm.community?.scrapStatus = !community.scrapStatus
+                            community.scrapStatus ? vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0) : vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
+                        } label: {
+                            Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
                         }
-                    } label: {
-                        Image(systemName:scrapStatus ? "bookmark.fill" : "bookmark")
-                            .padding(.trailing)
+                    }
+                    if community.author{
+                        Button {
+                            menu.toggle()
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .bold()
+                        }
+                        .confirmationDialog("", isPresented: $menu,actions: {
+                            Button(role:.none){
+                                modify = true
+                            } label: {
+                                Text("수정하기")
+                            }
+                            Button(role:.destructive){
+                                back = true
+                                vm.deleteCommunity(postingId: postingId)
+                            } label: {
+                                Text("삭제하기")
+                            }
+                        },message: {
+                            Text("게시물을 수정하거나 삭제하시겠습니까?")
+                        })
                     }
                 }
-                if let userName = vmAuth.user?.data?.nickname,userName == vm.community?.userNickname{
-                    Button {
-                        menu.toggle()
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .bold()
-                            .padding()
-                    }
-                    .confirmationDialog("일정 수정", isPresented: $menu,actions: {
-                        Button(role:.none){
-                            modify = true
-                        } label: {
-                            Text("수정하기")
-                        }
-                        Button(role:.destructive){
-                            back = true
-                            vm.deleteCommunity(postingId: postingId)
-                        } label: {
-                            Text("삭제하기")
-                        }
-                    },message: {
-                        Text("게시물을 수정하거나 삭제하시겠습니까?")
-                    })
-                }
+                .padding(.trailing)
+                
             }
-            HStack{
-                ProfileImageView(imageCode: vm.community?.userProfileImage ?? 90, widthHeigt: 25)
-                Text(vm.community?.userNickname ?? "")
-                    .font(.caption)
-                    .bold()
-            }.padding(.top,5)
+            Text(community.contentsTitle)
+                .bold()
+            
             
         }.padding(.bottom,10)
     }
-    var workInfoView:some View{
+    func workInfoView(community:CommunityResponse) ->some View{
         HStack(alignment: .top){
-            KFImageView(image: vm.community?.contentsPosterPath.getImadImage() ?? "",width:90,height:110)
-            VStack(alignment: .leading,spacing: 5){
-                Text("#" + (vm.community?.contentsTitle ?? ""))
-                    .font(.footnote)
+            VStack(alignment: .leading){
                 HStack{
-                    Text(CommunityFilter.allCases.first(where:{$0.num == vm.community?.category ?? 1})!.name).font(.caption2)
-                        .foregroundColor(.white)
-                        .padding(3)
-                        .padding(.horizontal,5)
-                        .background(Capsule().foregroundColor(.customIndigo))
-                    Text((vm.community?.spoiler ?? false) ? "스포일러" : "클린")
-                        .font(.caption2)
-                        .padding(2)
-                        .padding(.horizontal)
-                        .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1))
+                    ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 25)
+                    Text(community.userNickname)
+                        .font(.subheadline)
+                        .bold()
+                    HStack(spacing: 2){
+                        Text(CommunityFilter.allCases.first(where:{$0.num == community.category})!.image)
+                            .font(.caption2)
+                        Text(CommunityFilter.allCases.first(where:{$0.num == community.category})!.name)
+                            .font(.caption)
+                        
+                    }
+                    .foregroundColor(.white)
+                    .bold()
+                    .padding(4)
+                    .padding(.horizontal,5)
+                    .background(Capsule().foregroundColor(.customIndigo))
                 }
-                Text(vm.community?.title ?? "")
+                HStack{
+                    if community.modifiedAt != community.createdAt{
+                        Text("수정됨 •").foregroundColor(.gray).font(.caption)
+                    }
+                    Text(community.modifiedAt.relativeTime()).font(.caption).foregroundColor(.gray)
+                    Group{
+                        HStack(spacing: 2){
+                            Image(systemName: "eye.fill")
+                            Text("\(community.viewCnt)")
+                        }
+                        HStack(spacing: 2){
+                            Image(systemName: "message.fill")
+                            Text("\(community.commentCnt)")
+                        }
+                    }
+                    .foregroundColor(.gray)
+                    .font(.footnote)
+                    .padding(2)
+                    .padding(.horizontal,7)
+                    .background(Color.gray.opacity(0.1).cornerRadius(50))
+                }
+                Text(community.title)
                     .bold()
                 
-            }.padding([.leading,.bottom])
-            Spacer()
-            if vm.community?.modifiedAt != vm.community?.createdAt{
-                Text("수정됨 •").foregroundColor(.gray).font(.caption)
             }
-            Text(vm.community?.modifiedAt.relativeTime() ?? "").font(.caption).foregroundColor(.gray)
+            Spacer()
             
+            NavigationLink {
+                WorkView(contentsId:community.contentsID)
+                    .navigationBarBackButtonHidden()
+            } label: {
+                KFImageView(image: community.contentsPosterPath.getImadImage(),width:90,height:110)
+            }
         } .padding(.top)
             .padding(.horizontal)
     }
-    var communityStatusView:some View{
+    func communityinfoView(community:CommunityResponse) ->some View{
         HStack{
-            Group{
-                HStack(spacing: 2){
-                    Image(systemName: "eye.fill")
-                    Text("\(vm.community?.viewCnt ?? 0)")
-                }
-                HStack(spacing: 2){
-                    Image(systemName: "message.fill")
-                    Text("\(vm.community?.commentCnt ?? 0)")
-                }
-            }
-            .foregroundColor(.gray)
-            .font(.footnote)
-            .padding(2)
-            .padding(.horizontal,7)
-            .background(Color.gray.opacity(0.3).cornerRadius(50))
-            Spacer()
-            Group{
-                HStack(spacing: 2){
-                    Image(systemName: "heart.fill")
-                        .foregroundColor(.red)
-                    Text("\(vm.community?.likeCnt ?? 0)")
-                }
-                HStack(spacing: 2){
-                    Image(systemName: "heart.slash.fill")
-                        .foregroundColor(.blue)
-                    Text("\(vm.community?.dislikeCnt ?? 0)")
-                }
-            }.font(.subheadline)
-        }.padding(.horizontal)
-    }
-    var communityinfoView:some View{
-        VStack(alignment: .leading){
-            NavigationLink {
-                WorkView(contentsId:vm.community?.contentsID ?? 0)
-                    .navigationBarBackButtonHidden()
-                    .environmentObject(vmAuth)
-            } label: {
-                HStack(spacing:1){
-                    Text(vm.community?.contentsTitle ?? "").bold()
-                    Text("의 상세정보 보러가기")
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                }.font(.caption)
-                    .padding(10)
-                    .background(Color.white).cornerRadius(10).shadow(radius: 1)
-                    .padding(.horizontal)
-            }
-            Text(vm.community?.content ?? "")
+            Text(community.content)
                 .padding(.horizontal)
                 .font(.subheadline)
                 .padding(.bottom)
+            Spacer()
         }
         .padding(.bottom)
     }
-    var likeStatusView:some View{
+    func likeStatusView(community:CommunityResponse) ->some View{
         VStack{
-            Divider()
             HStack{
-                Group{
-                    Button {
-                        likePosting()
-                    } label: {
-                        Image(systemName: vm.community?.likeStatus == 1 ? "heart.fill":"heart")
-                        Text("좋아요")
-                    }
-                    .foregroundColor(vm.community?.likeStatus == 1 ? .red : .gray)
-                    Button {
-                        disLikePosting()
-                    } label: {
-                        HStack{
-                            Image(systemName: vm.community?.likeStatus == -1 ? "heart.slash.fill" : "heart.slash")
-                            Text("싫어요")
+                Text("\(community.likeCnt)")
+                Button {
+                    likePosting(community: community)
+                } label: {
+                    Circle()
+                        .foregroundColor(community.likeStatus == 1 ? .red.opacity(0.7): .red.opacity(0.3))
+                        .frame(width: 50)
+                        .overlay {
+                            Image(systemName:"heart.fill")
+                                .foregroundColor(.white)
                         }
-                    }
-                    .foregroundColor(vm.community?.likeStatus == -1 ? .blue : .gray)
                 }
-                .font(.subheadline)
-                .frame(maxWidth: .infinity)
+                Spacer().frame(width: 20)
+                Button {
+                    disLikePosting(community: community)
+                } label: {
+                    Circle()
+                        .foregroundColor(community.likeStatus == -1 ? .blue.opacity(0.7): .blue.opacity(0.3))
+                        .frame(width: 50)
+                        .overlay {
+                            Image(systemName:"hand.thumbsdown.fill")
+                                .foregroundColor(.white)
+                        }
+                }
+                Text("\(community.dislikeCnt)")
             }
-            Divider()
+            .font(.title3)
+            .frame(maxWidth: .infinity)
+            if endOffset == startingOffset {
+                Button {
+                    withAnimation(.spring()){
+                        endOffset = 0
+                    }
+                } label: {
+                    Circle()
+                        .foregroundColor(.customIndigo)
+                        .frame(width: 50)
+                        .overlay {
+                            Image(systemName:"message.fill")
+                                .foregroundColor(.white)
+                        }
+                }
+
+                Text("댓글창 열기 (\((community.commentCnt)))")
+                    .font(.caption)
+            }
         }
+        
     }
     var collection:some View{
         VStack(alignment: .leading){
             HStack{
                 ForEach(SortFilter.allCases.filter({$0 != .score}),id:\.self){ sort in
                     Button {
-                        guard self.sort != sort else { return}
+                        guard self.sort != sort else { return }
                         self.sort = sort
                         readCommunity()
                     } label: {
-                        Capsule()
+                        RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.customIndigo.opacity(sort == self.sort ? 1.0:0.5 ))
-                            .frame(width: 70,height: 25)
+                            .frame(width: 60,height: 30)
                             .overlay {
                                 Text(sort.name).font(.caption).foregroundColor(.white)
                             }
@@ -289,32 +300,98 @@ extension CommunityPostView{
                     HStack{
                         Text(order.name)
                         Image(systemName: order == .ascending ? "chevron.up" : "chevron.down")
-                    } .font(.caption)
+                    } 
+                    .font(.caption)
+                    .foregroundColor(.black)
                 }
                 
             }.padding(.vertical,5)
         }.padding(.horizontal)
         
     }
+    func commentView(community:CommunityResponse) ->some View{
+        VStack{
+            Capsule()
+                .frame(width: 100,height: 5)
+                .opacity(0.3)
+                .padding(.vertical)
+            HStack{
+                Text("댓글")
+                    .bold()
+                    .font(.title2)
+                Spacer()
+            }
+            .padding([.leading,.bottom])
+            ScrollView{
+                if endOffset == -startingOffset + 100{
+                    collection
+                }
+                if let comments = community.commentListResponse?.commentDetailsResponseList,comments.isEmpty{
+                    Group{
+                        Image(systemName: "ellipsis.message")
+                            .font(.largeTitle)
+                            .padding(.bottom,10)
+                        Text("아직 댓글이 없습니다.")
+                    }.foregroundStyle(.gray)
+                    
+                }else{
+                    comment
+                        .padding(.top)
+                }
+                Spacer()
+            }
+            .padding(.bottom,endOffset == 0 ? 300 : 0)
+        }
+        
+        .background{
+            RoundedRectangle(cornerRadius: 10)
+                .shadow(radius: 1)
+                .foregroundStyle(.white)
+        }
+        .offset(y:startingOffset - 100)
+        .offset(y:currentOffset)
+        .offset(y:endOffset)
+        .gesture(
+            DragGesture()
+                .onChanged{ value in
+                    withAnimation(.spring()){
+                        currentOffset = value.translation.height
+                    }
+                }
+                .onEnded{ value in
+                    withAnimation(.spring()){
+                       offsetSetting()
+                    }
+                }
+        )
+
+    }
     var comment:some View{
         ForEach(vm.community?.commentListResponse?.commentDetailsResponseList ?? [],id: \.self){ comment in
             CommentRowView(filter: .postComment, postingId: postingId, deleted: comment.removed, comment: comment,reply:.constant(nil), commentFocus: $reply)
                 .environmentObject(vmAuth)
         }
-        .padding(.bottom)
+        .padding(.bottom,25)
     }
-    var commentInputView:some View{
+    func commentInputView(community:CommunityResponse) ->some View{
         VStack{
             Divider()
             HStack{
-                ProfileImageView(imageCode: vm.community?.userProfileImage ?? 0, widthHeigt: 40)
-                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
+                ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 40)
+                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,textLimit: 400, text: $reviewText)
                     .focused($reply)
                     .padding(10)
                     .background{
                         RoundedRectangle(cornerRadius: 15)
                             .stroke(lineWidth: 1)
                             .foregroundColor(.customIndigo)
+                    }
+                    .onTapGesture {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                            withAnimation(.spring()){
+                                endOffset = -startingOffset + 100
+                            }
+                        }
                     }
                 Button {
                     vmComment.addReply(postingId: postingId, parentId: nil, content: reviewText,commentMode: true)
@@ -328,7 +405,8 @@ extension CommunityPostView{
             }
             .padding(.horizontal)
             HStack{
-                Text("비방이나 욕설은 삼가해주세요.😃😊")
+                Text("댓글은 최대 400글자까지 작성할 수 있으며, 비방이나 욕설은 삼가해주세요.😃😊")
+                    .font(.caption2)
                     .foregroundColor(.black.opacity(0.4))
                     .padding(.leading)
                 Spacer()
@@ -337,7 +415,7 @@ extension CommunityPostView{
         .padding(.bottom,25)
         .background(Color.white)
     }
-    func likePosting(){
+    func likePosting(community:CommunityResponse){
         guard let like = vm.community?.likeStatus else {return}
         if like < 1{
             if like < 0{
@@ -353,7 +431,7 @@ extension CommunityPostView{
             vm.like(postingId: vm.community?.postingID ?? 0, status: 0)
         }
     }
-    func disLikePosting(){
+    func disLikePosting(community:CommunityResponse){
         guard let like = vm.community?.likeStatus else {return}
         if like > -1{
             if like > 0{
@@ -368,10 +446,30 @@ extension CommunityPostView{
             vm.like(postingId: vm.community?.postingID ?? 0, status: 0)
         }
     }
-   
+    
     func readCommunity(){
-        vm.currentPage = 1
-        vmComment.replys = []
+        vmComment.currentPage = 1
+        vmComment.replys.removeAll()
         vmComment.readComments(postingId: postingId, commentType: 0, page: vm.currentPage, sort: self.sort.rawValue, order: order.rawValue, parentId:0)
+    }
+    func offsetSetting(){
+        if currentOffset < -50{
+            if currentOffset < -startingOffset{
+                endOffset = -startingOffset + 100
+            }else if endOffset == 0{
+                 endOffset = -startingOffset + 100
+             }
+        }
+         else if currentOffset > 50 {
+             if currentOffset > startingOffset/2{
+                 endOffset = startingOffset
+             }
+             else if endOffset < 0{
+                 endOffset = 0
+             }else if endOffset == 0{
+                 endOffset = startingOffset
+             }
+         }
+         currentOffset = 0
     }
 }
