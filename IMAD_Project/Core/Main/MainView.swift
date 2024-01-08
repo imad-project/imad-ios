@@ -20,7 +20,6 @@ struct MainView: View {
     @State var anima = false
     @Binding var search:Bool
 //   filterSelect @Binding var filterSelect:Bool
-    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         ZStack{
@@ -88,7 +87,6 @@ struct MainView: View {
         .ignoresSafeArea()
         .navigationDestination(isPresented: $search) {
             SearchView(postingMode: false, back: $search)
-                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }.foregroundColor(.white)
             .onAppear {
@@ -104,7 +102,7 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         //  NavigationStack{
         MainView(search: .constant(false))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            
         //.environment(\.colorScheme, .dark)
         //   }
     }

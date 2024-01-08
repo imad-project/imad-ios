@@ -160,13 +160,13 @@ extension MyCommunityListView{
                     if like{
                         Image(systemName: "heart.fill")
                             .font(.title)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.red)
                             .offset(x:3)
                             .rotationEffect(Angle(degrees: -10))
                     }else{
-                        Image(systemName: "heart.fill")
+                        Image(systemName: "heart.slash.fill")
                             .font(.title)
-                            .foregroundColor(.red)
+                            .foregroundColor(.blue)
                             .offset(x:-3)
                             .rotationEffect(Angle(degrees: 10))
                     }

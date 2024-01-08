@@ -37,8 +37,8 @@ struct TestView: View {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         print(request)
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+    
+        let task = URLSession.shared.dataTask(with: request){ data, response, error in
             guard let data,let str = String(data: data, encoding:.utf8) else { return }
             print(str)
         }

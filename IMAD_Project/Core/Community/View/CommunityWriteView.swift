@@ -11,8 +11,6 @@ import Kingfisher
 struct CommunityWriteView: View {
     
     //MARK: 초기 변수/상수
-//    var id:Int?
-    //    var type:String?
     var contentsId:Int?  //게시물 등록
     var postingId:Int?  //게시물 수정
     let image:String

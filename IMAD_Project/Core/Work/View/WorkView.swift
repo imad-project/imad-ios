@@ -14,7 +14,6 @@ struct WorkView: View {
     var type:String?
     var contentsId:Int?
     
-    //    @State var tokenExpired = (false,"")
     @State var width:Bool = false   //작품 제목 섹션 생성
     @State var written = false  //리뷰가 작성되있을 경우
     //    @State var anima = false

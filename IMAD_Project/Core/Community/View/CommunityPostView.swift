@@ -27,7 +27,7 @@ struct CommunityPostView: View {
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var vmScrap = ScrapViewModel(scrapList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user: nil)
     
     let startingOffset: CGFloat = UIScreen.main.bounds.height/2
     @State private var currentOffset:CGFloat = 0
@@ -54,6 +54,7 @@ struct CommunityPostView: View {
             commentInputView
         }
         .onAppear{
+            vmAuth.getUser()
             vm.readDetailCommunity(postingId: postingId)
         }
         .onTapGesture {
@@ -64,7 +65,8 @@ struct CommunityPostView: View {
         }
         .navigationDestination(isPresented: $modify) {
             if let community = vm.community{
-                CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, image: community.contentsPosterPath.getImadImage(),category:CommunityFilter.allCases.first(where: {$0.num == community.category})!, spoiler: community.spoiler, text:community.content, title: community.title, goMain: .constant(true))
+                let category = CommunityFilter.allCases.first(where: {$0.num == community.category})!
+                CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, image: community.contentsPosterPath.getImadImage(),category:category, spoiler: community.spoiler, text:community.content, title: community.title, goMain: .constant(true))
                     .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             }
@@ -197,7 +199,6 @@ extension CommunityPostView{
             NavigationLink {
                 WorkView(contentsId:vm.community?.contentsID ?? 0)
                     .navigationBarBackButtonHidden()
-                    .environmentObject(vmAuth)
             } label: {
                 KFImageView(image: vm.community?.contentsPosterPath.getImadImage() ?? "",width:90,height:110)
             }
