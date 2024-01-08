@@ -378,7 +378,7 @@ extension CommunityPostView{
             Divider()
             HStack{
                 ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 40)
-                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
+                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,textLimit: 400, text: $reviewText)
                     .focused($reply)
                     .padding(10)
                     .background{
@@ -405,7 +405,8 @@ extension CommunityPostView{
             }
             .padding(.horizontal)
             HStack{
-                Text("비방이나 욕설은 삼가해주세요.😃😊")
+                Text("댓글은 최대 400글자까지 작성할 수 있으며, 비방이나 욕설은 삼가해주세요.😃😊")
+                    .font(.caption2)
                     .foregroundColor(.black.opacity(0.4))
                     .padding(.leading)
                 Spacer()
