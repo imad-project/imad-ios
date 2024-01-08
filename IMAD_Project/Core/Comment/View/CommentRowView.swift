@@ -109,7 +109,7 @@ extension CommentRowView{
     }
     var settingView:some View{
         HStack{
-            if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{
+            if comment.author{
                 infoChangeView(image: "square.and.pencil", text: "수정", color: .customIndigo.opacity(0.6), x: 200){
                     withAnimation(.spring()){
                         statingOffsetY = 0
