@@ -11,7 +11,7 @@ struct CommunityDetailsListResponse: Codable,Hashable {
     let postingID, contentsID: Int
     let contentsTitle, contentsPosterPath: String?
     let userID: Int
-    let userNickname: String
+    let userNickname: String?
     let userProfileImage: Int
     let title: String
     let category, viewCnt, likeCnt, dislikeCnt: Int
@@ -20,7 +20,6 @@ struct CommunityDetailsListResponse: Codable,Hashable {
     let createdAt, modifiedAt: String
     let scrapId:Int?
     var scrapStatus:Bool
-    let author:Bool
     let spoiler: Bool
     
     enum CodingKeys: String, CodingKey {
@@ -40,7 +39,7 @@ struct CommunityDetailsListResponse: Codable,Hashable {
         case modifiedAt = "modified_at"
         case scrapId = "scrap_id"
         case scrapStatus = "scrap_status"
-        case spoiler,author
+        case spoiler
         case commentCnt = "comment_cnt"
     }
 }

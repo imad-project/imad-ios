@@ -12,7 +12,7 @@ struct CommunityResponse:Codable,Hashable{
     let postingID, contentsID: Int
     let contentsTitle, contentsPosterPath: String
     let userID: Int
-    let userNickname: String
+    let userNickname: String?
     let userProfileImage: Int
     let title, content: String
     let category, viewCnt:Int

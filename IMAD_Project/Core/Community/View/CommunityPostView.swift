@@ -152,7 +152,7 @@ extension CommunityPostView{
             VStack(alignment: .leading){
                 HStack{
                     ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 25)
-                    Text(community.userNickname)
+                    Text(community.userNickname ?? "")
                         .font(.subheadline)
                         .bold()
                     HStack(spacing: 2){

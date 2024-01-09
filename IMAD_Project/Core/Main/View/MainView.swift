@@ -134,7 +134,6 @@ extension MainView{
                     .rotation3DEffect(rotationAngle, axis: (x: 0, y: 1, z: 0))
             }
             
-            
             Spacer()
             Button {
                 
@@ -233,19 +232,23 @@ extension MainView{
                                 .font(.caption)
                             KFImageView(image: element.posterPath.getImadImage(),height: 150)
                                 .cornerRadius(5)
-                            Circle()
-                                .trim(from: 0.0, to: anima ? 9.9 * 0.1 : 0)
-                                .stroke(lineWidth: 3)
-                                .rotation(Angle(degrees: 270))
-                                .frame(width: 50,height: 50)
-                                .overlay{
-                                    VStack{
-                                        Image(systemName: "star.fill")
-                                            .font(.caption)
-                                        Text(String(format: "%0.1f",  9.9))
-                                            .font(.caption)
+                            HStack{
+                                Circle()
+                                    .trim(from: 0.0, to: anima ? 9.9 * 0.1 : 0)
+                                    .stroke(lineWidth: 3)
+                                    .rotation(Angle(degrees: 270))
+                                    .frame(width: 50,height: 50)
+                                    .overlay{
+                                        VStack{
+                                            Image(systemName: "star.fill")
+                                                .font(.caption)
+                                            Text(String(format: "%0.1f",  9.9))
+                                                .font(.caption)
+                                        }
                                     }
-                                }
+                                rankUpdateView(rank: element.rankChanged)
+                            }
+                           
                         }.padding(.horizontal,5)
                     }
                 }
@@ -256,6 +259,7 @@ extension MainView{
         .tabViewStyle(.page(indexDisplayMode: .never))
         
     }
+    
     var filter:some View{
         VStack(alignment:.leading,spacing: 5){
             ScrollView(.horizontal,showsIndicators: false){
@@ -306,6 +310,21 @@ extension MainView{
         .padding(.leading)
     }
     
+    func rankUpdateView(rank:Int?) -> some View{
+        HStack(spacing:2){
+            if let rank,rank != 0{
+                Group{
+                    Image(systemName:rank > 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
+                    Text(rank > 0 ? "\(rank)":"\(abs(rank))")
+                }
+                .font(.caption2)
+                .foregroundStyle(rank > 0 ? .green : .red)
+            }else{
+                Text("--")
+            }
+        }
+        
+    }
     //    var movieList:some View{
     //        VStack{
     //
