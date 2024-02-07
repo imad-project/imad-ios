@@ -8,29 +8,7 @@
 import Foundation
 import SwiftUI
 
-class CustomData2{
-    static let instance = CustomData2()
-    
-//    ReadReviewResponse(reviewID: 1, contentsID: 1, contentsTitle: "굳", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", userID: 1, userNickname: "콰랑", userProfileImage: 3, title: "죠죠", content: "묻힌 때 경, 까닭이요, 사랑과 내 까닭입니다. 지나가는 멀리 시인의 하늘에는 프랑시스 못 가난한 우는 하나에 까닭입니다. 가을로 된 별 아무 우는 당신은 까닭이요, 듯합니다. 무덤 풀이 파란 릴케 봅니무덤", score: 6.7, likeCnt: 2, dislikeCnt: 3, createdAt: "2023-09-15T13:31:10.027532", modifiedAt: "2023-09-15T13:31:10.027532", likeStatus: 1, spoiler: false)
-//
-//
-    
-//    let community:CommunityResponse = CommunityResponse(postingID: 1, contentsID: 1, contentsTitle: "굳", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", userID: 1, userNickname: "콰랑", userProfileImage: 3, title: "죠죠", content: "묻힌 때 경, 까닭이요, 사랑과 내 까닭입니다. 지나가는 멀리 시인의 하늘에는 프랑시스 못 가난한 우는 하나에 까닭입니다. 가을로 된 별 아무 우는 당신은 까닭이요, 듯합니다. 무덤 풀이 파란 릴케 봅니무덤", category: 0, viewCnt: 42, likeCnt: 2, dislikeCnt: 3, likeStatus: 1, createdAt: "2023-09-15T13:31:10.027532", modifiedAt: "2023-09-15T13:31:10.027532", commentCnt: 1,commentListResponse: nil,scrapId: 1, scrapStatus: true, spoiler: false)
-//       
-    
-    
-//    let community = CommunityResponse(postingID: 1, contentsID: 1, contentsTitle: "죠죠의 기묘한 모험", contentsPosterPath: "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", userID: 1, userNickname: "콰랑", userProfileImage: 1, title: "최고의 아이", content: "는 구라 ㅋ", category: 1, viewCnt: 45, likeCnt: 3, dislikeCnt: 1, likeStatus: 0, createdAt: "2023-10-16T12:33:35.007579", modifiedAt: "2023-10-16T12:33:35.007579", commentCnt: 4, commentListResponse: CustomData2.instance.commentList,scrapId: 1, scrapStatus: true, spoiler: false)
-//
-//        let communityList:[CommunityDetailsListResponse] = [
-//            CommunityDetailsListResponse(postingID: 1, contentsID: 1, contentsTitle: "죠죠의 기묘한 모험", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", userID: 1, userNickname: "콰랑", userProfileImage: 1, title: "최고의 아이", category: 0, viewCnt: 45, likeCnt: 3, dislikeCnt: 1, likeStatus: 0, commentCnt: 4, createdAt: "2023-10-16T12:33:35.007579", modifiedAt: "2023-10-16T12:33:35.007579",scrapId: 1,scrapStatus: false, spoiler: true),
-//            CommunityDetailsListResponse(postingID: 2, contentsID: 2, contentsTitle: "죠죠의 기묘한 모험", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", userID: 1, userNickname: "콰랑", userProfileImage: 1, title: "최고의 아이", category: 0, viewCnt: 45, likeCnt: 3, dislikeCnt: 1, likeStatus: 0, commentCnt: 4, createdAt: "2023-10-16T12:33:35.007579", modifiedAt: "2023-10-16T12:33:35.007579",scrapId: 1,scrapStatus: false, spoiler: true),
-//            CommunityDetailsListResponse(postingID: 3, contentsID: 2, contentsTitle: "죠죠의 기묘한 모험", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", userID: 1, userNickname: "콰랑", userProfileImage: 1, title: "최고의 아이", category: 0, viewCnt: 45, likeCnt: 3, dislikeCnt: 1, likeStatus: 0, commentCnt: 4, createdAt: "2023-10-16T12:33:35.007579", modifiedAt: "2023-10-16T12:33:35.007579",scrapId: 1,scrapStatus: false, spoiler: true),
-//            CommunityDetailsListResponse(postingID: 4, contentsID: 2, contentsTitle: "죠죠의 기묘한 모험", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", userID: 1, userNickname: "콰랑", userProfileImage: 1, title: "최고의 아이", category: 0, viewCnt: 45, likeCnt: 3, dislikeCnt: 1, likeStatus: 0, commentCnt: 4, createdAt: "2023-10-16T12:33:35.007579", modifiedAt: "2023-10-16T12:33:35.007579",scrapId: 1,scrapStatus: false, spoiler: true)
-//        ]
-//    
-//    let commentList = CommentListResponse(commentDetailsResponseList: [CustomData2.instance.comment,CustomData2.instance.comment], totalElements: 3, totalPages: 1, pageNumber: 1, numberOfElements: 3, sizeOfPage: 10, sortDirection: 0, sortProperty: "createdDate")
-//    let comment = CommentResponse(commentID: 1, userID: 1, userNickname: "콰랑", userProfileImage: 4, parentID: nil, content: "좋다로", childCnt: 2,likeStatus: 1,likeCnt: 20,dislikeCnt: 10, createdAt: "2023-10-17T11:55:25.525746", modifiedAt: "2023-10-17T11:55:25.525746", removed: false)
-}
+
 class CustomData{
     
     static let instance = CustomData()
