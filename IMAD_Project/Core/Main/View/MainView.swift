@@ -78,7 +78,7 @@ struct MainView: View {
                 .navigationBarBackButtonHidden(true)
         }
         .onAppear {
-            vm.getWeekRanking()
+            vm.getWeekRanking(page: 1, type: "all")
             withAnimation(.linear(duration: 0.5)){
                 anima = true
             }
@@ -270,11 +270,11 @@ extension MainView{
                             self.movieIndex = 0
                             switch self.ranking{
                             case .all:
-                                vm.getAllRanking()
+                                vm.getAllRanking(page: 1, type: "all")
                             case .week:
-                                vm.getWeekRanking()
+                                vm.getWeekRanking(page: 1, type: "all")
                             case .month:
-                                vm.getMonthRanking()
+                                vm.getMonthRanking(page: 1, type: "all")
                             }
                         } label: {
                             Group{

@@ -8,5 +8,19 @@
 import Foundation
 
 struct RankingResponse: Codable {
-    let contentsDataSet: [RankingResponseList]
+    var contentsDataSet: [RankingResponseList]
+    let totalElements, totalPages, pageNumber, numberOfElements: Int
+    let sizeOfPage, sortDirection: Int
+    let sortProperty: String
+    
+    enum CodingKeys: String, CodingKey {
+        case contentsDataSet = "details_list"
+        case totalElements = "total_elements"
+        case totalPages = "total_pages"
+        case pageNumber = "page_number"
+        case numberOfElements = "number_of_elements"
+        case sizeOfPage = "size_of_page"
+        case sortDirection = "sort_direction"
+        case sortProperty = "sort_property"
+    }
 }

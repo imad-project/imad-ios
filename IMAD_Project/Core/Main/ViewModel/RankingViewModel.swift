@@ -20,8 +20,8 @@ class RankingViewModel:ObservableObject{
         self.rankingList = rankingList
     }
     
-    func getWeekRanking(){
-        RankingApiService.weekRanking()
+    func getWeekRanking(page:Int,type:String){
+        RankingApiService.weekRanking(page: page, type: type)
             .sink { completion in
                 switch completion{
                 case .finished:
@@ -36,8 +36,8 @@ class RankingViewModel:ObservableObject{
             }.store(in: &canelable)
 
     }
-    func getMonthRanking(){
-        RankingApiService.monthRanking()
+    func getMonthRanking(page:Int,type:String){
+        RankingApiService.monthRanking(page: page, type: type)
             .sink { completion in
                 switch completion{
                 case .finished:
@@ -52,8 +52,8 @@ class RankingViewModel:ObservableObject{
             }.store(in: &canelable)
 
     }
-    func getAllRanking(){
-        RankingApiService.allRanking()
+    func getAllRanking(page:Int,type:String){
+        RankingApiService.allRanking(page: page, type: type)
             .sink { completion in
                 switch completion{
                 case .finished:

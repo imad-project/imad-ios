@@ -74,7 +74,6 @@ struct WebView: UIViewRepresentable {
         webView.uiDelegate = context.coordinator
         webView.navigationDelegate = context.coordinator
         webView.customUserAgent = userAgent
-        
         return webView
     }
     
