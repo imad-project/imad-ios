@@ -161,7 +161,8 @@ extension WriteReviewView{
         let fillAmount: Double
         let integerPart = Int(rating)
         let decimalPart = rating - Double(integerPart)
-        
+        print("integerPart\(integerPart)")
+        print("decimalPart\(decimalPart)")
         if star < integerPart {
             fillAmount = 1.0
         } else if star == integerPart {
@@ -169,7 +170,6 @@ extension WriteReviewView{
         } else {
             fillAmount = 0.0
         }
-        
         return fillAmount
     }
     var scoreView:some View{
