@@ -8,8 +8,9 @@
 import SwiftUI
 import Alamofire
 
-struct LoginAllView: View {
+struct LoginAllView: View{
     
+    @Environment(\.scenePhase) var scenePhase
     @State var oathFilter = OauthFilter(rawValue: "")
     @State var register = false
     
@@ -46,6 +47,7 @@ struct LoginAllView: View {
                         passwordView
                         authView
                     }.padding(.horizontal,10)
+                    
                     Spacer()
                     divderView
                     loginButtonView
@@ -55,9 +57,31 @@ struct LoginAllView: View {
             }
             if loading{
                 CustomProgressView()
+               
             }
-            
+            if apple{
+                AuthWebView(filter: .Apple)
+                    .opacity(0)
+                    .ignoresSafeArea()
+                    .environmentObject(vm)
+                    .onDisappear{
+                        loading = false
+                    }
+            }
         }
+        .onChange(of: scenePhase) { newValue in
+           switch newValue {
+           case .active:
+               apple = false
+               print("Active")
+           case .inactive:
+               print("Inactive")
+           case .background:
+               print("Background")
+           default:
+               print("scenePhase err")
+           }
+       }
         .onReceive(vm.loginSuccess){ value in
             success = true
             msg = value
@@ -72,14 +96,6 @@ struct LoginAllView: View {
             RegisterView(login: $register)
                 .environmentObject(vm)
                 .navigationBarBackButtonHidden(true)
-                .onDisappear{
-                    loading = false
-                }
-        }
-        .sheet(isPresented: $apple){
-            AuthWebView(filter: .Apple)
-                .ignoresSafeArea()
-                .environmentObject(vm)
                 .onDisappear{
                     loading = false
                 }
@@ -218,6 +234,7 @@ extension LoginAllView{
             }
         }.padding(.horizontal)
     }
+    
     var loginButtonView:some View{
         ForEach(OauthFilter.allCases,id:\.rawValue){ item in
             Button {
@@ -259,4 +276,5 @@ extension LoginAllView{
             }.shadow(color:.gray.opacity(0.3),radius: 3)
         }.padding(.horizontal)
     }
+        
 }

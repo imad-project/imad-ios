@@ -6,11 +6,20 @@ import Combine
 struct AuthWebView: View {
     let webView: WKWebView = WKWebView()
     let webViewDelegate = WebViewDelegate()
-    let endPoint = "/oauth2/authorization/"
+    
     let filter: OauthFilter
     @State var loginMode = false
     @EnvironmentObject var vm: AuthViewModel
     @Environment(\.dismiss) var dismiss
+    
+    var endPoint:String{
+        switch filter{
+        case .Apple:
+            return "/oauth2/login/"
+        default:
+            return "/oauth2/authorization/"
+        }
+    }
     
     // WebView로드 상태 추적을 위한 delegate
     class WebViewDelegate: NSObject, WKNavigationDelegate {
@@ -47,16 +56,11 @@ struct AuthWebView: View {
         }
         .onAppear {
             // 로드될 페이지 설정
-            var url = URL(string: "")
-            if filter == .Apple {
-                url = URL(string: "https://\(Bundle.main.infoDictionary?["APPLE_LOGIN_URL"] ?? "")=https://\(Bundle.main.infoDictionary?["APPLE_REDIRECT_URI"] ?? "")")!
-            } else {
-                url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.rawValue)")!
-            }
+            let url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.authProvierName)")!
             // WebView에 로드된 페이지에 대한 Delegate 지정
             webView.navigationDelegate = webViewDelegate
             // 로드된 페이지 요청
-            webView.load(URLRequest(url: url!))
+            webView.load(URLRequest(url: url))
         }
         .onReceive(webViewDelegate.success) { _ in
             vm.getUser()
