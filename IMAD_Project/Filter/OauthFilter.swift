@@ -21,7 +21,7 @@ enum OauthFilter:String,CaseIterable{
         case .naver:
             return Color("naver")
         case .kakao:
-            return Color("kakao")
+            return Color("kakao").opacity(0.7)
         case .google:
             return Color.white
         }

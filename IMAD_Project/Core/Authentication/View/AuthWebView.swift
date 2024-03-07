@@ -26,14 +26,21 @@ struct AuthWebView: View {
         // 페이지 로드가 완료되면 호출
         var success = PassthroughSubject<(), Never>()
         
+        // 페이지 로드 응답에 대한 결정을 가져옴
         func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+            
             guard let httpResponse = navigationResponse.response as? HTTPURLResponse else {
                 decisionHandler(.cancel)
                 return
             }
-            let _ = UserDefaultManager.shared.checkToken(response: httpResponse)
-            success.send()
+            
             decisionHandler(.allow)
+            if UserDefaultManager.shared.checkToken(response: httpResponse){
+                print("성공")
+                success.send()
+            }
+            
+            
         }
         
         // 페이지 로드 요청에 대한 결정을 가져옴
@@ -52,7 +59,7 @@ struct AuthWebView: View {
             WebView(webView: webView, userAgent: "Imad Agent")
         }.background {
             Color.white
-            filter != .kakao ? filter.color : filter.color.opacity(0.7)
+            filter.color
         }
         .onAppear {
             // 로드될 페이지 설정
@@ -63,6 +70,7 @@ struct AuthWebView: View {
             webView.load(URLRequest(url: url))
         }
         .onReceive(webViewDelegate.success) { _ in
+            dismiss()
             vm.getUser()
         }
     }

@@ -57,22 +57,21 @@ struct LoginAllView: View{
             }
             if loading{
                 CustomProgressView()
-               
             }
-            if apple{
-                AuthWebView(filter: .Apple)
-                    .opacity(0)
-                    .ignoresSafeArea()
-                    .environmentObject(vm)
-                    .onDisappear{
-                        loading = false
-                    }
-            }
+//            if apple{
+//                AuthWebView(filter: .Apple)
+//                    .opacity(0)
+//                    .ignoresSafeArea()
+//                    .environmentObject(vm)
+//                    .onDisappear{
+//                        loading = false
+//                    }
+//            }
         }
         .onChange(of: scenePhase) { newValue in
            switch newValue {
            case .active:
-               apple = false
+//               apple = false
                print("Active")
            case .inactive:
                print("Inactive")
@@ -91,7 +90,27 @@ struct LoginAllView: View{
                 loading = false
             })
         }
-        
+//        .overlay(content: {
+//            if apple{
+//                AuthWebView(filter: .Apple)
+//    //                    .opacity(0)
+//                    .ignoresSafeArea()
+//                    .environmentObject(vm)
+//                    .onDisappear{
+//                        loading = false
+//                    }
+//            }
+//        })
+        .sheet(isPresented: $apple){
+            AuthWebView(filter: .Apple)
+                .ignoresSafeArea()
+                .environmentObject(vm)
+                .presentationDetents([.fraction(0)])
+                .onDisappear{
+                    loading = false
+                }
+                
+        }
         .sheet(isPresented: $register) {
             RegisterView(login: $register)
                 .environmentObject(vm)
