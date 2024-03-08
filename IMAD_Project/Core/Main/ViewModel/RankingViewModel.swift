@@ -14,6 +14,8 @@ class RankingViewModel:ObservableObject{
     var success = PassthroughSubject<(),Never>()
     
     @Published var rankingList:[RankingResponseList] = []
+    @Published var popularReview:PopularReviewResponse? = nil
+    @Published var popularPosting:PopularPostingResponse? = nil
     @Published var poster = ""
     
     init(rankingList: [RankingResponseList]) {
@@ -67,5 +69,32 @@ class RankingViewModel:ObservableObject{
                 self?.poster = rank.data?.contentsDataSet.first?.posterPath.getImadImage() ?? ""
             }.store(in: &canelable)
 
+    }
+    func getPopularReview(){
+        RankingApiService.popularReview()
+            .sink { completion in
+                switch completion{
+                case .finished:
+                    print(completion)
+                case let .failure(error):
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] review in
+                self?.popularReview = review.data
+            }.store(in: &canelable)
+
+    }
+    func getPopularPosting(){
+        RankingApiService.popluarPosting()
+            .sink { completion in
+                switch completion{
+                case .finished:
+                    print(completion)
+                case let .failure(error):
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] posting in
+                self?.popularPosting = posting.data
+            }.store(in: &canelable)
     }
 }

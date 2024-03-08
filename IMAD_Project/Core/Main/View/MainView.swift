@@ -79,6 +79,8 @@ struct MainView: View {
         }
         .onAppear {
             vm.getWeekRanking(page: 1, type: "all")
+            vm.getPopularReview()
+            vm.getPopularPosting()
             withAnimation(.linear(duration: 0.5)){
                 anima = true
             }
