@@ -13,6 +13,8 @@ enum RankingRouter:URLRequestConvertible{
     case all(page:Int,type:String)
     case week(page:Int,type:String)
     case month(page:Int,type:String)
+    case popularPosting
+    case popularReivew
    
     
     var baseURL:URL{
@@ -29,6 +31,10 @@ enum RankingRouter:URLRequestConvertible{
             return "/api/monthly"
         case .all:
             return "/api/alltime"
+        case .popularReivew:
+            return "/api/popular/posting"
+        case .popularPosting:
+            return "/api/popular/review"
         }
     }
     var parameters:Parameters{
@@ -48,6 +54,8 @@ enum RankingRouter:URLRequestConvertible{
             parms["page"] = page
             parms["type"] = type
             return parms
+        case .popularReivew,.popularPosting:
+            return Parameters()
         }
     }
 
