@@ -52,4 +52,7 @@ class RankingApiService{
             }
             .eraseToAnyPublisher()
     }
+//    static func popularReview() -> AnyPublisher<>{
+//        
+//    }
 }
