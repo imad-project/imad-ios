@@ -17,6 +17,6 @@ final class ApiLogger:EventMonitor{
         print("Api resume.. : \(request)")
     }
     func request(_ request: DataRequest, didParseResponse response: DataResponse<Data?, AFError>) {
-        print("Api end.. : \(response.result)")
+        print("Api end.. : \(response.description)")
     }
 }

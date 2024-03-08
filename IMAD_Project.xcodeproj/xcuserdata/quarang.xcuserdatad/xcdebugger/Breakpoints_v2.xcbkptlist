@@ -222,8 +222,8 @@
             filePath = "IMAD_Project/API/Intercept/BaseIntercept.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "retry(_:for:dueTo:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -552,7 +552,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F2BF2BCB-A0FD-47A8-AAFB-6F52D44E5866"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IMAD_Project/Core/Authentication/View/AuthWebView.swift"
