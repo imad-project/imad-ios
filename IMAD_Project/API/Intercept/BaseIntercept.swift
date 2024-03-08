@@ -18,7 +18,7 @@ class BaseIntercept:RequestInterceptor{
             var urlReq = urlRequest
             let token = UserDefaultManager.shared.getToken()
             urlReq.headers.add(.authorization(bearerToken: token.accessToken))
-        print("토큰? \(urlReq.headers)")
+//        print("토큰? \(urlReq.headers)")
             completion(.success(urlReq))
     }
     

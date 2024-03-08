@@ -55,7 +55,7 @@ class RankingApiService{
     static func popularReview() -> AnyPublisher<PopluarReview,AFError>{
      print("오늘의 리뷰 api 호출")
         return ApiClient.shared.session
-            .request(RankingRouter.popularReivew)
+            .request(RankingRouter.popularReivew,interceptor: interseptor)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: PopluarReview.self)
             .value()
@@ -68,7 +68,7 @@ class RankingApiService{
     static func popluarPosting() -> AnyPublisher<PopularPosting,AFError>{
      print("오늘의 게시물 api 호출")
         return ApiClient.shared.session
-            .request(RankingRouter.popularPosting)
+            .request(RankingRouter.popularPosting,interceptor: interseptor)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: PopularPosting.self)
             .value()
