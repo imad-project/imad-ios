@@ -11,7 +11,7 @@ import Combine
 
 class RankingApiService{
     
-    static let interseptor = BaseIntercept()
+    static let interseptor = GuestInterceptor()
     
     static func weekRanking(page:Int,type:String) -> AnyPublisher<Ranking,AFError>{
         print("주간랭킹 api 호출")

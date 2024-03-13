@@ -33,8 +33,8 @@ class RankingViewModel:ObservableObject{
                     print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] rank in
-                self?.rankingList = rank.data?.contentsDataSet ?? []
-                self?.poster = rank.data?.contentsDataSet.first?.posterPath.getImadImage() ?? ""
+                self?.rankingList = rank.data?.detailsList ?? []
+                self?.poster = rank.data?.detailsList.first?.posterPath.getImadImage() ?? ""
             }.store(in: &canelable)
 
     }
@@ -49,8 +49,8 @@ class RankingViewModel:ObservableObject{
                     print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] rank in
-                self?.rankingList = rank.data?.contentsDataSet ?? []
-                self?.poster = rank.data?.contentsDataSet.first?.posterPath.getImadImage() ?? ""
+                self?.rankingList = rank.data?.detailsList ?? []
+                self?.poster = rank.data?.detailsList.first?.posterPath.getImadImage() ?? ""
             }.store(in: &canelable)
 
     }
@@ -65,8 +65,8 @@ class RankingViewModel:ObservableObject{
                     print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] rank in
-                self?.rankingList = rank.data?.contentsDataSet ?? []
-                self?.poster = rank.data?.contentsDataSet.first?.posterPath.getImadImage() ?? ""
+                self?.rankingList = rank.data?.detailsList ?? []
+                self?.poster = rank.data?.detailsList.first?.posterPath.getImadImage() ?? ""
             }.store(in: &canelable)
 
     }

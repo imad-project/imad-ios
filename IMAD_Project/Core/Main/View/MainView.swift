@@ -159,68 +159,10 @@ extension MainView{
         }
     }
     var reviewPosting:some View{
-        VStack(alignment: .leading){
-            Text("오늘의 리뷰&게시물")
-                .font(.title3)
-                .bold()
-                .padding(.leading)
-                .padding(.bottom)
-            HStack(spacing: 10){
-                VStack(alignment: .leading,spacing: 10){
-                    Text("- 리뷰 -")
-                        .font(.caption)
-                        .bold()
-                    VStack(alignment: .leading,spacing: 8){
-                        
-                        Text("#어벤져스")
-                            .font(.caption)
-                            .bold()
-                        Text(CustomData.instance.dummyString)
-                            .font(.caption2)
-                    }
-                    .frame(height: 120)
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(20)
-                    .shadow(radius: 5)
-                }
-                VStack(alignment: .leading,spacing: 10){
-                    Text("- 커뮤니티 -")
-                        .font(.caption)
-                        .bold()
-                    VStack(alignment: .leading,spacing: 8){
-                        HStack{
-                            VStack(alignment: .leading,spacing: 8){
-                                Text("아 이영화;;")
-                                    .font(.system(size: 15))
-                                
-                                Text("#어벤져스")
-                                    .font(.caption)
-                                    .bold()
-                            }
-                            Spacer()
-                            KFImage(URL(string: CustomData.instance.movieList[2]))
-                                .resizable()
-                                .frame(width: 50,height: 50)
-                                .cornerRadius(10)
-                        }
-                        Text(CustomData.instance.dummyString)
-                            .font(.caption2)
-                    }.overlay(alignment: .topTrailing) {
-                        
-                    }
-                    .frame(height: 120)
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(20)
-                    .shadow(radius: 5)
-                }
-                
-                
-            }
-            .padding(.horizontal)
-            
-        }.foregroundColor(.black)
+        VStack{
+            PopularView(review: vm.popularReview)
+            PopularView(posting: vm.popularPosting)
+        }
     }
     
     var rankingView:some View{
@@ -230,11 +172,13 @@ extension MainView{
                 HStack{
                     ForEach(item,id:\.self){ element in
                         VStack(spacing: 15){
-                            Text("\(element.rank). \(element.title)")
+                            Text("\(element.ranking). \(element.title)")
                                 .font(.caption)
-                            KFImageView(image: element.posterPath.getImadImage(),height: 150)
+                            
+                            KFImageView(image: element.posterPath.getImadImage(),width: UIScreen.main.bounds.width/3 - 20,height: 150)
                                 .cornerRadius(5)
-                            HStack{
+                            
+                            VStack(spacing:2){
                                 Circle()
                                     .trim(from: 0.0, to: anima ? 9.9 * 0.1 : 0)
                                     .stroke(lineWidth: 3)
@@ -248,23 +192,23 @@ extension MainView{
                                                 .font(.caption)
                                         }
                                     }
-                                rankUpdateView(rank: element.rankChanged)
+                                rankUpdateView(rank: element.rankingChanged)
                             }
                            
                         }.padding(.horizontal,5)
                     }
+                    Spacer()
                 }
             }
         }
-        .frame(height: UIScreen.main.bounds.height/3 - 25)
+        .frame(height: UIScreen.main.bounds.height/3 - 15)
         .padding(.horizontal)
         .tabViewStyle(.page(indexDisplayMode: .never))
         
     }
     
     var filter:some View{
-        VStack(alignment:.leading,spacing: 5){
-            ScrollView(.horizontal,showsIndicators: false){
+        HStack(spacing: 5){
                 HStack{
                     ForEach(RankingFilter.allCases,id:\.self){ ranking in
                         Button {
@@ -296,7 +240,7 @@ extension MainView{
                         }
                     }
                 }
-            }
+            Spacer()
             NavigationLink {
                 
             } label: {
@@ -309,7 +253,7 @@ extension MainView{
             }
         }
         .font(.caption)
-        .padding(.leading)
+        .padding(.horizontal)
     }
     
     func rankUpdateView(rank:Int?) -> some View{

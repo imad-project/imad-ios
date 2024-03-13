@@ -26,11 +26,11 @@ enum RankingRouter:URLRequestConvertible{
     var endPoint:String{
         switch self{
         case .week:
-            return "/api/weekly"
+            return "/api/ranking/weekly"
         case .month:
-            return "/api/monthly"
+            return "/api/ranking/monthly"
         case .all:
-            return "/api/alltime"
+            return "/api/ranking/alltime"
         case .popularReivew:
             return "/api/popular/posting"
         case .popularPosting:

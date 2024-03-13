@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct RankingResponse: Codable {
-    var contentsDataSet: [RankingResponseList]
+struct RankingResponse: Codable{
+    var detailsList: [RankingResponseList]
     let totalElements, totalPages, pageNumber, numberOfElements: Int
     let sizeOfPage, sortDirection: Int
     let sortProperty: String
     
     enum CodingKeys: String, CodingKey {
-        case contentsDataSet = "details_list"
+        case detailsList = "details_list"
         case totalElements = "total_elements"
         case totalPages = "total_pages"
         case pageNumber = "page_number"

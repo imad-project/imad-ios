@@ -12,12 +12,14 @@ struct PopularView: View {
     var review:PopularReviewResponse?
     var posting:PopularPostingResponse?
     
-    var popular:Popular{
+    var popular:Popular?{
+        var popular:Popular?
         if let review{
-            return PopularReviewClass(review: review)
-        }else{
-            return PopularPostingClass(posting: posting!)
+            popular = PopularReviewClass(review: review)
+        }else if let posting{
+            popular  = PopularPostingClass(posting: posting)
         }
+        return popular
     }
     var today:String{
         if review != nil{
@@ -27,48 +29,51 @@ struct PopularView: View {
         }
     }
     var body: some View {
-        VStack(alignment: .leading){
-            Text(today).bold()
-            HStack(alignment:.bottom,spacing: 0){
-                if review != nil{
-                    KFImageView(image: popular.poster().getImadImage())
-                        .frame(width: UIScreen.main.bounds.width/3)
-                }
-                HStack{
-                    VStack(alignment:.leading){
-                        HStack{
-                            VStack(alignment:.leading){
-                                Text(popular.contentsTitle())
-                                    .bold()
-                                    .font(.title3)
-                                    .foregroundColor(.customIndigo.opacity(0.8))
-                                Text(popular.title()).fontWeight(.black)
+        VStack(alignment: review != nil ? .leading : .trailing){
+            if let popular{
+                Text(today).bold()
+                HStack(alignment:.bottom,spacing: 0){
+                    if review != nil{
+                        KFImageView(image: popular.poster().getImadImage())
+                            .frame(width: UIScreen.main.bounds.width/3)
+                    }
+                    HStack{
+                        VStack(alignment:.leading){
+                            HStack{
+                                VStack(alignment:.leading){
+                                    Text(popular.contentsTitle())
+                                        .bold()
+                                        .font(.title3)
+                                        .foregroundColor(.customIndigo.opacity(0.8))
+                                    Text(popular.title()).fontWeight(.black)
                                     
+                                }
+                                Spacer()
+                                VStack{
+                                    ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 30)
+                                    Text(popular.userName())
+                                        .font(.caption2)
+                                }
                             }
+                            .padding(.bottom)
+                            Text(popular.contents())
                             Spacer()
-                            VStack{
-                                ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 30)
-                                Text(popular.userName())
-                                    .font(.caption2)
-                            }
                         }
-                        .padding(.bottom)
-                        Text(popular.contents())
                         Spacer()
                     }
+                    .padding(5)
                     Spacer()
+                    if review == nil{
+                        KFImageView(image: popular.poster().getImadImage())
+                            .frame(width: UIScreen.main.bounds.width/3)
+                    }
                 }
-                .padding(5)
-                Spacer()
-                if review == nil{
-                    KFImageView(image: popular.poster().getImadImage())
-                        .frame(width: UIScreen.main.bounds.width/3)
-                }
+                .background(Color.white)
+                .frame(height: UIScreen.main.bounds.height/4)
+                .cornerRadius(30)
             }
-            .background(Color.white)
-            .frame(height: UIScreen.main.bounds.height/4)
-            .cornerRadius(30)
         }
+        
         
     }
 }

@@ -9,12 +9,19 @@ import Foundation
 
 struct RankingResponseList: Codable,Hashable {
     let contentsID: Int
-    let contentsType, title, posterPath: String
-    let rankChanged: Int?
-    let rank: Int
-
+    let contentsType: String
+    let imadScore: Double?
+    let title, posterPath: String
+    let ranking:Int
+    let rankingChanged: Int?
+    
     enum CodingKeys: String, CodingKey {
-        case contentsID = "contentsId"
-        case contentsType, title, posterPath, rankChanged, rank
+        case contentsID = "contents_id"
+        case contentsType = "contents_type"
+        case imadScore = "imad_score"
+        case title
+        case posterPath = "poster_path"
+        case ranking
+        case rankingChanged = "ranking_changed"
     }
 }
