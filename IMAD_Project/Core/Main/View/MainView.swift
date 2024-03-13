@@ -40,7 +40,7 @@ struct MainView: View {
                     }
                     .foregroundColor(.white)
                     .background{
-                        MovieBackgroundView(url: vm.poster,height: 2, isBottomTransparency: false)
+                        MovieBackgroundView(url: vm.poster,height: 1.95, isBottomTransparency: false)
                     }
                     RoundedRectangle(cornerRadius: 20)
                         .frame(height: 50)
@@ -175,7 +175,7 @@ extension MainView{
                             Text("\(element.ranking). \(element.title)")
                                 .font(.caption)
                             
-                            KFImageView(image: element.posterPath.getImadImage(),width: UIScreen.main.bounds.width/3 - 20,height: 150)
+                            KFImageView(image: element.posterPath.getImadImage(),width: UIScreen.main.bounds.width/3 - 20,height: UIScreen.main.bounds.width/3 * 1.25)
                                 .cornerRadius(5)
                             
                             VStack(spacing:2){
@@ -201,7 +201,7 @@ extension MainView{
                 }
             }
         }
-        .frame(height: UIScreen.main.bounds.height/3 - 15)
+        .frame(height: UIScreen.main.bounds.height/3 )
         .padding(.horizontal)
         .tabViewStyle(.page(indexDisplayMode: .never))
         
