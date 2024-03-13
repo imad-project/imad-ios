@@ -32,9 +32,9 @@ enum RankingRouter:URLRequestConvertible{
         case .all:
             return "/api/ranking/alltime"
         case .popularReivew:
-            return "/api/popular/posting"
-        case .popularPosting:
             return "/api/popular/review"
+        case .popularPosting:
+            return "/api/popular/posting"
         }
     }
     var parameters:Parameters{

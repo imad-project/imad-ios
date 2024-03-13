@@ -160,8 +160,11 @@ extension MainView{
     }
     var reviewPosting:some View{
         VStack{
-            PopularView(review: vm.popularReview)
-            PopularView(posting: vm.popularPosting)
+            Group{
+                PopularView(review: vm.popularReview)
+                PopularView(posting: vm.popularPosting)
+            }
+            .padding(5)
         }
     }
     

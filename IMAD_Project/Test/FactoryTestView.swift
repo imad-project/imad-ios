@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Combine
 
 
 protocol genre{
@@ -56,6 +56,7 @@ class savegenre{
 
 
 struct FactoryTestView: View {
+    var cancelAble = Set<AnyCancellable>()
     let instance = savegenre()
     @State var list:[genre] = []
     var body: some View {
@@ -66,6 +67,15 @@ struct FactoryTestView: View {
         ForEach(0..<list.count,id: \.self){ item in
             Text("\(list[item].selectNamve())")
             Text("\(list[item].selectImage())")
+        }
+        .onAppear{
+//            RankingApiService.popluarPosting()
+//                .sink { completion in
+//                    print(completion)
+//                } receiveValue: { <#PopularPosting#> in
+//                    <#code#>
+//                }.store(in: &cancelAble)
+
         }
     }
 }
