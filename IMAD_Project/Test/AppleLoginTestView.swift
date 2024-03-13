@@ -27,12 +27,17 @@ struct AppleLoginTestView: View {
                                     let email = appleIDCredential.email
                                     let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8)
                                     let AuthorizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8)
-                                print(UserIdentifier)
-                                print(fullName)
-                                print(name)
-                                print(email)
-                                print(IdentityToken)
-                                print(AuthorizationCode)
+                                print("UserIdentifier   " + UserIdentifier)
+                                print("=====================")
+                                print("fullName   \(String(describing: fullName))" )
+                                print("=====================")
+                                print("name     " + name)
+                                print("=====================")
+                                print("email    \(String(describing: email))")
+                                print("=====================")
+                                print("IdentityToken     \(String(describing: IdentityToken))")
+                                print("=====================")
+                                print("AuthorizationCode    \(String(describing: AuthorizationCode))")
                             default:
                                 break
                             }
@@ -47,6 +52,8 @@ struct AppleLoginTestView: View {
     }
 }
 
+
 #Preview {
     AppleLoginTestView()
 }
+

@@ -33,6 +33,7 @@
 		8115A6672A8F3B3E00B7C3FE /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8115A6662A8F3B3E00B7C3FE /* String.swift */; };
 		811762272B2CB51B009AE845 /* ProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811762262B2CB51B009AE845 /* ProfileResponse.swift */; };
 		811762292B2CB7D6009AE845 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811762282B2CB7D6009AE845 /* Profile.swift */; };
+		81189AD72B9AB04C007BC146 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 81189AD62B9AB04C007BC146 /* Alamofire */; };
 		811981C82AF91C2400952ED2 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811981C62AF91C2400952ED2 /* WorkView.swift */; };
 		811981C92AF91C2400952ED2 /* WorkInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811981C72AF91C2400952ED2 /* WorkInfoView.swift */; };
 		811DA16929E9332500482A6A /* WriteReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DA16829E9332500482A6A /* WriteReview.swift */; };
@@ -136,7 +137,6 @@
 		81AFC7212A25A11E00051F59 /* EmailFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFC7202A25A11E00051F59 /* EmailFilter.swift */; };
 		81B1848C2AFB5D6000CCDBEC /* PatchUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B1848B2AFB5D6000CCDBEC /* PatchUserInfo.swift */; };
 		81B184902AFB615000CCDBEC /* CustomNextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B1848F2AFB615000CCDBEC /* CustomNextButton.swift */; };
-		81BB10FF2A061055005654AA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 81BB10FE2A061055005654AA /* Alamofire */; };
 		81BB11022A061198005654AA /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11012A061198005654AA /* AuthRouter.swift */; };
 		81BB11042A061457005654AA /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11032A061457005654AA /* ApiClient.swift */; };
 		81BB11062A0614D1005654AA /* ApiLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11052A0614D1005654AA /* ApiLogger.swift */; };
@@ -188,6 +188,9 @@
 		81FD22532AFB1A5C00678CAC /* CustomWhiteCircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FD22522AFB1A5C00678CAC /* CustomWhiteCircleButton.swift */; };
 		81FF75AE2AF8C4DE00DB1AC2 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF75AD2AF8C4DE00DB1AC2 /* ProfileImageView.swift */; };
 		81FF75B02AF8CE7600DB1AC2 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF75AF2AF8CE7600DB1AC2 /* ScoreView.swift */; };
+		D654FBCF2BA04C6E00AF307E /* PopularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBCE2BA04C6E00AF307E /* PopularView.swift */; };
+		D654FBD22BA146FA00AF307E /* Popular.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD12BA146FA00AF307E /* Popular.swift */; };
+		D654FBD42BA1470800AF307E /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD32BA1470800AF307E /* Genre.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -389,6 +392,9 @@
 		81FD22522AFB1A5C00678CAC /* CustomWhiteCircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomWhiteCircleButton.swift; sourceTree = "<group>"; };
 		81FF75AD2AF8C4DE00DB1AC2 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		81FF75AF2AF8CE7600DB1AC2 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
+		D654FBCE2BA04C6E00AF307E /* PopularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularView.swift; sourceTree = "<group>"; };
+		D654FBD12BA146FA00AF307E /* Popular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popular.swift; sourceTree = "<group>"; };
+		D654FBD32BA1470800AF307E /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,9 +403,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				81D121322A276D08003F3780 /* SwiftUIFlowLayout in Frameworks */,
+				81189AD72B9AB04C007BC146 /* Alamofire in Frameworks */,
 				8199DD9E2B15C50600FBE14D /* SwiftUIWave in Frameworks */,
 				81A1ECEA29DC44370001A366 /* Kingfisher in Frameworks */,
-				81BB10FF2A061055005654AA /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +433,7 @@
 				8103095029D1BDF00021717B /* IMAD_ProjectTests */,
 				8103095A29D1BDF00021717B /* IMAD_ProjectUITests */,
 				8103093E29D1BDEF0021717B /* Products */,
+				81189AD52B9AB04C007BC146 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -444,6 +451,7 @@
 			isa = PBXGroup;
 			children = (
 				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
+				D654FBD02BA146E500AF307E /* Protocol */,
 				819C506C2A0F465F0008F4A5 /* Manager */,
 				819C50692A0E3E450008F4A5 /* Test */,
 				81BB10FC2A05F706005654AA /* API */,
@@ -511,6 +519,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		81189AD52B9AB04C007BC146 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		811981C52AF91C1D00952ED2 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -532,6 +547,7 @@
 		812CDE9129DE91CD0003B993 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				D654FBCD2BA0445400AF307E /* Ranking */,
 				818206F72AF8B1F5004A7B21 /* Search */,
 				817860132A29A6B0004639F6 /* Work */,
 				81D1212D2A2739B6003F3780 /* Explore */,
@@ -1143,6 +1159,23 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		D654FBCD2BA0445400AF307E /* Ranking */ = {
+			isa = PBXGroup;
+			children = (
+				D654FBCE2BA04C6E00AF307E /* PopularView.swift */,
+			);
+			path = Ranking;
+			sourceTree = "<group>";
+		};
+		D654FBD02BA146E500AF307E /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				D654FBD12BA146FA00AF307E /* Popular.swift */,
+				D654FBD32BA1470800AF307E /* Genre.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1161,9 +1194,9 @@
 			name = IMAD_Project;
 			packageProductDependencies = (
 				81A1ECE929DC44370001A366 /* Kingfisher */,
-				81BB10FE2A061055005654AA /* Alamofire */,
 				81D121312A276D08003F3780 /* SwiftUIFlowLayout */,
 				8199DD9D2B15C50600FBE14D /* SwiftUIWave */,
+				81189AD62B9AB04C007BC146 /* Alamofire */,
 			);
 			productName = IMAD_Project;
 			productReference = 8103093D29D1BDEF0021717B /* IMAD_Project.app */;
@@ -1213,7 +1246,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					8103093C29D1BDEF0021717B = {
 						CreatedOnToolsVersion = 14.2;
@@ -1324,6 +1357,8 @@
 				81A1ECE329DC207F0001A366 /* ColorSet.swift in Sources */,
 				817B60D62A23747F000099A9 /* ValidationResponse.swift in Sources */,
 				8154B1DF2ADCE64E00AD2F83 /* CommunityList.swift in Sources */,
+				D654FBCF2BA04C6E00AF307E /* PopularView.swift in Sources */,
+				D654FBD42BA1470800AF307E /* Genre.swift in Sources */,
 				8115A6542A85C1D300B7C3FE /* SearchViewModel.swift in Sources */,
 				81C264972A137CFF00405B01 /* RegisterView.swift in Sources */,
 				8154B1D72ADA601B00AD2F83 /* WriteCommnunity.swift in Sources */,
@@ -1422,6 +1457,7 @@
 				8115A6642A8F38A800B7C3FE /* WorkViewModel.swift in Sources */,
 				81C1EB812AB400AB00FB265D /* ReadReviewList.swift in Sources */,
 				81FF75B02AF8CE7600DB1AC2 /* ScoreView.swift in Sources */,
+				D654FBD22BA146FA00AF307E /* Popular.swift in Sources */,
 				8131C55A2AFA0AA4006B761D /* ReadReviewResponse.swift in Sources */,
 				8154B1EA2ADE78A500AD2F83 /* CommunitySearchView.swift in Sources */,
 				81F2592F2AB073BB00C54668 /* ReviewApiService.swift in Sources */,
@@ -1530,6 +1566,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1591,6 +1628,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1640,6 +1678,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1677,6 +1716,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1842,6 +1882,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		81189AD62B9AB04C007BC146 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81BB10FD2A061054005654AA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		8199DD9D2B15C50600FBE14D /* SwiftUIWave */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8199DD9C2B15C50600FBE14D /* XCRemoteSwiftPackageReference "SwiftUIWave" */;
@@ -1851,11 +1896,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
-		};
-		81BB10FE2A061055005654AA /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81BB10FD2A061054005654AA /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
 		};
 		81D121312A276D08003F3780 /* SwiftUIFlowLayout */ = {
 			isa = XCSwiftPackageProductDependency;
