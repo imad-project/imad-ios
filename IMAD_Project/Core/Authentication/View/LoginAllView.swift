@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Alamofire
+import AuthenticationServices
 
 struct LoginAllView: View{
     
@@ -255,45 +256,83 @@ extension LoginAllView{
     }
     
     var loginButtonView:some View{
-        ForEach(OauthFilter.allCases,id:\.rawValue){ item in
-            Button {
-                switch item{
-                case .Apple:
-                    apple = true
-                case .naver:
-                    naver = true
-                case .kakao:
-                    kakao = true
-                case .google:
-                    google = true
+        VStack{
+            loginButton(item: .Apple)
+                .overlay {
+                    appleLoginButton.blendMode(.overlay)
                 }
-                loading = true
-            } label: {
-                RoundedRectangle(cornerRadius: 20).frame(height: 55)
-                    .foregroundColor(item.color)
-                    .overlay {
-                        HStack{
-                            if item == .naver{
-                                Image(item.rawValue)
-                                    .resizable()
-                                    .frame(width: 35,height: 35)
-                                    .offset(x:-5)
-                            }else{
-                                Image(item.rawValue)
-                                    .resizable()
-                                    .frame(width: 25,height: 25)
-                            }
-                            
-                            Spacer()
-                        }.padding()
+            ForEach(OauthFilter.allCases.filter{$0 != .Apple},id:\.rawValue){ item in
+                Button {
+                    switch item{
+                    case .Apple:
+                        return
+                    case .naver:
+                        naver = true
+                    case .kakao:
+                        kakao = true
+                    case .google:
+                        google = true
                     }
-                    .overlay{
-                        Text("\(item.text)")
-                            .bold()
-                            .foregroundColor(item.textColor)
-                    }
-            }.shadow(color:.gray.opacity(0.3),radius: 3)
+                    loading = true
+                } label: {
+                    loginButton(item: item)
+                }.shadow(color:.gray.opacity(0.3),radius: 3)
+            }
         }.padding(.horizontal)
     }
-        
+    var appleLoginButton:some View{
+        SignInWithAppleButton(
+                    onRequest: { request in
+                        request.requestedScopes = [.fullName, .email]
+                    },
+                    onCompletion: { result in
+                        switch result {
+                        case .success(let authResults):
+                            print("Apple Login Successful")
+                            switch authResults.credential{
+                                case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                                   // 계정 정보 가져오기
+                                    let UserIdentifier = appleIDCredential.user
+                                    let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8)
+                                    let AuthorizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8)
+                                print("UserIdentifier   " + UserIdentifier)
+                                print("=====================")
+                                print("IdentityToken     \(String(describing: IdentityToken))")
+                                print("=====================")
+                                print("AuthorizationCode    \(String(describing: AuthorizationCode))")
+                            default:
+                                break
+                            }
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                            print("error")
+                        }
+                    }
+                )
+    }
+    func loginButton(item:OauthFilter) -> some View{
+        RoundedRectangle(cornerRadius: 20).frame(height: 55)
+            .foregroundColor(item.color)
+            .overlay {
+                HStack{
+                    if item == .naver{
+                        Image(item.rawValue)
+                            .resizable()
+                            .frame(width: 35,height: 35)
+                            .offset(x:-5)
+                    }else{
+                        Image(item.rawValue)
+                            .resizable()
+                            .frame(width: 25,height: 25)
+                    }
+                    
+                    Spacer()
+                }.padding()
+            }
+            .overlay{
+                Text("\(item.text)")
+                    .bold()
+                    .foregroundColor(item.textColor)
+            }
+    }
 }
