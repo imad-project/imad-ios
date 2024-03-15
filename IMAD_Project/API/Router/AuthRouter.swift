@@ -14,6 +14,7 @@ enum AuthRouter:URLRequestConvertible{
     case register(email:String,password:String,authProvider:String)
     case login(email:String,password:String)
     case oauthDelete(authProvider:String)
+//    case appleLogin(accessToken:String,tokenType)
     case delete
    
     
