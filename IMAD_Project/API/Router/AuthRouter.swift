@@ -14,7 +14,7 @@ enum AuthRouter:URLRequestConvertible{
     case register(email:String,password:String,authProvider:String)
     case login(email:String,password:String)
     case oauthDelete(authProvider:String)
-    case appleLogin(state:String,code:String,user:String,idToken:String)
+    case appleLogin(state:String?,code:String,user:String,idToken:String)
     case delete
    
     
@@ -33,7 +33,7 @@ enum AuthRouter:URLRequestConvertible{
         case .oauthDelete(let authProvier):
             return "/api/oauth2/revoke/\(authProvier)"
         case .appleLogin:
-            return "/api/api/callback/apple/token"
+            return "/api/callback/apple/token"
         }
     }
     var method:HTTPMethod{

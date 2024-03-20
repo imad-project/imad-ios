@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import Alamofire
+import AuthenticationServices
 
 
 class AuthViewModel:ObservableObject{
@@ -18,7 +19,7 @@ class AuthViewModel:ObservableObject{
     @Published var message = ""
     @Published var user:UserInfo? = nil
     
-//    @Published var tokenExpiredMessage = ""
+
     
     var success = PassthroughSubject<(),Never>()
     
@@ -90,7 +91,6 @@ class AuthViewModel:ObservableObject{
     }
     func logout(tokenExpired:Bool){
         print("로그아웃 및 토큰 삭제")
-//        self.tokenExpiredMessage = tokenExpired ? "토큰이 만료 되었습니다.\n다시 로그인 해주세요" : "로그인이 완료 되었습나다."
         user = nil
         UserDefaultManager.shared.clearAll()
     }
@@ -121,5 +121,42 @@ class AuthViewModel:ObservableObject{
             } receiveValue: { [weak self] noData in
                 self?.message = noData.message
             }.store(in: &cancelable)
+    }
+    func appleLogin(result: Result<ASAuthorization, any Error>,completion:@escaping ()->()){
+        
+        let group = DispatchGroup()
+        let concurrencyQueue = DispatchQueue(label: "concurrecyQueue", attributes: .concurrent)
+        
+        switch result {
+        case .success(let authResults):
+            switch authResults.credential{
+            case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                
+                group.enter()
+                concurrencyQueue.async(group:group) {
+                    let state = appleIDCredential.state
+                    let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8) ?? ""
+                    let userIdentifier = appleIDCredential.user
+                    let authoriztaion = String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? ""
+                    print("state : \(state)")
+                    print("IdentityToken : " + IdentityToken)
+                    print("userIdentifier : " + userIdentifier)
+                    print("authoriztaion : " + authoriztaion)
+                    AuthApiService.appleLogin(authorizationCode: authoriztaion, userIdentity: userIdentifier, state: state, idToken: IdentityToken)
+                    group.leave()
+                }
+                
+                
+            default:
+                break
+            }
+        case .failure(let error):
+            print(error.localizedDescription)
+            print("error")
+        }
+        group.notify(queue: concurrencyQueue){
+            completion()
+        }
+        
     }
 }

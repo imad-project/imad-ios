@@ -11,7 +11,7 @@ import AuthenticationServices
 
 struct LoginAllView: View{
     
-//    @Environment(\.scenePhase) var scenePhase
+
     @State var oathFilter = OauthFilter(rawValue: "")
     @State var register = false
     
@@ -23,7 +23,6 @@ struct LoginAllView: View{
     
     @State var kakao = false
     @State var naver = false
-    @State var apple = false
     @State var google = false
     @State var domain = EmailFilter.gmail
     
@@ -61,29 +60,7 @@ struct LoginAllView: View{
             if loading{
                 CustomProgressView()
             }
-            //            if apple{
-            //                AuthWebView(filter: .Apple)
-            //                    .opacity(0)
-            //                    .ignoresSafeArea()
-            //                    .environmentObject(vm)
-            //                    .onDisappear{
-            //                        loading = false
-            //                    }
-            //            }
         }
-//        .onChange(of: scenePhase) { newValue in
-//            switch newValue {
-//            case .active:
-//                //               apple = false
-//                print("Active")
-//            case .inactive:
-//                print("Inactive")
-//            case .background:
-//                print("Background")
-//            default:
-//                print("scenePhase err")
-//            }
-//        }
         .onReceive(vm.loginSuccess){ value in
             success = true
             msg = value
@@ -92,27 +69,6 @@ struct LoginAllView: View{
             Alert(title: Text(msg),dismissButton: .cancel(Text("확인")){
                 loading = false
             })
-        }
-        //        .overlay(content: {
-        //            if apple{
-        //                AuthWebView(filter: .Apple)
-        //    //                    .opacity(0)
-        //                    .ignoresSafeArea()
-        //                    .environmentObject(vm)
-        //                    .onDisappear{
-        //                        loading = false
-        //                    }
-        //            }
-        //        })
-        .sheet(isPresented: $apple){
-            AuthWebView(filter: .Apple)
-                .ignoresSafeArea()
-                .environmentObject(vm)
-                .presentationDetents([.fraction(0)])
-                .onDisappear{
-                    loading = false
-                }
-            
         }
         .sheet(isPresented: $register) {
             RegisterView(login: $register)
@@ -287,36 +243,8 @@ extension LoginAllView{
                 request.requestedScopes = [.fullName, .email,]
             },
             onCompletion: { result in
-                switch result {
-                case .success(let authResults):
-                    print("Apple Login Successful")
-                    switch authResults.credential{
-                    case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                        // 계정 정보 가져오기
-                        
-                        
-                        var params = Parameters()
-                        if let state = appleIDCredential.state{
-                            params["state"] = state
-                        }
-                        if let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8){
-                            params["id_token"] = IdentityToken
-                        }
-                        let userIdentifier = appleIDCredential.user
-                        params["user"] = userIdentifier
-                        
-                        let email = appleIDCredential.email
-                        
-                        if let authoriztaion = String(data: appleIDCredential.authorizationCode!, encoding: .utf8){
-                            params["code"] = authoriztaion
-                        }
-                        
-                    default:
-                        break
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    print("error")
+                vm.appleLogin(result: result){
+//                    vm.getUser()
                 }
             }
         )
