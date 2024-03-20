@@ -243,9 +243,7 @@ extension LoginAllView{
                 request.requestedScopes = [.fullName, .email,]
             },
             onCompletion: { result in
-                vm.appleLogin(result: result){
-//                    vm.getUser()
-                }
+                vm.appleLogin(result: result)
             }
         )
         .frame(height:50)

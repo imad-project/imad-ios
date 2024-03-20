@@ -14,14 +14,10 @@ enum TokenApiService{
     
     static func getToken(completion: @escaping (Bool) -> Void){
             print("토큰 재발급 api 호출")
-            
-//            var getTokenSuccess = false
-            
             ApiClient.shared.session
                 .request(TokenRouter.token,interceptor: intercept)
                 .response{
                     completion(UserDefaultManager.shared.checkToken(response: $0.response))
-//                    return getTokenSuccess
                 }
             
         }

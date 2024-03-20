@@ -19,7 +19,7 @@ class AuthViewModel:ObservableObject{
     @Published var message = ""
     @Published var user:UserInfo? = nil
     
-
+    
     
     var success = PassthroughSubject<(),Never>()
     
@@ -122,28 +122,20 @@ class AuthViewModel:ObservableObject{
                 self?.message = noData.message
             }.store(in: &cancelable)
     }
-    func appleLogin(result: Result<ASAuthorization, any Error>,completion:@escaping ()->()){
-        
-        let group = DispatchGroup()
-        let concurrencyQueue = DispatchQueue(label: "concurrecyQueue", attributes: .concurrent)
-        
+    func appleLogin(result: Result<ASAuthorization, any Error>){
         switch result {
         case .success(let authResults):
             switch authResults.credential{
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
                 
-                group.enter()
-                concurrencyQueue.async(group:group) {
-                    let state = appleIDCredential.state
-                    let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8) ?? ""
-                    let userIdentifier = appleIDCredential.user
-                    let authoriztaion = String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? ""
-                    print("state : \(state)")
-                    print("IdentityToken : " + IdentityToken)
-                    print("userIdentifier : " + userIdentifier)
-                    print("authoriztaion : " + authoriztaion)
-                    AuthApiService.appleLogin(authorizationCode: authoriztaion, userIdentity: userIdentifier, state: state, idToken: IdentityToken)
-                    group.leave()
+                let state = appleIDCredential.state
+                let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8) ?? ""
+                let userIdentifier = appleIDCredential.user
+                let authoriztaion = String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? ""
+                
+                AuthApiService.appleLogin(authorizationCode: authoriztaion, userIdentity: userIdentifier, state: state, idToken: IdentityToken){ saveTokenSuccess in
+                    guard saveTokenSuccess else {return self.loginSuccess.send("로그인에 실패했습니다.")}
+                    self.getUser()
                 }
                 
                 
@@ -154,9 +146,5 @@ class AuthViewModel:ObservableObject{
             print(error.localizedDescription)
             print("error")
         }
-        group.notify(queue: concurrencyQueue){
-            completion()
-        }
-        
     }
 }
