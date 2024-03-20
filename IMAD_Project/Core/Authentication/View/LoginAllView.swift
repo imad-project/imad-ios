@@ -48,7 +48,9 @@ struct LoginAllView: View{
                         passwordView
                         authView
                     }.padding(.horizontal,10)
-                    
+                        .onTapGesture {
+                            UIApplication.shared.endEditing()
+                        }
                     Spacer()
                     divderView
                     loginButtonView
@@ -145,9 +147,7 @@ struct LoginAllView: View{
                 }
         }
         .ignoresSafeArea(.keyboard)
-        .onTapGesture {
-            UIApplication.shared.endEditing()
-        }
+        
     }
 }
 
@@ -257,9 +257,10 @@ extension LoginAllView{
     
     var loginButtonView:some View{
         VStack{
-            loginButton(item: .Apple)
+            appleLoginButton
                 .overlay {
-                    appleLoginButton.blendMode(.overlay)
+                    loginButton(item: .Apple)
+                        .allowsHitTesting(false)
                 }
             ForEach(OauthFilter.allCases.filter{$0 != .Apple},id:\.rawValue){ item in
                 Button {
@@ -283,24 +284,32 @@ extension LoginAllView{
     var appleLoginButton:some View{
         SignInWithAppleButton(
             onRequest: { request in
-                request.requestedScopes = [.fullName, .email]
+                request.requestedScopes = [.fullName, .email,]
             },
             onCompletion: { result in
                 switch result {
                 case .success(let authResults):
                     print("Apple Login Successful")
                     switch authResults.credential{
-                    case let appleIDCredential as ASAuthorizationSingleSignOnCredential:
+                    case let appleIDCredential as ASAuthorizationAppleIDCredential:
                         // 계정 정보 가져오기
-//                        let userIdentifier = String(data: appleIDCredential., encoding: <#T##String.Encoding#>)
-                        let accessToken = String(data: appleIDCredential.accessToken!, encoding: .utf8)
-                        let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8)
                         
-//                        print("UserIdentifier   " + userIdentifier)
-                        print("=====================")
-                        print("IdentityToken     \(String(describing: IdentityToken))")
-                        print("=====================")
-                        print("accessToken    \(String(describing: accessToken))")
+                        
+                        var params = Parameters()
+                        if let state = appleIDCredential.state{
+                            params["state"] = state
+                        }
+                        if let IdentityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8){
+                            params["id_token"] = IdentityToken
+                        }
+                        let userIdentifier = appleIDCredential.user
+                        params["user"] = userIdentifier
+                        
+                        let email = appleIDCredential.email
+                        
+                        if let authoriztaion = String(data: appleIDCredential.authorizationCode!, encoding: .utf8){
+                            params["code"] = authoriztaion
+                        }
                         
                     default:
                         break
@@ -311,6 +320,8 @@ extension LoginAllView{
                 }
             }
         )
+        .frame(height:50)
+        .cornerRadius(20)
     }
     func loginButton(item:OauthFilter) -> some View{
         RoundedRectangle(cornerRadius: 20).frame(height: 55)
@@ -338,3 +349,4 @@ extension LoginAllView{
             }
     }
 }
+
