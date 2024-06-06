@@ -13,9 +13,6 @@ struct CustomNextButton: View {
     var body: some View {
         Button {
             action()
-//            withAnimation(.linear){
-//                action
-//            }
         } label: {
             RoundedRectangle(cornerRadius: 20)
                 .frame(height: 60)

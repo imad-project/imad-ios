@@ -137,8 +137,6 @@ class AuthViewModel:ObservableObject{
                     guard saveTokenSuccess else {return self.loginSuccess.send("로그인에 실패했습니다.")}
                     self.getUser()
                 }
-                
-                
             default:
                 break
             }
