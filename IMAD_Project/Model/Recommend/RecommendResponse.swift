@@ -9,7 +9,7 @@ import Foundation
 
 struct RecommendResponse: Codable {
     let id: Int
-    let name: String
+    let name: String?
     let posterPath: String?
 
     enum CodingKeys: String, CodingKey {
