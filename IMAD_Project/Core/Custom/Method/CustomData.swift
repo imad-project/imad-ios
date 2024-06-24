@@ -31,9 +31,12 @@ class CustomData{
     ]
     
     let rankingList:[RankingResponseList] = [
-        RankingResponseList(contentsID: 1, contentsType: "ANIMATION", imadScore: 5.4, title: "안뇽하세요", posterPath: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", ranking: 1, rankingChanged: 2),
-        RankingResponseList(contentsID: 2, contentsType: "ANIMATION", imadScore: 5.4, title: "안뇽하세요", posterPath: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", ranking: 2, rankingChanged: -2),
-        RankingResponseList(contentsID: 3, contentsType: "ANIMATION", imadScore: 5.4, title: "안뇽하세요", posterPath: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", ranking: 3, rankingChanged: nil)
+        RankingResponseList(contentsID: 1, contentsType: "ANIMATION", imadScore: 9.9, title: "가가", posterPath: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", ranking: 1, rankingChanged: 2),
+        RankingResponseList(contentsID: 2, contentsType: "ANIMATION", imadScore: 9.5, title: "나나", posterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", ranking: 2, rankingChanged: -2),
+        RankingResponseList(contentsID: 3, contentsType: "ANIMATION", imadScore: 9.2, title: "다다", posterPath: "/plNOSbqkSuGEK2i15A5btAXtB7t.jpg", ranking: 3, rankingChanged: nil),
+        RankingResponseList(contentsID: 4, contentsType: "ANIMATION", imadScore: 8.4, title: "라라", posterPath: "/ne4Csgm0KznasqqMNZtC1S6YSWN.jpg", ranking: 4, rankingChanged: nil),
+        RankingResponseList(contentsID: 5, contentsType: "ANIMATION", imadScore: 8.1, title: "마마", posterPath: "/5qK26ENdxUwSvq8eAkavVD3EA71.jpg", ranking: 5, rankingChanged: nil),
+        RankingResponseList(contentsID: 6, contentsType: "ANIMATION", imadScore: 8.0, title: "바바", posterPath: "/zREAzThdoALNhci72PuN3bH22BZ.jpg", ranking: 6, rankingChanged: nil)
     ]
     
     let communityDetails = CommunityDetailsListResponse(postingID: 1, contentsID: 1, contentsTitle: "죠죠의 기묘한 모험", contentsPosterPath: "https://an2-img.amz.wtchn.net/image/v2/JD59QW9WTfLRlP0lecVxGg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk56STVlREV3T0RCeE9EQWlYU3dpY0NJNklpOTJNaTl6ZEc5eVpTOXBiV0ZuWlM4eE5qTXhNREV6TnpFeU1qRXpNRGsxT0RnMkluMC5fZV92b05NN0xHU0RERTVrbDJEMENnanNjTzFnSXpXRXFjTTBlY0dtOWk4", userID: 1, userNickname: "콰랑", userProfileImage: 1, title: "최고의 아이", category: 0, viewCnt: 45, likeCnt: 3, dislikeCnt: 1, likeStatus: 0, commentCnt: 4, createdAt: "2023-10-16T12:33:35.007579", modifiedAt: "2023-10-16T12:33:35.007579",scrapId: 1,scrapStatus: false,  spoiler: true)

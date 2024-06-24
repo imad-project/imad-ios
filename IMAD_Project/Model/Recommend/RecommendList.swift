@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RecommendList: Codable {
+struct RecommendList: Codable,Hashable {
     let page, totalPages, totalResults: Int
     let results: [RecommendResponse]
     let contentsID: Int?
