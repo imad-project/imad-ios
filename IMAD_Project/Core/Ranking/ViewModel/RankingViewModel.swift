@@ -16,7 +16,6 @@ class RankingViewModel:ObservableObject{
     @Published var rankingList:[RankingResponseList] = []
     @Published var popularReview:PopularReviewResponse? = nil
     @Published var popularPosting:PopularPostingResponse? = nil
-    @Published var poster = ""
     
     init(rankingList: [RankingResponseList]) {
         self.rankingList = rankingList
@@ -27,14 +26,12 @@ class RankingViewModel:ObservableObject{
             .sink { completion in
                 switch completion{
                 case .finished:
-                    self.success.send()
                     print(completion)
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] rank in
                 self?.rankingList = rank.data?.detailsList ?? []
-                self?.poster = rank.data?.detailsList.first?.posterPath.getImadImage() ?? ""
             }.store(in: &canelable)
 
     }
@@ -43,14 +40,12 @@ class RankingViewModel:ObservableObject{
             .sink { completion in
                 switch completion{
                 case .finished:
-                    self.success.send()
                     print(completion)
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] rank in
                 self?.rankingList = rank.data?.detailsList ?? []
-                self?.poster = rank.data?.detailsList.first?.posterPath.getImadImage() ?? ""
             }.store(in: &canelable)
 
     }
@@ -59,14 +54,12 @@ class RankingViewModel:ObservableObject{
             .sink { completion in
                 switch completion{
                 case .finished:
-                    self.success.send()
                     print(completion)
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] rank in
                 self?.rankingList = rank.data?.detailsList ?? []
-                self?.poster = rank.data?.detailsList.first?.posterPath.getImadImage() ?? ""
             }.store(in: &canelable)
 
     }

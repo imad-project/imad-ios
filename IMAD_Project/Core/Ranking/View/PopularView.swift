@@ -23,54 +23,60 @@ struct PopularView: View {
     }
     var today:String{
         if review != nil{
-            return "🏅 오늘의 리뷰"
+            return "🏅리뷰"
         }else{
-            return "🏅 오늘의 게시물"
+            return "🎖️게시물"
         }
     }
     var body: some View {
-        VStack(alignment: review != nil ? .leading : .trailing){
+        VStack{
             if let popular{
-                Text(today).bold()
-                HStack(alignment:.bottom,spacing: 0){
-                    if review != nil{
-                        KFImageView(image: popular.poster().getImadImage())
-                            .frame(width: UIScreen.main.bounds.width/3)
-                    }
-                    HStack{
-                        VStack(alignment:.leading){
-                            HStack{
-                                VStack(alignment:.leading){
+                
+                VStack{
+                    KFImageView(image: popular.poster().getImadImage())
+                        .frame(height: 120)
+                        .overlay{
+                            Color.black.opacity(0.5)
+                            VStack{
+                                Text(today).bold().frame(maxWidth: .infinity,alignment: .leading)
+                                    .foregroundColor(.white)
+                                Spacer()
+                                HStack{
                                     Text(popular.contentsTitle())
+                                        .lineLimit(1)
                                         .bold()
                                         .font(.title3)
-                                        .foregroundColor(.customIndigo.opacity(0.8))
-                                    Text(popular.title()).fontWeight(.black)
-                                    
-                                }
-                                Spacer()
-                                VStack{
-                                    ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 30)
-                                    Text(popular.userName())
-                                        .font(.caption2)
+                                        .foregroundColor(.white)
+                                    Spacer()
                                 }
                             }
-                            .padding(.bottom)
+                            .padding()
+                        }
+                    
+                    
+                    
+                    HStack{
+                        VStack(alignment: .leading){
+                            HStack{
+                                ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 20)
+                                Text(popular.userName()).font(.subheadline)
+                            }
+                            Text(popular.title())
+                                .font(.body)
+                                .bold()
                             Text(popular.contents())
+                                .font(.subheadline)
                             Spacer()
                         }
                         Spacer()
                     }
-                    .padding(5)
-                    Spacer()
-                    if review == nil{
-                        KFImageView(image: popular.poster().getImadImage())
-                            .frame(width: UIScreen.main.bounds.width/3)
-                    }
+                    .lineLimit(1)
+                    .padding(10)
+                    
+                    
                 }
                 .background(Color.white)
-                .frame(height: UIScreen.main.bounds.height/4)
-                .cornerRadius(30)
+                .cornerRadius(10)
             }
         }
         
