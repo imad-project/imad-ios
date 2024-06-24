@@ -708,7 +708,6 @@
 			children = (
 				81A15FAD2AFF528A0051F5B7 /* View */,
 				81A15FAC2AFF52840051F5B7 /* ViewModel */,
-				81588D502AFE65A300E19F8D /* CommentViewModel.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -886,6 +885,7 @@
 		81A15FAC2AFF52840051F5B7 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				81588D502AFE65A300E19F8D /* CommentViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
