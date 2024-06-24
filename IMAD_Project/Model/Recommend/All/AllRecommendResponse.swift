@@ -1,5 +1,5 @@
 //
-//  RecommendAll.swift
+//  AllRecommendResponse.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 6/24/24.
@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct RecommendAll: Codable {
+
+struct AllRecommendResponse: Codable {
     var preferredGenreRecommendationTv: RecommendList?
     var preferredGenreRecommendationMovie: RecommendList?
     var userActivityRecommendationTv, userActivityRecommendationMovie, userActivityRecommendationTvAnimation, userActivityRecommendationMovieAnimation: RecommendList?
