@@ -34,7 +34,7 @@ struct PopularView: View {
                 
                 VStack{
                     KFImageView(image: popular.poster().getImadImage())
-                        .frame(height: 120)
+                        .frame(height: 200)
                         .overlay{
                             Color.black.opacity(0.5)
                             VStack{
@@ -49,6 +49,12 @@ struct PopularView: View {
                                         .foregroundColor(.white)
                                     Spacer()
                                 }
+                                HStack{
+                                    ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 20)
+                                    Text(popular.userName()).font(.subheadline)
+                                        .foregroundStyle(.white)
+                                    Spacer()
+                                }
                             }
                             .padding()
                         }
@@ -57,10 +63,7 @@ struct PopularView: View {
                     
                     HStack{
                         VStack(alignment: .leading){
-                            HStack{
-                                ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 20)
-                                Text(popular.userName()).font(.subheadline)
-                            }
+                            
                             Text(popular.title())
                                 .font(.body)
                                 .bold()
