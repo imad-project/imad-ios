@@ -196,9 +196,8 @@ extension MainView{
         
         ScrollView(.horizontal,showsIndicators: false){
             LazyHGrid(rows: items){
-               
                     if vm.rankingList.isEmpty{
-                        ForEach(0...10,id: \.self){ _ in
+                        ForEach(1...9,id: \.self){ _ in
                             NoImageView()
                             .frame(width: 300,height: 75)
                         }
