@@ -85,7 +85,7 @@ class PopularPostingClass:Popular{
     }
     
     func contents() -> String {
-        return "ㅁㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ"
+        return posting.content
     }
     
     

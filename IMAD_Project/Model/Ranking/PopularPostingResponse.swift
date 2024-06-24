@@ -14,6 +14,7 @@ struct PopularPostingResponse:Codable{
     let userNickname: String
     let userProfileImage: Int
     let title: String
+    let content:String
     let category, viewCnt, commentCnt, likeCnt: Int
     let dislikeCnt, likeStatus: Int
     let createdAt, modifiedAt: String
@@ -28,7 +29,7 @@ struct PopularPostingResponse:Codable{
         case userID = "user_id"
         case userNickname = "user_nickname"
         case userProfileImage = "user_profile_image"
-        case title, category
+        case title, category,content
         case viewCnt = "view_cnt"
         case commentCnt = "comment_cnt"
         case likeCnt = "like_cnt"
