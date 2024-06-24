@@ -8,10 +8,10 @@
 import Foundation
 
 struct ImadRecommendResponse:Codable{
-    var popularRecommendationTv: RecommendList?
-    var popularRecommendationMovie: RecommendList?
-    var topRatedRecommendationTv: RecommendList?
-    var topRatedRecommendationMovie: RecommendList?
+    var popularRecommendationTv: RecommendTVList?
+    var popularRecommendationMovie: RecommendMovieList?
+    var topRatedRecommendationTv: RecommendTVList?
+    var topRatedRecommendationMovie: RecommendMovieList?
     
     enum CodingKeys: String, CodingKey {
         case popularRecommendationTv = "popular_recommendation_tv"

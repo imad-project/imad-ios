@@ -8,8 +8,8 @@
 import Foundation
 
 struct TrendRecommendResponse:Codable{
-    var trendRecommendationTv: RecommendList?
-    var trendRecommendationMovie: RecommendList?
+    var trendRecommendationTv: RecommendTVList?
+    var trendRecommendationMovie: RecommendMovieList?
     
     enum CodingKeys: String, CodingKey {
         case trendRecommendationTv = "trend_recommendation_tv"

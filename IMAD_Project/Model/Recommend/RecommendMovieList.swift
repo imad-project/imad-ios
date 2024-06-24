@@ -1,5 +1,5 @@
 //
-//  WorkResults.swift
+//  RecommendMovieList.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 6/24/24.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct RecommendList: Codable,Hashable {
+struct RecommendMovieList: Codable,Hashable {
     let page, totalPages, totalResults: Int
-    let results: [RecommendResponse]
+    let results: [RecommendMovieResponse]
     let contentsID: Int?
 
     enum CodingKeys: String, CodingKey {
@@ -20,6 +20,3 @@ struct RecommendList: Codable,Hashable {
         case contentsID = "contents_id"
     }
 }
-
-
-

@@ -9,16 +9,19 @@ import Foundation
 
 
 struct AllRecommendResponse: Codable {
-    var preferredGenreRecommendationTv: RecommendList?
-    var preferredGenreRecommendationMovie: RecommendList?
-    var userActivityRecommendationTv, userActivityRecommendationMovie, userActivityRecommendationTvAnimation, userActivityRecommendationMovieAnimation: RecommendList?
-    var popularRecommendationTv: RecommendList?
-    var popularRecommendationMovie: RecommendList?
-    var topRatedRecommendationTv: RecommendList?
-    var topRatedRecommendationMovie: RecommendList?
-    var trendRecommendationTv: RecommendList?
-    var trendRecommendationMovie: RecommendList?
-
+    var preferredGenreRecommendationTv: RecommendTVList?
+    var preferredGenreRecommendationMovie: RecommendMovieList?
+    var userActivityRecommendationTv: RecommendTVList?
+    var userActivityRecommendationMovie:RecommendMovieList?
+    var userActivityRecommendationTvAnimation: RecommendTVList?
+    var userActivityRecommendationMovieAnimation: RecommendMovieList?
+    var popularRecommendationTv: RecommendTVList?
+    var popularRecommendationMovie: RecommendMovieList?
+    var topRatedRecommendationTv: RecommendTVList?
+    var topRatedRecommendationMovie: RecommendMovieList?
+    var trendRecommendationTv: RecommendTVList?
+    var trendRecommendationMovie: RecommendMovieList?
+    
     enum CodingKeys: String, CodingKey {
         case preferredGenreRecommendationTv = "preferred_genre_recommendation_tv"
         case preferredGenreRecommendationMovie = "preferred_genre_recommendation_movie"
