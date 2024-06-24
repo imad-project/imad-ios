@@ -7,14 +7,12 @@
 
 import Foundation
 
-struct TrendRecommend:Codable{
+struct TrendRecommendResponse:Codable{
     var trendRecommendationTv: RecommendList?
     var trendRecommendationMovie: RecommendList?
     
     enum CodingKeys: String, CodingKey {
-        case popularRecommendationTv = "popular_recommendation_tv"
-        case popularRecommendationMovie = "popular_recommendation_movie"
-        case topRatedRecommendationTv = "top_rated_recommendation_tv"
-        case topRatedRecommendationMovie = "top_rated_recommendation_movie"
+        case trendRecommendationTv = "trend_recommendation_tv"
+        case trendRecommendationMovie = "trend_recommendation_movie"
     }
 }

@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct TrendRecommend:Codable{
+    let status: Int
+    let data: TrendRecommendResponse?
+    let message: String
+}
