@@ -9,10 +9,9 @@ import SwiftUI
 import Kingfisher
 
 
-
 struct MainView: View {
     
-    @State var ranking:RankingFilter = .week
+    @State var ranking:RankingFilter = .all
     @StateObject var vm = RankingViewModel(rankingList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -23,25 +22,17 @@ struct MainView: View {
     @State var select = 0
     @State var anima = false
     @Binding var search:Bool
-    //   filterSelect @Binding var filterSelect:Bool
     
     var body: some View {
         ZStack{
             Color.white
             ScrollView(showsIndicators: false){
                 VStack(spacing:10){
-                    VStack(spacing: 0){
-                        header
-                        filter
-                            .padding(.bottom)
-                        rankingView
-                            .padding(.bottom)
-                        
-                    }
-                    .foregroundColor(.white)
-                    .background{
-                        MovieBackgroundView(url: vm.poster,height: 1.95, isBottomTransparency: false)
-                    }
+                    TabView(selection: /*@START_MENU_TOKEN@*/.constant(1)/*@END_MENU_TOKEN@*/,
+                            content:  {
+                        Text("Tab Content 1").tabItem { /*@START_MENU_TOKEN@*/Text("Tab Label 1")/*@END_MENU_TOKEN@*/ }.tag(1)
+                        Text("Tab Content 2").tabItem { /*@START_MENU_TOKEN@*/Text("Tab Label 2")/*@END_MENU_TOKEN@*/ }.tag(2)
+                    })
                     RoundedRectangle(cornerRadius: 20)
                         .frame(height: 50)
                         .foregroundStyle(Color.gray.opacity(0.3))
@@ -59,9 +50,9 @@ struct MainView: View {
                         }
                         .padding()
                     
-                    reviewPosting
+//                    reviewPosting
                     //                    movieList
-                    Spacer().frame(height: 100).foregroundColor(.white)
+//                    Spacer().frame(height: 100).foregroundColor(.white)
                 }
             }
         }
@@ -85,11 +76,11 @@ struct MainView: View {
                 anima = true
             }
         }
-        .onReceive(vm.success){
-            if !vm.rankingList.isEmpty{
-                startTimer()
-            }
-        }
+//        .onReceive(vm.success){
+//            if !vm.rankingList.isEmpty{
+//                startTimer()
+//            }
+//        }
     }
 }
 
@@ -104,69 +95,69 @@ struct MainView_Previews: PreviewProvider {
 
 extension MainView{
     
-    func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
-            DispatchQueue.main.async {
-                withAnimation(.easeIn(duration: 3.0)){
-                    if movieIndex < vm.rankingList.count - 1 {
-                        movieIndex += 1
-                        vm.poster = vm.rankingList[movieIndex].posterPath.getImadImage()
-                    }else{
-                        movieIndex = 0
-                        vm.poster = vm.rankingList[movieIndex].posterPath.getImadImage()
-                    }
-                }
-                withAnimation(Animation.linear(duration: 0.5)) {
-                    rotationAngle += .degrees(180)
-                }
-            }
-        }
-    }
+//    func startTimer() {
+//        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
+//            DispatchQueue.main.async {
+//                withAnimation(.easeIn(duration: 3.0)){
+//                    if movieIndex < vm.rankingList.count - 1 {
+//                        movieIndex += 1
+//                        vm.poster = vm.rankingList[movieIndex].posterPath.getImadImage()
+//                    }else{
+//                        movieIndex = 0
+//                        vm.poster = vm.rankingList[movieIndex].posterPath.getImadImage()
+//                    }
+//                }
+//                withAnimation(Animation.linear(duration: 0.5)) {
+//                    rotationAngle += .degrees(180)
+//                }
+//            }
+//        }
+//    }
     
-    var header:some View{
-        HStack{
-            HStack{
-                Text("TOP100")
-                    .font(.title2)
-                    .bold()
-                    .padding(.leading)
-                Image("trophy")
-                    .resizable()
-                    .frame(width: 25,height: 20)
-                    .rotation3DEffect(rotationAngle, axis: (x: 0, y: 1, z: 0))
-            }
-            
-            Spacer()
-            Button {
-                
-            } label: {
-                Image(systemName: "bell.fill")
-                    .font(.title3)
-                    .padding(.trailing)
-            }
-        }
-        .padding(.vertical)
-        .padding(.top,30)
-    }
-    func genreHeader(name:String) ->some View{
-        HStack{
-            Text(name)
-                .font(.title3)
-                .bold()
-                .foregroundColor(.black)
-                .padding(.leading)
-            Spacer()
-        }
-    }
-    var reviewPosting:some View{
-        VStack{
-            Group{
-                PopularView(review: vm.popularReview)
-                PopularView(posting: vm.popularPosting)
-            }
-            .padding(5)
-        }
-    }
+//    var header:some View{
+//        HStack{
+//            HStack{
+//                Text("TOP100")
+//                    .font(.title2)
+//                    .bold()
+//                    .padding(.leading)
+//                Image("trophy")
+//                    .resizable()
+//                    .frame(width: 25,height: 20)
+//                    .rotation3DEffect(rotationAngle, axis: (x: 0, y: 1, z: 0))
+//            }
+//            
+//            Spacer()
+//            Button {
+//                
+//            } label: {
+//                Image(systemName: "bell.fill")
+//                    .font(.title3)
+//                    .padding(.trailing)
+//            }
+//        }
+//        .padding(.vertical)
+//        .padding(.top,30)
+//    }
+//    func genreHeader(name:String) ->some View{
+//        HStack{
+//            Text(name)
+//                .font(.title3)
+//                .bold()
+//                .foregroundColor(.black)
+//                .padding(.leading)
+//            Spacer()
+//        }
+//    }
+//    var reviewPosting:some View{
+//        VStack{
+//            Group{
+//                PopularView(review: vm.popularReview)
+//                PopularView(posting: vm.popularPosting)
+//            }
+//            .padding(5)
+//        }
+//    }
     
     var rankingView:some View{
         
@@ -195,7 +186,7 @@ extension MainView{
                                                 .font(.caption)
                                         }
                                     }
-                                rankUpdateView(rank: element.rankingChanged)
+//                                rankUpdateView(rank: element.rankingChanged)
                             }
                            
                         }.padding(.horizontal,5)
@@ -259,21 +250,21 @@ extension MainView{
         .padding(.horizontal)
     }
     
-    func rankUpdateView(rank:Int?) -> some View{
-        HStack(spacing:2){
-            if let rank,rank != 0{
-                Group{
-                    Image(systemName:rank > 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
-                    Text(rank > 0 ? "\(rank)":"\(abs(rank))")
-                }
-                .font(.caption2)
-                .foregroundStyle(rank > 0 ? .green : .red)
-            }else{
-                Text("--")
-            }
-        }
-        
-    }
+//    func rankUpdateView(rank:Int?) -> some View{
+//        HStack(spacing:2){
+//            if let rank,rank != 0{
+//                Group{
+//                    Image(systemName:rank > 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
+//                    Text(rank > 0 ? "\(rank)":"\(abs(rank))")
+//                }
+//                .font(.caption2)
+//                .foregroundStyle(rank > 0 ? .green : .red)
+//            }else{
+//                Text("--")
+//            }
+//        }
+//        
+//    }
     //    var movieList:some View{
     //        VStack{
     //
