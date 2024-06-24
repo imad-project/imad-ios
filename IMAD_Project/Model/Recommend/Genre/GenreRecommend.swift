@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct GenreRecommend:Codable{
+    let status: Int
+    let data: GenreRecommendResponse?
+    let message: String
+}

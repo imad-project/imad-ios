@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GenreRecommend:Codable{
+struct GenreRecommendResponse:Codable{
     var preferredGenreRecommendationTv: RecommendList?
     var preferredGenreRecommendationMovie: RecommendList?
     
