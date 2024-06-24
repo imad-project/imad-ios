@@ -8,20 +8,22 @@
 import SwiftUI
 
 struct NoImageView: View {
+    @State var colors = [Color.white,Color.gray.opacity(0.1)]
     var body: some View {
-        Rectangle()
-            .foregroundColor(.gray.opacity(0.1))
-            .overlay {
-                VStack{
-                    Image(systemName: "photo")
-                        .font(.title)
-                    Text("NO")
-                        .bold()
-                        .font(.subheadline)
-                }
-                .foregroundColor(.gray)
+        LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+            .onAppear{
+                startTimer()
             }
     }
+        func startTimer() {
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                DispatchQueue.main.async {
+                    withAnimation(.easeIn(duration: 1)){
+                        colors.swapAt(0, 1)
+                    }
+                }
+            }
+        }
 }
 
 struct NoImageView_Previews: PreviewProvider {
