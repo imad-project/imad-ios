@@ -6,3 +6,20 @@
 //
 
 import Foundation
+
+struct RecommendList: Codable {
+    let page, totalPages, totalResults: Int
+    let results: [RecommendResponse]
+    let contentsID: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case page
+        case totalPages = "total_pages"
+        case totalResults = "total_results"
+        case results
+        case contentsID = "contents_id"
+    }
+}
+
+
+
