@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct ImadRecommend:Codable{
+    let status: Int
+    let data: ImadRecommendResponse?
+    let message: String
+}

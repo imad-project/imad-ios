@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ImadRecommend:Codable{
+struct ImadRecommendResponse:Codable{
     var popularRecommendationTv: RecommendList?
     var popularRecommendationMovie: RecommendList?
     var topRatedRecommendationTv: RecommendList?
