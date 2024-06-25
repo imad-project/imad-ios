@@ -28,12 +28,28 @@ struct MainView: View {
     @State var anima = false
     @Binding var search:Bool
     
+    var userTvList:[RecommendTVResponse]{
+        var list:[RecommendTVResponse] = []
+        if let results = vmRecommend.recommendAll?.userActivityRecommendationTv?.results,let aniResults = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.results{
+            list = Array(results.prefix(4))
+            list.append(contentsOf: Array(aniResults.prefix(4)))
+        }
+        return list.shuffled()
+    }
+    var userMovieList:[RecommendMovieResponse]{
+        var list:[RecommendMovieResponse] = []
+        if let results = vmRecommend.recommendAll?.userActivityRecommendationMovie?.results,let aniResults = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.results{
+            list = Array(results.prefix(4))
+            list.append(contentsOf: Array(aniResults.prefix(4)))
+        }
+        return list.shuffled()
+    }
   
     var body: some View {
         ZStack{
             Color.white
             ScrollView(showsIndicators: false){
-                VStack(alignment:.leading,spacing:10){
+                VStack(alignment:.leading,spacing:5){
                     if let user = vmAuth.user?.data{
                         HStack(spacing: 0){
                             Text(user.nickname ?? "").bold()
@@ -105,6 +121,7 @@ struct MainView: View {
                             .frame(height: 70)
                             .cornerRadius(10)
                             .padding(.horizontal)
+                            .padding(.vertical)
                         
                         Text("아이매드 차트")
                             .font(.body)
@@ -128,7 +145,102 @@ struct MainView: View {
                                     .frame(width: 200)
                             }
                             .padding(.horizontal)
-                            .padding(.vertical,5)
+                            .padding(.bottom)
+                        }
+                        if !userTvList.isEmpty || !userMovieList.isEmpty{
+                            Text("\(user.nickname ?? "")님을 위한 추천작")
+                                .font(.body)
+                                .bold()
+                                .foregroundColor(.customIndigo)
+                                .padding(.horizontal)
+                            ScrollView(.horizontal,showsIndicators: false) {
+                                HStack{
+                                    ForEach(userTvList,id: \.self) { work in
+                                        KFImageView(image: work.backdropPath?.getImadImage() ?? "",width: 200,height: 120)
+                                            .cornerRadius(5)
+                                    }
+                                }.padding(.horizontal)
+                            }
+                            ScrollView(.horizontal,showsIndicators: false) {
+                                HStack{
+                                    ForEach(userMovieList,id: \.self) { work in
+                                        KFImageView(image: work.backdropPath?.getImadImage() ?? "",width: 200,height: 120)
+                                            .cornerRadius(5)
+                                    }
+                                }.padding(.horizontal)
+                            }
+                            .padding(.bottom)
+                        }
+                        
+                        
+                        Text("이런 장르 영화 어때요?")
+                            .font(.body)
+                            .bold()
+                            .foregroundColor(.customIndigo)
+                            .padding(.horizontal)
+                        ScrollView(.horizontal,showsIndicators: false) {
+                            HStack{
+                                ForEach(vmRecommend.recommendAll?.preferredGenreRecommendationMovie?.results ?? initMovieValue,id: \.self){ work in
+                                    VStack{
+                                        KFImageView(image: work.posterPath?.getImadImage() ?? "",width: 120,height: 200)
+                                            .cornerRadius(5)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom)
+                        }
+                        
+                        Text("\(user.nickname ?? "")님을 위한 시리즈")
+                            .font(.body)
+                            .bold()
+                            .foregroundColor(.customIndigo)
+                            .padding(.horizontal)
+                        ScrollView(.horizontal,showsIndicators: false) {
+                            HStack{
+                                ForEach(vmRecommend.recommendAll?.preferredGenreRecommendationTv?.results ?? initTvValue,id: \.self){ work in
+                                    VStack{
+                                        KFImageView(image: work.posterPath?.getImadImage() ?? "",width: 120,height: 200)
+                                            .cornerRadius(5)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom)
+                        }
+                        Text("아이매드 엄선 영화")
+                            .font(.body)
+                            .bold()
+                            .foregroundColor(.customIndigo)
+                            .padding(.horizontal)
+                        ScrollView(.horizontal,showsIndicators: false) {
+                            HStack{
+                                ForEach(vmRecommend.recommendAll?.popularRecommendationMovie?.results ?? initMovieValue,id: \.self){ work in
+                                    VStack{
+                                        KFImageView(image: work.posterPath?.getImadImage() ?? "",width: 120,height: 200)
+                                            .cornerRadius(5)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom)
+                        }
+                        Text("전 세계 사람들이 선택한 시리즈")
+                            .font(.body)
+                            .bold()
+                            .foregroundColor(.customIndigo)
+                            .padding(.horizontal)
+                        ScrollView(.horizontal,showsIndicators: false) {
+                            HStack{
+                                ForEach(vmRecommend.recommendAll?.popularRecommendationTv?.results ?? initTvValue,id: \.self){ work in
+                                    VStack{
+                                        KFImageView(image: work.posterPath?.getImadImage() ?? "",width: 120,height: 200)
+                                            .cornerRadius(5)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom)
                         }
                     }
                     
@@ -252,7 +364,7 @@ extension MainView{
                 }
             }
             
-        }
+        }.padding(.bottom)
     }
     
     
