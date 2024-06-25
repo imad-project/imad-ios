@@ -25,7 +25,7 @@ struct MenuTabView: View {
                 CommunityView()
                     .environmentObject(vmAuth)
                     .tag(Tab.community)
-                ExploreView()
+                SearchView(backMode: true, postingMode: false, back: .constant(false))
                     .tag(Tab.notification)
                 ProfileView()
                     .tag(Tab.profile)
@@ -34,6 +34,7 @@ struct MenuTabView: View {
             }
             menu
         }
+        .ignoresSafeArea(.keyboard)
         .onAppear{
             UITabBar.appearance().isHidden = true   //탭바 숨김
         }
