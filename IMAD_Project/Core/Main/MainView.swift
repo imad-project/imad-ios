@@ -13,20 +13,14 @@ struct MainView: View {
     let items = [ GridItem(.fixed(75)), GridItem(.fixed(75)), GridItem(.fixed(75))]
     let initTvValue = [RecommendTVResponse](repeating: RecommendTVResponse(id: 0, name: "", posterPath: "", backdropPath: ""), count: 10)
     let initMovieValue = [RecommendMovieResponse](repeating: RecommendMovieResponse(id: 0, title: "", posterPath: "", backdropPath: ""), count: 10)
+    
     @State var ranking:RankingFilter = .all
     @StateObject var vm = RankingViewModel(rankingList: [])
     @StateObject var vmRecommend = RecommendViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @State var trend = false
-    @State var role = false
-    @State private var rotationAngle: Angle = .zero
-    @State var movieIndex = 0
-    
-    @State var isReview = false
-    @State var select = 0
     @State var anima = false
-    @Binding var search:Bool
     
     var userTvList:[RecommendTVResponse]{
         var list:[RecommendTVResponse] = []
@@ -268,18 +262,7 @@ struct MainView: View {
                 
             }
         }
-        .navigationDestination(isPresented: $isReview){
-            //            ReviewView(isReview: $isReview, review: poster)
-            //                .navigationBarBackButtonHidden(true)
-            //            WorkView(id: poster.id, type: poster.)
-        }
         .ignoresSafeArea(edges:.bottom)
-        //        .ignoresSafeArea(.bottom)
-        //        .navigationDestination(isPresented: $search) {
-        //            SearchView(postingMode: false, back: $search)
-        //                .environmentObject(vmAuth)
-        //                .navigationBarBackButtonHidden(true)
-        //        }
         .onAppear {
             vmRecommend.fetchAllRecommend()
 //            vm.getWeekRanking(page: 1, type: "all")
@@ -295,7 +278,7 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            MainView(vm:RankingViewModel(rankingList: CustomData.instance.rankingList), search: .constant(false))
+            MainView(vm:RankingViewModel(rankingList: CustomData.instance.rankingList))
                 .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
@@ -375,7 +358,6 @@ extension MainView{
                 ForEach(RankingFilter.allCases,id:\.self){ ranking in
                     Button {
                         self.ranking = ranking
-                        self.movieIndex = 0
                         switch self.ranking{
                         case .all:
                             vm.getAllRanking(page: 1, type: "all")
