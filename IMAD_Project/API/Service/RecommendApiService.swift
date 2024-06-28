@@ -10,7 +10,7 @@ import Alamofire
 import Combine
 
 class RecommendApiService{
-    static let interseptor = GuestInterceptor()
+    static let interseptor = BaseIntercept()
     
     static func all() -> AnyPublisher<AllRecommend,AFError>{
         print("전체 작품 추천 api 호출")
