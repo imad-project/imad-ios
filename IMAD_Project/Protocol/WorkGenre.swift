@@ -14,11 +14,14 @@ enum WorkGenreType{
 protocol WorkGenre{
     var genreType:WorkGenreType { get }
     func id() -> Int
+    func name()->String?
+    func title()->String?
     func posterPath() -> String?
     func backdropPath() -> String?
 }
 
 class TVWorkGenre:WorkGenre{
+    
     var genreType: WorkGenreType = .tv
     var tvGenre:RecommendTVResponse
     required init(tvGenre:RecommendTVResponse) {
@@ -27,8 +30,11 @@ class TVWorkGenre:WorkGenre{
     func id() -> Int {
         return tvGenre.id
     }
-    func name()->String{
+    func name()->String?{
         return tvGenre.name
+    }
+    func title() -> String?{
+        return nil
     }
     func posterPath() -> String? {
         return tvGenre.posterPath
@@ -46,7 +52,10 @@ class MovieWorkGenre:WorkGenre{
     func id() -> Int {
         return movieGenre.id
     }
-    func title() -> String{
+    func name()->String?{
+        return nil
+    }
+    func title() -> String?{
         return movieGenre.title
     }
     func posterPath() -> String? {
