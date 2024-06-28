@@ -10,7 +10,23 @@ import Kingfisher
 
 
 struct MainView: View {
-    let items = [ GridItem(.fixed(75)), GridItem(.fixed(75)), GridItem(.fixed(75))]
+    
+    enum RecommendListType:String{
+        case genreTv
+        case genreMovie
+        case trendTv
+        case trendMovie
+        case activityTv  = "시리즈"
+        case activityAnimationTv = "애니메이션 시리즈"
+        case activityMovie = "영화"
+        case activityAnimationMovie = "애니메이션 영화"
+        case imadTv = "시리즈1"
+        case imadMovie
+    }
+    
+    let gradient = [LinearGradient(colors: [.green.opacity(0.6),.cyan.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.pink.opacity(0.6),.yellow.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.gray.opacity(0.4),.gray.opacity(0.9)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.purple.opacity(0.7),.red.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.brown.opacity(0.5),.orange.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing)].shuffled()
+    let items = [ GridItem(.fixed(75)), GridItem(.fixed(75)), GridItem(.fixed(75))].shuffled()
+    let initValue = [WorkGenre](repeating: TVWorkGenre(tvGenre: RecommendTVResponse(id: 0, name: "", posterPath: "", backdropPath: "")), count: 10)
     let initTvValue = [RecommendTVResponse](repeating: RecommendTVResponse(id: 0, name: "", posterPath: "", backdropPath: ""), count: 10)
     let initMovieValue = [RecommendMovieResponse](repeating: RecommendMovieResponse(id: 0, title: "", posterPath: "", backdropPath: ""), count: 10)
     
@@ -20,151 +36,21 @@ struct MainView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @State var trend = false
-    @State var anima = false
     
-    var userTvList:[RecommendTVResponse]{
-        var list:[RecommendTVResponse] = []
-        if let results = vmRecommend.recommendAll?.userActivityRecommendationTv?.results,let aniResults = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.results{
-            list = Array(results.prefix(4))
-            list.append(contentsOf: Array(aniResults.prefix(4)))
-        }
-        return list.shuffled()
-    }
-    var userMovieList:[RecommendMovieResponse]{
-        var list:[RecommendMovieResponse] = []
-        if let results = vmRecommend.recommendAll?.userActivityRecommendationMovie?.results,let aniResults = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.results{
-            list = Array(results.prefix(4))
-            list.append(contentsOf: Array(aniResults.prefix(4)))
-        }
-        return list.shuffled()
-    }
-  
+    
     var body: some View {
         ZStack{
             Color.white
             ScrollView(showsIndicators: false){
                 VStack(alignment:.leading,spacing:5){
                     if let user = vmAuth.user?.data{
-                        HStack(spacing: 0){
-                            Text(user.nickname ?? "").bold()
-                            Text("님 환영합니다")
-                        }
-                        .font(.title2)
-                        .padding(.horizontal)
-                        HStack{
-                            Text("요즘 트렌트 작품")
-                                .font(.body)
-                                .bold()
-                            Spacer()
-                            Button {
-                                withAnimation(.default){
-                                    trend = false
-                                }
-                            } label: {
-                                Text("영화").font(.subheadline)
-                                    .opacity(trend ? 0.5 : 1.0)
-                            }
-                            Button {
-                                withAnimation(.default){
-                                    trend = true
-                                }
-                                
-                            } label: {
-                                Text("시리즈").font(.subheadline)
-                                    .opacity(trend ? 1.0 : 0.5)
-                            }
-                                
-                        }
-                        .foregroundColor(.customIndigo)
-                        .padding(.horizontal)
-                        ScrollView(.horizontal,showsIndicators: false){
-                            HStack{
-                                if trend{
-                                    ForEach(vmRecommend.recommendAll?.trendRecommendationTv?.results ?? initTvValue,id: \.self){ work in
-                                        VStack{
-                                            KFImageView(image: work.posterPath?.getImadImage() ?? "",width: 180,height: 250)
-                                                .cornerRadius(5)
-                                            Text(work.name)
-                                                .frame(width: 150)
-                                                .lineLimit(1)
-                                                .bold()
-                                                .font(.subheadline)
-                                                .foregroundStyle(.black)
-                                        }
-                                    }
-                                }else{
-                                    ForEach(vmRecommend.recommendAll?.trendRecommendationMovie?.results ?? initMovieValue,id: \.self){ work in
-                                        VStack{
-                                            KFImageView(image: work.posterPath?.getImadImage() ?? "",width: 180,height: 250)
-                                                .cornerRadius(5)
-                                            Text(work.title)
-                                                .frame(width: 150)
-                                                .lineLimit(1)
-                                                .bold()
-                                                .font(.subheadline)
-                                                .foregroundStyle(.black)
-                                        }
-                                    }
-                                }
-                                
-                            }
-                            .padding(.horizontal)
-                        }
-                        Image("ad")
-                            .resizable()
-                            .frame(height: 70)
-                            .cornerRadius(10)
-                            .padding(.horizontal)
-                            .padding(.vertical)
-                        
-                        Text("아이매드 차트")
-                            .font(.body)
-                            .bold()
-                            .foregroundColor(.customIndigo)
-                            .padding(.horizontal)
+                        titleView(user: user)
+                        trendView
+                        adView
                         filter
                         rankingView
-                        Text("오늘의 리뷰&게시물")
-                            .font(.body)
-                            .bold()
-                            .foregroundColor(.customIndigo)
-                            .padding(.horizontal)
-                        ScrollView(.horizontal,showsIndicators: false) {
-                            HStack{
-                                PopularView(review: vm.popularReview)
-                                    .shadow(radius: 1)
-                                    .frame(width: 200)
-                                PopularView(posting: vm.popularPosting)
-                                    .shadow(radius: 1)
-                                    .frame(width: 200)
-                            }
-                            .padding(.horizontal)
-                            .padding(.bottom)
-                        }
-                        if !userTvList.isEmpty || !userMovieList.isEmpty{
-                            Text("\(user.nickname ?? "")님을 위한 추천작")
-                                .font(.body)
-                                .bold()
-                                .foregroundColor(.customIndigo)
-                                .padding(.horizontal)
-                            ScrollView(.horizontal,showsIndicators: false) {
-                                HStack{
-                                    ForEach(userTvList,id: \.self) { work in
-                                        KFImageView(image: work.backdropPath?.getImadImage() ?? "",width: 200,height: 120)
-                                            .cornerRadius(5)
-                                    }
-                                }.padding(.horizontal)
-                            }
-                            ScrollView(.horizontal,showsIndicators: false) {
-                                HStack{
-                                    ForEach(userMovieList,id: \.self) { work in
-                                        KFImageView(image: work.backdropPath?.getImadImage() ?? "",width: 200,height: 120)
-                                            .cornerRadius(5)
-                                    }
-                                }.padding(.horizontal)
-                            }
-                            .padding(.bottom)
-                        }
+                        userActivityView(user: user)
+                        todayView
                         
                         
                         Text("이런 장르 영화 어때요?")
@@ -237,40 +123,15 @@ struct MainView: View {
                             .padding(.bottom)
                         }
                     }
-                    
-                    //                    RoundedRectangle(cornerRadius: 20)
-                    //                        .frame(height: 50)
-                    //                        .foregroundStyle(Color.gray.opacity(0.3))
-                    //                        .overlay{
-                    //                            HStack{
-                    //                                Image(systemName: "magnifyingglass")
-                    //                                Text("작품을 검색해주세요..")
-                    //                                Spacer()
-                    //                            }
-                    //                            .padding(.leading)
-                    //                            .foregroundStyle(.gray)
-                    //                        }
-                    //                        .onTapGesture {
-                    //                            search = true
-                    //                        }
-                    //                        .padding()
-                    
-                    //                    reviewPosting
-                    //                    movieList
-                    //                    Spacer().frame(height: 100).foregroundColor(.white)
                 }
-                
             }
         }
         .ignoresSafeArea(edges:.bottom)
         .onAppear {
             vmRecommend.fetchAllRecommend()
-//            vm.getWeekRanking(page: 1, type: "all")
+            vm.getAllRanking(page: 1, type: "all")
             vm.getPopularReview()
             vm.getPopularPosting()
-            withAnimation(.linear(duration: 0.5)){
-                anima = true
-            }
         }
     }
 }
@@ -285,19 +146,157 @@ struct MainView_Previews: PreviewProvider {
 }
 
 extension MainView{
-    
-    
+    func list(_ filter:RecommendListType) -> ([WorkGenre],RecommendListType){
+        switch filter{
+        case .genreTv:
+            var list:[WorkGenre] = []
+            for i in (vmRecommend.recommendAll?.preferredGenreRecommendationTv?.results ?? []){
+                list.append( TVWorkGenre(tvGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.genreTv)
+        case .genreMovie:
+            var list:[WorkGenre] = []
+            for i in (vmRecommend.recommendAll?.preferredGenreRecommendationMovie?.results ?? []){
+                list.append( MovieWorkGenre(movieGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.genreMovie)
+        case .trendTv:
+            var list:[WorkGenre] = []
+            for i in (vmRecommend.recommendAll?.trendRecommendationTv?.results ?? []){
+                list.append( TVWorkGenre(tvGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.trendTv)
+        case .trendMovie:
+            var list:[WorkGenre] = []
+            for i in (vmRecommend.recommendAll?.trendRecommendationMovie?.results ?? []){
+                list.append( MovieWorkGenre(movieGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.trendMovie)
+        case .activityTv:
+            var list:[WorkGenre] = []
+            if let results = vmRecommend.recommendAll?.userActivityRecommendationTv?.results {
+                for i in 0..<5{
+                    list.append( TVWorkGenre(tvGenre:results[i]))
+                }
+            }
+            return (list,.activityTv)
+        case .activityAnimationTv:
+            var list:[WorkGenre] = []
+            if let results = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.results {
+                for i in 0..<5{
+                    list.append( TVWorkGenre(tvGenre:results[i]))
+                }
+            }
+            return (list,.activityAnimationTv)
+        case .activityMovie:
+            var list:[WorkGenre] = []
+            if let results = vmRecommend.recommendAll?.userActivityRecommendationMovie?.results {
+                for i in 0..<5{
+                    list.append( MovieWorkGenre(movieGenre:results[i]))
+                }
+            }
+            return (list,.activityMovie)
+        case .activityAnimationMovie:
+            var list:[WorkGenre] = []
+            if let results = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.results {
+                for i in 0..<5{
+                    list.append( MovieWorkGenre(movieGenre:results[i]))
+                }
+            }
+            return (list,.activityAnimationMovie)
+        case .imadTv:
+            var list:[WorkGenre] = []
+            if let results = vmRecommend.recommendAll?.popularRecommendationTv?.results {
+                for i in 0..<5{
+                    list.append( TVWorkGenre(tvGenre:results[i]))
+                }
+            }
+            return (list,.imadTv)
+        case .imadMovie:
+            var list:[WorkGenre] = []
+            for i in (vmRecommend.recommendAll?.popularRecommendationMovie?.results ?? []){
+                list.append( MovieWorkGenre(movieGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.imadMovie)
+        }
+    }
+    func workListView(_ filter:RecommendListType,width:CGFloat,height:CGFloat,text:Bool) -> some View{
+        ScrollView(.horizontal,showsIndicators: false) {
+            HStack{
+                ListView(items: list(filter).0) { work in
+                    VStack{
+                        KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: width,height: height)
+                            .cornerRadius(5)
+                        if text{
+                            Text(work.genreType == .tv ? work.name() ?? "" : work.title() ?? "")
+                                .lineLimit(1)
+                                .frame(width: width)
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+    func titleView(user:UserResponse) -> some View{
+        HStack(spacing: 0){
+            Text(user.nickname ?? "").bold()
+            Text("님 환영합니다")
+        }
+        .font(.title2)
+        .padding(.horizontal)
+    }
+    var trendView:some View{
+        VStack{
+            HStack{
+                Text("요즘 트렌트 작품")
+                    .font(.body)
+                    .bold()
+                Spacer()
+                Button {
+                    withAnimation(.default){
+                        trend = false
+                    }
+                } label: {
+                    Text("영화").font(.subheadline)
+                        .opacity(trend ? 0.5 : 1.0)
+                }
+                Button {
+                    withAnimation(.default){
+                        trend = true
+                    }
+                    
+                } label: {
+                    Text("시리즈").font(.subheadline)
+                        .opacity(trend ? 1.0 : 0.5)
+                }
+                
+            }
+            .foregroundColor(.customIndigo)
+            .padding(.horizontal)
+            workListView(trend ? .trendTv : .trendMovie, width: 180, height: 250, text: true)
+        }
+    }
+    var adView:some View{
+        Image("ad")
+            .resizable()
+            .frame(height: 70)
+            .cornerRadius(10)
+            .padding(.horizontal)
+            .padding(.bottom)
+    }
     var rankingView:some View{
         
         ScrollView(.horizontal,showsIndicators: false){
             LazyHGrid(rows: items){
-                    if vm.rankingList.isEmpty{
-                        ForEach(1...9,id: \.self){ _ in
-                            NoImageView()
+                if vm.rankingList.isEmpty{
+                    ForEach(1...9,id: \.self){ _ in
+                        NoImageView()
                             .frame(width: 300,height: 75)
-                        }
-                    }else{
-                        ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
+                    }
+                    .padding(.leading)
+                }else{
+                    ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
                         HStack(spacing:0){
                             KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
                             VStack(alignment: .leading){
@@ -320,103 +319,171 @@ extension MainView{
                                 
                             }
                             .padding(.horizontal)
-                            
-                            
                             Spacer()
-                            Circle()
-                                .trim(from: 0.0, to: anima ? (rank.imadScore ?? 0) * 0.1 : 0)
-                               .stroke(lineWidth: 1)
-                               .rotation(Angle(degrees: 270))
-                               .frame(width: 50,height: 50)
-                               .overlay{
-                                   VStack{
-                                       Image(systemName: "star.fill")
-                                           .font(.caption2)
-                                       Text(String(format: "%0.1f",  rank.imadScore ?? 0))
-                                           .font(.caption)
-                                   }
-                               }
-                               .padding(.trailing)
+                            ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
+                                .padding(.trailing)
                         }
                         .frame(width: 300,height: 75)
-                                .background(Color.gray.opacity(0.1))
-                                .cornerRadius(5)
-                                .padding([.leading])
-                        
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(5)
+                        .padding(.leading)
                     }
                 }
             }
-            
         }.padding(.bottom)
     }
     
     
     
     var filter:some View{
-        HStack(spacing: 5){
-            HStack{
-                ForEach(RankingFilter.allCases,id:\.self){ ranking in
-                    Button {
-                        self.ranking = ranking
-                        switch self.ranking{
-                        case .all:
-                            vm.getAllRanking(page: 1, type: "all")
-                        case .week:
-                            vm.getWeekRanking(page: 1, type: "all")
-                        case .month:
-                            vm.getMonthRanking(page: 1, type: "all")
-                        }
-                    } label: {
-                        Group{
-                            if self.ranking == ranking{
-                                Capsule()
-                            }else{
-                                Capsule()
-                                    .stroke(lineWidth: 1)
+        VStack(alignment: .leading,spacing: 0){
+            Text("아이매드 차트")
+                .font(.body)
+                .bold()
+                .foregroundColor(.customIndigo)
+            HStack(spacing: 5){
+                HStack{
+                    ForEach(RankingFilter.allCases,id:\.self){ ranking in
+                        Button {
+                            self.ranking = ranking
+                            switch self.ranking{
+                            case .all:
+                                vm.getAllRanking(page: 1, type: "all")
+                            case .week:
+                                vm.getWeekRanking(page: 1, type: "all")
+                            case .month:
+                                vm.getMonthRanking(page: 1, type: "all")
                             }
-                        }
-                        .foregroundColor(.customIndigo)
-                        .frame(width: 60,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text(ranking.name)
-                                .foregroundColor(self.ranking == ranking ? .white : .customIndigo)
+                        } label: {
+                            Group{
+                                if self.ranking == ranking{
+                                    Capsule()
+                                }else{
+                                    Capsule()
+                                        .stroke(lineWidth: 1)
+                                }
+                            }
+                            .foregroundColor(.customIndigo)
+                            .frame(width: 60,height: 25)
+                            .padding(.vertical,5)
+                            .overlay {
+                                Text(ranking.name)
+                                    .foregroundColor(self.ranking == ranking ? .white : .customIndigo)
+                            }
                         }
                     }
                 }
-            }
-            Spacer()
-            NavigationLink {
-                
-            } label: {
-                Label {
-                    Text("전체보기")
-                } icon: {
-                    Image(systemName: "line.3.horizontal")
-                        .font(.subheadline)
+                Spacer()
+                NavigationLink {
+                    
+                } label: {
+                    Label {
+                        Text("전체보기")
+                    } icon: {
+                        Image(systemName: "line.3.horizontal")
+                            .font(.subheadline)
+                    }
+                    .foregroundColor(.customIndigo)
                 }
-                .foregroundColor(.customIndigo)
             }
         }
         .font(.caption)
         .padding(.horizontal)
     }
     
-        func rankUpdateView(rank:Int?) -> some View{
-            HStack(spacing:2){
-                if let rank,rank != 0{
-                    Group{
-                        Image(systemName:rank > 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
-                        Text(rank > 0 ? "\(rank)":"\(abs(rank))")
-                    }
-                    .font(.caption2)
-                    .foregroundStyle(rank > 0 ? .green : .red)
-                }else{
-                    Text("-")
+    func rankUpdateView(rank:Int?) -> some View{
+        HStack(spacing:2){
+            if let rank,rank != 0{
+                Group{
+                    Image(systemName:rank > 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
+                    Text(rank > 0 ? "\(rank)":"\(abs(rank))")
                 }
+                .font(.caption2)
+                .foregroundStyle(rank > 0 ? .green : .red)
+            }else{
+                Text("-")
             }
-    
         }
-    
-    
+    }
+    var todayView:some View{
+        VStack(alignment: .leading){
+            Text("오늘의 리뷰&게시물")
+                .font(.body)
+                .bold()
+                .foregroundColor(.customIndigo)
+                .padding(.horizontal)
+            ScrollView(.horizontal,showsIndicators: false) {
+                HStack{
+                    PopularView(review: vm.popularReview)
+                        .shadow(radius: 1)
+                        .frame(width: 200)
+                    PopularView(posting: vm.popularPosting)
+                        .shadow(radius: 1)
+                        .frame(width: 200)
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+            }
+        }
+    }
+    //추천작
+    func userActivityView(user:UserResponse)->some View{
+        ScrollView(.horizontal,showsIndicators: false) {
+            HStack{
+                ListView(items: Array(zip([list(.activityTv),list(.activityMovie),list(.activityAnimationTv),list(.activityAnimationMovie)].shuffled(), gradient))){ (work,background) in
+                    if !work.0.isEmpty{
+                        
+                        VStack(alignment: .leading,spacing: 5){
+                            HStack(alignment: .top){
+                                VStack(alignment: .leading,spacing: 0){
+                                    Text("\(user.nickname ?? "")님을 위한")
+                                    Text("\(work.1.rawValue)")
+                                }
+                                .foregroundColor(.white)
+                                .bold()
+                                .font(.title3)
+                                Spacer()
+                                NavigationLink {
+                                    
+                                } label: {
+                                    Label {
+                                        Text("전체보기")
+                                    } icon: {
+                                        Image(systemName: "line.3.horizontal")
+                                            .font(.subheadline)
+                                    }
+                                    .foregroundColor(.white)
+                                }
+                            }
+                            .font(.caption)
+                            .padding(.vertical,10)
+                            ListView(items: work.0) { element in
+                                Divider()
+                                    .background(Color.white)
+                                    .padding(.vertical,5)
+                                HStack{
+                                    KFImageView(image: element.backdropPath()?.getImadImage() ?? "",width: 80,height: 45)
+                                        .cornerRadius(3)
+                                    Text(element.genreType == .tv ? element.name() ?? "" : element.title() ?? "")
+                                        .frame(width: 100,alignment:.leading)
+                                        .lineLimit(1)
+                                        .bold()
+                                        .font(.subheadline)
+                                        .foregroundColor(.white)
+                                        .padding(.trailing,30)
+                                    Image(systemName: "chevron.right")
+                                        .bold()
+                                        .foregroundColor(.white)
+                                }
+                            }
+                        }
+                        .padding()
+                        .background{
+                            background.cornerRadius(10)
+                        }
+                    }
+                }
+            }.padding(.horizontal)
+        }
+    }
 }

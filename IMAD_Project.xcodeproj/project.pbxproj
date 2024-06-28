@@ -210,6 +210,8 @@
 		D654FBD22BA146FA00AF307E /* Popular.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD12BA146FA00AF307E /* Popular.swift */; };
 		D654FBD42BA1470800AF307E /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD32BA1470800AF307E /* Genre.swift */; };
 		D654FBD62BA15AF800AF307E /* GuestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD52BA15AF800AF307E /* GuestInterceptor.swift */; };
+		D6C763872C2C3B3B00BCD37B /* WorkGenre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */; };
+		D6C763892C2E898A00BCD37B /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763882C2E898A00BCD37B /* ListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -433,6 +435,8 @@
 		D654FBD12BA146FA00AF307E /* Popular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popular.swift; sourceTree = "<group>"; };
 		D654FBD32BA1470800AF307E /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		D654FBD52BA15AF800AF307E /* GuestInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestInterceptor.swift; sourceTree = "<group>"; };
+		D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkGenre.swift; sourceTree = "<group>"; };
+		D6C763882C2E898A00BCD37B /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -766,6 +770,7 @@
 		817919D92B4C065F0084779B /* Elements */ = {
 			isa = PBXGroup;
 			children = (
+				D6C763882C2E898A00BCD37B /* ListView.swift */,
 				81EE0B472B454D5900A58E5F /* ActorProfileView.swift */,
 				81FF75AF2AF8CE7600DB1AC2 /* ScoreView.swift */,
 				81FF75AD2AF8C4DE00DB1AC2 /* ProfileImageView.swift */,
@@ -1293,6 +1298,7 @@
 			children = (
 				D654FBD12BA146FA00AF307E /* Popular.swift */,
 				D654FBD32BA1470800AF307E /* Genre.swift */,
+				D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1452,6 +1458,7 @@
 				D654FBD62BA15AF800AF307E /* GuestInterceptor.swift in Sources */,
 				812CDEAA29DF0BF20003B993 /* Notific.swift in Sources */,
 				8131C55C2AFA0C89006B761D /* ReadReviewListResponse.swift in Sources */,
+				D6C763872C2C3B3B00BCD37B /* WorkGenre.swift in Sources */,
 				8115A64A2A8396C800B7C3FE /* WorkList.swift in Sources */,
 				819D49A82A9383BA008B7BFE /* NoImageView.swift in Sources */,
 				81C264942A1376AE00405B01 /* OauthFilter.swift in Sources */,
@@ -1501,6 +1508,7 @@
 				81FD22532AFB1A5C00678CAC /* CustomWhiteCircleButton.swift in Sources */,
 				819D499E2A933A5C008B7BFE /* Network.swift in Sources */,
 				81CFEAD42B9A048B0081183B /* AppleLoginTestView.swift in Sources */,
+				D6C763892C2E898A00BCD37B /* ListView.swift in Sources */,
 				D60AD1FB2C29576000C9C27B /* TrendRecommend.swift in Sources */,
 				818B073C2B0D9EAE0013C426 /* ScrapListResponse.swift in Sources */,
 				8154B1EE2AE0DB9800AD2F83 /* CommentApiService.swift in Sources */,
