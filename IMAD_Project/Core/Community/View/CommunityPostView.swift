@@ -19,8 +19,9 @@ struct CommunityPostView: View {
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
     
+    var main:Bool?
     @Binding var back:Bool
-    
+    @Environment(\.dismiss) var dismiss
     @FocusState var reply:Bool
     
     
@@ -98,7 +99,13 @@ extension CommunityPostView{
         ZStack{
             HStack(spacing:0){
                 Button {
-                    back = false
+                    if let main {
+                        if main{
+                            dismiss()
+                        }
+                    }else{
+                        self.back = false
+                    }
                 } label: {
                     Image(systemName: "chevron.left")
                         .bold()
@@ -128,7 +135,13 @@ extension CommunityPostView{
                                 Text("수정하기")
                             }
                             Button(role:.destructive){
-                                back = true
+                                if let main {
+                                    if main{
+                                        dismiss()
+                                    }
+                                }else{
+                                    self.back = false
+                                }
                                 vm.deleteCommunity(postingId: postingId)
                             } label: {
                                 Text("삭제하기")
