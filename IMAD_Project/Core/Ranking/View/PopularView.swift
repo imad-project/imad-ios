@@ -31,7 +31,6 @@ struct PopularView: View {
     var body: some View {
         VStack{
             if let popular{
-                
                 VStack{
                     KFImageView(image: popular.poster().getImadImage())
                         .frame(height: 200)
@@ -58,9 +57,6 @@ struct PopularView: View {
                             }
                             .padding()
                         }
-                    
-                    
-                    
                     HStack{
                         VStack(alignment: .leading){
                             
@@ -71,6 +67,7 @@ struct PopularView: View {
                                 .font(.subheadline)
                             Spacer()
                         }
+                        .foregroundColor(.black)
                         Spacer()
                     }
                     .lineLimit(1)

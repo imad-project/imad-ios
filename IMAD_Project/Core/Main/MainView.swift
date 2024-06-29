@@ -49,10 +49,10 @@ struct MainView: View {
                         rankingView
                         userActivityView(user: user)
                         todayView
-                        recommendView("이런 장르 영화 어때요?", .genreMovie, .movie)
-                        recommendView("\(user.nickname ?? "")님을 위한 시리즈", .genreTv, .tv)
-                        recommendView("아이매드 엄선 영화", .imadMovie, .movie)
-                        recommendView("전 세계 사람들이 선택한 시리즈", .imadTv, .tv)
+                        recommendView("이런 장르 영화 어때요?", .genreMovie)
+                        recommendView("\(user.nickname ?? "")님을 위한 시리즈",.genreTv)
+                        recommendView("아이매드 엄선 영화", .imadMovie)
+                        recommendView("전 세계 사람들이 선택한 시리즈", .imadTv)
                     }
                 }
             }
@@ -159,13 +159,20 @@ extension MainView{
         ScrollView(.horizontal,showsIndicators: false) {
             HStack{
                 ListView(items: list(filter).0) { work in
-                    VStack{
-                        KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: width,height: height)
-                            .cornerRadius(5)
-                        if text{
-                            Text(work.genreType == .tv ? work.name() ?? "" : work.title() ?? "")
-                                .lineLimit(1)
-                                .frame(width: width)
+                    NavigationLink {
+                        WorkView()
+                            .environmentObject(vmAuth)
+                            .navigationBarBackButtonHidden()
+                    } label: {
+                        VStack{
+                            KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: width,height: height)
+                                .cornerRadius(5)
+                            if text{
+                                Text(work.genreType == .tv ? work.name() ?? "" : work.title() ?? "")
+                                    .lineLimit(1)
+                                    .frame(width: width)
+                                    .foregroundColor(.black)
+                            }
                         }
                     }
                 }
@@ -230,40 +237,48 @@ extension MainView{
                     .padding(.leading)
                 }else{
                     ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
-                        HStack(spacing:0){
-                            KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
-                            VStack(alignment: .leading){
-                                HStack{
-                                    Text("\(rank.ranking)")
-                                        .font(.body)
-                                        .bold()
-                                    Text(rank.title)
-                                        .frame(width: 100,alignment: .leading)
-                                        .lineLimit(1)
-                                        .font(.subheadline)
+                        NavigationLink {
+                            WorkView(id: rank.contentsID)
+                                .environmentObject(vmAuth)
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            HStack(spacing:0){
+                                KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
+                                VStack(alignment: .leading){
+                                    HStack{
+                                        Text("\(rank.ranking)")
+                                            .font(.body)
+                                            .bold()
+                                        Text(rank.title)
+                                            .frame(width: 100,alignment: .leading)
+                                            .lineLimit(1)
+                                            .font(.subheadline)
+                                    }
+                                    .foregroundColor(.black)
+                                    .padding(.bottom,3)
+                                    HStack{
+                                        rankUpdateView(rank: rank.rankingChanged)
+                                        Text(TypeFilter(rawValue: rank.contentsType)?.name ?? "")
+                                            .font(.caption)
+                                            .foregroundStyle(.gray)
+                                    }
+                                    
                                 }
-                                .padding(.bottom,3)
-                                HStack{
-                                    rankUpdateView(rank: rank.rankingChanged)
-                                    Text(TypeFilter(rawValue: rank.contentsType)?.name ?? "")
-                                        .font(.caption)
-                                        .foregroundStyle(.gray)
-                                }
-                                
+                                .padding(.horizontal)
+                                Spacer()
+                                ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
+                                    .padding(.trailing)
                             }
-                            .padding(.horizontal)
-                            Spacer()
-                            ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
-                                .padding(.trailing)
                         }
                         .frame(width: 300,height: 75)
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(5)
                         .padding(.leading)
+                        
                     }
                 }
             }
-        }.padding(.bottom)
+        }
     }
     
     
@@ -341,12 +356,24 @@ extension MainView{
                 .padding(.horizontal)
             ScrollView(.horizontal,showsIndicators: false) {
                 HStack{
-                    PopularView(review: vm.popularReview)
-                        .shadow(radius: 1)
-                        .frame(width: 200)
-                    PopularView(posting: vm.popularPosting)
-                        .shadow(radius: 1)
-                        .frame(width: 200)
+                    NavigationLink {
+                        ReviewDetailsView(goWork: false, reviewId: vm.popularReview?.reviewID ?? 0)
+                            .environmentObject(vmAuth)
+                            .navigationBarBackButtonHidden()
+                    } label: {
+                        PopularView(review: vm.popularReview)
+                            .shadow(radius: 1)
+                            .frame(width: 200)
+                    }
+                    NavigationLink {
+                        CommunityPostView(postingId:vm.popularPosting?.postingID ?? 0,main: true,back: .constant(false))
+                            .environmentObject(vmAuth)
+                            .navigationBarBackButtonHidden()
+                    } label: {
+                        PopularView(posting: vm.popularPosting)
+                            .shadow(radius: 1)
+                            .frame(width: 200)
+                    }
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
@@ -358,7 +385,7 @@ extension MainView{
         Group{
             
             VStack(alignment: .leading){
-                if list(.activityTv).0.isEmpty || list(.activityMovie).0.isEmpty || list(.activityAnimationTv).0.isEmpty || list(.activityAnimationMovie).0.isEmpty{
+                if !list(.activityTv).0.isEmpty || !list(.activityMovie).0.isEmpty || !list(.activityAnimationTv).0.isEmpty || !list(.activityAnimationMovie).0.isEmpty{
                     textTitleView("내 작품 골라보기").padding(.horizontal)
                 }
                 ScrollView(.horizontal,showsIndicators: false) {
@@ -393,19 +420,23 @@ extension MainView{
                                         Divider()
                                             .background(Color.white)
                                             .padding(.vertical,5)
-                                        HStack{
-                                            KFImageView(image: element.backdropPath()?.getImadImage() ?? "",width: 80,height: 45)
-                                                .cornerRadius(3)
-                                            Text(element.genreType == .tv ? element.name() ?? "" : element.title() ?? "")
-                                                .frame(width: 100,alignment:.leading)
-                                                .lineLimit(1)
-                                                .bold()
-                                                .font(.subheadline)
-                                                .foregroundColor(.white)
-                                                .padding(.trailing,30)
-                                            Image(systemName: "chevron.right")
-                                                .bold()
-                                                .foregroundColor(.white)
+                                        NavigationLink {
+                                            
+                                        } label: {
+                                            HStack{
+                                                KFImageView(image: element.backdropPath()?.getImadImage() ?? "",width: 80,height: 45)
+                                                    .cornerRadius(3)
+                                                Text(element.genreType == .tv ? element.name() ?? "" : element.title() ?? "")
+                                                    .frame(width: 100,alignment:.leading)
+                                                    .lineLimit(1)
+                                                    .bold()
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.white)
+                                                    .padding(.trailing,30)
+                                                Image(systemName: "chevron.right")
+                                                    .bold()
+                                                    .foregroundColor(.white)
+                                            }
                                         }
                                     }
                                 }
@@ -418,29 +449,16 @@ extension MainView{
                     }.padding(.horizontal)
                 }
             }.padding(.vertical)
-            
         }
     }
-    func recommendView(_ title:String,_ filter:RecommendListType,_ type:WorkGenreType) -> some View{
+    func recommendView(_ title:String,_ filter:RecommendListType) -> some View{
         VStack(alignment: .leading){
             textTitleView(title)
                 .padding(.horizontal)
             ScrollView(.horizontal,showsIndicators: false) {
                 HStack{
-                    ListView(items:list(filter).0){ work in
-                        NavigationLink {
-                            if type == .tv{
-                                //                                WorkInfoView(work: work)
-                            }else{
-                                
-                            }
-                        } label: {
-                            KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 120,height: 200)
-                                .cornerRadius(5)
-                        }
-                    }
+                    workListView(filter, width: 120, height: 200, text: false)
                 }
-                .padding(.horizontal)
                 .padding(.bottom)
             }
         }

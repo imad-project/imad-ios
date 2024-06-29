@@ -26,7 +26,6 @@ struct WorkInfoView: View {
     }
     
     var body: some View {
-        
         ZStack{
             Color.white.ignoresSafeArea()
             VStack(alignment: .leading,spacing: 20){
@@ -57,7 +56,8 @@ struct WorkInfoView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView{
             WorkInfoView(work: CustomData.instance.workInfo)
-        }    }
+        }
+    }
 }
 
 extension WorkInfoView{
