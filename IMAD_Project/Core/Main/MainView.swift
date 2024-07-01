@@ -201,7 +201,7 @@ extension MainView{
     var trendView:some View{
         VStack{
             HStack{
-                textTitleView("요즘 트렌드 작품")
+                textTitleView("요즘 뜨고 있는 작품")
                 Spacer()
                 Button {
                     withAnimation(.default){
