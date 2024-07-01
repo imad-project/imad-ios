@@ -36,7 +36,6 @@ struct PopularView: View {
                         Color.clear
                             .background(Material.thin)
                         HStack{
-                            
                             VStack(alignment: .leading){
                                 HStack{
                                     Text(popular.contentsTitle())
@@ -44,15 +43,18 @@ struct PopularView: View {
                                         .font(.subheadline)
                                         .fontWeight(.black)
                                         .foregroundColor(.customIndigo)
-                                    Text(today)
-                                        .font(.caption2)
-                                        .foregroundColor(.white)
-                                        .padding(2)
-                                        .bold()
-                                        .padding(.horizontal)
-                                        .background(Color.customIndigo)
-                                        .cornerRadius(10)
+                                    Text(popular.spoiler() ? "스포일러" : "클린")
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal)
+                                    .padding(2)
+                                    .bold()
+                                    .font(.caption2)
+                                    .background(Color.customIndigo)
+                                    .cornerRadius(10)
                                 }
+                                Text("#" + today)
+                                    .foregroundColor(.black.opacity(0.8))
+                                    .font(.caption2)
                                 Text(popular.title())
                                     .font(.footnote)
                                     .lineLimit(1)
@@ -66,10 +68,16 @@ struct PopularView: View {
                             }
                         }
                         .padding(.leading,20)
-                        ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 30)
-                            .padding(5)
-                            .frame(maxWidth: .infinity,maxHeight: .infinity,alignment: .bottomTrailing)
-                            .padding(7)
+                        VStack(spacing: 0){
+                            ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 30)
+                            Text(popular.userName())
+                                .font(.caption2)
+                                .foregroundColor(.white)
+                                .shadow(color:.black,radius: 1)
+                        }
+                        .frame(maxWidth: .infinity,maxHeight: .infinity,alignment: .topTrailing)
+                        .padding(20)
+                        
                     }
                     .frame(width: UIScreen.main.bounds.width-30,height: 80)
                     .cornerRadius(5)

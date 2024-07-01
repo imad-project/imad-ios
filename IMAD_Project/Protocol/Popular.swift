@@ -16,6 +16,7 @@ protocol Popular{
     var popularFilter:PopularFilter { get }
     func contentsTitle() -> String
     func title() -> String
+    func spoiler() -> Bool
     func userProfile() -> Int
     func userName() -> String
     func poster() -> String
@@ -37,7 +38,9 @@ class PopularReviewClass:Popular{
     func title() -> String {
         return review.title
     }
-    
+    func spoiler() -> Bool{
+        return review.spoiler
+    }
     func userProfile() -> Int {
         return review.userProfileImage
     }
@@ -75,7 +78,9 @@ class PopularPostingClass:Popular{
     func userProfile() -> Int {
         return posting.userProfileImage
     }
-    
+    func spoiler() -> Bool{
+        return posting.spoiler
+    }
     func userName() -> String {
         return posting.userNickname
     }
