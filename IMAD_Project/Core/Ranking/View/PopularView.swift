@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Kingfisher
 
 struct PopularView: View {
     var review:PopularReviewResponse?
@@ -23,64 +23,58 @@ struct PopularView: View {
     }
     var today:String{
         if review != nil{
-            return "🏅리뷰"
+            return "오늘의 리뷰"
         }else{
-            return "🎖️게시물"
+            return "오늘의 게시물"
         }
     }
     var body: some View {
         VStack{
             if let popular{
-                VStack{
-                    KFImageView(image: popular.poster().getImadImage())
-                        .frame(height: 200)
-                        .overlay{
-                            Color.black.opacity(0.5)
-                            VStack{
-                                Text(today).bold().frame(maxWidth: .infinity,alignment: .leading)
-                                    .foregroundColor(.white)
-                                Spacer()
+                KFImageView(image:popular.poster().getImadImage())
+                    .overlay {
+                        Color.clear
+                            .background(Material.thin)
+                        HStack{
+                            
+                            VStack(alignment: .leading){
                                 HStack{
                                     Text(popular.contentsTitle())
                                         .lineLimit(1)
-                                        .bold()
-                                        .font(.title3)
+                                        .font(.subheadline)
+                                        .fontWeight(.black)
+                                        .foregroundColor(.customIndigo)
+                                    Text(today)
+                                        .font(.caption2)
                                         .foregroundColor(.white)
-                                    Spacer()
+                                        .padding(2)
+                                        .bold()
+                                        .padding(.horizontal)
+                                        .background(Color.customIndigo)
+                                        .cornerRadius(10)
                                 }
-                                HStack{
-                                    ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 20)
-                                    Text(popular.userName()).font(.subheadline)
-                                        .foregroundStyle(.white)
-                                    Spacer()
-                                }
+                                Text(popular.title())
+                                    .font(.footnote)
+                                    .lineLimit(1)
+                                    .foregroundColor(.black)
                             }
-                            .padding()
+                            .padding(.trailing,20)
+                            HStack(spacing:0){
+                                KFImageView(image: popular.poster().getImadImage(),width: 70,height: 100)
+                                KFImageView(image: popular.poster().getImadImage(),width: 70,height: 100)
+                                    .rotationEffect(Angle(degrees: 20))
+                            }
                         }
-                    HStack{
-                        VStack(alignment: .leading){
-                            
-                            Text(popular.title())
-                                .font(.body)
-                                .bold()
-                            Text(popular.contents())
-                                .font(.subheadline)
-                            Spacer()
-                        }
-                        .foregroundColor(.black)
-                        Spacer()
+                        .padding(.leading,20)
+                        ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 30)
+                            .padding(5)
+                            .frame(maxWidth: .infinity,maxHeight: .infinity,alignment: .bottomTrailing)
+                            .padding(7)
                     }
-                    .lineLimit(1)
-                    .padding(10)
-                    
-                    
-                }
-                .background(Color.white)
-                .cornerRadius(10)
+                    .frame(width: UIScreen.main.bounds.width-30,height: 80)
+                    .cornerRadius(5)
             }
         }
-        
-        
     }
 }
 
