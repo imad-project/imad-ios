@@ -210,6 +210,8 @@
 		D654FBD22BA146FA00AF307E /* Popular.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD12BA146FA00AF307E /* Popular.swift */; };
 		D654FBD42BA1470800AF307E /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD32BA1470800AF307E /* Genre.swift */; };
 		D654FBD62BA15AF800AF307E /* GuestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD52BA15AF800AF307E /* GuestInterceptor.swift */; };
+		D69CC5C02C32944B0053E5A1 /* RecommendAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */; };
+		D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */; };
 		D6C763872C2C3B3B00BCD37B /* WorkGenre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */; };
 		D6C763892C2E898A00BCD37B /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763882C2E898A00BCD37B /* ListView.swift */; };
 /* End PBXBuildFile section */
@@ -435,6 +437,8 @@
 		D654FBD12BA146FA00AF307E /* Popular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popular.swift; sourceTree = "<group>"; };
 		D654FBD32BA1470800AF307E /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		D654FBD52BA15AF800AF307E /* GuestInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestInterceptor.swift; sourceTree = "<group>"; };
+		D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendAllView.swift; sourceTree = "<group>"; };
+		D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendListType.swift; sourceTree = "<group>"; };
 		D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkGenre.swift; sourceTree = "<group>"; };
 		D6C763882C2E898A00BCD37B /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -965,6 +969,7 @@
 				812F62B42B3FEEFB00AC8DF3 /* CommentFilter.swift */,
 				817919DA2B4C08210084779B /* RankingFilter.swift */,
 				D60AD20F2C29943C00C9C27B /* TypeFilter.swift */,
+				D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1262,6 +1267,7 @@
 		D60AD2042C295A3500C9C27B /* Recommend */ = {
 			isa = PBXGroup;
 			children = (
+				D69CC5BE2C32943A0053E5A1 /* View */,
 				D60AD2052C295AC600C9C27B /* ViewModel */,
 			);
 			path = Recommend;
@@ -1301,6 +1307,14 @@
 				D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		D69CC5BE2C32943A0053E5A1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1553,6 +1567,7 @@
 				81BB11062A0614D1005654AA /* ApiLogger.swift in Sources */,
 				81C3B08E2B9A92E400179737 /* PopularPostingResponse.swift in Sources */,
 				818CF7FE2A21B7E000BABA1F /* RegisterFilter.swift in Sources */,
+				D69CC5C02C32944B0053E5A1 /* RecommendAllView.swift in Sources */,
 				817B60CD2A236F00000099A9 /* CheckRouter.swift in Sources */,
 				817919CE2B4BDF680084779B /* Ranking.swift in Sources */,
 				8154B1F02AE0DC4300AD2F83 /* AddComment.swift in Sources */,
@@ -1626,6 +1641,7 @@
 				817BBB3829EE982F00E1CBA6 /* ProfileChangeView.swift in Sources */,
 				D60AD1F52C2954E600C9C27B /* ActivityRecommendResponse.swift in Sources */,
 				81D1212F2A2739F2003F3780 /* ExploreView.swift in Sources */,
+				D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */,
 				812F62B32B3FED3E00AC8DF3 /* CommentRowView.swift in Sources */,
 				81C1EB7D2AB3581E00FB265D /* ReviewView.swift in Sources */,
 				812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */,

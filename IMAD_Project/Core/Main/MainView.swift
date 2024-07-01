@@ -11,19 +11,6 @@ import Kingfisher
 
 struct MainView: View {
     
-    enum RecommendListType:String{
-        case genreTv
-        case genreMovie
-        case trendTv
-        case trendMovie
-        case activityTv  = "시리즈"
-        case activityAnimationTv = "애니메이션 시리즈"
-        case activityMovie = "영화"
-        case activityAnimationMovie = "애니메이션 영화"
-        case imadTv = "시리즈1"
-        case imadMovie
-    }
-    
     let gradient = [LinearGradient(colors: [.green.opacity(0.6),.cyan.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.pink.opacity(0.6),.yellow.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.gray.opacity(0.4),.gray.opacity(0.9)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.purple.opacity(0.7),.red.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.brown.opacity(0.5),.orange.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing)].shuffled()
     let rankingItems = [ GridItem(.fixed(75)), GridItem(.fixed(75)), GridItem(.fixed(75))]
     let workItems = [ GridItem(.fixed(220)), GridItem(.fixed(220))]
