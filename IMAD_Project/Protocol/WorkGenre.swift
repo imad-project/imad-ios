@@ -16,6 +16,7 @@ protocol WorkGenre{
     func id() -> Int
     func name()->String?
     func title()->String?
+    func genreId() -> [Int]?
     func posterPath() -> String?
     func backdropPath() -> String?
 }
@@ -35,6 +36,9 @@ class TVWorkGenre:WorkGenre{
     }
     func title() -> String?{
         return nil
+    }
+    func genreId() -> [Int]? {
+        return tvGenre.genreIds
     }
     func posterPath() -> String? {
         return tvGenre.posterPath
@@ -57,6 +61,9 @@ class MovieWorkGenre:WorkGenre{
     }
     func title() -> String?{
         return movieGenre.title
+    }
+    func genreId() -> [Int]? {
+        return movieGenre.genreIds
     }
     func posterPath() -> String? {
         return movieGenre.posterPath
