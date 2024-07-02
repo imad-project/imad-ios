@@ -22,18 +22,31 @@ struct RecommendAllView: View {
         case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:[.activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie]
         }
     }
-    
+    func request(){
+        switch type{
+        case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:
+            print("")
+        case .genreMovie,.genreTv:
+            print("")
+        case .imadTv,.imadMovie:
+            print("")
+        case .trendTv,.trendMovie:
+            vm.fetchTrendRecommend(page: vm.currentPage)
+        }
+    }
     
     var body: some View {
         VStack{
-            headerView
-            ScrollView(showsIndicators: false){
-                titleView
-                contentView
+            if vm.workList(type: type).isEmpty{
+                CustomProgressView()
+            }else{
+                headerView
+                ScrollView{
+                    titleView
+                    contentView
+                }
             }
-            
         }
-        .padding(.horizontal)
         .onAppear{
             request()
         }
@@ -43,15 +56,19 @@ struct RecommendAllView: View {
     }
     var headerView:some View{
         HStack{
-            Image(systemName: "chevron.left")
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "chevron.left")
+            }
             Spacer()
         }
         .overlay {
             Text("작품 추천")
-               
         }
         .bold()
-        .padding(.vertical)
+        .padding()
+        .foregroundColor(.black)
     }
     var titleView:some View{
         VStack{
@@ -60,7 +77,7 @@ struct RecommendAllView: View {
                     .font(.title3)
                     .fontWeight(.black)
                 Spacer()
-            }
+            }.padding(.horizontal)
             ScrollView(.horizontal,showsIndicators: false) {
                 HStack{
                     ForEach(typeList,id: \.self){ type in
@@ -87,15 +104,55 @@ struct RecommendAllView: View {
                         .padding(.vertical,2)
                     }
                     Spacer()
-                }
+                }.padding(.horizontal)
             }
             
         }
     }
     var contentView:some View{
-        ListView(items: vm.workList(type: type)) { work in
-            KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 300,height: 300)
+        VStack(spacing:0){
+            ListView(items: vm.workList(type: type)) { work in
+                HStack{
+                    KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 70,height: 100)
+                    VStack(alignment: .leading){
+                        Text(work.genreType == .tv ?  work.name() ?? "" : work.title() ?? "")
+                            .bold()
+                            .lineLimit(1)
+                            .foregroundColor(.white)
+                        Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" :work.genreId()?.transMovieGenreCode() ?? "")
+                            .font(.subheadline)
+                            .lineLimit(1)
+                            .foregroundColor(.white.opacity(0.7))
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .background{
+                    KFImageView(image: work.backdropPath()?.getImadImage() ?? "")
+                        .overlay(Material.thin)
+                        .environment(\.colorScheme,.dark)
+                }
+                
+            }
+            Button {
+                vm.currentPage += 1
+                request()
+            } label: {
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(lineWidth: 1)
+                    .frame(height: 30)
+                    .frame(maxWidth: .infinity)
+                    .overlay{
+                        Text("더보기")
+                            .foregroundColor(.black)
+                    }
+                    .foregroundColor(.gray)
+            }
+            .padding(.horizontal)
+            .padding(.top)
+
         }
+        
     }
 }
 
