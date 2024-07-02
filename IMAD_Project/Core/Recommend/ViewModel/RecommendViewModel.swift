@@ -11,7 +11,7 @@ import Combine
 class RecommendViewModel:ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
-    
+    var refreschTokenExpired = PassthroughSubject<(),Never>()
     @Published var currentPage = 1
     @Published var maxPage = 0
     
@@ -54,6 +54,7 @@ class RecommendViewModel:ObservableObject{
                     print(completion)
                 case let .failure(error):
                     print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
                 }
             } receiveValue: { [weak self] work in
                 self?.recommendAll = work.data
@@ -66,6 +67,7 @@ class RecommendViewModel:ObservableObject{
             switch completion{
             case .failure(let error):
                 print(error.localizedDescription)
+                self.refreschTokenExpired.send()
             case .finished:
                 print(completion)
             }

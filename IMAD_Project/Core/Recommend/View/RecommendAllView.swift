@@ -11,6 +11,7 @@ struct RecommendAllView: View {
     var contentsId:Int?
     @State var type:RecommendListType
     @StateObject var vm = RecommendViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
     @Environment(\.dismiss) var dismiss
     
     var typeList:[RecommendListType]{
@@ -34,16 +35,10 @@ struct RecommendAllView: View {
         }
         .padding(.horizontal)
         .onAppear{
-            switch type{
-            case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:
-                print("")
-            case .genreMovie,.genreTv:
-                print("")
-            case .imadTv,.imadMovie:
-                print("")
-            case .trendTv,.trendMovie:
-                vm.fetchTrendRecommend(page: vm.currentPage)
-            }
+            request()
+        }
+        .onReceive(vm.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
         }
     }
     var headerView:some View{
