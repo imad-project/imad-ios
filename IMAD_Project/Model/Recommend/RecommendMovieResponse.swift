@@ -12,10 +12,13 @@ struct RecommendMovieResponse: Codable,Hashable {
     let title: String
     let posterPath: String?
     let backdropPath:String?
+    let genreIds:[Int]?
+    
 
     enum CodingKeys: String, CodingKey {
         case id, title
         case posterPath = "poster_path"
         case backdropPath = "backdrop_path"
+        case genreIds = "genre_ids"
     }
 }
