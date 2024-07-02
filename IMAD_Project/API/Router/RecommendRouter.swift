@@ -12,7 +12,7 @@ enum RecommendRouter:URLRequestConvertible{
     
     case all
     case genre(page:Int)
-    case activity(page:Int)
+    case activity(page:Int,contentsId:Int)
     case imad(page:Int)
     case trend(page:Int)
     
@@ -39,8 +39,9 @@ enum RecommendRouter:URLRequestConvertible{
             var params = Parameters()
             params["page"] = page
             return params
-        case let .activity(page):
+        case let .activity(page,contentsId):
             var params = Parameters()
+            params["contents_id"] = contentsId
             params["page"] = page
             return params
         case let .imad(page):
