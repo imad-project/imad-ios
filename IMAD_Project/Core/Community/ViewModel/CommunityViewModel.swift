@@ -48,6 +48,7 @@ class CommunityViewModel:ObservableObject{
     func readCommunityList(page:Int,category:Int){
         CommunityApiService.readAllCommunityList(page: page,category:category)
             .sink { completion in
+                print(completion)
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)

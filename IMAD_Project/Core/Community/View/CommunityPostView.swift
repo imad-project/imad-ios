@@ -19,8 +19,9 @@ struct CommunityPostView: View {
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
     
+    var main:Bool?
     @Binding var back:Bool
-    
+    @Environment(\.dismiss) var dismiss
     @FocusState var reply:Bool
     
     
@@ -98,7 +99,13 @@ extension CommunityPostView{
         ZStack{
             HStack(spacing:0){
                 Button {
-                    back = false
+                    if let main {
+                        if main{
+                            dismiss()
+                        }
+                    }else{
+                        self.back = false
+                    }
                 } label: {
                     Image(systemName: "chevron.left")
                         .bold()
@@ -106,13 +113,11 @@ extension CommunityPostView{
                 }
                 Spacer()
                 Group{
-                    if community.scrapStatus{
-                        Button {
-                            vm.community?.scrapStatus = !community.scrapStatus
-                            community.scrapStatus ? vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0) : vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
-                        } label: {
-                            Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
-                        }
+                    Button {
+                        vm.community?.scrapStatus = !community.scrapStatus
+                        community.scrapStatus ? vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0) : vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
+                    } label: {
+                        Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
                     }
                     if community.author{
                         Button {
@@ -128,7 +133,13 @@ extension CommunityPostView{
                                 Text("수정하기")
                             }
                             Button(role:.destructive){
-                                back = true
+                                if let main {
+                                    if main{
+                                        dismiss()
+                                    }
+                                }else{
+                                    self.back = false
+                                }
                                 vm.deleteCommunity(postingId: postingId)
                             } label: {
                                 Text("삭제하기")
@@ -152,7 +163,7 @@ extension CommunityPostView{
             VStack(alignment: .leading){
                 HStack{
                     ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 25)
-                    Text(community.userNickname)
+                    Text(community.userNickname ?? "")
                         .font(.subheadline)
                         .bold()
                     HStack(spacing: 2){

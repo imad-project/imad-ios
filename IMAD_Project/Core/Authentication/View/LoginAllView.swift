@@ -7,9 +7,11 @@
 
 import SwiftUI
 import Alamofire
+import AuthenticationServices
 
-struct LoginAllView: View {
+struct LoginAllView: View{
     
+
     @State var oathFilter = OauthFilter(rawValue: "")
     @State var register = false
     
@@ -21,7 +23,6 @@ struct LoginAllView: View {
     
     @State var kakao = false
     @State var naver = false
-    @State var apple = false
     @State var google = false
     @State var domain = EmailFilter.gmail
     
@@ -46,6 +47,9 @@ struct LoginAllView: View {
                         passwordView
                         authView
                     }.padding(.horizontal,10)
+                        .onTapGesture {
+                            UIApplication.shared.endEditing()
+                        }
                     Spacer()
                     divderView
                     loginButtonView
@@ -56,7 +60,6 @@ struct LoginAllView: View {
             if loading{
                 CustomProgressView()
             }
-            
         }
         .onReceive(vm.loginSuccess){ value in
             success = true
@@ -67,19 +70,10 @@ struct LoginAllView: View {
                 loading = false
             })
         }
-        
         .sheet(isPresented: $register) {
             RegisterView(login: $register)
                 .environmentObject(vm)
                 .navigationBarBackButtonHidden(true)
-                .onDisappear{
-                    loading = false
-                }
-        }
-        .sheet(isPresented: $apple){
-            AuthWebView(filter: .Apple)
-                .ignoresSafeArea()
-                .environmentObject(vm)
                 .onDisappear{
                     loading = false
                 }
@@ -109,9 +103,7 @@ struct LoginAllView: View {
                 }
         }
         .ignoresSafeArea(.keyboard)
-        .onTapGesture {
-            UIApplication.shared.endEditing()
-        }
+        
     }
 }
 
@@ -218,45 +210,69 @@ extension LoginAllView{
             }
         }.padding(.horizontal)
     }
+    
     var loginButtonView:some View{
-        ForEach(OauthFilter.allCases,id:\.rawValue){ item in
-            Button {
-                switch item{
-                case .Apple:
-                    apple = true
-                case .naver:
-                    naver = true
-                case .kakao:
-                    kakao = true
-                case .google:
-                    google = true
+        VStack{
+            appleLoginButton
+                .overlay {
+                    loginButton(item: .Apple)
+                        .allowsHitTesting(false)
                 }
-                loading = true
-            } label: {
-                RoundedRectangle(cornerRadius: 20).frame(height: 55)
-                    .foregroundColor(item.color)
-                    .overlay {
-                        HStack{
-                            if item == .naver{
-                                Image(item.rawValue)
-                                    .resizable()
-                                    .frame(width: 35,height: 35)
-                                    .offset(x:-5)
-                            }else{
-                                Image(item.rawValue)
-                                    .resizable()
-                                    .frame(width: 25,height: 25)
-                            }
-                            
-                            Spacer()
-                        }.padding()
+            ForEach(OauthFilter.allCases.filter{$0 != .Apple},id:\.rawValue){ item in
+                Button {
+                    switch item{
+                    case .Apple:
+                        return
+                    case .naver:
+                        naver = true
+                    case .kakao:
+                        kakao = true
+                    case .google:
+                        google = true
                     }
-                    .overlay{
-                        Text("\(item.text)")
-                            .bold()
-                            .foregroundColor(item.textColor)
-                    }
-            }.shadow(color:.gray.opacity(0.3),radius: 3)
+                    loading = true
+                } label: {
+                    loginButton(item: item)
+                }.shadow(color:.gray.opacity(0.3),radius: 3)
+            }
         }.padding(.horizontal)
     }
+    var appleLoginButton:some View{
+        SignInWithAppleButton(
+            onRequest: { request in
+                request.requestedScopes = [.fullName, .email,]
+            },
+            onCompletion: { result in
+                vm.appleLogin(result: result)
+            }
+        )
+        .frame(height:50)
+        .cornerRadius(20)
+    }
+    func loginButton(item:OauthFilter) -> some View{
+        RoundedRectangle(cornerRadius: 20).frame(height: 55)
+            .foregroundColor(item.color)
+            .overlay {
+                HStack{
+                    if item == .naver{
+                        Image(item.rawValue)
+                            .resizable()
+                            .frame(width: 35,height: 35)
+                            .offset(x:-5)
+                    }else{
+                        Image(item.rawValue)
+                            .resizable()
+                            .frame(width: 25,height: 25)
+                    }
+                    
+                    Spacer()
+                }.padding()
+            }
+            .overlay{
+                Text("\(item.text)")
+                    .bold()
+                    .foregroundColor(item.textColor)
+            }
+    }
 }
+

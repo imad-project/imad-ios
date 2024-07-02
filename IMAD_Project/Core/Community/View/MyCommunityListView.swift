@@ -109,7 +109,6 @@ extension MyCommunityListView{
                     ForEach(communityList,id: \.self) { community in
                         VStack{
                             communityListRowView(community: community)
-                            Divider().padding(.vertical)
                             if vm.communityList.last == community,vm.maxPage > vm.currentPage{
                                 ProgressView()
                                     .environment(\.colorScheme, .light)
@@ -187,14 +186,16 @@ extension MyCommunityListView{
                         .lineLimit(2)
                     HStack{
                         ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 20)
-                        Text(community.userNickname)
+                        Text(community.userNickname ?? "")
                         Text("· \(community.createdAt.relativeTime())")
                             .foregroundColor(.gray)
                     }
                     .font(.caption)
                 }
                 Spacer()
-                KFImageView(image:community.contentsPosterPath?.getImadImage() ?? "" ,width: 80,height: 80)
+                KFImageView(image:community.contentsPosterPath?.getImadImage() ?? "" ,width: 70,height: 100)
+                    .cornerRadius(5)
+                    .shadow(radius: 1)
             }
         }
         .padding(.horizontal)

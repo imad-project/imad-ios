@@ -10,7 +10,8 @@ import Foundation
 struct ReadReviewResponse:Codable,Hashable{
     let reviewID:Int
     let contentsID: Int
-    let contentsTitle, contentsPosterPath: String
+    let contentsTitle:String
+    let contentsBackdropPath,contentsPosterPath: String
     let userID :Int?
     let userNickname: String
     let userProfileImage: Int
@@ -27,6 +28,7 @@ struct ReadReviewResponse:Codable,Hashable{
         case contentsID = "contents_id"
         case contentsTitle = "contents_title"
         case contentsPosterPath = "contents_poster_path"
+        case contentsBackdropPath = "contents_backdrop_path"
         case userID = "user_id"
         case userNickname = "user_nickname"
         case userProfileImage = "user_profile_image"

@@ -117,7 +117,7 @@ extension CommunityWriteView{
     }
     var poster:some View{
         ZStack(alignment: .top){
-            MovieBackgroundView(url: image,height: 2.7)
+            MovieBackgroundView(url: image,height: 2.7, isBottomTransparency: true)
             VStack{
                 Text("게시물을 자유롭게 작성해보세요!")
                     .foregroundColor(.white)

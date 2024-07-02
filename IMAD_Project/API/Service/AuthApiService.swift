@@ -54,5 +54,12 @@ enum AuthApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func appleLogin(authorizationCode:String,userIdentity:String,state:String?,idToken:String,compleion:@escaping (Bool)->()){
+        print("애플로그인 api 호출")
+        ApiClient.shared.session
+            .request(AuthRouter.appleLogin(state: state, code: authorizationCode, user: userIdentity, idToken: idToken))
+            .response{ response in
+                 compleion(UserDefaultManager.shared.checkToken(response: response.response))
+            }
+    }
 }
-

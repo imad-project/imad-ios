@@ -9,355 +9,504 @@ import SwiftUI
 import Kingfisher
 
 
-
 struct MainView: View {
     
-    @State private var rotationAngle: Angle = .zero
-    @State var movieIndex = 0
-    @State var poster:WorkResponse = CustomData.instance.workInfo
-    @State var isReview = false
-    @State var select = 0
-    @State var anima = false
-    @Binding var search:Bool
-//   filterSelect @Binding var filterSelect:Bool
+    let gradient = [LinearGradient(colors: [.green.opacity(0.6),.cyan.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.pink.opacity(0.6),.yellow.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.gray.opacity(0.4),.gray.opacity(0.9)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.purple.opacity(0.7),.red.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.brown.opacity(0.5),.orange.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing)].shuffled()
+    let rankingItems = [ GridItem(.fixed(75)), GridItem(.fixed(75)), GridItem(.fixed(75))]
+    let workItems = [ GridItem(.fixed(220)), GridItem(.fixed(220))]
+    let initValue = [WorkGenre](repeating: TVWorkGenre(tvGenre: RecommendTVResponse(id: 0, name: "", posterPath: "", backdropPath: "", genreIds: [])), count: 10)
+    
+    @State var ranking:RankingFilter = .all
+    @StateObject var vm = RankingViewModel(rankingList: [])
+    @StateObject var vmRecommend = RecommendViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
+    
+    @State var trend = false
+    
     
     var body: some View {
         ZStack{
             Color.white
             ScrollView(showsIndicators: false){
-                VStack(spacing:10){
-                    VStack(spacing: 0){
-                        header
-                        filer
-                            .foregroundColor(.white)
-                            .padding(.bottom)
-                        thumnail
-                            .padding(.bottom)
-                        
-                    }.background {
-                        ZStack{
-                            KFImage(URL(string: CustomData.instance.movieList[movieIndex])!)
-                                .resizable()
-                                .frame(height: 1000)
-                            Color.black.opacity(0.2)
-                            Color.clear
-                                .background(Material.thin)
-                                .environment(\.colorScheme, .dark)
-                        }
-                        
-                        .padding(.bottom,500)
-                    }.ignoresSafeArea()
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(height: 50)
-                        .foregroundStyle(Color.gray.opacity(0.3))
-                        .overlay{
-                            HStack{
-                                Image(systemName: "magnifyingglass")
-                                Text("작품을 검색해주세요..")
-                                Spacer()
-                            }
-                            .padding(.leading)
-                            .foregroundStyle(.gray)
-                        }
-                        .onTapGesture {
-                            search = true
-                        }
-                        .padding()
-                        
-                    reviewPosting
-//                    movieList
-                    Spacer().frame(height: 100).foregroundColor(.white)
+                VStack(alignment:.leading,spacing:5){
+                    if let user = vmAuth.user?.data{
+                        titleView(user: user)
+                        trendView
+                        todayView
+                        filter
+                        rankingView
+                        userActivityView(user: user)
+                        recommendView("이런 장르 영화 어때요?", .genreMovie)
+                        recommendView("\(user.nickname ?? "")님을 위한 시리즈",.genreTv)
+                        recommendView("아이매드 엄선 영화", .imadMovie)
+                        recommendView("전 세계 사람들이 선택한 시리즈", .imadTv)
+                    }
                 }
             }
-            
-            
         }
-        
-        .navigationDestination(isPresented: $isReview){
-            //            ReviewView(isReview: $isReview, review: poster)
-            //                .navigationBarBackButtonHidden(true)
-            //            WorkView(id: poster.id, type: poster.)
+        .ignoresSafeArea(edges:.bottom)
+        .onAppear {
+            vmRecommend.fetchAllRecommend()
+            vm.getAllRanking(page: 1, type: ranking.rawValue)
+            vm.getPopularReview()
+            vm.getPopularPosting()
         }
-        .navigationBarItems(leading: Text("리뷰").font(.title).bold().padding(.bottom,20),trailing: Button {
-            search = true
-        } label: {
-            Image(systemName: "magnifyingglass")
-                .font(.title3)
-        })
-        .ignoresSafeArea()
-        .navigationDestination(isPresented: $search) {
-            SearchView(postingMode: false, back: $search)
-                .navigationBarBackButtonHidden(true)
-        }.foregroundColor(.white)
-            .onAppear {
-                startTimer()
-                withAnimation(.linear(duration: 0.5)){
-                    anima = true
-                }
-            }
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        //  NavigationStack{
-        MainView(search: .constant(false))
-            
-        //.environment(\.colorScheme, .dark)
-        //   }
+        NavigationStack{
+            MainView(vm:RankingViewModel(rankingList: CustomData.instance.rankingList))
+                .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        }
     }
 }
 
 extension MainView{
-    
-    func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
-            DispatchQueue.main.async {
-                withAnimation(.easeIn(duration: 3.0)){
-                    movieIndex = (movieIndex + 1) % CustomData.instance.movieList.count
-                    
-                }
-                withAnimation(Animation.linear(duration: 0.5)) {
-                    rotationAngle += .degrees(180)
+    func list(_ filter:RecommendListType) -> ([WorkGenre],WorkGenreType,RecommendListType,Int?){
+        switch filter{
+        case .genreTv:
+            var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.preferredGenreRecommendationTv?.contentsID
+            for i in (vmRecommend.recommendAll?.preferredGenreRecommendationTv?.results ?? []){
+                list.append( TVWorkGenre(tvGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.tv,.genreTv,contentsId)
+        case .genreMovie:
+            var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.preferredGenreRecommendationMovie?.contentsID
+            for i in (vmRecommend.recommendAll?.preferredGenreRecommendationMovie?.results ?? []){
+                list.append( MovieWorkGenre(movieGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.movie,.genreMovie,contentsId)
+        case .trendTv:
+            var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.trendRecommendationTv?.contentsID
+            for i in (vmRecommend.recommendAll?.trendRecommendationTv?.results ?? []){
+                list.append( TVWorkGenre(tvGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.tv,.trendTv,contentsId)
+        case .trendMovie:
+            var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.trendRecommendationMovie?.contentsID
+            for i in (vmRecommend.recommendAll?.trendRecommendationMovie?.results ?? []){
+                list.append( MovieWorkGenre(movieGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.movie,.trendMovie,contentsId)
+        case .activityTv:
+            var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.userActivityRecommendationTv?.contentsID
+            if let results = vmRecommend.recommendAll?.userActivityRecommendationTv?.results {
+                for i in 0..<5{
+                    list.append( TVWorkGenre(tvGenre:results[i]))
                 }
             }
+            return (list,.tv,.activityTv,contentsId)
+        case .activityAnimationTv:
+            var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.contentsID
+            if let results = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.results {
+                for i in 0..<5{
+                    list.append( TVWorkGenre(tvGenre:results[i]))
+                }
+            }
+            return (list,.tv,.activityAnimationTv,contentsId)
+        case .activityMovie:
+            var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.userActivityRecommendationMovie?.contentsID
+            if let results = vmRecommend.recommendAll?.userActivityRecommendationMovie?.results {
+                for i in 0..<5{
+                    list.append( MovieWorkGenre(movieGenre:results[i]))
+                }
+            }
+            return (list,.movie,.activityMovie,contentsId)
+        case .activityAnimationMovie:
+            var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.contentsID
+            if let results = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.results {
+                for i in 0..<5{
+                    list.append( MovieWorkGenre(movieGenre:results[i]))
+                }
+            }
+            return (list,.movie,.activityAnimationMovie,contentsId)
+        case .imadTv:
+            var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.popularRecommendationTv?.contentsID
+            for i in (vmRecommend.recommendAll?.popularRecommendationTv?.results ?? []){
+                list.append( TVWorkGenre(tvGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.tv,.imadTv,contentsId)
+        case .imadMovie:
+            var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.popularRecommendationMovie?.contentsID
+            for i in (vmRecommend.recommendAll?.popularRecommendationMovie?.results ?? []){
+                list.append( MovieWorkGenre(movieGenre:i))
+            }
+            return (list.isEmpty ? initValue : list,.movie,.imadMovie,contentsId)
         }
     }
-    
-    var header:some View{
+    func textTitleView(_ text:String) -> some View{
         HStack{
+            Text(text)
+                .fontWeight(.black)
+                .font(.title3)
+                .foregroundColor(.customIndigo)
+            Spacer()
+            
+        }
+    }
+    func workListView(_ filter:RecommendListType,width:CGFloat,height:CGFloat) -> some View{
+        ScrollView(.horizontal,showsIndicators: false) {
             HStack{
-                Text("TOP100")
-                    .font(.title2)
-                    .bold()
-                    .padding(.leading)
-                Image("trophy")
-                    .resizable()
-                    .frame(width: 25,height: 20)
-                    .rotation3DEffect(rotationAngle, axis: (x: 0, y: 1, z: 0))
-            }
-            
-            
-            Spacer()
-            Button {
-                
-            } label: {
-                Image(systemName: "bell.fill")
-                    .font(.title3)
-                    .padding(.trailing)
-            }
-        }
-        .padding(.vertical)
-        .padding(.top,30)
-    }
-    func genreHeader(name:String) ->some View{
-        HStack{
-            Text(name)
-                .font(.title3)
-                .bold()
-                .foregroundColor(.black)
-                .padding(.leading)
-            Spacer()
-        }
-    }
-    var reviewPosting:some View{
-        VStack(alignment: .leading){
-            Text("오늘의 리뷰&게시물")
-                .font(.title3)
-                .bold()
-                .padding(.leading)
-                .padding(.bottom)
-            HStack(spacing: 10){
-                VStack(alignment: .leading,spacing: 10){
-                    Text("- 리뷰 -")
-                        .font(.caption)
-                        .bold()
-                    VStack(alignment: .leading,spacing: 8){
-                        
-                        Text("#어벤져스")
-                            .font(.caption)
-                            .bold()
-                        Text(CustomData.instance.dummyString)
-                            .font(.caption2)
-                    }
-                    .frame(height: 120)
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(20)
-                    .shadow(radius: 5)
-                }
-                VStack(alignment: .leading,spacing: 10){
-                    Text("- 커뮤니티 -")
-                        .font(.caption)
-                        .bold()
-                    VStack(alignment: .leading,spacing: 8){
-                        HStack{
-                            VStack(alignment: .leading,spacing: 8){
-                                Text("아 이영화;;")
-                                    .font(.system(size: 15))
-                                
-                                Text("#어벤져스")
+                LazyHGrid(rows: workItems){
+                    ListView(items: list(filter).0){ work in
+                        NavigationLink {
+                            WorkView(id: work.id(),type: list(filter).1.rawValue)
+                                .environmentObject(vmAuth)
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            VStack(alignment: .leading){
+                                KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: width,height: height)
+                                    .cornerRadius(5)
+                                Text((list(filter).1 == .tv ? work.name() : work.title()) ?? "")
+                                    .font(.subheadline)
+                                    .lineLimit(1)
+                                    .frame(width: width)
+                                    .foregroundColor(.black)
+                                Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" : work.genreId()?.transMovieGenreCode() ?? "")
                                     .font(.caption)
-                                    .bold()
+                                    .lineLimit(1)
+                                    .frame(width: width)
+                                    .foregroundColor(.gray)
                             }
-                            Spacer()
-                            KFImage(URL(string: CustomData.instance.movieList[2]))
-                                .resizable()
-                                .frame(width: 50,height: 50)
-                                .cornerRadius(10)
                         }
-                        Text(CustomData.instance.dummyString)
-                            .font(.caption2)
-                    }.overlay(alignment: .topTrailing) {
-                        
                     }
-                    .frame(height: 120)
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(20)
-                    .shadow(radius: 5)
                 }
-                
-                
             }
             .padding(.horizontal)
-            
-        }.foregroundColor(.black)
-    }
-    
-    var thumnail:some View{
-        
-        TabView{
-            //            ForEach(CustomData.instance.reviewList.chunks(ofCount: 3),id:\.self){ item in
-            //                HStack{
-            //                    ForEach(Array(item.enumerated()),id:\.0){ (index,element) in
-            //                        VStack(spacing: 15){
-            //                            Text("\(index + 1). \(element.title)")
-            //                                .font(.caption)
-            //                            KFImage(URL(string: element.thumbnail)!)
-            //                                .resizable()
-            //                                .frame(width: 120,height:180)
-            //                                .cornerRadius(20)
-            //                            Circle()
-            //                                .trim(from: 0.0, to: anima ? element.gradeAvg * 0.1 : 0)
-            //                                .stroke(lineWidth: 3)
-            //                                .rotation(Angle(degrees: 270))
-            //                                .frame(width: 50,height: 50)
-            //                                .overlay{
-            //                                    VStack{
-            //                                        Image(systemName: "star.fill")
-            //                                            .font(.caption)
-            //                                        Text(String(format: "%0.1f", element.gradeAvg))
-            //                                            .font(.caption)
-            //                                    }
-            //                                }
-            //                        }.padding(.horizontal,5)
-            //                    }
-            //                }
-            //            }
         }
-        .frame(height: 300)
-        .tabViewStyle(.page(indexDisplayMode: .never))
-        
     }
-    var filer:some View{
-        VStack(spacing: 0){
-            ScrollView(.horizontal,showsIndicators: false){
-                HStack{
-                    Capsule()
-                        .stroke(lineWidth: 1)
-                        .frame(width: 60,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text("전체")
-                        }
-                    Capsule()
-                        .stroke(lineWidth: 1)
-                        .frame(width: 60,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text("이번달")
-                            Spacer()
-                        }
-                }.padding(.leading)
-            }
-            ScrollView(.horizontal,showsIndicators: false){
-                HStack{
-                    Capsule()
-                        .stroke(lineWidth: 1)
-                        .frame(width: 60,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text("영화")
-                        }
-                    Capsule()
-                        .stroke(lineWidth: 1)
-                        .frame(width: 60,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text("시리즈")
-                        }
-                    Capsule()
-                        .stroke(lineWidth: 1)
-                        .frame(width: 80,height: 25)
-                        .padding(.vertical,5)
-                        .overlay {
-                            Text("애니메이션")
-                        }
-                    Spacer()
-                    Text("전체보기 >")
-                        .font(.caption)
-                        .padding(.horizontal)
+    func titleView(user:UserResponse) -> some View{
+        HStack(spacing: 0){
+            Text((user.nickname ?? "") + "님 환영합니다")
+        }
+        .font(.title)
+        .fontWeight(.black)
+        .padding(.horizontal)
+        .padding(.bottom)
+    }
+    var trendView:some View{
+        VStack(alignment: .leading){
+               
+            HStack{
+                Text("인기작품")
+                    .fontWeight(.black)
+                    .font(.title3)
+                    .foregroundColor(.customIndigo)
+                Button {
+                    withAnimation(.default){
+                        trend = false
+                    }
+                } label: {
+                    Text("영화")
+                        .bold()
+                        .opacity(trend ? 0.5 : 1.0)
+                }
+                Text(" l ").foregroundColor(.gray)
+                Button {
+                    withAnimation(.default){
+                        trend = true
+                    }
                     
-                }.padding(.leading)
+                } label: {
+                    Text("시리즈")
+                        .opacity(trend ? 1.0 : 0.5)
+                        .bold()
+                }
+                Spacer()
+                allView(RecommendAllView(type: trend ? .trendTv : .trendMovie))
             }
-        }.font(.caption)
+            .padding(.horizontal)
+            .foregroundColor(.customIndigo)
+            ScrollView(.horizontal,showsIndicators: false) {
+                HStack{
+                    ListView(items: trend ? list(.trendTv).0 : list(.trendMovie).0) { work in
+                        NavigationLink {
+                            WorkView(id: work.id(),type: trend ? list(.trendTv).1.rawValue : list(.trendMovie).1.rawValue)
+                                .environmentObject(vmAuth)
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 200,height: 250)
+                                .overlay{
+                                    ZStack{
+                                        LinearGradient(colors: [.gray.opacity(0.3)], startPoint: .top, endPoint: .bottom)
+                                            .background(Material.ultraThin)
+                                        VStack{
+                                            KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 100,height: 160)
+                                                .cornerRadius(5)
+                                            Text(trend ? work.name() ?? "" : work.title() ?? "")
+                                                .bold()
+                                                .lineLimit(1)
+                                                .frame(width: 175)
+                                            Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" : work.genreId()?.transMovieGenreCode() ?? "")
+                                                .font(.subheadline)
+                                                .lineLimit(1)
+                                                .frame(width: 175)
+                                        }
+                                        .foregroundColor(.white)
+                                    }
+                                }
+                                .environment(\.colorScheme,.dark)
+                                .cornerRadius(8)
+                        }
+                    }
+                }.padding(.horizontal)
+            }
+        }
     }
-//    var movieList:some View{
-//        VStack{
-//
-//            ForEach(MovieGenreFilter.allCases,id:\.self){ genre in
-//                // Section(header:){
-//                ScrollView(.horizontal,showsIndicators: false){
-//                    genreHeader(name: genre.name).padding(.top)
-//                    HStack(spacing: 0){
-//                        ForEach(CustomData.instance.workList){ work in
-//                            Button {
-//                                //                                poster = work
-//                                isReview = true
-//                            } label: {
-//                                KFImageView(image: work.posterPath.getImadImage() ?? "",width: 150,height: 200)
-//
-//                                    .overlay(alignment:.topTrailing) {
-//                                        Circle()
-//                                            .trim(from: 0.0, to: anima ? 4 * 0.1 : 0)
-//                                            .stroke(lineWidth: 3)
-//                                            .rotation(Angle(degrees: 270))
-//                                            .frame(width: 40,height: 40)
-//                                            .overlay{
-//                                                VStack{
-//                                                    Image(systemName: "star.fill")
-//                                                        .font(.caption)
-//                                                    Text(String(format: "%0.1f", 4))
-//                                                        .font(.caption)
-//                                                }
-//                                            }
-//                                            .background{
-//                                                Circle().foregroundColor(.black.opacity(0.7))
-//                                            }
-//                                            .padding(5)
-//
-//                                    }
-//                            }
-//
-//                        }
-//
-//                    }
-//                }.padding(.bottom,5)
-//            }
-//
-//
-//        }
-//    }
+    var rankingView:some View{
+        
+        ScrollView(.horizontal,showsIndicators: false){
+            LazyHGrid(rows: rankingItems){
+                if vm.rankingList.isEmpty{
+                    ForEach(1...9,id: \.self){ _ in
+                        NoImageView()
+                            .frame(width: 300,height: 75)
+                    }
+                    .padding(.leading)
+                }else{
+                    ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
+                        NavigationLink {
+                            WorkView(id: rank.contentsID,type: rank.contentsType)
+                                .environmentObject(vmAuth)
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            HStack(spacing:0){
+                                KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
+                                VStack(alignment: .leading){
+                                    HStack{
+                                        Text("\(rank.ranking)")
+                                            .font(.body)
+                                            .bold()
+                                        Text(rank.title)
+                                            .frame(width: 100,alignment: .leading)
+                                            .lineLimit(1)
+                                            .font(.subheadline)
+                                    }
+                                    .foregroundColor(.black)
+                                    .padding(.bottom,3)
+                                    HStack{
+                                        rankUpdateView(rank: rank.rankingChanged)
+                                        Text(TypeFilter(rawValue: rank.contentsType)?.name ?? "")
+                                            .font(.caption)
+                                            .foregroundStyle(.gray)
+                                    }
+                                    
+                                }
+                                .padding(.horizontal)
+                                Spacer()
+                                ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
+                                    .padding(.trailing)
+                            }
+                        }
+                        .frame(width: 300,height: 75)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(5)
+                        .padding(.leading)
+                        
+                    }
+                }
+            }
+        }
+    }
+    func allView(_ view: some View) -> some View{
+        NavigationLink {
+            view
+                .navigationBarBackButtonHidden()
+                .environmentObject(vmAuth)
+        } label: {
+            Text("전체보기")
+                .font(.subheadline)
+                .fontWeight(.regular)
+            .foregroundColor(.customIndigo)
+        }
+    }
     
+    
+    var filter:some View{
+        VStack(alignment: .leading,spacing: 0){
+            textTitleView("아이매드 차트")
+            HStack(spacing: 5){
+                HStack{
+                    ForEach(RankingFilter.allCases,id:\.self){ ranking in
+                        Button {
+                            self.ranking = ranking
+                            switch self.ranking{
+                            case .all:
+                                vm.getAllRanking(page: 1, type: "all")
+                            case .week:
+                                vm.getWeekRanking(page: 1, type: "all")
+                            case .month:
+                                vm.getMonthRanking(page: 1, type: "all")
+                            }
+                        } label: {
+                            Group{
+                                if self.ranking == ranking{
+                                    Capsule()
+                                }else{
+                                    Capsule()
+                                        .stroke(lineWidth: 1)
+                                }
+                            }
+                            .foregroundColor(.customIndigo)
+                            .frame(width: 60,height: 25)
+                            .padding(.vertical,5)
+                            .overlay {
+                                Text(ranking.name)
+                                    .foregroundColor(self.ranking == ranking ? .white : .customIndigo)
+                            }
+                        }
+                    }
+                }
+                Spacer()
+                allView(Text(""))
+            }
+        }
+        .font(.caption)
+        .padding(.horizontal)
+    }
+    
+    func rankUpdateView(rank:Int?) -> some View{
+        HStack(spacing:2){
+            if let rank,rank != 0{
+                Group{
+                    Image(systemName:rank > 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
+                    Text(rank > 0 ? "\(rank)":"\(abs(rank))")
+                }
+                .font(.caption2)
+                .foregroundStyle(rank > 0 ? .green : .red)
+            }else{
+                Text("-").foregroundColor(.gray)
+            }
+        }
+    }
+    var todayView:some View{
+        ScrollView(.horizontal,showsIndicators: false) {
+            HStack{
+                NavigationLink {
+                    ReviewDetailsView(goWork: false, reviewId: vm.popularReview?.reviewID ?? 0)
+                        .environmentObject(vmAuth)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    PopularView(review: vm.popularReview)
+                        .shadow(radius: 1)
+                }
+                NavigationLink {
+                    CommunityPostView(postingId:vm.popularPosting?.postingID ?? 0,main: true,back: .constant(false))
+                        .environmentObject(vmAuth)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    PopularView(posting: vm.popularPosting)
+                        .shadow(radius: 1)
+                }
+            }
+            .padding(.horizontal)
+        }
+        .padding(.vertical)
+    }
+    //추천작
+    func userActivityView(user:UserResponse)->some View{
+        Group{
+            VStack(alignment: .leading){
+                if !list(.activityTv).0.isEmpty || !list(.activityMovie).0.isEmpty || !list(.activityAnimationTv).0.isEmpty || !list(.activityAnimationMovie).0.isEmpty{
+                    textTitleView("내 작품 골라보기").padding(.horizontal)
+                }
+                ScrollView(.horizontal,showsIndicators: false) {
+                    HStack{
+                        ListView(items: Array(zip([list(.activityTv),list(.activityMovie),list(.activityAnimationTv),list(.activityAnimationMovie)], gradient))){ (work,background) in
+                            if !work.0.isEmpty{
+                                VStack(alignment: .leading,spacing: 5){
+                                    HStack(alignment: .top){
+                                        VStack(alignment: .leading,spacing: 0){
+                                            Text("\(user.nickname ?? "")님을 위한")
+                                            Text("\(work.2.name)")
+                                        }
+                                        .foregroundColor(.white)
+                                        .bold()
+                                        .font(.title3)
+                                        Spacer()
+                                        NavigationLink {
+                                            RecommendAllView(contentsId:work.3,type: work.2)
+                                                .navigationBarBackButtonHidden()
+                                                .environmentObject(vmAuth)
+                                        } label: {
+                                            Text("전체보기")
+                                                .font(.caption)
+                                                .fontWeight(.regular)
+                                            .foregroundColor(.white)
+                                        }
+                                    }
+                                    .font(.caption)
+                                    .padding(.vertical,10)
+                                    ListView(items: work.0) { element in
+                                        Divider()
+                                            .background(Color.white)
+                                            .padding(.vertical,5)
+                                        NavigationLink {
+                                            WorkView(id: element.id(),type: work.1.rawValue)
+                                                .environmentObject(vmAuth)
+                                                .navigationBarBackButtonHidden()
+                                        } label: {
+                                            HStack{
+                                                KFImageView(image: element.backdropPath()?.getImadImage() ?? (element.posterPath()?.getImadImage() ?? ""),width: 80,height: 45)
+                                                    .cornerRadius(3)
+                                                VStack(alignment: .leading) {
+                                                    Text(element.genreType == .tv ? element.name() ?? "" : element.title() ?? "")
+                                                        .frame(width: 100,alignment:.leading)
+                                                        .lineLimit(1)
+                                                        .bold()
+                                                        .font(.subheadline)
+                                                        .foregroundColor(.white)
+                                                    
+                                                    Text(element.genreType == .tv ? element.genreId()?.transTvGenreCode() ?? "" : element.genreId()?.transMovieGenreCode() ?? "")
+                                                        .lineLimit(1)
+                                                        .font(.caption)
+                                                        .foregroundColor(.white)
+                                                        .frame(width: 100,alignment:.leading)
+                                                }
+                                                .padding(.trailing,20)
+                                                Image(systemName: "chevron.right")
+                                                    .bold()
+                                                    .foregroundColor(.white)
+                                            }
+                                        }
+                                    }
+                                }
+                                .padding()
+                                .background{
+                                    background.cornerRadius(10)
+                                }
+                            }
+                        }
+                    }.padding(.horizontal)
+                }
+            }.padding(.vertical)
+        }
+    }
+    func recommendView(_ title:String,_ filter:RecommendListType) -> some View{
+        VStack(alignment: .leading){
+            HStack(alignment:.bottom){
+                textTitleView(title)
+                allView(RecommendAllView(type: filter))
+            }
+            .padding(.horizontal)
+            ScrollView(.horizontal,showsIndicators: false) {
+                HStack{
+                    workListView(filter, width: 130, height: 180)
+                }
+                .padding(.bottom)
+            }
+        }
+    }
 }

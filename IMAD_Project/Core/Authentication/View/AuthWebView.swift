@@ -6,25 +6,41 @@ import Combine
 struct AuthWebView: View {
     let webView: WKWebView = WKWebView()
     let webViewDelegate = WebViewDelegate()
-    let endPoint = "/oauth2/authorization/"
+    
     let filter: OauthFilter
     @State var loginMode = false
     @EnvironmentObject var vm: AuthViewModel
     @Environment(\.dismiss) var dismiss
+    
+    var endPoint:String{
+        switch filter{
+        case .Apple:
+            return "/oauth2/login/"
+        default:
+            return "/oauth2/authorization/"
+        }
+    }
     
     // WebView로드 상태 추적을 위한 delegate
     class WebViewDelegate: NSObject, WKNavigationDelegate {
         // 페이지 로드가 완료되면 호출
         var success = PassthroughSubject<(), Never>()
         
+        // 페이지 로드 응답에 대한 결정을 가져옴
         func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+            
             guard let httpResponse = navigationResponse.response as? HTTPURLResponse else {
                 decisionHandler(.cancel)
                 return
             }
-            let _ = UserDefaultManager.shared.checkToken(response: httpResponse)
-            success.send()
+            
             decisionHandler(.allow)
+            if UserDefaultManager.shared.checkToken(response: httpResponse){
+                print("성공")
+                success.send()
+            }
+            
+            
         }
         
         // 페이지 로드 요청에 대한 결정을 가져옴
@@ -43,22 +59,18 @@ struct AuthWebView: View {
             WebView(webView: webView, userAgent: "Imad Agent")
         }.background {
             Color.white
-            filter != .kakao ? filter.color : filter.color.opacity(0.7)
+            filter.color
         }
         .onAppear {
             // 로드될 페이지 설정
-            var url = URL(string: "")
-            if filter == .Apple {
-                url = URL(string: "https://\(Bundle.main.infoDictionary?["APPLE_LOGIN_URL"] ?? "")=https://\(Bundle.main.infoDictionary?["APPLE_REDIRECT_URI"] ?? "")")!
-            } else {
-                url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.rawValue)")!
-            }
+            let url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.authProvierName)")!
             // WebView에 로드된 페이지에 대한 Delegate 지정
             webView.navigationDelegate = webViewDelegate
             // 로드된 페이지 요청
-            webView.load(URLRequest(url: url!))
+            webView.load(URLRequest(url: url))
         }
         .onReceive(webViewDelegate.success) { _ in
+            dismiss()
             vm.getUser()
         }
     }
@@ -74,7 +86,6 @@ struct WebView: UIViewRepresentable {
         webView.uiDelegate = context.coordinator
         webView.navigationDelegate = context.coordinator
         webView.customUserAgent = userAgent
-        
         return webView
     }
     

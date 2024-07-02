@@ -42,11 +42,12 @@ struct WorkView: View {
     }
     
     var body: some View {
-        VStack{
-            ZStack(alignment: .topLeading){
-                Color.white.ignoresSafeArea()
+        ZStack(alignment: .topLeading){
+            if vm.workInfo == nil{
+                CustomProgressView()
+            }else{
                 ScrollView(showsIndicators: false){
-                    MovieBackgroundView(url: vm.workInfo?.posterPath?.getImadImage() ?? "", height: 3)
+                    MovieBackgroundView(url: vm.workInfo?.posterPath?.getImadImage() ?? "", height: 3, isBottomTransparency: true)
                     poster
                     collection
                     VStack{
@@ -58,6 +59,7 @@ struct WorkView: View {
                 }
                 header
             }
+            
         }
         .foregroundColor(.white)
         .onAppear {

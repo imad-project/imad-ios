@@ -17,6 +17,7 @@ struct UserResponse:Codable{
     var profileImage:Int
     var tvGenre:[Int]
     var movieGenre:[Int]
+    let ageRange:Int
     let authProvider:String
     let role:String
     
@@ -29,6 +30,7 @@ struct UserResponse:Codable{
         case birthYear = "birth_year"
         case profileImage = "profile_image"
         case tvGenre = "preferred_tv_genres"
+        case ageRange = "age_range"
         case movieGenre = "preferred_movie_genres"
         case role
     }

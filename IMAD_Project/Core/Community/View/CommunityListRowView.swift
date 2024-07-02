@@ -41,7 +41,7 @@ extension CommunityListRowView{
     var firstView:some View{
         HStack{
             ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 25)
-            Text(community.userNickname).bold()
+            Text(community.userNickname ?? "").bold()
             Text("·  " + community.createdAt.relativeTime()).foregroundColor(.gray)
                 .font(.caption)
             Spacer()

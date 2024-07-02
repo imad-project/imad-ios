@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct SearchView: View {
-    
+    let backMode:Bool
     let postingMode:Bool    //MARK: true -> CommunityWriteView / false -> WorkView
     let columns =  [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
     
@@ -66,7 +66,7 @@ struct SearchView: View {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            SearchView(postingMode: true, back: .constant(false),vm: SearchViewModel(work: CustomData.instance.workList))
+            SearchView(backMode: true, postingMode: true, back: .constant(false),vm: SearchViewModel(work: CustomData.instance.workList))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
@@ -84,16 +84,18 @@ extension SearchView{
     var header:some View{
         ZStack{
             HStack{
-                Button {
-                    back = false
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .bold()
-                        .padding()
+                if !backMode{
+                    Button {
+                        back = false
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .bold()
+                            .padding()
+                        
+                    }
                     
                 }
                 Spacer()
-                
             }
             Text("작품 찾기")
                 .bold()

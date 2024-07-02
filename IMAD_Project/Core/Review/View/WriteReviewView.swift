@@ -41,7 +41,7 @@ struct WriteReviewView: View {
             ScrollView(showsIndicators: false){
                 VStack{
                     ZStack(alignment: .top){
-                        MovieBackgroundView(url: image,height: 2.7)
+                        MovieBackgroundView(url: image,height: 2.7, isBottomTransparency: true)
                         Text("이 작품 어떠셨나요?")
                             .bold()
                         scoreView
@@ -127,32 +127,27 @@ extension WriteReviewView{
                 .bold()
                 .font(.title3)
                 .foregroundColor(.black)
-            ZStack{
-                HStack {
-                    ForEach(0..<Int(maximumRating), id: \.self) { star in
-                        Image(systemName: "star.fill")
-                            .font(.title3)
-                            .foregroundColor(getStarColor(star: star, rating: rating/2))
-                            .overlay {
-                                Image(systemName: "star")
-                                    .font(.title3)
-                                    .foregroundColor(.customIndigo)
-                            }
-                    }
-                    .frame(maxWidth: .infinity)
-                }.frame(width: 200)
-                Slider(value: $rating, in: 0...maximumRating*2, step: 0.1)
-                    .frame(width: 200)
-                    .gesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged { value in
-                                // 범위 내에서 rating 값을 제한하는 코드
-                                self.rating = min(max(Double(value.location.x / 200) * maximumRating*2, 0), maximumRating*2)
-                            }
-                    )
-                    .accentColor(.clear)
-                    .opacity(0.1)
+            HStack {
+                ForEach(0..<Int(maximumRating), id: \.self) { star in
+                    Image(systemName: "star.fill")
+                        .font(.title3)
+                        .foregroundColor(getStarColor(star: star, rating: rating/2))
+                        .overlay {
+                            Image(systemName: "star")
+                                .font(.title3)
+                                .foregroundColor(.customIndigo)
+                        }
+                }
+                .frame(maxWidth: .infinity)
             }
+            .frame(width: 200)
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { value in
+                        // 범위 내에서 rating 값을 제한하는 코드
+                        self.rating = min(max(Double(value.location.x / 200) * maximumRating * 2, 0), maximumRating*2)
+                    }
+            )
         }.padding(.bottom,10)
         
     }
@@ -166,7 +161,8 @@ extension WriteReviewView{
         let fillAmount: Double
         let integerPart = Int(rating)
         let decimalPart = rating - Double(integerPart)
-        
+        print("integerPart\(integerPart)")
+        print("decimalPart\(decimalPart)")
         if star < integerPart {
             fillAmount = 1.0
         } else if star == integerPart {
@@ -174,7 +170,6 @@ extension WriteReviewView{
         } else {
             fillAmount = 0.0
         }
-        
         return fillAmount
     }
     var scoreView:some View{
