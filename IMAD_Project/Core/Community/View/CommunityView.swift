@@ -46,7 +46,7 @@ struct CommunityView: View {
             }
         }
         .navigationDestination(isPresented: $search){
-            SearchView(backMode: true, postingMode: true, back: $search)
+            SearchView(backMode: false, postingMode: true, back: $search)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden()
         }

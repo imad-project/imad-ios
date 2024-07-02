@@ -109,7 +109,6 @@ extension MyCommunityListView{
                     ForEach(communityList,id: \.self) { community in
                         VStack{
                             communityListRowView(community: community)
-                            Divider().padding(.vertical)
                             if vm.communityList.last == community,vm.maxPage > vm.currentPage{
                                 ProgressView()
                                     .environment(\.colorScheme, .light)
@@ -194,7 +193,9 @@ extension MyCommunityListView{
                     .font(.caption)
                 }
                 Spacer()
-                KFImageView(image:community.contentsPosterPath?.getImadImage() ?? "" ,width: 80,height: 80)
+                KFImageView(image:community.contentsPosterPath?.getImadImage() ?? "" ,width: 70,height: 100)
+                    .cornerRadius(5)
+                    .shadow(radius: 1)
             }
         }
         .padding(.horizontal)

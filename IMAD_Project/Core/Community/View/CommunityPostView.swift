@@ -113,13 +113,11 @@ extension CommunityPostView{
                 }
                 Spacer()
                 Group{
-                    if community.scrapStatus{
-                        Button {
-                            vm.community?.scrapStatus = !community.scrapStatus
-                            community.scrapStatus ? vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0) : vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
-                        } label: {
-                            Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
-                        }
+                    Button {
+                        vm.community?.scrapStatus = !community.scrapStatus
+                        community.scrapStatus ? vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0) : vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
+                    } label: {
+                        Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
                     }
                     if community.author{
                         Button {

@@ -86,7 +86,9 @@ extension MyScrapListView{
                     .foregroundColor(.gray)
                 }
                 Spacer()
-                KFImageView(image: scrap.contentsPosterPath.getImadImage(),width: 80,height: 80)
+                KFImageView(image: scrap.contentsPosterPath.getImadImage(),width: 70,height: 100)
+                    .cornerRadius(5)
+                    .shadow(radius: 1)
             }
         }
         .padding(.horizontal)
