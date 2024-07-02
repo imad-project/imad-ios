@@ -59,34 +59,70 @@ class RecommendViewModel:ObservableObject{
             } receiveValue: { [weak self] work in
                 self?.recommendAll = work.data
             }.store(in: &cancelable)
-
+        
     }
     func fetchTrendRecommend(page:Int){
         RecommendApiService.trend(page: page)
-        .sink { completion in
-            switch completion{
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.refreschTokenExpired.send()
-            case .finished:
-                print(completion)
-            }
-            self.currentPage = page
-        } receiveValue: { [weak self] work in
-            var tvList:[WorkGenre] = []
-            var movieList:[WorkGenre] = []
-            (work.data?.trendRecommendationTv?.results ?? []).forEach{tvList.append(TVWorkGenre(tvGenre: $0))}
-            (work.data?.trendRecommendationMovie?.results ?? []).forEach{movieList.append(MovieWorkGenre(movieGenre: $0))}
-            self?.recommendTrend.0.append(contentsOf:tvList)
-            self?.recommendTrend.1.append(contentsOf:movieList)
-            self?.maxPage = work.data?.trendRecommendationTv?.totalPages ?? 1
-        }.store(in: &cancelable)
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
+                self.currentPage = page
+            } receiveValue: { [weak self] work in
+                var tvList:[WorkGenre] = []
+                var movieList:[WorkGenre] = []
+                (work.data?.trendRecommendationTv?.results ?? []).forEach{tvList.append(TVWorkGenre(tvGenre: $0))}
+                (work.data?.trendRecommendationMovie?.results ?? []).forEach{movieList.append(MovieWorkGenre(movieGenre: $0))}
+                self?.recommendTrend.0.append(contentsOf:tvList)
+                self?.recommendTrend.1.append(contentsOf:movieList)
+                self?.maxPage = work.data?.trendRecommendationTv?.totalPages ?? 1
+            }.store(in: &cancelable)
     }
     func fetchGenreRecommend(page:Int){
-        
+        RecommendApiService.genre(page: page)
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
+                self.currentPage = page
+            } receiveValue: { [weak self] work in
+                var tvList:[WorkGenre] = []
+                var movieList:[WorkGenre] = []
+                (work.data?.preferredGenreRecommendationTv?.results ?? []).forEach{tvList.append(TVWorkGenre(tvGenre: $0))}
+                (work.data?.preferredGenreRecommendationMovie?.results ?? []).forEach{movieList.append(MovieWorkGenre(movieGenre: $0))}
+                self?.recommendGenre.0.append(contentsOf:tvList)
+                self?.recommendGenre.1.append(contentsOf:movieList)
+                self?.maxPage = work.data?.preferredGenreRecommendationTv?.totalPages ?? 1
+            }.store(in: &cancelable)
     }
     func fetchImadRecommend(page:Int){
-        
+        RecommendApiService.imad(page: page)
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
+                self.currentPage = page
+            } receiveValue: { [weak self] work in
+                var tvList:[WorkGenre] = []
+                var movieList:[WorkGenre] = []
+                (work.data?.popularRecommendationTv?.results ?? []).forEach{tvList.append(TVWorkGenre(tvGenre: $0))}
+                (work.data?.popularRecommendationMovie?.results ?? []).forEach{movieList.append(MovieWorkGenre(movieGenre: $0))}
+                self?.recommendImad.0.append(contentsOf:tvList)
+                self?.recommendImad.1.append(contentsOf:movieList)
+                self?.maxPage = work.data?.popularRecommendationTv?.totalPages ?? 1
+            }.store(in: &cancelable)
     }
     func fetchActivityRecommend(page:Int,contentsId:Int){
         

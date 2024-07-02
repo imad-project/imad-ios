@@ -188,9 +188,12 @@ extension MainView{
     }
     var trendView:some View{
         VStack(alignment: .leading){
-                textTitleView("요즘 뜨고 있는 작품")
-                .padding(.horizontal)
+               
             HStack{
+                Text("인기작품")
+                    .fontWeight(.black)
+                    .font(.title3)
+                    .foregroundColor(.customIndigo)
                 Button {
                     withAnimation(.default){
                         trend = false
@@ -200,7 +203,7 @@ extension MainView{
                         .bold()
                         .opacity(trend ? 0.5 : 1.0)
                 }
-                Text(" l ")
+                Text(" l ").foregroundColor(.gray)
                 Button {
                     withAnimation(.default){
                         trend = true
@@ -214,9 +217,8 @@ extension MainView{
                 Spacer()
                 allView(RecommendAllView(type: trend ? .trendTv : .trendMovie))
             }
-            
-            .foregroundColor(.customIndigo)
             .padding(.horizontal)
+            .foregroundColor(.customIndigo)
             ScrollView(.horizontal,showsIndicators: false) {
                 HStack{
                     ListView(items: trend ? list(.trendTv).0 : list(.trendMovie).0) { work in
@@ -314,13 +316,9 @@ extension MainView{
                 .navigationBarBackButtonHidden()
                 .environmentObject(vmAuth)
         } label: {
-            Label {
-                Text("전체보기")
-                    .font(.caption)
-            } icon: {
-                Image(systemName: "line.3.horizontal")
-                    .font(.subheadline)
-            }
+            Text("전체보기")
+                .font(.subheadline)
+                .fontWeight(.regular)
             .foregroundColor(.customIndigo)
         }
     }
@@ -487,8 +485,11 @@ extension MainView{
     }
     func recommendView(_ title:String,_ filter:RecommendListType) -> some View{
         VStack(alignment: .leading){
-            textTitleView(title)
-                .padding(.horizontal)
+            HStack(alignment:.bottom){
+                textTitleView(title)
+                allView(RecommendAllView(type: filter))
+            }
+            .padding(.horizontal)
             ScrollView(.horizontal,showsIndicators: false) {
                 HStack{
                     workListView(filter, width: 130, height: 180)
