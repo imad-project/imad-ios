@@ -20,6 +20,7 @@ protocol Popular{
     func userProfile() -> Int
     func userName() -> String
     func poster() -> String
+    func backdrop() -> String
     func contents() -> String
     
 }
@@ -34,7 +35,9 @@ class PopularReviewClass:Popular{
     func contentsTitle() -> String {
         return review.contentsTitle
     }
-    
+    func backdrop() -> String{
+        return review.contentsBackdropPath
+    }
     func title() -> String {
         return review.title
     }
@@ -70,7 +73,9 @@ class PopularPostingClass:Popular{
     func contentsTitle() -> String {
         return posting.contentsTitle
     }
-    
+    func backdrop() -> String{
+        return posting.contentsBackdropPath
+    }
     func title() -> String {
         return posting.title
     }

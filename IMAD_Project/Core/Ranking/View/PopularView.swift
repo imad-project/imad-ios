@@ -36,6 +36,13 @@ struct PopularView: View {
                         Color.clear
                             .background(Material.thin)
                         HStack{
+                            VStack(spacing: 0){
+                                ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 20)
+                                Text(popular.userName())
+                                    .font(.caption2)
+                                    .foregroundColor(.black)
+                            }
+                            .padding(.bottom)
                             VStack(alignment: .leading){
                                 HStack{
                                     Text(popular.contentsTitle())
@@ -60,23 +67,17 @@ struct PopularView: View {
                                     .lineLimit(1)
                                     .foregroundColor(.black)
                             }
-                            .padding(.trailing,20)
-                            HStack(spacing:0){
-                                KFImageView(image: popular.poster().getImadImage(),width: 70,height: 100)
-                                KFImageView(image: popular.poster().getImadImage(),width: 70,height: 100)
-                                    .rotationEffect(Angle(degrees: 20))
-                            }
+                            .padding(.trailing,30)
+                                KFImageView(image: popular.backdrop().getImadImage(),height: 100)
+                                    .offset(x:20)
+                                    .overlay(alignment: .leading) {
+                                        KFImageView(image: popular.poster().getImadImage(),width: 70,height: 100)
+                                            .cornerRadius(5)
+                                            .rotationEffect(Angle(degrees: 20))
+                                    }
                         }
                         .padding(.leading,20)
-                        VStack(spacing: 0){
-                            ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 30)
-                            Text(popular.userName())
-                                .font(.caption2)
-                                .foregroundColor(.white)
-                                .shadow(color:.black,radius: 1)
-                        }
-                        .frame(maxWidth: .infinity,maxHeight: .infinity,alignment: .topTrailing)
-                        .padding(20)
+                        
                         
                     }
                     .frame(width: UIScreen.main.bounds.width-30,height: 80)
