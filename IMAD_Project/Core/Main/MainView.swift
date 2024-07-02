@@ -162,7 +162,7 @@ extension MainView{
                 LazyHGrid(rows: workItems){
                     ListView(items: list(filter).0){ work in
                         NavigationLink {
-                            WorkView()
+                            WorkView(id: work.id(),type: list(filter).1.rawValue)
                                 .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {
@@ -174,7 +174,7 @@ extension MainView{
                                     .lineLimit(1)
                                     .frame(width: width)
                                     .foregroundColor(.black)
-                                Text("공포, 호러")
+                                Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" : work.genreId()?.transMovieGenreCode() ?? "")
                                     .font(.caption)
                                     .lineLimit(1)
                                     .frame(width: width)
@@ -233,7 +233,7 @@ extension MainView{
                 HStack{
                     ListView(items: trend ? list(.trendTv).0 : list(.trendMovie).0) { work in
                         NavigationLink {
-                            WorkView()
+                            WorkView(id: work.id(),type: trend ? list(.trendTv).1.rawValue : list(.trendMovie).1.rawValue)
                                 .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {
@@ -249,7 +249,7 @@ extension MainView{
                                                 .bold()
                                                 .lineLimit(1)
                                                 .frame(width: 175)
-                                            Text("공포, 호러")
+                                            Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" : work.genreId()?.transMovieGenreCode() ?? "")
                                                 .font(.subheadline)
                                                 .lineLimit(1)
                                                 .frame(width: 175)
@@ -278,7 +278,7 @@ extension MainView{
                 }else{
                     ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
                         NavigationLink {
-                            WorkView(id: rank.contentsID)
+                            WorkView(id: rank.contentsID,type: rank.contentsType)
                                 .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {
@@ -454,7 +454,9 @@ extension MainView{
                                             .background(Color.white)
                                             .padding(.vertical,5)
                                         NavigationLink {
-                                            
+                                            WorkView(id: element.id(),type: work.1.rawValue)
+                                                .environmentObject(vmAuth)
+                                                .navigationBarBackButtonHidden()
                                         } label: {
                                             HStack{
                                                 KFImageView(image: element.backdropPath()?.getImadImage() ?? (element.posterPath()?.getImadImage() ?? ""),width: 80,height: 45)
@@ -467,7 +469,7 @@ extension MainView{
                                                         .font(.subheadline)
                                                         .foregroundColor(.white)
                                                     
-                                                    Text("공포, 호러")
+                                                    Text(element.genreType == .tv ? element.genreId()?.transTvGenreCode() ?? "" : element.genreId()?.transMovieGenreCode() ?? "")
                                                         .lineLimit(1)
                                                         .font(.caption)
                                                         .foregroundColor(.white)

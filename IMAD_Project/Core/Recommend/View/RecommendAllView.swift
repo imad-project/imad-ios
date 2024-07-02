@@ -100,27 +100,32 @@ struct RecommendAllView: View {
     var contentView:some View{
         VStack(spacing:0){
             ListView(items: vm.workList(type: type)) { work in
-                HStack{
-                    KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 120,height: 160)
-                        .cornerRadius(5)
-                        .padding(.vertical)
-                    VStack(alignment: .leading){
-                        Text(work.genreType == .tv ?  work.name() ?? "" : work.title() ?? "")
-                            .bold()
-                            .font(.title3)
-                            .foregroundColor(.white)
-                        Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" :work.genreId()?.transMovieGenreCode() ?? "")
-                            .foregroundColor(.white.opacity(0.7))
+                NavigationLink {
+                    WorkView(id: work.id(),type: work.genreType.rawValue)
+                        .environmentObject(vmAuth)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    HStack{
+                        KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 120,height: 160)
+                            .cornerRadius(5)
+                            .padding(.vertical)
+                        VStack(alignment: .leading){
+                            Text(work.genreType == .tv ?  work.name() ?? "" : work.title() ?? "")
+                                .bold()
+                                .font(.title3)
+                                .foregroundColor(.white)
+                            Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" :work.genreId()?.transMovieGenreCode() ?? "")
+                                .foregroundColor(.white.opacity(0.7))
+                        }
+                        Spacer()
                     }
-                    Spacer()
+                    .padding(.horizontal)
+                    .background{
+                        KFImageView(image: work.backdropPath()?.getImadImage() ?? "")
+                            .overlay(Material.thin)
+                            .environment(\.colorScheme,.dark)
+                    }
                 }
-                .padding(.horizontal)
-                .background{
-                    KFImageView(image: work.backdropPath()?.getImadImage() ?? "")
-                        .overlay(Material.thin)
-                        .environment(\.colorScheme,.dark)
-                }
-                
             }
             Button {
                 vm.currentPage += 1

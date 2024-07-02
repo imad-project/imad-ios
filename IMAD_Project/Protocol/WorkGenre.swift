@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WorkGenreType{
+enum WorkGenreType:String{
     case tv,movie
 }
 
