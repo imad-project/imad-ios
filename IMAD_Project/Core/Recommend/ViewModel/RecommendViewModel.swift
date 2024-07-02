@@ -19,7 +19,7 @@ class RecommendViewModel:ObservableObject{
     @Published var recommendTrend:([WorkGenre],[WorkGenre]) = ([],[])
     @Published var recommendGenre:([WorkGenre],[WorkGenre]) = ([],[])
     @Published var recommendImad:([WorkGenre],[WorkGenre]) = ([],[])
-    @Published var recommendActivity:([WorkGenre],[WorkGenre],[WorkGenre],[WorkGenre]) = ([],[],[],[])
+    @Published var recommendActivity:[WorkGenre] = []
     
     func workList(type:RecommendListType) -> [WorkGenre]{
         switch type{
@@ -31,14 +31,8 @@ class RecommendViewModel:ObservableObject{
             return recommendTrend.0
         case .trendMovie:
             return recommendTrend.1
-        case .activityTv:
-            return recommendActivity.0
-        case .activityAnimationTv:
-            return recommendActivity.1
-        case .activityMovie:
-            return recommendActivity.2
-        case .activityAnimationMovie:
-            return recommendActivity.3
+        case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:
+            return recommendActivity
         case .imadTv:
             return recommendImad.0
         case .imadMovie:
@@ -125,6 +119,33 @@ class RecommendViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func fetchActivityRecommend(page:Int,contentsId:Int){
-        
+        RecommendApiService.activity(page: page, contentsId: contentsId)
+            .sink { completion in
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    print(completion)
+                }
+                self.currentPage = page
+            } receiveValue: { [weak self] work in
+                var list:[WorkGenre] = []
+                if let result = work.data?.userActivityRecommendationTv{
+                    result.results.forEach{list.append(TVWorkGenre(tvGenre: $0))}
+                    self?.maxPage = result.totalPages
+                }else if let result = work.data?.userActivityRecommendationMovie{
+                    result.results.forEach{list.append(MovieWorkGenre(movieGenre: $0))}
+                    self?.maxPage = result.totalPages
+                }else if let result = work.data?.userActivityRecommendationTvAnimation{
+                    result.results.forEach{list.append(TVWorkGenre(tvGenre: $0))}
+                    self?.maxPage = result.totalPages
+                }else if let result = work.data?.userActivityRecommendationMovieAnimation{
+                    result.results.forEach{list.append(MovieWorkGenre(movieGenre: $0))}
+                    self?.maxPage = result.totalPages
+                }
+                self?.recommendActivity.append(contentsOf: list)
+                
+            }.store(in: &cancelable)
     }
 }

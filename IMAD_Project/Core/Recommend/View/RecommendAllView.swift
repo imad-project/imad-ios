@@ -19,17 +19,17 @@ struct RecommendAllView: View {
             case .trendTv,.trendMovie:[.trendTv,.trendMovie]
             case .genreTv,.genreMovie:[.genreTv,.genreMovie]
             case .imadTv,.imadMovie:[.imadTv,.imadMovie]
-        case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:[.activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie]
+        case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:[]
         }
     }
-    func request(){
+    func request(contentsId:Int){
         switch type{
         case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:
-            print("")
+            vm.fetchActivityRecommend(page: vm.currentPage, contentsId: contentsId)
         case .genreMovie,.genreTv:
-            print("")
+            vm.fetchGenreRecommend(page: vm.currentPage)
         case .imadTv,.imadMovie:
-            print("")
+            vm.fetchImadRecommend(page: vm.currentPage)
         case .trendTv,.trendMovie:
             vm.fetchTrendRecommend(page: vm.currentPage)
         }
@@ -48,7 +48,8 @@ struct RecommendAllView: View {
             }
         }
         .onAppear{
-            request()
+            guard let contentsId else { return request(contentsId: 0) }
+            request(contentsId: contentsId)
         }
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
@@ -136,7 +137,8 @@ struct RecommendAllView: View {
             }
             Button {
                 vm.currentPage += 1
-                request()
+                guard let contentsId else { return request(contentsId: 0) }
+                request(contentsId: contentsId)
             } label: {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(lineWidth: 1)

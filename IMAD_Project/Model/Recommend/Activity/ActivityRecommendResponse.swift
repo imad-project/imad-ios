@@ -8,9 +8,9 @@
 import Foundation
 
 struct ActivityRecommendResponse:Codable{
-    var userActivityRecommendationTv:RecommendTVList
+    var userActivityRecommendationTv:RecommendTVList?
     var userActivityRecommendationMovie:RecommendMovieList?
-    var userActivityRecommendationTvAnimation:RecommendTVList
+    var userActivityRecommendationTvAnimation:RecommendTVList?
     var userActivityRecommendationMovieAnimation : RecommendMovieList?
     
     enum CodingKeys: String, CodingKey {
