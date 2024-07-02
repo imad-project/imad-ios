@@ -9,11 +9,30 @@ import SwiftUI
 
 struct RecommendAllView: View {
     var contentsId:Int?
-    let type:RecommendListType
+    @State var type:RecommendListType
+    @StateObject var vm = RecommendViewModel()
+    @Environment(\.dismiss) var dismiss
+    
+    var typeList:[RecommendListType]{
+        switch type{
+            case .trendTv,.trendMovie:[.trendTv,.trendMovie]
+            case .genreTv,.genreMovie:[.genreTv,.genreMovie]
+            case .imadTv,.imadMovie:[.imadTv,.imadMovie]
+        case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:[.activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie]
+        }
+    }
+    
+    
     var body: some View {
         VStack{
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            headerView
+            ScrollView(showsIndicators: false){
+                titleView
+                contentView
+            }
+            
         }
+        .padding(.horizontal)
         .onAppear{
             switch type{
             case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:
@@ -23,12 +42,68 @@ struct RecommendAllView: View {
             case .imadTv,.imadMovie:
                 print("")
             case .trendTv,.trendMovie:
-                print("")
+                vm.fetchTrendRecommend(page: vm.currentPage)
             }
+        }
+    }
+    var headerView:some View{
+        HStack{
+            Image(systemName: "chevron.left")
+            Spacer()
+        }
+        .overlay {
+            Text("작품 추천")
+               
+        }
+        .bold()
+        .padding(.vertical)
+    }
+    var titleView:some View{
+        VStack{
+            HStack{
+                Text(type.title)
+                    .font(.title3)
+                    .fontWeight(.black)
+                Spacer()
+            }
+            ScrollView(.horizontal,showsIndicators: false) {
+                HStack{
+                    ForEach(typeList,id: \.self){ type in
+                        Button {
+                            self.type = type
+                            print(type)
+                        } label: {
+                            ZStack{
+                                Group{
+                                    if self.type == type{
+                                        Capsule()
+                                    }else{
+                                        Capsule()
+                                            .stroke(lineWidth: 1)
+                                    }
+                                }
+                                .foregroundColor(.customIndigo)
+                                .frame(height: 30)
+                                Text(type.name)
+                                    .foregroundColor(self.type == type ? .white : .customIndigo)
+                                    .padding(.horizontal,20)
+                            }.frame(minWidth: 100,maxWidth: 250)
+                        }
+                        .padding(.vertical,2)
+                    }
+                    Spacer()
+                }
+            }
+            
+        }
+    }
+    var contentView:some View{
+        ListView(items: vm.workList(type: type)) { work in
+            KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 300,height: 300)
         }
     }
 }
 
 #Preview {
-    RecommendAllView(type: .genreTv)
+    RecommendAllView(type: .trendMovie)
 }

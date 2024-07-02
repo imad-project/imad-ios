@@ -16,8 +16,35 @@ class RecommendViewModel:ObservableObject{
     @Published var maxPage = 0
     
     @Published var recommendAll:AllRecommendResponse? = nil
+    @Published var recommendTrend:([WorkGenre],[WorkGenre]) = ([],[])
+    @Published var recommendGenre:([WorkGenre],[WorkGenre]) = ([],[])
+    @Published var recommendImad:([WorkGenre],[WorkGenre]) = ([],[])
+    @Published var recommendActivity:([WorkGenre],[WorkGenre],[WorkGenre],[WorkGenre]) = ([],[],[],[])
     
-    
+    func workList(type:RecommendListType) -> [WorkGenre]{
+        switch type{
+        case .genreTv:
+            return recommendGenre.0
+        case .genreMovie:
+            return recommendGenre.1
+        case .trendTv:
+            return recommendTrend.0
+        case .trendMovie:
+            return recommendTrend.1
+        case .activityTv:
+            return recommendActivity.0
+        case .activityAnimationTv:
+            return recommendActivity.1
+        case .activityMovie:
+            return recommendActivity.2
+        case .activityAnimationMovie:
+            return recommendActivity.3
+        case .imadTv:
+            return recommendImad.0
+        case .imadMovie:
+            return recommendImad.1
+        }
+    }
     func fetchAllRecommend(){
         RecommendApiService.all()
             .sink { completion in
@@ -30,7 +57,7 @@ class RecommendViewModel:ObservableObject{
                 }
             } receiveValue: { [weak self] work in
                 self?.recommendAll = work.data
-            }.store(in: &canelable)
+            }.store(in: &cancelable)
 
     }
     func fetchTrendRecommend(page:Int){
