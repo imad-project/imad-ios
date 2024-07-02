@@ -9,7 +9,7 @@ import Foundation
 
 struct PopularReviewResponse:Codable{
     let reviewID, contentsID: Int
-    let contentsTitle, contentsPosterPath: String
+    let contentsTitle, contentsPosterPath,contentsBackdropPath: String
     let userID: Int
     let userNickname: String
     let userProfileImage: Int
@@ -25,6 +25,7 @@ struct PopularReviewResponse:Codable{
         case contentsID = "contents_id"
         case contentsTitle = "contents_title"
         case contentsPosterPath = "contents_poster_path"
+        case contentsBackdropPath = "contents_backdrop_path"
         case userID = "user_id"
         case userNickname = "user_nickname"
         case userProfileImage = "user_profile_image"
