@@ -179,36 +179,42 @@ extension MainView{
     }
     func titleView(user:UserResponse) -> some View{
         HStack(spacing: 0){
-            Text(user.nickname ?? "").bold()
-            Text("님 환영합니다")
+            Text((user.nickname ?? "") + "님 환영합니다")
         }
-        .font(.title2)
+        .font(.title)
+        .fontWeight(.black)
         .padding(.horizontal)
+        .padding(.bottom)
     }
     var trendView:some View{
-        VStack{
-            HStack{
+        VStack(alignment: .leading){
                 textTitleView("요즘 뜨고 있는 작품")
-                Spacer()
+                .padding(.horizontal)
+            HStack{
                 Button {
                     withAnimation(.default){
                         trend = false
                     }
                 } label: {
-                    Text("영화").font(.subheadline)
+                    Text("영화")
+                        .bold()
                         .opacity(trend ? 0.5 : 1.0)
                 }
+                Text(" l ")
                 Button {
                     withAnimation(.default){
                         trend = true
                     }
                     
                 } label: {
-                    Text("시리즈").font(.subheadline)
+                    Text("시리즈")
                         .opacity(trend ? 1.0 : 0.5)
+                        .bold()
                 }
-                
+                Spacer()
+                allView(RecommendAllView(type: trend ? .trendTv : .trendMovie))
             }
+            
             .foregroundColor(.customIndigo)
             .padding(.horizontal)
             ScrollView(.horizontal,showsIndicators: false) {
@@ -310,6 +316,7 @@ extension MainView{
         } label: {
             Label {
                 Text("전체보기")
+                    .font(.caption)
             } icon: {
                 Image(systemName: "line.3.horizontal")
                     .font(.subheadline)
@@ -385,7 +392,6 @@ extension MainView{
                         .navigationBarBackButtonHidden()
                 } label: {
                     PopularView(review: vm.popularReview)
-                    
                         .shadow(radius: 1)
                 }
                 NavigationLink {
