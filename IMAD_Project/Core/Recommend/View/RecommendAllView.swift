@@ -36,13 +36,13 @@ struct RecommendAllView: View {
     }
     
     var body: some View {
-        VStack{
+        VStack(spacing:0){
             if vm.workList(type: type).isEmpty{
                 CustomProgressView()
             }else{
                 headerView
+                titleView
                 ScrollView{
-                    titleView
                     contentView
                 }
             }
@@ -65,64 +65,51 @@ struct RecommendAllView: View {
             Spacer()
         }
         .overlay {
-            Text("작품 추천")
+            Text(type.title)
         }
         .bold()
         .padding()
         .foregroundColor(.black)
     }
     var titleView:some View{
-        VStack{
+        VStack(spacing:0){
             HStack{
-                Text(type.title)
-                    .font(.title3)
-                    .fontWeight(.black)
-                Spacer()
-            }.padding(.horizontal)
-            ScrollView(.horizontal,showsIndicators: false) {
-                HStack{
-                    ForEach(typeList,id: \.self){ type in
+                ForEach(typeList,id: \.self){ type in
+                    VStack{
                         Button {
-                            self.type = type
-                            print(type)
+                            withAnimation(.default){
+                                self.type = type
+                            }
                         } label: {
-                            ZStack{
-                                Group{
-                                    if self.type == type{
-                                        Capsule()
-                                    }else{
-                                        Capsule()
-                                            .stroke(lineWidth: 1)
-                                    }
-                                }
-                                .foregroundColor(.customIndigo)
-                                .frame(height: 30)
-                                Text(type.name)
-                                    .foregroundColor(self.type == type ? .white : .customIndigo)
-                                    .padding(.horizontal,20)
-                            }.frame(minWidth: 100,maxWidth: 250)
+                            Text(type.name)
+                                .foregroundColor(self.type == type ? .customIndigo : .gray)
+                                .frame(minWidth: 100,maxWidth: 250)
                         }
                         .padding(.vertical,2)
+                        if self.type == type{
+                            RoundedRectangle(cornerRadius: 5)
+                                .frame(height: 4)
+                                .foregroundColor(.customIndigo)
+                                
+                        }
                     }
-                    Spacer()
-                }.padding(.horizontal)
+                }
             }
-            
         }
     }
     var contentView:some View{
         VStack(spacing:0){
             ListView(items: vm.workList(type: type)) { work in
                 HStack{
-                    KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 70,height: 100)
+                    KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 120,height: 160)
+                        .cornerRadius(5)
+                        .padding(.vertical)
                     VStack(alignment: .leading){
                         Text(work.genreType == .tv ?  work.name() ?? "" : work.title() ?? "")
                             .bold()
-                            .lineLimit(1)
+                            .font(.title3)
                             .foregroundColor(.white)
                         Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" :work.genreId()?.transMovieGenreCode() ?? "")
-                            .font(.subheadline)
-                            .lineLimit(1)
                             .foregroundColor(.white.opacity(0.7))
                     }
                     Spacer()
@@ -159,5 +146,5 @@ struct RecommendAllView: View {
 }
 
 #Preview {
-    RecommendAllView(type: .trendMovie)
+    RecommendAllView(type: .trendTv)
 }
