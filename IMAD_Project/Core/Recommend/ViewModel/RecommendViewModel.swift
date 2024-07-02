@@ -10,7 +10,11 @@ import Combine
 
 class RecommendViewModel:ObservableObject{
     
-    var canelable = Set<AnyCancellable>()
+    var cancelable = Set<AnyCancellable>()
+    
+    @Published var currentPage = 1
+    @Published var maxPage = 0
+    
     @Published var recommendAll:AllRecommendResponse? = nil
     
     
@@ -28,5 +32,34 @@ class RecommendViewModel:ObservableObject{
                 self?.recommendAll = work.data
             }.store(in: &canelable)
 
+    }
+    func fetchTrendRecommend(page:Int){
+        RecommendApiService.trend(page: page)
+        .sink { completion in
+            switch completion{
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .finished:
+                print(completion)
+            }
+            self.currentPage = page
+        } receiveValue: { [weak self] work in
+            var tvList:[WorkGenre] = []
+            var movieList:[WorkGenre] = []
+            (work.data?.trendRecommendationTv?.results ?? []).forEach{tvList.append(TVWorkGenre(tvGenre: $0))}
+            (work.data?.trendRecommendationMovie?.results ?? []).forEach{movieList.append(MovieWorkGenre(movieGenre: $0))}
+            self?.recommendTrend.0.append(contentsOf:tvList)
+            self?.recommendTrend.1.append(contentsOf:movieList)
+            self?.maxPage = work.data?.trendRecommendationTv?.totalPages ?? 1
+        }.store(in: &cancelable)
+    }
+    func fetchGenreRecommend(page:Int){
+        
+    }
+    func fetchImadRecommend(page:Int){
+        
+    }
+    func fetchActivityRecommend(page:Int,contentsId:Int){
+        
     }
 }
