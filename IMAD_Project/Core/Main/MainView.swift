@@ -47,7 +47,7 @@ struct MainView: View {
         .ignoresSafeArea(edges:.bottom)
         .onAppear {
             vmRecommend.fetchAllRecommend()
-            vm.getAllRanking(page: 1, type: ranking.name)
+            vm.getAllRanking(page: 1, type: ranking.rawValue)
             vm.getPopularReview()
             vm.getPopularPosting()
         }
@@ -64,76 +64,86 @@ struct MainView_Previews: PreviewProvider {
 }
 
 extension MainView{
-    func list(_ filter:RecommendListType) -> ([WorkGenre],WorkGenreType,RecommendListType){
+    func list(_ filter:RecommendListType) -> ([WorkGenre],WorkGenreType,RecommendListType,Int?){
         switch filter{
         case .genreTv:
             var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.preferredGenreRecommendationTv?.contentsID
             for i in (vmRecommend.recommendAll?.preferredGenreRecommendationTv?.results ?? []){
                 list.append( TVWorkGenre(tvGenre:i))
             }
-            return (list.isEmpty ? initValue : list,.tv,.genreTv)
+            return (list.isEmpty ? initValue : list,.tv,.genreTv,contentsId)
         case .genreMovie:
             var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.preferredGenreRecommendationMovie?.contentsID
             for i in (vmRecommend.recommendAll?.preferredGenreRecommendationMovie?.results ?? []){
                 list.append( MovieWorkGenre(movieGenre:i))
             }
-            return (list.isEmpty ? initValue : list,.movie,.genreMovie)
+            return (list.isEmpty ? initValue : list,.movie,.genreMovie,contentsId)
         case .trendTv:
             var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.trendRecommendationTv?.contentsID
             for i in (vmRecommend.recommendAll?.trendRecommendationTv?.results ?? []){
                 list.append( TVWorkGenre(tvGenre:i))
             }
-            return (list.isEmpty ? initValue : list,.tv,.trendTv)
+            return (list.isEmpty ? initValue : list,.tv,.trendTv,contentsId)
         case .trendMovie:
             var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.trendRecommendationMovie?.contentsID
             for i in (vmRecommend.recommendAll?.trendRecommendationMovie?.results ?? []){
                 list.append( MovieWorkGenre(movieGenre:i))
             }
-            return (list.isEmpty ? initValue : list,.movie,.trendMovie)
+            return (list.isEmpty ? initValue : list,.movie,.trendMovie,contentsId)
         case .activityTv:
             var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.userActivityRecommendationTv?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationTv?.results {
                 for i in 0..<5{
                     list.append( TVWorkGenre(tvGenre:results[i]))
                 }
             }
-            return (list,.tv,.activityTv)
+            return (list,.tv,.activityTv,contentsId)
         case .activityAnimationTv:
             var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.results {
                 for i in 0..<5{
                     list.append( TVWorkGenre(tvGenre:results[i]))
                 }
             }
-            return (list,.tv,.activityAnimationTv)
+            return (list,.tv,.activityAnimationTv,contentsId)
         case .activityMovie:
             var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.userActivityRecommendationMovie?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationMovie?.results {
                 for i in 0..<5{
                     list.append( MovieWorkGenre(movieGenre:results[i]))
                 }
             }
-            return (list,.movie,.activityMovie)
+            return (list,.movie,.activityMovie,contentsId)
         case .activityAnimationMovie:
             var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.results {
                 for i in 0..<5{
                     list.append( MovieWorkGenre(movieGenre:results[i]))
                 }
             }
-            return (list,.movie,.activityAnimationMovie)
+            return (list,.movie,.activityAnimationMovie,contentsId)
         case .imadTv:
             var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.popularRecommendationTv?.contentsID
             for i in (vmRecommend.recommendAll?.popularRecommendationTv?.results ?? []){
                 list.append( TVWorkGenre(tvGenre:i))
             }
-            return (list.isEmpty ? initValue : list,.tv,.imadTv)
+            return (list.isEmpty ? initValue : list,.tv,.imadTv,contentsId)
         case .imadMovie:
             var list:[WorkGenre] = []
+            let contentsId = vmRecommend.recommendAll?.popularRecommendationMovie?.contentsID
             for i in (vmRecommend.recommendAll?.popularRecommendationMovie?.results ?? []){
                 list.append( MovieWorkGenre(movieGenre:i))
             }
-            return (list.isEmpty ? initValue : list,.movie,.imadMovie)
+            return (list.isEmpty ? initValue : list,.movie,.imadMovie,contentsId)
         }
     }
     func textTitleView(_ text:String) -> some View{
@@ -427,14 +437,13 @@ extension MainView{
                                         .font(.title3)
                                         Spacer()
                                         NavigationLink {
-                                            
+                                            RecommendAllView(contentsId:work.3,type: work.2)
+                                                .navigationBarBackButtonHidden()
+                                                .environmentObject(vmAuth)
                                         } label: {
-                                            Label {
-                                                Text("전체보기")
-                                            } icon: {
-                                                Image(systemName: "line.3.horizontal")
-                                                    .font(.subheadline)
-                                            }
+                                            Text("전체보기")
+                                                .font(.caption)
+                                                .fontWeight(.regular)
                                             .foregroundColor(.white)
                                         }
                                     }

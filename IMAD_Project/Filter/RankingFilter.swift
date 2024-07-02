@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RankingFilter:CaseIterable{
+enum RankingFilter:String,CaseIterable{
     
     case all
     case week
