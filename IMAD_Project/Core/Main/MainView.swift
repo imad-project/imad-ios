@@ -14,7 +14,7 @@ struct MainView: View {
     let gradient = [LinearGradient(colors: [.green.opacity(0.6),.cyan.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.pink.opacity(0.6),.yellow.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.gray.opacity(0.4),.gray.opacity(0.9)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.purple.opacity(0.7),.red.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.brown.opacity(0.5),.orange.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing)].shuffled()
     let rankingItems = [ GridItem(.fixed(75)), GridItem(.fixed(75)), GridItem(.fixed(75))]
     let workItems = [ GridItem(.fixed(220)), GridItem(.fixed(220))]
-    let initValue = [WorkGenre](repeating: TVWorkGenre(tvGenre: RecommendTVResponse(id: 0, name: "", posterPath: "", backdropPath: "")), count: 10)
+    let initValue = [WorkGenre](repeating: TVWorkGenre(tvGenre: RecommendTVResponse(id: 0, name: "", posterPath: "", backdropPath: "", genreIds: [])), count: 10)
     
     @State var ranking:RankingFilter = .all
     @StateObject var vm = RankingViewModel(rankingList: [])
@@ -416,7 +416,7 @@ extension MainView{
                                     HStack(alignment: .top){
                                         VStack(alignment: .leading,spacing: 0){
                                             Text("\(user.nickname ?? "")님을 위한")
-                                            Text("\(work.2.rawValue)")
+                                            Text("\(work.2.name)")
                                         }
                                         .foregroundColor(.white)
                                         .bold()

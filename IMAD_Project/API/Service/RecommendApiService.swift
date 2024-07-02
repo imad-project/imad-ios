@@ -38,7 +38,7 @@ class RecommendApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func activity(page:Int) -> AnyPublisher<ActivityRecommend,AFError>{
+    static func activity(page:Int,contentsId:Int) -> AnyPublisher<ActivityRecommend,AFError>{
         print("활동 기반 작품 추천 api 호출")
         return ApiClient.shared.session
             .request(RecommendRouter.genre(page: page),interceptor: interseptor)
