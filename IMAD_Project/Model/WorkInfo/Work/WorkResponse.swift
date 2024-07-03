@@ -15,7 +15,7 @@ struct WorkResponse:Codable{
     let tmdbId:Int
     let tmdbType:String?
     let tagline:String
-    let overview, posterPath, originalLanguage: String?
+    let overview, posterPath,backdropPath, originalLanguage: String?
     let certification, contentsType: String?
     let title, originalTitle, releaseDate: String?
     let runtime: Int?
@@ -40,6 +40,7 @@ struct WorkResponse:Codable{
         case tmdbId = "tmdb_id"
         case overview, tagline
         case posterPath = "poster_path"
+        case backdropPath = "backdrop_path"
         case originalLanguage = "original_language"
         case certification
         case contentsType = "contents_type"

@@ -75,7 +75,7 @@ class CustomData{
                                      tmdbId: 1396,
                                      tmdbType: "TV",
                                      tagline: "", overview: "2008년 1월 AMC에서 방영을 시작한 범죄 스릴러. Breaking Bad는 막가기를 뜻하는 미국 남부 지방의 속어이다. 한때 노벨화학상까지 바라 볼 정도로 뛰어난 과학자였던 고등학교 화학 교사 월터 화이트는 자신의 50세 생일 날에 폐암 3기 진단을 받는다. 어느 날 동서와 함께 마약 단속 현장을 참관한 그는 현장에서 달아나는 옛 제자 제시를 발견한다. 뇌성마비에 걸린 고등학생 아들과 임신한 아내를 위해 제시에게 동업을 제의한 월터는 자신의 화학지식을 이용해 전례없는 고순도 고품질의 메스암페타민을 제조한다.",
-                                     posterPath: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg",
+                                             posterPath: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", backdropPath: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg",
                                      originalLanguage: "en",
                                      certification: "19",
                                      contentsType: "TV",
