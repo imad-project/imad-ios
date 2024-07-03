@@ -206,6 +206,9 @@
 		D60AD2122C29B39F00C9C27B /* RecommendMovieResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD2112C29B39F00C9C27B /* RecommendMovieResponse.swift */; };
 		D60AD2182C29B64300C9C27B /* RecommendTVList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD2172C29B64300C9C27B /* RecommendTVList.swift */; };
 		D60AD21A2C29B66500C9C27B /* RecommendMovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD2192C29B66500C9C27B /* RecommendMovieList.swift */; };
+		D64C4C872C352B170097B2FD /* GmarketSansTTFBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D64C4C832C352B160097B2FD /* GmarketSansTTFBold.ttf */; };
+		D64C4C882C352B170097B2FD /* GmarketSansTTFLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D64C4C842C352B160097B2FD /* GmarketSansTTFLight.ttf */; };
+		D64C4C892C352B170097B2FD /* GmarketSansTTFMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D64C4C852C352B160097B2FD /* GmarketSansTTFMedium.ttf */; };
 		D654FBCF2BA04C6E00AF307E /* PopularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBCE2BA04C6E00AF307E /* PopularView.swift */; };
 		D654FBD22BA146FA00AF307E /* Popular.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD12BA146FA00AF307E /* Popular.swift */; };
 		D654FBD42BA1470800AF307E /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD32BA1470800AF307E /* Genre.swift */; };
@@ -433,6 +436,9 @@
 		D60AD2112C29B39F00C9C27B /* RecommendMovieResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieResponse.swift; sourceTree = "<group>"; };
 		D60AD2172C29B64300C9C27B /* RecommendTVList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendTVList.swift; sourceTree = "<group>"; };
 		D60AD2192C29B66500C9C27B /* RecommendMovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieList.swift; sourceTree = "<group>"; };
+		D64C4C832C352B160097B2FD /* GmarketSansTTFBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansTTFBold.ttf; sourceTree = "<group>"; };
+		D64C4C842C352B160097B2FD /* GmarketSansTTFLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansTTFLight.ttf; sourceTree = "<group>"; };
+		D64C4C852C352B160097B2FD /* GmarketSansTTFMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansTTFMedium.ttf; sourceTree = "<group>"; };
 		D654FBCE2BA04C6E00AF307E /* PopularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularView.swift; sourceTree = "<group>"; };
 		D654FBD12BA146FA00AF307E /* Popular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popular.swift; sourceTree = "<group>"; };
 		D654FBD32BA1470800AF307E /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
@@ -497,6 +503,7 @@
 			isa = PBXGroup;
 			children = (
 				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
+				D64C4C822C352B070097B2FD /* Font */,
 				D654FBD02BA146E500AF307E /* Protocol */,
 				819C506C2A0F465F0008F4A5 /* Manager */,
 				819C50692A0E3E450008F4A5 /* Test */,
@@ -1290,6 +1297,25 @@
 			path = All;
 			sourceTree = "<group>";
 		};
+		D64C4C822C352B070097B2FD /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				D64C4C862C352B160097B2FD /* GmarketSansTTF */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		D64C4C862C352B160097B2FD /* GmarketSansTTF */ = {
+			isa = PBXGroup;
+			children = (
+				D64C4C832C352B160097B2FD /* GmarketSansTTFBold.ttf */,
+				D64C4C842C352B160097B2FD /* GmarketSansTTFLight.ttf */,
+				D64C4C852C352B160097B2FD /* GmarketSansTTFMedium.ttf */,
+			);
+			name = GmarketSansTTF;
+			path = ../../../../../../Downloads/GmarketSansTTF;
+			sourceTree = "<group>";
+		};
 		D654FBCD2BA0445400AF307E /* Ranking */ = {
 			isa = PBXGroup;
 			children = (
@@ -1434,8 +1460,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8103094829D1BDF00021717B /* Preview Assets.xcassets in Resources */,
+				D64C4C882C352B170097B2FD /* GmarketSansTTFLight.ttf in Resources */,
+				D64C4C872C352B170097B2FD /* GmarketSansTTFBold.ttf in Resources */,
 				81EE0B442B4161DF00A58E5F /* IMAD-Project-info.plist in Resources */,
 				8103094529D1BDF00021717B /* Assets.xcassets in Resources */,
+				D64C4C892C352B170097B2FD /* GmarketSansTTFMedium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
