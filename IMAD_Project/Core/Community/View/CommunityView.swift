@@ -12,8 +12,10 @@ struct CommunityView: View {
     
     @State var searchView = false
     @State var search = false
+    @State var searchText = ""
     
     @State var goWork = false
+    @State var sort:SortFilter = .createdDate
     @State var workInfo:CommunityDetailsListResponse?
     
     @StateObject var tab = CommunityTabManager()
@@ -21,19 +23,16 @@ struct CommunityView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        NavigationView{
-                VStack(spacing: 0) {
-                    Section(header:header){
-                        ScrollView{
-                            listView
-                        }
-                    }
-                }
-                .background(Color.white)
-                .ignoresSafeArea()
-                .onChange(of: tab.communityTab){ tab in
-                    listUpdate(category: tab.num)
-                }
+        VStack(spacing: 0){
+            header
+            ScrollView(showsIndicators: false){
+                infoView
+                listView
+            }
+        }
+        .background(Color.white)
+        .onChange(of: tab.communityTab){ tab in
+            listUpdate(category: tab.num)
         }
         .onAppear{
             listUpdate(category: tab.communityTab.num)
@@ -74,16 +73,18 @@ struct CommunityView_Previews: PreviewProvider {
 extension CommunityView{
     
     var header:some View{
-        VStack{
+        VStack(alignment:.leading){
             HStack{
                 Text("커뮤니티")
                     .font(.title2)
                     .bold()
-                    .padding(.leading)
+                    .padding(.leading,10)
                     
                 Spacer()
                 Button {
-                    searchView = true
+                    withAnimation {
+                        searchView = true
+                    }
                 } label: {
                     Image(systemName:"magnifyingglass")
                         .font(.title3).bold()
@@ -93,22 +94,15 @@ extension CommunityView{
                 } label: {
                     Image(systemName:"plus.viewfinder")
                         .font(.title3).bold()
-                }.padding(.trailing)
+                }.padding(.trailing,10)
             }
             category
         }
         .foregroundColor(.customIndigo)
-        .padding(.vertical)
-        .padding(.top,30)
-        .background{
-            Color.white
-        }
-       
-        
     }
     var category:some View{
         GeometryReader{ geo in
-            let width = geo.size.width/1.5
+            let width = geo.size.width
             HStack{
                 ForEach(CommunityFilter.allCases,id:\.self){ item in
                     Button {
@@ -119,24 +113,29 @@ extension CommunityView{
                         Text(item.name)
                             .font(.callout)
                             .bold()
-                            
-                    }
-                    Spacer()
+                           
+                    } .frame(maxWidth: .infinity)
+                    
                 }
                 
             }
-            .frame(width: width)
-            
             .overlay(alignment:.leading){
                 Capsule()
-                    .frame(width: 42.5,height: 3)
-                    .offset(x:tab.indicatorOffset(width: width)-1)
+                    .frame(width: UIScreen.main.bounds.width/4 - 20,height: 3)
+                    .offset(x:tab.indicatorOffset(width: width) + 10)
                     .padding(.top,45)
-            }.padding(.leading)
+            }
+            .frame(width: width)
+        }
+        .frame(maxHeight: 17)
+        .padding(.bottom)
+        .background{
+            VStack(spacing: 0){
+                Color.white
+                Divider()
+            }
             
         }
-        .frame(maxHeight: 20)
-        
         
     }
     var infoView:some View{
@@ -145,6 +144,33 @@ extension CommunityView{
                 .fontWeight(.bold)
             Spacer()
             
+            Button {
+                sort = .createdDate
+                listUpdate(category: tab.communityTab.num)
+            } label: {
+                HStack(spacing:2){
+                    Image(systemName: sort == .createdDate ? "checkmark" : "").fontWeight(.black)
+                    Text("최신순")
+                        .fontWeight(.bold)
+                }
+                .foregroundColor(.customIndigo.opacity(sort == .createdDate ? 1:0.5))
+            }
+            Text("·")
+            Button {
+                sort = .likeCnt
+                listUpdate(category: tab.communityTab.num)
+            } label: {
+                HStack(spacing:2){
+                    Image(systemName: sort == .likeCnt ? "checkmark":"").fontWeight(.black)
+                    Text("추천순")
+                        .fontWeight(.bold)
+                }
+            }
+            .foregroundColor(.customIndigo.opacity(sort == .createdDate ? 0.5:1))
+        }
+        .font(.subheadline)
+        .padding(.vertical,10)
+        .padding(.horizontal,10)
     }
     var listView:some View{
         ForEach(vm.communityList,id:\.self){ community in
@@ -153,7 +179,8 @@ extension CommunityView{
                 goWork = true
             } label: {
                 CommunityListRowView(community: community)
-                    .padding(5)
+                    .padding(.leading,10)
+                    .padding(.vertical,2)
             }
           
             if vm.communityList.last == community,vm.maxPage > vm.currentPage{
@@ -168,7 +195,7 @@ extension CommunityView{
     func listUpdate(category:Int){
         vm.currentPage = 1
         vm.communityList.removeAll()
-        vm.readCommunityList(page: vm.currentPage,category:category)
+        vm.readListConditionsAll(searchType: 0, query: "", page: vm.currentPage, sort: sort.rawValue, order: 1,category: category)
     }
 
 }
