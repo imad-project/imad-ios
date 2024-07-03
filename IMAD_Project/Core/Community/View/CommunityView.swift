@@ -76,7 +76,7 @@ extension CommunityView{
         VStack(alignment:.leading){
             HStack{
                 Text("커뮤니티")
-                    .font(.title2)
+                    .font(.custom("GmarketSansTTFMedium", size: 25))
                     .bold()
                     .padding(.leading,10)
                     
@@ -99,6 +99,7 @@ extension CommunityView{
             category
         }
         .foregroundColor(.customIndigo)
+        .padding(.top,10)
     }
     var category:some View{
         GeometryReader{ geo in
@@ -111,8 +112,7 @@ extension CommunityView{
                         }
                     } label: {
                         Text(item.name)
-                            .font(.callout)
-                            .bold()
+                            .font(.custom("GmarketSansTTFMedium", size: 15))
                            
                     } .frame(maxWidth: .infinity)
                     

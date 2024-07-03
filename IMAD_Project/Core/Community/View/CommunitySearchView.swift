@@ -116,10 +116,11 @@ extension CommunitySearchView{
             }
             .padding(.leading,10)
             Text("커뮤니티 검색")
-                .font(.title2)
+                .font(.custom("GmarketSansTTFMedium", size: 20))
                 .bold()
                 .padding(.leading,5)
         }
+        .padding(.top,10)
     }
     var searchView:some View{
         HStack{
@@ -175,16 +176,16 @@ extension CommunitySearchView{
                 switch type{
                 case "search":
                     Text(self.type.name)
-                        .font(.caption)
+                        .font(.custom("GmarketSansTTFMedium", size: 12))
                 case "order":
                     Text(self.order.name)
-                        .font(.caption)
+                        .font(.custom("GmarketSansTTFMedium", size: 12))
                 case "sort":
                     Text(self.sort.name)
-                        .font(.caption)
+                        .font(.custom("GmarketSansTTFMedium", size: 12))
                 case "category":
                     Text(self.category.name)
-                        .font(.caption)
+                        .font(.custom("GmarketSansTTFMedium", size: 12))
                 default: Text("")
                 }
                 Image(systemName: "chevron.down")
