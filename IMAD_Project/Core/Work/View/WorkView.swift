@@ -28,7 +28,7 @@ struct WorkView: View {
     
     
     var returnType:Bool{
-        switch vm.workInfo?.tmdbType{ //mediaType으로 교체될 예정
+        switch vm.workInfo?.contentsType{ //mediaType으로 교체될 예정
         case "MOVIE":
             return false
         case "TV":
@@ -60,12 +60,12 @@ struct WorkView: View {
         }
         .foregroundColor(.white)
         .onAppear {
-            vm.getBookmark(page: vm.currentPage)
             if let contentsId{
                 vm.getWorkInfo(contentsId: contentsId)
             }else if let id, let type{
                 vm.getWorkInfo(id: id, type: type)
             }
+            vm.getBookmark(page: vm.currentPage)
         }
         .onDisappear{
             vmReview.reviewList.removeAll()
