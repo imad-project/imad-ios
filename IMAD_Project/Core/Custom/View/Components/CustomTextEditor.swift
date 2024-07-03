@@ -18,32 +18,28 @@ struct CustomTextEditor: View {
     
     var body: some View {
         VStack(alignment: .trailing){
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(color, lineWidth: 1.5)
-                .frame(height: 360)
-                .overlay(
-                    TextEditor(text: $text)
-                        .background(Color.clear)
-                        .padding(8)
-                        .overlay(alignment: .topLeading){
-                            if text == ""{
-                                Text(placeholder)
-                                    .allowsHitTesting(false)
-                                    .opacity(0.5)
-                                    .padding()
-                                    .onReceive(Just(text)) { _ in
-                                        limitText(textLimit)
-                                    }
+            TextEditor(text: $text)
+                .frame(minHeight: 350)
+                .background(Color.clear)
+                .padding(8)
+                .overlay(alignment: .topLeading){
+                    if text == ""{
+                        Text(placeholder)
+                            .allowsHitTesting(false)
+                            .opacity(0.5)
+                            .padding()
+                            .onReceive(Just(text)) { _ in
+                                limitText(textLimit)
                             }
-                            
-                        }
-                        .scrollContentBackground(.hidden)
-                        .foregroundColor(.black)
+                    }
                     
-                ).padding(.top,5)
+                }
+                .scrollContentBackground(.hidden)
+                .foregroundColor(.black)
             Text("\(text.count)/2500글자")
                 .foregroundStyle(.gray)
                 .font(.subheadline)
+                .padding(.trailing)
         }
        
     }

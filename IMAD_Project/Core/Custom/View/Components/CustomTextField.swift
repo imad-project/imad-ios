@@ -28,13 +28,17 @@ struct CustomTextField: View {
                 SecureField("", text: $text)
                     .bold()
                     .background(alignment:.leading){
-                        Text(placeholder).foregroundColor(color.opacity(text != "" ? 0.0:0.8))
+                        Text(placeholder)
+                            .fontWeight(.medium)
+                            .foregroundColor(color.opacity(text != "" ? 0.0:0.8))
                     }
             }else{
                 TextField("", text: $text)
                     .bold()
                     .background(alignment:.leading){
-                        Text(placeholder).foregroundColor(color.opacity(text != "" ? 0.0:0.8))
+                        Text(placeholder)
+                            .fontWeight(.medium)
+                            .foregroundColor(color.opacity(text != "" ? 0.0:0.8))
                             .onReceive(Just(text)) { _ in
                                 if let textLimit{
                                     limitText(textLimit)
