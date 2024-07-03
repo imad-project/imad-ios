@@ -138,6 +138,12 @@ extension CommunityView{
         .frame(maxHeight: 20)
         
         
+    }
+    var infoView:some View{
+        HStack{
+            Text("총 \(vm.numberOfElements)개")
+                .fontWeight(.bold)
+            Spacer()
             
     }
     var listView:some View{

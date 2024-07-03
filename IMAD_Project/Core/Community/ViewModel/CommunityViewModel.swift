@@ -13,6 +13,7 @@ class CommunityViewModel:ObservableObject{
     
     @Published var currentPage = 1
     @Published var maxPage = 1
+    @Published var numberOfElements = 0
     
     @Published var community:CommunityResponse?
     @Published var communityList:[CommunityDetailsListResponse] = []
@@ -60,6 +61,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 if let data = response.data{
                     self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.numberOfElements = data.numberOfElements
                     self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
@@ -79,6 +81,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 if let data = response.data{
                     self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.numberOfElements = data.numberOfElements
                     self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
@@ -150,6 +153,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 if let data = response.data{
                     self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.numberOfElements = data.numberOfElements
                     self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
@@ -168,6 +172,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 if let data = response.data{
                     self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.numberOfElements = data.numberOfElements
                     self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
