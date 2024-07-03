@@ -12,9 +12,7 @@ struct SearchView: View {
     let backMode:Bool
     let postingMode:Bool    //MARK: true -> CommunityWriteView / false -> WorkView
     let columns =  [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
-    
-    //    @State var tokenExpired = (false,"")
-    //    @State var goPosting = (false,0)
+  
     @State var contentsId:Int?
     @State var work:WorkListResponse?
     @State var goWork = false
@@ -25,7 +23,6 @@ struct SearchView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        //        NavigationView {
         VStack(alignment: .leading,spacing: 0){
             header
             searchBar
@@ -34,7 +31,6 @@ struct SearchView: View {
             ScrollView{
                 workListView
             }
-            
         }
         .foregroundColor(.black)
         .background(Color.white)
@@ -83,45 +79,38 @@ extension SearchView{
         }
     }
     var header:some View{
-        ZStack{
-            HStack{
-                if !backMode{
-                    Button {
-                        back = false
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .bold()
-                            .padding()
-                        
-                    }
-                    
+        HStack{
+            if !backMode{
+                Button {
+                    back = false
+                } label: {
+                    Image(systemName: "xmark")
+                        .bold()
                 }
-                Spacer()
             }
             Text("작품 찾기")
-                .bold()
-                .padding(.bottom,10)
+                .font(.custom("GmarketSansTTFMedium", size: 25)).bold()
+                .foregroundColor(.customIndigo)
+            Spacer()
         }
+        .padding(.horizontal,10)
+        .padding(.top,10)
+        
     }
     var searchBar:some View{
         CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $vm.searchText)
             .padding()
             .background(Color.gray.opacity(0.2))
             .cornerRadius(50)
-            .padding(.horizontal)
+            .padding(10)
     }
     var filter:some View{
-        HStack(spacing: 0){
-            Image(systemName: "slider.horizontal.3")
-            Picker("", selection: $vm.type) {
-                ForEach(MovieTypeFilter.allCases,id:\.self){ text in
-                    Text(text.name)
-                }
+        Picker("", selection: $vm.type) {
+            ForEach(MovieTypeFilter.allCases,id:\.self){ text in
+                Text(text.name).font(.subheadline)
             }
-            .accentColor(.black)
         }
-        .padding(.horizontal)
-        .padding(.bottom,5)
+        .accentColor(.customIndigo)
     }
     var workListView:some View{
         LazyVGrid(columns: columns) {
@@ -129,7 +118,6 @@ extension SearchView{
                 Button {
                     work = result
                     vmWork.getWorkInfo(id: result.id, type: result.mediaType ?? "")
-                    
                 } label: {
                     VStack{
                         KFImageView(image: result.posterPath?.getImadImage() ?? "", height: (UIScreen.main.bounds.width/3)*1.25)
