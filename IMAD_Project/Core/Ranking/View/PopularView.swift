@@ -50,7 +50,7 @@ struct PopularView: View {
                                         .font(.subheadline)
                                         .fontWeight(.black)
                                         .foregroundColor(.customIndigo)
-                                    Text(popular.spoiler() ? "스포일러" : "클린")
+                                    Text(popular.spoiler() ? "스포" : "클린")
                                     .foregroundColor(.white)
                                     .padding(.horizontal)
                                     .padding(2)
@@ -77,10 +77,8 @@ struct PopularView: View {
                                     }
                         }
                         .padding(.leading,20)
-                        
-                        
                     }
-                    .frame(width: UIScreen.main.bounds.width-30,height: 80)
+                    .frame(width: 400,height: 80)
                     .cornerRadius(5)
             }
         }
