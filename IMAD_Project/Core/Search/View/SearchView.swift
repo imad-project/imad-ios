@@ -26,10 +26,11 @@ struct SearchView: View {
     
     var body: some View {
         //        NavigationView {
-        VStack(alignment: .leading){
+        VStack(alignment: .leading,spacing: 0){
             header
             searchBar
             filter
+            Divider()
             ScrollView{
                 workListView
             }
@@ -99,13 +100,14 @@ extension SearchView{
             }
             Text("작품 찾기")
                 .bold()
+                .padding(.bottom,10)
         }
     }
     var searchBar:some View{
         CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $vm.searchText)
             .padding()
             .background(Color.gray.opacity(0.2))
-            .cornerRadius(20)
+            .cornerRadius(50)
             .padding(.horizontal)
     }
     var filter:some View{
