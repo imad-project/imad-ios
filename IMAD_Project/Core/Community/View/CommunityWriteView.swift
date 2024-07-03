@@ -34,18 +34,20 @@ struct CommunityWriteView: View {
     var body: some View {
         
         ZStack{
-            Color.white.ignoresSafeArea()
+            Color.gray.opacity(0.1)
             ScrollView(showsIndicators: false){
-                poster
-                VStack(alignment: .leading){
-                    titleSpoiler
-                    titleView
+                VStack{
+                    header
+                    poster
                     categoryView
-                    contents
+                    titleView
+                    Color.gray.opacity(0.1).frame(height: 20)
+                    contentsView
+                    Divider()
+                    saveView
                 }
-                .padding(.horizontal,30)
+                .background(Color.white)
             }
-            header
            
             if loading{
                 CustomProgressView()
@@ -80,20 +82,107 @@ struct CommunityWriteView_Previews: PreviewProvider {
 extension CommunityWriteView{
     var header:some View{
         HStack{
+            HStack{
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .foregroundColor(.black)
+                        .font(.title3)
+                        .fontWeight(.medium)
+                }
+                Text("글쓰기")
+                    .font(.custom("GmarketSansTTFMedium", size: 20))
+                Spacer()
+            }
+            Spacer()
+                Button {
+                    if !text.isEmpty,!title.isEmpty{
+                        if let postingId{
+                            vm.modifyCommunity(postingId: postingId, title: title, content: text, category: category.num, spoiler: spoiler)
+                        }
+                        else if let contentsId{
+                            vm.writeCommunity(contentsId: contentsId, title: title, content: text, category: category.num, spoiler: spoiler)
+                        }
+                        loading = true
+                    }
+                } label: {
+                    Text("등록")
+                        .font(.body)
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding(.horizontal)
+                        .padding(5)
+                        .background(Capsule().foregroundColor(.customIndigo.opacity(!text.isEmpty && !title.isEmpty ? 1 : 0.5)))
+                }
+        }
+        .padding()
+    }
+    var poster:some View{
+        HStack{
+            KFImageView(image: contents.poster, width: 30, height: 30)
+                .cornerRadius(10)
+            Text(contents.title)
+            Spacer()
+        }
+        .padding([.horizontal,.bottom])
+       
+    }
+    var titleView:some View{
+        VStack(alignment: .trailing){
+            HStack{
+                CustomTextField(password: false, image: "", placeholder: "제목을 입력해 주세요..", color: .black.opacity(0.7),textLimit: 25, text: $title)
+                Text("\(title.count)/25")
+                    .font(.subheadline)
+            }
+            .padding(.vertical,5)
+            .padding(.leading,10)
+            .padding(.trailing)
+        }
+        
+    }
+    var categoryView:some View{
+        HStack{
+            VStack(alignment: .leading){
+                Picker("",selection: $category){
+                    ForEach(CommunityFilter.allCases,id: \.self){ item in
+                        if item != .all{
+                            Text(item.name)
+                                .tag(item)
+                        }
+                    }.foregroundColor(.black)
+                }
+                .pickerStyle(.segmented)
+            }
+            Button {
+                spoiler.toggle()
+            } label: {
+                Label("스포일러", systemImage: spoiler ? "checkmark.circle.fill" : "checkmark.circle")
+                    .foregroundColor(spoiler ? .customIndigo : .gray)
+                    .font(.caption)
+                    .bold()
+            }
+        }
+        .padding(.horizontal)
+    }
+    var saveView:some View{
+        HStack{
             Button {
                 dismiss()
             } label: {
-                Image(systemName: "chevron.left")
-                    .foregroundColor(.black)
-                    .padding(10)
-                    .font(.caption)
-                    .background(Circle().foregroundColor(.white))
-                    .shadow(radius: 20)
-                
-            }.padding(.leading)
-            Spacer()
-            if text != "" && title != ""{
-                Button {
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(height: 50)
+                    .foregroundColor(.gray.opacity(0.2))
+                    .overlay {
+                        Text("취소")
+                            .font(.body)
+                            .bold()
+                            .foregroundColor(.black)
+                    }
+            }
+            .padding([.leading,.top,.bottom])
+            Button {
+                if !text.isEmpty,!title.isEmpty{
                     if let postingId{
                         vm.modifyCommunity(postingId: postingId, title: title, content: text, category: category.num, spoiler: spoiler)
                     }
@@ -101,75 +190,24 @@ extension CommunityWriteView{
                         vm.writeCommunity(contentsId: contentsId, title: title, content: text, category: category.num, spoiler: spoiler)
                     }
                     loading = true
-                } label: {
-                    Text("완료")
-                        .font(.body)
-                        .bold()
-                        .foregroundColor(.black)
-                        .padding(.horizontal)
-                        .padding(5)
-                        .background(Capsule().foregroundColor(.white))
-                        .shadow(radius: 10)
                 }
+            } label: {
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(height: 50)
+                    .foregroundColor(.customIndigo.opacity(!text.isEmpty && !title.isEmpty ? 1 : 0.5))
+                    .overlay {
+                        Text("등록")
+                            .font(.body)
+                            .bold()
+                            .foregroundColor(.white)
+                    }
             }
-        } .frame(maxHeight: .infinity,alignment: .top)
-            .padding()
-    }
-    var poster:some View{
-        HStack{
-            Text("제목")
-                .bold()
-            Spacer()
-            Text("\(title.count)/25")
-                .font(.subheadline)
-        }
-        .padding(.top,40)
-    }
-    var titleView:some View{
-        VStack(alignment: .trailing){
-            CustomTextField(password: false, image: "pencil", placeholder: "제목을 입력해 주세요..", color: .gray,textLimit: 25, text: $title)
-                .padding()
-                .background{
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(lineWidth: 1.5)
-                        .foregroundColor(.customIndigo)
-                }
-            HStack{
-                if spoiler{
-                    Text("이 게시물은 스포일러를 포함하고 있습니다.").font(.caption).foregroundColor(.gray)
-                }
-                Spacer()
-                Button {
-                    spoiler.toggle()
-                } label: {
-                    Label("스포일러", systemImage: "checkmark")
-                        .foregroundColor(spoiler ? .customIndigo : .gray)
-                        .font(.caption)
-                        .bold()
-                }
-            }
+            .padding([.trailing,.top,.bottom])
         }
         
     }
-    var categoryView:some View{
-        VStack(alignment: .leading){
-            Text("카테고리")
-                .padding(.top)
-                .bold()
-            Picker("",selection: $category){
-                ForEach(CommunityFilter.allCases,id: \.self){ item in
-                    if item != .all{
-                        Text(item.name)
-                            .tag(item)
-                    }
-                }.foregroundColor(.black)
-            }
-            .pickerStyle(.segmented)
-        }
-    }
-    var contents:some View{
+    var contentsView:some View{
         CustomTextEditor(placeholder: "게시물을 작성해주세요..", color: .customIndigo, textLimit: 2500, text: $text)
-       .padding(.top,5)
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
