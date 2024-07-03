@@ -13,7 +13,7 @@ struct CommunityWriteView: View {
     //MARK: 초기 변수/상수
     var contentsId:Int?  //게시물 등록
     var postingId:Int?  //게시물 수정
-    let image:String
+    let contents:(poster:String,title:String)
     
     //MARK: 로딩 표시
     @State var loading = false
@@ -72,7 +72,7 @@ struct CommunityWriteView: View {
 
 struct CommunityWriteView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityWriteView(contentsId: 1, image: CustomData.instance.movieList.first!, goMain: .constant(true),vm: CommunityViewModel(community:nil, communityList: []))
+        CommunityWriteView(contentsId: 1, contents: (CustomData.instance.movieList.first!,"asdasd"), goMain: .constant(true),vm: CommunityViewModel(community:nil, communityList: []))
             .environment(\.colorScheme, .light)
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
@@ -116,18 +116,6 @@ extension CommunityWriteView{
             .padding()
     }
     var poster:some View{
-        ZStack(alignment: .top){
-            MovieBackgroundView(url: image,height: 2.7, isBottomTransparency: true)
-            VStack{
-                Text("게시물을 자유롭게 작성해보세요!")
-                    .foregroundColor(.white)
-                    .bold()
-                KFImageView(image: image, width: 200, height: 300)
-                    .padding(.top)
-            }
-        }.padding(.top,20)
-    }
-    var titleSpoiler:some View{
         HStack{
             Text("제목")
                 .bold()

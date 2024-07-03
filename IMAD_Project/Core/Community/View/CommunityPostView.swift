@@ -71,7 +71,7 @@ struct CommunityPostView: View {
         .navigationDestination(isPresented: $modify) {
             if let community = vm.community{
                 let category = CommunityFilter.allCases.first(where: {$0.num == community.category})!
-                CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, image: community.contentsPosterPath.getImadImage(),category:category, spoiler: community.spoiler, text:community.content, title: community.title, goMain: .constant(true))
+                CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, contents: (community.contentsPosterPath.getImadImage(),community.contentsTitle) ,category:category, spoiler: community.spoiler, text:community.content, title: community.title, goMain: .constant(true))
                     .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             }

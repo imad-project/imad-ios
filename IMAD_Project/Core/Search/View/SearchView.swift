@@ -51,7 +51,7 @@ struct SearchView: View {
             Group{
                 if let work{
                     if postingMode{
-                        CommunityWriteView(contentsId: contentsId, image: work.posterPath?.getImadImage() ?? "", goMain: $back)
+                        CommunityWriteView(contentsId: contentsId,  contents: (work.posterPath?.getImadImage() ?? "",work.title == nil ? work.name ?? "" : work.title ?? ""), goMain: $back)
                     }else{
                         WorkView(id:work.id,type: work.mediaType)
                     }
