@@ -29,16 +29,12 @@ struct WorkInfoView: View {
         ZStack{
             Color.white.ignoresSafeArea()
             VStack(alignment: .leading,spacing: 20){
-                Group{
-                    title
-                    countryAndCertification
-                }.padding(.leading)
-                Group{
-                    genre
-                    season
-                    network
-                    overview
-                }.padding(.leading)
+                title
+                countryAndCertification
+                genre
+                season
+                network
+                overview
                 if let seasons = work.seasons{
                     seasonList(seasons: seasons)
                 }
@@ -66,9 +62,9 @@ extension WorkInfoView{
             Text("원재")
                 .bold()
             VStack(alignment: .leading){
-                HStack{
+                HStack(spacing:0){
                     Text(isTV ? (work.name ?? "") : (work.title ?? ""))
-                    Text("(\(isTV ? (work.originalName ?? ""):(work.originalTitle ?? ""))")
+                    Text("(\(isTV ? (work.originalName ?? "알수 없음"):(work.originalTitle ?? "알수 없음")))")
                 }
                 if work.tagline != ""{
                     Text(work.tagline)
@@ -79,6 +75,7 @@ extension WorkInfoView{
             .padding(.bottom,5)
             .padding(.leading,5)
         }
+        .padding(.horizontal)
         .font(.subheadline)
     }
     var countryAndCertification:some View{
@@ -86,7 +83,6 @@ extension WorkInfoView{
             VStack(alignment:.leading,spacing: 10){
                 Text("국가")
                     .bold()
-                
                 HStack{
                     if let countries = work.productionCountries,countries != []{
                         ForEach(Array(vm.contriesData).filter({countries.contains($0.key)}),id:\.key){ key,value in
@@ -126,33 +122,28 @@ extension WorkInfoView{
             }
             Spacer()
         }
+        .padding(.horizontal)
         .font(.subheadline)
     }
     var genre:some View{
         HStack{
             VStack(alignment: .leading,spacing: 10) {
                 Text("장르").bold()
-                HStack(spacing:0){
-                    if isTV{
-                        Text(work.genres.transTvGenreCode())
-                    }else{
-                        Text(work.genres.transMovieGenreCode())
-                    }
-                }
+                Text(isTV ? work.genres.transTvGenreCode() : work.genres.transMovieGenreCode())
                 .foregroundColor(.gray)
-                .padding(.leading,5)
+                .padding(.horizontal,5)
             }
-        } .font(.subheadline)
+        }
+        .padding(.horizontal)
+        .font(.subheadline)
     }
     var season:some View{
-        
         VStack(alignment: .leading,spacing: 10) {
             if isTV{
                 Text("시즌").bold()
                 HStack{
                     Text("\(work.numberOfSeasons ?? 0)부작 -")
                     Text("\(work.numberOfEpisodes ?? 0)개의 에피소드")
-                    
                 }
                 .font(.subheadline)
                 .foregroundColor(.gray)
@@ -166,12 +157,14 @@ extension WorkInfoView{
                 .foregroundColor(.gray)
                 .padding(.leading,5)
             }
-        }.font(.subheadline)
+        }
+        .padding(.horizontal)
+        .font(.subheadline)
     }
     var overview:some View{
         VStack(alignment: .leading,spacing: 10){
             Text("개요").bold()
-            Text(isExtend ? work.overview ?? "sads" : String(work.overview?.prefix(200) ?? "내용이 존재하지 않습니다.") + (isExtend ? "" : "..."))
+            Text(isExtend ? work.overview ?? "내용이 존재하지 않습니다." : String(work.overview?.prefix(200) ?? "내용이 존재하지 않습니다.") + (isExtend ? "" : "..."))
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.bottom,5)
                 .padding(.horizontal,5)
@@ -188,6 +181,7 @@ extension WorkInfoView{
                 }
             }
         }
+        .padding(.horizontal)
         .font(.subheadline)
     }
    
@@ -195,6 +189,7 @@ extension WorkInfoView{
         VStack(alignment: .leading,spacing: 5){
             Text("시즌정보")
                 .bold()
+                .padding(.horizontal)
             ScrollView(.horizontal,showsIndicators: false){
                 HStack{
                     ForEach(seasons){ season in
@@ -271,34 +266,38 @@ extension WorkInfoView{
                         .shadow(radius: 2)
                     
                 }
-                
+                .padding(.horizontal)
             }
         }
-        .padding(.leading)
+       
         .font(.subheadline)
     }
     var network:some View{
         VStack(alignment: .leading,spacing: 15){
             Text("방송사")
                 .bold()
+                .padding(.horizontal)
             if let networks = work.networks{
-                HStack{
-                    ForEach(networks){ network in
-                        KFImage(URL(string: network.logoPath?.getImadImage() ?? ""))
-                            .resizable()
-                            .frame(width: 40,height: 15)
-                            .padding(.leading,5)
-                    }
+                ScrollView(.horizontal,showsIndicators: false) {
+                    HStack{
+                        ForEach(networks){ network in
+                            KFImage(URL(string: network.logoPath?.getImadImage() ?? ""))
+                                .resizable()
+                                .frame(width: 40,height: 15)
+                                .padding(.leading,5)
+                        }
+                    }.padding(.horizontal)
                 }
             }else{
                 Text("없음")
+                    .padding(.horizontal)
             }
         }
         .font(.subheadline)
     }
     var person:some View{
         VStack(alignment: .leading,spacing: 10){
-            Text("스태프").bold().padding(.leading)
+            Text("스태프").bold().padding(.horizontal)
             ScrollView(.horizontal,showsIndicators: false){
                 if let crews = work.credits?.crew,crews != []{
                     HStack(alignment: .top){
@@ -338,8 +337,10 @@ extension WorkInfoView{
                                     .frame(width: 90)
                                     .fixedSize(horizontal: false, vertical: true)
                             }
-                        }.padding(.top)
-                    }.padding(.leading,20)
+                        }
+                        .padding(.top)
+                            .padding(.horizontal,20)
+                    }
                 }
             }else{
                 Text("정보 없음")

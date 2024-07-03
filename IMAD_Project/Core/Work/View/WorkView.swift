@@ -16,12 +16,9 @@ struct WorkView: View {
     
     @State var width:Bool = false   //작품 제목 섹션 생성
     @State var written = false  //리뷰가 작성되있을 경우
-    //    @State var anima = false
     @State var writeReview = false//리뷰작성
     @State var writeCommunity = false
-    //    @State var message = ""
     @State var showMyRevie = false
-    //    @State var goPosting = (false,0)
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel//
