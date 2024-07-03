@@ -44,10 +44,12 @@ struct ProfileView: View {
     }
     
     var body: some View {
-        ScrollView(showsIndicators: false){
-            if let user = vmAuth.user?.data{
-                LazyVStack(pinnedViews: [.sectionHeaders]){
-                    Section {
+        VStack{
+            header
+            ScrollView(showsIndicators: false){
+                
+                if let user = vmAuth.user?.data{
+                    LazyVStack(pinnedViews: [.sectionHeaders]){
                         VStack(spacing: 0){
                             profileImageView
                             Divider()
@@ -65,7 +67,7 @@ struct ProfileView: View {
                             }
                             VStack{
                                 VStack(alignment: .leading) {
-                                    Text("내 반응").bold()
+                                    Text("내 반응").font(.custom("GmarketSansTTFMedium", size: 15))
                                     navigationListRowView(view: MyReviewView(writeType: .myselfLike).environmentObject(vmAuth), image: "star.leadinghalf.filled", text: "리뷰")
                                     navigationListRowView(view: MyCommunityListView(writeType: .myselfLike).environmentObject(vmAuth), image: "note.text", text: "게시물")
                                 }.padding()
@@ -73,7 +75,7 @@ struct ProfileView: View {
                                     .cornerRadius(10)
                                     .padding([.horizontal,.top],10)
                                 VStack(alignment: .leading) {
-                                    Text("내 장르").bold()
+                                    Text("내 장르").font(.custom("GmarketSansTTFMedium", size: 15))
                                     buttonListRowView(action: {movie  = true}, image: "popcorn", text: "영화")
                                     buttonListRowView(action: {tv  = true} , image: "tv", text: "TV/시리즈")
                                 }.padding()
@@ -85,19 +87,18 @@ struct ProfileView: View {
                             .foregroundColor(.black)
                             .background(Color.gray.opacity(0.1))
                             movieList
+                            
                         }
-                    } header: {
-                        header
+                        
+                        
                     }
-                    
-                    
-                }
-                .sheet(isPresented: $profileSelect) {
-                    profileSelectView(user: user)
+                    .sheet(isPresented: $profileSelect) {
+                        profileSelectView(user: user)
+                    }
                 }
             }
         }
-        .ignoresSafeArea()
+        
         .foregroundColor(.customIndigo)
         .colorScheme(.light)
         .sheet(isPresented: $tv) {
@@ -135,8 +136,7 @@ extension ProfileView{
     var header:some View{
         HStack{
             Text("프로필")
-                .font(.title2)
-                .bold()
+                .font(.custom("GmarketSansTTFMedium", size: 25)).bold()
             Spacer()
             NavigationLink {
                 ProfileChangeView()
@@ -147,8 +147,8 @@ extension ProfileView{
                     .font(.title3)
             }
         }
-        .padding(.horizontal)
-        .padding(.top,60)
+        .padding(.horizontal,10)
+        .padding(.top,10)
         .background(Color.white)
     }
     var profileImageView:some View{
@@ -178,11 +178,11 @@ extension ProfileView{
                         .frame(width: 20,height: 25)
                 }
                 Text(authProvider)
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding(.top,2)
                 Text("\(vmAuth.user?.data?.birthYear ?? 0)년생")
-                    .font(.caption)
+                    .font(.subheadline)
                 
                 
             }.padding(.leading)
@@ -200,7 +200,7 @@ extension ProfileView{
                 HStack{
                     Image(systemName: image)
                         .foregroundColor(.customIndigo.opacity(0.5))
-                    Text(text).font(.caption)
+                    Text(text).font(.custom("GmarketSansTTFMedium", size: 12))
                 }
                 
                 Text("\(count)개").bold()
@@ -222,7 +222,7 @@ extension ProfileView{
             } label: {
                 HStack{
                     Image(systemName: image)
-                    Text(text)
+                    Text(text).font(.custom("GmarketSansTTFMedium", size: 15))
                     Spacer()
                     Image(systemName: "chevron.right")
                 }.padding(.vertical,5)
@@ -236,7 +236,7 @@ extension ProfileView{
             Button (action:action){
                 HStack{
                     Image(systemName: image)
-                    Text(text)
+                    Text(text).font(.custom("GmarketSansTTFMedium", size: 15))
                     Spacer()
                 }.padding(.vertical,5)
             }
@@ -246,7 +246,7 @@ extension ProfileView{
     var movieList:some View{
         VStack(alignment: .leading) {
             HStack{
-                Text("내가 찜한 작품").padding(.top,5).bold()
+                Text("내가 찜한 작품").padding(.vertical,10).font(.custom("GmarketSansTTFMedium", size: 15))
                 Spacer()
             }
             ZStack{
