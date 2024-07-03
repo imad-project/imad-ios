@@ -72,16 +72,24 @@ struct CommunitySearchView: View {
             }
         }
         .onChange(of: order){ _ in
-            listUpdate()
+            if !text.isEmpty{
+                listUpdate()
+            }
         }
         .onChange(of: type){ _ in
-            listUpdate()
+            if !text.isEmpty{
+                listUpdate()
+            }
         }
         .onChange(of: category){ _ in
-            listUpdate()
+            if !text.isEmpty{
+                listUpdate()
+            }
         }
         .onChange(of: sort){ _ in
-            listUpdate()
+            if !text.isEmpty{
+                listUpdate()
+            }
         }
         .foregroundColor(.customIndigo)
         .background(Color.white.ignoresSafeArea())
