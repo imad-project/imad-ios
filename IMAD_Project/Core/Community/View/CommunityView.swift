@@ -140,7 +140,7 @@ extension CommunityView{
     }
     var infoView:some View{
         HStack{
-            Text("총 \(vm.numberOfElements)개")
+            Text("총 \(vm.totalOfElements)개")
                 .fontWeight(.bold)
             Spacer()
             

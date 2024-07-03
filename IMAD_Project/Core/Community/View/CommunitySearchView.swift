@@ -41,7 +41,7 @@ struct CommunitySearchView: View {
             }
             if !vm.communityList.isEmpty{
                 ScrollView(showsIndicators: false){
-                    Text("총 \(vm.numberOfElements)개")
+                    Text("총 \(vm.totalOfElements)개")
                         .fontWeight(.bold).padding(.horizontal,10).frame(maxWidth: .infinity,alignment:.leading)
                     ForEach(vm.communityList,id: \.self){ community in
                         Button {
