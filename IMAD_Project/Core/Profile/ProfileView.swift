@@ -266,7 +266,8 @@ extension ProfileView{
                                         .navigationBarBackButtonHidden()
                                 } label: {
                                     VStack{
-                                        KFImageView(image: item.contentsPosterPath.getImadImage(),height: 170)
+                                        KFImageView(image: item.contentsPosterPath.getImadImage(),height: UIScreen.main.bounds.width/2)
+                                            .cornerRadius(5)
                                         Text(item.contentsTitle)
                                             .font(.caption)
                                             .frame(width: 200)
@@ -286,11 +287,11 @@ extension ProfileView{
                                     Spacer()
                                     Text("찜한 작품 더보기")
                                         .bold()
-                                        .font(.subheadline)
                                     Image(systemName: "chevron.right")
                                     Spacer()
                                 }
-                                .padding(.vertical,5)
+                                .font(.subheadline)
+                                .padding(.vertical,8)
                                 .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 1).foregroundColor(.gray))
                             }
                         }

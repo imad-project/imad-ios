@@ -20,7 +20,7 @@ struct MyBookmarkListView: View {
                 CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $text)
                     .padding()
                     .background(Color.gray.opacity(0.2))
-                    .cornerRadius(20)
+                    .cornerRadius(50)
                     .padding(.horizontal)
                 gridView
             }
@@ -77,7 +77,8 @@ extension MyBookmarkListView{
                             .navigationBarBackButtonHidden()
                     } label: {
                         VStack{
-                            KFImageView(image: result.contentsPosterPath.getImadImage(),height: 170)
+                            KFImageView(image: result.contentsPosterPath.getImadImage(),height: UIScreen.main.bounds.width/2)
+                                .cornerRadius(5)
                             Text(result.contentsTitle)
                                 .bold()
                                 .frame(maxWidth:130,maxHeight:5)
