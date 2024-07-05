@@ -23,13 +23,13 @@ struct CropView: View {
                     ZStack{
                         Rectangle().opacity(0.5)
                         Circle()
+                       
                     }
                 }
+                .overlay{
+                    Grids()
+                }
             .frame(maxWidth:.infinity,maxHeight: .infinity,alignment: .center)
-            
-            
-            
-            
         }
     }
     
@@ -46,6 +46,31 @@ struct CropView: View {
             }
         }
         .frame(cropSize)
+    }
+    
+    @ViewBuilder
+    func Grids()->some View{
+        ZStack{
+            HStack{
+                ForEach(1...5,id: \.self){ _ in
+                    Rectangle()
+                        .foregroundColor(.white)
+                        .frame(width: 0.5)
+                        .frame(maxWidth:.infinity)
+                        
+                }
+            }
+            VStack{
+                ForEach(1...5,id: \.self){ _ in
+                    Rectangle()
+                        .foregroundColor(.white)
+                        .frame(height: 0.5)
+                        .frame(maxHeight:.infinity)
+                        
+                }
+            }
+            
+        }
     }
 }
 
