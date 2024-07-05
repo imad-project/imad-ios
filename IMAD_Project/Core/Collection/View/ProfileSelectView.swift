@@ -31,8 +31,12 @@ struct ProfileSelectView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 200,height: 200)
+                            .shadow(radius: 1)
+                            .frame(maxWidth: .infinity)
                     }else{
-                        ProfileImageView(imageCode: vm.patchUser.profileImageCode, widthHeigt: 200).frame(maxWidth: .infinity)
+                        ProfileImageView(imageCode: vm.patchUser.profileImageCode, widthHeigt: 200)
+                            .shadow(radius: 1)
+                            .frame(maxWidth: .infinity)
                     }
                     selectProfileView
                     CustomNextButton(action: {
@@ -86,6 +90,7 @@ extension ProfileSelectView{
                     if item != .none{
                         Button {
                             vm.patchUser.profileImageCode = item.num
+                            croppedImage = nil
                         } label: {
                             VStack{
                                 Image(item.rawValue)
@@ -139,5 +144,15 @@ extension ProfileSelectView{
             }
         }
         .cropImagePicker(show: $showPicker, croppedImage: $croppedImage)
+        .onChange(of: croppedImage) { value in
+            if let value{
+                vm.patchUser.profileImageCode = 0
+                let image = value.resize(targetSize: CGSize(width: 128, height: 128))
+                let renderer = ImageRenderer(content: Image(uiImage: image))
+                if let imageData = renderer.uiImage?.jpegData(compressionQuality: 1.0) {
+                    print("Image data size: \(imageData.count) bytes")
+                }
+            }
+        }
     }
 }
