@@ -25,11 +25,30 @@ struct CustomImagePicker<Content:View>: View {
         self._show = show
         self._croppedImage = croppedImage
     }
-    
+    @State var showCropView = false
     @State var photosItem:PhotosPickerItem?
+    @State var selected:UIImage?
     var body: some View {
         content
             .photosPicker(isPresented: $show, selection: $photosItem)
+            .onChange(of: photosItem) { newValue in
+                if let newValue{
+                    Task{
+                        guard let imageData = try? await newValue.loadTransferable(type: Data.self),let image = UIImage(data: imageData) else {return}
+                        await MainActor.run {
+                            self.selected = image
+                            showCropView.toggle()
+                        }
+                    }
+                }
+            }
+            .fullScreenCover(isPresented: $showCropView){
+                selected = nil
+            } content: {
+                CropView(image: selected){ croppedImage, status in
+                    
+                }
+            }
     }
 }
 
