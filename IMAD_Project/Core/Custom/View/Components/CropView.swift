@@ -25,6 +25,14 @@ struct CropView: View {
             Color.white.ignoresSafeArea()
             Color.black.opacity(0.9).ignoresSafeArea()
             imageView()
+                .mask(alignment: .center) {
+                        ZStack {
+                            Rectangle()
+                                .opacity(0.5)
+                            Circle()
+                        }
+                }
+                .frame(maxWidth: .infinity,maxHeight: .infinity,alignment: .center)
             ZStack{
                 Group{
                     HStack{
@@ -35,6 +43,13 @@ struct CropView: View {
                         }
                         Spacer()
                         Button {
+                            let renderer = ImageRenderer(content: imageView(true).clipShape(Circle()))
+                            renderer.proposedSize = .init(CGSize(width: isPad() ? 500 : mainWidth, height: isPad() ? 500 : mainWidth))
+                            if let image = renderer.uiImage{
+                                onCrop(image,true)
+                            }else{
+                                onCrop(nil,false)
+                            }
                             dismiss()
                         } label: {
                             Image(systemName: "checkmark")
@@ -57,8 +72,8 @@ struct CropView: View {
     }
     
     @ViewBuilder
-    func imageView()->some View{
-        let cropSize = CGSize(width: isPad() ? 500 : mainWidth, height: isPad() ? 500 : mainHeight)
+    func imageView(_ hideGrids:Bool = false)->some View{
+        let cropSize = CGSize(width: isPad() ? 500 : mainWidth, height: isPad() ? 500 : mainWidth)
         GeometryReader { geometry in
             let size = geometry.size
             if let image{
@@ -103,16 +118,12 @@ struct CropView: View {
         }
         .scaleEffect(scale)
         .offset(offset)
-        .mask(alignment: .center) {
-            ZStack {
-                Rectangle()
-                    .opacity(0.5)
-                Circle()
-            }
-        }
+        
         .overlay {
-            if appearGrid{
-                Grids()
+            if !hideGrids{
+                if appearGrid{
+                    Grids()
+                }
             }
         }
         .coordinateSpace(name:"CROPVIEW")
@@ -146,7 +157,6 @@ struct CropView: View {
                 }
         )
         .frame(cropSize)
-        .frame(maxWidth: .infinity, maxHeight: .infinity,alignment: .center)
         
        
     }
