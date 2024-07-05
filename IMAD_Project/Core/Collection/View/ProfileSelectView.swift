@@ -49,7 +49,9 @@ struct ProfileSelectView: View {
                             loading = true
                         }
                     }, color:vm.patchUser.profileImageCode == 0 ? .customIndigo.opacity(0.5):.customIndigo)
-                }.foregroundColor(.customIndigo)
+                }
+                .foregroundColor(.customIndigo)
+                .cropImagePicker(show: $showPicker, croppedImage: $croppedImage)
             }
             
         }.alert(isPresented: $alert) {
