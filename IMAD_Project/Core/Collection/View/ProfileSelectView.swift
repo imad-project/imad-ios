@@ -42,8 +42,8 @@ struct ProfileSelectView: View {
                             noSelect(selection: .age, message: "나이를 설정해주세요!")
                         }else if vm.patchUser.profileImageCode == 0{
                             noSelect(selection: .profile, message: "프로필 사진을 선택해 주세요!")
-                        }else if vm.patchUser.gender == ""{
                             noSelect(selection: .gender, message: "성별을 선택해 주세요!")
+                        }else if vm.patchUser.gender == ""{
                         }else{
                             vm.patchUserInfo()
                             loading = true
@@ -120,19 +120,23 @@ extension ProfileSelectView{
     }
     
     var selectProfileButton:some View{
-        VStack{
-            Circle()
-                .stroke(lineWidth: 2)
-                .frame(width: 100,height: 100)
-                .overlay {
-                    Image(systemName: "camera")
-                        .font(.largeTitle)
-                }
-                .foregroundColor(.black.opacity(0.8))
-            
-            Text("프로필 선택")
-                .font(.subheadline)
-                .foregroundColor(.customIndigo)
+        Button {
+            showPicker = true
+        } label: {
+            VStack{
+                Circle()
+                    .stroke(lineWidth: 2)
+                    .frame(width: 100,height: 100)
+                    .overlay {
+                        Image(systemName: "camera")
+                            .font(.largeTitle)
+                    }
+                    .foregroundColor(.black.opacity(0.8))
+                
+                Text("프로필 선택")
+                    .font(.subheadline)
+                    .foregroundColor(.customIndigo)
+            }
         }
     }
 }

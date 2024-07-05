@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 extension View{
     @ViewBuilder
@@ -24,8 +25,11 @@ struct CustomImagePicker<Content:View>: View {
         self._show = show
         self._croppedImage = croppedImage
     }
+    
+    @State var photosItem:PhotosPickerItem?
     var body: some View {
         content
+            .photosPicker(isPresented: $show, selection: $photosItem)
     }
 }
 
