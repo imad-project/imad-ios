@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ProfileSelectView: View {
     
-    let columns = [GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
-    
     @State var msg = ""
     @State var alert = false
     @State var loading = false
@@ -21,6 +19,7 @@ struct ProfileSelectView: View {
             Color.white.ignoresSafeArea()
             VStack(alignment: .leading,spacing: 5){
                 guideView
+                ProfileImageView(imageCode: vm.patchUser.profileImageCode, widthHeigt: 200).frame(maxWidth: .infinity)
                 selectProfileView
                 CustomNextButton(action: {
                     if vm.patchUser.nickname == ""{
@@ -36,7 +35,7 @@ struct ProfileSelectView: View {
                         loading = true
                     }
                 }, color:vm.patchUser.profileImageCode == 0 ? .customIndigo.opacity(0.5):.customIndigo)
-            }.foregroundColor(.customIndigo).padding()
+            }.foregroundColor(.customIndigo)
             if loading{
                 CustomProgressView()
             }
@@ -65,33 +64,51 @@ extension ProfileSelectView{
         }.padding(.leading)
     }
     var selectProfileView:some View{
-        LazyVGrid(columns: columns){
-            ForEach(ProfileFilter.allCases,id: \.rawValue){ item in
-                if item != .none{
-                    Button {
-                        vm.patchUser.profileImageCode = item.num
-                    } label: {
-                        VStack(spacing: 0) {
-                            Image(item.rawValue)
-                                .resizable()
-                                .frame(width: 100,height: 100)
-                                .overlay {
-                                    if vm.patchUser.profileImageCode == item.num{
-                                        Color.black.opacity(0.5)
+        ScrollView(.horizontal,showsIndicators: false){
+            HStack{
+                VStack{
+                    Circle()
+                        .stroke(lineWidth: 2)
+                        .frame(width: 100,height: 100)
+                        .overlay {
+                            Image(systemName: "camera")
+                                .font(.largeTitle)
+                        }
+                        .foregroundColor(.black.opacity(0.8))
+                        
+                    Text("프로필 선택")
+                        .font(.subheadline)
+                        .foregroundColor(.customIndigo)
+                }
+                    
+                ForEach(ProfileFilter.allCases,id: \.rawValue){ item in
+                    if item != .none{
+                        Button {
+                            vm.patchUser.profileImageCode = item.num
+                        } label: {
+                            VStack{
+                                Image(item.rawValue)
+                                    .resizable()
+                                    .frame(width: 100,height: 100)
+                                    .overlay {
+                                        if vm.patchUser.profileImageCode == item.num{
+                                            Color.black.opacity(0.5)
+                                        }
                                     }
-                                }
-                                .cornerRadius(30)
-                            Text(item.name)
-                                .font(.caption)
-                                .foregroundColor(.customIndigo)
+                                    .clipShape(Circle())
+                                Text(item.name)
+                                    .font(.subheadline)
+                                    .foregroundColor(.customIndigo)
+                                
+                            }
                             
                         }
-                        
                     }
                 }
-            }
-        }.padding(.horizontal)
+            }.padding()
+        }
     }
+    
     func noSelect(selection:RegisterFilter,message:String){
         msg = message
         if selection != .profile{
