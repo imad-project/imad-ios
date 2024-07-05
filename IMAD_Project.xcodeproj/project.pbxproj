@@ -206,9 +206,13 @@
 		D60AD2122C29B39F00C9C27B /* RecommendMovieResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD2112C29B39F00C9C27B /* RecommendMovieResponse.swift */; };
 		D60AD2182C29B64300C9C27B /* RecommendTVList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD2172C29B64300C9C27B /* RecommendTVList.swift */; };
 		D60AD21A2C29B66500C9C27B /* RecommendMovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD2192C29B66500C9C27B /* RecommendMovieList.swift */; };
+		D61D2A7F2C3819EF00ED74F6 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61D2A7E2C3819EF00ED74F6 /* View.swift */; };
+		D61D2A812C381E6C00ED74F6 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61D2A802C381E6C00ED74F6 /* UIImage.swift */; };
 		D64C4C872C352B170097B2FD /* GmarketSansTTFBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D64C4C832C352B160097B2FD /* GmarketSansTTFBold.ttf */; };
 		D64C4C882C352B170097B2FD /* GmarketSansTTFLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D64C4C842C352B160097B2FD /* GmarketSansTTFLight.ttf */; };
 		D64C4C892C352B170097B2FD /* GmarketSansTTFMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D64C4C852C352B160097B2FD /* GmarketSansTTFMedium.ttf */; };
+		D64C4C8B2C37B6FF0097B2FD /* CustomImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64C4C8A2C37B6FE0097B2FD /* CustomImagePicker.swift */; };
+		D64C4C8E2C37BE4E0097B2FD /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64C4C8D2C37BE4E0097B2FD /* CropView.swift */; };
 		D654FBCF2BA04C6E00AF307E /* PopularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBCE2BA04C6E00AF307E /* PopularView.swift */; };
 		D654FBD22BA146FA00AF307E /* Popular.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD12BA146FA00AF307E /* Popular.swift */; };
 		D654FBD42BA1470800AF307E /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD32BA1470800AF307E /* Genre.swift */; };
@@ -436,9 +440,13 @@
 		D60AD2112C29B39F00C9C27B /* RecommendMovieResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieResponse.swift; sourceTree = "<group>"; };
 		D60AD2172C29B64300C9C27B /* RecommendTVList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendTVList.swift; sourceTree = "<group>"; };
 		D60AD2192C29B66500C9C27B /* RecommendMovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieList.swift; sourceTree = "<group>"; };
+		D61D2A7E2C3819EF00ED74F6 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		D61D2A802C381E6C00ED74F6 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		D64C4C832C352B160097B2FD /* GmarketSansTTFBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansTTFBold.ttf; sourceTree = "<group>"; };
 		D64C4C842C352B160097B2FD /* GmarketSansTTFLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansTTFLight.ttf; sourceTree = "<group>"; };
 		D64C4C852C352B160097B2FD /* GmarketSansTTFMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansTTFMedium.ttf; sourceTree = "<group>"; };
+		D64C4C8A2C37B6FE0097B2FD /* CustomImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImagePicker.swift; sourceTree = "<group>"; };
+		D64C4C8D2C37BE4E0097B2FD /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
 		D654FBCE2BA04C6E00AF307E /* PopularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularView.swift; sourceTree = "<group>"; };
 		D654FBD12BA146FA00AF307E /* Popular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popular.swift; sourceTree = "<group>"; };
 		D654FBD32BA1470800AF307E /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
@@ -774,6 +782,8 @@
 				817919C72B4BADC20084779B /* CustomTextEditor.swift */,
 				81B1848F2AFB615000CCDBEC /* CustomNextButton.swift */,
 				81FD22522AFB1A5C00678CAC /* CustomWhiteCircleButton.swift */,
+				D64C4C8A2C37B6FE0097B2FD /* CustomImagePicker.swift */,
+				D64C4C8D2C37BE4E0097B2FD /* CropView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -949,6 +959,8 @@
 				8115A6612A8F320B00B7C3FE /* Array.swift */,
 				8115A6662A8F3B3E00B7C3FE /* String.swift */,
 				81372A802AFB7E3000870331 /* Int.swift */,
+				D61D2A7E2C3819EF00ED74F6 /* View.swift */,
+				D61D2A802C381E6C00ED74F6 /* UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1547,6 +1559,7 @@
 				81F3566E2AF21F1D00A46A6D /* MyBookmarkListView.swift in Sources */,
 				81B1848C2AFB5D6000CCDBEC /* PatchUserInfo.swift in Sources */,
 				818B07332B0D96310013C426 /* ScrapRouter.swift in Sources */,
+				D64C4C8E2C37BE4E0097B2FD /* CropView.swift in Sources */,
 				817B60D42A237436000099A9 /* Validation.swift in Sources */,
 				81FD22532AFB1A5C00678CAC /* CustomWhiteCircleButton.swift in Sources */,
 				819D499E2A933A5C008B7BFE /* Network.swift in Sources */,
@@ -1587,6 +1600,7 @@
 				819C506E2A0F467B0008F4A5 /* UserDefaultManager.swift in Sources */,
 				817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */,
 				8128C1262AE6333F0032D310 /* CommentListReponse.swift in Sources */,
+				D64C4C8B2C37B6FF0097B2FD /* CustomImagePicker.swift in Sources */,
 				81C3B0882B9A928A00179737 /* PopluarReview.swift in Sources */,
 				8115A64C2A83973F00B7C3FE /* SearchWork.swift in Sources */,
 				81F2592B2AB0656B00C54668 /* ReviewRouter.swift in Sources */,
@@ -1603,6 +1617,7 @@
 				818CF7EF2A20764C00BABA1F /* OnBoardingView.swift in Sources */,
 				81EE0B482B454D5900A58E5F /* ActorProfileView.swift in Sources */,
 				817919CC2B4BDF1A0084779B /* RankingApiService.swift in Sources */,
+				D61D2A7F2C3819EF00ED74F6 /* View.swift in Sources */,
 				81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */,
 				8103094329D1BDEF0021717B /* ContentView.swift in Sources */,
 				8178601D2A29CDAA004639F6 /* CustomSlider.swift in Sources */,
@@ -1612,6 +1627,7 @@
 				81407A722B2C3E7E006550AF /* GenreSelectView.swift in Sources */,
 				81BB110C2A0617B8005654AA /* BaseIntercept.swift in Sources */,
 				81AF8E8F2B1714EC000BB984 /* MyCommunityListView.swift in Sources */,
+				D61D2A812C381E6C00ED74F6 /* UIImage.swift in Sources */,
 				81588D592AFE743900E19F8D /* CommunityDetailsListResponse.swift in Sources */,
 				81588D5B2AFE767500E19F8D /* AddCommentResponse.swift in Sources */,
 				8124CB3529EFB16A00B446D5 /* WriteReviewView.swift in Sources */,

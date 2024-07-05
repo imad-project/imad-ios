@@ -72,6 +72,7 @@ class AuthViewModel:ObservableObject{
             } receiveValue: { [weak self] user in
                 self?.user = user
                 self?.patchUser = PatchUserInfo(user: user.data)
+                self?.patchUser.profileImageCode = 1
             }.store(in: &cancelable)
     }
     func patchUserInfo(){

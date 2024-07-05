@@ -9,37 +9,55 @@ import SwiftUI
 
 struct ProfileSelectView: View {
     
-    let columns = [GridItem(.flexible()), GridItem(.flexible()),GridItem(.flexible())]
-    
+    // - 알람 메세지 혹은 로딩 화면 관련
     @State var msg = ""
     @State var alert = false
     @State var loading = false
+    // - 프사관련
+    @State var showPicker = false
+    @State var croppedImage:UIImage?
     @EnvironmentObject var vm:AuthViewModel
     
     var body: some View {
         ZStack{
-            Color.white.ignoresSafeArea()
-            VStack(alignment: .leading,spacing: 5){
-                guideView
-                selectProfileView
-                CustomNextButton(action: {
-                    if vm.patchUser.nickname == ""{
-                        noSelect(selection: .nickname, message: "닉네임을 설정해주세요!")
-                    }else if vm.patchUser.age == 0{
-                        noSelect(selection: .age, message: "나이를 설정해주세요!")
-                    }else if vm.patchUser.profileImageCode == 0{
-                        noSelect(selection: .profile, message: "프로필 사진을 선택해 주세요!")
-                    }else if vm.patchUser.gender == ""{
-                        noSelect(selection: .gender, message: "성별을 선택해 주세요!")
-                    }else{
-                        vm.patchUserInfo()
-                        loading = true
-                    }
-                }, color:vm.patchUser.profileImageCode == 0 ? .customIndigo.opacity(0.5):.customIndigo)
-            }.foregroundColor(.customIndigo).padding()
             if loading{
                 CustomProgressView()
+            }else{
+                Color.white.ignoresSafeArea()
+                VStack(alignment: .leading,spacing: 5){
+                    guideView
+                    if let croppedImage{
+                        Image(uiImage: croppedImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 200,height: 200)
+                            .shadow(radius: 1)
+                            .frame(maxWidth: .infinity)
+                    }else{
+                        ProfileImageView(imageCode: vm.patchUser.profileImageCode, widthHeigt: 200)
+                            .shadow(radius: 1)
+                            .frame(maxWidth: .infinity)
+                    }
+                    selectProfileView
+                    CustomNextButton(action: {
+                        if vm.patchUser.nickname == ""{
+                            noSelect(selection: .nickname, message: "닉네임을 설정해주세요!")
+                        }else if vm.patchUser.age == 0{
+                            noSelect(selection: .age, message: "나이를 설정해주세요!")
+                        }else if vm.patchUser.profileImageCode == 0{
+                            noSelect(selection: .profile, message: "프로필 사진을 선택해 주세요!")
+                            noSelect(selection: .gender, message: "성별을 선택해 주세요!")
+                        }else if vm.patchUser.gender == ""{
+                        }else{
+                            vm.patchUserInfo()
+                            loading = true
+                        }
+                    }, color:vm.patchUser.profileImageCode == 0 ? .customIndigo.opacity(0.5):.customIndigo)
+                }
+                .foregroundColor(.customIndigo)
+                
             }
+            
         }.alert(isPresented: $alert) {
             Alert(title: Text("오류"),message: Text(msg),dismissButton: .default(Text("확인")){
             })
@@ -65,32 +83,36 @@ extension ProfileSelectView{
         }.padding(.leading)
     }
     var selectProfileView:some View{
-        LazyVGrid(columns: columns){
-            ForEach(ProfileFilter.allCases,id: \.rawValue){ item in
-                if item != .none{
-                    Button {
-                        vm.patchUser.profileImageCode = item.num
-                    } label: {
-                        VStack(spacing: 0) {
-                            Image(item.rawValue)
-                                .resizable()
-                                .frame(width: 100,height: 100)
-                                .overlay {
-                                    if vm.patchUser.profileImageCode == item.num{
-                                        Color.black.opacity(0.5)
+        ScrollView(.horizontal,showsIndicators: false){
+            HStack{
+                selectProfileButton
+                ForEach(ProfileFilter.allCases,id: \.rawValue){ item in
+                    if item != .none{
+                        Button {
+                            vm.patchUser.profileImageCode = item.num
+                            croppedImage = nil
+                        } label: {
+                            VStack{
+                                Image(item.rawValue)
+                                    .resizable()
+                                    .frame(width: 100,height: 100)
+                                    .overlay {
+                                        if vm.patchUser.profileImageCode == item.num{
+                                            Color.black.opacity(0.5)
+                                        }
                                     }
-                                }
-                                .cornerRadius(30)
-                            Text(item.name)
-                                .font(.caption)
-                                .foregroundColor(.customIndigo)
+                                    .clipShape(Circle())
+                                Text(item.name)
+                                    .font(.subheadline)
+                                    .foregroundColor(.customIndigo)
+                                
+                            }
                             
                         }
-                        
                     }
                 }
-            }
-        }.padding(.horizontal)
+            }.padding()
+        }
     }
     func noSelect(selection:RegisterFilter,message:String){
         msg = message
@@ -100,5 +122,37 @@ extension ProfileSelectView{
             }
         }
         alert = true
+    }
+    
+    var selectProfileButton:some View{
+        Button {
+            showPicker = true
+        } label: {
+            VStack{
+                Circle()
+                    .stroke(lineWidth: 2)
+                    .frame(width: 100,height: 100)
+                    .overlay {
+                        Image(systemName: "camera")
+                            .font(.largeTitle)
+                    }
+                    .foregroundColor(.black.opacity(0.8))
+                
+                Text("프로필 선택")
+                    .font(.subheadline)
+                    .foregroundColor(.customIndigo)
+            }
+        }
+        .cropImagePicker(show: $showPicker, croppedImage: $croppedImage)
+        .onChange(of: croppedImage) { value in
+            if let value{
+                vm.patchUser.profileImageCode = 0
+                let image = value.resize(targetSize: CGSize(width: 128, height: 128))
+                let renderer = ImageRenderer(content: Image(uiImage: image))
+                if let imageData = renderer.uiImage?.jpegData(compressionQuality: 1.0) {
+                    print("Image data size: \(imageData.count) bytes")
+                }
+            }
+        }
     }
 }

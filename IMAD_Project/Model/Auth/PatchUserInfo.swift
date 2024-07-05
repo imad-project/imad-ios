@@ -21,6 +21,6 @@ struct PatchUserInfo{
         self.age = user?.birthYear ?? 0
         self.movieGenre = user?.movieGenre ?? []
         self.tvGenre = user?.tvGenre ?? []
-        self.profileImageCode = user?.profileImage ?? 0
+        self.profileImageCode = user?.profileImage ?? 1
     }
 }
