@@ -18,11 +18,11 @@ extension View{
         }
     }
     
-//    @ViewBuilder
-//    func frame(_ size:CGSize)-> some View{
-//        self
-//            .frame(width:size.width,height: size.height)
-//    }
+    @ViewBuilder
+    func frame(_ size:CGSize)-> some View{
+        self
+            .frame(width:size.width,height: size.height)
+    }
 }
 
 
