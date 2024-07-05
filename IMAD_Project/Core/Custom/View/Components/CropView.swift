@@ -6,67 +6,89 @@
 //
 
 import SwiftUI
-
 struct CropView: View {
-    var image:UIImage?
+    @Binding var image:UIImage?
+    @Environment(\.dismiss) var dismiss
     var onCrop:(UIImage?,Bool)->()
     var body: some View {
         ZStack(alignment: .topLeading){
-            Color.black.opacity(0.8).ignoresSafeArea()
-            Image(systemName: "xmark")
+            Color.white.ignoresSafeArea()
+            Color.black.opacity(0.9).ignoresSafeArea()
+            imageView()
+            ZStack{
+                Group{
+                    HStack{
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark")
+                        }
+                        Spacer()
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "checkmark")
+                        }
+                    }
+                    Text("사진 자르기")
+                    
+                }
                 .font(.title3)
                 .bold()
                 .foregroundColor(.white)
+                .frame(maxWidth:.infinity)
                 .padding()
-            imageView()
-                .mask(alignment: .center) {
-                    ZStack{
-                        Rectangle().opacity(0.5)
-                        Circle()
-                       
-                    }
-                }
-                .overlay{
-                    Grids()
-                }
-            .frame(maxWidth:.infinity,maxHeight: .infinity,alignment: .center)
+            }
+            .background{
+                Color.white.ignoresSafeArea()
+                Color.black.opacity(0.9).ignoresSafeArea()
+            }
         }
     }
     
     @ViewBuilder
     func imageView()->some View{
-        let cropSize:CGSize = CGSize(width: 300, height: 300)
-        GeometryReader{ geo in
-            let size = geo.size
+        GeometryReader { geometry in
             if let image{
                 Image(uiImage: image)
                     .resizable()
-                    .scaledToFill()
-                    .frame(size)
+                    .overlay {
+                        Grids()
+                    }
+                    .scaledToFit()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .aspectRatio(image.size, contentMode: .fit)
+                    .mask(alignment: .center) {
+                        ZStack {
+                            Rectangle()
+                                .opacity(0.5)
+                            Circle()
+                                .frame(width: 300, height: 300)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
         }
-        .frame(cropSize)
     }
-    
     @ViewBuilder
     func Grids()->some View{
         ZStack{
             HStack{
-                ForEach(1...5,id: \.self){ _ in
+                ForEach(1...4,id: \.self){ _ in
                     Rectangle()
                         .foregroundColor(.white)
-                        .frame(width: 0.5)
+                        .frame(width: 1)
                         .frame(maxWidth:.infinity)
-                        
+                    
                 }
             }
             VStack{
-                ForEach(1...5,id: \.self){ _ in
+                ForEach(1...4,id: \.self){ _ in
                     Rectangle()
                         .foregroundColor(.white)
-                        .frame(height: 0.5)
+                        .frame(height: 1)
                         .frame(maxHeight:.infinity)
-                        
+                    
                 }
             }
             
@@ -75,7 +97,7 @@ struct CropView: View {
 }
 
 #Preview {
-    CropView(image:UIImage(named: "happy")){ _,_ in
+    CropView(image:.constant(UIImage(named: "happy"))){ _,_ in
         
     }
 }

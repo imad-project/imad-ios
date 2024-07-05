@@ -8,6 +8,8 @@
 import SwiftUI
 import PhotosUI
 
+
+
 extension View{
     @ViewBuilder
     func cropImagePicker(show:Binding<Bool>,croppedImage:Binding<UIImage?>)->some View{
@@ -16,12 +18,14 @@ extension View{
         }
     }
     
-    @ViewBuilder
-    func frame(_ size:CGSize)-> some View{
-        self
-            .frame(width:size.width,height: size.height)
-    }
+//    @ViewBuilder
+//    func frame(_ size:CGSize)-> some View{
+//        self
+//            .frame(width:size.width,height: size.height)
+//    }
 }
+
+
 struct CustomImagePicker<Content:View>: View {
     var content:Content
     @Binding var show:Bool
@@ -40,10 +44,11 @@ struct CustomImagePicker<Content:View>: View {
             .onChange(of: photosItem) { newValue in
                 if let newValue{
                     Task{
-                        guard let imageData = try? await newValue.loadTransferable(type: Data.self),let image = UIImage(data: imageData) else {return}
-                        await MainActor.run {
-                            self.selected = image
-                            showCropView.toggle()
+                        if let imageData = try? await newValue.loadTransferable(type: Data.self),let image = UIImage(data: imageData){
+                            await MainActor.run {
+                                self.selected = image
+                                showCropView.toggle()
+                            }
                         }
                     }
                 }
@@ -51,13 +56,9 @@ struct CustomImagePicker<Content:View>: View {
             .fullScreenCover(isPresented: $showCropView){
                 selected = nil
             } content: {
-                CropView(image: selected){ croppedImage, status in
+                CropView(image: $selected){ croppedImage, status in
                     
                 }
             }
     }
 }
-
-//#Preview {
-//    CustomImagePicker()
-//}
