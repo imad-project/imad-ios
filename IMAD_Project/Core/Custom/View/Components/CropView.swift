@@ -58,45 +58,47 @@ struct CropView: View {
     
     @ViewBuilder
     func imageView()->some View{
-        let cropSize = CGSize(width: UIDevice.current.userInterfaceIdiom == .pad ? 500 : UIScreen.main.bounds.width, height: UIDevice.current.userInterfaceIdiom == .pad ? 500 : UIScreen.main.bounds.width)
+        let cropSize = CGSize(width: isPad() ? 500 : mainWidth, height: isPad() ? 500 : mainHeight)
         GeometryReader { geometry in
             let size = geometry.size
             if let image{
-                ZStack{
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                        .overlay{
-                            GeometryReader{ proxy in
-                                let rect = proxy.frame(in: .named("CROPVIEW"))
-                                Color.clear
-                                    .onChange(of: isInteracting){ newValue in
-                                        withAnimation(.easeInOut(duration: 0.2)){
-                                            if rect.minX > 0{
-                                                offset.width = (offset.width - rect.minX)
-                                            }
-                                            if rect.minY > 0{
-                                                offset.height = (offset.height-rect.minY)
-                                            }
-                                            if rect.maxX < size.width{
-                                                offset.width = (rect.minX - offset.width)
-                                            }
-                                            if rect.maxY < size.height{
-                                                offset.height = (rect.minY - offset.height)
-                                            }
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .overlay{
+                        GeometryReader{ proxy in
+                            let rect = proxy.frame(in: .named("CROPVIEW"))
+                            Color.clear
+                                .onChange(of: isInteracting){ newValue in
+                                    withAnimation(.easeInOut(duration: 0.2)){
+                                        if rect.minX > 0{
+                                            offset.width = (offset.width - rect.minX)
+                                            haptics(.medium)
                                         }
-                                        if !newValue{
-                                            lastStoreOffset = offset
+                                        if rect.minY > 0{
+                                            offset.height = (offset.height-rect.minY)
+                                            haptics(.medium)
                                         }
-                                        withAnimation(.easeInOut(duration: 0.5)){
-                                            appearGrid.toggle()
+                                        if rect.maxX < size.width{
+                                            offset.width = (rect.minX - offset.width)
+                                            haptics(.medium)
                                         }
-                                        
+                                        if rect.maxY < size.height{
+                                            offset.height = (rect.minY - offset.height)
+                                            haptics(.medium)
+                                        }
                                     }
-                            }
+                                    if !newValue{
+                                        lastStoreOffset = offset
+                                    }
+                                    withAnimation(.easeInOut(duration: 0.5)){
+                                        appearGrid.toggle()
+                                    }
+                                    
+                                }
                         }
-                }
-                .frame(size)
+                    }
+                    .frame(size)
             }
         }
         .scaleEffect(scale)
