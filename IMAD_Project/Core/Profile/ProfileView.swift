@@ -266,7 +266,7 @@ extension ProfileView{
                                         .navigationBarBackButtonHidden()
                                 } label: {
                                     VStack{
-                                        KFImageView(image: item.contentsPosterPath.getImadImage(),height: UIScreen.main.bounds.width/2)
+                                        KFImageView(image: item.contentsPosterPath.getImadImage(),height: (UIScreen.main.bounds.width/3)*1.25)
                                             .cornerRadius(5)
                                         Text(item.contentsTitle)
                                             .font(.caption)
