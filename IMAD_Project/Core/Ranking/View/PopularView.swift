@@ -78,7 +78,7 @@ struct PopularView: View {
                         }
                         .padding(.leading,20)
                     }
-                    .frame(width: 400,height: 80)
+                    .frame(height: 80)
                     .cornerRadius(5)
             }
         }

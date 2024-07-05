@@ -11,6 +11,7 @@ import Kingfisher
 
 struct MainView: View {
     
+    let divWidth = UIScreen.main.bounds.width
     let gradient = [LinearGradient(colors: [.green.opacity(0.6),.cyan.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.pink.opacity(0.6),.yellow.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.gray.opacity(0.4),.gray.opacity(0.9)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.purple.opacity(0.7),.red.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.brown.opacity(0.5),.orange.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing)].shuffled()
     let rankingItems = [ GridItem(.fixed(75)), GridItem(.fixed(75)), GridItem(.fixed(75))]
     let workItems = [ GridItem(.fixed(220)), GridItem(.fixed(220))]
@@ -412,6 +413,7 @@ extension MainView{
                         .shadow(radius: 1)
                 }
             }
+            .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? divWidth-20 : divWidth*2-30)
             .padding(.horizontal,10)
         }
         .padding(.vertical)
