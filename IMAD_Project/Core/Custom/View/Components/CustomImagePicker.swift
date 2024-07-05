@@ -15,6 +15,12 @@ extension View{
             self
         }
     }
+    
+    @ViewBuilder
+    func frame(_ size:CGSize)-> some View{
+        self
+            .frame(width:size.width,height: size.height)
+    }
 }
 struct CustomImagePicker<Content:View>: View {
     var content:Content
