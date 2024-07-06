@@ -99,7 +99,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationTv?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationTv?.results {
-                for i in 0..<5{
+                for i in 0..<(results.count > 5 ? 5:results.count) {
                     list.append( TVWorkGenre(tvGenre:results[i]))
                 }
             }
@@ -108,7 +108,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.results {
-                for i in 0..<5{
+                for i in 0..<(results.count > 5 ? 5:results.count){
                     list.append( TVWorkGenre(tvGenre:results[i]))
                 }
             }
@@ -117,7 +117,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationMovie?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationMovie?.results {
-                for i in 0..<5{
+                for i in 0..<(results.count > 5 ? 5:results.count){
                     list.append( MovieWorkGenre(movieGenre:results[i]))
                 }
             }
@@ -126,7 +126,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.results {
-                for i in 0..<5{
+                for i in 0..<(results.count > 5 ? 5:results.count){
                     list.append( MovieWorkGenre(movieGenre:results[i]))
                 }
             }
