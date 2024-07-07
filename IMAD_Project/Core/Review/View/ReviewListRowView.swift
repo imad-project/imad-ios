@@ -21,7 +21,6 @@ struct ReviewListRowView: View {
                 Spacer()
                 scoreAndLike
             }
-            Divider()
             likeView
         }
         .onAppear{
@@ -44,78 +43,51 @@ extension ReviewListRowView{
             Text(review.userNickname)
                 .font(.subheadline)
                 .bold()
+            if review.spoiler{
+                Capsule()
+                .stroke(lineWidth: 1)
+                .frame(width: 45, height: 18)
+                .overlay {
+                    Text("스포")
+                        .font(.caption2)
+                        .bold()
+                }
+                .foregroundColor(.red)
+            }
             Spacer()
-            Text(review.createdAt.relativeTime())
-                .foregroundColor(.gray)
-                .font(.caption)
-            
         }
         .padding(.bottom,5)
     }
     var contentView:some View{
         VStack(alignment: .leading) {
             Text(review.title).bold()
-                .padding(.vertical)
-                .font(.subheadline)
+                .font(.system(size: 17))
             HStack{
-                Text(review.content)
-                    .font(.caption)
-                    .lineLimit(5)
+                Text(review.spoiler ? "스포일러가\n포함된 리뷰입니다." : review.content)
+                    .font(.system(size: 16))
+                    .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.bottom,5)
-                    .padding(.horizontal,5)
                 Spacer()
-            }
-            .overlay {
-                if review.spoiler{
-                    Color.white.opacity(0.1)
-                        .background(Material.ultraThin).environment(\.colorScheme, .light)
-                        .cornerRadius(5)
-                    Text("「스포일러성 리뷰입니다.」")
-                }
             }
             
         }
     }
     var scoreAndLike:some View{
-        VStack{
-            ScoreView(score: review.score, color: .black,font: .subheadline,widthHeight: 60)
-            HStack(spacing: 15){
-                HStack(spacing: 2){
-                    Image(systemName: "heart.fill").foregroundColor(.red)
-                    Text("\((vm.review?.likeCnt ?? 0))")
-                        .padding(.trailing)
-                    Image(systemName: "heart.slash.fill").foregroundColor(.blue)
-                    Text("\((vm.review?.dislikeCnt ?? 0))")
-                }
-                .font(.subheadline)
-            }
-            .font(.subheadline)
-        }.padding(.horizontal)
+        ScoreView(score: review.score, color: .customIndigo,font: .caption,widthHeight: 50)
     }
     var likeView:some View{
-        HStack{
-            Group{
-                Button {
-                    vm.like(review:vm.review ?? review)
-                } label: {
-                    Image(systemName: vm.review?.likeStatus == 1 ? "heart.fill":"heart")
-                    Text("좋아요")
-                }
-                .foregroundColor(vm.review?.likeStatus == 1 ? .red : .gray)
-                Button {
-                    vm.disLike(review: vm.review ?? review)
-                } label: {
-                    HStack{
-                        Image(systemName: vm.review?.likeStatus == -1 ? "heart.slash.fill" : "heart.slash")
-                        Text("싫어요")
-                    }
-                }
-                .foregroundColor(vm.review?.likeStatus == -1 ? .blue : .gray)
+            HStack(spacing: 2){
+                Image(systemName: "heart")
+                Text("\((vm.review?.likeCnt ?? 0))")
+                    .padding(.trailing,10)
+                Image(systemName: "heart.slash")
+                Text("\((vm.review?.dislikeCnt ?? 0))")
+                    .padding(.trailing,10)
+                Text("·   " + review.createdAt.relativeTime())
             }
+            .foregroundColor(.customIndigo.opacity(0.7))
             .font(.subheadline)
             .padding(.bottom)
-            .frame(maxWidth: .infinity)
-        }
     }
 }

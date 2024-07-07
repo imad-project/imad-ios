@@ -43,8 +43,9 @@ struct WorkView: View {
             if vm.workInfo == nil{
                 CustomProgressView()
             }else{
+                Color.gray.opacity(0.1).ignoresSafeArea()
                 ScrollView(showsIndicators: false){
-                    MovieBackgroundView(url: vm.workInfo?.posterPath?.getImadImage() ?? "", height: 3, isBottomTransparency: true)
+                    MovieBackgroundView(url: vm.workInfo?.posterPath?.getImadImage() ?? "", height: 3, isBottomTransparency: false)
                     poster
                     collection
                     VStack{
@@ -146,11 +147,12 @@ extension WorkView{
     var poster:some View{
         HStack{
             KFImageView(image: vm.workInfo?.posterPath?.getImadImage() ?? "",width: 140,height: 180)
+                .cornerRadius(10)
                 .padding(.leading)
             VStack(alignment: .leading){
                 HStack(alignment: .bottom){
                     VStack(alignment: .leading) {
-                        Text(returnType ? "TV" : "영화")
+                        Text(returnType ? "시리즈" : "영화")
                             .padding(2)
                             .padding(.horizontal,7)
                             .background(RoundedRectangle(cornerRadius: 2)
@@ -187,7 +189,7 @@ extension WorkView{
             Text(returnType ? vm.workInfo?.name ?? "" : vm.workInfo?.title ?? "")
                 .padding(.top)
                 .bold()
-                .padding(.bottom,5)
+                .font(.title3)
             Text(returnType ? vm.workInfo?.originalName ?? "" : vm.workInfo?.originalTitle ?? "")
                 .font(.subheadline)
         }
@@ -207,7 +209,8 @@ extension WorkView{
                         VStack(spacing:5){
                             Image(systemName: "rectangle.and.pencil.and.ellipsis")
                             Text("리뷰작성")
-                                .font(.caption)
+                                .font(.custom("GmarketSansTTFLight", size: 11))
+                                .fontWeight(.medium)
                         }.foregroundColor(.customIndigo)
                         
                     }
@@ -217,7 +220,8 @@ extension WorkView{
                         VStack(spacing:5){
                             Image(systemName: "ellipsis.message")
                             Text("게시물작성")
-                                .font(.caption)
+                                .font(.custom("GmarketSansTTFLight", size: 11))
+                                .fontWeight(.medium)
                         }.foregroundColor(.customIndigo)
                     }
                     Button {
@@ -234,7 +238,8 @@ extension WorkView{
                                 Image(systemName: bookmark ? "bookmark.fill" :  "bookmark")
                             }
                             Text("찜")
-                                .font(.caption)
+                                .font(.custom("GmarketSansTTFLight", size: 11))
+                                .fontWeight(.medium)
                         }.foregroundColor(.customIndigo)
                     }
                 }.frame(maxWidth: .infinity)
@@ -249,11 +254,10 @@ extension WorkView{
         VStack(alignment: .leading) {
             Text("내 리뷰")
                 .padding(.top)
-                .bold()
+                .font(.custom("GmarketSansTTFLight", size: 16))
+                .fontWeight(.medium)
             VStack{
-                //                if let review = vmReview.reviewList.first{
                 if let myReviewId = vm.workInfo?.reviewId{
-                    //                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
                     NavigationLink {
                         ReviewDetailsView(goWork: false, reviewId: myReviewId)
                             .environmentObject(vmAuth)
@@ -305,7 +309,8 @@ extension WorkView{
             }
             Text("리뷰 보기")
                 .padding(.top)
-                .bold()
+                .font(.custom("GmarketSansTTFLight", size: 16))
+                .fontWeight(.medium)
             ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
                 NavigationLink {
                     ReviewDetailsView(goWork: false, reviewId: review.reviewID)
@@ -338,7 +343,5 @@ extension WorkView{
         }
         .padding(.horizontal)
         .foregroundColor(.black)
-        .padding(.bottom,30)
-        .background(Color.gray.opacity(0.1))
     }
 }
