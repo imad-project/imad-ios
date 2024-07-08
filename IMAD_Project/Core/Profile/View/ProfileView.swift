@@ -11,7 +11,7 @@ import SwiftUIFlowLayout
 
 struct ProfileView: View {
     
-    @State var imageCode:ProfileFilter = .none
+    @State var imageCode:ProfileFilter = .indigo
     @State var profileSelect = false
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
@@ -156,17 +156,17 @@ extension ProfileView{
             Button {
                 profileSelect = true
             } label: {
-                ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0,widthHeigt: 60)
-                    .overlay(alignment:.bottomTrailing){
-                        Circle()
-                            .foregroundColor(.black.opacity(0.7))
-                            .frame(width: 25)
-                            .overlay {
-                                Image(systemName: "photo")
-                                    .foregroundColor(.white)
-                                    .font(.caption2)
-                            }
-                    }
+//                ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0,widthHeigt: 60)
+//                    .overlay(alignment:.bottomTrailing){
+//                        Circle()
+//                            .foregroundColor(.black.opacity(0.7))
+//                            .frame(width: 25)
+//                            .overlay {
+//                                Image(systemName: "photo")
+//                                    .foregroundColor(.white)
+//                                    .font(.caption2)
+//                            }
+//                    }
             }
             VStack(alignment: .leading,spacing: 0) {
                 HStack(spacing:0){
@@ -313,25 +313,23 @@ extension ProfileView{
                 ScrollView(.horizontal,showsIndicators: false){
                     HStack{
                         ForEach(ProfileFilter.allCases,id:\.rawValue){ item in
-                            if item != .none{
                                 Button {
-                                    vmAuth.patchUser.profileImageCode = item.num
+//                                    vmAuth.patchUser.profileImageCode = item.num
                                     vmAuth.patchUserInfo()
                                     profileSelect = false
                                 } label: {
                                     VStack{
-                                        ProfileImageView(imageCode: item.num, widthHeigt: 80)
-                                            .overlay {
-                                                if user.profileImage == item.num{
-                                                    Circle().foregroundColor(.black.opacity(0.5))
-                                                }
-                                            }
-                                        if user.profileImage == item.num{
-                                            Text("현재").bold()
-                                        }
+//                                        ProfileImageView(imageCode: item.num, widthHeigt: 80)
+//                                            .overlay {
+//                                                if user.profileImage == item.num{
+//                                                    Circle().foregroundColor(.black.opacity(0.5))
+//                                                }
+//                                            }
+//                                        if user.profileImage == item.num{
+//                                            Text("현재").bold()
+//                                        }
                                     }
                                 }
-                            }
                         }
                     }
                 }
