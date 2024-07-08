@@ -13,7 +13,7 @@ struct PopularPostingResponse:Codable{
     let contentsPosterPath,contentsBackdropPath: String
     let userID: Int
     let userNickname: String
-    let userProfileImage: Int
+    let userProfileImage: String
     let title: String
     let content:String
     let category, viewCnt, commentCnt, likeCnt: Int
