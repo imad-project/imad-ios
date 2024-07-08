@@ -10,7 +10,7 @@ import Alamofire
 
 enum UserRouter:URLRequestConvertible{
     case user
-    case patchUser(gender:String?,birthYear:Int?,image:Int,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?)
+    case patchUser(gender:String?,birthYear:Int?,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?)
     case passwordChange(old:String,new:String)
     case profile
     
@@ -40,11 +40,10 @@ enum UserRouter:URLRequestConvertible{
         switch self{
         case .user,.profile:
             return Parameters()
-        case let .patchUser(gender,birthYear,image,nickname,tvGenre,movieGenre):
+        case let .patchUser(gender,birthYear,nickname,tvGenre,movieGenre):
             var params = Parameters()
             params["gender"] = gender
             params["birth_year"] = birthYear
-            params["profile_image"] = image
             params["nickname"] = nickname
             params["preferred_tv_genres"] = tvGenre
             params["preferred_movie_genres"] = movieGenre
