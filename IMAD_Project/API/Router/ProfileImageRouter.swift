@@ -32,6 +32,6 @@ enum ProfileImageRouter:URLRequestConvertible{
         let url = baseUrl.appendingPathComponent(endPoint)
         var request = URLRequest(url: url)
         request.method = method
-        return try URLEncoding(destination: .queryString).encode(request, with: nil)
+        return request
     }
 }
