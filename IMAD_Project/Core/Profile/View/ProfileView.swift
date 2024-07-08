@@ -120,6 +120,13 @@ struct ProfileView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
+        .onReceive(vmWork.profile){ url in
+            vmProfile.url = url
+        }
+        .onReceive(vmProfile.profileChanged) {
+            vmAuth.user?.data?.profileImage = vmProfile.url
+            loading = false
+        }
     }
 }
 
