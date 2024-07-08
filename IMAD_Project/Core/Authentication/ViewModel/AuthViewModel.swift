@@ -19,8 +19,6 @@ class AuthViewModel:ObservableObject{
     @Published var message = ""
     @Published var user:UserInfo? = nil
     
-    
-    
     var success = PassthroughSubject<(),Never>()
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
@@ -72,11 +70,10 @@ class AuthViewModel:ObservableObject{
             } receiveValue: { [weak self] user in
                 self?.user = user
                 self?.patchUser = PatchUserInfo(user: user.data)
-                self?.patchUser.profileImageCode = 1
             }.store(in: &cancelable)
     }
     func patchUserInfo(){
-        UserApiService.patchUser(gender: patchUser.gender, birthYear: patchUser.age, image: patchUser.profileImageCode, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
+        UserApiService.patchUser(gender: patchUser.gender, birthYear: patchUser.age, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -146,4 +143,5 @@ class AuthViewModel:ObservableObject{
             print("error")
         }
     }
+    
 }

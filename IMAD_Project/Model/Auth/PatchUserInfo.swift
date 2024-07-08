@@ -13,7 +13,6 @@ struct PatchUserInfo{
     var age:Int
     var movieGenre:[Int]
     var tvGenre:[Int]
-    var profileImage:String
     
     init(user:UserResponse?) {
         self.nickname = user?.nickname ?? ""
@@ -21,6 +20,5 @@ struct PatchUserInfo{
         self.age = user?.birthYear ?? Int().currentDate
         self.movieGenre = user?.movieGenre ?? []
         self.tvGenre = user?.tvGenre ?? []
-        self.profileImage = user?.profileImage ?? ""
     }
 }

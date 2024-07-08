@@ -21,8 +21,10 @@ enum UserRouter:URLRequestConvertible{
     
     var endPoint:String{
         switch self{
-        case .user,.patchUser,.profile:
+        case .user,.patchUser:
             return "api/user"
+        case .profile:
+            return "api/profile"
         case .passwordChange:
             return "api/user/password"
         }
