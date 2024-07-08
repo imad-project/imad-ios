@@ -60,7 +60,8 @@ extension WorkInfoView{
     var title:some View{
         VStack(alignment: .leading,spacing: 10){
             Text("원재")
-                .bold()
+                .font(.custom("GmarketSansTTFMedium", size: 15))
+                .fontWeight(.semibold)
             VStack(alignment: .leading){
                 HStack(spacing:0){
                     Text(isTV ? (work.name ?? "") : (work.title ?? ""))
@@ -82,7 +83,8 @@ extension WorkInfoView{
         HStack{
             VStack(alignment:.leading,spacing: 10){
                 Text("국가")
-                    .bold()
+                    .font(.custom("GmarketSansTTFMedium", size: 15))
+                    .fontWeight(.semibold)
                 HStack{
                     if let countries = work.productionCountries,countries != []{
                         ForEach(Array(vm.contriesData).filter({countries.contains($0.key)}),id:\.key){ key,value in
@@ -97,7 +99,8 @@ extension WorkInfoView{
             Spacer()
             VStack(alignment:.leading,spacing: 10){
                 Text("연령등급")
-                    .bold()
+                    .font(.custom("GmarketSansTTFMedium", size: 15))
+                    .fontWeight(.semibold)
                 if let certification = work.certification{
                     if let cer = CertificationFilter.allCases.first(where: {$0.rawValue == certification}){
                         Text(cer.name)
@@ -128,10 +131,12 @@ extension WorkInfoView{
     var genre:some View{
         HStack{
             VStack(alignment: .leading,spacing: 10) {
-                Text("장르").bold()
+                Text("장르")
+                    .font(.custom("GmarketSansTTFMedium", size: 15))
+                    .fontWeight(.semibold)
                 Text(isTV ? work.genres.transTvGenreCode() : work.genres.transMovieGenreCode())
-                .foregroundColor(.gray)
-                .padding(.horizontal,5)
+                    .foregroundColor(.black.opacity(0.6))
+                    .padding(.horizontal,5)
             }
         }
         .padding(.horizontal)
@@ -140,22 +145,23 @@ extension WorkInfoView{
     var season:some View{
         VStack(alignment: .leading,spacing: 10) {
             if isTV{
-                Text("시즌").bold()
+                Text("시즌")
+                    .font(.custom("GmarketSansTTFMedium", size: 15))
+                    .fontWeight(.semibold)
                 HStack{
                     Text("\(work.numberOfSeasons ?? 0)부작 -")
                     Text("\(work.numberOfEpisodes ?? 0)개의 에피소드")
                 }
                 .font(.subheadline)
-                .foregroundColor(.gray)
+                .foregroundColor(.black.opacity(0.6))
                 .padding(.leading,5)
             }else{
-                Text("상영시간").bold()
-                HStack{
-                    Text("\(work.runtime ?? 0)분")
-                    
-                }
-                .foregroundColor(.gray)
-                .padding(.leading,5)
+                Text("상영시간")
+                    .font(.custom("GmarketSansTTFMedium", size: 15))
+                    .fontWeight(.semibold)
+                Text("\(work.runtime ?? 0)분")
+                    .foregroundColor(.gray)
+                    .padding(.leading,5)
             }
         }
         .padding(.horizontal)
@@ -163,7 +169,9 @@ extension WorkInfoView{
     }
     var overview:some View{
         VStack(alignment: .leading,spacing: 10){
-            Text("개요").bold()
+            Text("개요")
+                .font(.custom("GmarketSansTTFMedium", size: 15))
+                .fontWeight(.semibold)
             Text(isExtend ? work.overview ?? "내용이 존재하지 않습니다." : String(work.overview?.prefix(200) ?? "내용이 존재하지 않습니다.") + (isExtend ? "" : "..."))
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.bottom,5)
@@ -184,11 +192,12 @@ extension WorkInfoView{
         .padding(.horizontal)
         .font(.subheadline)
     }
-   
+    
     func seasonList(seasons:[Season]) -> some View{
         VStack(alignment: .leading,spacing: 5){
             Text("시즌정보")
-                .bold()
+                .font(.custom("GmarketSansTTFMedium", size: 15))
+                .fontWeight(.semibold)
                 .padding(.horizontal)
             ScrollView(.horizontal,showsIndicators: false){
                 HStack{
@@ -269,13 +278,14 @@ extension WorkInfoView{
                 .padding(.horizontal)
             }
         }
-       
+        
         .font(.subheadline)
     }
     var network:some View{
         VStack(alignment: .leading,spacing: 15){
             Text("방송사")
-                .bold()
+                .font(.custom("GmarketSansTTFMedium", size: 15))
+                .fontWeight(.semibold)
                 .padding(.horizontal)
             if let networks = work.networks{
                 ScrollView(.horizontal,showsIndicators: false) {
@@ -296,52 +306,55 @@ extension WorkInfoView{
         .font(.subheadline)
     }
     var person:some View{
-        VStack(alignment: .leading,spacing: 10){
-            Text("스태프").bold().padding(.horizontal)
-            ScrollView(.horizontal,showsIndicators: false){
-                if let crews = work.credits?.crew,crews != []{
-                    HStack(alignment: .top){
-                        ForEach(crews){ crew in
-                            VStack{
-                                ActorProfileView(image: crew.profilePath?.getImadImage() ?? "")
-                                Text(crew.name ?? "")
-                                    .font(.caption)
-                                if let jobs = crew.job?.components(separatedBy: ","){
-                                    Text(jobs.joined(separator: "\\").translationKorean())
-                                        .foregroundColor(.gray)
-                                        .font(.caption2)
-                                }
-                            }
-                        }.padding(.top)
-                    }
-                    .padding(.horizontal,20)
-                }
-                else{
-                    Text("정보 없음")
-                        .padding(.horizontal,20)
-                        .foregroundColor(.gray)
-                }
-            }
-            Text("출연진").bold().padding(.leading)
-            if let casts = work.credits?.cast,casts != []{
-                ScrollView(.horizontal,showsIndicators: false){
-                    HStack(alignment: .top){
-                        ForEach(casts){ cast in
-                            VStack{
-                                ActorProfileView(image: cast.profilePath?.getImadImage() ?? "")
-                                Text(cast.name ?? "")
-                                    .font(.caption)
-                                Text("\(cast.character ?? "")역")
+        VStack(alignment: .leading){
+            Text("스태프")
+                .font(.custom("GmarketSansTTFMedium", size: 15))
+                .fontWeight(.semibold)
+                .padding(.horizontal)
+            if let crews = work.credits?.crew,!crews.isEmpty{
+                ForEach(crews){ crew in
+                    HStack{
+                        ActorProfileView(image: crew.profilePath?.getImadImage() ?? "")
+                        VStack(alignment: .leading){
+                            Text(crew.name ?? "")
+                            if let jobs = crew.job?.components(separatedBy: ","){
+                                Text(jobs.joined(separator: "\\").translationKorean())
                                     .foregroundColor(.gray)
-                                    .font(.caption2)
-                                    .frame(width: 90)
-                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(.subheadline)
+                                    .lineLimit(2)
                             }
                         }
-                        .padding(.top)
-                            .padding(.horizontal,20)
+                        Spacer()
+                    }
+                }.padding(.top,10)
+                    .padding(.horizontal,20)
+                    
+            }
+            else{
+                Text("정보 없음")
+                    .padding(.horizontal,20)
+                    .foregroundColor(.gray)
+            }
+            Text("출연진").font(.custom("GmarketSansTTFMedium", size: 15))
+                .fontWeight(.semibold).padding(.leading)
+                .padding(.top,20)
+            if let casts = work.credits?.cast,casts != []{
+                ForEach(casts){ cast in
+                    HStack{
+                        ActorProfileView(image: cast.profilePath?.getImadImage() ?? "")
+                        VStack(alignment: .leading){
+                            Text(cast.name ?? "")
+                            Text("\(cast.character ?? "")역")
+                                .foregroundColor(.gray)
+                                .font(.subheadline)
+                                .lineLimit(2)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        Spacer()
                     }
                 }
+                .padding(.top)
+                .padding(.horizontal,20)
             }else{
                 Text("정보 없음")
                     .padding(.horizontal,20)
