@@ -12,7 +12,7 @@ struct PopularReviewResponse:Codable{
     let contentsTitle, contentsPosterPath,contentsBackdropPath: String
     let userID: Int
     let userNickname: String
-    let userProfileImage: Int
+    let userProfileImage: String
     let title, content: String
     let score: Double
     let likeCnt, dislikeCnt: Int

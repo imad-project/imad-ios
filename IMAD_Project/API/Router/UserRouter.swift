@@ -10,9 +10,10 @@ import Alamofire
 
 enum UserRouter:URLRequestConvertible{
     case user
-    case patchUser(gender:String?,birthYear:Int?,image:Int,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?)
+    case patchUser(gender:String?,birthYear:Int?,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?)
     case passwordChange(old:String,new:String)
     case profile
+    
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -21,11 +22,11 @@ enum UserRouter:URLRequestConvertible{
     var endPoint:String{
         switch self{
         case .user,.patchUser:
-            return "/api/user"
-        case .passwordChange:
-            return "api/user/password"
+            return "api/user"
         case .profile:
             return "api/profile"
+        case .passwordChange:
+            return "api/user/password"
         }
     }
     var method:HTTPMethod{
@@ -41,11 +42,10 @@ enum UserRouter:URLRequestConvertible{
         switch self{
         case .user,.profile:
             return Parameters()
-        case let .patchUser(gender,birthYear,image,nickname,tvGenre,movieGenre):
+        case let .patchUser(gender,birthYear,nickname,tvGenre,movieGenre):
             var params = Parameters()
             params["gender"] = gender
             params["birth_year"] = birthYear
-            params["profile_image"] = image
             params["nickname"] = nickname
             params["preferred_tv_genres"] = tvGenre
             params["preferred_movie_genres"] = movieGenre
@@ -60,6 +60,7 @@ enum UserRouter:URLRequestConvertible{
     func asURLRequest() throws -> URLRequest {
         let url = baseUrl.appendingPathComponent(endPoint)  //url 설정
         var request = URLRequest(url: url)
+        
         request.method = method
         switch self{
         case .user,.profile:

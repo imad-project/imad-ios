@@ -16,6 +16,7 @@ struct ProfileSelectView: View {
     // - 프사관련
     @State var showPicker = false
     @State var croppedImage:UIImage?
+    @StateObject var vmProfile = ProfileImageViewModel()
     @EnvironmentObject var vm:AuthViewModel
     
     var body: some View {
@@ -31,28 +32,36 @@ struct ProfileSelectView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 200,height: 200)
+                            .clipShape(Circle())
                             .shadow(radius: 1)
                             .frame(maxWidth: .infinity)
                     }else{
-                        ProfileImageView(imageCode: vm.patchUser.profileImageCode, widthHeigt: 200)
-                            .shadow(radius: 1)
+                        Image(vmProfile.defaultImage.rawValue)
+                            .resizable()
+                            .frame(width: 200, height: 200)
+                            .background{
+                                Circle()
+                                    .foregroundColor(.white)
+                                    .shadow(color: vmProfile.defaultImage.color,radius: 1)
+                            }
                             .frame(maxWidth: .infinity)
                     }
                     selectProfileView
                     CustomNextButton(action: {
                         if vm.patchUser.nickname == ""{
                             noSelect(selection: .nickname, message: "닉네임을 설정해주세요!")
-                        }else if vm.patchUser.age == 0{
-                            noSelect(selection: .age, message: "나이를 설정해주세요!")
-                        }else if vm.patchUser.profileImageCode == 0{
-                            noSelect(selection: .profile, message: "프로필 사진을 선택해 주세요!")
-                            noSelect(selection: .gender, message: "성별을 선택해 주세요!")
                         }else if vm.patchUser.gender == ""{
+                            noSelect(selection: .gender, message: "성별을 선택해 주세요!")
                         }else{
                             vm.patchUserInfo()
+                            if let image = vmProfile.customImage,vmProfile.defaultImage == .none{
+                                vmProfile.fetchProfileImageCustom(image: image)
+                            }else{
+                                vmProfile.fetchProfileImageDefault(image: vmProfile.defaultImage.num.getImageValue())
+                            }
                             loading = true
                         }
-                    }, color:vm.patchUser.profileImageCode == 0 ? .customIndigo.opacity(0.5):.customIndigo)
+                    }, color:vm.patchUser.nickname.isEmpty || vm.patchUser.gender.isEmpty ? .customIndigo.opacity(0.5):.customIndigo)
                 }
                 .foregroundColor(.customIndigo)
                 
@@ -86,29 +95,30 @@ extension ProfileSelectView{
         ScrollView(.horizontal,showsIndicators: false){
             HStack{
                 selectProfileButton
-                ForEach(ProfileFilter.allCases,id: \.rawValue){ item in
-                    if item != .none{
+                ForEach(ProfileFilter.allCases,id: \.rawValue){ profile in
+                    if profile != .none{
                         Button {
-                            vm.patchUser.profileImageCode = item.num
+                            vmProfile.defaultImage = profile
+                            vmProfile.customImage = nil
                             croppedImage = nil
                         } label: {
-                            VStack{
-                                Image(item.rawValue)
+                            ZStack{
+                                Circle()
+                                    .frame(width: 100,height: 100)
+                                    .shadow(color:profile.color,radius: 1)
+                                    .foregroundColor(.white)
+                                Image(profile.rawValue)
                                     .resizable()
                                     .frame(width: 100,height: 100)
-                                    .overlay {
-                                        if vm.patchUser.profileImageCode == item.num{
-                                            Color.black.opacity(0.5)
-                                        }
-                                    }
-                                    .clipShape(Circle())
-                                Text(item.name)
-                                    .font(.subheadline)
-                                    .foregroundColor(.customIndigo)
-                                
+                                Circle()
+                                    .frame(width: 100,height: 100)
+                                    .foregroundColor(vmProfile.defaultImage == profile ? .black.opacity(0.5) : .clear)
+                                        
                             }
-                            
+                            .padding(.bottom,25)
+                            .padding(.horizontal,5)
                         }
+                        
                     }
                 }
             }.padding()
@@ -146,13 +156,14 @@ extension ProfileSelectView{
         .cropImagePicker(show: $showPicker, croppedImage: $croppedImage)
         .onChange(of: croppedImage) { value in
             if let value{
-                vm.patchUser.profileImageCode = 0
+                vmProfile.defaultImage = .none
                 let image = value.resize(targetSize: CGSize(width: 128, height: 128))
                 let renderer = ImageRenderer(content: Image(uiImage: image))
                 if let imageData = renderer.uiImage?.jpegData(compressionQuality: 1.0) {
-                    print("Image data size: \(imageData.count) bytes")
+                    vmProfile.customImage = imageData
                 }
             }
         }
+        .padding(.trailing,5)
     }
 }

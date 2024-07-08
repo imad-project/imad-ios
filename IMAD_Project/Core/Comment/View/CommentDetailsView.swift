@@ -109,7 +109,7 @@ extension CommentDetailsView{
             }
             Divider()
             HStack{
-                ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0, widthHeigt: 30)
+                ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "", widthHeigt: 30)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
                     .focused($reply)
                     .padding(10)
@@ -150,7 +150,7 @@ extension CommentDetailsView{
     var parentComment:some View{
         VStack{
             HStack(alignment: .top){
-                ProfileImageView(imageCode: vm.comment?.userProfileImage ?? 0, widthHeigt: 30)
+                ProfileImageView(imagePath: vm.comment?.userProfileImage ?? "", widthHeigt: 30)
                 VStack(alignment: .leading) {
                     HStack{
                         Text(vm.comment?.userNickname ?? "").bold()

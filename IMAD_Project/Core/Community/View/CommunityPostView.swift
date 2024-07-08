@@ -162,7 +162,7 @@ extension CommunityPostView{
         HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
-                    ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 25)
+                    ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 25)
                     Text(community.userNickname ?? "")
                         .font(.subheadline)
                         .bold()
@@ -388,7 +388,7 @@ extension CommunityPostView{
         VStack{
             Divider()
             HStack{
-                ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 40)
+                ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 40)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,textLimit: 400, text: $reviewText)
                     .focused($reply)
                     .padding(10)

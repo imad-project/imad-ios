@@ -185,7 +185,7 @@ extension MyCommunityListView{
                     Text(community.contentsTitle ?? "")
                         .lineLimit(2)
                     HStack{
-                        ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 20)
+                        ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 20)
                         Text(community.userNickname ?? "")
                         Text("· \(community.createdAt.relativeTime())")
                             .foregroundColor(.gray)

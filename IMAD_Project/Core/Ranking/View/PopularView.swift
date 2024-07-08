@@ -37,7 +37,7 @@ struct PopularView: View {
                             .background(Material.thin)
                         HStack{
                             VStack(spacing: 0){
-                                ProfileImageView(imageCode: popular.userProfile(), widthHeigt: 20)
+                                ProfileImageView(imagePath: popular.userProfile(), widthHeigt: 20)
                                 Text(popular.userName())
                                     .font(.caption2)
                                     .foregroundColor(.black)

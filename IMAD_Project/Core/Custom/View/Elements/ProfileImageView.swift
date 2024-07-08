@@ -6,21 +6,30 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ProfileImageView: View {
-    let imageCode:Int
+    let imagePath:String
     let widthHeigt:CGFloat
     var body: some View {
-        Image("\(ProfileFilter.allCases.first(where: {$0.num == imageCode})?.rawValue ?? "")")
+        KFImage(URL(string: imagePath.getImageURL()))
             .resizable()
             .scaledToFill()
             .frame(width: widthHeigt,height: widthHeigt)
             .clipShape(Circle())
+            .background{
+                if imagePath.contains("default_profile_image"){
+                    Circle()
+                        .foregroundColor(.white)
+                        .shadow(color:ProfileFilter.allCases.first(where: {$0.num == imagePath.getImageCode()})?.color ?? .clear,radius: 1)
+                }
+            }
     }
+   
 }
 
 struct ProfileImageView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileImageView(imageCode: 3,widthHeigt: 30)
+        ProfileImageView(imagePath: CustomData.instance.profileImage,widthHeigt: 30)
     }
 }

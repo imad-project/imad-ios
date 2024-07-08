@@ -78,7 +78,7 @@ extension MyScrapListView{
                     Text(scrap.postingTitle)
                         .lineLimit(2)
                     HStack{
-                        ProfileImageView(imageCode: scrap.userProfileImage, widthHeigt: 20)
+//                        ProfileImageView(imageCode: scrap.userProfileImage, widthHeigt: 20)
                         Text(scrap.userNickname)
                         Text("· \(scrap.createdDate.relativeTime())")
                     }

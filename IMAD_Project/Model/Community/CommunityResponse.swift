@@ -14,7 +14,7 @@ struct CommunityResponse:Codable,Hashable{
     let contentsPosterPath,contentsBackdropPath: String
     let userID: Int
     let userNickname: String?
-    let userProfileImage: Int
+    let userProfileImage: String
     let title, content: String
     let category, viewCnt:Int
     var likeCnt, dislikeCnt: Int

@@ -78,7 +78,7 @@ struct CommentRowView: View {
 extension CommentRowView{
     var profileView:some View{
         HStack{
-            ProfileImageView(imageCode: comment.userProfileImage, widthHeigt: 20)
+            ProfileImageView(imagePath: comment.userProfileImage, widthHeigt: 20)
             Text(comment.userNickname).bold()
             Text((comment.modifiedAt != comment.createdAt ? "수정됨  •  " : "•  " ) + comment.modifiedAt.relativeTime())
                 .foregroundColor(.gray)

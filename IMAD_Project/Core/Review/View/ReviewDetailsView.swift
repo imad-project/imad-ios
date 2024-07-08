@@ -140,7 +140,7 @@ extension ReviewDetailsView{
                 }
                 VStack(alignment: .leading) {
                     HStack{
-                        ProfileImageView(imageCode: review.userID ?? 0, widthHeigt: 20)
+                        ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 20)
                         Text(review.userNickname)
                         Group{
                             if review.createdAt != review.modifiedAt{

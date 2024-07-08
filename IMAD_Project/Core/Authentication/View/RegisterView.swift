@@ -188,7 +188,7 @@ extension RegisterView{
             return 4
         }else if vmCheck.message == ""{
             return 5
-        }else if temp != email{
+        }else if temp != "\(email)@\(domain.domain)"{
             return 6
         }
         else{

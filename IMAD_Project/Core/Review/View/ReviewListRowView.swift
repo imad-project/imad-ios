@@ -39,7 +39,7 @@ struct ReviewListRowView_Previews: PreviewProvider {
 extension ReviewListRowView{
     var profileAndDateView:some View{
         HStack{
-            ProfileImageView(imageCode: review.userProfileImage,widthHeigt: 25)
+            ProfileImageView(imagePath: review.userProfileImage,widthHeigt: 25)
             Text(review.userNickname)
                 .font(.subheadline)
                 .bold()
