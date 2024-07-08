@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct ProfileImageResponse:Codable{
+    let url:String
+}
