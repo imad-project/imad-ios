@@ -82,6 +82,9 @@ public extension String {
             return number
            
     }
+    func getImageURL()->String{
+        "https://\(Bundle.main.infoDictionary?["IMAGE_PATH"] ?? "")\(self)"
+    }
 }
 
 

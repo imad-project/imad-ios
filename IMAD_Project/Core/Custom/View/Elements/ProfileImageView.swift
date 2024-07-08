@@ -12,7 +12,7 @@ struct ProfileImageView: View {
     let imagePath:String
     let widthHeigt:CGFloat
     var body: some View {
-        KFImage(URL(string: imagePath))
+        KFImage(URL(string: imagePath.getImageURL()))
             .resizable()
             .scaledToFill()
             .frame(width: widthHeigt,height: widthHeigt)
