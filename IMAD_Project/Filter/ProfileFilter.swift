@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum ProfileFilter:String, CaseIterable{
+    case none
     case indigo
     case yellow
     case green
@@ -17,6 +19,8 @@ enum ProfileFilter:String, CaseIterable{
     
     var num:Int{
         switch self{
+        case .none:
+            return 0
         case .indigo:
             return 1
         case .yellow:
@@ -30,6 +34,24 @@ enum ProfileFilter:String, CaseIterable{
         case .red:
             return 6
 
+        }
+    }
+    var color:Color{
+        switch self{
+        case .none:
+            return .clear
+        case .indigo:
+            return .customIndigo
+        case .yellow:
+            return .orange
+        case .green:
+            return .green
+        case .pink:
+            return .purple
+        case .blue:
+            return .mint
+        case .red:
+            return .red
         }
     }
 }
