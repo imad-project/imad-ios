@@ -308,7 +308,7 @@ class CustomData{
         ScrapListResponse(scrapID: 1, userID: 1, userNickname: "콰랑", userProfileImage: 4, contentsID: 1, contentsTitle:  "죠죠", contentsPosterPath: "/9kav2ODiGILqV86XWSUn6g4KQq5.jpg", postingID: 1, postingTitle: "이거 개쩔지 않노", createdDate: "2023-09-15T13:31:10.027532")
         ]
     
-    let popularReview:PopularReviewResponse = PopularReviewResponse(reviewID: 1, contentsID: 24, contentsTitle: "파묘", contentsPosterPath: "/aJLOmEwCLJIznN96m3t9IMz12or.jpg", contentsBackdropPath: "/lLQZbBom0IsdQLhe1n9J9SpMzSR.jpg", userID: 2, userNickname: "콰랑이", userProfileImage: 5, title: "이거 꽤 재밌게 봤음", content: "ㄹㅇ", score: 7.86667, likeCnt: 1, dislikeCnt: 1, createdAt: "2024-03-08T09:20:19.928699", modifiedAt: "2024-03-08T09:20:19.928699", likeStatus: 0, author: false, spoiler: false)
+    let popularReview:PopularReviewResponse = PopularReviewResponse(reviewID: 1, contentsID: 24, contentsTitle: "파묘", contentsPosterPath: "/aJLOmEwCLJIznN96m3t9IMz12or.jpg", contentsBackdropPath: "/lLQZbBom0IsdQLhe1n9J9SpMzSR.jpg", userID: 2, userNickname: "콰랑이", userProfileImage:"https://\(Bundle.main.infoDictionary?["IMAGE_PATH"] ?? "")" , title: "이거 꽤 재밌게 봤음", content: "ㄹㅇ", score: 7.86667, likeCnt: 1, dislikeCnt: 1, createdAt: "2024-03-08T09:20:19.928699", modifiedAt: "2024-03-08T09:20:19.928699", likeStatus: 0, author: false, spoiler: false)
     
     
 }

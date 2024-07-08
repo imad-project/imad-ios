@@ -50,7 +50,7 @@ struct CommunityListRowView_Previews: PreviewProvider {
 extension CommunityListRowView{
     var firstView:some View{
         HStack{
-            ProfileImageView(imageCode: community.userProfileImage, widthHeigt: 20)
+            ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 20)
             Text(community.userNickname ?? "").font(.subheadline).fontWeight(.medium)
             if community.spoiler{
                 Capsule()
