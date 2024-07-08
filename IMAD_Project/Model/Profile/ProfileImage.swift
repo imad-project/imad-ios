@@ -9,6 +9,6 @@ import Foundation
 
 struct ProfileImage:Codable{
     let status:Int
-    let data:ProfileImageResponse
+    let data:ProfileImageResponse?
     let message:String
 }
