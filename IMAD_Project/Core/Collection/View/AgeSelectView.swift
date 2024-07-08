@@ -10,14 +10,7 @@ import SwiftUI
 struct AgeSelectView: View {
     @EnvironmentObject var vm:AuthViewModel
     
-    var currentDate :Int{
-        
-        let date = Date()
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day], from: date)
-
-        return components.year!
-    }
+    
     
     var body: some View {
         ZStack{
@@ -31,9 +24,6 @@ struct AgeSelectView: View {
                     }
                 }, color: .customIndigo.opacity(0.5))
             }.padding()
-        }
-        .onAppear{
-            vm.patchUser.age = currentDate
         }
         .foregroundColor(.customIndigo)
     }
@@ -61,7 +51,7 @@ extension AgeSelectView{
         HStack{
             Spacer()
             Picker("", selection: $vm.patchUser.age) {
-                ForEach(1900...currentDate, id: \.self) {
+                ForEach(1900...Int().currentDate, id: \.self) {
                     Text("\($0)")
                 }
             }
