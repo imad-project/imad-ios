@@ -16,4 +16,4 @@ BASE_URL = api.iimad.com
 LOCAL_URL = www.ncookie.site
 APPLE_LOGIN_URL = appleid.apple.com/auth/authorize?client_id=com.iimad.api&redirect_uri
 APPLE_REDIRECT_URI = api.iimad.com/api/callback/apple&response_type=code%20id_token&scope=name%20email&response_mode=form_post
-
+IMAGE_PATH = imad-image-s3.s3.ap-northeast-2.amazonaws.com/profile/default_profile_image_4.png
