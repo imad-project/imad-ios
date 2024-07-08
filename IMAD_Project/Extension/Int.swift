@@ -15,4 +15,7 @@ extension Int{
         
         return numberFormatter.string(from: NSNumber(value: self))!
     }
+    func getImageValue()->String{
+        return "default_profile_image_\(self).png"
+    }
 }
