@@ -15,7 +15,7 @@ enum ProfileFilter:String, CaseIterable{
     case blue
     case red
     
-    var num:String{
+    var num:Int{
         switch self{
         case .indigo:
             return 1
