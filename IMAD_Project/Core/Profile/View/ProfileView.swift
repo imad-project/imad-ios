@@ -12,14 +12,24 @@ import SwiftUIFlowLayout
 struct ProfileView: View {
     
     @State var imageCode:ProfileFilter = .indigo
-    @State var profileSelect = false
+    
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    @StateObject var vmProfile = ProfileImageViewModel()
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vmWork = WorkViewModel(workInfo: nil,bookmarkList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
+    @State var profileSelect = false
+    @State var gallery = false
+    @State var basic = false
+    @State var croppedImage:UIImage?
+    
+    
+    @State var loading = false
     @State var tv = false
     @State var movie = false
+    
+    
     
     var authProvider:String{
         if let user = vmAuth.user?.data{
@@ -45,55 +55,59 @@ struct ProfileView: View {
     
     var body: some View {
         VStack{
-            header
-            ScrollView(showsIndicators: false){
-                
-                if let user = vmAuth.user?.data{
-                    LazyVStack(pinnedViews: [.sectionHeaders]){
-                        VStack(spacing: 0){
-                            profileImageView
-                            Divider()
-                            HStack{
-                                myInfoView(view:
-                                            MyReviewView(writeType: .myself)
-                                    .environmentObject(vmAuth),
-                                           image: "star.bubble",
-                                           text: "내 리뷰", count: vmWork.profileInfo?.myReviewCnt ?? 0)
-                                myInfoView(view:  MyCommunityListView(writeType: .myself)
-                                    .environmentObject(vmAuth),
-                                           image:  "text.word.spacing",
-                                           text: "내 게시물", count: vmWork.profileInfo?.myPostingCnt ?? 0)
-                                myInfoView(view: MyScrapListView(), image: "scroll", text: "내 스크랩", count: vmWork.profileInfo?.myScrapCnt ?? 0)
-                            }
-                            VStack{
-                                VStack(alignment: .leading) {
-                                    Text("내 반응").font(.custom("GmarketSansTTFMedium", size: 15))
-                                    navigationListRowView(view: MyReviewView(writeType: .myselfLike).environmentObject(vmAuth), image: "star.leadinghalf.filled", text: "리뷰")
-                                    navigationListRowView(view: MyCommunityListView(writeType: .myselfLike).environmentObject(vmAuth), image: "note.text", text: "게시물")
-                                }.padding()
-                                    .background(Color.white)
-                                    .cornerRadius(10)
-                                    .padding([.horizontal,.top],10)
-                                VStack(alignment: .leading) {
-                                    Text("내 장르").font(.custom("GmarketSansTTFMedium", size: 15))
-                                    buttonListRowView(action: {movie  = true}, image: "popcorn", text: "영화")
-                                    buttonListRowView(action: {tv  = true} , image: "tv", text: "TV/시리즈")
-                                }.padding()
-                                    .background(Color.white)
-                                    .cornerRadius(10)
-                                    .padding([.horizontal,.bottom],10)
+            if loading{
+                CustomProgressView()
+            }
+            else{
+                header
+                ScrollView(showsIndicators: false){
+                    if let user = vmAuth.user?.data{
+                        LazyVStack(pinnedViews: [.sectionHeaders]){
+                            VStack(spacing: 0){
+                                profileImageView
+                                Divider()
+                                HStack{
+                                    myInfoView(view:
+                                                MyReviewView(writeType: .myself)
+                                        .environmentObject(vmAuth),
+                                               image: "star.bubble",
+                                               text: "내 리뷰", count: vmWork.profileInfo?.myReviewCnt ?? 0)
+                                    myInfoView(view:  MyCommunityListView(writeType: .myself)
+                                        .environmentObject(vmAuth),
+                                               image:  "text.word.spacing",
+                                               text: "내 게시물", count: vmWork.profileInfo?.myPostingCnt ?? 0)
+                                    myInfoView(view: MyScrapListView(), image: "scroll", text: "내 스크랩", count: vmWork.profileInfo?.myScrapCnt ?? 0)
+                                }
+                                VStack{
+                                    VStack(alignment: .leading) {
+                                        Text("내 반응").font(.custom("GmarketSansTTFMedium", size: 15))
+                                        navigationListRowView(view: MyReviewView(writeType: .myselfLike).environmentObject(vmAuth), image: "star.leadinghalf.filled", text: "리뷰")
+                                        navigationListRowView(view: MyCommunityListView(writeType: .myselfLike).environmentObject(vmAuth), image: "note.text", text: "게시물")
+                                    }.padding()
+                                        .background(Color.white)
+                                        .cornerRadius(10)
+                                        .padding([.horizontal,.top],10)
+                                    VStack(alignment: .leading) {
+                                        Text("내 장르").font(.custom("GmarketSansTTFMedium", size: 15))
+                                        buttonListRowView(action: {movie  = true}, image: "popcorn", text: "영화")
+                                        buttonListRowView(action: {tv  = true} , image: "tv", text: "TV/시리즈")
+                                    }.padding()
+                                        .background(Color.white)
+                                        .cornerRadius(10)
+                                        .padding([.horizontal,.bottom],10)
+                                    
+                                }
+                                .foregroundColor(.black)
+                                .background(Color.gray.opacity(0.1))
+                                movieList
                                 
                             }
-                            .foregroundColor(.black)
-                            .background(Color.gray.opacity(0.1))
-                            movieList
+                            
                             
                         }
-                        
-                        
-                    }
-                    .sheet(isPresented: $profileSelect) {
-                        profileSelectView(user: user)
+                        .sheet(isPresented: $basic) {
+                            profileSelectView(user: user)
+                        }
                     }
                 }
             }
@@ -120,9 +134,9 @@ struct ProfileView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
-        .onReceive(vmWork.profile){ url in
-            vmProfile.url = url
-        }
+//        .onReceive(vmWork.profile){ url in
+//            vmProfile.url = url
+//        }
         .onReceive(vmProfile.profileChanged) {
             vmAuth.user?.data?.profileImage = vmProfile.url
             loading = false
@@ -163,17 +177,43 @@ extension ProfileView{
             Button {
                 profileSelect = true
             } label: {
-//                ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0,widthHeigt: 60)
-//                    .overlay(alignment:.bottomTrailing){
-//                        Circle()
-//                            .foregroundColor(.black.opacity(0.7))
-//                            .frame(width: 25)
-//                            .overlay {
-//                                Image(systemName: "photo")
-//                                    .foregroundColor(.white)
-//                                    .font(.caption2)
-//                            }
-//                    }
+                ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "",widthHeigt: 60)
+                    .overlay(alignment:.bottomTrailing){
+                        Circle()
+                            .foregroundColor(.black.opacity(0.7))
+                            .frame(width: 25)
+                            .overlay {
+                                Image(systemName: "photo")
+                                    .foregroundColor(.white)
+                                    .font(.caption2)
+                            }
+                    }
+            }
+            .confirmationDialog("", isPresented: $profileSelect,actions: {
+                Button(role:.none){
+                    basic = true
+                } label: {
+                    Text("기본 프로필 이미지")
+                }
+                Button(role:.none){
+                    gallery = true
+                } label: {
+                    Text("갤러리")
+                }
+            },message: {
+                Text("어떤 프로필로 선택하시겠습니까?")
+            })
+            .cropImagePicker(show: $gallery, croppedImage: $croppedImage)
+            .onChange(of: croppedImage) { value in
+                if let value{
+                    vmProfile.defaultImage = .none
+                    let image = value.resize(targetSize: CGSize(width: 128, height: 128))
+                    let renderer = ImageRenderer(content: Image(uiImage: image))
+                    if let imageData = renderer.uiImage?.jpegData(compressionQuality: 1.0) {
+                        vmProfile.fetchProfileImageCustom(image: imageData)
+                        vmProfile.defaultImage = .indigo
+                    }
+                }
             }
             VStack(alignment: .leading,spacing: 0) {
                 HStack(spacing:0){
@@ -319,32 +359,47 @@ extension ProfileView{
                     .foregroundColor(.black)
                 ScrollView(.horizontal,showsIndicators: false){
                     HStack{
-                        ForEach(ProfileFilter.allCases,id:\.rawValue){ item in
+                        ForEach(ProfileFilter.allCases,id: \.rawValue){ profile in
+                            if profile != .none{
                                 Button {
-//                                    vmAuth.patchUser.profileImageCode = item.num
-                                    vmAuth.patchUserInfo()
-                                    profileSelect = false
-                                } label: {
-                                    VStack{
-//                                        ProfileImageView(imageCode: item.num, widthHeigt: 80)
-//                                            .overlay {
-//                                                if user.profileImage == item.num{
-//                                                    Circle().foregroundColor(.black.opacity(0.5))
-//                                                }
-//                                            }
-//                                        if user.profileImage == item.num{
-//                                            Text("현재").bold()
-//                                        }
+                                    if !isCondition(profile:profile){
+                                        loading = true
+                                        vmProfile.fetchProfileImageDefault(image: profile.num.getImageValue())
+                                        profileSelect = false
+                                        basic = false
                                     }
+                                } label: {
+                                    ZStack{
+                                        Circle()
+                                            .frame(width: 100,height: 100)
+                                            .shadow(color:profile.color,radius: 1)
+                                            .foregroundColor(.white)
+                                        Image(profile.rawValue)
+                                            .resizable()
+                                            .frame(width: 100,height: 100)
+                                        Circle()
+                                            .frame(width: 100,height: 100)
+                                            .foregroundColor(isCondition(profile: profile) ? .black.opacity(0.5) : .clear)
+                                        
+                                    }
+                                    .padding(.vertical,25)
+                                    .padding(.horizontal,5)
                                 }
+                                
+                            }
                         }
-                    }
+                    }.padding(.leading)
                 }
+                
                 .frame(height: 20)
                 .padding(.bottom,30)
             }
         }
         .presentationDetents([.fraction(0.3)])
     }
-    
+    func isCondition(profile:ProfileFilter)->Bool{
+        guard let profileImage = vmAuth.user?.data?.profileImage else {return false}
+        guard profileImage.contains("default_profile_image") else {return false}
+        return ProfileFilter.allCases.first(where: {$0.num == profileImage.getImageCode()}) == profile
+    }
 }

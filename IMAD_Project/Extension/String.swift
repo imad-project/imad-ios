@@ -75,6 +75,13 @@ public extension String {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
         return formatter.date(from: self)!
     }
+    func getImageCode()->Int{
+            let index = self.index(self.endIndex, offsetBy: -5)
+            let character = self[index]
+            let number = Int(String(character))!
+            return number
+           
+    }
 }
 
 

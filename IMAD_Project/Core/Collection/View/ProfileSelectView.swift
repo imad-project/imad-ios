@@ -32,6 +32,7 @@ struct ProfileSelectView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 200,height: 200)
+                            .clipShape(Circle())
                             .shadow(radius: 1)
                             .frame(maxWidth: .infinity)
                     }else{

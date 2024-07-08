@@ -11,8 +11,10 @@ import Combine
 class ProfileImageViewModel:ObservableObject{
     
     var refreschTokenExpired = PassthroughSubject<(),Never>()
+    var profileChanged = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
-    @Published var message = ""
+    
+    @Published var url = ""
     @Published var customImage:Data?
     @Published var defaultImage:ProfileFilter = .indigo
     
@@ -25,25 +27,26 @@ class ProfileImageViewModel:ObservableObject{
                     print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
+                    self.profileChanged.send()
                     print(completion)
                 }
             } receiveValue: { [weak self] noData in
-                self?.message = noData.message
+                self?.url = noData.data?.url ?? ""
             }.store(in: &cancelable)
     }
     func fetchProfileImageDefault(image:String){
         ProfileImageApiService.fetchProfileImageDefault(image: image)
             .sink { completion in
-                print(completion)
-//                switch completion{
-//                case .failure(let error):
-//                    print(error.localizedDescription)
-//                    self.refreschTokenExpired.send()
-//                case .finished:
-//                    print(completion)
-//                }
+                switch completion{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.refreschTokenExpired.send()
+                case .finished:
+                    self.profileChanged.send()
+                    print(completion)
+                }
             } receiveValue: { [weak self] noData in
-                self?.message = noData.message
+                self?.url = noData.data?.url ?? ""
             }.store(in: &cancelable)
     }
 }

@@ -21,17 +21,11 @@ struct ProfileImageView: View {
                 if imagePath.contains("default_profile_image"){
                     Circle()
                         .foregroundColor(.white)
-                        .shadow(color:ProfileFilter.allCases.first(where: {$0.num == getImageCode(image: imagePath)})?.color ?? .clear,radius: 1)
+                        .shadow(color:ProfileFilter.allCases.first(where: {$0.num == imagePath.getImageCode()})?.color ?? .clear,radius: 1)
                 }
             }
     }
-    func getImageCode(image:String)->Int{
-            let index = image.index(image.endIndex, offsetBy: -5)
-            let character = image[index]
-            let number = Int(String(character))!
-            return number
-           
-    }
+   
 }
 
 struct ProfileImageView_Previews: PreviewProvider {
