@@ -14,18 +14,17 @@ enum UserRouter:URLRequestConvertible{
     case passwordChange(old:String,new:String)
     case profile
     
+    
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
     }
     
     var endPoint:String{
         switch self{
-        case .user,.patchUser:
-            return "/api/user"
+        case .user,.patchUser,.profile:
+            return "api/user"
         case .passwordChange:
             return "api/user/password"
-        case .profile:
-            return "api/profile"
         }
     }
     var method:HTTPMethod{
@@ -60,6 +59,7 @@ enum UserRouter:URLRequestConvertible{
     func asURLRequest() throws -> URLRequest {
         let url = baseUrl.appendingPathComponent(endPoint)  //url 설정
         var request = URLRequest(url: url)
+        
         request.method = method
         switch self{
         case .user,.profile:
