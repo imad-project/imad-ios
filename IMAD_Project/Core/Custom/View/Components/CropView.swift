@@ -43,7 +43,7 @@ struct CropView: View {
                         }
                         Spacer()
                         Button {
-                            let renderer = ImageRenderer(content: imageView(true).clipShape(Circle()))
+                            let renderer = ImageRenderer(content: imageView(true))
                             renderer.proposedSize = .init(CGSize(width: isPad() ? 500 : mainWidth, height: isPad() ? 500 : mainWidth))
                             if let image = renderer.uiImage{
                                 onCrop(image,true)
@@ -118,7 +118,6 @@ struct CropView: View {
         }
         .scaleEffect(scale)
         .offset(offset)
-        
         .overlay {
             if !hideGrids{
                 if appearGrid{
