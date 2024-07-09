@@ -40,7 +40,7 @@ struct MyCommunityListView: View {
     }
     
     var body: some View {
-        VStack{
+        VStack(spacing:0){
             header
             item
         }
@@ -65,7 +65,7 @@ struct MyCommunityListView: View {
 
 struct MyCommunityListView_Previews: PreviewProvider {
     static var previews: some View {
-        MyCommunityListView(writeType: .myselfLike,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
+        MyCommunityListView(writeType: .myself,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
             .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
     }
 }
@@ -73,31 +73,28 @@ struct MyCommunityListView_Previews: PreviewProvider {
 extension MyCommunityListView{
     var header:some View{
         VStack{
-            ZStack{
-                HStack{
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .bold()
-                            .padding()
-                        
-                    }
-                    Spacer()
+            HStack{
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .bold()
+                    
                 }
                 Text(writeType == .myself ? "내 게시물" : "내 게시물 반응")
-                    .font(.title3)
+                    .font(.GmarketSansTTFMedium(25))
                     .bold()
+                Spacer()
             }
             if writeType == .myselfLike{
                 HStack{
                     filterButton(like: true)
                     filterButton(like: false)
                     Spacer()
-                }.padding(.leading)
+                }
             }
             Divider()
-        }
+        }.padding([.leading,.top],10)
     }
     
     var item:some View{
@@ -119,6 +116,7 @@ extension MyCommunityListView{
                         }
                     }
                 }
+                .background(Color.gray.opacity(0.1))
             }
         }
     }
@@ -131,8 +129,10 @@ extension MyCommunityListView{
             }
         } label: {
             HStack{
-                Image(systemName: like ? "heart.fill" : "heart.slash.fill").foregroundColor(like ? .red:.blue)
+                Image(systemName: like ? "heart" : "heart.slash")
+                    .foregroundColor(.customIndigo.opacity(0.7))
                 Text(like ? "좋아요":"싫어요")
+                    .font(.GmarketSansTTFMedium(15))
             }
             .padding(5)
             .padding(.horizontal)
@@ -151,26 +151,18 @@ extension MyCommunityListView{
             Spacer()
             if writeType == .myself{
                 Image(systemName: "text.badge.xmark")
-                    .font(.largeTitle)
-                    .padding(.bottom,5)
+                    .font(.GmarketSansTTFMedium(50))
+                    .foregroundColor(.customIndigo.opacity(0.5))
+                    .padding(.bottom,10)
                 Text("작성한 게시물이 없습니다")
+                    .font(.GmarketSansTTFMedium(15))
             }else{
-                ZStack{
-                    if like{
-                        Image(systemName: "heart.fill")
-                            .font(.title)
-                            .foregroundColor(.red)
-                            .offset(x:3)
-                            .rotationEffect(Angle(degrees: -10))
-                    }else{
-                        Image(systemName: "heart.slash.fill")
-                            .font(.title)
-                            .foregroundColor(.blue)
-                            .offset(x:-3)
-                            .rotationEffect(Angle(degrees: 10))
-                    }
-                }.opacity(0.6)
+                Image(systemName: like ? "heart" : "heart.slash")
+                    .font(.GmarketSansTTFMedium(50))
+                    .foregroundColor(.customIndigo.opacity(0.5))
+                    .padding(.bottom,10)
                 Text(like ? "좋아요가 없습니다" : "싫어요가 없습니다")
+                    .font(.GmarketSansTTFMedium(15))
             }
             Spacer()
         }
@@ -180,24 +172,7 @@ extension MyCommunityListView{
             self.community = community
             self.goPosting = true
         } label: {
-            HStack{
-                VStack(alignment: .leading) {
-                    Text(community.contentsTitle ?? "")
-                        .lineLimit(2)
-                    HStack{
-                        ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 20)
-                        Text(community.userNickname ?? "")
-                        Text("· \(community.createdAt.relativeTime())")
-                            .foregroundColor(.gray)
-                    }
-                    .font(.caption)
-                }
-                Spacer()
-                KFImageView(image:community.contentsPosterPath?.getImadImage() ?? "" ,width: 70,height: 100)
-                    .cornerRadius(5)
-                    .shadow(radius: 1)
-            }
+            CommunityListRowView(community: community)
         }
-        .padding(.horizontal)
     }
 }

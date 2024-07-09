@@ -28,16 +28,15 @@ struct CommunityListRowView: View {
                 }
                 Spacer()
                 KFImageView(image: community.contentsPosterPath?.getImadImage() ?? "",width: 80,height: 100)
-                    .cornerRadius(10)
+                    .cornerRadius(5)
                     .shadow(radius: 1)
                     .padding(.leading)
-                    .padding(.trailing,10)
+                    
             }
-            
-            Divider()
-                .padding(.vertical,5)
         }
+        .padding(10)
         .foregroundColor(.black)
+        .background(.white)
     }
 }
 

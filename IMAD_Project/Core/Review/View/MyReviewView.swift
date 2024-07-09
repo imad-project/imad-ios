@@ -105,7 +105,6 @@ extension MyReviewView{
                             } label: {
                                 ReviewListRowView(review: review, my: true)
                             }
-                            .padding(.top,10)
                             if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
                                 ProgressView()
                                     .environment(\.colorScheme, .light)

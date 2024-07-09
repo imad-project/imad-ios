@@ -29,8 +29,8 @@ struct CommunityView: View {
                 infoView
                 listView
             }
+            .background(.gray.opacity(0.1))
         }
-        .background(Color.white)
         .onChange(of: tab.communityTab){ tab in
             listUpdate(category: tab.num)
         }
@@ -171,6 +171,7 @@ extension CommunityView{
         .font(.subheadline)
         .padding(.vertical,10)
         .padding(.horizontal,10)
+        .background(.white)
     }
     var listView:some View{
         ForEach(vm.communityList,id:\.self){ community in
@@ -179,16 +180,13 @@ extension CommunityView{
                 goWork = true
             } label: {
                 CommunityListRowView(community: community)
-                    .padding(.leading,10)
-                    .padding(.vertical,2)
             }
-          
+           
             if vm.communityList.last == community,vm.maxPage > vm.currentPage{
-                    ProgressView()
-                        .onAppear{
-                            vm.readCommunityList(page: vm.currentPage + 1,category:tab.communityTab.num)
-                        }
-                
+                ProgressView()
+                    .onAppear{
+                        vm.readCommunityList(page: vm.currentPage + 1,category:tab.communityTab.num)
+                    }
             }
         }
     }

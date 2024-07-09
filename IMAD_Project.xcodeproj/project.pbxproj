@@ -226,6 +226,7 @@
 		D6D974C12C3BA4B000BCBF49 /* ProfileImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974C02C3BA4B000BCBF49 /* ProfileImageViewModel.swift */; };
 		D6D974C42C3BB2CB00BCBF49 /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974C32C3BB2CB00BCBF49 /* ProfileImage.swift */; };
 		D6D974C62C3BB2D400BCBF49 /* ProfileImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974C52C3BB2D400BCBF49 /* ProfileImageResponse.swift */; };
+		D6D974C92C3D20CF00BCBF49 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974C82C3D20CF00BCBF49 /* Font.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -465,6 +466,7 @@
 		D6D974C02C3BA4B000BCBF49 /* ProfileImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageViewModel.swift; sourceTree = "<group>"; };
 		D6D974C32C3BB2CB00BCBF49 /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
 		D6D974C52C3BB2D400BCBF49 /* ProfileImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageResponse.swift; sourceTree = "<group>"; };
+		D6D974C82C3D20CF00BCBF49 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -968,6 +970,7 @@
 				81372A802AFB7E3000870331 /* Int.swift */,
 				D61D2A7E2C3819EF00ED74F6 /* View.swift */,
 				D61D2A802C381E6C00ED74F6 /* UIImage.swift */,
+				D6D974C82C3D20CF00BCBF49 /* Font.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1626,6 +1629,7 @@
 				811762272B2CB51B009AE845 /* ProfileResponse.swift in Sources */,
 				818206FB2AF8BB70004A7B21 /* KFImageView.swift in Sources */,
 				81C0DC5F2A14D01D0022A3EE /* ProfileFilter.swift in Sources */,
+				D6D974C92C3D20CF00BCBF49 /* Font.swift in Sources */,
 				81BB11142A0622AC005654AA /* AuthViewModel.swift in Sources */,
 				81C1EB872AB43A6000FB265D /* ReviewListRowView.swift in Sources */,
 				81C0DC5B2A14B1220022A3EE /* UserInfo.swift in Sources */,
