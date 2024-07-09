@@ -13,6 +13,8 @@ class RankingViewModel:ObservableObject{
     var canelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()
     
+    @Published var currentPage = 1
+    @Published var maxPage = 1
     @Published var rankingList:[RankingResponseList] = []
     @Published var popularReview:PopularReviewResponse? = nil
     @Published var popularPosting:PopularPostingResponse? = nil
@@ -26,26 +28,29 @@ class RankingViewModel:ObservableObject{
             .sink { completion in
                 switch completion{
                 case .finished:
+                    self.currentPage = page
                     print(completion)
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] rank in
-                self?.rankingList = rank.data?.detailsList ?? []
+                self?.rankingList.append(contentsOf: rank.data?.detailsList ?? [])
+                self?.maxPage = rank.data?.totalPages ?? 1
             }.store(in: &canelable)
-
     }
     func getMonthRanking(page:Int,type:String){
         RankingApiService.monthRanking(page: page, type: type)
             .sink { completion in
                 switch completion{
                 case .finished:
+                    self.currentPage = page
                     print(completion)
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] rank in
-                self?.rankingList = rank.data?.detailsList ?? []
+                self?.rankingList.append(contentsOf: rank.data?.detailsList ?? [])
+                self?.maxPage = rank.data?.totalPages ?? 1
             }.store(in: &canelable)
 
     }
@@ -54,12 +59,14 @@ class RankingViewModel:ObservableObject{
             .sink { completion in
                 switch completion{
                 case .finished:
+                    self.currentPage = page
                     print(completion)
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] rank in
-                self?.rankingList = rank.data?.detailsList ?? []
+                self?.rankingList.append(contentsOf: rank.data?.detailsList ?? [])
+                self?.maxPage = rank.data?.totalPages ?? 1
             }.store(in: &canelable)
 
     }
