@@ -64,41 +64,44 @@ struct ProfileView: View {
                     if let user = vmAuth.user?.data{
                         LazyVStack(pinnedViews: [.sectionHeaders]){
                             VStack(spacing: 0){
-                                profileImageView
-                                Divider()
-                                HStack{
-                                    myInfoView(view:
-                                                MyReviewView(writeType: .myself)
-                                        .environmentObject(vmAuth),
-                                               image: "star.bubble",
-                                               text: "내 리뷰", count: vmWork.profileInfo?.myReviewCnt ?? 0)
-                                    myInfoView(view:  MyCommunityListView(writeType: .myself)
-                                        .environmentObject(vmAuth),
-                                               image:  "text.word.spacing",
-                                               text: "내 게시물", count: vmWork.profileInfo?.myPostingCnt ?? 0)
-                                    myInfoView(view: MyScrapListView(), image: "scroll", text: "내 스크랩", count: vmWork.profileInfo?.myScrapCnt ?? 0)
+                                VStack(spacing: 0){
+                                    profileImageView
+                                    Divider()
+                                    HStack{
+                                        myInfoView(view:
+                                                    MyReviewView(writeType: .myself)
+                                            .environmentObject(vmAuth),
+                                                   image: "star.bubble",
+                                                   text: "내 리뷰", count: vmWork.profileInfo?.myReviewCnt ?? 0)
+                                        myInfoView(view:  MyCommunityListView(writeType: .myself)
+                                            .environmentObject(vmAuth),
+                                                   image:  "text.word.spacing",
+                                                   text: "내 게시물", count: vmWork.profileInfo?.myPostingCnt ?? 0)
+                                        myInfoView(view: MyScrapListView(), image: "scroll", text: "내 스크랩", count: vmWork.profileInfo?.myScrapCnt ?? 0)
+                                    }
                                 }
-                                VStack{
+                                .background(Color.white)
+                                .padding(.top,10)
+                                VStack(spacing:0){
                                     VStack(alignment: .leading) {
                                         Text("내 반응").font(.custom("GmarketSansTTFMedium", size: 15))
                                         navigationListRowView(view: MyReviewView(writeType: .myselfLike).environmentObject(vmAuth), image: "star.leadinghalf.filled", text: "리뷰")
                                         navigationListRowView(view: MyCommunityListView(writeType: .myselfLike).environmentObject(vmAuth), image: "note.text", text: "게시물")
-                                    }.padding()
-                                        .background(Color.white)
-                                        .cornerRadius(10)
-                                        .padding([.horizontal,.top],10)
+                                    }
+                                    .padding()
+                                    .background(Color.white)
+                                    .padding(.top,10)
                                     VStack(alignment: .leading) {
-                                        Text("내 장르").font(.custom("GmarketSansTTFMedium", size: 15))
+                                        Text("내 장르")
+                                            .font(.custom("GmarketSansTTFMedium", size: 15))
                                         buttonListRowView(action: {movie  = true}, image: "popcorn", text: "영화")
                                         buttonListRowView(action: {tv  = true} , image: "tv", text: "TV/시리즈")
                                     }.padding()
-                                        .background(Color.white)
-                                        .cornerRadius(10)
-                                        .padding([.horizontal,.bottom],10)
+                                    .background(Color.white)
+                                    .padding(.vertical,10)
                                     
                                 }
-                                .foregroundColor(.black)
-                                .background(Color.gray.opacity(0.1))
+                                
                                 movieList
                                 
                             }
@@ -110,6 +113,7 @@ struct ProfileView: View {
                         }
                     }
                 }
+                .background(Color.gray.opacity(0.1))
             }
         }
         
@@ -230,8 +234,9 @@ extension ProfileView{
                 
                 
             }.padding(.leading)
-        }.padding(.vertical)
-            .frame(maxWidth: .infinity)
+        }
+        .padding(.vertical,30)
+        .frame(maxWidth: .infinity)
         
     }
     func myInfoView(view:some View,image:String,text:String,count:Int) -> some View{
@@ -251,14 +256,13 @@ extension ProfileView{
                 
             }
         }
-        .padding(20)
+        .padding(.vertical,20)
         .frame(maxWidth: .infinity)
         .background(Color.white)
-        .cornerRadius(10)
     }
     func navigationListRowView(view:some View,image:String,text:String) -> some View{
         VStack{
-            Divider()
+            Divider().background(Color.customIndigo)
             NavigationLink {
                 view
                     .environmentObject(vmAuth)
@@ -268,7 +272,6 @@ extension ProfileView{
                     Image(systemName: image)
                     Text(text).font(.custom("GmarketSansTTFMedium", size: 15))
                     Spacer()
-                    Image(systemName: "chevron.right")
                 }.padding(.vertical,5)
             }
         }
@@ -276,7 +279,7 @@ extension ProfileView{
     }
     func buttonListRowView(action: @escaping ()->(),image:String,text:String) -> some View{
         VStack{
-            Divider()
+            Divider().background(Color.customIndigo)
             Button (action:action){
                 HStack{
                     Image(systemName: image)
@@ -345,7 +348,10 @@ extension ProfileView{
                     }
                 }
             }
-        }.padding(.horizontal).padding(.bottom)
+        }
+        .padding(.horizontal)
+        .padding(.bottom)
+        .background(Color.white)
     }
     func profileSelectView(user:UserResponse) ->some View{
         ZStack{
