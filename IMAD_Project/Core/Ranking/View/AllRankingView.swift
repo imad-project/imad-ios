@@ -88,7 +88,8 @@ extension AllRankingView{
                             vm.rankingList.removeAll()
                         } label: {
                             Text(type.name)
-                                .padding(5)
+                                .font(.GmarketSansTTFMedium(12))
+                                .padding(7.5)
                                 .padding(.horizontal)
                                 .foregroundColor(self.type == type ? .white:.customIndigo)
                                 .background {
