@@ -312,6 +312,7 @@ extension ProfileView{
                                     VStack{
                                         KFImageView(image: item.contentsPosterPath.getImadImage(),height: (UIScreen.main.bounds.width/3)*1.25)
                                             .cornerRadius(5)
+                                            .shadow(radius: 1)
                                         Text(item.contentsTitle)
                                             .font(.caption)
                                             .frame(width: 200)
