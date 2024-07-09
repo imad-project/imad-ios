@@ -29,7 +29,7 @@ struct ReviewView: View {
                                 .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {
-                            ReviewListRowView(review: review)
+                            ReviewListRowView(review: review,my:false)
                                 .padding(.horizontal)
                                 .background(Color.white)
                         }

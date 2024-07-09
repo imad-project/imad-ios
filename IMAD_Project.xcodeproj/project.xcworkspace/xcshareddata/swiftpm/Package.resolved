@@ -1,0 +1,42 @@
+{
+  "originHash" : "0a5606efce37c3bcf6956fefd252a58e72ad3c8355705328936f279485e3d5de",
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "78424be314842833c04bc3bef5b72e85fff99204",
+        "version" : "5.6.4"
+      }
+    },
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "af4be924ad984cf4d16f4ae4df424e79a443d435",
+        "version" : "7.6.2"
+      }
+    },
+    {
+      "identity" : "swiftui-flow-layout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/globulus/swiftui-flow-layout",
+      "state" : {
+        "revision" : "de7da3440c3b87ba94adfa98c698828d7746a76d",
+        "version" : "1.0.5"
+      }
+    },
+    {
+      "identity" : "swiftuiwave",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/QuaRang1225/SwiftUIWave.git",
+      "state" : {
+        "revision" : "97c9eab530dc38d5f547621cd64acdcca44a8e92",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

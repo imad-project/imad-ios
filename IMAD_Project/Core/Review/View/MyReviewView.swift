@@ -36,7 +36,7 @@ struct MyReviewView: View {
     }
     
     var body: some View {
-        VStack{
+        VStack(spacing:0){
             header
             item
         }
@@ -71,14 +71,13 @@ extension MyReviewView{
                     } label: {
                         Image(systemName: "chevron.left")
                             .bold()
-                            .padding()
-                        
                     }
+                    .padding(.leading,10)
+                    Text(writeType == .myself ? "내 리뷰" : "내 리뷰 반응")
+                        .font(.custom("GmarketSansTTFMedium",size: 25))
+                        .bold()
                     Spacer()
                 }
-                Text(writeType == .myself ? "내 리뷰" : "내 리뷰 반응")
-                    .font(.title3)
-                    .bold()
             }
             if writeType == .myselfLike{
                 HStack{
@@ -88,7 +87,7 @@ extension MyReviewView{
                 }.padding(.leading)
             }
             Divider()
-        }
+        }.padding(.top,10)
     }
     
     var item:some View{
@@ -104,10 +103,9 @@ extension MyReviewView{
                                     .environmentObject(vmAuth)
                                     .navigationBarBackButtonHidden()
                             } label: {
-                                MyReviewListRowView(review: review)
-                                    .padding(.horizontal)
-                            }.padding(.top,10)
-                            Divider().padding(.vertical)
+                                ReviewListRowView(review: review, my: true)
+                            }
+                            .padding(.top,10)
                             if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
                                 ProgressView()
                                     .environment(\.colorScheme, .light)
@@ -118,6 +116,7 @@ extension MyReviewView{
                         }
                     }
                 }
+                .background(Color.gray.opacity(0.1))
             }
         }
     }
@@ -130,8 +129,9 @@ extension MyReviewView{
             }
         } label: {
             HStack{
-                Image(systemName: like ? "heart.fill" : "heart.slash.fill").foregroundColor(like ? .red:.blue)
+                Image(systemName: like ? "heart" : "heart.slash").foregroundColor(.customIndigo.opacity(0.7))
                 Text(like ? "좋아요":"싫어요")
+                    .font(.custom("GmarketSansTTFMedium",size: 15))
             }
             .padding(5)
             .padding(.horizontal)
@@ -150,26 +150,18 @@ extension MyReviewView{
             Spacer()
             if writeType == .myself{
                 Image(systemName: "text.badge.xmark")
-                    .font(.largeTitle)
+                    .font(.custom("GmarketSansTTFMedium", size: 50))
+                    .foregroundColor(.customIndigo.opacity(0.5))
                     .padding(.bottom,5)
                 Text("작성한 리뷰가 없습니다")
+                    .font(.custom("GmarketSansTTFMedium", size: 15))
             }else{
-                ZStack{
-                    if like{
-                        Image(systemName: "heart.fill")
-                            .font(.title)
-                            .foregroundColor(.blue)
-                            .offset(x:3)
-                            .rotationEffect(Angle(degrees: -10))
-                    }else{
-                        Image(systemName: "heart.fill")
-                            .font(.title)
-                            .foregroundColor(.red)
-                            .offset(x:-3)
-                            .rotationEffect(Angle(degrees: 10))
-                    }
-                }.opacity(0.6)
+                Image(systemName: like ? "heart" : "heart.slash")
+                    .font(.custom("GmarketSansTTFMedium", size: 50))
+                    .foregroundColor(.customIndigo.opacity(0.5))
+                    .padding(.bottom,5)
                 Text(like ? "좋아요가 없습니다" : "싫어요가 없습니다")
+                    .font(.custom("GmarketSansTTFMedium", size: 15))
             }
             Spacer()
         }
