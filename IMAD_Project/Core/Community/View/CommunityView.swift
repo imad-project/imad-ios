@@ -79,7 +79,7 @@ extension CommunityView{
                     .font(.custom("GmarketSansTTFMedium", size: 25))
                     .bold()
                     .padding(.leading,10)
-                    
+                    .padding(.bottom)
                 Spacer()
                 Button {
                     withAnimation {

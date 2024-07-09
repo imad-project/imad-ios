@@ -31,12 +31,12 @@ struct PopularView: View {
     var body: some View {
         VStack{
             if let popular{
-                KFImageView(image:popular.poster().getImadImage())
+                KFImageView(image:popular.backdrop().getImadImage())
                     .overlay {
                         Color.clear
                             .background(Material.thin)
                         HStack{
-                            VStack(spacing: 0){
+                            VStack(spacing: 5){
                                 ProfileImageView(imagePath: popular.userProfile(), widthHeigt: 20)
                                 Text(popular.userName())
                                     .font(.caption2)
@@ -47,7 +47,7 @@ struct PopularView: View {
                                 HStack{
                                     Text(popular.contentsTitle())
                                         .lineLimit(1)
-                                        .font(.subheadline)
+                                        .font(.GmarketSansTTFMedium(15))
                                         .fontWeight(.black)
                                         .foregroundColor(.customIndigo)
                                     Text(popular.spoiler() ? "스포" : "클린")
@@ -68,13 +68,10 @@ struct PopularView: View {
                                     .foregroundColor(.black)
                             }
                             .padding(.trailing,30)
-                                KFImageView(image: popular.backdrop().getImadImage(),height: 100)
-                                    .offset(x:20)
-                                    .overlay(alignment: .leading) {
-                                        KFImageView(image: popular.poster().getImadImage(),width: 70,height: 100)
-                                            .cornerRadius(5)
-                                            .rotationEffect(Angle(degrees: 20))
-                                    }
+                            Spacer()
+                            KFImageView(image: popular.poster().getImadImage(),width: 70,height: 100)
+                                .cornerRadius(5)
+                                .rotationEffect(Angle(degrees: 20))
                         }
                         .padding(.leading,20)
                     }

@@ -107,7 +107,7 @@ extension SearchView{
     var filter:some View{
         Picker("", selection: $vm.type) {
             ForEach(MovieTypeFilter.allCases,id:\.self){ text in
-                Text(text.name).font(.subheadline)
+                Text(text.name)
             }
         }
         .accentColor(.customIndigo)
@@ -124,12 +124,11 @@ extension SearchView{
                             .cornerRadius(5)
                             .shadow(radius: 1)
                         Text(result.title == nil ? result.name ?? "" : result.title ?? "")
-                            .bold()
-                            .font(.subheadline)
+                            .font(.GmarketSansTTFMedium(12))
                             .frame(maxWidth:130,maxHeight:5)
                     }
                 }
-                .padding(.bottom,10)
+                .padding(.bottom,5)
                 if vm.work.last == result,vm.maxPage > vm.currentPage{
                     ProgressView()
                         .environment(\.colorScheme, .light)
@@ -137,7 +136,7 @@ extension SearchView{
                             vm.searchWork(query: vm.searchText, type: vm.type, page: vm.currentPage + 1)
                         }
                 }
-            } .padding(.top)
+            } .padding(.top,10)
         }
         .padding(.horizontal,10)
     }
