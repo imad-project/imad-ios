@@ -9,9 +9,8 @@ import SwiftUI
 import Kingfisher
 
 struct ReviewListRowView: View {
-    
     let review:ReadReviewResponse
-    @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
+    let my:Bool
     
     var body: some View {
         VStack(alignment: .leading){
@@ -22,18 +21,32 @@ struct ReviewListRowView: View {
                 scoreAndLike
             }
             likeView
+            if my{
+                HStack{
+                    KFImage(URL(string: review.contentsPosterPath.getImadImage()))
+                        .resizable()
+                        .frame(width: 30,height: 30)
+                        .cornerRadius(5)
+                    Text(review.contentsTitle)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .padding(.trailing)
+                }
+                .font(.subheadline)
+                .foregroundColor(.black.opacity(0.7))
+                .background(Color.white)
+                .cornerRadius(5)
+                .shadow(radius: 1)
+            }
         }
-        .onAppear{
-            vm.review = review
-        }
+        .padding(10)
+        .background(Color.white)
     }
-    
-    
 }
 
 struct ReviewListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewListRowView(review: CustomData.instance.review,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
+        ReviewListRowView(review: CustomData.instance.review, my: true)
     }
 }
 extension ReviewListRowView{
@@ -66,6 +79,7 @@ extension ReviewListRowView{
                 Text(review.spoiler ? "스포일러가\n포함된 리뷰입니다." : review.content)
                     .font(.system(size: 16))
                     .lineLimit(2)
+                    .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.bottom,5)
                 Spacer()
@@ -79,10 +93,10 @@ extension ReviewListRowView{
     var likeView:some View{
             HStack(spacing: 2){
                 Image(systemName: "heart")
-                Text("\((vm.review?.likeCnt ?? 0))")
+                Text("\(review.likeCnt)")
                     .padding(.trailing,10)
                 Image(systemName: "heart.slash")
-                Text("\((vm.review?.dislikeCnt ?? 0))")
+                Text("\(review.dislikeCnt)")
                     .padding(.trailing,10)
                 Text("·   " + review.createdAt.relativeTime())
             }
