@@ -317,7 +317,7 @@ extension WorkView{
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
-                    ReviewListRowView(review: review, my: false).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                    ReviewListRowView(review: review, my: false).background(Color.white).cornerRadius(10)
                 }
             }
             if vmReview.reviewList.count > 2 {

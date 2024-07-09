@@ -28,6 +28,8 @@ struct ReviewListRowView: View {
                         .frame(width: 30,height: 30)
                         .cornerRadius(5)
                     Text(review.contentsTitle)
+                        .font(.GmarketSansTTFMedium(13))
+                        .fontWeight(.medium)
                     Spacer()
                     Image(systemName: "chevron.right")
                         .padding(.trailing)
@@ -65,26 +67,24 @@ extension ReviewListRowView{
                         .font(.caption2)
                         .bold()
                 }
-                .foregroundColor(.red)
+                .foregroundColor(.customIndigo)
             }
             Spacer()
         }
         .padding(.bottom,5)
     }
     var contentView:some View{
-        VStack(alignment: .leading) {
-            Text(review.title).bold()
-                .font(.system(size: 17))
+        VStack(alignment: .leading,spacing:3) {
+            Text(review.title)
+                .font(.GmarketSansTTFMedium(17))
             HStack{
                 Text(review.spoiler ? "스포일러가\n포함된 리뷰입니다." : review.content)
                     .font(.system(size: 16))
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.bottom,5)
                 Spacer()
             }
-            
         }
     }
     var scoreAndLike:some View{
@@ -102,6 +102,6 @@ extension ReviewListRowView{
             }
             .foregroundColor(.customIndigo.opacity(0.7))
             .font(.subheadline)
-            .padding(.bottom)
+            .padding(.bottom,5)
     }
 }

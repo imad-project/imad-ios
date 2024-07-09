@@ -73,7 +73,7 @@ struct CommunityView_Previews: PreviewProvider {
 extension CommunityView{
     
     var header:some View{
-        VStack(alignment:.leading){
+        VStack(alignment:.leading,spacing:0){
             HStack{
                 Text("커뮤니티")
                     .font(.custom("GmarketSansTTFMedium", size: 25))
