@@ -39,7 +39,8 @@ struct GenreSelectView: View {
             VStack(alignment: .leading){
                 Spacer()
                 Text("내 장르 수정").bold()
-                    .padding([.leading,.top])
+                    .font(.GmarketSansTTFMedium(25))
+                    .padding(.leading)
                 Spacer()
                 FlowLayout(mode: .vstack, items: collection) { genre in
                     Button {
@@ -105,9 +106,8 @@ struct GenreSelectView: View {
                         .foregroundColor(.customIndigo)
                         .overlay {
                             Text("완료")
-                                .bold()
+                                .font(.GmarketSansTTFMedium(15))
                                 .foregroundColor(.white)
-                                .shadow(radius: 20)
                         }
                 }
                 .padding()
