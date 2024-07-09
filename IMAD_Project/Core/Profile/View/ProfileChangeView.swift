@@ -18,11 +18,8 @@ struct ProfileChangeView: View {
     @Environment(\.dismiss) var dismiss
     
     
-    
     var body: some View {
-        ZStack{
-            Color.white.ignoresSafeArea()
-                VStack(spacing:10){
+                VStack(spacing:0){
                    header
                         List{
                             Group{
@@ -41,16 +38,16 @@ struct ProfileChangeView: View {
                                     delete = true
                                 }, text: "회원탈퇴").foregroundColor(.red)
                             }
-                            .listRowBackground(Color.clear)
-                           
+                            .listRowBackground(Color.white)
                         }
                         .scrollContentBackground(.hidden)
                         .listStyle(.plain)
+                        
                         Spacer()
                     
                     
                 }
-        }
+                .background(Color.gray.opacity(0.1).ignoresSafeArea())
         .foregroundColor(.black)
         .alert(isPresented: $logout) {
             alert()
@@ -70,19 +67,23 @@ struct ProfileChangeView_Previews: PreviewProvider {
 
 extension ProfileChangeView{
     var header:some View{
-        ZStack(alignment: .top){
-            Text("개인 정보 변경")
-                .bold()
+        VStack(spacing:0){
             HStack{
                 Button {
                     dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
                 }
+                Text("개인 정보 변경")
+                    .font(.GmarketSansTTFMedium(25))
+                    .bold()
                 Spacer()
             }
-        }.padding(.horizontal)
-            .padding(.bottom)
+            .padding(10)
+            Divider()
+        }
+        .background(Color.white)
+        .padding(.bottom,10)
     }
     func navigatoionChangeView(view:some View,text:String) -> some View{
         NavigationLink {
@@ -91,11 +92,13 @@ extension ProfileChangeView{
                 .navigationBarBackButtonHidden()
         } label: {
             Text(text)
+                .font(.GmarketSansTTFMedium(15))
         }
     }
     func actionButtonView(action:@escaping () -> (),text:String) -> some View{
         Button (action:action){
             Text(text)
+                .font(.GmarketSansTTFMedium(15))
         }
     }
     func alert() -> Alert{

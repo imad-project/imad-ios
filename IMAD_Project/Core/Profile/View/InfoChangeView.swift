@@ -15,7 +15,7 @@ struct InfoChangeView: View {
     @State var old = ""
     @State var text = ""
     @State var passwordConfirm:String = ""
-    
+    @State var domain:EmailFilter = .gmail
     
     @State var age = 0
     @State var gender = ""
@@ -38,28 +38,54 @@ struct InfoChangeView: View {
     var body: some View {
         VStack(alignment: .leading,spacing: 0){
             header
-            if title == "성별"{
-                HStack{
-                    genderSelectView(gender: "MALE")
-                    genderSelectView(gender: "FEMALE")
+            ScrollView(showsIndicators: false){
+                VStack{
+                    Divider()
+                    if title == "성별"{
+                        genderSelectView(gender: "MALE").padding(.top)
+                        genderSelectView(gender: "FEMALE")
+                            
+                    }else if title == "나이"{
+                       ageSelectView
+                    }
+                    else{
+                        if password{
+                            passwordChageView
+                        }
+                        textFieldView(placeHolder: " ..", text: $text)
+                        if password{
+                            textFieldView(placeHolder: " 확인 ..", text: $passwordConfirm)
+                        }
+                    }
+                    Button {
+                        if password{
+                            chanagePassword()
+                        }else{
+                            chageUserinfo()
+                        }
+                        dismiss()
+                    } label: {
+                        Text("변경")
+                            .foregroundColor(.white)
+                            .font(.GmarketSansTTFMedium(15))
+                            .padding(.vertical)
+                            .frame(maxWidth: .infinity)
+                            .bold()
+                            .background(Color.customIndigo)
+                            .cornerRadius(10)
+                    }
+                    .padding(.vertical,20)
+                    .padding(10)
+                    Divider()
                 }
-            }else if title == "나이"{
-               ageSelectView
+                .background(Color.white)
+                .padding(.top,10)
+                
             }
-            else{
-                if password{
-                    passwordChageView
-                }
-                textFieldView(placeHolder: " ..", text: $text)
-                if password{
-                    textFieldView(placeHolder: " 확인 ..", text: $passwordConfirm)
-                }
-            }
-            Spacer()
+            
         }
         .foregroundColor(.black)
-        .padding()
-        .background(Color.white.ignoresSafeArea())
+        .background(Color.gray.opacity(0.1))
         .alert(isPresented: $notRegex){
             Alert(title: Text(success ? "성공":"오류"),message: Text(alertMsg),dismissButton: .default(Text("확인")){
                 if success{
@@ -86,7 +112,7 @@ struct InfoChangeView: View {
 struct InfoChangeView_Previews: PreviewProvider {
     static var previews: some View {
         
-        InfoChangeView(title: "나이", password: true, text: "quarang")
+        InfoChangeView(title: "닉네임", password: true, text: "quarang")
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
@@ -94,7 +120,7 @@ struct InfoChangeView_Previews: PreviewProvider {
 
 extension InfoChangeView{
     var header:some View{
-        ZStack{
+        VStack{
             HStack{
                 Button {
                     dismiss()
@@ -102,48 +128,40 @@ extension InfoChangeView{
                     Image(systemName: "chevron.left")
                         .bold()
                 }
+                Text(title + " 변경")
+                    .font(.GmarketSansTTFMedium(25))
+                    .bold()
                 Spacer()
-                Button {
-                    if password{
-                        chanagePassword()
-                    }else{
-                        chageUserinfo()
-                    }
-                    dismiss()
-                } label: {
-                    Text("변경")
-                        .bold()
-                }
             }
-            Text(title + " 변경")
-                .bold()
+            .padding(10)
+            Divider()
         }
-        .padding(.top,20)
-        .padding(.bottom,50)
-        
+        .background(Color.white)
     }
     func genderSelectView(gender:String) -> some View{
-        HStack{
-            VStack{
-                Button {
-                    self.gender = gender
-                } label: {
+       
+            Button {
+                self.gender = gender
+            } label: {
+                HStack{
                     Image(gender)
                         .resizable()
-                        .frame(width: 65,height: 80)
-                        .padding(30)
-                        .overlay {
-                            if self.gender == gender{
-                                Circle().foregroundColor(.black.opacity(0.5))
-                            }
-                        }
+                        .frame(width: 20,height: 25)
+                    Text(gender == "MALE" ? "남성" : "여성")
+                        .fontWeight(self.gender  == gender ? .bold:.none)
+                    Spacer()
                 }
-                Text(gender == "MALE" ? "남성" : "여성")
-                    .fontWeight(self.gender  == gender ? .bold:.none)
+                .padding()
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(10)
             }
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.bottom)
+            .overlay {
+                if self.gender == gender{
+                    Color.black.opacity(0.5).cornerRadius(10)
+                }
+            }
+            .padding(.horizontal)
+            
     }
     var ageSelectView:some View{
         HStack{
@@ -157,34 +175,38 @@ extension InfoChangeView{
             .pickerStyle(InlinePickerStyle())
             .frame(width:150,height: 150)
             .overlay(alignment:.trailing){
-                Text("년").offset(x:20)
+                Text("년")
+                    .font(.GmarketSansTTFMedium(15))
+                    .offset(x:20)
             }
             Spacer()
         }
+        .padding(.vertical)
     }
     func textFieldView(placeHolder:String,text:Binding<String>)->some View{
         VStack{
-            CustomTextField(password: password, image: nil, placeholder: title + placeHolder, color: .black, text: text)
-                .padding(.bottom,10)
+            CustomTextField(password: password, image: nil, placeholder: title + placeHolder, color: .black.opacity(0.5), text: text)
+                .padding(.top,10)
             Divider()
                 .background(Color.black)
-                .padding(.bottom)
-        }
+                .padding(.vertical,5)
+        }.padding(.horizontal)
     }
     var passwordChageView:some View{
         VStack(alignment: .leading){
             Text("기존 비밀번호")
-                .bold()
-                .padding(.bottom,10)
-            CustomTextField(password: password, image: nil, placeholder: title, color: .black, text: $old)
-                .padding(.bottom,10)
+                .font(.GmarketSansTTFMedium(15))
+                .padding(.vertical,10)
+            CustomTextField(password: password, image: nil, placeholder: title, color: .black.opacity(0.5), text: $old)
+                .padding(.horizontal,5)
             Divider()
                 .background(Color.black)
                 .padding(.bottom,50)
+                .padding(.horizontal,5)
             Text("변경 비밀번호")
-                .bold()
+                .font(.GmarketSansTTFMedium(15))
                 .padding(.bottom,10)
-        }
+        }.padding(.horizontal,10)
     }
     func chanagePassword(){
         switch isVaildInfo(){

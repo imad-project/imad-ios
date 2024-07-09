@@ -290,7 +290,9 @@ extension ProfileView{
     var movieList:some View{
         VStack(alignment: .leading) {
             HStack{
-                Text("내가 찜한 작품").padding(.vertical,10).font(.custom("GmarketSansTTFMedium", size: 15))
+                Text("내가 찜한 작품")
+                    .font(.custom("GmarketSansTTFMedium", size: 15))
+                    .padding(.vertical,10)
                 Spacer()
             }
             ZStack{
@@ -331,7 +333,7 @@ extension ProfileView{
                                 HStack{
                                     Spacer()
                                     Text("찜한 작품 더보기")
-                                        .bold()
+                                        .font(.custom("GmarketSansTTFMedium", size: 15))
                                     Image(systemName: "chevron.right")
                                     Spacer()
                                 }
