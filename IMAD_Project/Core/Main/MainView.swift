@@ -46,6 +46,9 @@ struct MainView: View {
             }
         }
         .ignoresSafeArea(edges:.bottom)
+//        .onReceive(vmRecommend.refreschTokenExpired){
+//            vmAuth.logout(tokenExpired: <#T##Bool#>)
+//        }
         .onAppear {
             vmRecommend.fetchAllRecommend()
             vm.getAllRanking(page: 1, type: ranking.rawValue)
@@ -299,7 +302,7 @@ extension MainView{
                                     .padding(.bottom,3)
                                     HStack{
                                         rankUpdateView(rank: rank.rankingChanged)
-                                        Text(TypeFilter(rawValue: rank.contentsType)?.name ?? "")
+                                        Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
                                             .font(.caption)
                                             .foregroundStyle(.gray)
                                     }
@@ -343,6 +346,7 @@ extension MainView{
                     ForEach(RankingFilter.allCases,id:\.self){ ranking in
                         Button {
                             self.ranking = ranking
+                            vm.rankingList.removeAll()
                             switch self.ranking{
                             case .all:
                                 vm.getAllRanking(page: 1, type: "all")
@@ -372,7 +376,7 @@ extension MainView{
                     }
                 }
                 Spacer()
-                allView(Text(""))
+                allView(AllRankingView(filter: ranking).environmentObject(vmAuth).navigationBarBackButtonHidden())
             }
         }
         .font(.caption)
