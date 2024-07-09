@@ -16,7 +16,7 @@ struct MyScrapListView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        VStack{
+        VStack(spacing:0){
             header
             ScrollView{
                 ForEach(vm.scrapList,id: \.self){ scrap in
@@ -29,6 +29,7 @@ struct MyScrapListView: View {
                     }
                 }
             }
+            .background(Color.gray.opacity(0.1))
         }
         .onAppear{
             vm.readScrapList(page: vm.currentPage)
@@ -51,21 +52,23 @@ struct MyScrapListView_Previews: PreviewProvider {
 
 extension MyScrapListView{
     var header:some View{
-        ZStack{
+        VStack{
             HStack{
                 Button {
                     dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
                         .bold()
-                        .padding()
                     
                 }
+                Text("내 스크랩")
+                    .font(.GmarketSansTTFMedium(25))
+                    .bold()
                 Spacer()
                 
             }
-            Text("내 스크랩")
-                .bold()
+            .padding(10)
+            Divider()
         }
     }
     func scrapListRowView(scrap:ScrapListResponse) -> some View{
@@ -73,24 +76,7 @@ extension MyScrapListView{
             self.scrap = scrap
             self.goPosting = true
         } label: {
-            HStack{
-                VStack(alignment: .leading) {
-                    Text(scrap.postingTitle)
-                        .lineLimit(2)
-                    HStack{
-//                        ProfileImageView(imageCode: scrap.userProfileImage, widthHeigt: 20)
-                        Text(scrap.userNickname)
-                        Text("· \(scrap.createdDate.relativeTime())")
-                    }
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                }
-                Spacer()
-                KFImageView(image: scrap.contentsPosterPath.getImadImage(),width: 70,height: 100)
-                    .cornerRadius(5)
-                    .shadow(radius: 1)
-            }
+            CommunityListRowView(community: CommunityDetailsListResponse(postingID: scrap.postingID, contentsID: scrap.contentsID, contentsTitle: scrap.contentsTitle, contentsPosterPath: scrap.contentsPosterPath, userID: scrap.userID, userNickname: scrap.userNickname, userProfileImage: scrap.userProfileImage, title: scrap.postingTitle, category: 0, viewCnt: 0, likeCnt: 0, dislikeCnt: 0, likeStatus: 0, commentCnt: 0, createdAt: scrap.createdDate, modifiedAt: "", scrapId: scrap.scrapID, scrapStatus: true, spoiler: false))
         }
-        .padding(.horizontal)
     }
 }
