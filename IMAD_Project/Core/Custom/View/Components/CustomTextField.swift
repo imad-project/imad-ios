@@ -15,6 +15,7 @@ struct CustomTextField: View {
     let placeholder:String
     let color:Color
     var textLimit:Int?
+    var font:Font?
     
     @Binding var text:String
     
@@ -29,7 +30,7 @@ struct CustomTextField: View {
                     .bold()
                     .background(alignment:.leading){
                         Text(placeholder)
-                            .fontWeight(.medium)
+                            .font(font)
                             .foregroundColor(color.opacity(text != "" ? 0.0:0.8))
                     }
             }else{
@@ -37,7 +38,7 @@ struct CustomTextField: View {
                     .bold()
                     .background(alignment:.leading){
                         Text(placeholder)
-                            .fontWeight(.medium)
+                            .font(font)
                             .foregroundColor(color.opacity(text != "" ? 0.0:0.8))
                             .onReceive(Just(text)) { _ in
                                 if let textLimit{
