@@ -38,7 +38,7 @@ struct CommentRowView: View {
             VStack(alignment: .leading){
                 if deleted{
                     Text("삭제된 댓/답글입니다.")
-                        .font(.subheadline)
+                        .font(.GmarketSansTTFMedium(15))
                         .padding(.vertical)
                 }else{
                     profileView
@@ -47,7 +47,7 @@ struct CommentRowView: View {
                     }else{
                         ExtandView(text: comment.content)
                             .font(.subheadline)
-                            .padding(.bottom)
+                            .padding(.bottom,1)
                     }
                 }
                 buttonCollection
@@ -94,8 +94,10 @@ extension CommentRowView{
         Button(action: action){
             VStack{
                 Image(systemName: image)
-                    .font(.title3)
+                    .font(.GmarketSansTTFMedium(20))
+                    .padding(.bottom,2)
                 Text(text)
+                    .font(.GmarketSansTTFMedium(12))
             }
             .padding(15)
             .padding(.horizontal,10)
@@ -160,6 +162,7 @@ extension CommentRowView{
                         }.padding(.trailing)
                         Button {
                             reply = comment
+                            commentFocus = true
                         } label: {
                             Text("답글작성")
                         }
@@ -182,16 +185,21 @@ extension CommentRowView{
             Button {
                 like()
             } label: {
-                Image(systemName: comment.likeStatus > 0 ? "heart.fill" : "heart").foregroundColor(.red)
-                Text("\(comment.likeCnt)").foregroundColor(.black)
+                HStack(spacing:2){
+                    Image(systemName: comment.likeStatus > 0 ? "arrowshape.up.fill" : "arrowshape.up").foregroundColor(.customIndigo.opacity(comment.likeStatus > 0 ? 1:0.5))
+                    Text("\(comment.likeCnt)").foregroundColor(.black)
+                }
             }
             Button {
                 disLike()
             } label: {
-                Image(systemName: comment.likeStatus < 0 ? "heart.slash.fill" : "heart.slash").foregroundColor(.blue)
-                Text("\(comment.dislikeCnt)").foregroundColor(.black)
+                HStack(spacing:2){
+                    Image(systemName: comment.likeStatus < 0 ? "arrowshape.down.fill" : "arrowshape.down").foregroundColor(.customIndigo.opacity(comment.likeStatus < 0 ? 1:0.5))
+                    Text("\(comment.dislikeCnt)").foregroundColor(.black)
+                }
             }
         }
+        .font(.GmarketSansTTFMedium(12))
     }
     var modifyView:some View{
         HStack{
