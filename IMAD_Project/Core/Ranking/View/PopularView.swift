@@ -29,56 +29,62 @@ struct PopularView: View {
         }
     }
     var body: some View {
-        VStack{
+        ZStack{
             if let popular{
                 KFImageView(image:popular.backdrop().getImadImage())
-                    .overlay {
-                        Color.clear
-                            .background(Material.thin)
+                Color.clear
+                    .background(Material.thin)
+                HStack(alignment: .top){
+                    VStack{
+                        ProfileImageView(imagePath: popular.userProfile(), widthHeigt: 20)
+                           Text(popular.userName())
+                                .font(.caption2)
+                               .foregroundColor(.black)
+                    }
+                    VStack(alignment: .leading){
                         HStack{
-                            VStack(spacing: 5){
-                                ProfileImageView(imagePath: popular.userProfile(), widthHeigt: 20)
-                                Text(popular.userName())
-                                    .font(.caption2)
-                                    .foregroundColor(.black)
-                            }
-                            .padding(.bottom)
-                            VStack(alignment: .leading){
-                                HStack{
-                                    Text(popular.contentsTitle())
-                                        .lineLimit(1)
-                                        .font(.GmarketSansTTFMedium(15))
-                                        .fontWeight(.black)
-                                        .foregroundColor(.customIndigo)
-                                    Text(popular.spoiler() ? "스포" : "클린")
-                                    .foregroundColor(.white)
+                            Text(popular.contentsTitle())
+                                .lineLimit(1)
+                                .font(.GmarketSansTTFMedium(15))
+                                .fontWeight(.black)
+                                .foregroundColor(.customIndigo)
+                            if popular.spoiler(){
+                                Text("스포")
                                     .padding(.horizontal)
                                     .padding(2)
                                     .bold()
                                     .font(.caption2)
-                                    .background(Color.customIndigo)
+                                    .background(Capsule().stroke(lineWidth: 2))
                                     .cornerRadius(10)
-                                }
-                                Text("#" + today)
-                                    .foregroundColor(.black.opacity(0.8))
-                                    .font(.caption2)
-                                Text(popular.title())
-                                    .font(.footnote)
-                                    .lineLimit(1)
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.customIndigo)
                             }
-                            .padding(.trailing,30)
                             Spacer()
-                            KFImageView(image: popular.poster().getImadImage(),width: 70,height: 100)
-                                .cornerRadius(5)
-                                .rotationEffect(Angle(degrees: 20))
                         }
-                        .padding(.leading,20)
+                        .frame(width:270,alignment: .leading)
+                        Text("#" + today)
+                            .foregroundColor(.black.opacity(0.8))
+                            .font(.caption2)
+                        Text(popular.title())
+                            .font(.GmarketSansTTFMedium(12))
+                            .lineLimit(1)
+                            .foregroundColor(.black)
+                            .frame(width:250,alignment: .leading)
                     }
-                    .frame(height: 80)
-                    .cornerRadius(5)
+                    Spacer()
+                    
+                }
+                .padding(.leading)
+                .overlay(alignment:.trailing){
+                    KFImageView(image: popular.poster().getImadImage(),width: 70,height: 100)
+                        .cornerRadius(5)
+                        .rotationEffect(Angle(degrees: 20))
+                }
             }
-        }
+        } 
+        .frame(height: 80)
+        .cornerRadius(5)
+        .padding(.leading,10)
+
     }
 }
 

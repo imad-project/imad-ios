@@ -46,9 +46,9 @@ struct MainView: View {
             }
         }
         .ignoresSafeArea(edges:.bottom)
-//        .onReceive(vmRecommend.refreschTokenExpired){
-//            vmAuth.logout(tokenExpired: <#T##Bool#>)
-//        }
+        .onReceive(vmRecommend.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
         .onAppear {
             vmRecommend.fetchAllRecommend()
             vm.getAllRanking(page: 1, type: ranking.rawValue)
@@ -278,16 +278,17 @@ extension MainView{
                         NoImageView()
                             .frame(width: 300,height: 75)
                     }
-                    .padding(.leading,10)
+                    .padding(.horizontal,10)
                 }else{
                     ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
                         NavigationLink {
-                            WorkView(id: rank.contentsID,type: rank.contentsType)
+                            WorkView(contentsId:rank.contentsID)
                                 .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {
                             HStack(spacing:0){
                                 KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
+                                    .shadow(radius: 1)
                                 VStack(alignment: .leading){
                                     HStack{
                                         Text("\(rank.ranking)")
@@ -317,7 +318,7 @@ extension MainView{
                         .frame(width: 300,height: 75)
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(5)
-                        .padding(.leading,10)
+                        .padding(.horizontal,10)
                         
                     }
                 }
@@ -376,7 +377,7 @@ extension MainView{
                     }
                 }
                 Spacer()
-                allView(AllRankingView(filter: ranking).environmentObject(vmAuth).navigationBarBackButtonHidden())
+                allView(AllRankingView(filter: ranking))
             }
         }
         .font(.caption)
@@ -400,9 +401,9 @@ extension MainView{
     }
     var todayView:some View{
         ScrollView(.horizontal,showsIndicators: false) {
-            HStack{
+            HStack(spacing:0){
                 NavigationLink {
-                    ReviewDetailsView(goWork: false, reviewId: vm.popularReview?.reviewID ?? 0)
+                    ReviewDetailsView(goWork: true, reviewId: vm.popularReview?.reviewID ?? 0)
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
@@ -419,7 +420,7 @@ extension MainView{
                 }
             }
             .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? divWidth-20 : divWidth*2-30)
-            .padding(.horizontal,10)
+            .padding(.trailing,10)
         }
         .padding(.vertical)
     }

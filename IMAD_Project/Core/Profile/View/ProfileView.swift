@@ -319,9 +319,8 @@ extension ProfileView{
                                             .cornerRadius(5)
                                             .shadow(radius: 1)
                                         Text(item.contentsTitle)
-                                            .font(.caption)
+                                            .font(.GmarketSansTTFMedium(15))
                                             .frame(width: 200)
-                                            .bold()
                                     }
                                 }
                             }
