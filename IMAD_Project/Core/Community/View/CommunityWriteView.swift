@@ -108,8 +108,7 @@ extension CommunityWriteView{
                     }
                 } label: {
                     Text("등록")
-                        .font(.body)
-                        .bold()
+                        .font(.GmarketSansTTFMedium(15))
                         .foregroundColor(.white)
                         .padding(.horizontal)
                         .padding(5)
@@ -175,8 +174,7 @@ extension CommunityWriteView{
                     .foregroundColor(.gray.opacity(0.2))
                     .overlay {
                         Text("취소")
-                            .font(.body)
-                            .bold()
+                            .font(.GmarketSansTTFMedium(18))
                             .foregroundColor(.black)
                     }
             }
@@ -197,8 +195,7 @@ extension CommunityWriteView{
                     .foregroundColor(.customIndigo.opacity(!text.isEmpty && !title.isEmpty ? 1 : 0.5))
                     .overlay {
                         Text("등록")
-                            .font(.body)
-                            .bold()
+                            .font(.GmarketSansTTFMedium(18))
                             .foregroundColor(.white)
                     }
             }
