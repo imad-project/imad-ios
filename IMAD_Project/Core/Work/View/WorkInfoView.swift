@@ -14,16 +14,16 @@ struct WorkInfoView: View {
     @State var isExtend = false
     @StateObject var vm = ContriesFilter()
     
-    var isTV:Bool{
-        switch work.contentsType{
-        case "MOVIE":
-            return false
-        case "TV":
-            return true
-        default:
-            return true
-        }
-    }
+//    var isTV:Bool{
+//        switch work.contentsType{
+//        case "MOVIE":
+//            return false
+//        case "TV":
+//            return true
+//        default:
+//            return true
+//        }
+//    }
     
     var body: some View {
         ZStack{
@@ -64,8 +64,8 @@ extension WorkInfoView{
                 .fontWeight(.semibold)
             VStack(alignment: .leading){
                 HStack(spacing:0){
-                    Text(isTV ? (work.name ?? "") : (work.title ?? ""))
-                    Text("(\(isTV ? (work.originalName ?? "알수 없음"):(work.originalTitle ?? "알수 없음")))")
+                    Text(work.name ?? work.title ?? "")
+                    Text("(\(work.originalName ?? work.originalTitle ?? "알수 없음"))")
                 }
                 if work.tagline != ""{
                     Text(work.tagline)
@@ -134,7 +134,7 @@ extension WorkInfoView{
                 Text("장르")
                     .font(.custom("GmarketSansTTFMedium", size: 15))
                     .fontWeight(.semibold)
-                Text(isTV ? work.genres.transTvGenreCode() : work.genres.transMovieGenreCode())
+                Text(!work.genres.transTvGenreCode().isEmpty ?  work.genres.transTvGenreCode() : work.genres.transMovieGenreCode())
                     .foregroundColor(.black.opacity(0.6))
                     .padding(.horizontal,5)
             }
@@ -144,7 +144,14 @@ extension WorkInfoView{
     }
     var season:some View{
         VStack(alignment: .leading,spacing: 10) {
-            if isTV{
+            if let runtime = work.runtime,runtime != 0 {
+                Text("상영시간")
+                    .font(.custom("GmarketSansTTFMedium", size: 15))
+                    .fontWeight(.semibold)
+                Text("\(runtime)분")
+                    .foregroundColor(.gray)
+                    .padding(.leading,5)
+            }else{
                 Text("시즌")
                     .font(.custom("GmarketSansTTFMedium", size: 15))
                     .fontWeight(.semibold)
@@ -155,13 +162,6 @@ extension WorkInfoView{
                 .font(.subheadline)
                 .foregroundColor(.black.opacity(0.6))
                 .padding(.leading,5)
-            }else{
-                Text("상영시간")
-                    .font(.custom("GmarketSansTTFMedium", size: 15))
-                    .fontWeight(.semibold)
-                Text("\(work.runtime ?? 0)분")
-                    .foregroundColor(.gray)
-                    .padding(.leading,5)
             }
         }
         .padding(.horizontal)
