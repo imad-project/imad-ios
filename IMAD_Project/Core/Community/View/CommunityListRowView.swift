@@ -19,8 +19,8 @@ struct CommunityListRowView: View {
                     Text("조회수 \(community.viewCnt)회")
                         .foregroundColor(.customIndigo.opacity(0.7))
                         .font(.caption)
-                    workStatusView(image: "heart", status: community.likeCnt)
-                    workStatusView(image: "heart.slash", status: community.dislikeCnt)
+                    workStatusView(image: "poweroutlet.type.b.fill", status: community.likeCnt,color: .pink.opacity(0.5))
+                    workStatusView(image: "poweroutlet.type.i.fill", status: community.dislikeCnt,color: .blue.opacity(0.5))
                     Text("·  " + community.createdAt.relativeTime()).foregroundColor(.customIndigo.opacity(0.7))
                 }.font(.caption)
                 
@@ -48,14 +48,14 @@ extension CommunityListRowView{
     var firstView:some View{
         HStack{
             ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 20)
-            Text(community.userNickname ?? "").font(.subheadline).fontWeight(.medium)
+            Text(community.userNickname ?? "").font(.caption).fontWeight(.medium)
             if community.spoiler{
                 Capsule()
                     .stroke(lineWidth: 1)
-                    .frame(width: 30,height: 15)
+                    .frame(width: 25,height: 12)
                     .overlay {
                         Text("스포")
-                            .font(.caption2)
+                            .font(.system(size: 8))
                             .bold()
                     }
                     .foregroundColor(.customIndigo)
@@ -70,16 +70,16 @@ extension CommunityListRowView{
     var workInfoView:some View{
         VStack(alignment: .leading,spacing: 5) {
             Text(community.contentsTitle ?? "")
-                .font(.GmarketSansTTFMedium(15))
+                .font(.GmarketSansTTFMedium(12))
                 .lineLimit(1)
-                .fontWeight(.medium)
+                .fontWeight(.bold)
                 .foregroundColor(.customIndigo.opacity(0.8))
             HStack(alignment: .top){
                 Text(community.title)
-                    .bold()
-                    .font(.GmarketSansTTFMedium(20))
+                    .fontWeight(.semibold)
+                    .font(.GmarketSansTTFMedium(17.5))
                 Text("[\(community.commentCnt)]")
-                    .font(.GmarketSansTTFMedium(15))
+                    .font(.GmarketSansTTFMedium(17.5))
                     .foregroundColor(.customIndigo.opacity(0.8))
             }
             .lineLimit(2)
@@ -87,9 +87,10 @@ extension CommunityListRowView{
             .padding(.bottom,5)
         }
     }
-    func workStatusView(image:String,status:Int)->some View{
+    func workStatusView(image:String,status:Int,color:Color)->some View{
         HStack(spacing:2){
             Image(systemName: image)
+                .foregroundColor(color)
             Text("\(status)")
         }
         .foregroundColor(.customIndigo.opacity(0.7))

@@ -228,38 +228,45 @@ extension CommunityPostView{
     func likeStatusView(community:CommunityResponse) ->some View{
         VStack{
             HStack{
-                Text("\(community.likeCnt)")
+                Spacer()
+                
+                
                 Button {
                     likePosting(community: community)
                 } label: {
-                    Circle()
-                        .foregroundColor(community.likeStatus == 1 ? .red.opacity(0.7): .red.opacity(0.3))
-                        .frame(width: 50)
-                        .overlay {
-                            Image(systemName:"heart.fill")
-                                .foregroundColor(.white)
-                        }
+                    VStack{
+                        Image(systemName:"poweroutlet.type.b.fill")
+                            .resizable()
+                            .foregroundColor(community.likeStatus == 1 ? .pink: .pink.opacity(0.3))
+                            .frame(width: 30,height: 30)
+                        Text("좋아요")
+                            .font(.GmarketSansTTFMedium(10))
+                    }
+                    
                 }
+                
+                Text("\(community.likeCnt)")
                 Spacer().frame(width: 20)
                 Button {
                     disLikePosting(community: community)
                 } label: {
-                    Circle()
+                    VStack{
+                    Image(systemName:"poweroutlet.type.i.fill")
+                        .resizable()
                         .foregroundColor(community.likeStatus == -1 ? .blue.opacity(0.7): .blue.opacity(0.3))
-                        .frame(width: 50)
-                        .overlay {
-                            Image(systemName:"hand.thumbsdown.fill")
-                                .foregroundColor(.white)
-                        }
+                        .frame(width: 30,height: 30)
+                        Text("싫어요")
+                            .font(.GmarketSansTTFMedium(10))
+                    }
                 }
                 Text("\(community.dislikeCnt)")
             }
+            .padding(.trailing)
             .font(.title3)
-            .frame(maxWidth: .infinity)
             if endOffset == startingOffset {
                 Button {
                     withAnimation(.spring()){
-                        endOffset = 0
+                        endOffset = -startingOffset + 100
                     }
                 } label: {
                     Circle()
