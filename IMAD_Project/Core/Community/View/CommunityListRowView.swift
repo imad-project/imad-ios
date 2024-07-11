@@ -19,8 +19,8 @@ struct CommunityListRowView: View {
                     Text("조회수 \(community.viewCnt)회")
                         .foregroundColor(.customIndigo.opacity(0.7))
                         .font(.caption)
-                    workStatusView(image: "poweroutlet.type.b.fill", status: community.likeCnt,color: .pink.opacity(0.5))
-                    workStatusView(image: "poweroutlet.type.i.fill", status: community.dislikeCnt,color: .blue.opacity(0.5))
+                    workStatusView(image: "arrowshape.up", status: community.likeCnt)
+                    workStatusView(image: "arrowshape.down", status: community.dislikeCnt)
                     Text("·  " + community.createdAt.relativeTime()).foregroundColor(.customIndigo.opacity(0.7))
                 }.font(.caption)
                 
@@ -87,10 +87,11 @@ extension CommunityListRowView{
             .padding(.bottom,5)
         }
     }
-    func workStatusView(image:String,status:Int,color:Color)->some View{
+    func workStatusView(image:String,status:Int)->some View{
         HStack(spacing:2){
             Image(systemName: image)
-                .foregroundColor(color)
+                .resizable()
+                .frame(width: 10, height: 10)
             Text("\(status)")
         }
         .foregroundColor(.customIndigo.opacity(0.7))

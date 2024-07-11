@@ -11,7 +11,7 @@ import Kingfisher
 struct ReviewListRowView: View {
     let review:ReadReviewResponse
     let my:Bool
-    
+    @EnvironmentObject var vm:AuthViewModel
     var body: some View {
         VStack(alignment: .leading){
             profileAndDateView
@@ -22,23 +22,29 @@ struct ReviewListRowView: View {
             }
             likeView
             if my{
-                HStack{
-                    KFImage(URL(string: review.contentsPosterPath.getImadImage()))
-                        .resizable()
-                        .frame(width: 30,height: 30)
-                        .cornerRadius(5)
-                    Text(review.contentsTitle)
-                        .font(.GmarketSansTTFMedium(13))
-                        .fontWeight(.medium)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .padding(.trailing)
+                NavigationLink {
+                    WorkView(contentsId:review.contentsID)
+                        .environmentObject(vm)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    HStack{
+                        KFImage(URL(string: review.contentsPosterPath.getImadImage()))
+                            .resizable()
+                            .frame(width: 30,height: 30)
+                            .cornerRadius(5)
+                        Text(review.contentsTitle)
+                            .font(.GmarketSansTTFMedium(13))
+                            .fontWeight(.medium)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .padding(.trailing)
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.black.opacity(0.7))
+                    .background(Color.white)
+                    .cornerRadius(5)
+                    .shadow(radius: 1)
                 }
-                .font(.subheadline)
-                .foregroundColor(.black.opacity(0.7))
-                .background(Color.white)
-                .cornerRadius(5)
-                .shadow(radius: 1)
             }
         }
         .padding(10)
@@ -49,6 +55,7 @@ struct ReviewListRowView: View {
 struct ReviewListRowView_Previews: PreviewProvider {
     static var previews: some View {
         ReviewListRowView(review: CustomData.instance.review, my: true)
+            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
 extension ReviewListRowView{
@@ -92,10 +99,14 @@ extension ReviewListRowView{
     }
     var likeView:some View{
             HStack(spacing: 2){
-                Image(systemName: "heart")
+                Image(systemName: "arrowshape.up")
+                    .font(.caption)
+                    .bold()
                 Text("\(review.likeCnt)")
                     .padding(.trailing,10)
-                Image(systemName: "heart.slash")
+                Image(systemName: "arrowshape.down")
+                    .font(.caption)
+                    .bold()
                 Text("\(review.dislikeCnt)")
                     .padding(.trailing,10)
                 Text("·   " + review.createdAt.relativeTime())
