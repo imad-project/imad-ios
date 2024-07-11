@@ -20,37 +20,31 @@ struct ReviewView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        ScrollView {
-            LazyVStack(pinnedViews: [.sectionHeaders]) {
-                Section {
-                    ForEach(vm.reviewList,id:\.self){ review in
-                        NavigationLink {
-                            ReviewDetailsView(goWork: false, reviewId: review.reviewID)
-                                .environmentObject(vmAuth)
-                                .navigationBarBackButtonHidden()
-                        } label: {
-                            ReviewListRowView(review: review,my:false)
-                                .padding(.horizontal)
-                                .background(Color.white)
-                        }
-                        if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
-                            ProgressView()
-                                .environment(\.colorScheme, .light)
-                                .onAppear{
-                                    vm.readReviewList(id: id, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue)
-                                }
-                        }
+        VStack(spacing:0){
+            filterHeader
+            ScrollView {
+                ForEach(vm.reviewList,id:\.self){ review in
+                    NavigationLink {
+                        ReviewDetailsView(goWork: false, reviewId: review.reviewID)
+                            .environmentObject(vmAuth)
+                            .navigationBarBackButtonHidden()
+                    } label: {
+                        ReviewListRowView(review: review,my:false)
+                            .background(Color.white)
+                            .environmentObject(vmAuth)
                     }
-                    .padding(.bottom)
-                    .background(Color.gray.opacity(0.1))
-                } header: {
-                    filterHeader
+                    if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
+                        ProgressView()
+                            .environment(\.colorScheme, .light)
+                            .onAppear{
+                                vm.readReviewList(id: id, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue)
+                            }
+                    }
                 }
-                
             }
+            .background(Color.gray.opacity(0.1))
         }
         .foregroundColor(.black)
-        .ignoresSafeArea()
         .background(Color.white.ignoresSafeArea())
         .onAppear{
             vm.readReviewList(id: id, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue)
@@ -89,60 +83,54 @@ extension ReviewView{
     }
     var filterHeader:some View{
         VStack{
-            Text("모든 리뷰")
-                .frame(maxWidth: .infinity)
-                .bold()
-                .overlay(alignment: .leading){
+            VStack(spacing:10){
+                HStack{
                     Button {
                         dismiss()
                     } label: {
                         Image(systemName: "chevron.left")
                     }
-                    
+                    Text("모든 리뷰")
+                        .font(.GmarketSansTTFMedium(25))
+                    Spacer()
                 }
-            HStack{
+                .bold()
                 HStack{
-                    Image(systemName: "slider.horizontal.3")
-                    Text("정렬기준 :")
-                }.bold().padding(.trailing,5).font(.caption)
-                
-                Group{
-                    Picker("", selection: $sort) {
-                        ForEach(SortFilter.allCases,id:\.self){
-                            Text($0.name).font(.system(size: 20))
+                    Group{
+                        Picker("", selection: $sort) {
+                            ForEach(SortFilter.allCases,id:\.self){
+                                Text($0.name).font(.system(size: 20))
+                                
+                            }
+                        }
+                        .padding(.horizontal,7)
+                        .overlay{
+                            HStack{
+                                Text(sort.name)
+                                Image(systemName: "chevron.up.chevron.down")
+                            }
+                            .modifier(CustomDatePicker())
                             
                         }
-                    }
-                    .padding(.horizontal,7)
-                    .overlay{
-                        HStack{
-                            Text(sort.name)
-                            Image(systemName: "chevron.up.chevron.down")
+                        Picker("", selection: $order) {
+                            ForEach(OrderFilter.allCases,id:\.self){
+                                Text($0.name)
+                            }
                         }
-                        .modifier(CustomDatePicker())
-                        
-                    }
-                    Picker("", selection: $order) {
-                        ForEach(OrderFilter.allCases,id:\.self){
-                            Text($0.name)
+                        .padding(.horizontal,5)
+                        .overlay{
+                            HStack{
+                                Text(order.name)
+                                Image(systemName: "chevron.up.chevron.down")
+                            }
+                            .modifier(CustomDatePicker())
                         }
                     }
-                    .padding(.horizontal,5)
-                    .overlay{
-                        HStack{
-                            Text(order.name)
-                            Image(systemName: "chevron.up.chevron.down")
-                        }
-                        .modifier(CustomDatePicker())
-                    }
-                    
+                    Spacer()
                 }
-                Spacer()
-            }.padding(.vertical,5)
+            }.padding([.horizontal,.top],10)
             Divider()
         }
-        .padding(.horizontal)
-        .padding(.top,60)
         .background(Color.white)
     }
     
@@ -151,8 +139,8 @@ extension ReviewView{
 struct CustomDatePicker:ViewModifier{
     func body(content: Content) -> some View {
         content
-            .font(.caption2)
-            .padding(7)
+            .font(.GmarketSansTTFMedium(12))
+            .padding(5)
             .padding(.horizontal)
             .background(Color.white)
             .cornerRadius(30)
