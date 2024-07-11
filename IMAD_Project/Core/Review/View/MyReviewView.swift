@@ -104,6 +104,7 @@ extension MyReviewView{
                                     .navigationBarBackButtonHidden()
                             } label: {
                                 ReviewListRowView(review: review, my: true)
+                                    .environmentObject(vmAuth)
                             }
                             if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
                                 ProgressView()
@@ -128,8 +129,8 @@ extension MyReviewView{
             }
         } label: {
             HStack{
-                Image(systemName: like ? "heart" : "heart.slash").foregroundColor(.customIndigo.opacity(0.7))
-                Text(like ? "좋아요":"싫어요")
+                Image(systemName: like ? "arrowshape.up.fill" : "arrowshape.down.fill").foregroundColor(.customIndigo.opacity(0.7))
+                Text(like ? "추천":"비추천")
                     .font(.custom("GmarketSansTTFMedium",size: 15))
             }
             .padding(5)
@@ -155,11 +156,11 @@ extension MyReviewView{
                 Text("작성한 리뷰가 없습니다")
                     .font(.custom("GmarketSansTTFMedium", size: 15))
             }else{
-                Image(systemName: like ? "heart" : "heart.slash")
+                Image(systemName: like ? "arrowshape.up" : "arrowshape.down")
                     .font(.custom("GmarketSansTTFMedium", size: 50))
                     .foregroundColor(.customIndigo.opacity(0.5))
                     .padding(.bottom,5)
-                Text(like ? "좋아요가 없습니다" : "싫어요가 없습니다")
+                Text(like ? "추천한 리뷰가 없습니다" : "비추천한 리뷰가 없습니다")
                     .font(.custom("GmarketSansTTFMedium", size: 15))
             }
             Spacer()
