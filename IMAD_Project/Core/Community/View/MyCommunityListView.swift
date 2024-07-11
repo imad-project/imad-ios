@@ -65,7 +65,7 @@ struct MyCommunityListView: View {
 
 struct MyCommunityListView_Previews: PreviewProvider {
     static var previews: some View {
-        MyCommunityListView(writeType: .myself,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
+        MyCommunityListView(writeType: .myselfLike,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
             .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
     }
 }
@@ -129,9 +129,9 @@ extension MyCommunityListView{
             }
         } label: {
             HStack{
-                Image(systemName: like ? "heart" : "heart.slash")
+                Image(systemName: like ? "arrowshape.up.fill" : "arrowshape.down.fill")
                     .foregroundColor(.customIndigo.opacity(0.7))
-                Text(like ? "좋아요":"싫어요")
+                Text(like ? "추천":"비추천")
                     .font(.GmarketSansTTFMedium(15))
             }
             .padding(5)
@@ -157,11 +157,11 @@ extension MyCommunityListView{
                 Text("작성한 게시물이 없습니다")
                     .font(.GmarketSansTTFMedium(15))
             }else{
-                Image(systemName: like ? "heart" : "heart.slash")
+                Image(systemName: like ? "arrowshape.up" : "arrowshape.down")
                     .font(.GmarketSansTTFMedium(50))
                     .foregroundColor(.customIndigo.opacity(0.5))
                     .padding(.bottom,10)
-                Text(like ? "좋아요가 없습니다" : "싫어요가 없습니다")
+                Text(like ? "추천한 게시물이 없습니다" : "비추천한 게시물이 없습니다")
                     .font(.GmarketSansTTFMedium(15))
             }
             Spacer()
