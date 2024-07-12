@@ -33,7 +33,7 @@ struct WorkView: View {
             }else{
                 Color.gray.opacity(0.1).ignoresSafeArea()
                 ScrollView(showsIndicators: false){
-                    MovieBackgroundView(url: vm.workInfo?.posterPath?.getImadImage() ?? "", height: 3, isBottomTransparency: false)
+                    MovieBackgroundView(url: vm.workInfo?.backdropPath?.getImadImage() ?? "", height: 3)
                     poster
                     collection
                     VStack{
@@ -150,7 +150,7 @@ extension WorkView{
                                 .bold()
                             if let work = vm.workInfo{
                                 Text(work.releaseDate ?? work.firstAirDate ?? "")
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(.white.opacity(0.8))
                                     .font(.subheadline)
                             }
                         }.font(.caption)
