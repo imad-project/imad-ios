@@ -26,18 +26,6 @@ struct WorkView: View {
     @StateObject var tab = CommunityTabManager()
     @StateObject var vm = WorkViewModel(workInfo: nil,bookmarkList: [])
     
-    
-//    var returnType:String{
-//        switch vm.workInfo?.contentsType{ //mediaType으로 교체될 예정
-//        case "MOVIE":
-//            return "영화"
-//        case "TV":
-//            return true
-//        default:
-//            return true
-//        }
-//    }
-    
     var body: some View {
         ZStack(alignment: .topLeading){
             if vm.workInfo == nil{

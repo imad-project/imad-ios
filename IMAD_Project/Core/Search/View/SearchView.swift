@@ -139,5 +139,6 @@ extension SearchView{
             } .padding(.top,10)
         }
         .padding(.horizontal,10)
+        .padding(.bottom)
     }
 }

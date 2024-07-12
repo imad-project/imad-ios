@@ -14,16 +14,6 @@ struct WorkInfoView: View {
     @State var isExtend = false
     @StateObject var vm = ContriesFilter()
     
-//    var isTV:Bool{
-//        switch work.contentsType{
-//        case "MOVIE":
-//            return false
-//        case "TV":
-//            return true
-//        default:
-//            return true
-//        }
-//    }
     
     var body: some View {
         ZStack{
