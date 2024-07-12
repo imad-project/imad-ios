@@ -52,9 +52,8 @@ struct GenreSelectView: View {
                             Text(genre.selectImage())
                             Text(genre.selectName())
                         }
-                        .font(.caption)
-                        .bold()
-                        .padding(5)
+                        .font(.GmarketSansTTFMedium(12))
+                        .padding(7.5)
                         .padding(.trailing)
                         .overlay(alignment:.trailing) {
                             Image(systemName: "xmark").font(.caption)
@@ -78,12 +77,12 @@ struct GenreSelectView: View {
                         }
                     } label: {
                         HStack{
-                            Text(genre.selectName())
                             Text(genre.selectImage())
+                            Text(genre.selectName())
+                            
                         }
-                        .font(.caption)
-                        .bold()
-                        .padding(5)
+                        .font(.GmarketSansTTFMedium(12))
+                        .padding(7.5)
                         .padding(.horizontal).background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo.opacity(0.5)))
                     }
                     

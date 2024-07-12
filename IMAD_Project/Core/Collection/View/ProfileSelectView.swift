@@ -84,10 +84,10 @@ extension ProfileSelectView{
         VStack(alignment: .leading,spacing: 5){
             
             Text("프로필을 설정해주세요")
-                .font(.title3)
+                .font(.GmarketSansTTFMedium(20))
                 .bold()
             Text("설정된 프로필은 언제든지 바꾸실수 있습니다. ")
-                .font(.callout)
+                .font(.GmarketSansTTFMedium(15))
                 .padding(.bottom)
         }.padding(.leading)
     }
@@ -149,7 +149,7 @@ extension ProfileSelectView{
                     .foregroundColor(.black.opacity(0.8))
                 
                 Text("프로필 선택")
-                    .font(.subheadline)
+                    .font(.GmarketSansTTFMedium(15))
                     .foregroundColor(.customIndigo)
             }
         }

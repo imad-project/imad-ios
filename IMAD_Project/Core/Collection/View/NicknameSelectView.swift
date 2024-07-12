@@ -36,7 +36,6 @@ struct NicknameSelectView: View {
                 }, color: .customIndigo.opacity(0.5))
                     .padding(.bottom,50)
                     .padding(.top,20)
-                
                 Spacer()
             }.padding()
         }
@@ -55,10 +54,10 @@ extension NicknameSelectView{
     var guideView:some View{
         VStack(alignment: .leading,spacing: 5){
             Text("닉네임을 설정해주세요")
-                .font(.title3)
+                .font(.GmarketSansTTFMedium(20))
                 .bold()
             Text("설정된 닉네임 언제든지 바꾸실수 있습니다. ")
-                .font(.callout)
+                .font(.GmarketSansTTFMedium(15))
         }
         .padding(.leading)
     }
@@ -67,7 +66,7 @@ extension NicknameSelectView{
             Text("\(vm.patchUser.nickname.count)/10글자")
                 .padding(.horizontal)
                 .padding(.top,20)
-                .font(.subheadline)
+                .font(.GmarketSansTTFMedium(12))
             HStack{
                 CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, textLimit: 10, text: $vm.patchUser.nickname)
                     .padding()
@@ -82,8 +81,10 @@ extension NicknameSelectView{
                     temp = vm.patchUser.nickname
                 } label: {
                     Text("중복확인")
+                        .font(.GmarketSansTTFMedium(15))
                         .foregroundColor(.white)
                         .padding()
+                        .padding(.vertical,5)
                         .background {
                             Color.customIndigo
                         }
@@ -91,12 +92,10 @@ extension NicknameSelectView{
                 }
                 
             }
-            
             .padding(.horizontal)
-            
             Text(vmCheck.message)
                 .foregroundColor(vmCheck.possible ? .green : .red)
-                .font(.caption)
+                .font(.GmarketSansTTFMedium(12))
                 .padding(.horizontal)
         }
         

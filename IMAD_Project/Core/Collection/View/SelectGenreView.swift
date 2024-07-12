@@ -51,7 +51,8 @@ struct SelectGenreView_Previews: PreviewProvider {
 extension SelectGenreView{
     var guideView:some View{
         HStack{
-            Text("2. 관심있는 장르를 선택해 주세요")
+            Text("관심있는 장르를 선택해 주세요")
+                .font(.GmarketSansTTFMedium(20))
                 .bold()
             Spacer()
             Button {
@@ -63,7 +64,7 @@ extension SelectGenreView{
             } label: {
                 Text("건너뛰기 > ")
                     .bold()
-                    .font(.caption)
+                    .font(.GmarketSansTTFMedium(12))
             }
         }.padding(.horizontal)
             .padding(.top,100)
@@ -74,8 +75,8 @@ extension SelectGenreView{
     var movieGenreView:some View{
         VStack(alignment: .leading) {
             Text("영화")
+                .font(.GmarketSansTTFMedium(15))
                 .padding(.leading)
-                .bold()
             FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases){ item in
                 Button {
                    movieAppend(item: item)
@@ -85,8 +86,7 @@ extension SelectGenreView{
                         Text(item.image)
                     }
                     .foregroundColor(!vm.patchUser.movieGenre.contains(item.rawValue) ? .customIndigo : .white)
-                    .font(.caption2)
-                    .bold()
+                    .font(.GmarketSansTTFMedium(10))
                     .padding(5)
                     .padding(.horizontal)
                     .background{
@@ -106,7 +106,7 @@ extension SelectGenreView{
         VStack(alignment: .leading) {
             Text("시리즈/TV")
                 .padding(.leading)
-                .bold()
+                .font(.GmarketSansTTFMedium(15))
                 .padding(.top)
             FlowLayout(mode: .scrollable, items: TVGenreFilter.allCases) { item in
                 Button {
@@ -117,8 +117,7 @@ extension SelectGenreView{
                         Text(item.image)
                     }
                     .foregroundColor(!vm.patchUser.tvGenre.contains(item.rawValue) ? .customIndigo : .white)
-                    .font(.caption2)
-                    .bold()
+                    .font(.GmarketSansTTFMedium(10))
                     .padding(5)
                     .padding(.horizontal)
                     .background{

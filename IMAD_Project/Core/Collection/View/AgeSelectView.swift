@@ -40,10 +40,10 @@ extension AgeSelectView{
         VStack(alignment: .leading,spacing: 5){
             
             Text("나이를 설정해주세요")
-                .font(.title3)
+                .font(.GmarketSansTTFMedium(20))
                 .bold()
             Text("설정된 나이는 언제든지 바꾸실수 있습니다. ")
-                .font(.callout)
+                .font(.GmarketSansTTFMedium(15))
                 
         }.padding(.leading)
     }
@@ -58,7 +58,7 @@ extension AgeSelectView{
             .pickerStyle(InlinePickerStyle())
             .colorScheme(.light)
             .overlay(alignment:.trailing){
-                Text("년").offset(x:20)
+                Text("년").font(.GmarketSansTTFMedium(17)).offset(x:20)
             }
             .frame(width:150,height: 150)
             Spacer()
