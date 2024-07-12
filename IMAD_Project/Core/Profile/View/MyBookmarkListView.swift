@@ -52,22 +52,18 @@ struct MyBookmarkListView_Previews: PreviewProvider {
 }
 extension MyBookmarkListView{
     var header:some View{
-        ZStack{
-            HStack{
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .bold()
-                        .padding()
-                    
-                }
-                Spacer()
-                
+        HStack{
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "chevron.left")
             }
             Text("내 작품")
-                .bold()
+                .font(.GmarketSansTTFMedium(25))
+            Spacer()
         }
+        .bold()
+        .padding(10)
     }
     var gridView:some View{
         ScrollView{
@@ -82,9 +78,8 @@ extension MyBookmarkListView{
                             KFImageView(image: result.contentsPosterPath.getImadImage(),height: UIScreen.main.bounds.width/2)
                                 .cornerRadius(5)
                             Text(result.contentsTitle)
-                                .bold()
                                 .frame(maxWidth:130,maxHeight:5)
-                                .font(.subheadline)
+                                .font(.GmarketSansTTFMedium(14))
                                 .padding(.top,5)
                             
                         }
