@@ -28,19 +28,23 @@ struct MainView: View {
     var body: some View {
         ZStack{
             Color.white
-            ScrollView(showsIndicators: false){
-                VStack(alignment:.leading,spacing:5){
-                    if let user = vmAuth.user?.data{
-                        titleView(user: user)
-                        trendView
-                        todayView
-                        filter
-                        rankingView
-                        userActivityView(user: user)
-                        recommendView("이런 장르 영화 어때요?", .genreMovie)
-                        recommendView("\(user.nickname ?? "")님을 위한 시리즈",.genreTv)
-                        recommendView("아이매드 엄선 영화", .imadMovie)
-                        recommendView("전 세계 사람들이 선택한 시리즈", .imadTv)
+            if vmRecommend.recommendAll == nil{
+                CustomProgressView()
+            }else{
+                ScrollView(showsIndicators: false){
+                    VStack(alignment:.leading,spacing:5){
+                        if let user = vmAuth.user?.data{
+                            titleView(user: user)
+                            trendView
+                            todayView
+                            filter
+                            rankingView
+                            userActivityView(user: user)
+                            recommendView("이런 장르 영화 어때요?", .genreMovie)
+                            recommendView("\(user.nickname ?? "")님을 위한 시리즈",.genreTv)
+                            recommendView("아이매드 엄선 영화", .imadMovie)
+                            recommendView("전 세계 사람들이 선택한 시리즈", .imadTv)
+                        }
                     }
                 }
             }
