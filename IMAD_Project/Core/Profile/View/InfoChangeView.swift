@@ -217,7 +217,7 @@ extension InfoChangeView{
             alertMsg = "비밀번호가 일치하지 않습니다!"
             return notRegex = true
         default:
-            return vmAuth.passwordChange(old: old, new: text) //SHA256
+            return vmAuth.passwordChange(old: old.sha256(), new: text.sha256()) //SHA256
         }
     }
     func chageUserinfo(){
