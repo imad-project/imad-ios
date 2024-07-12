@@ -32,7 +32,12 @@ struct MyScrapListView: View {
             .background(Color.gray.opacity(0.1))
         }
         .onAppear{
+            vm.currentPage = 1
             vm.readScrapList(page: vm.currentPage)
+        }
+        .onDisappear{
+            vm.currentPage = 1
+            vm.scrapList.removeAll()
         }
         .navigationDestination(isPresented: $goPosting){
             CommunityPostView(postingId: scrap?.postingID ?? 0, back: $goPosting)

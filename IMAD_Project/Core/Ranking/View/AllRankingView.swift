@@ -25,6 +25,9 @@ struct AllRankingView: View {
         .onAppear{
             listUpdate(page: 1, type: type.rawValue)
         }
+        .onDisappear{
+            vm.rankingList.removeAll()
+        }
         .foregroundColor(.black)
     }
 }
@@ -111,7 +114,7 @@ extension AllRankingView{
     var contentsView:some View{
         ForEach(vm.rankingList,id:\.self){ rank in
             NavigationLink {
-                WorkView(id: rank.contentsID,type: rank.contentsType)
+                WorkView(contentsId: rank.contentsID)
                     .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             } label: {

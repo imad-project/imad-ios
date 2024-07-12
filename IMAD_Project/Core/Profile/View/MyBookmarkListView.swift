@@ -30,9 +30,11 @@ struct MyBookmarkListView: View {
                 UIApplication.shared.endEditing()
             }
             .onAppear{
+                vm.currentPage = 1
                 vm.getBookmark(page: vm.currentPage)
             }
             .onDisappear{
+                vm.currentPage = 1
                 vm.bookmarkList.removeAll()
             }
             .onReceive(vm.refreschTokenExpired){

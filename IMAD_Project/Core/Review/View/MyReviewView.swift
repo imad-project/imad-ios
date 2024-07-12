@@ -46,6 +46,7 @@ struct MyReviewView: View {
             profileMode(next: false)
         }
         .onDisappear{
+            vm.currentPage = 1
             vm.reviewList.removeAll()
         }
         .onReceive(vm.refreschTokenExpired){

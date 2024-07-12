@@ -50,6 +50,7 @@ struct MyCommunityListView: View {
             profileMode(next: false)
         }
         .onDisappear{
+            vm.currentPage = 1
             vm.communityList.removeAll()
         }
         .onReceive(vm.refreschTokenExpired){

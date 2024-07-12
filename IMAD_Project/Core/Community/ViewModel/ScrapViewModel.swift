@@ -28,7 +28,7 @@ class ScrapViewModel:ObservableObject{
                 print(completion)
             } receiveValue: { [weak self] data in
                 guard let response = data.data else {return}
-                self?.scrapList = response.detailList
+                self?.scrapList.append(contentsOf: response.detailList)
                 self?.maxPage = response.totalPages
             }.store(in: &cancel)
     }
