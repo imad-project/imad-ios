@@ -53,7 +53,7 @@ struct AuthWebView: View {
     var body: some View {
         VStack {
             Text(filter.text)
-                .bold()
+                .font(.GmarketSansTTFMedium(15))
                 .foregroundColor(filter.textColor)
                 .padding(.vertical, 15)
             WebView(webView: webView, userAgent: "Imad Agent")

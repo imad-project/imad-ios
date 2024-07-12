@@ -34,28 +34,29 @@ struct LoginAllView: View{
         ZStack{
             Color.white.ignoresSafeArea()
             ScrollView{
-                VStack(spacing: 10){
+                VStack(spacing: 0){
                     Text("환영합니다")
-                        .font(.title)
+                        .font(.GmarketSansTTFMedium(30))
                         .bold()
                         .foregroundColor(.customIndigo)
                         .padding(.top,20)
                         .frame(maxWidth: .infinity)
-                        .padding(.bottom)
+                        .padding(.bottom,50)
                     VStack(alignment: .leading){
                         emailView
                         passwordView
                         authView
-                    }.padding(.horizontal,10)
-                        .onTapGesture {
-                            UIApplication.shared.endEditing()
-                        }
-                    Spacer()
-                    divderView
-                    loginButtonView
+                    }
+                    .padding(.vertical)
+                    .padding(10)
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
+                    }
+                    divderView.padding(.top,50)
+                    loginButtonView.padding(.top)
                 }
                 .foregroundColor(.gray)
-                .padding()
+                
             }
             if loading{
                 CustomProgressView()
@@ -119,7 +120,8 @@ struct LoginAllView_Previews: PreviewProvider {
 extension LoginAllView{
     var emailView:some View{
         VStack(alignment: .leading){
-            Text("이메일").bold()
+            Text("이메일")
+                .font(.GmarketSansTTFMedium(15))
                 .foregroundColor(.customIndigo)
             Group{
                 HStack{
@@ -145,7 +147,7 @@ extension LoginAllView{
     }
     var passwordView:some View{
         VStack(alignment: .leading) {
-            Text("비밀번호").bold()
+            Text("비밀번호").font(.GmarketSansTTFMedium(15))
                 .foregroundColor(.customIndigo)
             Group{
                 CustomTextField(password: true, image: "lock.fill", placeholder: "입력..", color: Color.gray, text: $password)
@@ -159,22 +161,9 @@ extension LoginAllView{
         }
     }
     var authView:some View{
-        VStack(alignment: .leading) {
-            HStack{
-                Text("이메일 찾기")
-                Text("  |  ")
-                Text("비밀번호 찾기")
-                Spacer()
-                Button {
-                    register = true
-                } label: {
-                    Text("회원가입")
-                }
-            }.padding(.horizontal,20)
-                .font(.caption)
-            
+        VStack{
             Button {
-                vm.login(email: "\(id)@\(domain.domain)", password: password)    //SHA256
+                vm.login(email: "\(id)@\(domain.domain)", password: password.sha256())    //SHA256
                 loading = true
             } label: {
                 RoundedRectangle(cornerRadius: 20)
@@ -183,13 +172,29 @@ extension LoginAllView{
                     .frame(maxWidth: .infinity)
                     .overlay {
                         Text("로그인")
-                            .bold()
+                            .font(.GmarketSansTTFMedium(18))
                             .foregroundColor(.white)
                             .shadow(radius: 20)
                         
                         
                     }.padding(.horizontal,5)
-            } .padding(.bottom,50)
+            }
+            Button {
+                register = true
+            } label: {
+                RoundedRectangle(cornerRadius: 20)
+                    .frame(height: 55)
+                    .foregroundColor(.customIndigo.opacity(0.5))
+                    .frame(maxWidth: .infinity)
+                    .overlay {
+                        Text("회원가입")
+                            .font(.GmarketSansTTFMedium(18))
+                            .foregroundColor(.white)
+                            .shadow(radius: 20)
+                        
+                        
+                    }
+            }.padding(.horizontal,5)
         }
     }
     var divderView:some View{
@@ -201,7 +206,7 @@ extension LoginAllView{
             }
             Text("소셜 로그인")
                 .padding()
-                .font(.caption)
+                .font(.GmarketSansTTFMedium(12))
                 .foregroundColor(.customIndigo)
             VStack{
                 Divider()
@@ -250,7 +255,8 @@ extension LoginAllView{
         .cornerRadius(20)
     }
     func loginButton(item:OauthFilter) -> some View{
-        RoundedRectangle(cornerRadius: 20).frame(height: 55)
+        RoundedRectangle(cornerRadius: 20)
+            .frame(height: 55)
             .foregroundColor(item.color)
             .overlay {
                 HStack{
@@ -270,7 +276,7 @@ extension LoginAllView{
             }
             .overlay{
                 Text("\(item.text)")
-                    .bold()
+                    .font(.GmarketSansTTFMedium(15))
                     .foregroundColor(item.textColor)
             }
     }
