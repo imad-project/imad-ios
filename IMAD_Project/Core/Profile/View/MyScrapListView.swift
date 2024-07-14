@@ -81,7 +81,7 @@ extension MyScrapListView{
             self.scrap = scrap
             self.goPosting = true
         } label: {
-            CommunityListRowView(community: CommunityDetailsListResponse(postingID: scrap.postingID, contentsID: scrap.contentsID, contentsTitle: scrap.contentsTitle, contentsPosterPath: scrap.contentsPosterPath, userID: scrap.userID, userNickname: scrap.userNickname, userProfileImage: scrap.userProfileImage, title: scrap.postingTitle, category: 0, viewCnt: 0, likeCnt: 0, dislikeCnt: 0, likeStatus: 0, commentCnt: 0, createdAt: scrap.createdDate, modifiedAt: "", scrapId: scrap.scrapID, scrapStatus: true, spoiler: false))
+            CommunityListRowView(community: CommunityDetailsListResponse(postingID: scrap.postingID, contentsID: scrap.contentsID, contentsTitle: scrap.contentsTitle, contentsPosterPath: scrap.contentsPosterPath, userID: scrap.userID, userNickname: scrap.userNickname, userProfileImage: scrap.userProfileImage, title: scrap.postingTitle, category: 0, viewCnt: -1, likeCnt: -1, dislikeCnt: -1, likeStatus: -1, commentCnt: -1, createdAt: scrap.createdDate, modifiedAt: "", scrapId: scrap.scrapID, scrapStatus: true, spoiler: false))
         }
     }
 }

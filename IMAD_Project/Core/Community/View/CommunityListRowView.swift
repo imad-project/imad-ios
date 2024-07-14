@@ -16,12 +16,20 @@ struct CommunityListRowView: View {
                firstView
                 workInfoView
                 HStack{
-                    Text("조회수 \(community.viewCnt)회")
+                    if community.commentCnt == -1{
+                        Text(community.createdAt.relativeTime()).foregroundColor(.customIndigo.opacity(0.7))
+                    }
+                    Text(community.commentCnt != -1 ? "조회수 \(community.viewCnt)회" : "")
                         .foregroundColor(.customIndigo.opacity(0.7))
                         .font(.caption)
-                    workStatusView(image: "arrowshape.up", status: community.likeCnt)
-                    workStatusView(image: "arrowshape.down", status: community.dislikeCnt)
-                    Text("·  " + community.createdAt.relativeTime()).foregroundColor(.customIndigo.opacity(0.7))
+                    if community.commentCnt != -1{
+                        workStatusView(image: "arrowshape.up", status: community.likeCnt)
+                        workStatusView(image: "arrowshape.down", status: community.dislikeCnt)
+                    }
+                    Text(community.commentCnt != -1 ? "·  " : "")
+                    if community.commentCnt != -1{
+                        Text(community.createdAt.relativeTime()).foregroundColor(.customIndigo.opacity(0.7))
+                    }
                 }.font(.caption)
                 
             }
@@ -78,7 +86,7 @@ extension CommunityListRowView{
                 Text(community.title)
                     .fontWeight(.semibold)
                     .font(.GmarketSansTTFMedium(17.5))
-                Text("[\(community.commentCnt)]")
+                Text(community.commentCnt != -1 ? "[\(community.commentCnt)]" : "")
                     .font(.GmarketSansTTFMedium(17.5))
                     .foregroundColor(.customIndigo.opacity(0.8))
             }
@@ -89,10 +97,10 @@ extension CommunityListRowView{
     }
     func workStatusView(image:String,status:Int)->some View{
         HStack(spacing:2){
-            Image(systemName: image)
-                .resizable()
-                .frame(width: 10, height: 10)
-            Text("\(status)")
+                Image(systemName: image)
+                    .resizable()
+                    .frame(width: 10, height: 10)
+                Text("\(status)")
         }
         .foregroundColor(.customIndigo.opacity(0.7))
     }

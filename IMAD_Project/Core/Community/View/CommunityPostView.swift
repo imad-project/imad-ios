@@ -62,7 +62,7 @@ struct CommunityPostView: View {
                     .foregroundColor(.black)
                     commentView(community: community)
                 }
-                commentInputView(community: community)
+                commentInputView()
             }else{
                 ProgressView().environment(\.colorScheme,.light)
             }
@@ -85,7 +85,7 @@ struct CommunityPostView: View {
         .navigationDestination(isPresented: $modify) {
             if let community = vm.community{
                 let category = CommunityFilter.allCases.first(where: {$0.num == community.category})!
-                CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, contents: (community.contentsPosterPath.getImadImage(),community.contentsTitle) ,category:category, spoiler: community.spoiler, text:community.content, title: community.title, goMain: .constant(true))
+                CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, contents: (community.contentsPosterPath.getImadImage(),community.contentsTitle) ,category:category, spoiler: community.spoiler, text:community.content ?? "", title: community.title, goMain: .constant(true))
                     .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             }
@@ -205,7 +205,7 @@ extension CommunityPostView{
     func communityinfoView(community:CommunityResponse) ->some View{
         VStack{
             HStack{
-                Text(community.content)
+                Text(community.content ?? "")
                     .font(.subheadline)
                     .padding(.bottom)
                 Spacer()
@@ -402,11 +402,11 @@ extension CommunityPostView{
         }
         .padding(.bottom,25)
     }
-    func commentInputView(community:CommunityResponse) ->some View{
+    func commentInputView() ->some View{
         VStack{
             Divider()
             HStack{
-                ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 40)
+                ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "", widthHeigt: 40)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,textLimit: 400, font:.GmarketSansTTFMedium(14), text: $reviewText)
                     .focused($reply)
                     .padding(10)
