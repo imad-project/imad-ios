@@ -210,10 +210,14 @@ extension ProfileView{
                     vmProfile.defaultImage = .none
                     let image = value.resize(targetSize: CGSize(width: 128, height: 128))
                     let renderer = ImageRenderer(content: Image(uiImage: image))
-                    if let imageData = renderer.uiImage?.jpegData(compressionQuality: 1.0) {
-                        vmProfile.fetchProfileImageCustom(image: imageData)
-                        vmProfile.defaultImage = .indigo
+                    var imageData = Data()
+                    if let data = renderer.uiImage?.jpegData(compressionQuality: 0.1){
+                        imageData = data
+                    }else if let data = renderer.uiImage?.pngData(){
+                        imageData = data
                     }
+                    vmProfile.fetchProfileImageCustom(image: imageData)
+                    vmProfile.defaultImage = .indigo
                 }
             }
             VStack(alignment: .leading,spacing: 0) {
