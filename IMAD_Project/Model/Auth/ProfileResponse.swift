@@ -10,7 +10,7 @@ import Foundation
 struct ProfileResponse:Codable{
     let userID: Int
     let userNickname: String
-    var userProfileImage:String
+    var userProfileImage:String?
     let myReviewCnt, myPostingCnt, myScrapCnt: Int
     let bookmarkListResponse: BookmarkResponse
 

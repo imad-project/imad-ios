@@ -15,7 +15,8 @@ struct CommunityResponse:Codable,Hashable{
     let userID: Int
     let userNickname: String?
     let userProfileImage: String
-    let title, content: String
+    let title:String
+    let content: String?
     let category, viewCnt:Int
     var likeCnt, dislikeCnt: Int
     var likeStatus: Int

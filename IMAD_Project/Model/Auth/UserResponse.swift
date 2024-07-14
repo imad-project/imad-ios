@@ -14,7 +14,7 @@ struct UserResponse:Codable{
     var nickname:String?
     var gender:String?
     var birthYear:Int
-    var profileImage:String
+    var profileImage:String?
     var tvGenre:[Int]
     var movieGenre:[Int]
     let ageRange:Int
