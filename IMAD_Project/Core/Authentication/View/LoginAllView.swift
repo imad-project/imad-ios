@@ -19,6 +19,7 @@ struct LoginAllView: View{
     @State var password = ""
     
     @State var success = false
+    @State var failed = false
     @State var msg = ""
     
     @State var kakao = false
@@ -66,6 +67,10 @@ struct LoginAllView: View{
             success = true
             msg = value
         }
+        .onChange(of: failed){ value in
+            success = value
+            msg = "로그인이 실패했습니다."
+        }
         .alert(isPresented: $success){
             Alert(title: Text(msg),dismissButton: .cancel(Text("확인")){
                 loading = false
@@ -80,7 +85,7 @@ struct LoginAllView: View{
                 }
         }
         .sheet(isPresented: $naver){
-            AuthWebView(filter: .naver)
+            AuthWebView(filter: .naver,failed: $failed)
                 .environmentObject(vm)
                 .ignoresSafeArea()
                 .onDisappear{
@@ -88,7 +93,7 @@ struct LoginAllView: View{
                 }
         }
         .sheet(isPresented:$kakao){
-            AuthWebView(filter: .kakao)
+            AuthWebView(filter: .kakao,failed: $failed)
                 .environmentObject(vm)
                 .ignoresSafeArea()
                 .onDisappear{
@@ -96,7 +101,7 @@ struct LoginAllView: View{
                 }
         }
         .sheet(isPresented:$google){
-            AuthWebView(filter: .google)
+            AuthWebView(filter: .google,failed: $failed)
                 .environmentObject(vm)
                 .ignoresSafeArea()
                 .onDisappear{

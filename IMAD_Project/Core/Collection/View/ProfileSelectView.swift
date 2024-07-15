@@ -48,19 +48,13 @@ struct ProfileSelectView: View {
                     }
                     selectProfileView
                     CustomNextButton(action: {
-                        if vm.patchUser.nickname == ""{
-                            noSelect(selection: .nickname, message: "닉네임을 설정해주세요!")
-                        }else if vm.patchUser.gender == ""{
-                            noSelect(selection: .gender, message: "성별을 선택해 주세요!")
+                        if let image = vmProfile.customImage,vmProfile.defaultImage == .none{
+                            vmProfile.fetchProfileImageCustom(image: image)
                         }else{
-                            vm.patchUserInfo()
-                            if let image = vmProfile.customImage,vmProfile.defaultImage == .none{
-                                vmProfile.fetchProfileImageCustom(image: image)
-                            }else{
-                                vmProfile.fetchProfileImageDefault(image: vmProfile.defaultImage.num.getImageValue())
-                            }
-                            loading = true
+                            vmProfile.fetchProfileImageDefault(image: vmProfile.defaultImage.num.getImageValue())
                         }
+                        loading = true
+                        
                     }, color:vm.patchUser.nickname.isEmpty || vm.patchUser.gender.isEmpty ? .customIndigo.opacity(0.5):.customIndigo)
                 }
                 .foregroundColor(.customIndigo)
@@ -70,6 +64,19 @@ struct ProfileSelectView: View {
         }.alert(isPresented: $alert) {
             Alert(title: Text("오류"),message: Text(msg),dismissButton: .default(Text("확인")){
             })
+        }
+        .onReceive(vmProfile.profileChanged){
+            if vm.patchUser.nickname == ""{
+                noSelect(selection: .nickname, message: "닉네임을 설정해주세요!")
+            }else if vm.patchUser.gender == ""{
+                noSelect(selection: .gender, message: "성별을 선택해 주세요!")
+            }else{
+                vm.patchUserInfo()
+            }
+        }
+        .onReceive(vmProfile.failed){
+            msg = "프로필 사진 업로드에 실패했습니다."
+            alert = true
         }
     }
 }

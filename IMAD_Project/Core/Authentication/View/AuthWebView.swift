@@ -9,6 +9,7 @@ struct AuthWebView: View {
     
     let filter: OauthFilter
     @State var loginMode = false
+    @Binding var failed:Bool
     @EnvironmentObject var vm: AuthViewModel
     @Environment(\.dismiss) var dismiss
     
@@ -25,11 +26,13 @@ struct AuthWebView: View {
     class WebViewDelegate: NSObject, WKNavigationDelegate {
         // 페이지 로드가 완료되면 호출
         var success = PassthroughSubject<(), Never>()
+        var failed = PassthroughSubject<(), Never>()
         
         // 페이지 로드 응답에 대한 결정을 가져옴
         func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
             
             guard let httpResponse = navigationResponse.response as? HTTPURLResponse else {
+                failed.send()
                 decisionHandler(.cancel)
                 return
             }
@@ -38,6 +41,9 @@ struct AuthWebView: View {
             if UserDefaultManager.shared.checkToken(response: httpResponse){
                 print("성공")
                 success.send()
+            }else{
+                print("실패")
+                failed.send()
             }
             
             
@@ -69,9 +75,13 @@ struct AuthWebView: View {
             // 로드된 페이지 요청
             webView.load(URLRequest(url: url))
         }
-        .onReceive(webViewDelegate.success) { _ in
+        .onReceive(webViewDelegate.success) {
             dismiss()
             vm.getUser()
+        }
+        .onReceive(webViewDelegate.failed){
+            dismiss()
+            failed = true
         }
     }
 }
@@ -99,7 +109,7 @@ struct WebView: UIViewRepresentable {
 
 struct AuthWebView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthWebView(filter: .kakao)
+        AuthWebView(filter: .kakao, failed: .constant(false))
             .environmentObject(AuthViewModel(user: UserInfo(status: 200,data: CustomData.instance.user, message: "")))
     }
 }

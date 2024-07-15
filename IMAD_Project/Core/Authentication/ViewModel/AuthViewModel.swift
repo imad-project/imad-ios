@@ -89,7 +89,10 @@ class AuthViewModel:ObservableObject{
     }
     func logout(tokenExpired:Bool){
         print("로그아웃 및 토큰 삭제")
+        message = ""
         user = nil
+        patchUser = PatchUserInfo(user: nil)
+        selection = .nickname
         UserDefaultManager.shared.clearAll()
     }
     func delete(authProvier:String){
