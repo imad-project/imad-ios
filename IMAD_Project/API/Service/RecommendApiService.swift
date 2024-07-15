@@ -20,7 +20,7 @@ class RecommendApiService{
             .publishDecodable(type:AllRecommend.self)
             .value()
             .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.self)")
+                print("결과 메세지  : \(receivedValue.message)")
                 return receivedValue.self
             }
             .eraseToAnyPublisher()
@@ -33,7 +33,7 @@ class RecommendApiService{
             .publishDecodable(type:GenreRecommend.self)
             .value()
             .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.self)")
+                print("결과 메세지  : \(receivedValue.message)")
                 return receivedValue.self
             }
             .eraseToAnyPublisher()
@@ -46,7 +46,7 @@ class RecommendApiService{
             .publishDecodable(type:ActivityRecommend.self)
             .value()
             .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.self)")
+                print("결과 메세지  : \(receivedValue.message)")
                 return receivedValue.self
             }
             .eraseToAnyPublisher()
@@ -59,7 +59,7 @@ class RecommendApiService{
             .publishDecodable(type:ImadRecommend.self)
             .value()
             .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.self)")
+                print("결과 메세지  : \(receivedValue.message)")
                 return receivedValue.self
             }
             .eraseToAnyPublisher()
@@ -72,7 +72,7 @@ class RecommendApiService{
             .publishDecodable(type:TrendRecommend.self)
             .value()
             .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.self)")
+                print("결과 메세지  : \(receivedValue.message)")
                 return receivedValue.self
             }
             .eraseToAnyPublisher()
