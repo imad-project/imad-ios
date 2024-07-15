@@ -28,6 +28,7 @@ struct WorkView: View {
     
     var body: some View {
         ZStack(alignment: .topLeading){
+            Color.white.ignoresSafeArea()
             if vm.workInfo == nil{
                 CustomProgressView()
             }else{
@@ -156,7 +157,7 @@ extension WorkView{
                         }.font(.caption)
                         Spacer()
                         ScoreView(score: CGFloat(vm.workInfo?.imadScore ?? 0.0), color: .white,font:.body,widthHeight:70)
-                        Spacer()
+                            .padding(.leading)
                     }
                     GeometryReader { geo -> AnyView in
                         let offset = geo.frame(in: .global).minY

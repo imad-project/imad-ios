@@ -36,9 +36,13 @@ struct MainView: View {
                         if let user = vmAuth.user?.data{
                             titleView(user: user)
                             trendView
-                            todayView
-                            filter
-                            rankingView
+                            if let review = vm.popularReview,let posting = vm.popularPosting{
+                                todayView(review: review, community: posting)
+                            }
+                            if !vm.rankingList.isEmpty{
+                                filter
+                                rankingView
+                            }
                             userActivityView(user: user)
                             recommendView("이런 장르 영화 어때요?", .genreMovie)
                             recommendView("\(user.nickname ?? "")님을 위한 시리즈",.genreTv)
@@ -277,13 +281,6 @@ extension MainView{
         
         ScrollView(.horizontal,showsIndicators: false){
             LazyHGrid(rows: rankingItems){
-                if vm.rankingList.isEmpty{
-                    ForEach(1...9,id: \.self){ _ in
-                        NoImageView()
-                            .frame(width: 300,height: 75)
-                    }
-                    .padding(.horizontal,10)
-                }else{
                     ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
                         NavigationLink {
                             WorkView(contentsId:rank.contentsID)
@@ -325,7 +322,6 @@ extension MainView{
                         .padding(.horizontal,10)
                         
                     }
-                }
             }
         }
     }
@@ -403,11 +399,11 @@ extension MainView{
             }
         }
     }
-    var todayView:some View{
+    func todayView(review:PopularReviewResponse,community:PopularPostingResponse) ->some View{
         ScrollView(.horizontal,showsIndicators: false) {
             HStack(spacing:0){
                 NavigationLink {
-                    ReviewDetailsView(goWork: true, reviewId: vm.popularReview?.reviewID ?? 0)
+                    ReviewDetailsView(goWork: true, reviewId: review.reviewID)
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
@@ -415,7 +411,7 @@ extension MainView{
                         .shadow(radius: 1)
                 }
                 NavigationLink {
-                    CommunityPostView(postingId:vm.popularPosting?.postingID ?? 0,main: true,back: .constant(false))
+                    CommunityPostView(postingId:community.postingID,main: true,back: .constant(false))
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
