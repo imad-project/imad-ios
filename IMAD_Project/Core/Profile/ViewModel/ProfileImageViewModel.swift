@@ -10,7 +10,7 @@ import Combine
 
 class ProfileImageViewModel:ObservableObject{
     
-    var refreschTokenExpired = PassthroughSubject<(),Never>()
+    var failed = PassthroughSubject<(),Never>()
     var profileChanged = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
     
@@ -25,7 +25,7 @@ class ProfileImageViewModel:ObservableObject{
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
+                    self.failed.send()
                 case .finished:
                     self.profileChanged.send()
                     print(completion)
@@ -40,7 +40,7 @@ class ProfileImageViewModel:ObservableObject{
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
+                    self.failed.send()
                 case .finished:
                     self.profileChanged.send()
                     print(completion)
