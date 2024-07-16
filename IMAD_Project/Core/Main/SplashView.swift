@@ -14,17 +14,29 @@ struct SplashView: View {
     var body: some View {
         ZStack{
             Color.white.ignoresSafeArea()
-            VStack{
-                Image("logoName")
+            Color.gray.opacity(0.1).ignoresSafeArea()
+            ZStack{
+                LinearGradient(colors: [Color.customIndigo,Color(cgColor: CGColor(red: 62/255, green: 88/255, blue: 112/255, alpha: 1))], startPoint: .leading, endPoint: .trailing)
+                    .frame(width:200)
+                .mask{
+                    VStack(spacing:7.5){
+                        Text("IMAD")
+                            .bold()
+                            .font(.GmarketSansTTFBold(40))
+                        Rectangle()
+                            .frame(width:150,height:3)
+                            .offset(x:10)
+                    }
+                }
+                Image("indigo")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 200,height: 100)
-                    .opacity(logo ? 1.0:0.0)
-                Text("아이매드")
-                    .bold()
-                    .foregroundColor(.customIndigo)
-                    .opacity(logo ? 1.0:0.0)
+                    .frame(width: 80,height: 80)
+                    .offset(x:100,y:-3)
+                
             }
+            .offset(x:-20)
+            .opacity(logo ? 1.0:0.0)
         }
         .onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {

@@ -62,14 +62,14 @@ extension MenuTabView{
                         VStack(spacing: 5) {
                             if tab.name != ""{
                                 Image(systemName: tab.name)
-                                    .frame(width: 30,height: 30)
+                                    .font(.GmarketSansTTFBold(20))
+                                    .frame(width: 30,height: 35)
                             }else{
-                                ProfileImageView(imageCode: vmAuth.user?.data?.profileImage ?? 0,widthHeigt: 25)
+                                ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "",widthHeigt: 30)
                                     .padding(.top,5)
-                                    
                             }
                             Text(tab.menu)
-                                .font(.caption2)
+                                .font(.GmarketSansTTFMedium(10))
                         }
                     }
                     .frame(height: 30)
@@ -89,9 +89,10 @@ extension MenuTabView{
         }
         .foregroundColor(.customIndigo)
         .background {
-            Color.white.ignoresSafeArea()
-                .shadow(radius: 10)
-            
+            VStack(spacing:0){
+                Divider()
+                Color.white.ignoresSafeArea()
+            }
         }
         .frame(height: 70)
         

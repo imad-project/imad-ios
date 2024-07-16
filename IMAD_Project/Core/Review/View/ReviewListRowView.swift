@@ -9,10 +9,9 @@ import SwiftUI
 import Kingfisher
 
 struct ReviewListRowView: View {
-    
     let review:ReadReviewResponse
-    @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
-    
+    let my:Bool
+    @EnvironmentObject var vm:AuthViewModel
     var body: some View {
         VStack(alignment: .leading){
             profileAndDateView
@@ -21,101 +20,99 @@ struct ReviewListRowView: View {
                 Spacer()
                 scoreAndLike
             }
-            Divider()
             likeView
+            if my{
+                NavigationLink {
+                    WorkView(contentsId:review.contentsID)
+                        .environmentObject(vm)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    HStack{
+                        KFImage(URL(string: review.contentsPosterPath.getImadImage()))
+                            .resizable()
+                            .frame(width: 30,height: 30)
+                            .cornerRadius(5)
+                        Text(review.contentsTitle)
+                            .font(.GmarketSansTTFMedium(13))
+                            .fontWeight(.medium)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .padding(.trailing)
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.black.opacity(0.7))
+                    .background(Color.white)
+                    .cornerRadius(5)
+                    .shadow(radius: 1)
+                }
+            }
         }
-        .onAppear{
-            vm.review = review
-        }
+        .padding(10)
+        .background(Color.white)
     }
-    
-    
 }
 
 struct ReviewListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewListRowView(review: CustomData.instance.review,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
+        ReviewListRowView(review: CustomData.instance.review, my: true)
+            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
 extension ReviewListRowView{
     var profileAndDateView:some View{
         HStack{
-            ProfileImageView(imageCode: review.userProfileImage,widthHeigt: 25)
+            ProfileImageView(imagePath: review.userProfileImage,widthHeigt: 25)
             Text(review.userNickname)
                 .font(.subheadline)
                 .bold()
+            if review.spoiler{
+                Capsule()
+                .stroke(lineWidth: 1)
+                .frame(width: 45, height: 18)
+                .overlay {
+                    Text("스포")
+                        .font(.caption2)
+                        .bold()
+                }
+                .foregroundColor(.customIndigo)
+            }
             Spacer()
-            Text(review.createdAt.relativeTime())
-                .foregroundColor(.gray)
-                .font(.caption)
-            
         }
         .padding(.bottom,5)
     }
     var contentView:some View{
-        VStack(alignment: .leading) {
-            Text(review.title).bold()
-                .padding(.vertical)
-                .font(.subheadline)
+        VStack(alignment: .leading,spacing:3) {
+            Text(review.title)
+                .font(.GmarketSansTTFMedium(17))
             HStack{
-                Text(review.content)
-                    .font(.caption)
-                    .lineLimit(5)
+                Text(review.spoiler ? "스포일러가\n포함된 리뷰입니다." : review.content)
+                    .font(.system(size: 16))
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.bottom,5)
-                    .padding(.horizontal,5)
                 Spacer()
             }
-            .overlay {
-                if review.spoiler{
-                    Color.white.opacity(0.1)
-                        .background(Material.ultraThin).environment(\.colorScheme, .light)
-                        .cornerRadius(5)
-                    Text("「스포일러성 리뷰입니다.」")
-                }
-            }
-            
         }
     }
     var scoreAndLike:some View{
-        VStack{
-            ScoreView(score: review.score, color: .black,font: .subheadline,widthHeight: 60)
-            HStack(spacing: 15){
-                HStack(spacing: 2){
-                    Image(systemName: "heart.fill").foregroundColor(.red)
-                    Text("\((vm.review?.likeCnt ?? 0))")
-                        .padding(.trailing)
-                    Image(systemName: "heart.slash.fill").foregroundColor(.blue)
-                    Text("\((vm.review?.dislikeCnt ?? 0))")
-                }
-                .font(.subheadline)
-            }
-            .font(.subheadline)
-        }.padding(.horizontal)
+        ScoreView(score: review.score, color: .customIndigo,font: .caption,widthHeight: 50)
     }
     var likeView:some View{
-        HStack{
-            Group{
-                Button {
-                    vm.like(review:vm.review ?? review)
-                } label: {
-                    Image(systemName: vm.review?.likeStatus == 1 ? "heart.fill":"heart")
-                    Text("좋아요")
-                }
-                .foregroundColor(vm.review?.likeStatus == 1 ? .red : .gray)
-                Button {
-                    vm.disLike(review: vm.review ?? review)
-                } label: {
-                    HStack{
-                        Image(systemName: vm.review?.likeStatus == -1 ? "heart.slash.fill" : "heart.slash")
-                        Text("싫어요")
-                    }
-                }
-                .foregroundColor(vm.review?.likeStatus == -1 ? .blue : .gray)
+            HStack(spacing: 2){
+                Image(systemName: "arrowshape.up")
+                    .font(.caption)
+                    .bold()
+                Text("\(review.likeCnt)")
+                    .padding(.trailing,10)
+                Image(systemName: "arrowshape.down")
+                    .font(.caption)
+                    .bold()
+                Text("\(review.dislikeCnt)")
+                    .padding(.trailing,10)
+                Text("·   " + review.createdAt.relativeTime())
             }
+            .foregroundColor(.customIndigo.opacity(0.7))
             .font(.subheadline)
-            .padding(.bottom)
-            .frame(maxWidth: .infinity)
-        }
+            .padding(.bottom,5)
     }
 }

@@ -17,37 +17,30 @@ struct OnBoardingView: View {
                 Spacer()
                 Group{
                     Text(title)
-                        .font(.largeTitle)
-                        .padding(.bottom)
+                        .bold()
+                        .font(.GmarketSansTTFMedium(35))
                     Text(descrpit)
+                        .font(.GmarketSansTTFMedium(18))
                 }
-                .bold()
-                .padding(.leading,30)
+                .padding(.horizontal,30)
                 Spacer()
                 HStack{
                     Spacer()
                     Image(image)
                         .resizable()
-                        .frame(width: 200,height: height)
+                        .frame(width: 300,height: height)
                         .padding()
                     
                 }.offset(y:70)
                 Spacer()
 
             }
-            .foregroundColor(.customIndigo)
-            .background{
-                Color.white.ignoresSafeArea()
-                Color.gray.opacity(0.2).ignoresSafeArea()
-            }
-           
-           
-        
+            .foregroundColor(.white)
     }
 }
 
 struct OnBoardingReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        OnBoardingView(title: "커뮤니티", descrpit: "재밌게 본 드라마나 영화에 대해 마음껏 본인의 생각을 펼쳐보세요!", image: "review", height: 200)
+        OnBoardingView(title: "커뮤니티", descrpit: "재밌게 본 드라마나 영화에 대해 마음껏 본인의 생각을 펼쳐보세요!", image: "ghost", height: 200)
     }
 }

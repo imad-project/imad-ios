@@ -34,6 +34,18 @@ struct RecommendAllView: View {
             vm.fetchTrendRecommend(page: vm.currentPage)
         }
     }
+    func remove(){
+        switch type {
+        case .genreTv,.genreMovie:
+            vm.recommendGenre = ([],[])
+        case .trendTv,.trendMovie:
+            vm.recommendTrend = ([],[])
+        case .activityTv,.activityAnimationTv,.activityMovie,.activityAnimationMovie:
+            vm.recommendActivity = []
+        case .imadTv,.imadMovie:
+            vm.recommendImad = ([],[])
+        }
+    }
     
     var body: some View {
         VStack(spacing:0){
@@ -48,8 +60,11 @@ struct RecommendAllView: View {
             }
         }
         .onAppear{
-            guard let contentsId else { return request(contentsId: 0) }
+            guard let contentsId else { return request(contentsId: 0)}
             request(contentsId: contentsId)
+        }
+        .onDisappear{
+            remove()
         }
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
@@ -62,13 +77,12 @@ struct RecommendAllView: View {
             } label: {
                 Image(systemName: "chevron.left")
             }
+            Text(type.title)
+                .font(.GmarketSansTTFMedium(25))
             Spacer()
         }
-        .overlay {
-            Text(type.title)
-        }
         .bold()
-        .padding()
+        .padding(10)
         .foregroundColor(.black)
     }
     var titleView:some View{
@@ -82,8 +96,9 @@ struct RecommendAllView: View {
                             }
                         } label: {
                             Text(type.name)
+                                .font(.GmarketSansTTFMedium(15))
                                 .foregroundColor(self.type == type ? .customIndigo : .gray)
-                                .frame(minWidth: 100,maxWidth: 250)
+                                .frame(minWidth: 100,maxWidth: .infinity)
                         }
                         .padding(.vertical,2)
                         if self.type == type{
@@ -109,12 +124,13 @@ struct RecommendAllView: View {
                         KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 120,height: 160)
                             .cornerRadius(5)
                             .padding(.vertical)
-                        VStack(alignment: .leading){
+                        VStack(alignment: .leading,spacing:10){
                             Text(work.genreType == .tv ?  work.name() ?? "" : work.title() ?? "")
                                 .bold()
-                                .font(.title3)
+                                .font(.GmarketSansTTFMedium(17))
                                 .foregroundColor(.white)
                             Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" :work.genreId()?.transMovieGenreCode() ?? "")
+                                .font(.GmarketSansTTFMedium(13))
                                 .foregroundColor(.white.opacity(0.7))
                         }
                         Spacer()
@@ -129,7 +145,7 @@ struct RecommendAllView: View {
             }
             Button {
                 vm.currentPage += 1
-                guard let contentsId else { return request(contentsId: 0) }
+                guard let contentsId else { return  request(contentsId: 0)}
                 request(contentsId: contentsId)
             } label: {
                 RoundedRectangle(cornerRadius: 5)
@@ -151,5 +167,6 @@ struct RecommendAllView: View {
 }
 
 #Preview {
-    RecommendAllView(type: .trendTv)
+    RecommendAllView(contentsId:1, type: .trendTv)
+        .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
 }

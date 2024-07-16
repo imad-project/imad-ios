@@ -10,7 +10,8 @@ import Foundation
 struct ProfileResponse:Codable{
     let userID: Int
     let userNickname: String
-    let userProfileImage, myReviewCnt, myPostingCnt, myScrapCnt: Int
+    var userProfileImage:String?
+    let myReviewCnt, myPostingCnt, myScrapCnt: Int
     let bookmarkListResponse: BookmarkResponse
 
     enum CodingKeys: String, CodingKey {

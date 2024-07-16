@@ -16,12 +16,9 @@ struct WorkView: View {
     
     @State var width:Bool = false   //작품 제목 섹션 생성
     @State var written = false  //리뷰가 작성되있을 경우
-    //    @State var anima = false
     @State var writeReview = false//리뷰작성
     @State var writeCommunity = false
-    //    @State var message = ""
     @State var showMyRevie = false
-    //    @State var goPosting = (false,0)
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vmAuth:AuthViewModel//
@@ -29,25 +26,15 @@ struct WorkView: View {
     @StateObject var tab = CommunityTabManager()
     @StateObject var vm = WorkViewModel(workInfo: nil,bookmarkList: [])
     
-    
-    var returnType:Bool{
-        switch vm.workInfo?.tmdbType{ //mediaType으로 교체될 예정
-        case "MOVIE":
-            return false
-        case "TV":
-            return true
-        default:
-            return true
-        }
-    }
-    
     var body: some View {
         ZStack(alignment: .topLeading){
+            Color.white.ignoresSafeArea()
             if vm.workInfo == nil{
                 CustomProgressView()
             }else{
+                Color.gray.opacity(0.1).ignoresSafeArea()
                 ScrollView(showsIndicators: false){
-                    MovieBackgroundView(url: vm.workInfo?.posterPath?.getImadImage() ?? "", height: 3, isBottomTransparency: true)
+                    MovieBackgroundView(url: vm.workInfo?.backdropPath?.getImadImage() ?? "", height: 3)
                     poster
                     collection
                     VStack{
@@ -63,12 +50,12 @@ struct WorkView: View {
         }
         .foregroundColor(.white)
         .onAppear {
-            vm.getBookmark(page: vm.currentPage)
             if let contentsId{
                 vm.getWorkInfo(contentsId: contentsId)
             }else if let id, let type{
                 vm.getWorkInfo(id: id, type: type)
             }
+            vm.getBookmark(page: vm.currentPage)
         }
         .onDisappear{
             vmReview.reviewList.removeAll()
@@ -90,12 +77,12 @@ struct WorkView: View {
                          primaryButton: no, secondaryButton: yes)
         }
         .navigationDestination(isPresented: $writeReview) {
-            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
+            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", workName: vm.workInfo?.title ??  vm.workInfo?.name ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
-            CommunityWriteView(contentsId: vm.workInfo?.contentsId ?? 0,image: vm.workInfo?.posterPath?.getImadImage() ?? "", goMain: $writeCommunity)
+            CommunityWriteView(contentsId: vm.workInfo?.contentsId ?? 0,contents:(vm.workInfo?.posterPath?.getImadImage() ?? "", vm.workInfo?.name ?? vm.workInfo?.title ?? "") , goMain: $writeCommunity)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
@@ -122,10 +109,10 @@ extension WorkView{
     var header: some View{
         ZStack{
             if width{
-                Text(returnType ? vm.workInfo?.name ?? "" : vm.workInfo?.title ?? "")
+                Text(vm.workInfo?.name ?? vm.workInfo?.title ?? "")
                     .bold()
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical)
+                    .padding(.vertical,20)
                     .background(Material.regular)
                     .environment(\.colorScheme,.dark)
             }
@@ -134,64 +121,67 @@ extension WorkView{
                     dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
-                        .foregroundColor(.black)
-                        .padding(10)
-                        .font(.caption)
-                        .background(Circle().foregroundColor(.white))
-                        .shadow(radius: 20)
-                        .padding(.leading)
-                    
+                        .bold()
                 }
+                .padding([.leading])
                 Spacer()
             }
+            .padding(.vertical,20)
         }
     }
     var poster:some View{
-        HStack{
-            KFImageView(image: vm.workInfo?.posterPath?.getImadImage() ?? "",width: 140,height: 180)
-                .padding(.leading)
-            VStack(alignment: .leading){
-                HStack(alignment: .bottom){
-                    VStack(alignment: .leading) {
-                        Text(returnType ? "TV" : "영화")
-                            .padding(2)
-                            .padding(.horizontal,7)
-                            .background(RoundedRectangle(cornerRadius: 2)
-                                .stroke(lineWidth: 2)).bold()
-                        Text(!returnType ? "최초개봉일" : "최초공개일")
-                            .bold()
-                        if let work = vm.workInfo{
-                            Text(!returnType ? work.releaseDate ?? "" : work.firstAirDate ?? "")
-                                .foregroundColor(.gray)
-                                .font(.subheadline)
-                        }
-                    }.font(.caption)
-                    Spacer()
-                    ScoreView(score: CGFloat(vm.workInfo?.imadScore ?? 0.0), color: .white,font:.body,widthHeight:70)
-                    Spacer()
-                }
-                GeometryReader { geo -> AnyView in
-                    let offset = geo.frame(in: .global).minY
-                    DispatchQueue.main.async {
-                        withAnimation {
-                            -offset >= 0 ? (width = true) : (width = false)
-                        }
+        VStack(alignment: .leading){
+            Text("작품정보")
+                .bold()
+                .font(.GmarketSansTTFMedium(25))
+                .padding(.leading,35)
+            HStack{
+                KFImageView(image: vm.workInfo?.posterPath?.getImadImage() ?? "",width: 140,height: 180)
+                    .cornerRadius(10)
+                    .padding(.leading)
+                VStack(alignment: .leading){
+                    HStack(alignment: .bottom){
+                        VStack(alignment: .leading) {
+                            Text(TypeFilter.allCases.first(where:{$0.query == vm.workInfo?.contentsType ?? ""})?.name ?? "")
+                                .padding(2)
+                                .padding(.horizontal,7)
+                                .background(RoundedRectangle(cornerRadius: 2)
+                                    .stroke(lineWidth: 2)).bold()
+                            Text(vm.workInfo?.releaseDate != nil ? "최초개봉일" : "최초공개일")
+                                .bold()
+                            if let work = vm.workInfo{
+                                Text(work.releaseDate ?? work.firstAirDate ?? "")
+                                    .foregroundColor(.white.opacity(0.8))
+                                    .font(.subheadline)
+                            }
+                        }.font(.caption)
+                        Spacer()
+                        ScoreView(score: CGFloat(vm.workInfo?.imadScore ?? 0.0), color: .white,font:.body,widthHeight:70)
+                            .padding(.leading)
                     }
-                    return AnyView(title)
+                    GeometryReader { geo -> AnyView in
+                        let offset = geo.frame(in: .global).minY
+                        DispatchQueue.main.async {
+                            withAnimation {
+                                -offset >= 0 ? (width = true) : (width = false)
+                            }
+                        }
+                        return AnyView(title)
+                    }
                 }
+                .padding(.leading,20)
+                Spacer()
             }
-            .padding(.leading,20)
-            Spacer()
         }
-        .padding(.vertical,30)
+        .padding(.bottom,30)
     }
     var title:some View{
         VStack(alignment: .leading){
-            Text(returnType ? vm.workInfo?.name ?? "" : vm.workInfo?.title ?? "")
+            Text(vm.workInfo?.name ??  vm.workInfo?.title ?? "")
                 .padding(.top)
                 .bold()
-                .padding(.bottom,5)
-            Text(returnType ? vm.workInfo?.originalName ?? "" : vm.workInfo?.originalTitle ?? "")
+                .font(.title3)
+            Text(vm.workInfo?.originalName ?? vm.workInfo?.originalTitle ?? "")
                 .font(.subheadline)
         }
     }
@@ -210,7 +200,8 @@ extension WorkView{
                         VStack(spacing:5){
                             Image(systemName: "rectangle.and.pencil.and.ellipsis")
                             Text("리뷰작성")
-                                .font(.caption)
+                                .font(.custom("GmarketSansTTFLight", size: 11))
+                                .fontWeight(.medium)
                         }.foregroundColor(.customIndigo)
                         
                     }
@@ -220,7 +211,8 @@ extension WorkView{
                         VStack(spacing:5){
                             Image(systemName: "ellipsis.message")
                             Text("게시물작성")
-                                .font(.caption)
+                                .font(.custom("GmarketSansTTFLight", size: 11))
+                                .fontWeight(.medium)
                         }.foregroundColor(.customIndigo)
                     }
                     Button {
@@ -237,7 +229,8 @@ extension WorkView{
                                 Image(systemName: bookmark ? "bookmark.fill" :  "bookmark")
                             }
                             Text("찜")
-                                .font(.caption)
+                                .font(.custom("GmarketSansTTFLight", size: 11))
+                                .fontWeight(.medium)
                         }.foregroundColor(.customIndigo)
                     }
                 }.frame(maxWidth: .infinity)
@@ -252,11 +245,10 @@ extension WorkView{
         VStack(alignment: .leading) {
             Text("내 리뷰")
                 .padding(.top)
-                .bold()
+                .font(.custom("GmarketSansTTFLight", size: 16))
+                .fontWeight(.medium)
             VStack{
-                //                if let review = vmReview.reviewList.first{
                 if let myReviewId = vm.workInfo?.reviewId{
-                    //                if let my = vmReview.reviewList.first(where: {$0.userNickname == vmAuth.profileInfo.nickname}),let review = vmReview.reviewList.first(where: {$0 == my}){
                     NavigationLink {
                         ReviewDetailsView(goWork: false, reviewId: myReviewId)
                             .environmentObject(vmAuth)
@@ -284,7 +276,7 @@ extension WorkView{
                             .font(.subheadline)
                         NavigationLink {
                             if let work = vm.workInfo{
-                                WriteReviewView(id: work.contentsId, image: work.posterPath?.getImadImage() ?? "", gradeAvg: work.imadScore ?? 0, reviewId: nil)
+                                WriteReviewView(id: work.contentsId, image: work.posterPath?.getImadImage() ?? "", workName: work.title ?? work.name ?? "", gradeAvg: work.imadScore ?? 0, reviewId: nil)
                                     .navigationBarBackButtonHidden()
                                     .environmentObject(vmAuth)
                             }
@@ -306,16 +298,22 @@ extension WorkView{
                     .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.customIndigo))
                 }
             }
-            Text("리뷰 보기")
-                .padding(.top)
-                .bold()
+            if !vmReview.reviewList.isEmpty{
+                Text("리뷰 보기")
+                    .padding(.top)
+                    .font(.custom("GmarketSansTTFLight", size: 16))
+                    .fontWeight(.medium)
+            }
             ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
                 NavigationLink {
                     ReviewDetailsView(goWork: false, reviewId: review.reviewID)
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
-                    ReviewListRowView(review: review).padding([.top,.horizontal],10).background(Color.white).cornerRadius(10)
+                    ReviewListRowView(review: review, my: false)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .environmentObject(vmAuth)
                 }
             }
             if vmReview.reviewList.count > 2 {
@@ -325,7 +323,7 @@ extension WorkView{
                         .navigationBarBackButtonHidden()
                 } label: {
                     HStack{
-                        Text("리뷰 \(0)개 모두보기")
+                        Text("리뷰 \(vm.workInfo?.reviewCnt ?? 0)개 모두보기")
                         Image(systemName: "chevron.right")
                     }
                     .font(.caption)
@@ -340,8 +338,7 @@ extension WorkView{
             }
         }
         .padding(.horizontal)
+        .padding(.bottom)
         .foregroundColor(.black)
-        .padding(.bottom,30)
-        .background(Color.gray.opacity(0.1))
     }
 }

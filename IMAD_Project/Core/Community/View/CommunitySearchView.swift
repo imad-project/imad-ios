@@ -19,7 +19,7 @@ struct CommunitySearchView: View {
     
     @State var goCommunity = false
     @State var sort:SortFilter = .createdDate
-    @State var order:OrderFilter = .ascending
+    @State var order:OrderFilter = .descending
     @State var type:SearchTypeFilter = .titleContents
     @State var category:CommunityFilter = .all
     
@@ -30,24 +30,29 @@ struct CommunitySearchView: View {
         VStack(alignment: .leading){
             header
             searchView
-            ScrollView(.horizontal){
+            ScrollView(.horizontal,showsIndicators: false){
                 HStack{
-                    filterView(type: "search").padding(.leading)
+                    filterView(type: "search")
                     filterView(type: "order")
                     filterView(type: "sort")
                     filterView(type: "category")
                 }
+                .padding(.horizontal,10)
             }
             if !vm.communityList.isEmpty{
-                ScrollView{
+                ScrollView(showsIndicators: false){
+                    Text("총 \(vm.totalOfElements)개")
+                        .fontWeight(.bold).padding(.horizontal,10).frame(maxWidth: .infinity,alignment:.leading)
                     ForEach(vm.communityList,id: \.self){ community in
                         Button {
                             self.community = community
                             goCommunity = true
                         } label: {
                             CommunityListRowView(community: community)
-                                .padding()
                         }
+                        .padding(.leading,10)
+                        
+                        .padding(.vertical,2)
                         if vm.communityList.last == community,vm.maxPage > vm.currentPage{
                             ProgressView()
                                 .onAppear{
@@ -64,6 +69,26 @@ struct CommunitySearchView: View {
             if let community{
                 CommunityPostView(postingId: community.postingID, back: $goCommunity)
                     .navigationBarBackButtonHidden()
+            }
+        }
+        .onChange(of: order){ _ in
+            if !text.isEmpty{
+                listUpdate()
+            }
+        }
+        .onChange(of: type){ _ in
+            if !text.isEmpty{
+                listUpdate()
+            }
+        }
+        .onChange(of: category){ _ in
+            if !text.isEmpty{
+                listUpdate()
+            }
+        }
+        .onChange(of: sort){ _ in
+            if !text.isEmpty{
+                listUpdate()
             }
         }
         .foregroundColor(.customIndigo)
@@ -89,21 +114,24 @@ extension CommunitySearchView{
             } label: {
                 Image(systemName: "chevron.left")
             }
-            .padding(.leading)
+            .padding(.leading,10)
             Text("커뮤니티 검색")
-                .font(.title2)
+                .font(.custom("GmarketSansTTFMedium", size: 20))
                 .bold()
-                .padding(.leading)
+                .padding(.leading,5)
         }
+        .padding(.top,10)
     }
     var searchView:some View{
         HStack{
             CustomTextField(password: false, image: "magnifyingglass", placeholder: "게시물을 검색해 주세요..", color:.gray, text: $text)
                 .padding(15)
-                .background(Color.gray.opacity(0.2).cornerRadius(20))
-                .padding(.leading)
+                .background(Color.gray.opacity(0.2).cornerRadius(50))
+                .padding(.leading,10)
             Button {
-                listUpdate()
+                if !text.isEmpty{
+                    listUpdate()
+                }
             } label: {
                 Text("검색")
                     .foregroundColor(.white)
@@ -111,7 +139,7 @@ extension CommunitySearchView{
                     .background(Color.customIndigo)
                     .cornerRadius(20)
             }
-            .padding(.trailing)
+            .padding(.trailing,10)
         }
     }
     func filterView(type:String) -> some View{
@@ -148,16 +176,16 @@ extension CommunitySearchView{
                 switch type{
                 case "search":
                     Text(self.type.name)
-                        .font(.caption)
+                        .font(.custom("GmarketSansTTFMedium", size: 12))
                 case "order":
                     Text(self.order.name)
-                        .font(.caption)
+                        .font(.custom("GmarketSansTTFMedium", size: 12))
                 case "sort":
                     Text(self.sort.name)
-                        .font(.caption)
+                        .font(.custom("GmarketSansTTFMedium", size: 12))
                 case "category":
                     Text(self.category.name)
-                        .font(.caption)
+                        .font(.custom("GmarketSansTTFMedium", size: 12))
                 default: Text("")
                 }
                 Image(systemName: "chevron.down")
@@ -166,8 +194,8 @@ extension CommunitySearchView{
         }
         .padding(.vertical,5)
         .padding(.horizontal)
-        .background(Capsule().stroke(lineWidth: 1).foregroundColor(.customIndigo))
-        
+        .background(Capsule().stroke(lineWidth: 1)
+            .foregroundColor(.customIndigo))
         .padding(.vertical,5)
     }
     func listUpdate(){

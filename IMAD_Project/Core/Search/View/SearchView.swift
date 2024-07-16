@@ -12,9 +12,7 @@ struct SearchView: View {
     let backMode:Bool
     let postingMode:Bool    //MARK: true -> CommunityWriteView / false -> WorkView
     let columns =  [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
-    
-    //    @State var tokenExpired = (false,"")
-    //    @State var goPosting = (false,0)
+  
     @State var contentsId:Int?
     @State var work:WorkListResponse?
     @State var goWork = false
@@ -25,15 +23,14 @@ struct SearchView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        //        NavigationView {
-        VStack(alignment: .leading){
+        VStack(alignment: .leading,spacing: 0){
             header
             searchBar
             filter
+            Divider()
             ScrollView{
                 workListView
             }
-            
         }
         .foregroundColor(.black)
         .background(Color.white)
@@ -51,7 +48,7 @@ struct SearchView: View {
             Group{
                 if let work{
                     if postingMode{
-                        CommunityWriteView(contentsId: contentsId, image: work.posterPath?.getImadImage() ?? "", goMain: $back)
+                        CommunityWriteView(contentsId: contentsId,  contents: (work.posterPath?.getImadImage() ?? "",work.title == nil ? work.name ?? "" : work.title ?? ""), goMain: $back)
                     }else{
                         WorkView(id:work.id,type: work.mediaType)
                     }
@@ -82,44 +79,38 @@ extension SearchView{
         }
     }
     var header:some View{
-        ZStack{
-            HStack{
-                if !backMode{
-                    Button {
-                        back = false
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .bold()
-                            .padding()
-                        
-                    }
-                    
+        HStack{
+            if !backMode{
+                Button {
+                    back = false
+                } label: {
+                    Image(systemName: "xmark")
+                        .bold()
                 }
-                Spacer()
             }
             Text("작품 찾기")
-                .bold()
+                .font(.custom("GmarketSansTTFMedium", size: 25)).bold()
+                .foregroundColor(.customIndigo)
+            Spacer()
         }
+        .padding(.horizontal,10)
+        .padding(.top,10)
+        
     }
     var searchBar:some View{
         CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $vm.searchText)
             .padding()
             .background(Color.gray.opacity(0.2))
-            .cornerRadius(20)
-            .padding(.horizontal)
+            .cornerRadius(50)
+            .padding(10)
     }
     var filter:some View{
-        HStack(spacing: 0){
-            Image(systemName: "slider.horizontal.3")
-            Picker("", selection: $vm.type) {
-                ForEach(MovieTypeFilter.allCases,id:\.self){ text in
-                    Text(text.name)
-                }
+        Picker("", selection: $vm.type) {
+            ForEach(MovieTypeFilter.allCases,id:\.self){ text in
+                Text(text.name)
             }
-            .accentColor(.black)
         }
-        .padding(.horizontal)
-        .padding(.bottom,5)
+        .accentColor(.customIndigo)
     }
     var workListView:some View{
         LazyVGrid(columns: columns) {
@@ -127,17 +118,17 @@ extension SearchView{
                 Button {
                     work = result
                     vmWork.getWorkInfo(id: result.id, type: result.mediaType ?? "")
-                    
                 } label: {
                     VStack{
                         KFImageView(image: result.posterPath?.getImadImage() ?? "", height: (UIScreen.main.bounds.width/3)*1.25)
+                            .cornerRadius(5)
+                            .shadow(radius: 1)
                         Text(result.title == nil ? result.name ?? "" : result.title ?? "")
-                            .bold()
-                            .font(.subheadline)
+                            .font(.GmarketSansTTFMedium(12))
                             .frame(maxWidth:130,maxHeight:5)
                     }
                 }
-                .padding(.bottom,10)
+                .padding(.bottom,5)
                 if vm.work.last == result,vm.maxPage > vm.currentPage{
                     ProgressView()
                         .environment(\.colorScheme, .light)
@@ -145,8 +136,9 @@ extension SearchView{
                             vm.searchWork(query: vm.searchText, type: vm.type, page: vm.currentPage + 1)
                         }
                 }
-            } .padding(.top)
+            } .padding(.top,10)
         }
         .padding(.horizontal,10)
+        .padding(.bottom)
     }
 }

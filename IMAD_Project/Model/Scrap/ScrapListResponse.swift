@@ -10,7 +10,8 @@ import Foundation
 struct ScrapListResponse:Codable,Hashable{
     let scrapID, userID: Int
     let userNickname: String
-    let userProfileImage, contentsID: Int
+    let userProfileImage:String
+    let contentsID: Int
     let contentsTitle, contentsPosterPath: String
     let postingID: Int
     let postingTitle, createdDate: String

@@ -19,18 +19,23 @@ struct ReviewDetailsView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        ScrollView{
-            LazyVStack(alignment: .leading,pinnedViews: [.sectionHeaders]) {
-                if let review = vm.review{
-                    Section {
+        VStack(spacing: 0){
+            if let review = vm.review{
+                header(review: review)
+                ScrollView{
+                    VStack{
+                        Divider()
                         workInfoView(review: review)
                         contentAndLikeView(review: review)
-                    } header: {
-                        header(review: review)
+                        Divider()
                     }
+                    .background(Color.white)
+                    .padding(.top,10)
                 }
+                .background(Color.gray.opacity(0.1))
             }
         }
+        
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
@@ -48,7 +53,6 @@ struct ReviewDetailsView: View {
         } message: {
             Text("리뷰를 삭제하시겠습니까?")
         }
-        .ignoresSafeArea()
         .background(Color.white)
         .foregroundColor(.black)
         .onAppear{
@@ -77,8 +81,11 @@ extension ReviewDetailsView{
                     dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.title3)
+                        .bold()
                 }
+                Text("리뷰")
+                    .bold()
+                    .font(.GmarketSansTTFMedium(25))
                 Spacer()
                 
                 if review.author{
@@ -93,7 +100,7 @@ extension ReviewDetailsView{
                         }
                         .confirmationDialog("", isPresented: $menu,actions: {
                             NavigationLink {
-                                WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
+                                WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
                                     .navigationBarBackButtonHidden()
                                     .environmentObject(vmAuth)
                             } label: {
@@ -110,98 +117,119 @@ extension ReviewDetailsView{
                     }
                 }
             }
-            .overlay{
-                Text("리뷰").bold()
-            }
-            .padding(.bottom,10)
-            .padding(.horizontal)
+            .padding(10)
             Divider()
         }
-        .padding(.top,60)
         .background(Color.white)
         
+        
     }
- 
+    
     func workInfoView(review:ReadReviewResponse)->some View{
         VStack(alignment: .leading) {
-            Text("#" + review.contentsTitle)
-                .bold()
-            HStack(alignment: .top) {
-                if goWork{
-                    NavigationLink {
-                        WorkView(contentsId:review.contentsID)
-                            .navigationBarBackButtonHidden()
-                            .environmentObject(vmAuth)
-                    } label: {
-                        KFImageView(image: review.contentsPosterPath.getImadImage(),width: 100,height:120)
-                    }
-                }else{
-                    KFImageView(image: review.contentsPosterPath.getImadImage(),width: 100,height:120)
-                }
+            HStack{
                 VStack(alignment: .leading) {
                     HStack{
-                        ProfileImageView(imageCode: review.userID ?? 0, widthHeigt: 20)
-                        Text(review.userNickname)
-                        Group{
-                            if review.createdAt != review.modifiedAt{
-                                Text("수정됨").bold()
-                                Text("· " + review.modifiedAt.relativeTime())
-                            }else{
-                                Text("· " + review.createdAt.relativeTime())
+                        ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
+                        VStack(alignment: .leading){
+                            Text(review.userNickname)
+                                .font(.GmarketSansTTFMedium(13))
+                                .fontWeight(.semibold)
+                            Group{
+                                if review.createdAt != review.modifiedAt{
+                                    Text("수정됨").bold()
+                                    Text( review.modifiedAt.relativeTime())
+                                }else{
+                                    Text( review.createdAt.relativeTime())
+                                }
                             }
-                        }.foregroundColor(.gray)
+                            .foregroundColor(.gray)
                             .font(.caption)
+                            .font(.subheadline)
+                        }
                     }
-                    .font(.subheadline)
-                    Text(vm.review?.title ?? "").bold()
                     
+                    Text(vm.review?.title ?? "")
+                        .font(.GmarketSansTTFMedium(20))
+                        .fontWeight(.semibold)
+                        .padding(.top,5)
                 }
                 Spacer()
                 ScoreView(score: review.score,color:.black,font:.subheadline,widthHeight:70)
-                    .padding(.bottom)
             }
         }
-        .padding(.horizontal)
+        .padding(10)
     }
     func contentAndLikeView(review:ReadReviewResponse) -> some View{
         VStack(alignment: .leading){
             Text(review.content)
-                .font(.subheadline).padding(.horizontal)
-                .padding(.vertical)
+                .font(.subheadline)
+                .padding(.bottom)
+            if goWork{
+                NavigationLink {
+                    WorkView(contentsId:review.contentsID)
+                        .navigationBarBackButtonHidden()
+                        .environmentObject(vmAuth)
+                } label: {
+                    HStack{
+                        KFImageView(image: review.contentsPosterPath.getImadImage(),width: 30,height:40)
+                        Text(review.contentsTitle)
+                            .font(.GmarketSansTTFMedium(15))
+                            .bold()
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .padding(.trailing)
+                    }
+                    .background(Color.white)
+                    .cornerRadius(5)
+                    .shadow(radius: 1)
+                    
+                }
+            }
             likeStatusView(review: review)
         }
+        .padding(.horizontal,10)
     }
     func likeStatusView(review:ReadReviewResponse) -> some View{
-        VStack{
-            HStack{
-                Text("\(vm.review?.likeCnt ?? 0)")
-                Button {
-                    vm.like(review: review)
-                } label: {
-                    Circle()
-                        .foregroundColor(vm.review?.likeStatus == 1 ? .red.opacity(0.7): .red.opacity(0.3))
-                        .frame(width: 50)
-                        .overlay {
-                            Image(systemName:"heart.fill")
-                                .foregroundColor(.white)
-                        }
+        HStack{
+            Button {
+                vm.like(review: review)
+            } label: {
+                HStack{
+                    Image(systemName:"arrowshape.up.fill")
+                        .foregroundColor(.white)
+                    Text("추천")
+                        .font(.GmarketSansTTFMedium(15))
+                    Text("\(vm.review?.likeCnt ?? 0)")
                 }
-                Spacer().frame(width: 20)
-                Button {
-                    vm.disLike(review: review)
-                } label: {
-                    Circle()
-                        .foregroundColor(vm.review?.likeStatus == -1 ? .blue.opacity(0.7): .blue.opacity(0.3))
-                        .frame(width: 50)
-                        .overlay {
-                            Image(systemName:"hand.thumbsdown.fill")
-                                .foregroundColor(.white)
-                        }
+                .foregroundColor(.white)
+                .frame(height:35)
+                .frame(maxWidth: .infinity)
+                .background{
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundColor(.customIndigo.opacity(vm.review?.likeStatus == 1 ? 1 : 0.5))
                 }
-                Text("\(vm.review?.dislikeCnt ?? 0)")
             }
-            .font(.title3)
-            .frame(maxWidth: .infinity)
+            Spacer()
+            Button {
+                vm.disLike(review: review)
+            } label: {
+                HStack{
+                    Image(systemName:"arrowshape.down.fill")
+                        .foregroundColor(.white)
+                    Text("비추천")
+                        .font(.GmarketSansTTFMedium(15))
+                    Text("\(vm.review?.dislikeCnt ?? 0)")
+                }
+                .foregroundColor(.white)
+                .frame(height:35)
+                .frame(maxWidth: .infinity)
+                .background{
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundColor(.customIndigo.opacity(vm.review?.likeStatus == -1 ? 1 : 0.5))
+                }
+            }
         }
+        .padding(.vertical)
     }
 }

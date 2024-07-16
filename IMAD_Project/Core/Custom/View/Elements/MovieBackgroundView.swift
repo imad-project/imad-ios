@@ -11,15 +11,13 @@ import Kingfisher
 struct MovieBackgroundView: View {
     let url:String
     let height:CGFloat
-    let isBottomTransparency:Bool
     var body: some View {
         ZStack{
             GeometryReader { pro in
                 KFImage(URL(string: "https://image.tmdb.org/t/p" + "/original" + (url))!)
                     .resizable()
                     .overlay{
-                        LinearGradient(colors: isBottomTransparency ?  [Color.black.opacity(0.2),Color.black.opacity(0.2),Color.black.opacity(0.2),.white] : [Color.black.opacity(0.2)], startPoint: .top, endPoint: .bottom) .background(Material.ultraThin)
-                            .environment(\.colorScheme, .dark)
+                        LinearGradient(colors: [Color.black.opacity(0.5),Color.black.opacity(0.7)], startPoint: .top, endPoint: .bottom)
                     }
                     .offset(x: pro.frame(in: .global).minY > 0 ? -pro.frame(in: .global).minY : 0,
                             y: pro.frame(in: .global).minY > 0 ? -pro.frame(in: .global).minY : 0)
@@ -40,6 +38,6 @@ struct MovieBackgroundView: View {
 
 struct MovieBackgroundView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieBackgroundView(url: CustomData.instance.movieList.first!,height: 2.5, isBottomTransparency: false)
+        MovieBackgroundView(url: "/lLQZbBom0IsdQLhe1n9J9SpMzSR.jpg",height: 2.5)
     }
 }

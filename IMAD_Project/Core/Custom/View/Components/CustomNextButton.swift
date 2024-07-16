@@ -19,7 +19,7 @@ struct CustomNextButton: View {
                 .foregroundColor(color)
                 .overlay {
                     Text("다음")
-                        .bold()
+                        .font(.GmarketSansTTFMedium(17))
                         .foregroundColor(.white)
                         .shadow(radius: 20)
                 }

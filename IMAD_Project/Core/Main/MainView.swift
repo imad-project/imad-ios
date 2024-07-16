@@ -11,6 +11,7 @@ import Kingfisher
 
 struct MainView: View {
     
+    let divWidth = UIScreen.main.bounds.width
     let gradient = [LinearGradient(colors: [.green.opacity(0.6),.cyan.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.pink.opacity(0.6),.yellow.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.gray.opacity(0.4),.gray.opacity(0.9)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.purple.opacity(0.7),.red.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing),LinearGradient(colors: [.brown.opacity(0.5),.orange.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing)].shuffled()
     let rankingItems = [ GridItem(.fixed(75)), GridItem(.fixed(75)), GridItem(.fixed(75))]
     let workItems = [ GridItem(.fixed(220)), GridItem(.fixed(220))]
@@ -27,24 +28,35 @@ struct MainView: View {
     var body: some View {
         ZStack{
             Color.white
-            ScrollView(showsIndicators: false){
-                VStack(alignment:.leading,spacing:5){
-                    if let user = vmAuth.user?.data{
-                        titleView(user: user)
-                        trendView
-                        todayView
-                        filter
-                        rankingView
-                        userActivityView(user: user)
-                        recommendView("이런 장르 영화 어때요?", .genreMovie)
-                        recommendView("\(user.nickname ?? "")님을 위한 시리즈",.genreTv)
-                        recommendView("아이매드 엄선 영화", .imadMovie)
-                        recommendView("전 세계 사람들이 선택한 시리즈", .imadTv)
+            if vmRecommend.recommendAll == nil{
+                CustomProgressView()
+            }else{
+                ScrollView(showsIndicators: false){
+                    VStack(alignment:.leading,spacing:5){
+                        if let user = vmAuth.user?.data{
+                            titleView(user: user)
+                            trendView
+                            if let review = vm.popularReview,let posting = vm.popularPosting{
+                                todayView(review: review, community: posting)
+                            }
+                            if !vm.rankingList.isEmpty{
+                                filter
+                                rankingView
+                            }
+                            userActivityView(user: user)
+                            recommendView("이런 장르 영화 어때요?", .genreMovie)
+                            recommendView("\(user.nickname ?? "")님을 위한 시리즈",.genreTv)
+                            recommendView("아이매드 엄선 영화", .imadMovie)
+                            recommendView("전 세계 사람들이 선택한 시리즈", .imadTv)
+                        }
                     }
                 }
             }
         }
         .ignoresSafeArea(edges:.bottom)
+        .onReceive(vmRecommend.refreschTokenExpired){
+            vmAuth.logout(tokenExpired: true)
+        }
         .onAppear {
             vmRecommend.fetchAllRecommend()
             vm.getAllRanking(page: 1, type: ranking.rawValue)
@@ -98,7 +110,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationTv?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationTv?.results {
-                for i in 0..<5{
+                for i in 0..<(results.count > 5 ? 5:results.count) {
                     list.append( TVWorkGenre(tvGenre:results[i]))
                 }
             }
@@ -107,7 +119,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.results {
-                for i in 0..<5{
+                for i in 0..<(results.count > 5 ? 5:results.count){
                     list.append( TVWorkGenre(tvGenre:results[i]))
                 }
             }
@@ -116,7 +128,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationMovie?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationMovie?.results {
-                for i in 0..<5{
+                for i in 0..<(results.count > 5 ? 5:results.count){
                     list.append( MovieWorkGenre(movieGenre:results[i]))
                 }
             }
@@ -125,7 +137,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.results {
-                for i in 0..<5{
+                for i in 0..<(results.count > 5 ? 5:results.count){
                     list.append( MovieWorkGenre(movieGenre:results[i]))
                 }
             }
@@ -150,11 +162,11 @@ extension MainView{
         HStack{
             Text(text)
                 .fontWeight(.black)
-                .font(.title3)
+                .font(.custom("GmarketSansTTFMedium", size: 17))
                 .foregroundColor(.customIndigo)
             Spacer()
-            
         }
+        .padding(.bottom,5)
     }
     func workListView(_ filter:RecommendListType,width:CGFloat,height:CGFloat) -> some View{
         ScrollView(.horizontal,showsIndicators: false) {
@@ -170,12 +182,12 @@ extension MainView{
                                 KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: width,height: height)
                                     .cornerRadius(5)
                                 Text((list(filter).1 == .tv ? work.name() : work.title()) ?? "")
-                                    .font(.subheadline)
+                                    .font(.GmarketSansTTFMedium(12))
                                     .lineLimit(1)
                                     .frame(width: width)
                                     .foregroundColor(.black)
                                 Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" : work.genreId()?.transMovieGenreCode() ?? "")
-                                    .font(.caption)
+                                    .font(.GmarketSansTTFMedium(9))
                                     .lineLimit(1)
                                     .frame(width: width)
                                     .foregroundColor(.gray)
@@ -184,17 +196,16 @@ extension MainView{
                     }
                 }
             }
-            .padding(.horizontal)
+            .padding(.horizontal,10)
         }
     }
     func titleView(user:UserResponse) -> some View{
-        HStack(spacing: 0){
-            Text((user.nickname ?? "") + "님 환영합니다")
-        }
-        .font(.title)
-        .fontWeight(.black)
-        .padding(.horizontal)
-        .padding(.bottom)
+        Text((user.nickname ?? "") + "님 환영합니다")
+            .font(.custom("GmarketSansTTFMedium", size: 25))
+            .fontWeight(.black)
+            .padding(.horizontal,10)
+            .padding(.bottom)
+            .padding(.top,10)
     }
     var trendView:some View{
         VStack(alignment: .leading){
@@ -202,7 +213,7 @@ extension MainView{
             HStack{
                 Text("인기작품")
                     .fontWeight(.black)
-                    .font(.title3)
+                    .font(.custom("GmarketSansTTFMedium", size: 20))
                     .foregroundColor(.customIndigo)
                 Button {
                     withAnimation(.default){
@@ -210,7 +221,7 @@ extension MainView{
                     }
                 } label: {
                     Text("영화")
-                        .bold()
+                        .font(.custom("GmarketSansTTFMedium", size: 15))
                         .opacity(trend ? 0.5 : 1.0)
                 }
                 Text(" l ").foregroundColor(.gray)
@@ -221,13 +232,13 @@ extension MainView{
                     
                 } label: {
                     Text("시리즈")
+                        .font(.custom("GmarketSansTTFMedium", size: 15))
                         .opacity(trend ? 1.0 : 0.5)
-                        .bold()
                 }
                 Spacer()
                 allView(RecommendAllView(type: trend ? .trendTv : .trendMovie))
             }
-            .padding(.horizontal)
+            .padding(.horizontal,10)
             .foregroundColor(.customIndigo)
             ScrollView(.horizontal,showsIndicators: false) {
                 HStack{
@@ -247,10 +258,11 @@ extension MainView{
                                                 .cornerRadius(5)
                                             Text(trend ? work.name() ?? "" : work.title() ?? "")
                                                 .bold()
+                                                .font(.GmarketSansTTFMedium(15))
                                                 .lineLimit(1)
                                                 .frame(width: 175)
                                             Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" : work.genreId()?.transMovieGenreCode() ?? "")
-                                                .font(.subheadline)
+                                                .font(.GmarketSansTTFMedium(12))
                                                 .lineLimit(1)
                                                 .frame(width: 175)
                                         }
@@ -261,7 +273,7 @@ extension MainView{
                                 .cornerRadius(8)
                         }
                     }
-                }.padding(.horizontal)
+                }.padding(.horizontal,10)
             }
         }
     }
@@ -269,42 +281,36 @@ extension MainView{
         
         ScrollView(.horizontal,showsIndicators: false){
             LazyHGrid(rows: rankingItems){
-                if vm.rankingList.isEmpty{
-                    ForEach(1...9,id: \.self){ _ in
-                        NoImageView()
-                            .frame(width: 300,height: 75)
-                    }
-                    .padding(.leading)
-                }else{
                     ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
                         NavigationLink {
-                            WorkView(id: rank.contentsID,type: rank.contentsType)
+                            WorkView(contentsId:rank.contentsID)
                                 .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {
                             HStack(spacing:0){
                                 KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
+                                    .shadow(radius: 1)
                                 VStack(alignment: .leading){
                                     HStack{
                                         Text("\(rank.ranking)")
-                                            .font(.body)
+                                            .font(.GmarketSansTTFMedium(15))
                                             .bold()
                                         Text(rank.title)
                                             .frame(width: 100,alignment: .leading)
                                             .lineLimit(1)
-                                            .font(.subheadline)
+                                            .font(.GmarketSansTTFMedium(12))
                                     }
                                     .foregroundColor(.black)
                                     .padding(.bottom,3)
                                     HStack{
                                         rankUpdateView(rank: rank.rankingChanged)
-                                        Text(TypeFilter(rawValue: rank.contentsType)?.name ?? "")
+                                        Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
                                             .font(.caption)
                                             .foregroundStyle(.gray)
                                     }
                                     
                                 }
-                                .padding(.horizontal)
+                                .padding(.horizontal,10)
                                 Spacer()
                                 ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
                                     .padding(.trailing)
@@ -313,10 +319,9 @@ extension MainView{
                         .frame(width: 300,height: 75)
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(5)
-                        .padding(.leading)
+                        .padding(.horizontal,10)
                         
                     }
-                }
             }
         }
     }
@@ -327,7 +332,7 @@ extension MainView{
                 .environmentObject(vmAuth)
         } label: {
             Text("전체보기")
-                .font(.subheadline)
+                .font(.custom("GmarketSansTTFMedium", size: 12))
                 .fontWeight(.regular)
             .foregroundColor(.customIndigo)
         }
@@ -342,6 +347,7 @@ extension MainView{
                     ForEach(RankingFilter.allCases,id:\.self){ ranking in
                         Button {
                             self.ranking = ranking
+                            vm.rankingList.removeAll()
                             switch self.ranking{
                             case .all:
                                 vm.getAllRanking(page: 1, type: "all")
@@ -364,17 +370,18 @@ extension MainView{
                             .padding(.vertical,5)
                             .overlay {
                                 Text(ranking.name)
+                                    .font(.custom("GmarketSansTTFMedium", size: 11))
                                     .foregroundColor(self.ranking == ranking ? .white : .customIndigo)
                             }
                         }
                     }
                 }
                 Spacer()
-                allView(Text(""))
+                allView(AllRankingView(filter: ranking))
             }
         }
         .font(.caption)
-        .padding(.horizontal)
+        .padding(.horizontal,10)
     }
     
     func rankUpdateView(rank:Int?) -> some View{
@@ -383,6 +390,7 @@ extension MainView{
                 Group{
                     Image(systemName:rank > 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
                     Text(rank > 0 ? "\(rank)":"\(abs(rank))")
+                       
                 }
                 .font(.caption2)
                 .foregroundStyle(rank > 0 ? .green : .red)
@@ -391,11 +399,11 @@ extension MainView{
             }
         }
     }
-    var todayView:some View{
+    func todayView(review:PopularReviewResponse,community:PopularPostingResponse) ->some View{
         ScrollView(.horizontal,showsIndicators: false) {
-            HStack{
+            HStack(spacing:0){
                 NavigationLink {
-                    ReviewDetailsView(goWork: false, reviewId: vm.popularReview?.reviewID ?? 0)
+                    ReviewDetailsView(goWork: true, reviewId: review.reviewID)
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
@@ -403,7 +411,7 @@ extension MainView{
                         .shadow(radius: 1)
                 }
                 NavigationLink {
-                    CommunityPostView(postingId:vm.popularPosting?.postingID ?? 0,main: true,back: .constant(false))
+                    CommunityPostView(postingId:community.postingID,main: true,back: .constant(false))
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
@@ -411,7 +419,8 @@ extension MainView{
                         .shadow(radius: 1)
                 }
             }
-            .padding(.horizontal)
+            .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? divWidth-20 : divWidth*2-30)
+            .padding(.trailing,10)
         }
         .padding(.vertical)
     }
@@ -432,9 +441,8 @@ extension MainView{
                                             Text("\(user.nickname ?? "")님을 위한")
                                             Text("\(work.2.name)")
                                         }
+                                        .font(.custom("GmarketSansTTFMedium", size: 15))
                                         .foregroundColor(.white)
-                                        .bold()
-                                        .font(.title3)
                                         Spacer()
                                         NavigationLink {
                                             RecommendAllView(contentsId:work.3,type: work.2)
@@ -442,7 +450,7 @@ extension MainView{
                                                 .environmentObject(vmAuth)
                                         } label: {
                                             Text("전체보기")
-                                                .font(.caption)
+                                                .font(.custom("GmarketSansTTFMedium", size: 12))
                                                 .fontWeight(.regular)
                                             .foregroundColor(.white)
                                         }
@@ -466,12 +474,12 @@ extension MainView{
                                                         .frame(width: 100,alignment:.leading)
                                                         .lineLimit(1)
                                                         .bold()
-                                                        .font(.subheadline)
+                                                        .font(.GmarketSansTTFMedium(12))
                                                         .foregroundColor(.white)
                                                     
                                                     Text(element.genreType == .tv ? element.genreId()?.transTvGenreCode() ?? "" : element.genreId()?.transMovieGenreCode() ?? "")
                                                         .lineLimit(1)
-                                                        .font(.caption)
+                                                        .font(.GmarketSansTTFMedium(9))
                                                         .foregroundColor(.white)
                                                         .frame(width: 100,alignment:.leading)
                                                 }
@@ -489,7 +497,7 @@ extension MainView{
                                 }
                             }
                         }
-                    }.padding(.horizontal)
+                    }.padding(.horizontal,10)
                 }
             }.padding(.vertical)
         }
@@ -500,7 +508,7 @@ extension MainView{
                 textTitleView(title)
                 allView(RecommendAllView(type: filter))
             }
-            .padding(.horizontal)
+            .padding(.horizontal,10)
             ScrollView(.horizontal,showsIndicators: false) {
                 HStack{
                     workListView(filter, width: 130, height: 180)

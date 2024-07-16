@@ -12,7 +12,7 @@ struct CommentResponse: Codable,Hashable {
     let commentID, userID: Int
     let postingId:Int
     let userNickname: String
-    let userProfileImage: Int
+    let userProfileImage: String
     let parentID: Int?
     var content: String?
     let childCnt:Int

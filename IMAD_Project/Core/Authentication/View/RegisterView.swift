@@ -33,24 +33,23 @@ struct RegisterView: View {
         ZStack(alignment: .bottomTrailing){
             Color.white.ignoresSafeArea()
             WaveImage(color: .customIndigo, height: .low, speed: .slow, amplitude: .low)
-            VStack(alignment: .leading){
+            VStack(alignment: .leading,spacing: 0){
                 Text("회원가입하기")
-                    .font(.title3)
+                    .font(.GmarketSansTTFMedium(25))
                     .bold()
                     .foregroundColor(.customIndigo)
-                    .padding(.vertical,20)
+                    .padding(.vertical,30)
+                    .padding(.bottom,50)
                     .frame(maxWidth: .infinity)
                 Group{
                    emailView
                    duplicationView
                     passwordView
-                }.padding(.horizontal)
-                    .padding(.vertical,5)
+                }
                 registerButtonView
                 Spacer()
             }
             .foregroundColor(.customIndigo)
-            .padding()
             Image("watch")
                 .resizable()
                 .frame(width: 150,height: 100)
@@ -89,32 +88,33 @@ struct RegisterView_Previews: PreviewProvider {
 extension RegisterView{
     var emailView:some View{
         VStack(alignment: .leading) {
-            Text("이메일").bold()
-            HStack(alignment: .top){
+            Text("이메일").font(.GmarketSansTTFMedium(15))
+            HStack{
                 VStack{
                     CustomTextField(password: false, image: "envelope.fill", placeholder: "입력", color: Color.gray, text: $email)
                         .keyboardType(.emailAddress)
-                        .padding(.vertical,5)
-                        Divider()
+                        .padding(.vertical,3)
+                    Divider()
                         .frame(height: 1)
                         .background(Color.customIndigo)
                 }
-                Text("@").padding(.leading).foregroundColor(.gray)
+                Text("@")
+                    .padding(.leading)
+                    .font(.GmarketSansTTFMedium(15))
                 Picker("", selection: $domain) {
                     ForEach(EmailFilter.allCases,id:\.self){ item in
                         Text(item.domain)
                     }
-                }.accentColor(.black)
-                    .frame(maxWidth: .infinity)
+                }
+                .accentColor(.black)
             }
-        }
+        }.padding(.leading,15)
     }
     var duplicationView:some View{
-        HStack(alignment: .top){
+        HStack{
             Text(vmCheck.message)
                 .foregroundColor(vmCheck.possible ? .green:.red)
-                .font(.caption)
-                .padding(.horizontal,5)
+                .font(.GmarketSansTTFMedium(12))
             Spacer()
             Button {
                 if email != ""{
@@ -126,31 +126,33 @@ extension RegisterView{
             } label: {
                 Text("중복확인")
                     .cornerRadius(20)
-                    .font(.caption)
+                    .font(.GmarketSansTTFMedium(12))
                     .padding(10)
                     .foregroundColor(.white)
                     .background(Color.customIndigo)
                     .cornerRadius(10)
             }
-            
-        }.padding(.horizontal,5)
+        }
+        .padding(.horizontal,15)
     }
     var passwordView:some View{
         VStack(alignment: .leading,spacing: 20) {
-            Text("비밀번호").bold()
+            Text("비밀번호")
+                .font(.GmarketSansTTFMedium(15))
                 .padding(.top,5)
             CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.gray, text: $password)
                .foregroundColor(.customIndigo)
             Divider()
             .frame(height: 1)
             .background(Color.customIndigo)
-            Text("비밀번호 확인").bold()
+            Text("비밀번호 확인").font(.GmarketSansTTFMedium(15))
             CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.gray, text: $passwordConfirm) .foregroundColor(.customIndigo)
             Divider()
             .frame(height: 1)
             .background(Color.customIndigo)
             .padding(.bottom,40)
         }
+        .padding(.horizontal,15)
     }
     var registerButtonView:some View{
         Button{
@@ -162,14 +164,14 @@ extension RegisterView{
                 .frame(maxWidth: .infinity)
                 .overlay {
                     Text("회원가입")
-                        .bold()
+                        .font(.GmarketSansTTFMedium(18))
                         .foregroundColor(.white)
                         .shadow(radius: 20)
                         
             
-                }.padding(.horizontal,5)
+                }
         }
-        .frame(maxWidth: .infinity)
+        .padding(.horizontal,15)
     }
     func isVaildInfo()->Int{
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -188,7 +190,7 @@ extension RegisterView{
             return 4
         }else if vmCheck.message == ""{
             return 5
-        }else if temp != email{
+        }else if temp != "\(email)@\(domain.domain)"{
             return 6
         }
         else{
@@ -216,7 +218,7 @@ extension RegisterView{
             vm.message = "이메일이 변경되었습니다. 중복확인을 다시 해주세요!"
             return notRegex = true
         default:
-            return vm.register(email: "\(email)@\(domain.domain)", password: password, authProvider: "IMAD") //SHA256
+            return vm.register(email: "\(email)@\(domain.domain)", password: password.sha256(), authProvider: "IMAD") //SHA256
         }
     }
 }

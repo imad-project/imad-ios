@@ -6,53 +6,52 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum ProfileFilter:String, CaseIterable{
-    case happy
-    case ohmygod
-    case soso
-    case angry
-    case kidding
-    case hate
     case none
+    case indigo
+    case yellow
+    case green
+    case pink
+    case blue
+    case red
     
     var num:Int{
         switch self{
         case .none:
-            return -1
-        case .happy:
+            return 0
+        case .indigo:
             return 1
-        case .ohmygod:
+        case .yellow:
             return 2
-        case .soso:
+        case .green:
             return 3
-        case .angry:
+        case .pink:
             return 4
-        case .kidding:
+        case .blue:
             return 5
-        case .hate:
+        case .red:
             return 6
 
         }
     }
-    var name:String{
+    var color:Color{
         switch self{
         case .none:
-            return ""
-        case .happy:
-            return "캘리"
-        case .ohmygod:
-            return "수잔"
-        case .soso:
-            return "리사"
-        case .angry:
-            return "소피아"
-        case .kidding:
-            return "스티브"
-        case .hate:
-            return "프랭크"
-
+            return .clear
+        case .indigo:
+            return .customIndigo
+        case .yellow:
+            return .orange
+        case .green:
+            return .green
+        case .pink:
+            return .purple
+        case .blue:
+            return .mint
+        case .red:
+            return .red
         }
     }
-    
 }

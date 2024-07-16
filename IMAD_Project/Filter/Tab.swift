@@ -32,7 +32,7 @@ enum Tab:String,CaseIterable{
         case .community:
             return "커뮤니티"
         case .notification:
-            return "작품 검색"
+            return "작품 찾기"
         case .profile:
             return "내 프로필"
         }

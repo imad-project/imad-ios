@@ -19,8 +19,6 @@ class AuthViewModel:ObservableObject{
     @Published var message = ""
     @Published var user:UserInfo? = nil
     
-    
-    
     var success = PassthroughSubject<(),Never>()
     
     var registerSuccess = PassthroughSubject<Bool,Never>()
@@ -75,7 +73,7 @@ class AuthViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func patchUserInfo(){
-        UserApiService.patchUser(gender: patchUser.gender, birthYear: patchUser.age, image: patchUser.profileImageCode, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
+        UserApiService.patchUser(gender: patchUser.gender, birthYear: patchUser.age, nickname: patchUser.nickname, tvGenre: patchUser.tvGenre,movieGenre: patchUser.movieGenre)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -91,7 +89,10 @@ class AuthViewModel:ObservableObject{
     }
     func logout(tokenExpired:Bool){
         print("로그아웃 및 토큰 삭제")
+        message = ""
         user = nil
+        patchUser = PatchUserInfo(user: nil)
+        selection = .nickname
         UserDefaultManager.shared.clearAll()
     }
     func delete(authProvier:String){
@@ -145,4 +146,5 @@ class AuthViewModel:ObservableObject{
             print("error")
         }
     }
+    
 }

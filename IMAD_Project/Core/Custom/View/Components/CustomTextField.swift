@@ -15,6 +15,7 @@ struct CustomTextField: View {
     let placeholder:String
     let color:Color
     var textLimit:Int?
+    var font:Font?
     
     @Binding var text:String
     
@@ -28,13 +29,17 @@ struct CustomTextField: View {
                 SecureField("", text: $text)
                     .bold()
                     .background(alignment:.leading){
-                        Text(placeholder).foregroundColor(color.opacity(text != "" ? 0.0:0.8))
+                        Text(placeholder)
+                            .font(font)
+                            .foregroundColor(color.opacity(text != "" ? 0.0:0.8))
                     }
             }else{
                 TextField("", text: $text)
                     .bold()
                     .background(alignment:.leading){
-                        Text(placeholder).foregroundColor(color.opacity(text != "" ? 0.0:0.8))
+                        Text(placeholder)
+                            .font(font)
+                            .foregroundColor(color.opacity(text != "" ? 0.0:0.8))
                             .onReceive(Just(text)) { _ in
                                 if let textLimit{
                                     limitText(textLimit)

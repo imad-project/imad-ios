@@ -17,9 +17,9 @@ struct GenderSelectView: View {
             Color.white.ignoresSafeArea()
             VStack(alignment: .leading,spacing: 5){
                 guideView
-                HStack(spacing: 30){
-                    genderButtonView(gender: "MALE")
-                    genderButtonView(gender: "FEMALE")
+                VStack{
+                    genderSelectView(gender: "MALE")
+                    genderSelectView(gender: "FEMALE")
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical)
@@ -43,36 +43,38 @@ extension GenderSelectView{
     var guideView:some View{
         VStack(alignment: .leading,spacing: 5){
             Text("성별을 설정해주세요")
-                .font(.title3)
+                .font(.GmarketSansTTFMedium(20))
                 .bold()
                 .padding(.leading)
             Text("설정된 성별 언제든지 바꾸실수 있습니다. ")
-                .font(.callout)
+                .font(.GmarketSansTTFMedium(15))
                 .padding(.leading)
         }
     }
-    func genderButtonView(gender:String) -> some View{
-        VStack{
+    func genderSelectView(gender:String) -> some View{
+       
             Button {
                 vm.patchUser.gender = gender
             } label: {
-                Rectangle()
-                    .overlay {
-                        Image(gender)
-                            .resizable()
-                            .frame(width: 80,height: 100)
-                        if vm.patchUser.gender == gender{
-                            Color.black.opacity(0.5)
-                        }
-                    }
-                    .foregroundColor(.white)
-                    .cornerRadius(20)
-                    .frame(width: 150,height: 150)
-                    .padding(10)
-                    .shadow(radius: 20)
+                HStack{
+                    Image(gender)
+                        .resizable()
+                        .frame(width: 20,height: 25)
+                    Text(gender == "MALE" ? "남성" : "여성")
+                        .fontWeight(vm.patchUser.gender  == gender ? .bold:.none)
+                    Spacer()
+                }
+                .padding()
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(10)
             }
-            Text(gender == "MALE" ? "남성" : "여성")
-        }
+            .overlay {
+                if vm.patchUser.gender == gender{
+                    Color.black.opacity(0.5).cornerRadius(10)
+                }
+            }
+            .padding(.horizontal)
+            
     }
 }
 

@@ -14,7 +14,7 @@ struct ReadReviewResponse:Codable,Hashable{
     let contentsBackdropPath,contentsPosterPath: String
     let userID :Int?
     let userNickname: String
-    let userProfileImage: Int
+    let userProfileImage: String
     let title, content: String
     let score:Double
     var likeCnt, dislikeCnt: Int
