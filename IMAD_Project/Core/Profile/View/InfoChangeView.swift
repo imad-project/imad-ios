@@ -20,19 +20,21 @@ struct InfoChangeView: View {
     @State var age = 0
     @State var gender = ""
     
+    @State var checkText = ""
     @State var alertMsg = ""
     @State var notRegex = false
     @State var success = false
     @State var tokenExpired = (false,"")
     
     @Environment(\.dismiss) var dismiss
+    @StateObject var vm = CheckDataViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     var currentDate :Int{
         
         let date = Date()
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day], from: date)
-
+        
         return components.year!
     }
     var body: some View {
@@ -44,9 +46,9 @@ struct InfoChangeView: View {
                     if title == "성별"{
                         genderSelectView(gender: "MALE").padding(.top)
                         genderSelectView(gender: "FEMALE")
-                            
+                        
                     }else if title == "나이"{
-                       ageSelectView
+                        ageSelectView
                     }
                     else{
                         if password{
@@ -112,7 +114,7 @@ struct InfoChangeView: View {
 struct InfoChangeView_Previews: PreviewProvider {
     static var previews: some View {
         
-        InfoChangeView(title: "닉네임", password: true, text: "quarang")
+        InfoChangeView(title: "닉네임", password: false, text: "quarang")
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
@@ -139,29 +141,29 @@ extension InfoChangeView{
         .background(Color.white)
     }
     func genderSelectView(gender:String) -> some View{
-       
-            Button {
-                self.gender = gender
-            } label: {
-                HStack{
-                    Image(gender)
-                        .resizable()
-                        .frame(width: 20,height: 25)
-                    Text(gender == "MALE" ? "남성" : "여성")
-                        .fontWeight(self.gender  == gender ? .bold:.none)
-                    Spacer()
-                }
-                .padding()
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(10)
+        
+        Button {
+            self.gender = gender
+        } label: {
+            HStack{
+                Image(gender)
+                    .resizable()
+                    .frame(width: 20,height: 25)
+                Text(gender == "MALE" ? "남성" : "여성")
+                    .fontWeight(self.gender  == gender ? .bold:.none)
+                Spacer()
             }
-            .overlay {
-                if self.gender == gender{
-                    Color.black.opacity(0.5).cornerRadius(10)
-                }
+            .padding()
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(10)
+        }
+        .overlay {
+            if self.gender == gender{
+                Color.black.opacity(0.5).cornerRadius(10)
             }
-            .padding(.horizontal)
-            
+        }
+        .padding(.horizontal)
+        
     }
     var ageSelectView:some View{
         HStack{
@@ -184,29 +186,59 @@ extension InfoChangeView{
         .padding(.vertical)
     }
     func textFieldView(placeHolder:String,text:Binding<String>)->some View{
-        VStack{
-            CustomTextField(password: password, image: nil, placeholder: title + placeHolder, color: .black.opacity(0.5), text: text)
-                .padding(.top,10)
-            Divider()
-                .background(Color.black)
-                .padding(.vertical,5)
-        }.padding(.horizontal)
+        VStack(alignment: .leading){
+            HStack{
+                VStack{
+                    CustomTextField(password: password, image: nil, placeholder: title + placeHolder, color: .black.opacity(0.5), text: text)
+                        .padding(.top,10)
+                    Divider()
+                        .background(Color.black)
+                        .padding(.vertical,5)
+                }
+                Button {
+                    let pattern = "^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]+$"
+                    let condition = text.wrappedValue.range(of: pattern, options: .regularExpression) != nil
+                    
+                    if text.wrappedValue.isEmpty || text.wrappedValue.count < 2 || text.wrappedValue.contains(" ") || !condition || text.wrappedValue.count > 10
+                    {
+                        vm.showMessage(message: "닉네임은 2~10 글자 사이여야 하며, 특수문자와 공백을 포함할 수 없습니다.", possible: false)
+                    }else{
+                        vm.checkNickname(nickname: text.wrappedValue)
+                        checkText = text.wrappedValue
+                    }
+                } label: {
+                    Text("중복확인")
+                        .font(.GmarketSansTTFMedium(12))
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .background{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.customIndigo)
+                        }
+                }
+            }
+            Text(vm.message)
+                .font(.GmarketSansTTFMedium(12))
+                .foregroundColor(vm.possible ? .green : .red)
+        }
+       .padding(.horizontal)
     }
     var passwordChageView:some View{
-        VStack(alignment: .leading){
-            Text("기존 비밀번호")
-                .font(.GmarketSansTTFMedium(15))
-                .padding(.vertical,10)
-            CustomTextField(password: password, image: nil, placeholder: title, color: .black.opacity(0.5), text: $old)
-                .padding(.horizontal,5)
-            Divider()
-                .background(Color.black)
-                .padding(.bottom,50)
-                .padding(.horizontal,5)
-            Text("변경 비밀번호")
-                .font(.GmarketSansTTFMedium(15))
-                .padding(.bottom,10)
-        }.padding(.horizontal,10)
+            VStack(alignment: .leading){
+                Text("기존 비밀번호")
+                    .font(.GmarketSansTTFMedium(15))
+                    .padding(.vertical,10)
+                CustomTextField(password: password, image: nil, placeholder: title, color: .black.opacity(0.5), text: $old)
+                    .padding(.horizontal,5)
+                
+                Divider()
+                    .background(Color.black)
+                    .padding(.bottom,50)
+                    .padding(.horizontal,5)
+                Text("변경 비밀번호")
+                    .font(.GmarketSansTTFMedium(15))
+                    .padding(.bottom,10)
+            }.padding(.horizontal,10)
     }
     func chanagePassword(){
         switch isVaildInfo(){
@@ -223,7 +255,11 @@ extension InfoChangeView{
     func chageUserinfo(){
         switch title{
         case "닉네임":
-            vmAuth.patchUser.nickname = text
+            if checkText == text{
+                vmAuth.patchUser.nickname = text
+            }else{
+                vm.showMessage(message: "닉네임이 변경 되었습니다. 중복확인을 다시 시도해 주세요.", possible: false)
+            }
         case "성별":
             vmAuth.patchUser.gender = gender
         case "나이":

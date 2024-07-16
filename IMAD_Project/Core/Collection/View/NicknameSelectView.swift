@@ -73,10 +73,10 @@ extension NicknameSelectView{
                     .background(Color.gray.opacity(0.5))
                     .cornerRadius(20)
                 Button {
-                    let pattern = "^[a-zA-Z0-9]+$"
+                    let pattern = "^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]+$"
                     let condition = vm.patchUser.nickname.range(of: pattern, options: .regularExpression) != nil
                     
-                    if vm.patchUser.nickname != "" || vm.patchUser.nickname.count > 1 || !vm.patchUser.nickname.contains(" ")||condition
+                    if vm.patchUser.nickname != "" && vm.patchUser.nickname.count > 1 && !vm.patchUser.nickname.contains(" ") && condition
                     {
                         vmCheck.checkNickname(nickname: vm.patchUser.nickname)
                     }else{
