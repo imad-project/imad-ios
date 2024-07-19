@@ -18,6 +18,11 @@ struct CommunityPostView: View {
     @State var commentSheet = true
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
+    @StateObject var vmReport = ReportViewModel()
+    @State var reportSuccess = false
+    @State var message = ""
+    @State var report = false
+    @State var goReport = false
     
     var main:Bool?
     @Binding var back:Bool
@@ -55,6 +60,25 @@ struct CommunityPostView: View {
                         }
                         .frame(height:endOffset == 0 ?  UIScreen.main.bounds.height/2 - 140:nil)
                         .background(Color.gray.opacity(0.1))
+                        .fullScreenCover(isPresented: $goReport){
+                            ReportView(id: postingId,mode:"posting")
+                                .environmentObject(vmReport)
+                        }
+                        .alert(isPresented: $reportSuccess){
+                            Alert(title: Text(message),message:message != "신고 접수가 실패했습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {
+                                if let main {
+                                    if main{
+                                        dismiss()
+                                    }
+                                }else{
+                                    self.back = false
+                                }
+                            }))
+                        }
+                        .onReceive(vmReport.success){ message in
+                            reportSuccess = true
+                            self.message = message
+                        }
                         if endOffset == 0{
                             Spacer()
                         }
@@ -96,6 +120,7 @@ struct CommunityPostView: View {
         .onReceive(vmComment.commentLoadSuccess){ commentList in
             vm.community?.commentListResponse?.commentDetailsResponseList = commentList
         }
+        
     }
 }
 
@@ -135,13 +160,25 @@ extension CommunityPostView{
                     Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
                 }
                 .padding(.horizontal,10)
-                if community.author{
+               
                     Button {
-                        menu.toggle()
+                        if community.author{
+                            menu.toggle()
+                        }else{
+                            report.toggle()
+                        }
                     } label: {
                         Image(systemName: "ellipsis")
                             .bold()
                     }
+                    .confirmationDialog("",
+                        isPresented: $report,
+                        actions: {
+                            Button("신고하기") {
+                                goReport = true
+                            }
+                        }
+                    )
                     .confirmationDialog("", isPresented: $menu,actions: {
                         Button(role:.none){
                             modify = true
@@ -163,7 +200,6 @@ extension CommunityPostView{
                     },message: {
                         Text("게시물을 수정하거나 삭제하시겠습니까?")
                     })
-                }
             }
         }.padding(10)
     }

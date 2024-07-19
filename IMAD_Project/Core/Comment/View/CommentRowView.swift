@@ -13,7 +13,10 @@ struct CommentRowView: View {
     let filter:CommentFilter
     let postingId:Int
     @State var deleted:Bool
-    
+    @State var reportSuccess = false
+    @State var message = ""
+    @State var goReport = false
+    @StateObject var vmReport = ReportViewModel()
     @State var comment:CommentResponse
     @State var statingOffsetY:CGFloat = 0
     @State var currentDragOffstY:CGFloat = 0
@@ -65,6 +68,20 @@ struct CommentRowView: View {
                 replysView
                     .padding(.top)
             }
+        }
+        .fullScreenCover(isPresented: $goReport){
+            ReportView(id: comment.commentID,mode:"comment")
+                .environmentObject(vmReport)
+        }
+        .alert(isPresented: $reportSuccess){
+            Alert(title: Text(message),message:message != "신고 접수가 실패했습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인")))
+        }
+        .onReceive(vmReport.success){ message in
+            reportSuccess = true
+            self.message = message
+            statingOffsetY = 0
+            currentDragOffstY = 0
+            
         }
     }
     
@@ -129,7 +146,7 @@ extension CommentRowView{
                 }
             }else {
                 infoChangeView(image: "exclamationmark.square", text: "신고", color: .yellow, x: 90) {
-                    //추후 추가
+                    goReport = true
                 }
             }
         }

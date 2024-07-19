@@ -12,10 +12,15 @@ struct ReviewDetailsView: View {
     
     let goWork:Bool //작품상세정보
     let reviewId:Int
+    @State var reportSuccess = false
+    @State var message = ""
+    @State var report = false
+    @State var goReport = false
     @State var menu = false
     @State var delete = false
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
+    @StateObject var vmReport = ReportViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -42,17 +47,7 @@ struct ReviewDetailsView: View {
         .onTapGesture {
             menu = false
         }
-        .confirmationDialog("", isPresented: $delete){
-            Button(role:.destructive){
-                vm.deleteReview(id: reviewId)
-                dismiss()
-            } label: {
-                Text("삭제")
-            }
-            Button("취소", role: .cancel) {}
-        } message: {
-            Text("리뷰를 삭제하시겠습니까?")
-        }
+       
         .background(Color.white)
         .foregroundColor(.black)
         .onAppear{
@@ -60,6 +55,17 @@ struct ReviewDetailsView: View {
         }
         .onDisappear{
             menu = false
+        }
+        .fullScreenCover(isPresented: $goReport){
+            ReportView(id: reviewId,mode:"review")
+                .environmentObject(vmReport)
+        }
+        .alert(isPresented: $reportSuccess){
+            Alert(title: Text(message),message:message != "신고 접수가 실패했습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {dismiss()}))
+        }
+        .onReceive(vmReport.success){ message in
+            reportSuccess = true
+            self.message = message
         }
     }
 }
@@ -88,32 +94,52 @@ extension ReviewDetailsView{
                     .font(.GmarketSansTTFMedium(25))
                 Spacer()
                 
-                if review.author{
-                    ZStack{
-                        Button {
-                            withAnimation {
-                                menu.toggle()
-                            }
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .font(.title3)
+                
+                ZStack{
+                    Button {
+                        if review.author{
+                            menu.toggle()
+                        }else{
+                            report.toggle()
                         }
-                        .confirmationDialog("", isPresented: $menu,actions: {
-                            NavigationLink {
-                                WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
-                                    .navigationBarBackButtonHidden()
-                                    .environmentObject(vmAuth)
-                            } label: {
-                                Text("수정하기")
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .font(.title3)
+                    }
+                    .confirmationDialog("",
+                        isPresented: $report,
+                        actions: {
+                            Button("신고하기") {
+                                goReport = true
                             }
-                            Button(role:.destructive){
-                                delete = true
-                            } label: {
-                                Text("삭제하기")
-                            }
-                        },message: {
-                            Text("리뷰 수정하거나 삭제하시겠습니까?")
-                        })
+                        }
+                    )
+                    .confirmationDialog("", isPresented: $menu,actions: {
+                        NavigationLink {
+                            WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
+                                .navigationBarBackButtonHidden()
+                                .environmentObject(vmAuth)
+                        } label: {
+                            Text("수정하기")
+                        }
+                        Button(role:.destructive){
+                            delete = true
+                        } label: {
+                            Text("삭제하기")
+                        }
+                    },message: {
+                        Text("리뷰 수정하거나 삭제하시겠습니까?")
+                    })
+                    .confirmationDialog("", isPresented: $delete){
+                        Button(role:.destructive){
+                            vm.deleteReview(id: reviewId)
+                            dismiss()
+                        } label: {
+                            Text("삭제")
+                        }
+                        Button("취소", role: .cancel) {}
+                    } message: {
+                        Text("리뷰를 삭제하시겠습니까?")
                     }
                 }
             }
