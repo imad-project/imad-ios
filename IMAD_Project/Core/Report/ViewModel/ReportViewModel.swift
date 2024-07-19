@@ -10,7 +10,7 @@ import Combine
 
 class ReportViewModel:ObservableObject{
     
-    var success = PassthroughSubject<String,Never>()
+    var success = PassthroughSubject<(String,Bool),Never>()
     var cancelable = Set<AnyCancellable>()
     
     func reportUser(id:Int,type:String,description:String){
@@ -18,51 +18,55 @@ class ReportViewModel:ObservableObject{
             .sink { completion in
                 switch completion{
                 case .failure(let error):
+                    self.success.send(("신고 접수가 실패했습니다.",false))
                     print(error.localizedDescription)
                 case .finished:
                     print(completion)
                 }
             } receiveValue: { data in
-                self.success.send(data.message)
+                self.success.send((data.message,true))
             }.store(in: &cancelable)
     }
     func reportReview(id:Int,type:String,description:String){
-        ReportApiService.user(id: id, type: type, description: description)
+        ReportApiService.review(id: id, type: type, description: description)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
+                    self.success.send(("신고 접수가 실패했습니다.",false))
                     print(error.localizedDescription)
                 case .finished:
                     print(completion)
                 }
             } receiveValue: { data in
-                self.success.send(data.message)
+                self.success.send((data.message,true))
             }.store(in: &cancelable)
     }
     func reportPosting(id:Int,type:String,description:String){
-        ReportApiService.user(id: id, type: type, description: description)
+        ReportApiService.posting(id: id, type: type, description: description)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
+                    self.success.send(("신고 접수가 실패했습니다.",false))
                     print(error.localizedDescription)
                 case .finished:
                     print(completion)
                 }
             } receiveValue: { data in
-                self.success.send(data.message)
+                self.success.send((data.message,true))
             }.store(in: &cancelable)
     }
     func reportComment(id:Int,type:String,description:String){
-        ReportApiService.user(id: id, type: type, description: description)
+        ReportApiService.comment(id: id, type: type, description: description)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
+                    self.success.send(("신고 접수가 실패했습니다.",false))
                     print(error.localizedDescription)
                 case .finished:
                     print(completion)
                 }
             } receiveValue: { data in
-                self.success.send(data.message)
+                self.success.send((data.message,true))
             }.store(in: &cancelable)
     }
 }
