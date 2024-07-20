@@ -12,7 +12,9 @@ struct ReviewDetailsView: View {
     
     let goWork:Bool //작품상세정보
     let reviewId:Int
+    @State var reported:Bool = false
     @State var reportSuccess = false
+    @State var noReport = false
     @State var message = ""
     @State var report = false
     @State var goReport = false
@@ -25,29 +27,32 @@ struct ReviewDetailsView: View {
     
     var body: some View {
         VStack(spacing: 0){
-            if let review = vm.review{
-                header(review: review)
-                ScrollView{
-                    VStack{
-                        Divider()
-                        workInfoView(review: review)
-                        contentAndLikeView(review: review)
-                        Divider()
+            if !reported{
+                if let review = vm.review{
+                    header(review: review)
+                    ScrollView{
+                        VStack{
+                            Divider()
+                            workInfoView(review: review)
+                            contentAndLikeView(review: review)
+                            Divider()
+                        }
+                        .background(Color.white)
+                        .padding(.top,10)
                     }
-                    .background(Color.white)
-                    .padding(.top,10)
+                    .background(Color.gray.opacity(0.1))
+                }else{
+                    CustomProgressView()
                 }
-                .background(Color.gray.opacity(0.1))
             }
         }
-        
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
         .onTapGesture {
             menu = false
         }
-       
+        
         .background(Color.white)
         .foregroundColor(.black)
         .onAppear{
@@ -60,20 +65,34 @@ struct ReviewDetailsView: View {
             ReportView(id: reviewId,mode:"review")
                 .environmentObject(vmReport)
         }
-        .alert(isPresented: $reportSuccess){
-            Alert(title: Text(message),message:message != "신고 접수가 실패했습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {dismiss()}))
+        .alert(isPresented: $reported){
+            if reportSuccess{
+                return  Alert(title: Text(message),message:message == "정상적으로 신고 접수가 완료되었습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {dismiss()}))
+            }else{
+                let confim = Alert.Button.cancel(Text("확인하기")){
+                    reported = false
+                    noReport = true
+                }
+                let out = Alert.Button.default(Text("나가기")){
+                    dismiss()
+                }
+                return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+            }
+            
         }
         .onReceive(vmReport.success){ message in
             reportSuccess = true
+            reported = true
             self.message = message
         }
+        
     }
 }
 
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ReviewDetailsView(goWork: true, reviewId: 1,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
+            ReviewDetailsView(goWork: true, reviewId: 1, reported: true,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
@@ -110,10 +129,18 @@ extension ReviewDetailsView{
                         isPresented: $report,
                         actions: {
                             Button("신고하기") {
-                                goReport = true
+                                if noReport{
+                                    message = "이미 신고된 리뷰입니다."
+                                    reportSuccess = true
+                                    reported = true
+                                    print(reportSuccess)
+                                }else{
+                                    goReport = true
+                                }
                             }
                         }
                     )
+                    
                     .confirmationDialog("", isPresented: $menu,actions: {
                         NavigationLink {
                             WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
