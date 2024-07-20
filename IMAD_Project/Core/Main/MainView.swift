@@ -403,7 +403,7 @@ extension MainView{
         ScrollView(.horizontal,showsIndicators: false) {
             HStack(spacing:0){
                 NavigationLink {
-                    ReviewDetailsView(goWork: true, reviewId: review.reviewID)
+                    ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {

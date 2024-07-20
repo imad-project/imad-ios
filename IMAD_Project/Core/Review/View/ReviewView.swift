@@ -25,7 +25,7 @@ struct ReviewView: View {
             ScrollView {
                 ForEach(vm.reviewList,id:\.self){ review in
                     NavigationLink {
-                        ReviewDetailsView(goWork: false, reviewId: review.reviewID)
+                        ReviewDetailsView(goWork: false, reviewId: review.reviewID, reported: review.reported)
                             .environmentObject(vmAuth)
                             .navigationBarBackButtonHidden()
                     } label: {
