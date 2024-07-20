@@ -220,6 +220,10 @@
 		D69455CB2C4A9CFD004CDFC9 /* ReportFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */; };
 		D69455CD2C4BAD89004CDFC9 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CC2C4BAD89004CDFC9 /* UserViewModel.swift */; };
 		D69455CF2C4BC1A5004CDFC9 /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CE2C4BC1A5004CDFC9 /* OtherProfileView.swift */; };
+		D69455D12C4BE376004CDFC9 /* UseConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D02C4BE376004CDFC9 /* UseConditionView.swift */; };
+		D69455D32C4C77C5004CDFC9 /* PDFUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */; };
+		D69455D62C4C77EC004CDFC9 /* 개인정보처리방침.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D69455D42C4C77EC004CDFC9 /* 개인정보처리방침.pdf */; };
+		D69455D72C4C77EC004CDFC9 /* 이용약관.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D69455D52C4C77EC004CDFC9 /* 이용약관.pdf */; };
 		D69CC5C02C32944B0053E5A1 /* RecommendAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */; };
 		D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */; };
 		D6C763872C2C3B3B00BCD37B /* WorkGenre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */; };
@@ -465,6 +469,12 @@
 		D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportFilter.swift; sourceTree = "<group>"; };
 		D69455CC2C4BAD89004CDFC9 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		D69455CE2C4BC1A5004CDFC9 /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
+		D69455D02C4BE376004CDFC9 /* UseConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseConditionView.swift; sourceTree = "<group>"; };
+		D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFUIView.swift; sourceTree = "<group>"; };
+		D69455D42C4C77EC004CDFC9 /* 개인정보처리방침.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "개인정보처리방침.pdf"; path = "../../../../../Desktop/Materials/개인정보처리방침.pdf"; sourceTree = "<group>"; };
+		D69455D52C4C77EC004CDFC9 /* 이용약관.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "이용약관.pdf"; path = "../../../../../Desktop/Materials/이용약관.pdf"; sourceTree = "<group>"; };
+		D69455D92C4C7A57004CDFC9 /* 개인정보처리방침.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "개인정보처리방침.pdf"; sourceTree = "<group>"; };
+		D69455DA2C4C7A58004CDFC9 /* 이용약관.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "이용약관.pdf"; sourceTree = "<group>"; };
 		D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendAllView.swift; sourceTree = "<group>"; };
 		D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendListType.swift; sourceTree = "<group>"; };
 		D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkGenre.swift; sourceTree = "<group>"; };
@@ -533,6 +543,7 @@
 			isa = PBXGroup;
 			children = (
 				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
+				D69455D82C4C7A46004CDFC9 /* PDF */,
 				D64C4C822C352B070097B2FD /* Font */,
 				D654FBD02BA146E500AF307E /* Protocol */,
 				819C506C2A0F465F0008F4A5 /* Manager */,
@@ -546,6 +557,8 @@
 				8103094629D1BDF00021717B /* Preview Content */,
 				81BB11292A0642E8005654AA /* Config.xcconfig */,
 				81EE0B432B4161DF00A58E5F /* IMAD-Project-info.plist */,
+				D69455D42C4C77EC004CDFC9 /* 개인정보처리방침.pdf */,
+				D69455D52C4C77EC004CDFC9 /* 이용약관.pdf */,
 			);
 			path = IMAD_Project;
 			sourceTree = "<group>";
@@ -1176,6 +1189,7 @@
 				81DB1FD029E6D717002C0840 /* SelectGenreView.swift */,
 				818CF7F72A20929800BABA1F /* ProfileSelectView.swift */,
 				81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */,
+				D69455D02C4BE376004CDFC9 /* UseConditionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1363,6 +1377,16 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		D69455D82C4C7A46004CDFC9 /* PDF */ = {
+			isa = PBXGroup;
+			children = (
+				D69455D92C4C7A57004CDFC9 /* 개인정보처리방침.pdf */,
+				D69455DA2C4C7A58004CDFC9 /* 이용약관.pdf */,
+				D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */,
+			);
+			path = PDF;
+			sourceTree = "<group>";
+		};
 		D69CC5BE2C32943A0053E5A1 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1519,10 +1543,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D69455D72C4C77EC004CDFC9 /* 이용약관.pdf in Resources */,
 				8103094829D1BDF00021717B /* Preview Assets.xcassets in Resources */,
 				D61D2A852C3B942C00ED74F6 /* GmarketSansTTFBold.ttf in Resources */,
 				81EE0B442B4161DF00A58E5F /* IMAD-Project-info.plist in Resources */,
 				D61D2A872C3B942C00ED74F6 /* GmarketSansTTFLight.ttf in Resources */,
+				D69455D62C4C77EC004CDFC9 /* 개인정보처리방침.pdf in Resources */,
 				8103094529D1BDF00021717B /* Assets.xcassets in Resources */,
 				D61D2A862C3B942C00ED74F6 /* GmarketSansTTFMedium.ttf in Resources */,
 			);
@@ -1714,6 +1740,7 @@
 				8128C12A2AE6374C0032D310 /* CommentList.swift in Sources */,
 				8115A6642A8F38A800B7C3FE /* WorkViewModel.swift in Sources */,
 				81C1EB812AB400AB00FB265D /* ReadReviewList.swift in Sources */,
+				D69455D32C4C77C5004CDFC9 /* PDFUIView.swift in Sources */,
 				81FF75B02AF8CE7600DB1AC2 /* ScoreView.swift in Sources */,
 				D654FBD22BA146FA00AF307E /* Popular.swift in Sources */,
 				8131C55A2AFA0AA4006B761D /* ReadReviewResponse.swift in Sources */,
@@ -1745,6 +1772,7 @@
 				D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */,
 				812F62B32B3FED3E00AC8DF3 /* CommentRowView.swift in Sources */,
 				81C1EB7D2AB3581E00FB265D /* ReviewView.swift in Sources */,
+				D69455D12C4BE376004CDFC9 /* UseConditionView.swift in Sources */,
 				812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */,
 				D60AD2102C29943C00C9C27B /* TypeFilter.swift in Sources */,
 				819AA9EB2ACD3C430048CF7B /* BookmarkResponse.swift in Sources */,
@@ -1925,7 +1953,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = IMAD_Project/IMAD_Project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"IMAD_Project/Preview Content\"";
 				DEVELOPMENT_TEAM = N676ZFA7W8;
 				ENABLE_PREVIEWS = YES;
@@ -1963,7 +1991,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = IMAD_Project/IMAD_Project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"IMAD_Project/Preview Content\"";
 				DEVELOPMENT_TEAM = N676ZFA7W8;
 				ENABLE_PREVIEWS = YES;

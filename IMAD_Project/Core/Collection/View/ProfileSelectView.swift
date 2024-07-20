@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProfileSelectView: View {
     
+    @State var consent = false
+    @State var complete = false
     // - 알람 메세지 혹은 로딩 화면 관련
     @State var msg = ""
     @State var alert = false
@@ -48,20 +50,27 @@ struct ProfileSelectView: View {
                     }
                     selectProfileView
                     CustomNextButton(action: {
-                        if let image = vmProfile.customImage,vmProfile.defaultImage == .none{
-                            vmProfile.fetchProfileImageCustom(image: image)
-                        }else{
-                            vmProfile.fetchProfileImageDefault(image: vmProfile.defaultImage.num.getImageValue())
-                        }
-                        loading = true
-                        
+                        consent = true
+                      
                     }, color:vm.patchUser.nickname.isEmpty || vm.patchUser.gender.isEmpty ? .customIndigo.opacity(0.5):.customIndigo)
                 }
                 .foregroundColor(.customIndigo)
                 
             }
             
-        }.alert(isPresented: $alert) {
+        }
+        .onChange(of: complete){ value in
+            if let image = vmProfile.customImage,vmProfile.defaultImage == .none{
+                vmProfile.fetchProfileImageCustom(image: image)
+            }else{
+                vmProfile.fetchProfileImageDefault(image: vmProfile.defaultImage.num.getImageValue())
+            }
+            loading = true
+        }
+        .fullScreenCover(isPresented: $consent){
+            UseConditionView(completion: $complete)
+        }
+        .alert(isPresented: $alert) {
             Alert(title: Text("오류"),message: Text(msg),dismissButton: .default(Text("확인")){
             })
         }
