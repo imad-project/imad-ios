@@ -12,7 +12,8 @@ struct ReviewDetailsView: View {
     
     let goWork:Bool //작품상세정보
     let reviewId:Int
-    @State var reported:Bool = false
+    @State var profile = false
+    @State var reported = false
     @State var reportSuccess = false
     @State var noReport = false
     @State var message = ""
@@ -52,7 +53,14 @@ struct ReviewDetailsView: View {
         .onTapGesture {
             menu = false
         }
-        
+        .sheet(isPresented: $profile){
+            ZStack{
+                Color.white.ignoresSafeArea()
+                OtherProfileView(id: vm.review?.userID ?? 0)
+                    .environmentObject(vmAuth)
+            }
+            
+        }
         .background(Color.white)
         .foregroundColor(.black)
         .onAppear{
@@ -183,7 +191,15 @@ extension ReviewDetailsView{
             HStack{
                 VStack(alignment: .leading) {
                     HStack{
-                        ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
+                        if review.userNickname == vmAuth.user?.data?.nickname{
+                            ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
+                        }else{
+                            Button {
+                               profile = true
+                            } label: {
+                                ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
+                            }
+                        }
                         VStack(alignment: .leading){
                             Text(review.userNickname)
                                 .font(.GmarketSansTTFMedium(13))

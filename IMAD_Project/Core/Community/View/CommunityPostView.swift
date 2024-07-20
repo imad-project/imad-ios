@@ -16,15 +16,17 @@ struct CommunityPostView: View {
     
     @State var menu = false
     @State var modify = false
-    @State var noReport = false
     @State var commentSheet = true
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
+    
     @StateObject var vmReport = ReportViewModel()
+    @State var noReport = false
     @State var reportSuccess = false
     @State var message = ""
     @State var report = false
     @State var goReport = false
+    @State var profile = false
     
     var main:Bool?
     @Binding var back:Bool
@@ -117,6 +119,14 @@ struct CommunityPostView: View {
                     }
                     if !reported{
                         commentInputView()
+                            .sheet(isPresented: $profile){
+                                ZStack{
+                                    Color.white.ignoresSafeArea()
+                                    OtherProfileView(id: community.userID)
+                                        .environmentObject(vmAuth)
+                                }
+                                
+                            }
                     }
                 }else{
                     CustomProgressView()
@@ -245,7 +255,15 @@ extension CommunityPostView{
         HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
-                    ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 40)
+                    if community.userNickname != vmAuth.user?.data?.nickname{
+                        Button {
+                           profile = true
+                        } label: {
+                            ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 40)
+                        }
+                    }else{
+                        ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 40)
+                    }
                     VStack(alignment: .leading,spacing: 0){
                         Text(community.userNickname ?? "")
                             .font(.subheadline)

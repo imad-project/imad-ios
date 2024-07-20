@@ -18,6 +18,7 @@ struct CommentRowView: View {
     @State var message = ""
     @State var goReport = false
     @StateObject var vmReport = ReportViewModel()
+    @State var profile = false
     @State var comment:CommentResponse
     @State var statingOffsetY:CGFloat = 0
     @State var currentDragOffstY:CGFloat = 0
@@ -95,6 +96,14 @@ struct CommentRowView: View {
             currentDragOffstY = 0
             
         }
+        .sheet(isPresented: $profile){
+            ZStack{
+                Color.white.ignoresSafeArea()
+                OtherProfileView(id: comment.userID)
+                    .environmentObject(vmAuth)
+            }
+            
+        }
     }
     
 }
@@ -107,7 +116,17 @@ struct CommentRowView: View {
 extension CommentRowView{
     var profileView:some View{
         HStack{
-            ProfileImageView(imagePath: comment.userProfileImage, widthHeigt: 20)
+            if comment.userNickname == vmAuth.user?.data?.nickname{
+                ProfileImageView(imagePath: comment.userProfileImage, widthHeigt: 20)
+            }else{
+                Button {
+                   profile = true
+                } label: {
+                    ProfileImageView(imagePath: comment.userProfileImage, widthHeigt: 20)
+                }
+            }
+            
+            
             Text(comment.userNickname).bold()
             Text((comment.modifiedAt != comment.createdAt ? "수정됨  •  " : "•  " ) + comment.modifiedAt.relativeTime())
                 .foregroundColor(.gray)
