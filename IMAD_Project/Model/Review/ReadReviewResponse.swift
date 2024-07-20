@@ -20,7 +20,7 @@ struct ReadReviewResponse:Codable,Hashable{
     var likeCnt, dislikeCnt: Int
     let createdAt, modifiedAt: String
     var likeStatus: Int
-    let spoiler: Bool
+    let spoiler,reported: Bool
     let author:Bool
 
     enum CodingKeys: String, CodingKey {
@@ -38,6 +38,6 @@ struct ReadReviewResponse:Codable,Hashable{
         case createdAt = "created_at"
         case modifiedAt = "modified_at"
         case likeStatus = "like_status"
-        case spoiler,author
+        case spoiler,author,reported
     }
 }

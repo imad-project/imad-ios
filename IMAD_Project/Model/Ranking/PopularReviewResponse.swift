@@ -18,7 +18,7 @@ struct PopularReviewResponse:Codable{
     let likeCnt, dislikeCnt: Int
     let createdAt, modifiedAt: String
     let likeStatus: Int
-    let author, spoiler: Bool
+    let author, spoiler,reported: Bool
     
     enum CodingKeys: String, CodingKey {
         case reviewID = "review_id"
@@ -35,6 +35,6 @@ struct PopularReviewResponse:Codable{
         case createdAt = "created_at"
         case modifiedAt = "modified_at"
         case likeStatus = "like_status"
-        case author, spoiler
+        case author, spoiler,reported
     }
 }
