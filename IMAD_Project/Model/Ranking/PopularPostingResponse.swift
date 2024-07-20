@@ -20,7 +20,7 @@ struct PopularPostingResponse:Codable{
     let dislikeCnt, likeStatus: Int
     let createdAt, modifiedAt: String
     let scrapID: Int?
-    let scrapStatus, spoiler: Bool
+    let scrapStatus,reported, spoiler: Bool
     
     enum CodingKeys: String, CodingKey {
         case postingID = "posting_id"
@@ -41,6 +41,6 @@ struct PopularPostingResponse:Codable{
         case modifiedAt = "modified_at"
         case scrapID = "scrap_id"
         case scrapStatus = "scrap_status"
-        case spoiler
+        case spoiler,reported
     }
 }
