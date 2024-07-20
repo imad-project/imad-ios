@@ -10,6 +10,7 @@ import Alamofire
 
 enum UserRouter:URLRequestConvertible{
     case user
+    case otherUser(id:Int)
     case patchUser(gender:String?,birthYear:Int?,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?)
     case passwordChange(old:String,new:String)
     case profile
@@ -27,11 +28,13 @@ enum UserRouter:URLRequestConvertible{
             return "api/profile"
         case .passwordChange:
             return "api/user/password"
+        case let .otherUser(id):
+            return "/api/profile/other/\(id)"
         }
     }
     var method:HTTPMethod{
         switch self{
-        case .user,.profile:
+        case .user,.profile,.otherUser:
             return .get
         case .patchUser,.passwordChange:
             return .patch
@@ -40,7 +43,7 @@ enum UserRouter:URLRequestConvertible{
     }
     var parameters:Parameters{
         switch self{
-        case .user,.profile:
+        case .user,.profile,.otherUser:
             return Parameters()
         case let .patchUser(gender,birthYear,nickname,tvGenre,movieGenre):
             var params = Parameters()
@@ -63,7 +66,7 @@ enum UserRouter:URLRequestConvertible{
         
         request.method = method
         switch self{
-        case .user,.profile:
+        case .user,.profile,.otherUser:
             return request
         case .patchUser,.passwordChange:
             return try JSONEncoding.default.encode(request, with: parameters)

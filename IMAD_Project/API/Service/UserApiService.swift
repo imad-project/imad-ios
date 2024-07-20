@@ -26,6 +26,19 @@ enum UserApiService{
             }
             .eraseToAnyPublisher()
     }
+    static func otheruUser(id:Int) -> AnyPublisher<Profile,AFError>{
+        print("다른 유저정보 api 호출")
+        return ApiClient.shared.session
+            .request(UserRouter.otherUser(id: id),interceptor: intercept)
+            .validate(statusCode: 200..<300)
+            .publishDecodable(type: Profile.self)
+            .value()
+            .map{ receivedValue in
+                print("결과 메세지  : \(receivedValue.message)")
+                return receivedValue.self
+            }
+            .eraseToAnyPublisher()
+    }
     
     static func patchUser(gender:String?,birthYear:Int?,nickname:String,tvGenre:[Int]?,movieGenre:[Int]?) -> AnyPublisher<UserInfo,AFError>{
         print("유저정보변경 api 호출")
