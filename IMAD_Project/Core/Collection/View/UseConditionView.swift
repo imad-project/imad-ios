@@ -73,6 +73,8 @@ struct UseConditionView: View {
             .foregroundColor(.black)
             .background(Color.gray.opacity(0.1))
         }
+        .foregroundColor(.black)
+        .background(Color.white.ignoresSafeArea())
         .sheet(isPresented: $showCondition){
             PDFUIView(pdfName: "이용약관")
         }
