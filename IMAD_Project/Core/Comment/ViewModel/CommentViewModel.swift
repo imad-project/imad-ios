@@ -14,7 +14,8 @@ class CommentViewModel:ObservableObject{
     var cancelable = Set<AnyCancellable>()
     
     @Published var currentPage = 1
-    @Published var maxPage = 0
+    @Published var maxPage = 1
+    @Published var totalOfElements = 0
     
     var success = PassthroughSubject<(),Never>()
     var addSuccess = PassthroughSubject<Int,Never>()
@@ -102,6 +103,7 @@ class CommentViewModel:ObservableObject{
                 self.currentPage = page
             } receiveValue: { [weak self] response in
                 guard let data = response.data else {return}
+                self?.totalOfElements = data.totalElements
                 self?.replys.append(contentsOf: data.commentDetailsResponseList)
                 self?.maxPage = data.totalPages
             }.store(in: &cancelable)

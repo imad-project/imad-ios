@@ -94,6 +94,11 @@ struct CommunityPostView: View {
         .onAppear{
             vmAuth.getUser()
             vm.readDetailCommunity(postingId: postingId)
+            vmComment.readComments(postingId: postingId, commentType: 0, page: vmComment.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: 0)
+        }
+        .onDisappear{
+            vmComment.replys.removeAll()
+            vmComment.currentPage = 1
         }
         .onChange(of: endOffset){ value in
             if endOffset == UIScreen.main.bounds.height/2{
@@ -432,9 +437,16 @@ extension CommunityPostView{
         
     }
     var comment:some View{
-        ForEach(vm.community?.commentListResponse?.commentDetailsResponseList ?? [],id: \.self){ comment in
-            CommentRowView(filter: .postComment, postingId: postingId, deleted: comment.removed, comment: comment,reply:.constant(nil), commentFocus: $reply)
+        ForEach(vmComment.replys,id: \.self){ comment in
+            CommentRowView(filter: .postComment, postingId: postingId, reported: comment.reported, deleted: comment.removed, comment: comment,reply:.constant(nil), commentFocus: $reply)
                 .environmentObject(vmAuth)
+            if vmComment.replys.last == comment,vmComment.maxPage > vmComment.currentPage{
+                ProgressView()
+                    .onAppear{
+                        vmComment.currentPage += 1
+                        vmComment.readComments(postingId: postingId, commentType: 0, page: vmComment.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: 0)
+                    }
+            }
         }
         .padding(.bottom,25)
     }
