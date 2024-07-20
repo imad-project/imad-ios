@@ -411,7 +411,7 @@ extension MainView{
                         .shadow(radius: 1)
                 }
                 NavigationLink {
-                    CommunityPostView(postingId:community.postingID,main: true,back: .constant(false))
+                    CommunityPostView(reported: community.reported, postingId:community.postingID,main: true,back: .constant(false))
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {

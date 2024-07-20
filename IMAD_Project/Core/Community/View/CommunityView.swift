@@ -39,7 +39,7 @@ struct CommunityView: View {
         }
         .navigationDestination(isPresented: $goWork) {
             if let workInfo{
-                CommunityPostView(postingId: workInfo.postingID, back: $goWork)
+                CommunityPostView(reported: workInfo.reported, postingId: workInfo.postingID, back: $goWork)
                     .navigationBarBackButtonHidden()
                     .environmentObject(vmAuth)
             }
