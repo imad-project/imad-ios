@@ -10,11 +10,13 @@ import Kingfisher
 
 struct CommunityPostView: View {
     
+    @State var reported:Bool = false
     let postingId:Int
     @State var reviewText = ""
     
     @State var menu = false
     @State var modify = false
+    @State var noReport = false
     @State var commentSheet = true
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
@@ -33,7 +35,7 @@ struct CommunityPostView: View {
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var vmScrap = ScrapViewModel(scrapList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
-    @StateObject var vmAuth = AuthViewModel(user: nil)
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     let startingOffset: CGFloat = UIScreen.main.bounds.height/2
     @State private var currentOffset:CGFloat = 0
@@ -41,58 +43,86 @@ struct CommunityPostView: View {
     
     var body: some View {
         VStack(spacing: 0){
-            if let community = vm.community{
-                ZStack(alignment: .bottom){
-                    Color.white.ignoresSafeArea()
-                    VStack(spacing: 0){
-                        header(community: community)
-                        Divider()
-                        ScrollView{
-                            VStack{
-                                Divider()
-                                workInfoView(community: community)
-                                communityinfoView(community: community)
-                                likeStatusView(community: community)
-                                Divider()
-                            }
-                            .background(Color.white)
-                            .padding(.top,10)
-                        }
-                        .frame(height:endOffset == 0 ?  UIScreen.main.bounds.height/2 - 140:nil)
-                        .background(Color.gray.opacity(0.1))
-                        .fullScreenCover(isPresented: $goReport){
-                            ReportView(id: postingId,mode:"posting")
-                                .environmentObject(vmReport)
-                        }
-                        .alert(isPresented: $reportSuccess){
-                            Alert(title: Text(message),message:message != "신고 접수가 실패했습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {
-                                if let main {
-                                    if main{
-                                        dismiss()
+            
+                if let community = vm.community{
+                    ZStack(alignment: .bottom){
+                        Color.white.ignoresSafeArea()
+                        VStack(spacing: 0){
+                            if !reported{
+                            header(community: community)
+                            Divider()
+                            
+                                ScrollView{
+                                    VStack{
+                                        Divider()
+                                        workInfoView(community: community)
+                                        communityinfoView(community: community)
+                                        likeStatusView(community: community)
+                                        Divider()
                                     }
-                                }else{
-                                    self.back = false
+                                    .background(Color.white)
+                                    .padding(.top,10)
                                 }
-                            }))
+                                .frame(height:endOffset == 0 ?  UIScreen.main.bounds.height/2 - 140:nil)
+                                .background(Color.gray.opacity(0.1))
+                                .fullScreenCover(isPresented: $goReport){
+                                    ReportView(id: postingId,mode:"posting")
+                                        .environmentObject(vmReport)
+                                }
+                                .onReceive(vmReport.success){ message in
+                                    reportSuccess = true
+                                    reported = true
+                                    self.message = message
+                                }
+                            }
+                            if endOffset == 0{
+                                Spacer()
+                            }
+                                
                         }
-                        .onReceive(vmReport.success){ message in
-                            reportSuccess = true
-                            self.message = message
+                        .foregroundColor(.black)
+                        .alert(isPresented: $reported){
+                            if reportSuccess{
+                                return Alert(title: Text(message),message:message == "정상적으로 신고 접수가 완료되었습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {
+                                    if let main {
+                                        if main{
+                                            dismiss()
+                                        }
+                                    }else{
+                                        self.back = false
+                                    }
+                                }))
+                            }else{
+                                let confim = Alert.Button.cancel(Text("확인하기")){
+                                    reported = false
+                                    noReport = true
+                                }
+                                let out = Alert.Button.default(Text("나가기")){
+                                    if let main {
+                                        if main{
+                                            dismiss()
+                                        }
+                                    }else{
+                                        self.back = false
+                                    }
+                                }
+                                return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                            }
+                            
                         }
-                        if endOffset == 0{
-                            Spacer()
+                        if !reported{
+                            commentView(community: community)
+                                
                         }
                     }
-                    .foregroundColor(.black)
-                    commentView(community: community)
+                    if !reported{
+                        commentInputView()
+                    }
+                }else{
+                    CustomProgressView()
                 }
-                commentInputView()
-            }else{
-                ProgressView().environment(\.colorScheme,.light)
             }
-        }
         .onAppear{
-            vmAuth.getUser()
             vm.readDetailCommunity(postingId: postingId)
             vmComment.readComments(postingId: postingId, commentType: 0, page: vmComment.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: 0)
         }
@@ -122,9 +152,6 @@ struct CommunityPostView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
-        .onReceive(vmComment.commentLoadSuccess){ commentList in
-            vm.community?.commentListResponse?.commentDetailsResponseList = commentList
-        }
         
     }
 }
@@ -132,7 +159,7 @@ struct CommunityPostView: View {
 struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            CommunityPostView(postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.instance.community, communityList: []))
+            CommunityPostView(reported: true, postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.instance.community, communityList: []))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
@@ -180,7 +207,13 @@ extension CommunityPostView{
                         isPresented: $report,
                         actions: {
                             Button("신고하기") {
-                                goReport = true
+                                if noReport{
+                                    message = "이미 신고된 게시물입니다."
+                                    reported = true
+                                    reportSuccess = true
+                                }else{
+                                    goReport = true
+                                }
                             }
                         }
                     )
@@ -408,10 +441,12 @@ extension CommunityPostView{
                     
                 }else{
                     comment
+                        .padding(.bottom,40)
                 }
                 Spacer()
             }
             .padding(.bottom,endOffset == 0 ? 300 : 0)
+            .padding(.bottom,25)
         }
         .background{
             RoundedRectangle(cornerRadius: 10)
@@ -448,7 +483,7 @@ extension CommunityPostView{
                     }
             }
         }
-        .padding(.bottom,25)
+        
     }
     func commentInputView() ->some View{
         VStack{
