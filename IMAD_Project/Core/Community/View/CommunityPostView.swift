@@ -149,6 +149,7 @@ struct CommunityPostView: View {
             UIApplication.shared.endEditing()
         }
         .onReceive(vmComment.success) { //무언가 할때마다 커뮤니티 업데이트
+            vmComment.readComments(postingId: postingId, commentType: 0, page: vmComment.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: 0)
             vm.readDetailCommunity(postingId: postingId)
         }
         .navigationDestination(isPresented: $modify) {
