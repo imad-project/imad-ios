@@ -35,9 +35,11 @@ struct OtherProfileView: View {
                     .font(.GmarketSansTTFMedium(15))
                     .padding(.top,5)
                 Button {
-                    report = true
+                    reportSuccess = true
+                    message = "사용자를 신고하게 되면 자동으로 이 사용자가 작성한 게시물/리뷰를 볼 수 없게됩니다."
+//                    report = true
                 } label: {
-                    Text("신고")
+                    Text("신고 및 차단")
                         .foregroundColor(.white)
                         .padding(5)
                         .padding(.horizontal)
@@ -77,7 +79,11 @@ struct OtherProfileView: View {
         }
         .alert(isPresented: $reportSuccess){
             Alert(title: Text(message),message:message == "정상적으로 신고 접수가 완료되었습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {
-                dismiss()
+                if message == "사용자를 신고하게 되면 자동으로 차단되어 이 사용자가 작성한 게시물/리뷰/댓글 등을 볼 수 없게됩니다."{
+                    report = true
+                }else{
+                    dismiss()
+                }
             }))
         }
     }

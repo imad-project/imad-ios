@@ -18,7 +18,7 @@ class ReportViewModel:ObservableObject{
             .sink { completion in
                 switch completion{
                 case .failure(let error):
-                    self.success.send("이미 신고 접수된 사용자 입니다.")
+                    self.success.send("이미 차단 되었거나 신고 접수된 사용자 입니다.")
                     print(error.localizedDescription)
                 case .finished:
                     print(completion)
