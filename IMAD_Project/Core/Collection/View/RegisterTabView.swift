@@ -8,7 +8,9 @@
 import SwiftUI
 import SwiftUIWave
 struct RegisterTabView: View {
+    
 
+    @State var constent = true
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -43,6 +45,9 @@ struct RegisterTabView: View {
         .navigationBarBackButtonHidden(true)
         .onTapGesture {
             UIApplication.shared.endEditing()
+        }
+        .fullScreenCover(isPresented:$constent) {
+            UseConditionView()
         }
     }
 }

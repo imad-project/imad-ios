@@ -19,7 +19,6 @@ struct UseConditionView: View {
     
     @State var noAdmit = false
     @Environment(\.dismiss) var dismiss
-    @Binding var completion:Bool
     
     var body: some View {
         VStack(alignment:.leading){
@@ -44,7 +43,6 @@ struct UseConditionView: View {
                     Button {
                         if condition,info,age{
                             noAdmit = false
-                            completion = true
                             dismiss()
                         }else{
                             noAdmit = true
@@ -85,7 +83,7 @@ struct UseConditionView: View {
 }
 
 #Preview {
-    UseConditionView(completion: .constant(false))
+    UseConditionView()
 }
 
 extension UseConditionView{
