@@ -222,8 +222,6 @@
 		D69455CF2C4BC1A5004CDFC9 /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CE2C4BC1A5004CDFC9 /* OtherProfileView.swift */; };
 		D69455D12C4BE376004CDFC9 /* UseConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D02C4BE376004CDFC9 /* UseConditionView.swift */; };
 		D69455D32C4C77C5004CDFC9 /* PDFUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */; };
-		D69455D62C4C77EC004CDFC9 /* 개인정보처리방침.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D69455D42C4C77EC004CDFC9 /* 개인정보처리방침.pdf */; };
-		D69455D72C4C77EC004CDFC9 /* 이용약관.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D69455D52C4C77EC004CDFC9 /* 이용약관.pdf */; };
 		D69CC5C02C32944B0053E5A1 /* RecommendAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */; };
 		D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */; };
 		D6C763872C2C3B3B00BCD37B /* WorkGenre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */; };
@@ -471,8 +469,6 @@
 		D69455CE2C4BC1A5004CDFC9 /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
 		D69455D02C4BE376004CDFC9 /* UseConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseConditionView.swift; sourceTree = "<group>"; };
 		D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFUIView.swift; sourceTree = "<group>"; };
-		D69455D42C4C77EC004CDFC9 /* 개인정보처리방침.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "개인정보처리방침.pdf"; path = "../../../../../Desktop/Materials/개인정보처리방침.pdf"; sourceTree = "<group>"; };
-		D69455D52C4C77EC004CDFC9 /* 이용약관.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "이용약관.pdf"; path = "../../../../../Desktop/Materials/이용약관.pdf"; sourceTree = "<group>"; };
 		D69455D92C4C7A57004CDFC9 /* 개인정보처리방침.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "개인정보처리방침.pdf"; sourceTree = "<group>"; };
 		D69455DA2C4C7A58004CDFC9 /* 이용약관.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "이용약관.pdf"; sourceTree = "<group>"; };
 		D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendAllView.swift; sourceTree = "<group>"; };
@@ -557,8 +553,6 @@
 				8103094629D1BDF00021717B /* Preview Content */,
 				81BB11292A0642E8005654AA /* Config.xcconfig */,
 				81EE0B432B4161DF00A58E5F /* IMAD-Project-info.plist */,
-				D69455D42C4C77EC004CDFC9 /* 개인정보처리방침.pdf */,
-				D69455D52C4C77EC004CDFC9 /* 이용약관.pdf */,
 			);
 			path = IMAD_Project;
 			sourceTree = "<group>";
@@ -1543,12 +1537,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D69455D72C4C77EC004CDFC9 /* 이용약관.pdf in Resources */,
 				8103094829D1BDF00021717B /* Preview Assets.xcassets in Resources */,
 				D61D2A852C3B942C00ED74F6 /* GmarketSansTTFBold.ttf in Resources */,
 				81EE0B442B4161DF00A58E5F /* IMAD-Project-info.plist in Resources */,
 				D61D2A872C3B942C00ED74F6 /* GmarketSansTTFLight.ttf in Resources */,
-				D69455D62C4C77EC004CDFC9 /* 개인정보처리방침.pdf in Resources */,
 				8103094529D1BDF00021717B /* Assets.xcassets in Resources */,
 				D61D2A862C3B942C00ED74F6 /* GmarketSansTTFMedium.ttf in Resources */,
 			);
