@@ -64,7 +64,7 @@ struct CommunityWriteView: View {
                 dismiss()
             }
             .navigationDestination(isPresented: $showCommunity.0) {
-                CommunityPostView(postingId: showCommunity.1,back: $goMain)
+                CommunityPostView(reported: false, postingId: showCommunity.1,back: $goMain)
                     .navigationBarBackButtonHidden()
                     .environmentObject(vmAuth)
             }

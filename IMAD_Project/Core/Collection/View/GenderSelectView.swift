@@ -46,7 +46,7 @@ extension GenderSelectView{
                 .font(.GmarketSansTTFMedium(20))
                 .bold()
                 .padding(.leading)
-            Text("설정된 성별 언제든지 바꾸실수 있습니다. ")
+            Text("성별 정보는, 보다 정확하고 맞춤형 작품 추천을 위해 수집함을 안내드립니다.")
                 .font(.GmarketSansTTFMedium(15))
                 .padding(.leading)
         }

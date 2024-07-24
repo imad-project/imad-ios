@@ -403,7 +403,7 @@ extension MainView{
         ScrollView(.horizontal,showsIndicators: false) {
             HStack(spacing:0){
                 NavigationLink {
-                    ReviewDetailsView(goWork: true, reviewId: review.reviewID)
+                    ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
@@ -411,7 +411,7 @@ extension MainView{
                         .shadow(radius: 1)
                 }
                 NavigationLink {
-                    CommunityPostView(postingId:community.postingID,main: true,back: .constant(false))
+                    CommunityPostView(reported: community.reported, postingId:community.postingID,main: true,back: .constant(false))
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {

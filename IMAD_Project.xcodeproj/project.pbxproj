@@ -213,6 +213,15 @@
 		D654FBD22BA146FA00AF307E /* Popular.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD12BA146FA00AF307E /* Popular.swift */; };
 		D654FBD42BA1470800AF307E /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD32BA1470800AF307E /* Genre.swift */; };
 		D654FBD62BA15AF800AF307E /* GuestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBD52BA15AF800AF307E /* GuestInterceptor.swift */; };
+		D69455C02C48F81E004CDFC9 /* ReportRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455BF2C48F81E004CDFC9 /* ReportRouter.swift */; };
+		D69455C22C48FB0B004CDFC9 /* ReportApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455C12C48FB0B004CDFC9 /* ReportApiService.swift */; };
+		D69455C52C4A9467004CDFC9 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455C42C4A9467004CDFC9 /* ReportViewModel.swift */; };
+		D69455C92C4A9BF6004CDFC9 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455C82C4A9BF6004CDFC9 /* ReportView.swift */; };
+		D69455CB2C4A9CFD004CDFC9 /* ReportFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */; };
+		D69455CD2C4BAD89004CDFC9 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CC2C4BAD89004CDFC9 /* UserViewModel.swift */; };
+		D69455CF2C4BC1A5004CDFC9 /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CE2C4BC1A5004CDFC9 /* OtherProfileView.swift */; };
+		D69455D12C4BE376004CDFC9 /* UseConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D02C4BE376004CDFC9 /* UseConditionView.swift */; };
+		D69455D32C4C77C5004CDFC9 /* PDFUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */; };
 		D69CC5C02C32944B0053E5A1 /* RecommendAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */; };
 		D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */; };
 		D6C763872C2C3B3B00BCD37B /* WorkGenre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */; };
@@ -451,6 +460,17 @@
 		D654FBD12BA146FA00AF307E /* Popular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popular.swift; sourceTree = "<group>"; };
 		D654FBD32BA1470800AF307E /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		D654FBD52BA15AF800AF307E /* GuestInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestInterceptor.swift; sourceTree = "<group>"; };
+		D69455BF2C48F81E004CDFC9 /* ReportRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRouter.swift; sourceTree = "<group>"; };
+		D69455C12C48FB0B004CDFC9 /* ReportApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportApiService.swift; sourceTree = "<group>"; };
+		D69455C42C4A9467004CDFC9 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
+		D69455C82C4A9BF6004CDFC9 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
+		D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportFilter.swift; sourceTree = "<group>"; };
+		D69455CC2C4BAD89004CDFC9 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		D69455CE2C4BC1A5004CDFC9 /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
+		D69455D02C4BE376004CDFC9 /* UseConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseConditionView.swift; sourceTree = "<group>"; };
+		D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFUIView.swift; sourceTree = "<group>"; };
+		D69455D92C4C7A57004CDFC9 /* 개인정보처리방침.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "개인정보처리방침.pdf"; sourceTree = "<group>"; };
+		D69455DA2C4C7A58004CDFC9 /* 이용약관.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "이용약관.pdf"; sourceTree = "<group>"; };
 		D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendAllView.swift; sourceTree = "<group>"; };
 		D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendListType.swift; sourceTree = "<group>"; };
 		D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkGenre.swift; sourceTree = "<group>"; };
@@ -519,6 +539,7 @@
 			isa = PBXGroup;
 			children = (
 				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
+				D69455D82C4C7A46004CDFC9 /* PDF */,
 				D64C4C822C352B070097B2FD /* Font */,
 				D654FBD02BA146E500AF307E /* Protocol */,
 				819C506C2A0F465F0008F4A5 /* Manager */,
@@ -607,6 +628,7 @@
 		812CDE9129DE91CD0003B993 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				D69455C32C4A945E004CDFC9 /* Report */,
 				D60AD2042C295A3500C9C27B /* Recommend */,
 				D654FBCD2BA0445400AF307E /* Ranking */,
 				818206F72AF8B1F5004A7B21 /* Search */,
@@ -976,6 +998,7 @@
 				817919DA2B4C08210084779B /* RankingFilter.swift */,
 				D60AD20F2C29943C00C9C27B /* TypeFilter.swift */,
 				D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */,
+				D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1016,6 +1039,7 @@
 				817919C92B4BDC1A0084779B /* RankingRouter.swift */,
 				D60AD2062C295ADB00C9C27B /* RecommendRouter.swift */,
 				D6D974BA2C3BA09D00BCBF49 /* ProfileImageRouter.swift */,
+				D69455BF2C48F81E004CDFC9 /* ReportRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -1035,6 +1059,7 @@
 				817919CB2B4BDF1A0084779B /* RankingApiService.swift */,
 				D60AD2082C295D9300C9C27B /* RecommendApiService.swift */,
 				D6D974BC2C3BA13B00BCBF49 /* ProfileImageApiService.swift */,
+				D69455C12C48FB0B004CDFC9 /* ReportApiService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1158,6 +1183,7 @@
 				81DB1FD029E6D717002C0840 /* SelectGenreView.swift */,
 				818CF7F72A20929800BABA1F /* ProfileSelectView.swift */,
 				81DB1FD729E7D63C002C0840 /* RegisterTabView.swift */,
+				D69455D02C4BE376004CDFC9 /* UseConditionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1320,6 +1346,41 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		D69455C32C4A945E004CDFC9 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				D69455C72C4A9BEA004CDFC9 /* ViewModel */,
+				D69455C62C4A9BE6004CDFC9 /* View */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
+		D69455C62C4A9BE6004CDFC9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D69455C82C4A9BF6004CDFC9 /* ReportView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D69455C72C4A9BEA004CDFC9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D69455C42C4A9467004CDFC9 /* ReportViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		D69455D82C4C7A46004CDFC9 /* PDF */ = {
+			isa = PBXGroup;
+			children = (
+				D69455D92C4C7A57004CDFC9 /* 개인정보처리방침.pdf */,
+				D69455DA2C4C7A58004CDFC9 /* 이용약관.pdf */,
+				D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */,
+			);
+			path = PDF;
+			sourceTree = "<group>";
+		};
 		D69CC5BE2C32943A0053E5A1 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1332,6 +1393,7 @@
 			isa = PBXGroup;
 			children = (
 				D6D974C02C3BA4B000BCBF49 /* ProfileImageViewModel.swift */,
+				D69455CC2C4BAD89004CDFC9 /* UserViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1340,6 +1402,7 @@
 			isa = PBXGroup;
 			children = (
 				812EF9D229E1B5E700CE19DA /* ProfileView.swift */,
+				D69455CE2C4BC1A5004CDFC9 /* OtherProfileView.swift */,
 				817BBB3729EE982F00E1CBA6 /* ProfileChangeView.swift */,
 				817BBB3929EED13400E1CBA6 /* InfoChangeView.swift */,
 				81407A712B2C3E7E006550AF /* GenreSelectView.swift */,
@@ -1599,11 +1662,13 @@
 				818206FB2AF8BB70004A7B21 /* KFImageView.swift in Sources */,
 				81C0DC5F2A14D01D0022A3EE /* ProfileFilter.swift in Sources */,
 				D6D974C92C3D20CF00BCBF49 /* Font.swift in Sources */,
+				D69455C22C48FB0B004CDFC9 /* ReportApiService.swift in Sources */,
 				81BB11142A0622AC005654AA /* AuthViewModel.swift in Sources */,
 				81C1EB872AB43A6000FB265D /* ReviewListRowView.swift in Sources */,
 				81C0DC5B2A14B1220022A3EE /* UserInfo.swift in Sources */,
 				819C506E2A0F467B0008F4A5 /* UserDefaultManager.swift in Sources */,
 				817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */,
+				D69455C52C4A9467004CDFC9 /* ReportViewModel.swift in Sources */,
 				8128C1262AE6333F0032D310 /* CommentListReponse.swift in Sources */,
 				D64C4C8B2C37B6FF0097B2FD /* CustomImagePicker.swift in Sources */,
 				81C3B0882B9A928A00179737 /* PopluarReview.swift in Sources */,
@@ -1618,6 +1683,7 @@
 				817B60CD2A236F00000099A9 /* CheckRouter.swift in Sources */,
 				817919CE2B4BDF680084779B /* Ranking.swift in Sources */,
 				8154B1F02AE0DC4300AD2F83 /* AddComment.swift in Sources */,
+				D69455C02C48F81E004CDFC9 /* ReportRouter.swift in Sources */,
 				818CF7EF2A20764C00BABA1F /* OnBoardingView.swift in Sources */,
 				81EE0B482B454D5900A58E5F /* ActorProfileView.swift in Sources */,
 				817919CC2B4BDF1A0084779B /* RankingApiService.swift in Sources */,
@@ -1648,6 +1714,8 @@
 				D60AD21A2C29B66500C9C27B /* RecommendMovieList.swift in Sources */,
 				81B184902AFB615000CCDBEC /* CustomNextButton.swift in Sources */,
 				D6D974C62C3BB2D400BCBF49 /* ProfileImageResponse.swift in Sources */,
+				D69455CF2C4BC1A5004CDFC9 /* OtherProfileView.swift in Sources */,
+				D69455CD2C4BAD89004CDFC9 /* UserViewModel.swift in Sources */,
 				8103094129D1BDEF0021717B /* IMAD_ProjectApp.swift in Sources */,
 				8124CB3A29F0175F00B446D5 /* SearchView.swift in Sources */,
 				D60AD2182C29B64300C9C27B /* RecommendTVList.swift in Sources */,
@@ -1660,9 +1728,11 @@
 				D60AD1FD2C29576700C9C27B /* ImadRecommend.swift in Sources */,
 				8154B1D92ADA60D800AD2F83 /* WriteCommunityResponse.swift in Sources */,
 				817860172A29B1DD004639F6 /* WorkFilter.swift in Sources */,
+				D69455CB2C4A9CFD004CDFC9 /* ReportFilter.swift in Sources */,
 				8128C12A2AE6374C0032D310 /* CommentList.swift in Sources */,
 				8115A6642A8F38A800B7C3FE /* WorkViewModel.swift in Sources */,
 				81C1EB812AB400AB00FB265D /* ReadReviewList.swift in Sources */,
+				D69455D32C4C77C5004CDFC9 /* PDFUIView.swift in Sources */,
 				81FF75B02AF8CE7600DB1AC2 /* ScoreView.swift in Sources */,
 				D654FBD22BA146FA00AF307E /* Popular.swift in Sources */,
 				8131C55A2AFA0AA4006B761D /* ReadReviewResponse.swift in Sources */,
@@ -1694,6 +1764,7 @@
 				D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */,
 				812F62B32B3FED3E00AC8DF3 /* CommentRowView.swift in Sources */,
 				81C1EB7D2AB3581E00FB265D /* ReviewView.swift in Sources */,
+				D69455D12C4BE376004CDFC9 /* UseConditionView.swift in Sources */,
 				812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */,
 				D60AD2102C29943C00C9C27B /* TypeFilter.swift in Sources */,
 				819AA9EB2ACD3C430048CF7B /* BookmarkResponse.swift in Sources */,
@@ -1704,6 +1775,7 @@
 				81C264902A135F8900405B01 /* AuthWebView.swift in Sources */,
 				81C1EB832AB4332600FB265D /* SortFilter.swift in Sources */,
 				81A1ECE029DACB720001A366 /* SplashView.swift in Sources */,
+				D69455C92C4A9BF6004CDFC9 /* ReportView.swift in Sources */,
 				8154B1D22ADA5BDD00AD2F83 /* CommunityRouter.swift in Sources */,
 				D6D974BB2C3BA09D00BCBF49 /* ProfileImageRouter.swift in Sources */,
 				81C3B08A2B9A929500179737 /* PopularPosting.swift in Sources */,
@@ -1873,7 +1945,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = IMAD_Project/IMAD_Project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"IMAD_Project/Preview Content\"";
 				DEVELOPMENT_TEAM = N676ZFA7W8;
 				ENABLE_PREVIEWS = YES;
@@ -1911,7 +1983,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = IMAD_Project/IMAD_Project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"IMAD_Project/Preview Content\"";
 				DEVELOPMENT_TEAM = N676ZFA7W8;
 				ENABLE_PREVIEWS = YES;

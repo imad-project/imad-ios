@@ -88,7 +88,7 @@ struct WorkView: View {
         }
         
         .navigationDestination(isPresented: $showMyRevie) {
-            ReviewDetailsView(goWork: false, reviewId: vm.workInfo?.reviewId ?? 0)
+            ReviewDetailsView(goWork: false, reviewId: vm.workInfo?.reviewId ?? 0, reported: false)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden()
         }
@@ -250,7 +250,7 @@ extension WorkView{
             VStack{
                 if let myReviewId = vm.workInfo?.reviewId{
                     NavigationLink {
-                        ReviewDetailsView(goWork: false, reviewId: myReviewId)
+                        ReviewDetailsView(goWork: false, reviewId: myReviewId, reported: false)
                             .environmentObject(vmAuth)
                             .navigationBarBackButtonHidden()
                     } label: {
@@ -306,7 +306,7 @@ extension WorkView{
             }
             ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
                 NavigationLink {
-                    ReviewDetailsView(goWork: false, reviewId: review.reviewID)
+                    ReviewDetailsView(goWork: false, reviewId: review.reviewID, reported: review.reported)
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {

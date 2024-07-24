@@ -12,8 +12,13 @@ struct CommentRowView: View {
     
     let filter:CommentFilter
     let postingId:Int
+    @State var reported:Bool
     @State var deleted:Bool
-    
+    @State var reportSuccess = false
+    @State var message = ""
+    @State var goReport = false
+    @StateObject var vmReport = ReportViewModel()
+    @State var profile = false
     @State var comment:CommentResponse
     @State var statingOffsetY:CGFloat = 0
     @State var currentDragOffstY:CGFloat = 0
@@ -40,7 +45,12 @@ struct CommentRowView: View {
                     Text("삭제된 댓/답글입니다.")
                         .font(.GmarketSansTTFMedium(15))
                         .padding(.vertical)
-                }else{
+                }else if reported{
+                    Text("신고가 접수되어 차단된 댓/답글입니다.")
+                        .font(.GmarketSansTTFMedium(15))
+                        .padding(.vertical)
+                }
+                else{
                     profileView
                     if modifyingComment{
                         modifyView
@@ -66,19 +76,57 @@ struct CommentRowView: View {
                     .padding(.top)
             }
         }
+        .fullScreenCover(isPresented: $goReport){
+            ReportView(id: comment.commentID,mode:"comment")
+                .environmentObject(vmReport)
+        }
+        .alert(isPresented: $reportSuccess){
+            Alert(title: Text(message),message:message == "정상적으로 신고 접수가 완료되었습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인")){
+                if message == "정상적으로 신고 접수가 완료되었습니다."{
+                    reported = true
+                }
+                statingOffsetY = 0
+                currentDragOffstY = 0
+            })
+        }
+        .onReceive(vmReport.success){ message in
+            reportSuccess = true
+            self.message = message
+            statingOffsetY = 0
+            currentDragOffstY = 0
+            
+        }
+        .sheet(isPresented: $profile){
+            ZStack{
+                Color.white.ignoresSafeArea()
+                OtherProfileView(id: comment.userID)
+                    .environmentObject(vmAuth)
+            }
+            
+        }
     }
     
 }
 
 #Preview {
-    CommentRowView(filter: .detailsComment ,postingId:0, deleted: false, comment:CustomData.instance.comment,reply: .constant(CustomData.instance.comment), commentFocus: FocusState<Bool>().projectedValue,vmComment: CommentViewModel(comment: nil, replys: CustomData.instance.commentList))
+    CommentRowView(filter: .detailsComment ,postingId:0, reported: false, deleted: false, comment:CustomData.instance.comment,reply: .constant(CustomData.instance.comment), commentFocus: FocusState<Bool>().projectedValue,vmComment: CommentViewModel(comment: nil, replys: CustomData.instance.commentList))
         .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
 }
 
 extension CommentRowView{
     var profileView:some View{
         HStack{
-            ProfileImageView(imagePath: comment.userProfileImage, widthHeigt: 20)
+            if comment.userNickname == vmAuth.user?.data?.nickname{
+                ProfileImageView(imagePath: comment.userProfileImage, widthHeigt: 20)
+            }else{
+                Button {
+                   profile = true
+                } label: {
+                    ProfileImageView(imagePath: comment.userProfileImage, widthHeigt: 20)
+                }
+            }
+            
+            
             Text(comment.userNickname).bold()
             Text((comment.modifiedAt != comment.createdAt ? "수정됨  •  " : "•  " ) + comment.modifiedAt.relativeTime())
                 .foregroundColor(.gray)
@@ -129,7 +177,13 @@ extension CommentRowView{
                 }
             }else {
                 infoChangeView(image: "exclamationmark.square", text: "신고", color: .yellow, x: 90) {
-                    //추후 추가
+                    if reported{
+                        reportSuccess = true
+                        message = "이미 신고가 접숙된 댓/답글입니다."
+                    }else{
+                        goReport = true
+                    }
+                    
                 }
             }
         }
@@ -140,13 +194,12 @@ extension CommentRowView{
                 switch filter {
                 case .postComment:
                     NavigationLink {
-                        CommentDetailsView(postingId: postingId, parentsId: comment.commentID)
+                        CommentDetailsView(postingId: postingId, parentsId: comment.commentID, reported: comment.reported)
                             .navigationBarBackButtonHidden()
                             .environmentObject(vmAuth)
                     } label: {
                         Text("댓글 \(comment.childCnt)개 보기")
                     }
-                    
                 case .detailsComment:
                     HStack{
                         Button {
@@ -241,7 +294,7 @@ extension CommentRowView{
                 Image(systemName: "arrow.turn.down.right")
                     .bold()
                     .foregroundStyle(.gray)
-                CommentRowView(filter: .detailsReply, postingId: postingId, deleted: reply.removed, comment: reply, reply: .constant(nil), commentFocus: $focus)
+                CommentRowView(filter: .detailsReply, postingId: postingId, reported: reply.reported, deleted: reply.removed, comment: reply, reply: .constant(nil), commentFocus: $focus)
                     .padding(.vertical,5)
                     .background(Color.gray.opacity(0.05))
                     .cornerRadius(10)

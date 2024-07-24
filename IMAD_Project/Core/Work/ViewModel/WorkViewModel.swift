@@ -18,7 +18,6 @@ class WorkViewModel:ObservableObject{
     @Published var currentPage = 1
     @Published var maxPage = 1
     var refreschTokenExpired = PassthroughSubject<(),Never>()
-    var profile = PassthroughSubject<String,Never>()
     
     
     var success = PassthroughSubject<Int?,Never>()  // 작품정보 불러오기 성공 후 contentsId 불러오기 위함
@@ -112,7 +111,6 @@ class WorkViewModel:ObservableObject{
                     print(error.localizedDescription)
                     self.refreschTokenExpired.send()
                 case .finished:
-                    self.profile.send(self.profileInfo?.userProfileImage ?? "")
                     print(completion)
                 }
                 self.currentPage = page

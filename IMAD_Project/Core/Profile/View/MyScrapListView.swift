@@ -40,7 +40,7 @@ struct MyScrapListView: View {
             vm.scrapList.removeAll()
         }
         .navigationDestination(isPresented: $goPosting){
-            CommunityPostView(postingId: scrap?.postingID ?? 0, back: $goPosting)
+            CommunityPostView(reported: false, postingId: scrap?.postingID ?? 0, back: $goPosting)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden()
         }
@@ -81,7 +81,7 @@ extension MyScrapListView{
             self.scrap = scrap
             self.goPosting = true
         } label: {
-            CommunityListRowView(community: CommunityDetailsListResponse(postingID: scrap.postingID, contentsID: scrap.contentsID, contentsTitle: scrap.contentsTitle, contentsPosterPath: scrap.contentsPosterPath, userID: scrap.userID, userNickname: scrap.userNickname, userProfileImage: scrap.userProfileImage, title: scrap.postingTitle, category: 0, viewCnt: -1, likeCnt: -1, dislikeCnt: -1, likeStatus: -1, commentCnt: -1, createdAt: scrap.createdDate, modifiedAt: "", scrapId: scrap.scrapID, scrapStatus: true, spoiler: false))
+            CommunityListRowView(community: CommunityDetailsListResponse(postingID: scrap.postingID, contentsID: scrap.contentsID, contentsTitle: scrap.contentsTitle, contentsPosterPath: scrap.contentsPosterPath, userID: scrap.userID, userNickname: scrap.userNickname, userProfileImage: scrap.userProfileImage, title: scrap.postingTitle, category: 0, viewCnt: -1, likeCnt: -1, dislikeCnt: -1, likeStatus: -1, commentCnt: -1, createdAt: scrap.createdDate, modifiedAt: "", scrapId: scrap.scrapID, scrapStatus: true, reported: false, spoiler: false))
         }
     }
 }

@@ -12,21 +12,38 @@ struct KFImageView: View {
     let image:String
     var width:CGFloat?
     var height:CGFloat?
+    
     var body: some View {
-        
-        KFImage(URL(string: image))
-            .resizable()
-            .placeholder{
-                NoImageView()
+        Group{
+            if !image.isEmpty{
+                KFImage(URL(string:image))
+                    .resizable()
+                    .placeholder{
+                        NoImageView()
+                    }
+            }else{
+                VStack(spacing:0){
+                    Image("brown")
+                        .resizable()
+                    Text("이미지를 불러올 수 없습니다.")
+                        .font(.GmarketSansTTFMedium(13))
+                }
+                .padding(.bottom)
+                .background(.gray.opacity(0.1))
+                    
             }
-            .frame(width: width,height: height)
-            .shadow(radius: 1)
+        }
+        .frame(width: width,height: height)
+        .shadow(radius: 1)
+            
+            
+            
     }
 }
 
 struct KFImageView_Previews: PreviewProvider {
     static var previews: some View {
-        KFImageView(image: CustomData.instance.review.contentsPosterPath.getImadImage(),width: 200,height: 300)
+        KFImageView(image: "https://image.tmdb.org/t/p/original",width: 200,height: 300)
     }
 }
 

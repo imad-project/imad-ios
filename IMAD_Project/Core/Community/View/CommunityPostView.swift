@@ -10,6 +10,7 @@ import Kingfisher
 
 struct CommunityPostView: View {
     
+    @State var reported:Bool = false
     let postingId:Int
     @State var reviewText = ""
     
@@ -18,6 +19,14 @@ struct CommunityPostView: View {
     @State var commentSheet = true
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .ascending
+    
+    @StateObject var vmReport = ReportViewModel()
+    @State var noReport = false
+    @State var reportSuccess = false
+    @State var message = ""
+    @State var report = false
+    @State var goReport = false
+    @State var profile = false
     
     var main:Bool?
     @Binding var back:Bool
@@ -28,7 +37,7 @@ struct CommunityPostView: View {
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var vmScrap = ScrapViewModel(scrapList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
-    @StateObject var vmAuth = AuthViewModel(user: nil)
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     let startingOffset: CGFloat = UIScreen.main.bounds.height/2
     @State private var currentOffset:CGFloat = 0
@@ -36,40 +45,100 @@ struct CommunityPostView: View {
     
     var body: some View {
         VStack(spacing: 0){
-            if let community = vm.community{
-                ZStack(alignment: .bottom){
-                    Color.white.ignoresSafeArea()
-                    VStack(spacing: 0){
-                        header(community: community)
-                        Divider()
-                        ScrollView{
-                            VStack{
-                                Divider()
-                                workInfoView(community: community)
-                                communityinfoView(community: community)
-                                likeStatusView(community: community)
-                                Divider()
+            
+                if let community = vm.community{
+                    ZStack(alignment: .bottom){
+                        Color.white.ignoresSafeArea()
+                        VStack(spacing: 0){
+                            if !reported{
+                            header(community: community)
+                            Divider()
+                            
+                                ScrollView{
+                                    VStack{
+                                        Divider()
+                                        workInfoView(community: community)
+                                        communityinfoView(community: community)
+                                        likeStatusView(community: community)
+                                        Divider()
+                                    }
+                                    .background(Color.white)
+                                    .padding(.top,10)
+                                }
+                                .frame(height:endOffset == 0 ?  UIScreen.main.bounds.height/2 - 140:nil)
+                                .background(Color.gray.opacity(0.1))
+                                .fullScreenCover(isPresented: $goReport){
+                                    ReportView(id: postingId,mode:"posting")
+                                        .environmentObject(vmReport)
+                                }
+                                .onReceive(vmReport.success){ message in
+                                    reportSuccess = true
+                                    reported = true
+                                    self.message = message
+                                }
                             }
-                            .background(Color.white)
-                            .padding(.top,10)
+                            if endOffset == 0{
+                                Spacer()
+                            }
+                                
                         }
-                        .frame(height:endOffset == 0 ?  UIScreen.main.bounds.height/2 - 140:nil)
-                        .background(Color.gray.opacity(0.1))
-                        if endOffset == 0{
-                            Spacer()
+                        .foregroundColor(.black)
+                        .alert(isPresented: $reported){
+                            if reportSuccess{
+                                return Alert(title: Text(message),message:message == "정상적으로 신고 접수가 완료되었습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {
+                                    if let main {
+                                        if main{
+                                            dismiss()
+                                        }
+                                    }else{
+                                        self.back = false
+                                    }
+                                }))
+                            }else{
+                                let confim = Alert.Button.cancel(Text("확인하기")){
+                                    reported = false
+                                    noReport = true
+                                }
+                                let out = Alert.Button.default(Text("나가기")){
+                                    if let main {
+                                        if main{
+                                            dismiss()
+                                        }
+                                    }else{
+                                        self.back = false
+                                    }
+                                }
+                                return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                            }
+                            
+                        }
+                        if !reported{
+                            commentView(community: community)
+                                
                         }
                     }
-                    .foregroundColor(.black)
-                    commentView(community: community)
+                    if !reported{
+                        commentInputView()
+                            .sheet(isPresented: $profile){
+                                ZStack{
+                                    Color.white.ignoresSafeArea()
+                                    OtherProfileView(id: community.userID)
+                                        .environmentObject(vmAuth)
+                                }
+                                
+                            }
+                    }
+                }else{
+                    CustomProgressView()
                 }
-                commentInputView()
-            }else{
-                ProgressView().environment(\.colorScheme,.light)
             }
-        }
         .onAppear{
-            vmAuth.getUser()
             vm.readDetailCommunity(postingId: postingId)
+            vmComment.readComments(postingId: postingId, commentType: 0, page: vmComment.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: 0)
+        }
+        .onDisappear{
+            vmComment.replys.removeAll()
+            vmComment.currentPage = 1
         }
         .onChange(of: endOffset){ value in
             if endOffset == UIScreen.main.bounds.height/2{
@@ -80,6 +149,7 @@ struct CommunityPostView: View {
             UIApplication.shared.endEditing()
         }
         .onReceive(vmComment.success) { //무언가 할때마다 커뮤니티 업데이트
+            vmComment.readComments(postingId: postingId, commentType: 0, page: vmComment.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: 0)
             vm.readDetailCommunity(postingId: postingId)
         }
         .navigationDestination(isPresented: $modify) {
@@ -93,16 +163,14 @@ struct CommunityPostView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
-        .onReceive(vmComment.commentLoadSuccess){ commentList in
-            vm.community?.commentListResponse?.commentDetailsResponseList = commentList
-        }
+        
     }
 }
 
 struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            CommunityPostView(postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.instance.community, communityList: []))
+            CommunityPostView(reported: true, postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.instance.community, communityList: []))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
@@ -135,13 +203,31 @@ extension CommunityPostView{
                     Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
                 }
                 .padding(.horizontal,10)
-                if community.author{
+               
                     Button {
-                        menu.toggle()
+                        if community.author{
+                            menu.toggle()
+                        }else{
+                            report.toggle()
+                        }
                     } label: {
                         Image(systemName: "ellipsis")
                             .bold()
                     }
+                    .confirmationDialog("",
+                        isPresented: $report,
+                        actions: {
+                            Button("신고하기") {
+                                if noReport{
+                                    message = "이미 신고된 게시물입니다."
+                                    reported = true
+                                    reportSuccess = true
+                                }else{
+                                    goReport = true
+                                }
+                            }
+                        }
+                    )
                     .confirmationDialog("", isPresented: $menu,actions: {
                         Button(role:.none){
                             modify = true
@@ -163,7 +249,6 @@ extension CommunityPostView{
                     },message: {
                         Text("게시물을 수정하거나 삭제하시겠습니까?")
                     })
-                }
             }
         }.padding(10)
     }
@@ -171,7 +256,15 @@ extension CommunityPostView{
         HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
-                    ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 40)
+                    if community.userNickname != vmAuth.user?.data?.nickname{
+                        Button {
+                           profile = true
+                        } label: {
+                            ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 40)
+                        }
+                    }else{
+                        ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 40)
+                    }
                     VStack(alignment: .leading,spacing: 0){
                         Text(community.userNickname ?? "")
                             .font(.subheadline)
@@ -367,10 +460,12 @@ extension CommunityPostView{
                     
                 }else{
                     comment
+                        .padding(.bottom,40)
                 }
                 Spacer()
             }
             .padding(.bottom,endOffset == 0 ? 300 : 0)
+            .padding(.bottom,25)
         }
         .background{
             RoundedRectangle(cornerRadius: 10)
@@ -396,11 +491,18 @@ extension CommunityPostView{
         
     }
     var comment:some View{
-        ForEach(vm.community?.commentListResponse?.commentDetailsResponseList ?? [],id: \.self){ comment in
-            CommentRowView(filter: .postComment, postingId: postingId, deleted: comment.removed, comment: comment,reply:.constant(nil), commentFocus: $reply)
+        ForEach(vmComment.replys,id: \.self){ comment in
+            CommentRowView(filter: .postComment, postingId: postingId, reported: comment.reported, deleted: comment.removed, comment: comment,reply:.constant(nil), commentFocus: $reply)
                 .environmentObject(vmAuth)
+            if vmComment.replys.last == comment,vmComment.maxPage > vmComment.currentPage{
+                ProgressView()
+                    .onAppear{
+                        vmComment.currentPage += 1
+                        vmComment.readComments(postingId: postingId, commentType: 0, page: vmComment.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: 0)
+                    }
+            }
         }
-        .padding(.bottom,25)
+        
     }
     func commentInputView() ->some View{
         VStack{

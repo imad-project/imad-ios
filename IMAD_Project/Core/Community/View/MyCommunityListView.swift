@@ -57,7 +57,7 @@ struct MyCommunityListView: View {
             vmAuth.logout(tokenExpired: true)
         }
         .navigationDestination(isPresented: $goPosting){
-            CommunityPostView(postingId: community?.postingID ?? 0, back: $goPosting)
+            CommunityPostView(reported: community?.reported ?? false, postingId: community?.postingID ?? 0, back: $goPosting)
                 .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden()
         }

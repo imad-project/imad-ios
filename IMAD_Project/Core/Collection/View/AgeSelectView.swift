@@ -42,7 +42,7 @@ extension AgeSelectView{
             Text("나이를 설정해주세요")
                 .font(.GmarketSansTTFMedium(20))
                 .bold()
-            Text("설정된 나이는 언제든지 바꾸실수 있습니다. ")
+            Text("나이 정보는, 보다 정확하고 맞춤형 작품 추천을 위해 수집함을 안내드립니다.")
                 .font(.GmarketSansTTFMedium(15))
                 
         }.padding(.leading)

@@ -13,7 +13,7 @@ struct CommentDetailsView: View {
     let parentsId:Int
     @FocusState var reply:Bool
     
-    
+    let reported:Bool
     @State var reviewText = ""
     
     
@@ -31,12 +31,12 @@ struct CommentDetailsView: View {
             VStack(alignment: .leading,spacing: 0){
                header
                 Divider()
-                parentComment
+                    parentComment
                 ScrollView{
                     if !vm.replys.isEmpty{
                         VStack{
                             ForEach(vm.replys,id:\.self) { item in
-                                CommentRowView(filter: .detailsComment, postingId: postingId, deleted: item.removed, comment: item,reply:$replyWrite,commentFocus: $reply)
+                                CommentRowView(filter: .detailsComment, postingId: postingId, reported: item.reported, deleted: item.removed, comment: item,reply:$replyWrite,commentFocus: $reply)
                                     .environmentObject(vmAuth)
                                 if vm.replys.last == item,vm.maxPage > vm.currentPage{
                                     ProgressView()
@@ -72,7 +72,7 @@ struct CommentDetailsView: View {
 
 struct CommentDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentDetailsView(postingId: 1, parentsId: 12,vm: CommentViewModel(comment: CustomData.instance.comment, replys: CustomData.instance.commentList))
+        CommentDetailsView(postingId: 1, parentsId: 12,reported: true, vm: CommentViewModel(comment: CustomData.instance.comment, replys: CustomData.instance.commentList))
             .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
     }
 }
@@ -153,88 +153,98 @@ extension CommentDetailsView{
     }
     var parentComment:some View{
         VStack(alignment: .leading,spacing: 5){
-            HStack{
-                ProfileImageView(imagePath: vm.comment?.userProfileImage ?? "", widthHeigt: 30)
-                Text(vm.comment?.userNickname ?? "").bold()
-                if vm.comment?.modifiedAt != vm.comment?.createdAt{
-                    Text("수정됨  •  " + (vm.comment?.modifiedAt.relativeTime() ?? "")).font(.caption)
-                }else{
-                    Text("•  " + (vm.comment?.modifiedAt.relativeTime() ?? "")).font(.caption)
-                }
-                Spacer()
-            }
-            .padding(.bottom,10)
-            ExtandView(text: vm.comment?.content)
-            HStack{
-                Spacer()
-                Button {
-                    like()
-                } label: {
-                    HStack(spacing:2){
-                        Image(systemName: (vm.comment?.likeStatus ?? 0) > 0 ? "arrowshape.up.fill" : "arrowshape.up").foregroundColor(.customIndigo)
-                        Text("\(vm.comment?.likeCnt ?? 0)").foregroundColor(.black)
-                    }
-                }
-                .padding(.trailing)
-                .foregroundColor(vm.comment?.likeStatus == 1 ? .red : .gray)
-                Button {
-                   disLike()
-                } label: {
-                    HStack(spacing:2){
-                        Image(systemName:(vm.comment?.likeStatus ?? 0) < 0 ? "arrowshape.down.fill" : "arrowshape.down").foregroundColor(.customIndigo)
-                        Text("\( vm.comment?.dislikeCnt ?? 0)").foregroundColor(.black)
-                    }
-                }
-                .foregroundColor(vm.comment?.likeStatus == -1 ? .blue : .gray)
-                
-            }
-            Divider()
-                .padding(.vertical,5)
-            HStack{
-                ForEach(SortFilter.allCases,id:\.self){ sort in
-                    if sort != .score{
-                        Button {
-                            self.sort = sort
-                            vm.currentPage = 1
-                            vm.replys.removeAll()
-                            vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
-                        } label: {
-                            Text(sort.name).font(.GmarketSansTTFMedium(12)).foregroundColor(.customIndigo)
-                                .overlay {
-                                    if sort == self.sort{
-                                        Capsule()
-                                            .frame(width: 40,height: 2)
-                                            .offset(y:22)
-                                    }
-                                }
-                        }
-                        .padding(.trailing)
-                    }
-                }
-                Spacer()
-                Button {
-                    if order == .ascending{
-                        withAnimation{
-                            order = .descending
-                            
-                        }
+            if !reported{
+                HStack{
+                    ProfileImageView(imagePath: vm.comment?.userProfileImage ?? "", widthHeigt: 30)
+                    Text(vm.comment?.userNickname ?? "").bold()
+                    if vm.comment?.modifiedAt != vm.comment?.createdAt{
+                        Text("수정됨  •  " + (vm.comment?.modifiedAt.relativeTime() ?? "")).font(.caption)
                     }else{
-                        withAnimation{
-                            order = .ascending
+                        Text("•  " + (vm.comment?.modifiedAt.relativeTime() ?? "")).font(.caption)
+                    }
+                    Spacer()
+                }
+                .padding(.bottom,10)
+                ExtandView(text: vm.comment?.content)
+                HStack{
+                    Spacer()
+                    Button {
+                        like()
+                    } label: {
+                        HStack(spacing:2){
+                            Image(systemName: (vm.comment?.likeStatus ?? 0) > 0 ? "arrowshape.up.fill" : "arrowshape.up").foregroundColor(.customIndigo)
+                            Text("\(vm.comment?.likeCnt ?? 0)").foregroundColor(.black)
                         }
                     }
-                    vm.currentPage = 1
-                    vm.replys = []
-                    vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: self.sort.rawValue, order: self.order.rawValue, parentId: parentsId)
+                    .padding(.trailing)
+                    .foregroundColor(vm.comment?.likeStatus == 1 ? .red : .gray)
+                    Button {
+                       disLike()
+                    } label: {
+                        HStack(spacing:2){
+                            Image(systemName:(vm.comment?.likeStatus ?? 0) < 0 ? "arrowshape.down.fill" : "arrowshape.down").foregroundColor(.customIndigo)
+                            Text("\( vm.comment?.dislikeCnt ?? 0)").foregroundColor(.black)
+                        }
+                    }
+                    .foregroundColor(vm.comment?.likeStatus == -1 ? .blue : .gray)
                     
-                } label: {
-                    HStack{
-                        Text(order.name)
-                        Image(systemName: order == .ascending ? "chevron.up" : "chevron.down")
-                    }.font(.GmarketSansTTFMedium(10))
                 }
+                Divider()
+                    .padding(.vertical,5)
+                HStack{
+                    ForEach(SortFilter.allCases,id:\.self){ sort in
+                        if sort != .score{
+                            Button {
+                                self.sort = sort
+                                vm.currentPage = 1
+                                vm.replys.removeAll()
+                                vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
+                            } label: {
+                                Text(sort.name).font(.GmarketSansTTFMedium(12)).foregroundColor(.customIndigo)
+                                    .overlay {
+                                        if sort == self.sort{
+                                            Capsule()
+                                                .frame(width: 40,height: 2)
+                                                .offset(y:22)
+                                        }
+                                    }
+                            }
+                            .padding(.trailing)
+                        }
+                    }
+                    Spacer()
+                    Button {
+                        if order == .ascending{
+                            withAnimation{
+                                order = .descending
+                                
+                            }
+                        }else{
+                            withAnimation{
+                                order = .ascending
+                            }
+                        }
+                        vm.currentPage = 1
+                        vm.replys = []
+                        vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: self.sort.rawValue, order: self.order.rawValue, parentId: parentsId)
+                        
+                    } label: {
+                        HStack{
+                            Text(order.name)
+                            Image(systemName: order == .ascending ? "chevron.up" : "chevron.down")
+                        }.font(.GmarketSansTTFMedium(10))
+                    }
+                }.padding(.vertical,5)
+            }else{
                 
-            }.padding(.vertical,5)
+                HStack{
+                    Text("신고가 접수되어 차단된 댓/답글입니다.")
+                        .font(.GmarketSansTTFMedium(15))
+                        .padding(.vertical)
+                    Spacer()
+                }
+            }
+            
         }
         .padding(10)
         .background(Color.white)

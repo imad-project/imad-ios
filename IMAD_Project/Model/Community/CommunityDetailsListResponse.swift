@@ -20,6 +20,7 @@ struct CommunityDetailsListResponse: Codable,Hashable {
     let createdAt, modifiedAt: String
     let scrapId:Int?
     var scrapStatus:Bool
+    let reported:Bool
     let spoiler: Bool
     
     enum CodingKeys: String, CodingKey {
@@ -39,7 +40,7 @@ struct CommunityDetailsListResponse: Codable,Hashable {
         case modifiedAt = "modified_at"
         case scrapId = "scrap_id"
         case scrapStatus = "scrap_status"
-        case spoiler
+        case spoiler,reported
         case commentCnt = "comment_cnt"
     }
 }

@@ -324,7 +324,8 @@ extension ProfileView{
                                             .shadow(radius: 1)
                                         Text(item.contentsTitle)
                                             .font(.GmarketSansTTFMedium(15))
-                                            .frame(width: 200)
+                                            .frame(width: (UIScreen.main.bounds.width/3) - 20)
+                                            .lineLimit(1)
                                     }
                                 }
                             }
