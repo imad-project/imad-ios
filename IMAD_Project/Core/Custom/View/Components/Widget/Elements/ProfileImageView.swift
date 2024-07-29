@@ -14,6 +14,15 @@ struct ProfileImageView: View {
     var body: some View {
         KFImage(URL(string: imagePath.getImageURL()))
             .resizable()
+            .placeholder{
+                Circle()
+                    .foregroundColor(.gray.opacity(0.1))
+                    .overlay {
+                        Image(systemName: "person.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(.gray)
+                    }
+            }
             .scaledToFill()
             .frame(width: widthHeigt,height: widthHeigt)
             .clipShape(Circle())
