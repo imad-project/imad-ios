@@ -74,18 +74,8 @@ struct MyCommunityListView_Previews: PreviewProvider {
 extension MyCommunityListView{
     var header:some View{
         VStack{
-            HStack{
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .bold()
-                    
-                }
-                Text(writeType == .myself ? "내 게시물" : "내 게시물 반응")
-                    .font(.GmarketSansTTFMedium(25))
-                    .bold()
-                Spacer()
+            HeaderView(backIcon: "chevron.left", text: writeType == .myself ? "내 게시물" : "내 게시물 반응"){
+                dismiss()
             }
             if writeType == .myselfLike{
                 HStack{

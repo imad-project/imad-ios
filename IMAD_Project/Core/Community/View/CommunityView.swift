@@ -78,12 +78,9 @@ extension CommunityView{
     var header:some View{
         VStack(alignment:.leading,spacing:0){
             HStack{
-                Text("커뮤니티")
-                    .font(.custom("GmarketSansTTFMedium", size: 25))
-                    .bold()
+                HeaderView(text: "커뮤니티")
                     .padding(.leading,10)
                     .padding(.bottom)
-                Spacer()
                 Button {
                     withAnimation {
                         searchView = true

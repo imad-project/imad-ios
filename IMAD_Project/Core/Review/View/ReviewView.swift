@@ -84,17 +84,9 @@ extension ReviewView{
     var filterHeader:some View{
         VStack{
             VStack(spacing:10){
-                HStack{
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                    }
-                    Text("모든 리뷰")
-                        .font(.GmarketSansTTFMedium(25))
-                    Spacer()
+                HeaderView(backIcon: "chevron.left", text: "모든 리뷰"){
+                    dismiss()
                 }
-                .bold()
                 HStack{
                     Group{
                         Picker("", selection: $sort) {

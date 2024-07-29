@@ -79,19 +79,9 @@ struct CommentDetailsView_Previews: PreviewProvider {
 
 extension CommentDetailsView{
     var header:some View{
-        HStack{
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "chevron.left")
-                Text("답글")
-                    .font(.GmarketSansTTFMedium(25))
-                
-            }
-            Spacer()
+        HeaderView(backIcon:"chevron.left",text: "답글"){
+            dismiss()
         }
-        .bold()
-        .foregroundColor(.black)
         .padding(10)
         .background(Color.white)
     }

@@ -37,19 +37,9 @@ struct ReportView: View {
 
 extension ReportView{
     var header:some View{
-        HStack{
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "xmark")
-                    .bold()
-            }
-            Text("신고하기")
-                .bold()
-                .font(.GmarketSansTTFMedium(25))
-            Spacer()
+        HeaderView(backIcon: "xmark", text: "신고하기"){
+            dismiss()
         }
-        .foregroundColor(.black)
         .padding(10)
     }
     

@@ -179,21 +179,13 @@ struct ComminityPostView_Previews: PreviewProvider {
 extension CommunityPostView{
     func header(community:CommunityResponse) ->some View{
         HStack{
-            Button {
-                if let main {
-                    if main{
-                        dismiss()
-                    }
+            HeaderView(backIcon: "chevron.left", text:CommunityFilter.allCases.first(where:{$0.num == community.category})!.name){
+                if let main,main {
+                    dismiss()
                 }else{
                     self.back = false
                 }
-            } label: {
-                Image(systemName: "chevron.left")
-                    .bold()
             }
-            Text(CommunityFilter.allCases.first(where:{$0.num == community.category})!.name)
-                .bold()
-                .font(.GmarketSansTTFMedium(25))
             Spacer()
             Group{
                 Button {

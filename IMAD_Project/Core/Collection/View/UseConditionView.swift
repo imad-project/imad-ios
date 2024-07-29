@@ -22,9 +22,7 @@ struct UseConditionView: View {
     
     var body: some View {
         VStack(alignment:.leading){
-            Text("약관 동의")
-                .font(.GmarketSansTTFMedium(25))
-                .bold()
+            HeaderView(text: "약관 동의")
                 .padding(.horizontal)
             Text("가입을 위해서는 다음 정책들의 동의가 필요합니다.")
                 .font(.GmarketSansTTFMedium(15))

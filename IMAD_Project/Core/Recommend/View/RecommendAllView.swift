@@ -71,19 +71,10 @@ struct RecommendAllView: View {
         }
     }
     var headerView:some View{
-        HStack{
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "chevron.left")
-            }
-            Text(type.title)
-                .font(.GmarketSansTTFMedium(25))
-            Spacer()
+        HeaderView(backIcon: "chevron.left", text: type.title){
+            dismiss()
         }
-        .bold()
         .padding(10)
-        .foregroundColor(.black)
     }
     var titleView:some View{
         VStack(spacing:0){

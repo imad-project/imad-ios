@@ -110,15 +110,9 @@ extension ReviewDetailsView{
     func header(review:ReadReviewResponse) ->some View{
         VStack{
             HStack{
-                Button {
+                HeaderView(backIcon: "chevron.left", text: "모든 리뷰"){
                     dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .bold()
                 }
-                Text("리뷰")
-                    .bold()
-                    .font(.GmarketSansTTFMedium(25))
                 Spacer()
                 
                 
