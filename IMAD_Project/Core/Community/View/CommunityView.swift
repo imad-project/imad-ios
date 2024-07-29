@@ -8,8 +8,11 @@
 import SwiftUI
 import Kingfisher
 
+
 struct CommunityView: View {
     
+    @State var communityTab:CommunityFilter = .all
+    @State var tabInfo:CGFloat = 0
     @State var searchView = false
     @State var search = false
     @State var searchText = ""
@@ -18,24 +21,24 @@ struct CommunityView: View {
     @State var sort:SortFilter = .createdDate
     @State var workInfo:CommunityDetailsListResponse?
     
-    @StateObject var tab = CommunityTabManager()
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         VStack(spacing: 0){
             header
+            category
             ScrollView(showsIndicators: false){
                 infoView
                 listView
             }
             .background(.gray.opacity(0.1))
         }
-        .onChange(of: tab.communityTab){ tab in
+        .onChange(of: communityTab){ tab in
             listUpdate(category: tab.num)
         }
         .onAppear{
-            listUpdate(category: tab.communityTab.num)
+            listUpdate(category: communityTab.num)
         }
         .navigationDestination(isPresented: $goWork) {
             if let workInfo{
@@ -66,7 +69,7 @@ struct CommunityView_Previews: PreviewProvider {
             CommunityView(vm: CommunityViewModel(community:CustomData.instance.community, communityList: CustomData.instance.communityList))
                 .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
-       
+        
     }
 }
 
@@ -96,48 +99,42 @@ extension CommunityView{
                         .font(.title3).bold()
                 }.padding(.trailing,10)
             }
-            category
         }
         .foregroundColor(.customIndigo)
         .padding(.top,10)
     }
     var category:some View{
-        GeometryReader{ geo in
-            let width = geo.size.width
-            HStack{
-                ForEach(CommunityFilter.allCases,id:\.self){ item in
-                    Button {
+        HStack{
+            ForEach(CommunityFilter.allCases,id:\.self){ item in
+                GeometryReader{ geo in
+                    let minX = geo.frame(in: .global).minX
+                    if item == CommunityFilter.allCases.first{
+                        self.tabInfo = minX
+                    }
+                    return  Button {
                         withAnimation(.easeIn(duration: 0.2)){
-                            tab.communityTab = item
+                            tabInfo = minX
                         }
                     } label: {
                         Text(item.name)
-                            .font(.custom("GmarketSansTTFMedium", size: 15))
-                           
-                    } .frame(maxWidth: .infinity)
-                    
+                            .font(.GmarketSansTTFMedium(15))
+                    }
                 }
-                
+                .frame(width: 45,height: 30)
+                .frame(maxWidth: .infinity)
             }
-            .overlay(alignment:.leading){
-                Capsule()
-                    .frame(width: UIScreen.main.bounds.width/4 - 20,height: 3)
-                    .offset(x:tab.indicatorOffset(width: width) + 10)
-                    .padding(.top,45)
-            }
-            .frame(width: width)
         }
-        .frame(maxHeight: 17)
-        .padding(.bottom)
+        .foregroundColor(.customIndigo)
+        .overlay(alignment:.leading){
+            Capsule()
+                .frame(width: 45,height: 3)
+                .offset(x:tabInfo,y:13.5)
+        }
         .background{
-            VStack(spacing: 0){
-                Color.white
-                Divider()
-            }
-            
+            Divider().offset(y:13.5)
         }
-        
     }
+    
     var infoView:some View{
         HStack{
             Text("총 \(vm.totalOfElements)개")
@@ -146,7 +143,7 @@ extension CommunityView{
             
             Button {
                 sort = .createdDate
-                listUpdate(category: tab.communityTab.num)
+                listUpdate(category: communityTab.num)
             } label: {
                 HStack(spacing:2){
                     Image(systemName: sort == .createdDate ? "checkmark" : "").fontWeight(.black)
@@ -158,7 +155,7 @@ extension CommunityView{
             Text("·")
             Button {
                 sort = .likeCnt
-                listUpdate(category: tab.communityTab.num)
+                listUpdate(category: communityTab.num)
             } label: {
                 HStack(spacing:2){
                     Image(systemName: sort == .likeCnt ? "checkmark":"").fontWeight(.black)
@@ -181,11 +178,11 @@ extension CommunityView{
             } label: {
                 CommunityListRowView(community: community)
             }
-           
+            
             if vm.communityList.last == community,vm.maxPage > vm.currentPage{
                 ProgressView()
                     .onAppear{
-                        vm.readCommunityList(page: vm.currentPage + 1,category:tab.communityTab.num)
+                        vm.readCommunityList(page: vm.currentPage + 1,category:communityTab.num)
                     }
             }
         }
@@ -195,5 +192,5 @@ extension CommunityView{
         vm.communityList.removeAll()
         vm.readListConditionsAll(searchType: 0, query: "", page: vm.currentPage, sort: sort.rawValue, order: 1,category: category)
     }
-
+    
 }

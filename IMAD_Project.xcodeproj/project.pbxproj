@@ -48,7 +48,6 @@
 		812CDE9429DE92000003B993 /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9329DE92000003B993 /* CommunityView.swift */; };
 		812CDE9629DE9CD50003B993 /* CommunityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9529DE9CD50003B993 /* CommunityFilter.swift */; };
 		812CDE9A29DE9ECB0003B993 /* TabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9929DE9ECB0003B993 /* TabViewModel.swift */; };
-		812CDE9E29DEA22D0003B993 /* CommunityTabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9D29DEA22D0003B993 /* CommunityTabManager.swift */; };
 		812CDEA029DEAA850003B993 /* CommunityListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9F29DEAA850003B993 /* CommunityListRowView.swift */; };
 		812CDEAA29DF0BF20003B993 /* Notific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDEA929DF0BF20003B993 /* Notific.swift */; };
 		812EF9D329E1B5E700CE19DA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EF9D229E1B5E700CE19DA /* ProfileView.swift */; };
@@ -295,7 +294,6 @@
 		812CDE9329DE92000003B993 /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
 		812CDE9529DE9CD50003B993 /* CommunityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilter.swift; sourceTree = "<group>"; };
 		812CDE9929DE9ECB0003B993 /* TabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewModel.swift; sourceTree = "<group>"; };
-		812CDE9D29DEA22D0003B993 /* CommunityTabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTabManager.swift; sourceTree = "<group>"; };
 		812CDE9F29DEAA850003B993 /* CommunityListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityListRowView.swift; sourceTree = "<group>"; };
 		812CDEA929DF0BF20003B993 /* Notific.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notific.swift; sourceTree = "<group>"; };
 		812EF9D229E1B5E700CE19DA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -861,7 +859,6 @@
 		819C506C2A0F465F0008F4A5 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				812CDE9D29DEA22D0003B993 /* CommunityTabManager.swift */,
 				819C506D2A0F467B0008F4A5 /* UserDefaultManager.swift */,
 			);
 			path = Manager;
@@ -1737,7 +1734,6 @@
 				819D499C2A933A3F008B7BFE /* Credit.swift in Sources */,
 				817919D32B4BDFC80084779B /* RankingResponseList.swift in Sources */,
 				817919D72B4BE2400084779B /* RankingViewModel.swift in Sources */,
-				812CDE9E29DEA22D0003B993 /* CommunityTabManager.swift in Sources */,
 				819AA9ED2ACD3CEC0048CF7B /* BookmarkListResponse.swift in Sources */,
 				8115A6672A8F3B3E00B7C3FE /* String.swift in Sources */,
 				818B073A2B0D9E3A0013C426 /* ScrapList.swift in Sources */,
