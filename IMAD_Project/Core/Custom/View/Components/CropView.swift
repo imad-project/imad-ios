@@ -9,12 +9,14 @@ import SwiftUI
 struct CropView: View {
     
     
-    @State var scale:CGFloat = 1
-    @State var lastScale:CGFloat = 0
-    @State var offset:CGSize = .zero
-    @State var lastStoreOffset:CGSize = .zero
+    @State var endOffset = CGSize.zero
+    @State var currentOffset = CGSize.zero
+    
+    @State var currentScale:CGFloat = 0
+    @State var endScale:CGFloat = 0
+    
     @State var appearGrid = false
-    @GestureState var isInteracting:Bool = false
+    @GestureState var changed = false
     
     @Binding var image:UIImage?
     var onCrop:(UIImage?,Bool)->()
@@ -25,139 +27,124 @@ struct CropView: View {
             Color.white.ignoresSafeArea()
             Color.black.opacity(0.9).ignoresSafeArea()
             imageView()
-                .mask(alignment: .center) {
-                        ZStack {
-                            Rectangle()
-                                .opacity(0.5)
-                            Circle()
-                        }
-                }
-                .frame(maxWidth: .infinity,maxHeight: .infinity,alignment: .center)
-            ZStack{
-                Group{
-                    HStack{
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "xmark")
-                        }
-                        Spacer()
-                        Button {
-                            let renderer = ImageRenderer(content: imageView(true))
-                            renderer.proposedSize = .init(CGSize(width: isPad() ? 500 : mainWidth, height: isPad() ? 500 : mainWidth))
-                            if let image = renderer.uiImage{
-                                onCrop(image,true)
-                            }else{
-                                onCrop(nil,false)
-                            }
-                            dismiss()
-                        } label: {
-                            Image(systemName: "checkmark")
-                        }
-                    }
-                    Text("사진 자르기")
-                    
-                }
-                .font(.title3)
-                .bold()
-                .foregroundColor(.white)
-                .frame(maxWidth:.infinity)
-                .padding()
-            }
-            .background{
-                Color.white.ignoresSafeArea()
-                Color.black.opacity(0.9).ignoresSafeArea()
-            }
+            header
         }
     }
     
+    var header: some View{
+        ZStack{
+            Group{
+                HStack{
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    Spacer()
+                    Button {
+                        Task{
+                            await dismissEvent()
+                        }
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                }
+                Text("사진 자르기")
+            }
+            .font(.title3)
+            .bold()
+            .foregroundColor(.white)
+            .frame(maxWidth:.infinity)
+            .padding()
+        }
+        .background{
+            Color.white.ignoresSafeArea()
+            Color.black.opacity(0.9).ignoresSafeArea()
+        }
+    }
     @ViewBuilder
     func imageView(_ hideGrids:Bool = false)->some View{
-        let cropSize = CGSize(width: isPad() ? 500 : mainWidth, height: isPad() ? 500 : mainWidth)
-        GeometryReader { geometry in
-            let size = geometry.size
-            if let image{
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .overlay{
-                        GeometryReader{ proxy in
-                            let rect = proxy.frame(in: .named("CROPVIEW"))
-                            Color.clear
-                                .onChange(of: isInteracting){ newValue in
-                                    withAnimation(.easeInOut(duration: 0.2)){
-                                        if rect.minX > 0{
-                                            offset.width = (offset.width - rect.minX)
-                                            haptics(.medium)
-                                        }
-                                        if rect.minY > 0{
-                                            offset.height = (offset.height-rect.minY)
-                                            haptics(.medium)
-                                        }
-                                        if rect.maxX < size.width{
-                                            offset.width = (rect.minX - offset.width)
-                                            haptics(.medium)
-                                        }
-                                        if rect.maxY < size.height{
-                                            offset.height = (rect.minY - offset.height)
-                                            haptics(.medium)
-                                        }
-                                    }
-                                    if !newValue{
-                                        lastStoreOffset = offset
-                                    }
-                                    withAnimation(.easeInOut(duration: 0.5)){
-                                        appearGrid.toggle()
-                                    }
-                                    
+        ZStack{
+            Color.black.opacity(0.7).ignoresSafeArea()
+            GeometryReader{ geo in
+                let g = geo.frame(in: .named("G"))
+                if let image{
+                    Image(uiImage: image)
+                        .resizable()
+                        .frame(maxHeight: .infinity)
+                        .onChange(of: changed) { change in
+                            withAnimation(.easeIn(duration: 0.1)){
+                                if g.minX > 0{
+                                    currentOffset.width = currentOffset.width - g.minX
                                 }
+                                if g.minY > 0{
+                                    currentOffset.height = currentOffset.height - g.minY
+                                }
+                                if g.maxX < mainWidth{
+                                    currentOffset.width = g.minX - currentOffset.width
+                                }
+                                if g.maxY < mainWidth{
+                                    currentOffset.height = g.minY - currentOffset.height
+                                }
+                                if !change{
+                                    endOffset = currentOffset
+                                }
+                                withAnimation(.easeInOut(duration: 0.5)){
+                                    appearGrid.toggle()
+                                }
+                            }
                         }
-                    }
-                    .frame(size)
+                }
+                
             }
-        }
-        .scaleEffect(scale)
-        .offset(offset)
-        .overlay {
-            if !hideGrids{
+            .scaleEffect(currentScale + 1)
+            .offset(currentOffset)
+            .gesture(drag)
+            .gesture(pinch)
+            .frame(width: mainWidth,height: mainWidth)
+            .coordinateSpace(name: "G")
+            .mask{
+                ZStack {
+                    Rectangle()
+                        .opacity(0.5)
+                    Circle()
+                }
+            }
+            .overlay {
                 if appearGrid{
                     Grids()
                 }
             }
+            
         }
-        .coordinateSpace(name:"CROPVIEW")
-        .gesture(
-            DragGesture()
-                .updating($isInteracting){_,out,_ in
-                    out = true
-                }
-                .onChanged{ value in
-                    let translation = value.translation
-                    offset = CGSize(width: translation.width + lastStoreOffset.width, height: translation.height + lastStoreOffset.height)
-                }
-        )
-        .gesture(
-            MagnificationGesture()
-                .updating($isInteracting){_,out,_ in
-                    out = true
-                }.onChanged{ value in
-                    let updatedScale = value + lastScale
-                    scale = (updatedScale < 1 ? 1:updatedScale)
-                }
-                .onEnded{ value in
-                    withAnimation(.default){
-                        if scale < 1{
-                            scale = 1
-                            lastScale = 0
-                        }else{
-                            lastScale = scale-1
-                        }
+    }
+    var drag:some Gesture{
+        DragGesture()
+            .updating($changed){ _,changed,_ in
+                changed = true
+            }
+            .onChanged{ gesture in
+                currentOffset = endOffset + gesture.translation
+            }
+    }
+    var pinch:some Gesture{
+        MagnificationGesture()
+            .updating($changed){ _,changed,_ in
+                changed = true
+            }
+            .onChanged { gesture in
+                currentScale = gesture + endScale - 1
+            }
+            .onEnded { gesture in
+                withAnimation(.easeIn(duration: 0.1)){
+                    endScale = endScale + gesture - 1
+                    if endScale + 1 < 1 || endScale + 1 > 3{
+                        currentScale = 0
+                        endScale = 0
                     }
                 }
-        )
-        .frame(cropSize)
+            }
         
-       
     }
     @ViewBuilder
     func Grids()->some View{
@@ -182,10 +169,21 @@ struct CropView: View {
             }
         }
     }
+    @MainActor
+    func dismissEvent(){
+        let renderer = ImageRenderer(content: imageView(true))
+        renderer.proposedSize = .init(CGSize(width: isPad() ? 500 : mainWidth, height: isPad() ? 500 : mainWidth))
+        if let image = renderer.uiImage{
+            onCrop(image,true)
+        }else{
+            onCrop(nil,false)
+        }
+        dismiss()
+    }
 }
 
 #Preview {
-    CropView(image:.constant(UIImage(named: "happy"))){ _,_ in
+    CropView(image:.constant(UIImage(named: "indigo"))){ _,_ in
         
     }
 }
