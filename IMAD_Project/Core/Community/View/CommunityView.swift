@@ -108,16 +108,19 @@ extension CommunityView{
             ForEach(CommunityFilter.allCases,id:\.self){ item in
                 GeometryReader{ geo in
                     let minX = geo.frame(in: .global).minX
-                    if item == CommunityFilter.allCases.first{
-                        self.tabInfo = minX
-                    }
-                    return  Button {
+                    Button {
                         withAnimation(.easeIn(duration: 0.2)){
                             tabInfo = minX
+                            communityTab = item
                         }
                     } label: {
                         Text(item.name)
                             .font(.GmarketSansTTFMedium(15))
+                    }
+                    .onAppear{
+                        if item == CommunityFilter.allCases.first{
+                            self.tabInfo = minX
+                        }
                     }
                 }
                 .frame(width: 45,height: 30)
