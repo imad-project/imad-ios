@@ -40,24 +40,15 @@ struct UseConditionView: View {
                     
                     Spacer()
                         .frame(height:30)
-                    Button {
+                    CustomConfirmButton(text: "완료", color: .customIndigo,textColor:.white){
                         if condition,info,age{
                             noAdmit = false
                             dismiss()
                         }else{
                             noAdmit = true
                         }
-                    } label: {
-                        Text("완료")
-                            .font(.GmarketSansTTFMedium(15))
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.white)
-                            .background{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .foregroundColor(.customIndigo)
-                            }
                     }
+                    
                     if noAdmit{
                         Text("모두 동의 하지 않으면 가입을 할 수 없습니다.")
                             .font(.GmarketSansTTFMedium(12))

@@ -132,7 +132,7 @@
 		81AF8E8F2B1714EC000BB984 /* MyCommunityListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF8E8E2B1714EC000BB984 /* MyCommunityListView.swift */; };
 		81AFC7212A25A11E00051F59 /* EmailFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFC7202A25A11E00051F59 /* EmailFilter.swift */; };
 		81B1848C2AFB5D6000CCDBEC /* PatchUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B1848B2AFB5D6000CCDBEC /* PatchUserInfo.swift */; };
-		81B184902AFB615000CCDBEC /* CustomNextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B1848F2AFB615000CCDBEC /* CustomNextButton.swift */; };
+		81B184902AFB615000CCDBEC /* CustomConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B1848F2AFB615000CCDBEC /* CustomConfirmButton.swift */; };
 		81BB11022A061198005654AA /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11012A061198005654AA /* AuthRouter.swift */; };
 		81BB11042A061457005654AA /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11032A061457005654AA /* ApiClient.swift */; };
 		81BB11062A0614D1005654AA /* ApiLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11052A0614D1005654AA /* ApiLogger.swift */; };
@@ -377,7 +377,7 @@
 		81AF8E8E2B1714EC000BB984 /* MyCommunityListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityListView.swift; sourceTree = "<group>"; };
 		81AFC7202A25A11E00051F59 /* EmailFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFilter.swift; sourceTree = "<group>"; };
 		81B1848B2AFB5D6000CCDBEC /* PatchUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchUserInfo.swift; sourceTree = "<group>"; };
-		81B1848F2AFB615000CCDBEC /* CustomNextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNextButton.swift; sourceTree = "<group>"; };
+		81B1848F2AFB615000CCDBEC /* CustomConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomConfirmButton.swift; sourceTree = "<group>"; };
 		81BB11012A061198005654AA /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		81BB11032A061457005654AA /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		81BB11052A0614D1005654AA /* ApiLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiLogger.swift; sourceTree = "<group>"; };
@@ -1334,7 +1334,7 @@
 			children = (
 				817919C72B4BADC20084779B /* CustomTextEditor.swift */,
 				81DB1FC129E56D1E002C0840 /* CustomTextField.swift */,
-				81B1848F2AFB615000CCDBEC /* CustomNextButton.swift */,
+				81B1848F2AFB615000CCDBEC /* CustomConfirmButton.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1744,7 +1744,7 @@
 				D6D974CB2C3D7CE900BCBF49 /* AllRankingView.swift in Sources */,
 				81DB1FD629E7D03B002C0840 /* KeyBoard.swift in Sources */,
 				D60AD21A2C29B66500C9C27B /* RecommendMovieList.swift in Sources */,
-				81B184902AFB615000CCDBEC /* CustomNextButton.swift in Sources */,
+				81B184902AFB615000CCDBEC /* CustomConfirmButton.swift in Sources */,
 				D6D974C62C3BB2D400BCBF49 /* ProfileImageResponse.swift in Sources */,
 				D69455CF2C4BC1A5004CDFC9 /* OtherProfileView.swift in Sources */,
 				D69455CD2C4BAD89004CDFC9 /* UserViewModel.swift in Sources */,

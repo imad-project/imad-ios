@@ -219,36 +219,18 @@ extension WriteReviewView{
     }
     var saveView:some View{
         HStack{
-            Button {
+            CustomConfirmButton(text: "취소", color: .gray.opacity(0.2), textColor: .black) {
                 dismiss()
-            } label: {
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(height: 50)
-                    .foregroundColor(.gray.opacity(0.2))
-                    .overlay {
-                        Text("취소")
-                            .font(.GmarketSansTTFMedium(18))
-                            .foregroundColor(.black)
-                    }
             }
-            .padding([.leading,.top,.bottom])
-            Button {
+            .padding([.leading,.vertical],10)
+            CustomConfirmButton(text:reviewId != nil ? "수정" : "등록", color: .customIndigo.opacity(text != "" && title != "" && rating > 0 ? 1 : 0.5), textColor: .white) {
                 if let reviewId{
                     vm.updateReview(reviewId: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
                 }else{
                     vm.writeReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
                 }
-            } label: {
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(height: 50)
-                    .foregroundColor(.customIndigo.opacity(text != "" && title != "" && rating > 0 ? 1 : 0.5))
-                    .overlay {
-                        Text(reviewId != nil ? "수정" : "등록")
-                            .font(.GmarketSansTTFMedium(18))
-                            .foregroundColor(.white)
-                    }
             }
-            .padding([.trailing,.top,.bottom])
+            .padding([.trailing,.vertical],10)
         }
     }
     var writeView:some View{

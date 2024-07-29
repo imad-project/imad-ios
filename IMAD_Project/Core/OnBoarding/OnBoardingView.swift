@@ -42,5 +42,6 @@ struct OnBoardingView: View {
 struct OnBoardingReviewView_Previews: PreviewProvider {
     static var previews: some View {
         OnBoardingView(title: "커뮤니티", descrpit: "재밌게 본 드라마나 영화에 대해 마음껏 본인의 생각을 펼쳐보세요!", image: "ghost", height: 200)
+            .background(Color.customIndigo)
     }
 }

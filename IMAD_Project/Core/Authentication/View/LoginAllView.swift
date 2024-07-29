@@ -167,39 +167,14 @@ extension LoginAllView{
     }
     var authView:some View{
         VStack{
-            Button {
+            CustomConfirmButton(text: "로그인", color: .customIndigo, textColor: .white) {
                 vm.login(email: "\(id)@\(domain.domain)", password: password.sha256())    //SHA256
                 loading = true
-            } label: {
-                RoundedRectangle(cornerRadius: 20)
-                    .frame(height: 55)
-                    .foregroundColor(.customIndigo)
-                    .frame(maxWidth: .infinity)
-                    .overlay {
-                        Text("로그인")
-                            .font(.GmarketSansTTFMedium(18))
-                            .foregroundColor(.white)
-                            .shadow(radius: 20)
-                        
-                        
-                    }.padding(.horizontal,5)
             }
-            Button {
-                register = true
-            } label: {
-                RoundedRectangle(cornerRadius: 20)
-                    .frame(height: 55)
-                    .foregroundColor(.customIndigo.opacity(0.5))
-                    .frame(maxWidth: .infinity)
-                    .overlay {
-                        Text("회원가입")
-                            .font(.GmarketSansTTFMedium(18))
-                            .foregroundColor(.white)
-                            .shadow(radius: 20)
-                        
-                        
-                    }
-            }.padding(.horizontal,5)
+            CustomConfirmButton(text: "회원가입", color: .customIndigo.opacity(0.5), textColor: .white) {
+                vm.login(email: "\(id)@\(domain.domain)", password: password.sha256())    //SHA256
+                loading = true
+            }
         }
     }
     var divderView:some View{
@@ -257,10 +232,10 @@ extension LoginAllView{
             }
         )
         .frame(height:50)
-        .cornerRadius(20)
+        .cornerRadius(10)
     }
     func loginButton(item:OauthFilter) -> some View{
-        RoundedRectangle(cornerRadius: 20)
+        RoundedRectangle(cornerRadius: 10)
             .frame(height: 55)
             .foregroundColor(item.color)
             .overlay {

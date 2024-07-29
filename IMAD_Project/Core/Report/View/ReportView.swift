@@ -74,7 +74,7 @@ extension ReportView{
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(5)
                 
-            Button {
+            CustomConfirmButton(text: "신고하기", color: .customIndigo,textColor:.white) {
                 switch mode{
                 case "user":vm.reportUser(id: id, type: filter.rawValue, description: other)
                 case "posting":vm.reportPosting(id: id, type: filter.rawValue, description: other)
@@ -83,17 +83,6 @@ extension ReportView{
                 default:print("그런거 없음")
                 }
                 dismiss()
-            } label: {
-                Text("신고하기")
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(.white)
-                    .font(.GmarketSansTTFMedium(15))
-                    .padding()
-                    .padding(.vertical,5)
-                    .background{
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(.customIndigo)
-                    }
             }
             .padding(.vertical)
 

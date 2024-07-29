@@ -48,15 +48,15 @@ struct ProfileSelectView: View {
                             .frame(maxWidth: .infinity)
                     }
                     selectProfileView
-                    CustomNextButton(action: {
-                        
+                    CustomConfirmButton(text: "완료", color: vm.patchUser.nickname.isEmpty || vm.patchUser.gender.isEmpty ? .customIndigo.opacity(0.5):.customIndigo,textColor:.white) {
                         if let image = vmProfile.customImage,vmProfile.defaultImage == .none{
                             vmProfile.fetchProfileImageCustom(image: image)
                         }else{
                             vmProfile.fetchProfileImageDefault(image: vmProfile.defaultImage.num.getImageValue())
                         }
                         loading = true
-                    }, color:vm.patchUser.nickname.isEmpty || vm.patchUser.gender.isEmpty ? .customIndigo.opacity(0.5):.customIndigo)
+                    }
+                    .padding(.horizontal)
                 }
                 .foregroundColor(.customIndigo)
                 
