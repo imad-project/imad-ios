@@ -25,18 +25,6 @@ enum CommunityFilter:CaseIterable{
             return "토론글"
         }
     }
-    var image:String{
-        switch self{
-        case .all:
-            return ""
-        case .free:
-            return "🌈"
-        case .question:
-            return "🤷‍♂️"
-        case .debate:
-            return "🤔"
-        }
-    }
     var num:Int {
         switch self{
         case .all:

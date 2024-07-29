@@ -19,14 +19,14 @@ struct MenuTabView: View {
             TabView(selection: $vm.tab){
                 MainView()
                     .environmentObject(vmAuth)
-                    .tag(Tab.home)
+                    .tag(TabFilter.home)
                 CommunityView()
                     .environmentObject(vmAuth)
-                    .tag(Tab.community)
+                    .tag(TabFilter.community)
                 SearchView(backMode: true, postingMode: false, back: .constant(false))
-                    .tag(Tab.notification)
+                    .tag(TabFilter.notification)
                 ProfileView()
-                    .tag(Tab.profile)
+                    .tag(TabFilter.profile)
                     .environmentObject(vmAuth)
                 
             }
@@ -53,7 +53,7 @@ extension MenuTabView{
         GeometryReader{ geo in
             let width = geo.size.width
             HStack(spacing: 0) {
-                ForEach(Tab.allCases,id:\.self){ tab in
+                ForEach(TabFilter.allCases,id:\.self){ tab in
                     Button {
                         withAnimation(.easeIn(duration: 0.2)){
                             vm.tab = tab
