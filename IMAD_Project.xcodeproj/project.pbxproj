@@ -204,6 +204,8 @@
 		D61D2A862C3B942C00ED74F6 /* GmarketSansTTFMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61D2A832C3B942C00ED74F6 /* GmarketSansTTFMedium.ttf */; };
 		D61D2A872C3B942C00ED74F6 /* GmarketSansTTFLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61D2A842C3B942C00ED74F6 /* GmarketSansTTFLight.ttf */; };
 		D62967AA2C575D210059A15B /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62967A92C575D210059A15B /* CGSize.swift */; };
+		D62967B22C5789A60059A15B /* 이용약관.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D62967B12C5789A60059A15B /* 이용약관.pdf */; };
+		D62967B42C5789AA0059A15B /* 개인정보처리방침.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D62967B32C5789AA0059A15B /* 개인정보처리방침.pdf */; };
 		D64C4C8B2C37B6FF0097B2FD /* CustomImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64C4C8A2C37B6FE0097B2FD /* CustomImagePicker.swift */; };
 		D64C4C8E2C37BE4E0097B2FD /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64C4C8D2C37BE4E0097B2FD /* CropView.swift */; };
 		D654FBCF2BA04C6E00AF307E /* PopularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654FBCE2BA04C6E00AF307E /* PopularView.swift */; };
@@ -448,6 +450,8 @@
 		D61D2A832C3B942C00ED74F6 /* GmarketSansTTFMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansTTFMedium.ttf; sourceTree = "<group>"; };
 		D61D2A842C3B942C00ED74F6 /* GmarketSansTTFLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansTTFLight.ttf; sourceTree = "<group>"; };
 		D62967A92C575D210059A15B /* CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
+		D62967B12C5789A60059A15B /* 이용약관.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "이용약관.pdf"; sourceTree = "<group>"; };
+		D62967B32C5789AA0059A15B /* 개인정보처리방침.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "개인정보처리방침.pdf"; sourceTree = "<group>"; };
 		D64C4C8A2C37B6FE0097B2FD /* CustomImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImagePicker.swift; sourceTree = "<group>"; };
 		D64C4C8D2C37BE4E0097B2FD /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
 		D654FBCE2BA04C6E00AF307E /* PopularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularView.swift; sourceTree = "<group>"; };
@@ -463,8 +467,6 @@
 		D69455CE2C4BC1A5004CDFC9 /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
 		D69455D02C4BE376004CDFC9 /* UseConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseConditionView.swift; sourceTree = "<group>"; };
 		D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFUIView.swift; sourceTree = "<group>"; };
-		D69455D92C4C7A57004CDFC9 /* 개인정보처리방침.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "개인정보처리방침.pdf"; sourceTree = "<group>"; };
-		D69455DA2C4C7A58004CDFC9 /* 이용약관.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "이용약관.pdf"; sourceTree = "<group>"; };
 		D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendAllView.swift; sourceTree = "<group>"; };
 		D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendListType.swift; sourceTree = "<group>"; };
 		D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkGenre.swift; sourceTree = "<group>"; };
@@ -1404,8 +1406,8 @@
 		D69455D82C4C7A46004CDFC9 /* PDF */ = {
 			isa = PBXGroup;
 			children = (
-				D69455D92C4C7A57004CDFC9 /* 개인정보처리방침.pdf */,
-				D69455DA2C4C7A58004CDFC9 /* 이용약관.pdf */,
+				D62967B32C5789AA0059A15B /* 개인정보처리방침.pdf */,
+				D62967B12C5789A60059A15B /* 이용약관.pdf */,
 				D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */,
 			);
 			path = PDF;
@@ -1570,8 +1572,10 @@
 			files = (
 				8103094829D1BDF00021717B /* Preview Assets.xcassets in Resources */,
 				D61D2A852C3B942C00ED74F6 /* GmarketSansTTFBold.ttf in Resources */,
+				D62967B22C5789A60059A15B /* 이용약관.pdf in Resources */,
 				81EE0B442B4161DF00A58E5F /* IMAD-Project-info.plist in Resources */,
 				D61D2A872C3B942C00ED74F6 /* GmarketSansTTFLight.ttf in Resources */,
+				D62967B42C5789AA0059A15B /* 개인정보처리방침.pdf in Resources */,
 				8103094529D1BDF00021717B /* Assets.xcassets in Resources */,
 				D61D2A862C3B942C00ED74F6 /* GmarketSansTTFMedium.ttf in Resources */,
 			);
