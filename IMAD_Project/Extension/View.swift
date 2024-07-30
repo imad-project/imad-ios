@@ -29,6 +29,12 @@ extension View{
             CustomProgressView()
         }
     }
+    @ViewBuilder
+    func onAppearOnDisAppear(_ appear:@escaping()->(),_ disAppear:@escaping()->()) -> some View{
+        self
+            .onAppear(perform: appear)
+            .onDisappear(perform: disAppear)
+    }
     
     var mainWidth:CGFloat{
         UIScreen.main.bounds.width
