@@ -73,6 +73,11 @@ struct MainView_Previews: PreviewProvider {
 }
 
 extension MainView{
+    var trendFrame: CGSize {
+        let width:CGFloat = mainWidth
+        let height:CGFloat = isPad() ? 500 : 350
+        return CGSize(width: width, height: height)
+    }
     func list(_ filter:RecommendListType) -> ([WorkGenre],WorkGenreType,RecommendListType,Int?){
         switch filter{
         case .genreTv:
@@ -107,7 +112,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationTv?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationTv?.results {
-                for i in 0..<(results.count > 5 ? 5:results.count) {
+                for i in 0..<(results.count > 4 ? 4:results.count) {
                     list.append( TVWorkGenre(tvGenre:results[i]))
                 }
             }
@@ -116,7 +121,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationTvAnimation?.results {
-                for i in 0..<(results.count > 5 ? 5:results.count){
+                for i in 0..<(results.count > 4 ? 4:results.count){
                     list.append( TVWorkGenre(tvGenre:results[i]))
                 }
             }
@@ -125,7 +130,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationMovie?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationMovie?.results {
-                for i in 0..<(results.count > 5 ? 5:results.count){
+                for i in 0..<(results.count > 4 ? 4:results.count){
                     list.append( MovieWorkGenre(movieGenre:results[i]))
                 }
             }
@@ -134,7 +139,7 @@ extension MainView{
             var list:[WorkGenre] = []
             let contentsId = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.contentsID
             if let results = vmRecommend.recommendAll?.userActivityRecommendationMovieAnimation?.results {
-                for i in 0..<(results.count > 5 ? 5:results.count){
+                for i in 0..<(results.count > 4 ? 4:results.count){
                     list.append( MovieWorkGenre(movieGenre:results[i]))
                 }
             }
@@ -159,7 +164,7 @@ extension MainView{
         HStack{
             Text(text)
                 .fontWeight(.black)
-                .font(.custom("GmarketSansTTFMedium", size: 17))
+                .font(.custom("GmarketSansTTFMedium", size: 20))
                 .foregroundColor(.customIndigo)
             Spacer()
         }
@@ -175,7 +180,7 @@ extension MainView{
                                 .environmentObject(vmAuth)
                                 .navigationBarBackButtonHidden()
                         } label: {
-                            VStack(alignment: .leading){
+                            VStack(spacing:5){
                                 KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: width,height: height)
                                     .cornerRadius(5)
                                 Text((list(filter).1 == .tv ? work.name() : work.title()) ?? "")
@@ -196,9 +201,43 @@ extension MainView{
             .padding(.horizontal,10)
         }
     }
+    var carouselView:some View{
+        TabView{
+            ListView(items: trend ? list(.trendTv).0 : list(.trendMovie).0){ work in
+                NavigationLink {
+                    WorkView(id: work.id(),type: trend ? list(.trendTv).1.rawValue : list(.trendMovie).1.rawValue)
+                        .environmentObject(vmAuth)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    ZStack{
+                        KFImageView(image: work.backdropPath()?.getImadImage() ?? "")
+                        Color.clear
+                            .background(Material.ultraThin)
+                        VStack{KFImageView(image: work.posterPath()?.getImadImage() ?? "",width:isPad() ? 300 : 175,height: isPad() ? 370 : 240)
+                                .cornerRadius(5)
+                            Text(trend ? work.name() ?? "" : work.title() ?? "")
+                                .bold()
+                                .font(.GmarketSansTTFMedium(isPad() ? 20 :15))
+                                .lineLimit(1)
+                            Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" : work.genreId()?.transMovieGenreCode() ?? "")
+                                .font(.GmarketSansTTFMedium(isPad() ? 17.5 :12))
+                                .lineLimit(1)
+                        }
+                        .foregroundColor(.white)
+                        .padding()
+                        .padding(.bottom)
+                    }
+                    
+                }
+            }
+        }
+        .frame(trendFrame)
+        .tabViewStyle(.page)
+        .colorScheme(.dark)
+    }
     func titleView(user:UserResponse) -> some View{
         Text((user.nickname ?? "") + "님 환영합니다")
-            .font(.custom("GmarketSansTTFMedium", size: 25))
+            .font(.GmarketSansTTFMedium(isPad() ? 30 : 25))
             .fontWeight(.black)
             .padding(.horizontal,10)
             .padding(.bottom)
@@ -206,11 +245,10 @@ extension MainView{
     }
     var trendView:some View{
         VStack(alignment: .leading){
-            
             HStack{
                 Text("인기작품")
                     .fontWeight(.black)
-                    .font(.custom("GmarketSansTTFMedium", size: 20))
+                    .font(.GmarketSansTTFMedium(isPad() ? 22 : 20))
                     .foregroundColor(.customIndigo)
                 Button {
                     withAnimation(.default){
@@ -218,7 +256,7 @@ extension MainView{
                     }
                 } label: {
                     Text("영화")
-                        .font(.custom("GmarketSansTTFMedium", size: 15))
+                        .font(.GmarketSansTTFMedium(15))
                         .opacity(trend ? 0.5 : 1.0)
                 }
                 Text(" l ").foregroundColor(.gray)
@@ -229,7 +267,7 @@ extension MainView{
                     
                 } label: {
                     Text("시리즈")
-                        .font(.custom("GmarketSansTTFMedium", size: 15))
+                        .font(.GmarketSansTTFMedium(15))
                         .opacity(trend ? 1.0 : 0.5)
                 }
                 Spacer()
@@ -237,41 +275,7 @@ extension MainView{
             }
             .padding(.horizontal,10)
             .foregroundColor(.customIndigo)
-            ScrollView(.horizontal,showsIndicators: false) {
-                HStack{
-                    ListView(items: trend ? list(.trendTv).0 : list(.trendMovie).0) { work in
-                        NavigationLink {
-                            WorkView(id: work.id(),type: trend ? list(.trendTv).1.rawValue : list(.trendMovie).1.rawValue)
-                                .environmentObject(vmAuth)
-                                .navigationBarBackButtonHidden()
-                        } label: {
-                            KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 200,height: 250)
-                                .overlay{
-                                    ZStack{
-                                        LinearGradient(colors: [.gray.opacity(0.3)], startPoint: .top, endPoint: .bottom)
-                                            .background(Material.ultraThin)
-                                        VStack{
-                                            KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 100,height: 160)
-                                                .cornerRadius(5)
-                                            Text(trend ? work.name() ?? "" : work.title() ?? "")
-                                                .bold()
-                                                .font(.GmarketSansTTFMedium(15))
-                                                .lineLimit(1)
-                                                .frame(width: 175)
-                                            Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" : work.genreId()?.transMovieGenreCode() ?? "")
-                                                .font(.GmarketSansTTFMedium(12))
-                                                .lineLimit(1)
-                                                .frame(width: 175)
-                                        }
-                                        .foregroundColor(.white)
-                                    }
-                                }
-                                .environment(\.colorScheme,.dark)
-                                .cornerRadius(8)
-                        }
-                    }
-                }.padding(.horizontal,10)
-            }
+            carouselView
         }
     }
     var rankingView:some View{
@@ -313,11 +317,10 @@ extension MainView{
                                 .padding(.trailing)
                         }
                     }
-                    .frame(width: 300,height: 75)
+                    .frame(width: isWidth() ? 600 : 300,height: 75)
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(5)
                     .padding(.horizontal,10)
-                    
                 }
             }
         }
@@ -329,7 +332,7 @@ extension MainView{
                 .environmentObject(vmAuth)
         } label: {
             Text("전체보기")
-                .font(.custom("GmarketSansTTFMedium", size: 12))
+                .font(.GmarketSansTTFMedium(isPad() ? 15 : 12))
                 .fontWeight(.regular)
                 .foregroundColor(.customIndigo)
         }
@@ -435,7 +438,7 @@ extension MainView{
                                             Text("\(user.nickname ?? "")님을 위한")
                                             Text("\(work.2.name)")
                                         }
-                                        .font(.custom("GmarketSansTTFMedium", size: 15))
+                                        .font(.GmarketSansTTFBold(isPad() ? 22.5 : 17.5))
                                         .foregroundColor(.white)
                                         Spacer()
                                         NavigationLink {
@@ -444,7 +447,7 @@ extension MainView{
                                                 .environmentObject(vmAuth)
                                         } label: {
                                             Text("전체보기")
-                                                .font(.custom("GmarketSansTTFMedium", size: 12))
+                                                .font(.custom("GmarketSansTTFMedium", size: 15))
                                                 .fontWeight(.regular)
                                                 .foregroundColor(.white)
                                         }
@@ -461,23 +464,23 @@ extension MainView{
                                                 .navigationBarBackButtonHidden()
                                         } label: {
                                             HStack{
-                                                KFImageView(image: element.backdropPath()?.getImadImage() ?? (element.posterPath()?.getImadImage() ?? ""),width: 80,height: 45)
+                                                KFImageView(image: element.posterPath()?.getImadImage() ?? (element.backdropPath()?.getImadImage() ?? ""),width: isPad() ? 60 : 45,height: isPad() ? 90 : 60)
                                                     .cornerRadius(3)
                                                 VStack(alignment: .leading) {
                                                     Text(element.genreType == .tv ? element.name() ?? "" : element.title() ?? "")
-                                                        .frame(width: 100,alignment:.leading)
+                                                        .frame(width: isPad() ? 200 : 100,alignment:.leading)
                                                         .lineLimit(1)
                                                         .bold()
-                                                        .font(.GmarketSansTTFMedium(12))
+                                                        .font(.GmarketSansTTFMedium(isPad() ? 16.5 : 12))
                                                         .foregroundColor(.white)
                                                     
                                                     Text(element.genreType == .tv ? element.genreId()?.transTvGenreCode() ?? "" : element.genreId()?.transMovieGenreCode() ?? "")
                                                         .lineLimit(1)
-                                                        .font(.GmarketSansTTFMedium(9))
+                                                        .font(.GmarketSansTTFMedium(isPad() ? 12 : 9))
                                                         .foregroundColor(.white)
-                                                        .frame(width: 100,alignment:.leading)
+                                                        .frame(width:isPad() ? 200 : 100,alignment:.leading)
                                                 }
-                                                .padding(.trailing,20)
+                                                Spacer()
                                                 Image(systemName: "chevron.right")
                                                     .bold()
                                                     .foregroundColor(.white)
@@ -486,6 +489,7 @@ extension MainView{
                                     }
                                 }
                                 .padding()
+                                .frame(width: isPad() ? 400 : 320)
                                 .background{
                                     background.cornerRadius(10)
                                 }

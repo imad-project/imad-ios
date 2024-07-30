@@ -35,6 +35,10 @@ extension View{
             .onAppear(perform: appear)
             .onDisappear(perform: disAppear)
     }
+
+    func isWidth()->Bool{
+        UIDevice.current.orientation.isLandscape
+    }
     
     var mainWidth:CGFloat{
         UIScreen.main.bounds.width
