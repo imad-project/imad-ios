@@ -12,22 +12,6 @@ struct PopularView: View {
     var review:PopularReviewResponse?
     var posting:PopularPostingResponse?
     
-    var popular:Popular?{
-        var popular:Popular?
-        if let review{
-            popular = PopularReviewClass(review: review)
-        }else if let posting{
-            popular  = PopularPostingClass(posting: posting)
-        }
-        return popular
-    }
-    var today:String{
-        if review != nil{
-            return "오늘의 리뷰🥇"
-        }else{
-            return "오늘의 게시물🥇"
-        }
-    }
     var body: some View {
         ZStack{
             if let popular{
@@ -72,6 +56,22 @@ struct PopularView: View {
         .cornerRadius(10)
         
     }
+}
+
+extension PopularView{
+    var popular:Popular?{
+        var popular:Popular?
+        if let review{
+            popular = PopularReviewClass(review: review)
+        }else if let posting{
+            popular  = PopularPostingClass(posting: posting)
+        }
+        return popular
+    }
+    var today:String{
+        review != nil ? "오늘의 리뷰🥇" : "오늘의 게시물🥇"
+    }
+    
 }
 
 #Preview {
