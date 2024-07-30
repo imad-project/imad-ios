@@ -42,16 +42,12 @@ struct ReviewDetailsView: View {
                         .padding(.top,10)
                     }
                     .background(Color.gray.opacity(0.1))
-                }else{
-                    CustomProgressView()
                 }
             }
         }
+        .progress(vm.review != nil)
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
-        }
-        .onTapGesture {
-            menu = false
         }
         .sheet(isPresented: $profile){
             ZStack{
@@ -65,9 +61,6 @@ struct ReviewDetailsView: View {
         .foregroundColor(.black)
         .onAppear{
             vm.readReview(id: reviewId)
-        }
-        .onDisappear{
-            menu = false
         }
         .fullScreenCover(isPresented: $goReport){
             ReportView(id: reviewId,mode:"review")
@@ -110,15 +103,9 @@ extension ReviewDetailsView{
     func header(review:ReadReviewResponse) ->some View{
         VStack{
             HStack{
-                Button {
+                HeaderView(backIcon: "chevron.left", text: "모든 리뷰"){
                     dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .bold()
                 }
-                Text("리뷰")
-                    .bold()
-                    .font(.GmarketSansTTFMedium(25))
                 Spacer()
                 
                 

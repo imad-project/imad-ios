@@ -9,9 +9,60 @@ import SwiftUI
 import Kingfisher
 
 struct PopularView: View {
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+
+       
     var review:PopularReviewResponse?
     var posting:PopularPostingResponse?
     
+    var body: some View {
+        ZStack{
+            if let popular{
+                    KFImageView(image:popular.backdrop().getImadImage())
+                    Color.clear
+                        .background(Material.thin)
+                        .colorScheme(.dark)
+                    VStack(alignment: .leading,spacing:isPad() ? 10 : 5){
+                        Text(today)
+                            .font(.GmarketSansTTFBold(isPad() ? 15 : 10))
+                        Text(popular.title())
+                            .font(.GmarketSansTTFMedium(isPad() ? 20 : 10))
+                        if popular.spoiler(){
+                            Text("스포")
+                                .font(.GmarketSansTTFMedium(isPad() ? 12.5 : 7.5))
+                                .padding(5)
+                                .padding(.horizontal,3)
+                                .background(Capsule().stroke(lineWidth: 1))
+                        }
+                        Spacer()
+                        HStack(alignment: .bottom){
+                            HStack{
+                                KFImageView(image:popular.poster().getImadImage(),width: isPad() ? 50 : 30 ,height: isPad() ? 70 : 40)
+                                    .cornerRadius(3)
+                                Text(popular.contentsTitle())
+                                    .font(.GmarketSansTTFMedium(isPad() ? 20 : 10))
+                                    .opacity(0.7)
+                            }
+                            Spacer()
+                            HStack{
+                                ProfileImageView(imagePath: popular.userProfile(), widthHeigt:isPad() ? 30 : 25 )
+                                Text(popular.userName())
+                                    .font(.GmarketSansTTFMedium(isPad() ? 15 : 12))
+                            }
+                        }
+                    }
+                    .foregroundColor(.white)
+                    .padding(isPad() ? 20 : 10)
+            }
+        }
+        .frame(frame)
+        .cornerRadius(10)
+        
+    }
+}
+
+extension PopularView{
     var popular:Popular?{
         var popular:Popular?
         if let review{
@@ -22,75 +73,18 @@ struct PopularView: View {
         return popular
     }
     var today:String{
-        if review != nil{
-            return "오늘의 리뷰"
-        }else{
-            return "오늘의 게시물"
-        }
+        review != nil ? "오늘의 리뷰🥇" : "오늘의 게시물🥇"
     }
-    var body: some View {
-        ZStack{
-            if let popular{
-                KFImageView(image:popular.backdrop().getImadImage())
-                Color.clear
-                    .background(Material.thin)
-                HStack(alignment: .top){
-                    VStack{
-                        ProfileImageView(imagePath: popular.userProfile(), widthHeigt: 20)
-                           Text(popular.userName())
-                                .font(.caption2)
-                               .foregroundColor(.black)
-                    }
-                    VStack(alignment: .leading){
-                        HStack{
-                            Text(popular.contentsTitle())
-                                .lineLimit(1)
-                                .font(.GmarketSansTTFMedium(15))
-                                .fontWeight(.black)
-                                .foregroundColor(.customIndigo)
-                            if popular.spoiler(){
-                                Text("스포")
-                                    .padding(.horizontal)
-                                    .padding(2)
-                                    .bold()
-                                    .font(.caption2)
-                                    .background(Capsule().stroke(lineWidth: 2))
-                                    .cornerRadius(10)
-                                    .foregroundColor(.customIndigo)
-                            }
-                            Spacer()
-                        }
-                        .frame(width:270,alignment: .leading)
-                        Text("#" + today)
-                            .foregroundColor(.black.opacity(0.8))
-                            .font(.caption2)
-                        Text(popular.title())
-                            .font(.GmarketSansTTFMedium(12))
-                            .lineLimit(1)
-                            .foregroundColor(.black)
-                            .frame(width:250,alignment: .leading)
-                    }
-                    Spacer()
-                    
-                }
-                .padding(.leading)
-                .overlay(alignment:.trailing){
-                    KFImageView(image: popular.poster().getImadImage(),width: 70,height: 100)
-                        .cornerRadius(5)
-                        .rotationEffect(Angle(degrees: 20))
-                }
-            }
-        } 
-        .frame(height: 80)
-        .cornerRadius(5)
-        .padding(.leading,10)
-
+    var frame: CGSize {
+        let width = mainWidth/2 - 15
+        let height = isWidth() ? (isPad() ? mainHeight/3 : mainHeight/4) : mainHeight/6
+        return CGSize(width: width, height: height)
     }
 }
 
 #Preview {
-    ZStack{
-        Color.black.opacity(0.5).ignoresSafeArea()
+    HStack(spacing: 10){
+        PopularView(review: CustomData.instance.popularReview)
         PopularView(review: CustomData.instance.popularReview)
     }
 }

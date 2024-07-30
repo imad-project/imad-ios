@@ -59,22 +59,13 @@ struct InfoChangeView: View {
                             textFieldView(placeHolder: " 확인 ..", text: $passwordConfirm)
                         }
                     }
-                    Button {
+                    CustomConfirmButton(text: "변경", color: .customIndigo, textColor: .white) {
                         if password{
                             chanagePassword()
                         }else{
                             chageUserinfo()
                         }
                         dismiss()
-                    } label: {
-                        Text("변경")
-                            .foregroundColor(.white)
-                            .font(.GmarketSansTTFMedium(15))
-                            .padding(.vertical)
-                            .frame(maxWidth: .infinity)
-                            .bold()
-                            .background(Color.customIndigo)
-                            .cornerRadius(10)
                     }
                     .padding(.vertical,20)
                     .padding(10)

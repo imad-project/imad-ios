@@ -79,23 +79,10 @@ extension SearchView{
         }
     }
     var header:some View{
-        HStack{
-            if !backMode{
-                Button {
-                    back = false
-                } label: {
-                    Image(systemName: "xmark")
-                        .bold()
-                }
-            }
-            Text("작품 찾기")
-                .font(.custom("GmarketSansTTFMedium", size: 25)).bold()
-                .foregroundColor(.customIndigo)
-            Spacer()
+        HeaderView(backIcon: backMode ? nil :"xmark", text: "작품 찾기"){
+            back = false
         }
-        .padding(.horizontal,10)
-        .padding(.top,10)
-        
+        .padding([.horizontal,.top],10)
     }
     var searchBar:some View{
         CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $vm.searchText)

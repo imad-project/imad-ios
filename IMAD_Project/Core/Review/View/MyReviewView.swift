@@ -65,21 +65,9 @@ struct MyReviewView_Previews: PreviewProvider {
 extension MyReviewView{
     var header:some View{
         VStack{
-            ZStack{
-                HStack{
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .bold()
-                    }
-                    .padding(.leading,10)
-                    Text(writeType == .myself ? "내 리뷰" : "내 리뷰 반응")
-                        .font(.custom("GmarketSansTTFMedium",size: 25))
-                        .bold()
-                    Spacer()
-                }
-            }
+            HeaderView(backIcon: "chevron.left", text: writeType == .myself ? "내 리뷰" : "내 리뷰 반응"){
+                dismiss()
+            }.padding(.leading,10)
             if writeType == .myselfLike{
                 HStack{
                     filterButton(like: true)

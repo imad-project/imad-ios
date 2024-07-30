@@ -8,6 +8,7 @@
 import Foundation
 
 struct RankingResponseList: Codable,Hashable {
+    let id = UUID()
     let contentsID: Int
     let contentsType: String
     let imadScore: Double?

@@ -18,6 +18,7 @@ struct WriteReviewView: View {
     
     let maximumRating: Double = 5.0
     
+    @State var loading = false
     @State var title = ""
     @State var text = ""
     @State var spoiler = false
@@ -40,13 +41,27 @@ struct WriteReviewView: View {
                     header
                     workView
                     Divider()
-                    sliderView
-                    titleView
+                    VStack(spacing:0){
+                        sliderView
+                        titleView
+                    }
+                    .overlay(alignment: .trailing){
+                        if animation{
+                            HStack{
+                                Image(systemName:"hand.draw.fill")
+                                    .foregroundColor(.customIndigo)
+                                    .font(.largeTitle)
+                                Spacer().frame(width:animation1 ? nil:mainWidth-150)
+                               
+                            }
+                        }
+                    }
                     writeView
                 }
                 
             }
         }
+        .progress(!loading)
         .onAppear{
             DispatchQueue.main.async{
                 withAnimation(.easeInOut(duration: 1.0)){
@@ -100,10 +115,13 @@ extension WriteReviewView{
                 Spacer()
             }
             Button {
-                if let reviewId{
-                    vm.updateReview(reviewId: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
-                }else{
-                    vm.writeReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
+                if text != "" && title != "" && rating > 0{
+                    loading = true
+                    if let reviewId{
+                        vm.updateReview(reviewId: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
+                    }else{
+                        vm.writeReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
+                    }
                 }
             } label: {
                 Text(reviewId != nil ? "수정" : "등록")
@@ -112,7 +130,7 @@ extension WriteReviewView{
                     .padding(.horizontal)
                     .padding(5)
                     .background(Capsule().foregroundColor(.customIndigo.opacity(text != "" && title != "" && rating > 0 ? 1 : 0.5)))
-                    
+                
             }
         }
         .foregroundColor(.black)
@@ -122,39 +140,28 @@ extension WriteReviewView{
     var sliderView:some View{
         HStack{
             VStack(alignment: .leading,spacing: 5){
-                    Text("별점주기")
-                        .font(.GmarketSansTTFMedium(15))
-                    HStack(spacing:5){
-                        ForEach(0..<Int(maximumRating), id: \.self) { star in
-                            Image(systemName: "star.fill")
-                                .foregroundColor(getStarColor(star: star, rating: rating/2))
-                                .overlay {
-                                    Image(systemName: "star")
-                                        .foregroundColor(.customIndigo)
-                                }
-                                .font(.GmarketSansTTFMedium(15))
-                        }
-                    }
-                    .frame(width:120)
-                    .overlay(alignment: .trailing){
-                        if animation{
-                            HStack{
-                                Image(systemName:"hand.draw.fill")
+                Text("별점주기")
+                    .font(.GmarketSansTTFMedium(15))
+                HStack(spacing:5){
+                    ForEach(0..<Int(maximumRating), id: \.self) { star in
+                        Image(systemName: "star.fill")
+                            .foregroundColor(getStarColor(star: star, rating: rating/2))
+                            .overlay {
+                                Image(systemName: "star")
                                     .foregroundColor(.customIndigo)
-                                    .offset(y:15)
-                                    .font(.largeTitle)
-                                Spacer().frame(width:animation1 ? nil:0)
                             }
-                        }
+                            .font(.GmarketSansTTFMedium(15))
                     }
-                    .gesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged { value in
-                                // 범위 내에서 rating 값을 제한하는 코드
-                                self.rating = min(max(Double(value.location.x / 120) * maximumRating * 2, 0), maximumRating*2)
-                            }
-                    )
                 }
+               
+                .gesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { value in
+                            // 범위 내에서 rating 값을 제한하는 코드
+                            self.rating = min(max(Double(value.location.x / 120) * maximumRating * 2, 0), maximumRating*2)
+                        }
+                )
+            }
             Spacer()
             VStack(spacing:5){
                 ScoreView(score: rating, color: .customIndigo,font:.caption,widthHeight:40)
@@ -166,12 +173,13 @@ extension WriteReviewView{
                 Text("전체 평점")
                     .font(.GmarketSansTTFMedium(10))
             }
-           
+            
         }
         .padding(10)
         .foregroundColor(.customIndigo)
         .background(Color.white)
-            
+        
+        
     }
     func getStarColor(star: Int, rating: Double) -> Color {
         let fillAmount = getFillAmount(star: star, rating: rating)
@@ -219,36 +227,18 @@ extension WriteReviewView{
     }
     var saveView:some View{
         HStack{
-            Button {
+            CustomConfirmButton(text: "취소", color: .gray.opacity(0.2), textColor: .black) {
                 dismiss()
-            } label: {
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(height: 50)
-                    .foregroundColor(.gray.opacity(0.2))
-                    .overlay {
-                        Text("취소")
-                            .font(.GmarketSansTTFMedium(18))
-                            .foregroundColor(.black)
-                    }
             }
-            .padding([.leading,.top,.bottom])
-            Button {
+            .padding([.leading,.vertical],10)
+            CustomConfirmButton(text:reviewId != nil ? "수정" : "등록", color: .customIndigo.opacity(text != "" && title != "" && rating > 0 ? 1 : 0.5), textColor: .white) {
                 if let reviewId{
                     vm.updateReview(reviewId: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
                 }else{
                     vm.writeReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
                 }
-            } label: {
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(height: 50)
-                    .foregroundColor(.customIndigo.opacity(text != "" && title != "" && rating > 0 ? 1 : 0.5))
-                    .overlay {
-                        Text(reviewId != nil ? "수정" : "등록")
-                            .font(.GmarketSansTTFMedium(18))
-                            .foregroundColor(.white)
-                    }
             }
-            .padding([.trailing,.top,.bottom])
+            .padding([.trailing,.vertical],10)
         }
     }
     var writeView:some View{

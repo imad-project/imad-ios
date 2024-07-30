@@ -10,23 +10,24 @@ import Kingfisher
 
 struct MenuTabView: View {
     
-    @StateObject var vm = TabViewModel()
+    @State var tab:TabFilter = .home
+    @State var tabInfo:CGFloat = 0
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         
         VStack(spacing: 0){
-            TabView(selection: $vm.tab){
+            TabView(selection: $tab){
                 MainView()
                     .environmentObject(vmAuth)
-                    .tag(Tab.home)
+                    .tag(TabFilter.home)
                 CommunityView()
                     .environmentObject(vmAuth)
-                    .tag(Tab.community)
+                    .tag(TabFilter.community)
                 SearchView(backMode: true, postingMode: false, back: .constant(false))
-                    .tag(Tab.notification)
+                    .tag(TabFilter.notification)
                 ProfileView()
-                    .tag(Tab.profile)
+                    .tag(TabFilter.profile)
                     .environmentObject(vmAuth)
                 
             }
@@ -49,52 +50,53 @@ struct MenuTabView_Previews: PreviewProvider {
 
 
 extension MenuTabView{
+    @MainActor
     var menu: some View {
-        GeometryReader{ geo in
-            let width = geo.size.width
-            HStack(spacing: 0) {
-                ForEach(Tab.allCases,id:\.self){ tab in
+        HStack{
+            ForEach(TabFilter.allCases,id:\.self){ item in
+                GeometryReader{ geo in
+                    let minX = geo.frame(in: .global).minX
+                    let mid = geo.frame(in: .local)
+                   
                     Button {
                         withAnimation(.easeIn(duration: 0.2)){
-                            vm.tab = tab
+                            tabInfo = minX
+                            tab = item
                         }
                     } label: {
                         VStack(spacing: 5) {
-                            if tab.name != ""{
-                                Image(systemName: tab.name)
-                                    .font(.GmarketSansTTFBold(20))
-                                    .frame(width: 30,height: 35)
-                            }else{
-                                ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "",widthHeigt: 30)
-                                    .padding(.top,5)
+                            Group{
+                                if item.name != ""{
+                                    Image(systemName: item.name)
+                                        .font(.GmarketSansTTFBold(20))
+                                }else{
+                                    ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "",widthHeigt: 30)
+                                        .padding(.top,5)
+                                }
                             }
-                            Text(tab.menu)
+                            .position(x:mid.midX,y:mid.midY-15)
+                            Text(item.menu)
                                 .font(.GmarketSansTTFMedium(10))
+                                
+                        }
+                        .padding(.top)
+                    }
+                    .onAppear{
+                        if item == TabFilter.allCases.first{
+                            self.tabInfo = minX
                         }
                     }
-                    .frame(height: 30)
-                    .padding(.top,25)
-                    .frame(maxWidth: .infinity)
-                    
                 }
+                .frame(width: 50,height: 70)
+                .frame(maxWidth: .infinity)
             }
-            .overlay(alignment:.leading){
-                Capsule()
-                    .padding(.horizontal,UIScreen.main.bounds.width/11)
-                    .frame(width: UIScreen.main.bounds.width/4,height: 3)
-                    .padding(.bottom,55)
-                    .offset(x:vm.indicatorOffset(width: width))
-            }
-            
         }
         .foregroundColor(.customIndigo)
-        .background {
-            VStack(spacing:0){
-                Divider()
-                Color.white.ignoresSafeArea()
-            }
+        .overlay(alignment:.leading){
+            Capsule()
+                .frame(width: 50,height: 3)
+                .offset(x:tabInfo,y:-35)
         }
-        .frame(height: 70)
         
     }
 }

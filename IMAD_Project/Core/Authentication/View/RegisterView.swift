@@ -155,22 +155,10 @@ extension RegisterView{
         .padding(.horizontal,15)
     }
     var registerButtonView:some View{
-        Button{
-           registerCheck()
-        }label:{
-            RoundedRectangle(cornerRadius: 20)
-                .frame(height: 60)
-                .foregroundColor(.customIndigo)
-                .frame(maxWidth: .infinity)
-                .overlay {
-                    Text("회원가입")
-                        .font(.GmarketSansTTFMedium(18))
-                        .foregroundColor(.white)
-                        .shadow(radius: 20)
-                        
-            
-                }
+        CustomConfirmButton(text: "회원가입", color: .customIndigo, textColor: .white) {
+            registerCheck()
         }
+       
         .padding(.horizontal,15)
     }
     func isVaildInfo()->Int{

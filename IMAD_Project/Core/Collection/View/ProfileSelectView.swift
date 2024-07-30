@@ -22,51 +22,47 @@ struct ProfileSelectView: View {
     
     var body: some View {
         ZStack{
-            if loading{
-                CustomProgressView()
-            }else{
-                Color.white.ignoresSafeArea()
-                VStack(alignment: .leading,spacing: 5){
-                    guideView
-                    if let croppedImage{
-                        Image(uiImage: croppedImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 200,height: 200)
-                            .clipShape(Circle())
-                            .shadow(radius: 1)
-                            .frame(maxWidth: .infinity)
-                    }else{
-                        Image(vmProfile.defaultImage.rawValue)
-                            .resizable()
-                            .frame(width: 200, height: 200)
-                            .background{
-                                Circle()
-                                    .foregroundColor(.white)
-                                    .shadow(color: vmProfile.defaultImage.color,radius: 1)
-                            }
-                            .frame(maxWidth: .infinity)
-                    }
-                    selectProfileView
-                    CustomNextButton(action: {
-                        
-                        if let image = vmProfile.customImage,vmProfile.defaultImage == .none{
-                            vmProfile.fetchProfileImageCustom(image: image)
-                        }else{
-                            vmProfile.fetchProfileImageDefault(image: vmProfile.defaultImage.num.getImageValue())
+            Color.white.ignoresSafeArea()
+            VStack(alignment: .leading,spacing: 5){
+                guideView
+                if let croppedImage{
+                    Image(uiImage: croppedImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 200,height: 200)
+                        .clipShape(Circle())
+                        .shadow(radius: 1)
+                        .frame(maxWidth: .infinity)
+                }else{
+                    Image(vmProfile.defaultImage.rawValue)
+                        .resizable()
+                        .frame(width: 200, height: 200)
+                        .background{
+                            Circle()
+                                .foregroundColor(.white)
+                                .shadow(color: vmProfile.defaultImage.color,radius: 1)
                         }
-                        loading = true
-                    }, color:vm.patchUser.nickname.isEmpty || vm.patchUser.gender.isEmpty ? .customIndigo.opacity(0.5):.customIndigo)
+                        .frame(maxWidth: .infinity)
                 }
-                .foregroundColor(.customIndigo)
-                
+                selectProfileView
+                CustomConfirmButton(text: "완료", color: vm.patchUser.nickname.isEmpty || vm.patchUser.gender.isEmpty ? .customIndigo.opacity(0.5):.customIndigo,textColor:.white) {
+                    if let image = vmProfile.customImage,vmProfile.defaultImage == .none{
+                        vmProfile.fetchProfileImageCustom(image: image)
+                    }else{
+                        vmProfile.fetchProfileImageDefault(image: vmProfile.defaultImage.num.getImageValue())
+                    }
+                    loading = true
+                }
+                .padding(.horizontal)
             }
+            .foregroundColor(.customIndigo)
             
         }
         .alert(isPresented: $alert) {
             Alert(title: Text("오류"),message: Text(msg),dismissButton: .default(Text("확인")){
             })
         }
+        .progress(!loading)
         .onReceive(vmProfile.profileChanged){
             if vm.patchUser.nickname == ""{
                 noSelect(selection: .nickname, message: "닉네임을 설정해주세요!")

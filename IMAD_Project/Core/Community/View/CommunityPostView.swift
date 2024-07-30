@@ -46,92 +46,91 @@ struct CommunityPostView: View {
     var body: some View {
         VStack(spacing: 0){
             
-                if let community = vm.community{
-                    ZStack(alignment: .bottom){
-                        Color.white.ignoresSafeArea()
-                        VStack(spacing: 0){
-                            if !reported{
+            if let community = vm.community{
+                ZStack(alignment: .bottom){
+                    Color.white.ignoresSafeArea()
+                    VStack(spacing: 0){
+                        if !reported{
                             header(community: community)
                             Divider()
                             
-                                ScrollView{
-                                    VStack{
-                                        Divider()
-                                        workInfoView(community: community)
-                                        communityinfoView(community: community)
-                                        likeStatusView(community: community)
-                                        Divider()
-                                    }
-                                    .background(Color.white)
-                                    .padding(.top,10)
+                            ScrollView{
+                                VStack{
+                                    Divider()
+                                    workInfoView(community: community)
+                                    communityinfoView(community: community)
+                                    likeStatusView(community: community)
+                                    Divider()
                                 }
-                                .frame(height:endOffset == 0 ?  UIScreen.main.bounds.height/2 - 140:nil)
-                                .background(Color.gray.opacity(0.1))
-                                .fullScreenCover(isPresented: $goReport){
-                                    ReportView(id: postingId,mode:"posting")
-                                        .environmentObject(vmReport)
-                                }
-                                .onReceive(vmReport.success){ message in
-                                    reportSuccess = true
-                                    reported = true
-                                    self.message = message
-                                }
+                                .background(Color.white)
+                                .padding(.top,10)
                             }
-                            if endOffset == 0{
-                                Spacer()
+                            .frame(height:endOffset == 0 ?  UIScreen.main.bounds.height/2 - 140:nil)
+                            .background(Color.gray.opacity(0.1))
+                            .fullScreenCover(isPresented: $goReport){
+                                ReportView(id: postingId,mode:"posting")
+                                    .environmentObject(vmReport)
                             }
-                                
+                            .onReceive(vmReport.success){ message in
+                                reportSuccess = true
+                                reported = true
+                                self.message = message
+                            }
                         }
-                        .foregroundColor(.black)
-                        .alert(isPresented: $reported){
-                            if reportSuccess{
-                                return Alert(title: Text(message),message:message == "정상적으로 신고 접수가 완료되었습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {
-                                    if let main {
-                                        if main{
-                                            dismiss()
-                                        }
-                                    }else{
-                                        self.back = false
+                        if endOffset == 0{
+                            Spacer()
+                        }
+                        
+                    }
+                    .foregroundColor(.black)
+                    .alert(isPresented: $reported){
+                        if reportSuccess{
+                            return Alert(title: Text(message),message:message == "정상적으로 신고 접수가 완료되었습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {
+                                if let main {
+                                    if main{
+                                        dismiss()
                                     }
-                                }))
-                            }else{
-                                let confim = Alert.Button.cancel(Text("확인하기")){
-                                    reported = false
-                                    noReport = true
+                                }else{
+                                    self.back = false
                                 }
-                                let out = Alert.Button.default(Text("나가기")){
-                                    if let main {
-                                        if main{
-                                            dismiss()
-                                        }
-                                    }else{
-                                        self.back = false
+                            }))
+                        }else{
+                            let confim = Alert.Button.cancel(Text("확인하기")){
+                                reported = false
+                                noReport = true
+                            }
+                            let out = Alert.Button.default(Text("나가기")){
+                                if let main {
+                                    if main{
+                                        dismiss()
                                     }
+                                }else{
+                                    self.back = false
                                 }
-                                return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                            }
+                            return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                        }
+                        
+                    }
+                    if !reported{
+                        commentView(community: community)
+                        
+                    }
+                }
+                if !reported{
+                    commentInputView()
+                        .sheet(isPresented: $profile){
+                            ZStack{
+                                Color.white.ignoresSafeArea()
+                                OtherProfileView(id: community.userID)
+                                    .environmentObject(vmAuth)
                             }
                             
                         }
-                        if !reported{
-                            commentView(community: community)
-                                
-                        }
-                    }
-                    if !reported{
-                        commentInputView()
-                            .sheet(isPresented: $profile){
-                                ZStack{
-                                    Color.white.ignoresSafeArea()
-                                    OtherProfileView(id: community.userID)
-                                        .environmentObject(vmAuth)
-                                }
-                                
-                            }
-                    }
-                }else{
-                    CustomProgressView()
                 }
             }
+        }
+        .progress(vm.community != nil)
         .onAppear{
             vm.readDetailCommunity(postingId: postingId)
             vmComment.readComments(postingId: postingId, commentType: 0, page: vmComment.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: 0)
@@ -179,21 +178,13 @@ struct ComminityPostView_Previews: PreviewProvider {
 extension CommunityPostView{
     func header(community:CommunityResponse) ->some View{
         HStack{
-            Button {
-                if let main {
-                    if main{
-                        dismiss()
-                    }
+            HeaderView(backIcon: "chevron.left", text:CommunityFilter.allCases.first(where:{$0.num == community.category})!.name){
+                if let main,main {
+                    dismiss()
                 }else{
                     self.back = false
                 }
-            } label: {
-                Image(systemName: "chevron.left")
-                    .bold()
             }
-            Text(CommunityFilter.allCases.first(where:{$0.num == community.category})!.name)
-                .bold()
-                .font(.GmarketSansTTFMedium(25))
             Spacer()
             Group{
                 Button {
@@ -203,52 +194,52 @@ extension CommunityPostView{
                     Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
                 }
                 .padding(.horizontal,10)
-               
-                    Button {
-                        if community.author{
-                            menu.toggle()
-                        }else{
-                            report.toggle()
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .bold()
+                
+                Button {
+                    if community.author{
+                        menu.toggle()
+                    }else{
+                        report.toggle()
                     }
-                    .confirmationDialog("",
-                        isPresented: $report,
-                        actions: {
-                            Button("신고하기") {
-                                if noReport{
-                                    message = "이미 신고된 게시물입니다."
-                                    reported = true
-                                    reportSuccess = true
-                                }else{
-                                    goReport = true
-                                }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .bold()
+                }
+                .confirmationDialog("",
+                                    isPresented: $report,
+                                    actions: {
+                    Button("신고하기") {
+                        if noReport{
+                            message = "이미 신고된 게시물입니다."
+                            reported = true
+                            reportSuccess = true
+                        }else{
+                            goReport = true
+                        }
+                    }
+                }
+                )
+                .confirmationDialog("", isPresented: $menu,actions: {
+                    Button(role:.none){
+                        modify = true
+                    } label: {
+                        Text("수정하기")
+                    }
+                    Button(role:.destructive){
+                        if let main {
+                            if main{
+                                dismiss()
                             }
+                        }else{
+                            self.back = false
                         }
-                    )
-                    .confirmationDialog("", isPresented: $menu,actions: {
-                        Button(role:.none){
-                            modify = true
-                        } label: {
-                            Text("수정하기")
-                        }
-                        Button(role:.destructive){
-                            if let main {
-                                if main{
-                                    dismiss()
-                                }
-                            }else{
-                                self.back = false
-                            }
-                            vm.deleteCommunity(postingId: postingId)
-                        } label: {
-                            Text("삭제하기")
-                        }
-                    },message: {
-                        Text("게시물을 수정하거나 삭제하시겠습니까?")
-                    })
+                        vm.deleteCommunity(postingId: postingId)
+                    } label: {
+                        Text("삭제하기")
+                    }
+                },message: {
+                    Text("게시물을 수정하거나 삭제하시겠습니까?")
+                })
             }
         }.padding(10)
     }
@@ -258,7 +249,7 @@ extension CommunityPostView{
                 HStack{
                     if community.userNickname != vmAuth.user?.data?.nickname{
                         Button {
-                           profile = true
+                            profile = true
                         } label: {
                             ProfileImageView(imagePath: community.userProfileImage, widthHeigt: 40)
                         }

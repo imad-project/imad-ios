@@ -22,16 +22,19 @@ struct SelectGenreView: View {
                                 movieGenreView
                                 tvGenreView
                             } .padding(.top)
-                             
+                            
                         }
                     }
                     
-                }   .frame(height: UIScreen.main.bounds.height/1.5)
-                CustomNextButton(action: {
+                    
+                }
+                .frame(height: UIScreen.main.bounds.height/1.5)
+                CustomConfirmButton(text: "다음", color: .customIndigo.opacity(0.5),textColor:.white) {
                     withAnimation(.linear){
                         vm.selection = .profile
                     }
-                }, color: .customIndigo.opacity(0.5))
+                }
+                .padding(.horizontal)
                 .padding(.top,30)
                 Spacer()
             }
@@ -70,7 +73,7 @@ extension SelectGenreView{
             .padding(.top,100)
             .padding(.vertical,20)
             .background(Color.white)
-           
+        
     }
     var movieGenreView:some View{
         VStack(alignment: .leading) {
@@ -79,7 +82,7 @@ extension SelectGenreView{
                 .padding(.leading)
             FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases){ item in
                 Button {
-                   movieAppend(item: item)
+                    movieAppend(item: item)
                 } label: {
                     HStack{
                         Text(item.name)

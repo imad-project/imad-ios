@@ -47,35 +47,16 @@ struct OnBoardingTabView: View {
             }
             .padding(.top)
             
-            Button {
-                if page == 0 {
-                    withAnimation(.linear){
-                        page = 1
-                    }
-                }else{
-                    withAnimation(.linear){
-                        UserDefaults.standard.set(true, forKey: "isFirstLaunch")
-                        isFirstLaunch = true
-                    }
+            CustomConfirmButton(text: page == 0 ? "다음" : "시작", color: .white, textColor: .customIndigo) {
+                withAnimation(.linear){
+                    page == 0 ? page = 1 : UserDefaults.standard.set(true, forKey: "isFirstLaunch")
+                    isFirstLaunch = true
                 }
-            } label: {
-                RoundedRectangle(cornerRadius: 20)
-                    .foregroundColor(.white.opacity(page == 0 ? 0.8:1.0))
-                    .frame(height: 60)
-                    .overlay {
-                        Text(page == 0 ? "다음" : "시작").foregroundColor(.customIndigo.opacity(page == 0 ? 0.7:1.0))
-                            .font(.GmarketSansTTFMedium(18))
-                    }
-
             }
-            .padding(.horizontal,20)
-            .padding(.bottom)
+            .opacity(page == 0 ? 0.7:1.0)
+            .padding([.horizontal,.bottom],20)
             .frame(maxHeight: .infinity,alignment: .bottom)
-        }.background{
-            Color.white.ignoresSafeArea()
-            Color.gray.opacity(0.2).ignoresSafeArea()
         }
-       
     }
 }
 

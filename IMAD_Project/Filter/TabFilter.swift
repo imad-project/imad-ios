@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Tab:String,CaseIterable{
+enum TabFilter:String,CaseIterable{
     case home
     case community
     case notification

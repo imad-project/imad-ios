@@ -109,19 +109,10 @@ struct CommunitySearchView_Previews: PreviewProvider {
 }
 extension CommunitySearchView{
     var header:some View{
-        HStack{
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "chevron.left")
-            }
-            .padding(.leading,10)
-            Text("커뮤니티 검색")
-                .font(.custom("GmarketSansTTFMedium", size: 20))
-                .bold()
-                .padding(.leading,5)
+        HeaderView(backIcon: "chevron.left", text: "커뮤니티 검색"){
+            dismiss()
         }
-        .padding(.top,10)
+        .padding([.top,.leading],10)
     }
     var searchView:some View{
         HStack{

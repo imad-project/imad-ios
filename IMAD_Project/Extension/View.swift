@@ -15,12 +15,31 @@ extension View{
             self
         }
     }
-    
     @ViewBuilder
     func frame(_ size:CGSize)-> some View{
         self
             .frame(width:size.width,height: size.height)
     }
+    @ViewBuilder
+    func progress(_ condition:Bool)-> some View{
+        if condition {
+            self
+        }
+        else{
+            CustomProgressView()
+        }
+    }
+    @ViewBuilder
+    func onAppearOnDisAppear(_ appear:@escaping()->(),_ disAppear:@escaping()->()) -> some View{
+        self
+            .onAppear(perform: appear)
+            .onDisappear(perform: disAppear)
+    }
+
+    func isWidth()->Bool{
+        UIDevice.current.orientation.isLandscape
+    }
+    
     var mainWidth:CGFloat{
         UIScreen.main.bounds.width
     }

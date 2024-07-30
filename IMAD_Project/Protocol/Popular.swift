@@ -71,31 +71,31 @@ class PopularPostingClass:Popular{
     }
     
     func contentsTitle() -> String {
-        return posting.contentsTitle
+        return posting.contentsTitle ?? ""
     }
     func backdrop() -> String{
-        return posting.contentsBackdropPath
+        return posting.contentsBackdropPath ?? ""
     }
     func title() -> String {
-        return posting.title
+        return posting.title ?? ""
     }
     
     func userProfile() -> String {
-        return posting.userProfileImage
+        return posting.userProfileImage ?? ""
     }
     func spoiler() -> Bool{
         return posting.spoiler
     }
     func userName() -> String {
-        return posting.userNickname
+        return posting.userNickname ?? ""
     }
     
     func poster() -> String {
-        return posting.contentsPosterPath
+        return posting.contentsPosterPath ?? ""
     }
     
     func contents() -> String {
-        return posting.content
+        return posting.content ?? ""
     }
     
     

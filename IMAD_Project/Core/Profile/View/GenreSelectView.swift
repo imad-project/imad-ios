@@ -89,8 +89,7 @@ struct GenreSelectView: View {
                 }.foregroundColor(.customIndigo.opacity(0.5)).padding(.horizontal)
                 
                 
-                
-                Button {
+                CustomConfirmButton(text: "완료", color: .customIndigo, textColor: .white) {
                     switch genreType {
                     case .tv:
                         vmAuth.patchUser.tvGenre = collection.map({$0.selectCode()})
@@ -99,15 +98,6 @@ struct GenreSelectView: View {
                     }
                     vmAuth.patchUserInfo()
                     dismiss = false
-                } label: {
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(height: 60)
-                        .foregroundColor(.customIndigo)
-                        .overlay {
-                            Text("완료")
-                                .font(.GmarketSansTTFMedium(15))
-                                .foregroundColor(.white)
-                        }
                 }
                 .padding()
             }

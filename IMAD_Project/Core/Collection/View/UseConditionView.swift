@@ -22,9 +22,7 @@ struct UseConditionView: View {
     
     var body: some View {
         VStack(alignment:.leading){
-            Text("약관 동의")
-                .font(.GmarketSansTTFMedium(25))
-                .bold()
+            HeaderView(text: "약관 동의")
                 .padding(.horizontal)
             Text("가입을 위해서는 다음 정책들의 동의가 필요합니다.")
                 .font(.GmarketSansTTFMedium(15))
@@ -40,24 +38,15 @@ struct UseConditionView: View {
                     
                     Spacer()
                         .frame(height:30)
-                    Button {
+                    CustomConfirmButton(text: "완료", color: .customIndigo,textColor:.white){
                         if condition,info,age{
                             noAdmit = false
                             dismiss()
                         }else{
                             noAdmit = true
                         }
-                    } label: {
-                        Text("완료")
-                            .font(.GmarketSansTTFMedium(15))
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.white)
-                            .background{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .foregroundColor(.customIndigo)
-                            }
                     }
+                    
                     if noAdmit{
                         Text("모두 동의 하지 않으면 가입을 할 수 없습니다.")
                             .font(.GmarketSansTTFMedium(12))
@@ -103,7 +92,9 @@ extension UseConditionView{
             }
         } label: {
             HStack{
-                Image(systemName: all ? "largecircle.fill.circle":"circle")
+                Image(systemName: all ? "checkmark.square.fill":"checkmark.square")
+                    .font(.title3)
+                    .opacity(all ? 1 : 0.5)
                 Text("모두 동의합니다.")
                     .font(.subheadline)
                 
@@ -123,7 +114,9 @@ extension UseConditionView{
             }
         } label: {
             HStack{
-                Image(systemName: what.wrappedValue ? "largecircle.fill.circle":"circle")
+                Image(systemName: what.wrappedValue ? "checkmark.square.fill":"checkmark.square")
+                    .opacity(what.wrappedValue ? 1 : 0.5)
+                    .font(.title3)
                 Text(text)
                     .font(.subheadline)
                 Spacer()

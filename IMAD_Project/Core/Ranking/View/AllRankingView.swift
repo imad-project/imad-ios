@@ -40,17 +40,8 @@ struct AllRankingView: View {
 extension AllRankingView{
     var header:some View{
         VStack(spacing:0){
-            HStack{
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .bold()
-                }
-                Text("아이매드 차트")
-                    .bold()
-                    .font(.GmarketSansTTFMedium(25))
-                Spacer()
+            HeaderView(backIcon: "chevron.left", text: "아이매드 차트"){
+                dismiss()
             }
             .padding(10)
             .background(Color.white)

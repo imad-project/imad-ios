@@ -21,7 +21,7 @@ struct NicknameSelectView: View {
                 Spacer()
                 guideView
                 checkEmailView
-                CustomNextButton(action: {
+                CustomConfirmButton(text: "다음", color: .customIndigo.opacity(0.5),textColor:.white) {
                     if vmCheck.possible{
                         withAnimation(.linear){
                             vm.selection = .gender
@@ -32,10 +32,7 @@ struct NicknameSelectView: View {
                     else{
                         vmCheck.showMessage(message: "닉네임 중복확인을 해주세요", possible: false)
                     }
-                    
-                }, color: .customIndigo.opacity(0.5))
-                    .padding(.bottom,50)
-                    .padding(.top,20)
+                }
                 Spacer()
             }.padding()
         }
@@ -59,12 +56,10 @@ extension NicknameSelectView{
             Text("닉네임은 2~10 글자 사이여야 하며, 특수문자와 공백을 포함할 수 없습니다.")
                 .font(.GmarketSansTTFMedium(12))
         }
-        .padding(.leading)
     }
     var checkEmailView:some View{
         VStack(alignment: .leading){
             Text("\(vm.patchUser.nickname.count)/10글자")
-                .padding(.horizontal)
                 .padding(.top,20)
                 .font(.GmarketSansTTFMedium(12))
             HStack{
@@ -96,7 +91,6 @@ extension NicknameSelectView{
                 }
                 
             }
-            .padding(.horizontal)
             Text(vmCheck.message)
                 .foregroundColor(vmCheck.possible ? .green : .red)
                 .font(.GmarketSansTTFMedium(12))

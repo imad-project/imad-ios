@@ -16,13 +16,13 @@ struct AgeSelectView: View {
         ZStack{
             Color.white.ignoresSafeArea()
             VStack(alignment: .leading,spacing: 5){
-               guideView
-               pickerView
-                CustomNextButton(action: {
+                guideView
+                pickerView
+                CustomConfirmButton(text: "다음", color: .customIndigo.opacity(0.5),textColor:.white) {
                     withAnimation(.linear){
                         vm.selection = .genre
                     }
-                }, color: .customIndigo.opacity(0.5))
+                }
             }.padding()
         }
         .foregroundColor(.customIndigo)
@@ -44,8 +44,8 @@ extension AgeSelectView{
                 .bold()
             Text("나이 정보는, 보다 정확하고 맞춤형 작품 추천을 위해 수집함을 안내드립니다.")
                 .font(.GmarketSansTTFMedium(15))
-                
-        }.padding(.leading)
+            
+        }
     }
     var pickerView:some View{
         HStack{
