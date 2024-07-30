@@ -40,8 +40,21 @@ struct WriteReviewView: View {
                     header
                     workView
                     Divider()
-                    sliderView
-                    titleView
+                    VStack(spacing:0){
+                        sliderView
+                        titleView
+                    }
+                    .overlay(alignment: .trailing){
+                        if animation{
+                            HStack{
+                                Image(systemName:"hand.draw.fill")
+                                    .foregroundColor(.customIndigo)
+                                    .font(.largeTitle)
+                                Spacer().frame(width:animation1 ? nil:mainWidth-150)
+                               
+                            }
+                        }
+                    }
                     writeView
                 }
                 
@@ -112,7 +125,7 @@ extension WriteReviewView{
                     .padding(.horizontal)
                     .padding(5)
                     .background(Capsule().foregroundColor(.customIndigo.opacity(text != "" && title != "" && rating > 0 ? 1 : 0.5)))
-                    
+                
             }
         }
         .foregroundColor(.black)
@@ -122,39 +135,28 @@ extension WriteReviewView{
     var sliderView:some View{
         HStack{
             VStack(alignment: .leading,spacing: 5){
-                    Text("별점주기")
-                        .font(.GmarketSansTTFMedium(15))
-                    HStack(spacing:5){
-                        ForEach(0..<Int(maximumRating), id: \.self) { star in
-                            Image(systemName: "star.fill")
-                                .foregroundColor(getStarColor(star: star, rating: rating/2))
-                                .overlay {
-                                    Image(systemName: "star")
-                                        .foregroundColor(.customIndigo)
-                                }
-                                .font(.GmarketSansTTFMedium(15))
-                        }
-                    }
-                    .frame(width:120)
-                    .overlay(alignment: .trailing){
-                        if animation{
-                            HStack{
-                                Image(systemName:"hand.draw.fill")
+                Text("별점주기")
+                    .font(.GmarketSansTTFMedium(15))
+                HStack(spacing:5){
+                    ForEach(0..<Int(maximumRating), id: \.self) { star in
+                        Image(systemName: "star.fill")
+                            .foregroundColor(getStarColor(star: star, rating: rating/2))
+                            .overlay {
+                                Image(systemName: "star")
                                     .foregroundColor(.customIndigo)
-                                    .offset(y:15)
-                                    .font(.largeTitle)
-                                Spacer().frame(width:animation1 ? nil:0)
                             }
-                        }
+                            .font(.GmarketSansTTFMedium(15))
                     }
-                    .gesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged { value in
-                                // 범위 내에서 rating 값을 제한하는 코드
-                                self.rating = min(max(Double(value.location.x / 120) * maximumRating * 2, 0), maximumRating*2)
-                            }
-                    )
                 }
+               
+                .gesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { value in
+                            // 범위 내에서 rating 값을 제한하는 코드
+                            self.rating = min(max(Double(value.location.x / 120) * maximumRating * 2, 0), maximumRating*2)
+                        }
+                )
+            }
             Spacer()
             VStack(spacing:5){
                 ScoreView(score: rating, color: .customIndigo,font:.caption,widthHeight:40)
@@ -166,12 +168,13 @@ extension WriteReviewView{
                 Text("전체 평점")
                     .font(.GmarketSansTTFMedium(10))
             }
-           
+            
         }
         .padding(10)
         .foregroundColor(.customIndigo)
         .background(Color.white)
-            
+        
+        
     }
     func getStarColor(star: Int, rating: Double) -> Color {
         let fillAmount = getFillAmount(star: star, rating: rating)
