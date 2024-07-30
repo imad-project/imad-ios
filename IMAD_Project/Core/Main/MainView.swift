@@ -400,27 +400,23 @@ extension MainView{
         }
     }
     func todayView(review:PopularReviewResponse,community:PopularPostingResponse) ->some View{
-        ScrollView(.horizontal,showsIndicators: false) {
-            HStack(spacing:0){
-                NavigationLink {
-                    ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)
-                        .environmentObject(vmAuth)
-                        .navigationBarBackButtonHidden()
-                } label: {
-                    PopularView(review: vm.popularReview)
-                        .shadow(radius: 1)
-                }
-                NavigationLink {
-                    CommunityPostView(reported: community.reported, postingId:community.postingID,main: true,back: .constant(false))
-                        .environmentObject(vmAuth)
-                        .navigationBarBackButtonHidden()
-                } label: {
-                    PopularView(posting: vm.popularPosting)
-                        .shadow(radius: 1)
-                }
+        HStack(spacing:10){
+            NavigationLink {
+                ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)
+                    .environmentObject(vmAuth)
+                    .navigationBarBackButtonHidden()
+            } label: {
+                PopularView(review: vm.popularReview)
+                    .shadow(radius: 1)
             }
-            .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? divWidth-20 : divWidth*2-30)
-            .padding(.trailing,10)
+            NavigationLink {
+                CommunityPostView(reported: community.reported ?? false, postingId:community.postingID,main: true,back: .constant(false))
+                    .environmentObject(vmAuth)
+                    .navigationBarBackButtonHidden()
+            } label: {
+                PopularView(posting: vm.popularPosting)
+                    .shadow(radius: 1)
+            }
         }
         .padding(.vertical)
     }
