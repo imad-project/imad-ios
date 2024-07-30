@@ -92,7 +92,9 @@ extension UseConditionView{
             }
         } label: {
             HStack{
-                Image(systemName: all ? "largecircle.fill.circle":"circle")
+                Image(systemName: all ? "checkmark.square.fill":"checkmark.square")
+                    .font(.title3)
+                    .opacity(all ? 1 : 0.5)
                 Text("모두 동의합니다.")
                     .font(.subheadline)
                 
@@ -112,7 +114,9 @@ extension UseConditionView{
             }
         } label: {
             HStack{
-                Image(systemName: what.wrappedValue ? "largecircle.fill.circle":"circle")
+                Image(systemName: what.wrappedValue ? "checkmark.square.fill":"checkmark.square")
+                    .opacity(what.wrappedValue ? 1 : 0.5)
+                    .font(.title3)
                 Text(text)
                     .font(.subheadline)
                 Spacer()
