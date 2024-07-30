@@ -18,6 +18,7 @@ struct WriteReviewView: View {
     
     let maximumRating: Double = 5.0
     
+    @State var loading = false
     @State var title = ""
     @State var text = ""
     @State var spoiler = false
@@ -60,6 +61,7 @@ struct WriteReviewView: View {
                 
             }
         }
+        .progress(!loading)
         .onAppear{
             DispatchQueue.main.async{
                 withAnimation(.easeInOut(duration: 1.0)){
@@ -113,10 +115,13 @@ extension WriteReviewView{
                 Spacer()
             }
             Button {
-                if let reviewId{
-                    vm.updateReview(reviewId: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
-                }else{
-                    vm.writeReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
+                if text != "" && title != "" && rating > 0{
+                    loading = true
+                    if let reviewId{
+                        vm.updateReview(reviewId: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
+                    }else{
+                        vm.writeReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
+                    }
                 }
             } label: {
                 Text(reviewId != nil ? "수정" : "등록")

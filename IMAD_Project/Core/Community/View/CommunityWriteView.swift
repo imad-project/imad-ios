@@ -49,10 +49,9 @@ struct CommunityWriteView: View {
                 .background(Color.white)
             }
            
-            if loading{
-                CustomProgressView()
-            }
+            
         }
+        .progress(!loading)
         .foregroundColor(.black)
             .onReceive(vm.wrtiesuccess){ postingId in
                 showCommunity = (true,postingId)

@@ -46,22 +46,17 @@ struct RecommendAllView: View {
             vm.recommendImad = ([],[])
         }
     }
-    
     var body: some View {
         VStack(spacing:0){
-            if vm.workList(type: type).isEmpty{
-                CustomProgressView()
-            }else{
-                headerView
-                titleView
-                ScrollView{
-                    contentView
-                }
+            headerView
+            titleView
+            ScrollView{
+                contentView
             }
         }
+        .progress(!vm.workList(type: type).isEmpty)
         .onAppear{
-            guard let contentsId else { return request(contentsId: 0)}
-            request(contentsId: contentsId)
+            request(contentsId: contentsId ?? 0)
         }
         .onDisappear{
             remove()

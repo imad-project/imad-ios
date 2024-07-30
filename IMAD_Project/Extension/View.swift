@@ -15,12 +15,21 @@ extension View{
             self
         }
     }
-    
     @ViewBuilder
     func frame(_ size:CGSize)-> some View{
         self
             .frame(width:size.width,height: size.height)
     }
+    @ViewBuilder
+    func progress(_ condition:Bool)-> some View{
+        if condition {
+            self
+        }
+        else{
+            CustomProgressView()
+        }
+    }
+    
     var mainWidth:CGFloat{
         UIScreen.main.bounds.width
     }

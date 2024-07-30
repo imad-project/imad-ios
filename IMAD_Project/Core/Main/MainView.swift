@@ -28,31 +28,28 @@ struct MainView: View {
     var body: some View {
         ZStack{
             Color.white
-            if vmRecommend.recommendAll == nil{
-                CustomProgressView()
-            }else{
-                ScrollView(showsIndicators: false){
-                    VStack(alignment:.leading,spacing:5){
-                        if let user = vmAuth.user?.data{
-                            titleView(user: user)
-                            trendView
-                            if let review = vm.popularReview,let posting = vm.popularPosting{
-                                todayView(review: review, community: posting)
-                            }
-                            if !vm.rankingList.isEmpty{
-                                filter
-                                rankingView
-                            }
-                            userActivityView(user: user)
-                            recommendView("이런 장르 영화 어때요?", .genreMovie)
-                            recommendView("\(user.nickname ?? "")님을 위한 시리즈",.genreTv)
-                            recommendView("아이매드 엄선 영화", .imadMovie)
-                            recommendView("전 세계 사람들이 선택한 시리즈", .imadTv)
+            ScrollView(showsIndicators: false){
+                VStack(alignment:.leading,spacing:5){
+                    if let user = vmAuth.user?.data{
+                        titleView(user: user)
+                        trendView
+                        if let review = vm.popularReview,let posting = vm.popularPosting{
+                            todayView(review: review, community: posting)
                         }
+                        if !vm.rankingList.isEmpty{
+                            filter
+                            rankingView
+                        }
+                        userActivityView(user: user)
+                        recommendView("이런 장르 영화 어때요?", .genreMovie)
+                        recommendView("\(user.nickname ?? "")님을 위한 시리즈",.genreTv)
+                        recommendView("아이매드 엄선 영화", .imadMovie)
+                        recommendView("전 세계 사람들이 선택한 시리즈", .imadTv)
                     }
                 }
             }
         }
+        .progress(vmRecommend.recommendAll != nil)
         .ignoresSafeArea(edges:.bottom)
         .onReceive(vmRecommend.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
@@ -209,7 +206,7 @@ extension MainView{
     }
     var trendView:some View{
         VStack(alignment: .leading){
-               
+            
             HStack{
                 Text("인기작품")
                     .fontWeight(.black)
@@ -281,47 +278,47 @@ extension MainView{
         
         ScrollView(.horizontal,showsIndicators: false){
             LazyHGrid(rows: rankingItems){
-                    ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
-                        NavigationLink {
-                            WorkView(contentsId:rank.contentsID)
-                                .environmentObject(vmAuth)
-                                .navigationBarBackButtonHidden()
-                        } label: {
-                            HStack(spacing:0){
-                                KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
-                                    .shadow(radius: 1)
-                                VStack(alignment: .leading){
-                                    HStack{
-                                        Text("\(rank.ranking)")
-                                            .font(.GmarketSansTTFMedium(15))
-                                            .bold()
-                                        Text(rank.title)
-                                            .frame(width: 100,alignment: .leading)
-                                            .lineLimit(1)
-                                            .font(.GmarketSansTTFMedium(12))
-                                    }
-                                    .foregroundColor(.black)
-                                    .padding(.bottom,3)
-                                    HStack{
-                                        rankUpdateView(rank: rank.rankingChanged)
-                                        Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
-                                            .font(.caption)
-                                            .foregroundStyle(.gray)
-                                    }
-                                    
+                ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
+                    NavigationLink {
+                        WorkView(contentsId:rank.contentsID)
+                            .environmentObject(vmAuth)
+                            .navigationBarBackButtonHidden()
+                    } label: {
+                        HStack(spacing:0){
+                            KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
+                                .shadow(radius: 1)
+                            VStack(alignment: .leading){
+                                HStack{
+                                    Text("\(rank.ranking)")
+                                        .font(.GmarketSansTTFMedium(15))
+                                        .bold()
+                                    Text(rank.title)
+                                        .frame(width: 100,alignment: .leading)
+                                        .lineLimit(1)
+                                        .font(.GmarketSansTTFMedium(12))
                                 }
-                                .padding(.horizontal,10)
-                                Spacer()
-                                ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
-                                    .padding(.trailing)
+                                .foregroundColor(.black)
+                                .padding(.bottom,3)
+                                HStack{
+                                    rankUpdateView(rank: rank.rankingChanged)
+                                    Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
+                                        .font(.caption)
+                                        .foregroundStyle(.gray)
+                                }
+                                
                             }
+                            .padding(.horizontal,10)
+                            Spacer()
+                            ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
+                                .padding(.trailing)
                         }
-                        .frame(width: 300,height: 75)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(5)
-                        .padding(.horizontal,10)
-                        
                     }
+                    .frame(width: 300,height: 75)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(5)
+                    .padding(.horizontal,10)
+                    
+                }
             }
         }
     }
@@ -334,7 +331,7 @@ extension MainView{
             Text("전체보기")
                 .font(.custom("GmarketSansTTFMedium", size: 12))
                 .fontWeight(.regular)
-            .foregroundColor(.customIndigo)
+                .foregroundColor(.customIndigo)
         }
     }
     
@@ -390,7 +387,7 @@ extension MainView{
                 Group{
                     Image(systemName:rank > 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
                     Text(rank > 0 ? "\(rank)":"\(abs(rank))")
-                       
+                    
                 }
                 .font(.caption2)
                 .foregroundStyle(rank > 0 ? .green : .red)
@@ -418,6 +415,7 @@ extension MainView{
                     .shadow(radius: 1)
             }
         }
+        .padding(.horizontal,10)
         .padding(.vertical)
     }
     //추천작
@@ -448,7 +446,7 @@ extension MainView{
                                             Text("전체보기")
                                                 .font(.custom("GmarketSansTTFMedium", size: 12))
                                                 .fontWeight(.regular)
-                                            .foregroundColor(.white)
+                                                .foregroundColor(.white)
                                         }
                                     }
                                     .font(.caption)
