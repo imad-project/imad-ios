@@ -31,13 +31,16 @@ public struct AutoSizingFlowLayoutView<Data, Content: View>: View {
             ZStack(alignment: .topLeading) {
                 ForEach(Array(items.enumerated()), id: \.offset) { index , item in
                     content(item)
+                        .padding(5)
                         .alignmentGuide(.leading, computeValue: { leadingGuide(width: &width, height: &height, lastHeight: &lastHeight, g: g, d: $0, index: index) })
                         .alignmentGuide(.top, computeValue: { d in
                            topGuide(height: &height, index: index)
                         })
+                        
                 }
             }
             .background(background)
+            
         }
         .frame(height: totalHeight)
     }
