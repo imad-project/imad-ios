@@ -6,3 +6,9 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct HeightPreferenceKey: PreferenceKey {
+    static func reduce(value _: inout CGFloat, nextValue _: () -> CGFloat) {}
+    static var defaultValue: CGFloat = 0
+}
