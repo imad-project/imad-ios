@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SwiftUIFlowLayout
+
 
 struct SelectGenreView: View {
     
@@ -80,7 +80,7 @@ extension SelectGenreView{
             Text("영화")
                 .font(.GmarketSansTTFMedium(15))
                 .padding(.leading)
-            FlowLayout(mode: .scrollable, items: MovieGenreFilter.allCases){ item in
+            AutoSizingFlowLayoutView(items: MovieGenreFilter.allCases){ item in
                 Button {
                     movieAppend(item: item)
                 } label: {
@@ -111,7 +111,7 @@ extension SelectGenreView{
                 .padding(.leading)
                 .font(.GmarketSansTTFMedium(15))
                 .padding(.top)
-            FlowLayout(mode: .scrollable, items: TVGenreFilter.allCases) { item in
+            AutoSizingFlowLayoutView(items: TVGenreFilter.allCases) { item in
                 Button {
                     tvAppend(item: item)
                 } label: {

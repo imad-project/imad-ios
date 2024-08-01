@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUIFlowLayout
 
 struct AllRankingView: View {
     @State var filter:RankingFilter

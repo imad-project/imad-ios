@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUIFlowLayout
-
 
 
 struct GenreSelectView: View {
@@ -42,7 +40,7 @@ struct GenreSelectView: View {
                     .font(.GmarketSansTTFMedium(25))
                     .padding(.leading)
                 Spacer()
-                FlowLayout(mode: .vstack, items: collection) { genre in
+                AutoSizingFlowLayoutView(items: collection) { genre in
                     Button {
                         withAnimation {
                             collection = collection.filter{$0.selectCode() != genre.selectCode()}
@@ -66,7 +64,7 @@ struct GenreSelectView: View {
                 
                 Divider()
                     .padding(.vertical)
-                FlowLayout(mode: .scrollable, items: genreList) { genre in
+                AutoSizingFlowLayoutView(items: genreList) { genre in
                     Button {
                         withAnimation {
                             if (collection.first(where: {$0.selectCode() == genre.selectCode()}) != nil){
