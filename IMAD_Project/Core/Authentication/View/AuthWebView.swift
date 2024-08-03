@@ -28,7 +28,8 @@ struct AuthWebView: View {
         var success = PassthroughSubject<(), Never>()
         var failed = PassthroughSubject<(), Never>()
         
-        // 페이지 로드 응답에 대한 결정을 가져옴
+        //페이지 로드 응답에 대한 결정을 가져옴 - response
+        //페이지에서 링크나 컴포넌트를 터피할때마다 호출되는 듯함
         func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
             
             guard let httpResponse = navigationResponse.response as? HTTPURLResponse else {
@@ -36,20 +37,18 @@ struct AuthWebView: View {
                 decisionHandler(.cancel)
                 return
             }
-            
             decisionHandler(.allow)
-            if UserDefaultManager.shared.checkToken(response: httpResponse){
-                print("성공")
-                success.send()
-            }else{
-                print("실패")
+            if (200...300) ~= httpResponse.statusCode {
+                if UserDefaultManager.shared.checkToken(response: httpResponse){
+                    success.send()
+                }
+            }
+            else{
                 failed.send()
             }
-            
-            
         }
         
-        // 페이지 로드 요청에 대한 결정을 가져옴
+        // 페이지 로드 요청에 대한 결정을 가져옴 - request
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
             decisionHandler(.allow)
         }
@@ -70,6 +69,7 @@ struct AuthWebView: View {
         .onAppear {
             // 로드될 페이지 설정
             let url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.authProvierName)")!
+            print(url)
             // WebView에 로드된 페이지에 대한 Delegate 지정
             webView.navigationDelegate = webViewDelegate
             // 로드된 페이지 요청
