@@ -82,7 +82,7 @@ extension MenuTabView{
                         .padding(.top)
                     }
                     .onAppear{
-                        if item == TabFilter.allCases.first{
+                        if item == tab{
                             self.tabInfo = minX
                         }
                     }
