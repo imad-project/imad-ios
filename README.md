@@ -1,13 +1,7 @@
-# IMad_Project
-
-> IMAD 프로젝트 iOS 레포지토리입니다.
-
-```
-IMAD는 영화/드라마/애니메이션 등 여러 미디어 작품에 
-대한 리뷰를 남길 수 있고 커뮤니티로 소통할 수 있는 어플입니다.
-```
 
 <img src="https://github.com/user-attachments/assets/a9ff5bca-3bf0-4878-b9df-49798ec02e64" width="12.5%" height="25%">
+
+# 아이매드
 
 <p align="leading">
 
@@ -18,7 +12,12 @@ IMAD는 영화/드라마/애니메이션 등 여러 미디어 작품에
 <img src="https://github.com/user-attachments/assets/731ec509-7bee-4fcd-9226-665057a480ea" width="19%" height="25%">
 </p>
 
+> IMAD 프로젝트 iOS 레포지토리입니다.
 
+```
+IMAD는 영화/드라마/애니메이션 등 여러 미디어 작품에 
+대한 리뷰를 남길 수 있고 커뮤니티로 소통할 수 있는 어플입니다.
+```
 
 ## 🔗 링크
 ### 팀원 깃허브 링크
