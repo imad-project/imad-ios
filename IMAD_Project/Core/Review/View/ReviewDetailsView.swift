@@ -103,7 +103,7 @@ extension ReviewDetailsView{
     func header(review:ReadReviewResponse) ->some View{
         VStack{
             HStack{
-                HeaderView(backIcon: "chevron.left", text: "모든 리뷰"){
+                HeaderView(backIcon: "chevron.left", text: "리뷰"){
                     dismiss()
                 }
                 Spacer()
