@@ -38,20 +38,12 @@ IMAD는 영화/드라마/애니메이션 등 여러 미디어 작품에
 
 ## 💻 기술스택
 
-언어 및 툴
-
 - Swift
 - xcode
-  
-내부 프레임워크
-
 - SwiftUI
 - UIkit
 - PhotosUI
 - Combine
-
-외부 라이브러리
-
 - Alamofire
 - Kingfisher
 
