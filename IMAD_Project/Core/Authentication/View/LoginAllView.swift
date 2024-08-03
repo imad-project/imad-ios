@@ -172,8 +172,7 @@ extension LoginAllView{
                 loading = true
             }
             CustomConfirmButton(text: "회원가입", color: .customIndigo.opacity(0.5), textColor: .white) {
-                vm.login(email: "\(id)@\(domain.domain)", password: password.sha256())    //SHA256
-                loading = true
+                register = true
             }
         }
     }
