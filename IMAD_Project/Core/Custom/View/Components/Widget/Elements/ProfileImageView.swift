@@ -34,9 +34,6 @@ struct ProfileImageView: View {
                         .shadow(color:ProfileFilter.allCases.first(where: {$0.num == imagePath.getImageCode()})?.color ?? .clear,radius: 1)
                 }
             }
-            .onAppear{
-                print(imagePath.getImadImage())
-            }
     }
    
 }
