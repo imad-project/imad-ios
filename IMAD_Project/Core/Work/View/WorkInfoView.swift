@@ -304,7 +304,7 @@ extension WorkInfoView{
             if let crews = work.credits?.crew,!crews.isEmpty{
                 ForEach(crews){ crew in
                     HStack{
-                        ProfileImageView(imagePath: crew.profilePath ?? "", widthHeigt: 80)
+                        ProfileImageView(work:1,imagePath: crew.profilePath ?? "", widthHeigt: 80)
                         VStack(alignment: .leading){
                             Text(crew.name ?? "")
                             if let jobs = crew.job?.components(separatedBy: ","){
@@ -331,7 +331,7 @@ extension WorkInfoView{
             if let casts = work.credits?.cast,casts != []{
                 ForEach(casts){ cast in
                     HStack{
-                        ProfileImageView(imagePath:cast.profilePath ?? "" , widthHeigt: 80)
+                        ProfileImageView(work:1,imagePath:cast.profilePath ?? "" , widthHeigt: 80)
                         VStack(alignment: .leading){
                             Text(cast.name ?? "")
                             Text("\(cast.character ?? "")역")

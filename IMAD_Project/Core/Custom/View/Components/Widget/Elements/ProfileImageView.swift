@@ -9,10 +9,11 @@ import SwiftUI
 import Kingfisher
 
 struct ProfileImageView: View {
+    var work:Int?
     let imagePath:String
     let widthHeigt:CGFloat
     var body: some View {
-        KFImage(URL(string: imagePath.getImageURL()))
+        KFImage(URL(string: work != nil ? imagePath.getImadImage():imagePath.getImageURL()))
             .resizable()
             .placeholder{
                 Circle()
@@ -33,12 +34,15 @@ struct ProfileImageView: View {
                         .shadow(color:ProfileFilter.allCases.first(where: {$0.num == imagePath.getImageCode()})?.color ?? .clear,radius: 1)
                 }
             }
+            .onAppear{
+                print(imagePath.getImadImage())
+            }
     }
    
 }
 
 struct ProfileImageView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileImageView(imagePath: CustomData.instance.profileImage,widthHeigt: 30)
+        ProfileImageView(work: 1, imagePath: CustomData.instance.profileImage,widthHeigt: 30)
     }
 }

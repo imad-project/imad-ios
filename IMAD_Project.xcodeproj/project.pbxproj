@@ -178,6 +178,7 @@
 		81F3566E2AF21F1D00A46A6D /* MyBookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */; };
 		81FF75AE2AF8C4DE00DB1AC2 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF75AD2AF8C4DE00DB1AC2 /* ProfileImageView.swift */; };
 		81FF75B02AF8CE7600DB1AC2 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF75AF2AF8CE7600DB1AC2 /* ScoreView.swift */; };
+		D60A53812C61E81B001F73F2 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = D60A53802C61E81B001F73F2 /* Documentation.docc */; };
 		D60AD1EA2C294DA900C9C27B /* RecommendTVResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD1E92C294DA900C9C27B /* RecommendTVResponse.swift */; };
 		D60AD1EC2C2952DB00C9C27B /* AllRecommend.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD1EB2C2952DB00C9C27B /* AllRecommend.swift */; };
 		D60AD1F22C29549600C9C27B /* GenreRecommendResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD1F12C29549600C9C27B /* GenreRecommendResponse.swift */; };
@@ -426,6 +427,7 @@
 		81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookmarkListView.swift; sourceTree = "<group>"; };
 		81FF75AD2AF8C4DE00DB1AC2 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		81FF75AF2AF8CE7600DB1AC2 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
+		D60A53802C61E81B001F73F2 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		D60AD1E92C294DA900C9C27B /* RecommendTVResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendTVResponse.swift; sourceTree = "<group>"; };
 		D60AD1EB2C2952DB00C9C27B /* AllRecommend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecommend.swift; sourceTree = "<group>"; };
 		D60AD1F12C29549600C9C27B /* GenreRecommendResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreRecommendResponse.swift; sourceTree = "<group>"; };
@@ -552,6 +554,7 @@
 				8103094629D1BDF00021717B /* Preview Content */,
 				81BB11292A0642E8005654AA /* Config.xcconfig */,
 				81EE0B432B4161DF00A58E5F /* IMAD-Project-info.plist */,
+				D60A53802C61E81B001F73F2 /* Documentation.docc */,
 			);
 			path = IMAD_Project;
 			sourceTree = "<group>";
@@ -1641,6 +1644,7 @@
 				817919C82B4BADC30084779B /* CustomTextEditor.swift in Sources */,
 				817919D12B4BDFA70084779B /* RankingResponse.swift in Sources */,
 				8131C55E2AFA0CC9006B761D /* WriteReviewResponse.swift in Sources */,
+				D60A53812C61E81B001F73F2 /* Documentation.docc in Sources */,
 				81A1ECE329DC207F0001A366 /* ColorSet.swift in Sources */,
 				817B60D62A23747F000099A9 /* ValidationResponse.swift in Sources */,
 				8154B1DF2ADCE64E00AD2F83 /* CommunityList.swift in Sources */,
