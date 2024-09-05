@@ -21,7 +21,7 @@ struct WorkView: View {
     @State var showMyRevie = false
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vmAuth:AuthViewModel//
+    @EnvironmentObject var vmAuth:AuthViewModel
     @StateObject var vmReview = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vm = WorkViewModel(workInfo: nil,bookmarkList: [])
     
@@ -54,9 +54,9 @@ struct WorkView: View {
             }else if let id, let type{
                 vm.getWorkInfo(id: id, type: type)
             }
-            vm.getBookmark(page: vm.currentPage)
         }
         .onDisappear{
+            KingfisherManager.shared.cache.clearMemoryCache()
             vmReview.reviewList.removeAll()
         }
         .onReceive(vm.success){ contentsId in

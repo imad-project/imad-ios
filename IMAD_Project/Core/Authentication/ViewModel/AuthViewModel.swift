@@ -11,7 +11,7 @@ import Alamofire
 import AuthenticationServices
 
 
-class AuthViewModel:ObservableObject{
+final class AuthViewModel:ObservableObject{
     
     
     @Published var selection:RegisterFilter = .nickname     //탭뷰

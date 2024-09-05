@@ -227,7 +227,8 @@ extension MainView{
                         .padding()
                         .padding(.bottom)
                     }
-                    
+                    .onDisappear{ KingfisherManager.shared.cache.clearMemoryCache()
+                    }
                 }
             }
         }
