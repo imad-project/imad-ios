@@ -40,20 +40,26 @@ class RecommendViewModel:ObservableObject{
         }
     }
     func fetchAllRecommend(){
-        RecommendApiService.all()
-            .sink { completion in
-                print(completion)
-                switch completion{
-                case .finished:
+        let manager = RecommendManager.instance
+        if let data = manager.cachedData(key: "AllRecommand"),Date().timeDifference(previousTime: manager.timeStamp, curruntTime: Date()) <= 300{
+            self.recommendAll = data
+        }else{
+            RecommendApiService.all()
+                .sink { completion in
                     print(completion)
-                case let .failure(error):
-                    print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
-                }
-            } receiveValue: { [weak self] work in
-                self?.recommendAll = work.data
-            }.store(in: &cancelable)
-        
+                    switch completion{
+                    case .finished:
+                        print(completion)
+                    case let .failure(error):
+                        print(error.localizedDescription)
+                        self.refreschTokenExpired.send()
+                    }
+                } receiveValue: { [weak self] work in
+                    guard let data = work.data else {return}
+                    self?.recommendAll = data
+                    RecommendManager.instance.updateData(key: "AllRecommand", data: data)
+                }.store(in: &cancelable)
+        }
     }
     func fetchTrendRecommend(page:Int){
         RecommendApiService.trend(page: page)

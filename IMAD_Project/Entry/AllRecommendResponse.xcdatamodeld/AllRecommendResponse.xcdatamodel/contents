@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23G93" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="AllRecommendResponse" representedClassName="AllRecommendResponse" syncable="YES" codeGenerationType="class">
+        <relationship name="popularRecommendationTv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecommendTVList" inverseName="popularRecommendationTv" inverseEntity="RecommendTVList"/>
+        <relationship name="preferredGenreRecommendationTv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecommendTVList" inverseName="preferredGenreRecommendationTv" inverseEntity="RecommendTVList"/>
+        <relationship name="topRatedRecommendationTv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecommendTVList" inverseName="topRatedRecommendationTv" inverseEntity="RecommendTVList"/>
+        <relationship name="trendRecommendationTv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecommendTVList" inverseName="trendRecommendationTv" inverseEntity="RecommendTVList"/>
+        <relationship name="userActivityRecommendationTv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecommendTVList" inverseName="userActivityRecommendationTv" inverseEntity="RecommendTVList"/>
+        <relationship name="userActivityRecommendationTvAnimation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecommendTVList" inverseName="userActivityRecommendationTvAnimation" inverseEntity="RecommendTVList"/>
+    </entity>
+    <entity name="RecommendTVList" representedClassName="RecommendTVList" syncable="YES" codeGenerationType="class">
+        <relationship name="popularRecommendationTv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AllRecommendResponse" inverseName="popularRecommendationTv" inverseEntity="AllRecommendResponse"/>
+        <relationship name="preferredGenreRecommendationTv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AllRecommendResponse" inverseName="preferredGenreRecommendationTv" inverseEntity="AllRecommendResponse"/>
+        <relationship name="topRatedRecommendationTv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AllRecommendResponse" inverseName="topRatedRecommendationTv" inverseEntity="AllRecommendResponse"/>
+        <relationship name="trendRecommendationTv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AllRecommendResponse" inverseName="trendRecommendationTv" inverseEntity="AllRecommendResponse"/>
+        <relationship name="userActivityRecommendationTv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AllRecommendResponse" inverseName="userActivityRecommendationTv" inverseEntity="AllRecommendResponse"/>
+        <relationship name="userActivityRecommendationTvAnimation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AllRecommendResponse" inverseName="userActivityRecommendationTvAnimation" inverseEntity="AllRecommendResponse"/>
+    </entity>
+</model>

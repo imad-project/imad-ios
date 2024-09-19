@@ -178,6 +178,8 @@
 		81F3566E2AF21F1D00A46A6D /* MyBookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */; };
 		81FF75AE2AF8C4DE00DB1AC2 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF75AD2AF8C4DE00DB1AC2 /* ProfileImageView.swift */; };
 		81FF75B02AF8CE7600DB1AC2 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF75AF2AF8CE7600DB1AC2 /* ScoreView.swift */; };
+		D608EF762C9C1A0600C4FCE7 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608EF752C9C1A0600C4FCE7 /* Date.swift */; };
+		D608EF782C9C3D5800C4FCE7 /* RecommendManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608EF772C9C3D5800C4FCE7 /* RecommendManager.swift */; };
 		D60A53812C61E81B001F73F2 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = D60A53802C61E81B001F73F2 /* Documentation.docc */; };
 		D60AD1EA2C294DA900C9C27B /* RecommendTVResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD1E92C294DA900C9C27B /* RecommendTVResponse.swift */; };
 		D60AD1EC2C2952DB00C9C27B /* AllRecommend.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD1EB2C2952DB00C9C27B /* AllRecommend.swift */; };
@@ -427,6 +429,8 @@
 		81F3566D2AF21F1D00A46A6D /* MyBookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookmarkListView.swift; sourceTree = "<group>"; };
 		81FF75AD2AF8C4DE00DB1AC2 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		81FF75AF2AF8CE7600DB1AC2 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
+		D608EF752C9C1A0600C4FCE7 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		D608EF772C9C3D5800C4FCE7 /* RecommendManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendManager.swift; sourceTree = "<group>"; };
 		D60A53802C61E81B001F73F2 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		D60AD1E92C294DA900C9C27B /* RecommendTVResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendTVResponse.swift; sourceTree = "<group>"; };
 		D60AD1EB2C2952DB00C9C27B /* AllRecommend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecommend.swift; sourceTree = "<group>"; };
@@ -860,6 +864,7 @@
 			isa = PBXGroup;
 			children = (
 				819C506D2A0F467B0008F4A5 /* UserDefaultManager.swift */,
+				D608EF772C9C3D5800C4FCE7 /* RecommendManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -943,6 +948,7 @@
 				D61D2A802C381E6C00ED74F6 /* UIImage.swift */,
 				D6D974C82C3D20CF00BCBF49 /* Font.swift */,
 				D62967A92C575D210059A15B /* CGSize.swift */,
+				D608EF752C9C1A0600C4FCE7 /* Date.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1668,6 +1674,7 @@
 				81B1848C2AFB5D6000CCDBEC /* PatchUserInfo.swift in Sources */,
 				818B07332B0D96310013C426 /* ScrapRouter.swift in Sources */,
 				D64C4C8E2C37BE4E0097B2FD /* CropView.swift in Sources */,
+				D608EF762C9C1A0600C4FCE7 /* Date.swift in Sources */,
 				817B60D42A237436000099A9 /* Validation.swift in Sources */,
 				D6D974B92C3B9A8200BCBF49 /* GetTokenInterceptor.swift in Sources */,
 				819D499E2A933A5C008B7BFE /* Network.swift in Sources */,
@@ -1732,6 +1739,7 @@
 				D61D2A7F2C3819EF00ED74F6 /* View.swift in Sources */,
 				81DB1FD829E7D63C002C0840 /* RegisterTabView.swift in Sources */,
 				8103094329D1BDEF0021717B /* ContentView.swift in Sources */,
+				D608EF782C9C3D5800C4FCE7 /* RecommendManager.swift in Sources */,
 				811DA16D29E978DB00482A6A /* CommunityPostView.swift in Sources */,
 				812CDE9429DE92000003B993 /* CommunityView.swift in Sources */,
 				81407A722B2C3E7E006550AF /* GenreSelectView.swift in Sources */,
