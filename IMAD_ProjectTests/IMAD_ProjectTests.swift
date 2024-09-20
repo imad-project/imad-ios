@@ -38,4 +38,9 @@ final class IMAD_ProjectTests: XCTestCase {
         vm.getUser()
     }
 
+    func test_successFetchRankingList() throws{
+        let vm = RankingViewModel(rankingList: [:])
+        vm.getAllRanking(page: 1, type: .all)
+        print(vm.rankingList)
+    }
 }

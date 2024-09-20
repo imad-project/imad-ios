@@ -13,36 +13,10 @@ class RankingApiService{
     
     static let interseptor = GuestInterceptor()
     
-    static func weekRanking(page:Int,type:String) -> AnyPublisher<Ranking,AFError>{
-        print("주간랭킹 api 호출")
+    static func ranking(endPoint:RankingFilter,page:Int,mediaType:String) -> AnyPublisher<Ranking,AFError>{
+        print("\(endPoint.name)랭킹 api 호출")
         return ApiClient.shared.session
-            .request(RankingRouter.week(page:page,type:type),interceptor: interseptor)
-            .validate(statusCode: 200..<300)
-            .publishDecodable(type:Ranking.self)
-            .value()
-            .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message)")
-                return receivedValue.self
-            }
-            .eraseToAnyPublisher()
-    }
-    static func monthRanking(page:Int,type:String) -> AnyPublisher<Ranking,AFError>{
-        print("월간랭킹 api 호출")
-        return ApiClient.shared.session
-            .request(RankingRouter.month(page:page,type:type),interceptor: interseptor)
-            .validate(statusCode: 200..<300)
-            .publishDecodable(type:Ranking.self)
-            .value()
-            .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message)")
-                return receivedValue.self
-            }
-            .eraseToAnyPublisher()
-    }
-    static func allRanking(page:Int,type:String) -> AnyPublisher<Ranking,AFError>{
-        print("전체랭킹 api 호출")
-        return ApiClient.shared.session
-            .request(RankingRouter.all(page:page,type:type),interceptor: interseptor)
+            .request(RankingRouter.ranking(endPoint: endPoint.endPoint, page: page, mediaType: mediaType),interceptor: interseptor)
             .validate(statusCode: 200..<300)
             .publishDecodable(type:Ranking.self)
             .value()

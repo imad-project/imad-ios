@@ -11,8 +11,9 @@ struct AllRankingView: View {
     @State var filter:RankingFilter
     @State var type:TypeFilter = .all
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm = RankingViewModel(rankingList:[])
+    @StateObject var vm = RankingViewModel(rankingList: [:])
     @EnvironmentObject var vmAuth:AuthViewModel
+    
     var body: some View {
         VStack(spacing: 0){
             header
@@ -22,7 +23,7 @@ struct AllRankingView: View {
             }
         }
         .onAppear{
-            listUpdate(page: 1, type: type.rawValue)
+            vm.fetchRanking(endPoint: filter, page: 1, mediaType: type)
         }
         .onDisappear{
             vm.rankingList.removeAll()
@@ -32,7 +33,7 @@ struct AllRankingView: View {
 }
 
 #Preview {
-    AllRankingView(filter: .all,vm:RankingViewModel(rankingList:CustomData.instance.rankingList))
+    AllRankingView(filter: .all,vm:RankingViewModel(rankingList:[:]))
         .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
 }
 
@@ -54,7 +55,7 @@ extension AllRankingView{
                 Button {
                     vm.rankingList.removeAll()
                     filter = ranking
-                    listUpdate(page: 1, type: type.rawValue)
+                    vm.fetchRanking(endPoint: filter, page: 1, mediaType: type)
                 } label: {
                     Text(ranking.name)
                         .font(.GmarketSansTTFMedium(17))
@@ -77,8 +78,7 @@ extension AllRankingView{
                     ForEach(TypeFilter.allCases,id:\.self){ type in
                         Button {
                             self.type = type
-                            listUpdate(page: 1, type: type.rawValue)
-                            vm.rankingList.removeAll()
+                            vm.fetchRanking(endPoint: filter, page: 1, mediaType: type)
                         } label: {
                             Text(type.name)
                                 .font(.GmarketSansTTFMedium(12))
@@ -101,50 +101,54 @@ extension AllRankingView{
                 .padding(10)
         }
     }
+    @ViewBuilder
     var contentsView:some View{
-        ForEach(vm.rankingList,id:\.self){ rank in
-            NavigationLink {
-                WorkView(contentsId: rank.contentsID)
-                    .environmentObject(vmAuth)
-                    .navigationBarBackButtonHidden()
-            } label: {
-                HStack(spacing:0){
-                    KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
-                    VStack(alignment: .leading){
-                        HStack{
-                            Text("\(rank.ranking)")
-                                .font(.GmarketSansTTFMedium(15))
-                                .bold()
-                            Text(rank.title)
-                                .frame(width: 100,alignment: .leading)
-                                .lineLimit(1)
-                                .font(.GmarketSansTTFMedium(12))
+        if let list = vm.rankingList[filter.rawValue]{
+            ForEach(list,id:\.self){ rank in
+                NavigationLink {
+                    WorkView(contentsId: rank.contentsID)
+                        .environmentObject(vmAuth)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    HStack(spacing:0){
+                        KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
+                        VStack(alignment: .leading){
+                            HStack{
+                                Text("\(rank.ranking)")
+                                    .font(.GmarketSansTTFMedium(15))
+                                    .bold()
+                                Text(rank.title)
+                                    .frame(width: 100,alignment: .leading)
+                                    .lineLimit(1)
+                                    .font(.GmarketSansTTFMedium(12))
+                            }
+                            .foregroundColor(.black)
+                            .padding(.bottom,3)
+                            HStack{
+                                rankUpdateView(rank: rank.rankingChanged)
+                                Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                            }
+                            
                         }
-                        .foregroundColor(.black)
-                        .padding(.bottom,3)
-                        HStack{
-                            rankUpdateView(rank: rank.rankingChanged)
-                            Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
-                                .font(.caption)
-                                .foregroundStyle(.gray)
-                        }
-                        
+                        .padding(.horizontal,10)
+                        Spacer()
+                        ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
+                            .padding(.trailing)
                     }
-                    .padding(.horizontal,10)
-                    Spacer()
-                    ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
-                        .padding(.trailing)
+                }
+                .cornerRadius(5)
+                .padding(.leading,10)
+                if list.last == rank,vm.maxPage > vm.currentPage{
+                    ProgressView()
+                        .onAppear{
+                            vm.fetchRanking(endPoint: filter, page: vm.currentPage + 1, mediaType: type)
+                        }
                 }
             }
-            .cornerRadius(5)
-            .padding(.leading,10)
-            if vm.rankingList.last == rank,vm.maxPage > vm.currentPage{
-                ProgressView()
-                    .onAppear{
-                        listUpdate(page: vm.currentPage + 1, type:type.rawValue)
-                    }
-            }
         }
+        
     }
     func rankUpdateView(rank:Int?) -> some View{
         HStack(spacing:2){
@@ -159,16 +163,6 @@ extension AllRankingView{
             }else{
                 Text("-").foregroundColor(.gray)
             }
-        }
-    }
-    func listUpdate(page:Int,type:String){
-        switch filter{
-        case .all:
-            vm.getAllRanking(page: page, type: type)
-        case .week:
-            vm.getWeekRanking(page: page, type: type)
-        case .month:
-            vm.getMonthRanking(page: page, type: type)
         }
     }
 }

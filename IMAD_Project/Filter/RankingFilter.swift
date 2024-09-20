@@ -23,5 +23,15 @@ enum RankingFilter:String,CaseIterable{
             return "전체"
         }
     }
+    var endPoint:String{
+        switch self{
+        case .all:
+            return "alltime"
+        case .week:
+            return "weekly"
+        case .month:
+            return "monthly"
+        }
+    }
 }
 

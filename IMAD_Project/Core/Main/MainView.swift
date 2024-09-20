@@ -18,12 +18,11 @@ struct MainView: View {
     let initValue = [WorkGenre](repeating: TVWorkGenre(tvGenre: RecommendTVResponse(id: 0, name: "", posterPath: "", backdropPath: "", genreIds: [])), count: 10)
     
     @State var ranking:RankingFilter = .all
-    @StateObject var vm = RankingViewModel(rankingList: [])
+    @StateObject var vm = RankingViewModel(rankingList: [:])
     @StateObject var vmRecommend = RecommendViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
     @State var trend = false
-    
     
     var body: some View {
         ZStack{
@@ -56,7 +55,7 @@ struct MainView: View {
         }
         .onAppear {
             vmRecommend.fetchAllRecommend()
-            vm.getAllRanking(page: 1, type: ranking.rawValue)
+            vm.fetchRanking(endPoint: ranking, page: 1, mediaType: .all)
             vm.getPopularReview()
             vm.getPopularPosting()
         }
@@ -66,7 +65,7 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            MainView(vm:RankingViewModel(rankingList: CustomData.instance.rankingList))
+            MainView(vm:RankingViewModel(rankingList: [:]))
                 .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
@@ -283,45 +282,47 @@ extension MainView{
         
         ScrollView(.horizontal,showsIndicators: false){
             LazyHGrid(rows: rankingItems){
-                ForEach(vm.rankingList.prefix(9),id:\.self){ rank in
-                    NavigationLink {
-                        WorkView(contentsId:rank.contentsID)
-                            .environmentObject(vmAuth)
-                            .navigationBarBackButtonHidden()
-                    } label: {
-                        HStack(spacing:0){
-                            KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
-                                .shadow(radius: 1)
-                            VStack(alignment: .leading){
-                                HStack{
-                                    Text("\(rank.ranking)")
-                                        .font(.GmarketSansTTFMedium(15))
-                                        .bold()
-                                    Text(rank.title)
-                                        .frame(width: 100,alignment: .leading)
-                                        .lineLimit(1)
-                                        .font(.GmarketSansTTFMedium(12))
+                if let list = vm.rankingList[ranking.rawValue]{
+                    ForEach(list.prefix(9),id:\.self){ rank in
+                        NavigationLink {
+                            WorkView(contentsId:rank.contentsID)
+                                .environmentObject(vmAuth)
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            HStack(spacing:0){
+                                KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
+                                    .shadow(radius: 1)
+                                VStack(alignment: .leading){
+                                    HStack{
+                                        Text("\(rank.ranking)")
+                                            .font(.GmarketSansTTFMedium(15))
+                                            .bold()
+                                        Text(rank.title)
+                                            .frame(width: 100,alignment: .leading)
+                                            .lineLimit(1)
+                                            .font(.GmarketSansTTFMedium(12))
+                                    }
+                                    .foregroundColor(.black)
+                                    .padding(.bottom,3)
+                                    HStack{
+                                        rankUpdateView(rank: rank.rankingChanged)
+                                        Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
+                                            .font(.caption)
+                                            .foregroundStyle(.gray)
+                                    }
+                                    
                                 }
-                                .foregroundColor(.black)
-                                .padding(.bottom,3)
-                                HStack{
-                                    rankUpdateView(rank: rank.rankingChanged)
-                                    Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
-                                        .font(.caption)
-                                        .foregroundStyle(.gray)
-                                }
-                                
+                                .padding(.horizontal,10)
+                                Spacer()
+                                ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
+                                    .padding(.trailing)
                             }
-                            .padding(.horizontal,10)
-                            Spacer()
-                            ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
-                                .padding(.trailing)
                         }
+                        .frame(width: isWidth() ? 600 : 300,height: 75)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(5)
+                        .padding(.horizontal,10)
                     }
-                    .frame(width: isWidth() ? 600 : 300,height: 75)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(5)
-                    .padding(.horizontal,10)
                 }
             }
         }
@@ -348,15 +349,7 @@ extension MainView{
                     ForEach(RankingFilter.allCases,id:\.self){ ranking in
                         Button {
                             self.ranking = ranking
-                            vm.rankingList.removeAll()
-                            switch self.ranking{
-                            case .all:
-                                vm.getAllRanking(page: 1, type: "all")
-                            case .week:
-                                vm.getWeekRanking(page: 1, type: "all")
-                            case .month:
-                                vm.getMonthRanking(page: 1, type: "all")
-                            }
+                            vm.fetchRanking(endPoint: ranking, page: 1, mediaType: .all)
                         } label: {
                             Group{
                                 if self.ranking == ranking{
