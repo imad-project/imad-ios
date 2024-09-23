@@ -47,6 +47,15 @@ struct MainView: View {
                     }
                 }
             }
+            .refreshable {
+                RecommendManager.instance.storage.removeAll()
+                RankingManager.instance.storage.removeAll()
+                PopularCacheManager.instance.storage.removeAll()
+                vmRecommend.fetchAllRecommend()
+                vm.getRanking(ranking: RankingCache(id: "allall", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: []))
+                vm.getPopularReview()
+                vm.getPopularPosting()
+            }
         }
         .progress(vmRecommend.recommendAll != nil)
         .ignoresSafeArea(edges:.bottom)
