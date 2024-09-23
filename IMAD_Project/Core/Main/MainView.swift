@@ -32,7 +32,7 @@ struct MainView: View {
                     if let user = vmAuth.user?.data{
                         titleView(user: user)
                         trendView
-                        if let review = vm.popularReview,let posting = vm.popularPosting{
+                        if let review = vm.popular?.review,let posting = vm.popular?.posting{
                             todayView(review: review, community: posting)
                         }
                         if vm.ranking?.list != nil{
@@ -403,7 +403,7 @@ extension MainView{
                     .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             } label: {
-                PopularView(review: vm.popularReview)
+                PopularView(review: review)
                     .shadow(radius: 1)
             }
             NavigationLink {
@@ -411,7 +411,7 @@ extension MainView{
                     .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             } label: {
-                PopularView(posting: vm.popularPosting)
+                PopularView(posting: community)
                     .shadow(radius: 1)
             }
         }

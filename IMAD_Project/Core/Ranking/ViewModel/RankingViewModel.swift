@@ -12,16 +12,15 @@ class RankingViewModel:ObservableObject{
     
     var canelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()
-    let manager = RankingManager.instance
-    
+    let rankingManager = RankingManager.instance
+    let popularManager = PopularCacheManager.instance
     let errorManager = ErrorManager.instance
     
     @Published var ranking:RankingCache? = nil
-    @Published var popularReview:PopularReviewResponse? = nil
-    @Published var popularPosting:PopularPostingResponse? = nil
+    @Published var popular:PopularCache? = PopularCache(review: nil,posting: nil)
 
     func getRanking(ranking:RankingCache){
-        if let data = manager.cachedData(key: ranking.id),Date().timeDifference(previousTime: manager.timeStamp[ranking.id], curruntTime: Date()) <= 300{
+        if let data = rankingManager.cachedData(key: ranking.id),Date().timeDifference(previousTime: rankingManager.timeStamp[ranking.id], curruntTime: Date()) <= 300{
             self.ranking = data
         }else{
             fetchRanking(page: 1, ranking: ranking) { response,ranking in
@@ -47,24 +46,35 @@ class RankingViewModel:ObservableObject{
             } receiveValue: { [weak self] rank in
                 guard let response = rank.data else {return}
                 self?.ranking = completion(response,ranking)
-                self?.manager.updateData(data: self?.ranking)
+                self?.rankingManager.updateData(data: self?.ranking)
             }.store(in: &canelable)
     }
     func getPopularReview(){
-        RankingApiService.popularReview()
-            .sink { completion in
-                self.errorManager.showErrorMessage(completion: completion)
-            } receiveValue: { [weak self] review in
-                self?.popularReview = review.data
-            }.store(in: &canelable)
-        
+        if let data = popularManager.cachedData(key: "review"),Date().timeDifference(previousTime: popularManager.timeStamp["review"], curruntTime: Date()) <= 300{
+            self.popular?.review = data.review
+        }else{
+            RankingApiService.popularReview()
+                .sink { completion in
+                    self.errorManager.showErrorMessage(completion: completion)
+                } receiveValue: { [weak self] review in
+                    guard let response = review.data else {return}
+                    self?.popular?.review = response
+                    self?.popularManager.updateData(key: "review", data: self?.popular)
+                }.store(in: &canelable)
+        }
     }
     func getPopularPosting(){
-        RankingApiService.popluarPosting()
-            .sink { completion in
-                self.errorManager.showErrorMessage(completion: completion)
-            } receiveValue: { [weak self] posting in
-                self?.popularPosting = posting.data
-            }.store(in: &canelable)
+        if let data = popularManager.cachedData(key: "posting"),Date().timeDifference(previousTime: popularManager.timeStamp["posting"], curruntTime: Date()) <= 300{
+            self.popular?.posting = data.posting
+        }else{
+            RankingApiService.popluarPosting()
+                .sink { completion in
+                    self.errorManager.showErrorMessage(completion: completion)
+                } receiveValue: { [weak self] posting in
+                    guard let response = posting.data else {return}
+                    self?.popular?.posting = response
+                    self?.popularManager.updateData(key: "posting", data: self?.popular)
+                }.store(in: &canelable)
+        }
     }
 }
