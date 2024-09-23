@@ -14,6 +14,7 @@ class RankingViewModel:ObservableObject{
     var success = PassthroughSubject<(),Never>()
     let manager = RankingManager.instance
     
+    let errorManager = ErrorManager.instance
     
     @Published var ranking:RankingCache? = nil
     @Published var popularReview:PopularReviewResponse? = nil
@@ -42,12 +43,7 @@ class RankingViewModel:ObservableObject{
     private func fetchRanking(page:Int,ranking:RankingCache,completion:@escaping (RankingResponse,RankingCache)->(RankingCache)){
         RankingApiService.ranking(endPoint: ranking.rankingType, page: page, mediaType: ranking.mediaType.rawValue)
             .sink { completion in
-                switch completion{
-                case .finished:
-                    print(completion)
-                case let .failure(error):
-                    print(error.localizedDescription)
-                }
+                self.errorManager.showErrorMessage(completion: completion)
             } receiveValue: { [weak self] rank in
                 guard let response = rank.data else {return}
                 self?.ranking = completion(response,ranking)
@@ -57,12 +53,7 @@ class RankingViewModel:ObservableObject{
     func getPopularReview(){
         RankingApiService.popularReview()
             .sink { completion in
-                switch completion{
-                case .finished:
-                    print(completion)
-                case let .failure(error):
-                    print(error.localizedDescription)
-                }
+                self.errorManager.showErrorMessage(completion: completion)
             } receiveValue: { [weak self] review in
                 self?.popularReview = review.data
             }.store(in: &canelable)
@@ -71,12 +62,7 @@ class RankingViewModel:ObservableObject{
     func getPopularPosting(){
         RankingApiService.popluarPosting()
             .sink { completion in
-                switch completion{
-                case .finished:
-                    print(completion)
-                case let .failure(error):
-                    print(error.localizedDescription)
-                }
+                self.errorManager.showErrorMessage(completion: completion)
             } receiveValue: { [weak self] posting in
                 self?.popularPosting = posting.data
             }.store(in: &canelable)
