@@ -23,7 +23,7 @@ class RankingViewModel:ObservableObject{
         if let data = manager.cachedData(key: ranking.id),Date().timeDifference(previousTime: manager.timeStamp[ranking.id], curruntTime: Date()) <= 300{
             self.ranking = data
         }else{
-            fetchRanking(page: nil, ranking: ranking) { response,ranking in
+            fetchRanking(page: 1, ranking: ranking) { response,ranking in
                 var ranking = ranking
                 ranking.maxPage = response.totalPages
                 ranking.list = response.detailsList
@@ -39,8 +39,8 @@ class RankingViewModel:ObservableObject{
             return ranking
         }
     }
-    private func fetchRanking(page:Int?,ranking:RankingCache,completion:@escaping (RankingResponse,RankingCache)->(RankingCache)){
-        RankingApiService.ranking(endPoint: ranking.rankingType, page: page ?? ranking.currentPage, mediaType: ranking.mediaType.rawValue)
+    private func fetchRanking(page:Int,ranking:RankingCache,completion:@escaping (RankingResponse,RankingCache)->(RankingCache)){
+        RankingApiService.ranking(endPoint: ranking.rankingType, page: page, mediaType: ranking.mediaType.rawValue)
             .sink { completion in
                 switch completion{
                 case .finished:
