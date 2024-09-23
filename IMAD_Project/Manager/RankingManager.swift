@@ -12,19 +12,19 @@ class RankingManager{
     private let lock = NSLock()
     private init(){}
     
-    var storage = [String:[RankingResponseList]]()
+    var storage = [String:RankingCache]()
     var timeStamp = [String:Date]()
     
-    func cachedData(key:String)->[RankingResponseList]?{
+    func cachedData(key:String)->RankingCache?{
         guard let data = storage[key] else { return nil }
         return data
     }
     
-    func updateData(key:String,data:[RankingResponseList]?){
+    func updateData(data:RankingCache?){
         self.lock.lock()
         guard let data else {return}
-        timeStamp[key] = Date()
-        storage.updateValue(data, forKey: key)
+        timeStamp[data.id] = Date()
+        storage.updateValue(data, forKey: data.id)
         self.lock.unlock()
     }
 }

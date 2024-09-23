@@ -11,7 +11,7 @@ struct AllRankingView: View {
     @State var filter:RankingFilter
     @State var type:TypeFilter = .all
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm = RankingViewModel(rankingList: [:])
+    @StateObject var vm = RankingViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -23,17 +23,14 @@ struct AllRankingView: View {
             }
         }
         .onAppear{
-            vm.fetchRanking(endPoint: filter, page: 1, mediaType: type)
-        }
-        .onDisappear{
-            vm.rankingList.removeAll()
+            vm.getRanking(ranking: RankingCache(id: filter.rawValue + type.rawValue, rankingType: filter, mediaType: type, maxPage: 1, currentPage: 1, list: []))
         }
         .foregroundColor(.black)
     }
 }
 
 #Preview {
-    AllRankingView(filter: .all,vm:RankingViewModel(rankingList:[:]))
+    AllRankingView(filter: .all,vm:RankingViewModel())
         .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
 }
 
@@ -53,9 +50,9 @@ extension AllRankingView{
         HStack{
             ForEach(RankingFilter.allCases,id:\.self) { ranking in
                 Button {
-                    vm.rankingList.removeAll()
-                    filter = ranking
-                    vm.fetchRanking(endPoint: filter, page: 1, mediaType: type)
+                    self.filter = ranking
+                    let ranking = RankingCache(id: ranking.rawValue + type.rawValue, rankingType: ranking, mediaType: type, maxPage: 1, currentPage: 1, list: [])
+                    vm.getRanking(ranking: ranking)
                 } label: {
                     Text(ranking.name)
                         .font(.GmarketSansTTFMedium(17))
@@ -78,7 +75,8 @@ extension AllRankingView{
                     ForEach(TypeFilter.allCases,id:\.self){ type in
                         Button {
                             self.type = type
-                            vm.fetchRanking(endPoint: filter, page: 1, mediaType: type)
+                            let ranking = RankingCache(id: filter.rawValue + type.rawValue, rankingType: filter, mediaType: type, maxPage: 1, currentPage: 1, list: [])
+                            vm.getRanking(ranking: ranking)
                         } label: {
                             Text(type.name)
                                 .font(.GmarketSansTTFMedium(12))
@@ -103,7 +101,7 @@ extension AllRankingView{
     }
     @ViewBuilder
     var contentsView:some View{
-        if let list = vm.rankingList[filter.rawValue]{
+        if let list = vm.ranking?.list{
             ForEach(list,id:\.self){ rank in
                 NavigationLink {
                     WorkView(contentsId: rank.contentsID)
@@ -140,10 +138,11 @@ extension AllRankingView{
                 }
                 .cornerRadius(5)
                 .padding(.leading,10)
-                if list.last == rank,vm.maxPage > vm.currentPage{
+                if list.last == rank,let ranking = vm.ranking, ranking.maxPage > ranking.currentPage{
                     ProgressView()
                         .onAppear{
-                            vm.fetchRanking(endPoint: filter, page: vm.currentPage + 1, mediaType: type)
+                            guard let ranking  = vm.ranking else {return}
+                            vm.getRankingNextPage(nextPage: ranking.currentPage + 1, ranking: ranking)
                         }
                 }
             }

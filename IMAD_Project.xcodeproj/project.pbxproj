@@ -181,6 +181,7 @@
 		D608EF762C9C1A0600C4FCE7 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608EF752C9C1A0600C4FCE7 /* Date.swift */; };
 		D608EF782C9C3D5800C4FCE7 /* RecommendManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608EF772C9C3D5800C4FCE7 /* RecommendManager.swift */; };
 		D608EF7A2C9C425600C4FCE7 /* RankingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608EF792C9C425600C4FCE7 /* RankingManager.swift */; };
+		D608EF7F2CA152F000C4FCE7 /* RankingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608EF7E2CA152F000C4FCE7 /* RankingCache.swift */; };
 		D60A53812C61E81B001F73F2 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = D60A53802C61E81B001F73F2 /* Documentation.docc */; };
 		D60AD1EA2C294DA900C9C27B /* RecommendTVResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD1E92C294DA900C9C27B /* RecommendTVResponse.swift */; };
 		D60AD1EC2C2952DB00C9C27B /* AllRecommend.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60AD1EB2C2952DB00C9C27B /* AllRecommend.swift */; };
@@ -433,6 +434,7 @@
 		D608EF752C9C1A0600C4FCE7 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		D608EF772C9C3D5800C4FCE7 /* RecommendManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendManager.swift; sourceTree = "<group>"; };
 		D608EF792C9C425600C4FCE7 /* RankingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingManager.swift; sourceTree = "<group>"; };
+		D608EF7E2CA152F000C4FCE7 /* RankingCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCache.swift; sourceTree = "<group>"; };
 		D60A53802C61E81B001F73F2 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		D60AD1E92C294DA900C9C27B /* RecommendTVResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendTVResponse.swift; sourceTree = "<group>"; };
 		D60AD1EB2C2952DB00C9C27B /* AllRecommend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecommend.swift; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 			isa = PBXGroup;
 			children = (
 				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
+				D608EF7B2CA152C500C4FCE7 /* Cache */,
 				D69E05F62C5BAAE7003610CD /* PreferenceKey */,
 				D69455D82C4C7A46004CDFC9 /* PDF */,
 				D64C4C822C352B070097B2FD /* Font */,
@@ -1203,6 +1206,22 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		D608EF7B2CA152C500C4FCE7 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				D608EF7D2CA152E000C4FCE7 /* Ranking */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		D608EF7D2CA152E000C4FCE7 /* Ranking */ = {
+			isa = PBXGroup;
+			children = (
+				D608EF7E2CA152F000C4FCE7 /* RankingCache.swift */,
+			);
+			path = Ranking;
+			sourceTree = "<group>";
+		};
 		D60AD1E62C294D0500C9C27B /* Recommend */ = {
 			isa = PBXGroup;
 			children = (
@@ -1795,6 +1814,7 @@
 				8115A6582A8A166200B7C3FE /* TVGenreFilter.swift in Sources */,
 				81A1ECF929DD6BE70001A366 /* TabFilter.swift in Sources */,
 				811981C92AF91C2400952ED2 /* WorkInfoView.swift in Sources */,
+				D608EF7F2CA152F000C4FCE7 /* RankingCache.swift in Sources */,
 				8115A6452A83940800B7C3FE /* WorkRouter.swift in Sources */,
 				D60AD2122C29B39F00C9C27B /* RecommendMovieResponse.swift in Sources */,
 				81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */,

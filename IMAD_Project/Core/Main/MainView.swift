@@ -18,7 +18,7 @@ struct MainView: View {
     let initValue = [WorkGenre](repeating: TVWorkGenre(tvGenre: RecommendTVResponse(id: 0, name: "", posterPath: "", backdropPath: "", genreIds: [])), count: 10)
     
     @State var ranking:RankingFilter = .all
-    @StateObject var vm = RankingViewModel(rankingList: [:])
+    @StateObject var vm = RankingViewModel()
     @StateObject var vmRecommend = RecommendViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -35,7 +35,7 @@ struct MainView: View {
                         if let review = vm.popularReview,let posting = vm.popularPosting{
                             todayView(review: review, community: posting)
                         }
-                        if !vm.rankingList.isEmpty{
+                        if vm.ranking?.list != nil{
                             filter
                             rankingView
                         }
@@ -55,7 +55,7 @@ struct MainView: View {
         }
         .onAppear {
             vmRecommend.fetchAllRecommend()
-            vm.fetchRanking(endPoint: ranking, page: 1, mediaType: .all)
+            vm.getRanking(ranking: RankingCache(id: "allall", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: []))
             vm.getPopularReview()
             vm.getPopularPosting()
         }
@@ -65,7 +65,7 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            MainView(vm:RankingViewModel(rankingList: [:]))
+            MainView(vm:RankingViewModel())
                 .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
         }
     }
@@ -282,7 +282,7 @@ extension MainView{
         
         ScrollView(.horizontal,showsIndicators: false){
             LazyHGrid(rows: rankingItems){
-                if let list = vm.rankingList[ranking.rawValue]{
+                if let list = vm.ranking?.list{
                     ForEach(list.prefix(9),id:\.self){ rank in
                         NavigationLink {
                             WorkView(contentsId:rank.contentsID)
@@ -349,7 +349,10 @@ extension MainView{
                     ForEach(RankingFilter.allCases,id:\.self){ ranking in
                         Button {
                             self.ranking = ranking
-                            vm.fetchRanking(endPoint: ranking, page: 1, mediaType: .all)
+                            vm.ranking?.id = ranking.rawValue + "all"
+                            vm.ranking?.rankingType = ranking
+                            guard let ranking  = vm.ranking else { return }
+                            vm.getRanking(ranking: ranking)
                         } label: {
                             Group{
                                 if self.ranking == ranking{
