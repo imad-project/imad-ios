@@ -12,6 +12,8 @@ class RecommendViewModel:ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
     var refreschTokenExpired = PassthroughSubject<(),Never>()
+    let manager = RecommendCacheManager.instance
+    
     @Published var currentPage = 1
     @Published var maxPage = 0
     
@@ -40,7 +42,6 @@ class RecommendViewModel:ObservableObject{
         }
     }
     func fetchAllRecommend(){
-        let manager = RecommendManager.instance
         if let data = manager.cachedData(key: "AllRecommand"),Date().timeDifference(previousTime: manager.timeStamp, curruntTime: Date()) <= 300{
             self.recommendAll = data
         }else{
@@ -57,7 +58,7 @@ class RecommendViewModel:ObservableObject{
                 } receiveValue: { [weak self] work in
                     guard let data = work.data else {return}
                     self?.recommendAll = data
-                    RecommendManager.instance.updateData(key: "AllRecommand", data: data)
+                    self?.manager.updateData(key: "AllRecommand", data: data)
                 }.store(in: &cancelable)
         }
     }

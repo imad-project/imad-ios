@@ -12,7 +12,7 @@ class RankingViewModel:ObservableObject{
     
     var canelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()
-    let rankingManager = RankingManager.instance
+    let rankingManager = RankingCacheManager.instance
     let popularManager = PopularCacheManager.instance
     let errorManager = ErrorManager.instance
     

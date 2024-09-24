@@ -14,11 +14,13 @@ class ErrorManager{
     private init(){}
     
     func showErrorMessage(completion: Subscribers.Completion<AFError>){
-        switch completion{
-        case .finished:
-            print(completion)
-        case let .failure(error):
-            print(error.localizedDescription)
+        DispatchQueue.global(qos: .background).async{
+            switch completion{
+            case .finished:
+                print(completion)
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
         }
     }
 }

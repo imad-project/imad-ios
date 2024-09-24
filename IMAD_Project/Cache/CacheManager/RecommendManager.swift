@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-class RecommendManager{
-    static let instance = RecommendManager()
+class RecommendCacheManager{
+    static let instance = RecommendCacheManager()
     private let lock = NSLock()
     private init(){}
     

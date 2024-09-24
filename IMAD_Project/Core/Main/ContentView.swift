@@ -11,10 +11,7 @@ struct ContentView: View {
     
     @State var isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch") //온보딩
 
-    @State var delete = false
-    @State var alert = false
     @State var splash = false
-    @State var login = false
     @StateObject var vm = AuthViewModel(user: nil)
     
     var body: some View {

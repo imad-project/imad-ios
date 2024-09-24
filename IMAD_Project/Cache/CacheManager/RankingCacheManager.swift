@@ -7,8 +7,8 @@
 
 import Foundation
 
-class RankingManager{
-    static let instance = RankingManager()
+class RankingCacheManager{
+    static let instance = RankingCacheManager()
     private let lock = NSLock()
     private init(){}
     
