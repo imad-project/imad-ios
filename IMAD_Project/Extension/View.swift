@@ -42,9 +42,16 @@ extension View{
             .onDisappear(perform: disAppear)
     }
     @ViewBuilder
-    func background(_ color:Color) ->some View{
+    func backgroundColor(_ color:Color) ->some View{
         ZStack{
             color.ignoresSafeArea()
+            self
+        }
+    }
+    @ViewBuilder
+    func backgroundColor(_ view:()->(some View)) ->some View{
+        ZStack{
+            view()
             self
         }
     }

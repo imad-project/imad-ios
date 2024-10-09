@@ -34,7 +34,7 @@ final class IMAD_ProjectTests: XCTestCase {
         }
     }
     func test_appFirstLaunch() throws{
-        let vm = AuthViewModel(user: nil)
+        let vm = AuthViewModel()
         vm.getUser()
     }
 
