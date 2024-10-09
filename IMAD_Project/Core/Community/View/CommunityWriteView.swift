@@ -29,7 +29,7 @@ struct CommunityWriteView: View {
     @Binding var goMain:Bool
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel()
     
     var body: some View {
         
@@ -65,7 +65,7 @@ struct CommunityWriteView: View {
             .navigationDestination(isPresented: $showCommunity.0) {
                 CommunityPostView(reported: false, postingId: showCommunity.1,back: $goMain)
                     .navigationBarBackButtonHidden()
-                    .environmentObject(vmAuth)
+                   
             }
         
     }

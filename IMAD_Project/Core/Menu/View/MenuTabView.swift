@@ -12,23 +12,19 @@ struct MenuTabView: View {
     
     @State var tab:TabFilter = .home
     @State var tabInfo:CGFloat = 0
-    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         
         VStack(spacing: 0){
             TabView(selection: $tab){
                 MainView()
-                    .environmentObject(vmAuth)
                     .tag(TabFilter.home)
                 CommunityView()
-                    .environmentObject(vmAuth)
                     .tag(TabFilter.community)
                 SearchView(backMode: true, postingMode: false, back: .constant(false))
                     .tag(TabFilter.notification)
                 ProfileView()
                     .tag(TabFilter.profile)
-                    .environmentObject(vmAuth)
                 
             }
             menu

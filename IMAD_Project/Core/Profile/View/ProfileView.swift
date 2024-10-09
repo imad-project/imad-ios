@@ -16,7 +16,7 @@ struct ProfileView: View {
     @StateObject var vmProfile = ProfileImageViewModel()
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vmWork = WorkViewModel(workInfo: nil,bookmarkList: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel()
     
     @State var profileSelect = false
     @State var gallery = false
@@ -69,11 +69,11 @@ struct ProfileView: View {
                                     HStack{
                                         myInfoView(view:
                                                     MyReviewView(writeType: .myself)
-                                            .environmentObject(vmAuth),
+                                           ,
                                                    image: "star.bubble",
                                                    text: "내 리뷰", count: vmWork.profileInfo?.myReviewCnt ?? 0)
                                         myInfoView(view:  MyCommunityListView(writeType: .myself)
-                                            .environmentObject(vmAuth),
+                                           ,
                                                    image:  "text.word.spacing",
                                                    text: "내 게시물", count: vmWork.profileInfo?.myPostingCnt ?? 0)
                                         myInfoView(view: MyScrapListView(), image: "scroll", text: "내 스크랩", count: vmWork.profileInfo?.myScrapCnt ?? 0)
@@ -120,12 +120,12 @@ struct ProfileView: View {
         .colorScheme(.light)
         .sheet(isPresented: $tv) {
             GenreSelectView(genreType: .tv, dismiss: $tv)
-                .environmentObject(vmAuth)
+               
                 .presentationDetents([.fraction(0.7)])
         }
         .sheet(isPresented: $movie) {
             GenreSelectView(genreType: .movie, dismiss: $movie)
-                .environmentObject(vmAuth)
+               
                 .presentationDetents([.fraction(0.7)])
         }
         .onAppear{
@@ -161,7 +161,7 @@ extension ProfileView{
             Spacer()
             NavigationLink {
                 ProfileChangeView()
-                    .environmentObject(vmAuth)
+                   
                     .navigationBarBackButtonHidden()
             } label: {
                 Image(systemName: "gearshape.fill")
@@ -245,7 +245,7 @@ extension ProfileView{
     func myInfoView(view:some View,image:String,text:String,count:Int) -> some View{
         NavigationLink {
             view
-                .environmentObject(vmAuth)
+               
                 .navigationBarBackButtonHidden()
         } label: {
             VStack(spacing:10){
@@ -268,7 +268,7 @@ extension ProfileView{
             Divider().background(Color.customIndigo)
             NavigationLink {
                 view
-                    .environmentObject(vmAuth)
+                   
                     .navigationBarBackButtonHidden()
             } label: {
                 HStack{
@@ -314,7 +314,7 @@ extension ProfileView{
                             ForEach(vmWork.bookmarkList.prefix(6),id:\.self){ item in
                                 NavigationLink {
                                     WorkView(contentsId: item.contentsID)
-                                        .environmentObject(vmAuth)
+                                       
                                         .navigationBarBackButtonHidden()
                                 } label: {
                                     VStack{
@@ -333,7 +333,7 @@ extension ProfileView{
                             NavigationLink {
                                 MyBookmarkListView()
                                     .environmentObject(vmWork)
-                                    .environmentObject(vmAuth)
+                                   
                                     .navigationBarBackButtonHidden()
                             } label: {
                                 HStack{

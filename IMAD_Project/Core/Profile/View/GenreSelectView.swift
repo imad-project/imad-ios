@@ -12,7 +12,7 @@ struct GenreSelectView: View {
     let genreType:GenreType
     @State var collection:[Genre] = []
     @Binding var dismiss:Bool
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel()
     
     var genreList:[Genre]{
         switch genreType {

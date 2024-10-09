@@ -15,9 +15,8 @@ struct ReviewView: View {
     @State var order:OrderFilter = .ascending   //오름차순 - 0,내림차순 - 1
     
     @Environment(\.dismiss) var dismiss
-    
+    @StateObject var vmAuth = AuthViewModel()
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         VStack(spacing:0){
@@ -26,12 +25,10 @@ struct ReviewView: View {
                 ForEach(vm.reviewList,id:\.self){ review in
                     NavigationLink {
                         ReviewDetailsView(goWork: false, reviewId: review.reviewID, reported: review.reported)
-                            .environmentObject(vmAuth)
                             .navigationBarBackButtonHidden()
                     } label: {
                         ReviewListRowView(review: review,my:false)
                             .background(Color.white)
-                            .environmentObject(vmAuth)
                     }
                     if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
                         ProgressView()

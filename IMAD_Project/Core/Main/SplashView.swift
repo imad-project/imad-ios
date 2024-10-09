@@ -18,6 +18,7 @@ struct SplashView: View {
                 Logo()
                     .offset(x:-20)
                     .opacity(off ? 1.0:0.0)
+                    .frame(maxWidth: .infinity)
             }
         }
         .background(Color.white1)

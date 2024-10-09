@@ -20,7 +20,7 @@ struct MainView: View {
     @State var ranking:RankingFilter = .all
     @StateObject var vm = RankingViewModel()
     @StateObject var vmRecommend = RecommendViewModel()
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel()
     
     @State var trend = false
     
@@ -185,7 +185,7 @@ extension MainView{
                     ListView(items: list(filter).0){ work in
                         NavigationLink {
                             WorkView(id: work.id(),type: list(filter).1.rawValue)
-                                .environmentObject(vmAuth)
+                               
                                 .navigationBarBackButtonHidden()
                         } label: {
                             VStack(spacing:5){
@@ -214,7 +214,7 @@ extension MainView{
             ListView(items: trend ? list(.trendTv).0 : list(.trendMovie).0){ work in
                 NavigationLink {
                     WorkView(id: work.id(),type: trend ? list(.trendTv).1.rawValue : list(.trendMovie).1.rawValue)
-                        .environmentObject(vmAuth)
+                       
                         .navigationBarBackButtonHidden()
                 } label: {
                     ZStack{
@@ -295,7 +295,7 @@ extension MainView{
                     ForEach(list.prefix(9),id:\.self){ rank in
                         NavigationLink {
                             WorkView(contentsId:rank.contentsID)
-                                .environmentObject(vmAuth)
+                               
                                 .navigationBarBackButtonHidden()
                         } label: {
                             HStack(spacing:0){
@@ -340,7 +340,7 @@ extension MainView{
         NavigationLink {
             view
                 .navigationBarBackButtonHidden()
-                .environmentObject(vmAuth)
+               
         } label: {
             Text("전체보기")
                 .font(.GmarketSansTTFMedium(isPad() ? 15 : 12))
@@ -409,7 +409,7 @@ extension MainView{
         HStack(spacing:10){
             NavigationLink {
                 ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)
-                    .environmentObject(vmAuth)
+                   
                     .navigationBarBackButtonHidden()
             } label: {
                 PopularView(review: review)
@@ -417,7 +417,7 @@ extension MainView{
             }
             NavigationLink {
                 CommunityPostView(reported: community.reported ?? false, postingId:community.postingID,main: true,back: .constant(false))
-                    .environmentObject(vmAuth)
+                   
                     .navigationBarBackButtonHidden()
             } label: {
                 PopularView(posting: community)
@@ -450,7 +450,7 @@ extension MainView{
                                         NavigationLink {
                                             RecommendAllView(contentsId:work.3,type: work.2)
                                                 .navigationBarBackButtonHidden()
-                                                .environmentObject(vmAuth)
+                                               
                                         } label: {
                                             Text("전체보기")
                                                 .font(.custom("GmarketSansTTFMedium", size: 15))
@@ -466,7 +466,7 @@ extension MainView{
                                             .padding(.vertical,5)
                                         NavigationLink {
                                             WorkView(id: element.id(),type: work.1.rawValue)
-                                                .environmentObject(vmAuth)
+                                               
                                                 .navigationBarBackButtonHidden()
                                         } label: {
                                             HStack{

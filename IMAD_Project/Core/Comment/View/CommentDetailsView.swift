@@ -22,7 +22,7 @@ struct CommentDetailsView: View {
     @State var replyWrite:CommentResponse?
     
     @StateObject var vm = CommentViewModel(comment: nil, replys: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel()
     
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -37,7 +37,7 @@ struct CommentDetailsView: View {
                         VStack{
                             ForEach(vm.replys,id:\.self) { item in
                                 CommentRowView(filter: .detailsComment, postingId: postingId, reported: item.reported, deleted: item.removed, comment: item,reply:$replyWrite,commentFocus: $reply)
-                                    .environmentObject(vmAuth)
+                                   
                                 if vm.replys.last == item,vm.maxPage > vm.currentPage{
                                     ProgressView()
                                         .onAppear{

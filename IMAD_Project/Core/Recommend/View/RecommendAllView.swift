@@ -11,7 +11,7 @@ struct RecommendAllView: View {
     var contentsId:Int?
     @State var type:RecommendListType
     @StateObject var vm = RecommendViewModel()
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel()
     @Environment(\.dismiss) var dismiss
     
    
@@ -99,7 +99,6 @@ extension RecommendAllView{
         ListView(items: vm.workList(type: type)) { work in
             NavigationLink {
                 WorkView(id: work.id(),type: work.genreType.rawValue)
-                    .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             } label: {
                 HStack{

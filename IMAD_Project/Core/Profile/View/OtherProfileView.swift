@@ -13,7 +13,7 @@ struct OtherProfileView: View {
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @StateObject var vmUser = UserViewModel()
     @StateObject var vmReport = ReportViewModel()
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     @Environment(\.dismiss) var dismiss
     @State var noReport = false
     @State var reportSuccess = false
@@ -132,7 +132,7 @@ extension OtherProfileView{
                             ForEach(vmUser.bookmarkList.prefix(6),id:\.self){ item in
                                 NavigationLink {
                                     WorkView(contentsId: item.contentsID)
-                                        .environmentObject(vmAuth)
+                                       
                                         .navigationBarBackButtonHidden()
                                 } label: {
                                     VStack{

@@ -68,7 +68,7 @@ struct CommunitySearchView: View {
         .navigationDestination(isPresented: $goCommunity){
             if let community{
                 CommunityPostView(reported: community.reported, postingId: community.postingID, back: $goCommunity)
-                    .environmentObject(vmAuth)
+                   
                     .navigationBarBackButtonHidden()
             }
         }

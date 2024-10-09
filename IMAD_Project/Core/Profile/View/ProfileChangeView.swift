@@ -14,7 +14,7 @@ struct ProfileChangeView: View {
     @State var delete = false
     @State var logout = false
     
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel()
     @Environment(\.dismiss) var dismiss
     
     
@@ -91,7 +91,7 @@ extension ProfileChangeView{
     func navigatoionChangeView(view:some View,text:String) -> some View{
         NavigationLink {
             view
-                .environmentObject(vmAuth)
+               
                 .navigationBarBackButtonHidden()
         } label: {
             Text(text)

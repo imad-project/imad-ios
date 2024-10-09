@@ -13,10 +13,10 @@ struct MyCommunityListView: View {
     @State var community:CommunityDetailsListResponse? = nil
     @State var goPosting = false
     @State var like = true
-    
+    @StateObject var vmAuth = AuthViewModel()
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     
     func profileMode(next:Bool)->(){
         switch writeType{
@@ -58,7 +58,7 @@ struct MyCommunityListView: View {
         }
         .navigationDestination(isPresented: $goPosting){
             CommunityPostView(reported: community?.reported ?? false, postingId: community?.postingID ?? 0, back: $goPosting)
-                .environmentObject(vmAuth)
+               
                 .navigationBarBackButtonHidden()
         }
     }

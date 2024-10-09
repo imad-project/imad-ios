@@ -12,7 +12,6 @@ struct AllRankingView: View {
     @State var type:TypeFilter = .all
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = RankingViewModel()
-    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         VStack(spacing: 0){
@@ -105,7 +104,6 @@ extension AllRankingView{
             ForEach(list,id:\.self){ rank in
                 NavigationLink {
                     WorkView(contentsId: rank.contentsID)
-                        .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
                     HStack(spacing:0){

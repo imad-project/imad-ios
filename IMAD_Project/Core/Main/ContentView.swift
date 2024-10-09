@@ -21,13 +21,12 @@ struct ContentView: View {
                 if isFirstLaunch{
                     if let user = UserInfoCache.instance.user?.data{
                         if user.role == "GUEST"{
-                            RegisterTabView().environmentObject(vm)
+                            RegisterTabView()
                         }else{
-                            MenuTabView().environmentObject(vm)
+                            MenuTabView()
                         }
                     }else{
                         LoginAllView()
-                           .environmentObject(vm)
                            .ignoresSafeArea(.keyboard)
                     }
                 }else{

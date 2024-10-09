@@ -78,7 +78,6 @@ struct LoginAllView: View{
         }
         .sheet(isPresented: $register) {
             RegisterView(login: $register)
-                .environmentObject(vm)
                 .navigationBarBackButtonHidden(true)
                 .onDisappear{
                     loading = false
@@ -86,7 +85,6 @@ struct LoginAllView: View{
         }
         .sheet(isPresented: $naver){
             AuthWebView(filter: .naver,failed: $failed)
-                .environmentObject(vm)
                 .ignoresSafeArea()
                 .onDisappear{
                     loading = false
@@ -94,7 +92,6 @@ struct LoginAllView: View{
         }
         .sheet(isPresented:$kakao){
             AuthWebView(filter: .kakao,failed: $failed)
-                .environmentObject(vm)
                 .ignoresSafeArea()
                 .onDisappear{
                     loading = false
@@ -102,7 +99,6 @@ struct LoginAllView: View{
         }
         .sheet(isPresented:$google){
             AuthWebView(filter: .google,failed: $failed)
-                .environmentObject(vm)
                 .ignoresSafeArea()
                 .onDisappear{
                     loading = false

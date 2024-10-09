@@ -26,10 +26,10 @@ struct WriteReviewView: View {
     @State var animation = false
     @State var animation1 = true
     @State var error = false
-    
+    @StateObject var vmAuth = AuthViewModel()
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     
     
     var body: some View {

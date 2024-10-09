@@ -13,7 +13,7 @@ struct MyScrapListView: View {
     @State var goPosting = false
     @StateObject var vm = ScrapViewModel(scrapList: [])
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     
     var body: some View {
         VStack(spacing:0){
@@ -41,7 +41,7 @@ struct MyScrapListView: View {
         }
         .navigationDestination(isPresented: $goPosting){
             CommunityPostView(reported: false, postingId: scrap?.postingID ?? 0, back: $goPosting)
-                .environmentObject(vmAuth)
+               
                 .navigationBarBackButtonHidden()
         }
         .foregroundColor(.black)

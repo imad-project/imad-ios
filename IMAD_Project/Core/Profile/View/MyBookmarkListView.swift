@@ -7,7 +7,7 @@ struct MyBookmarkListView: View {
     let columns = [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = WorkViewModel(workInfo: nil, bookmarkList: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel()
     
     var list:[BookmarkListResponse]{
         return vm.bookmarkList.filter({$0.contentsTitle.contains(text)})
@@ -71,7 +71,7 @@ extension MyBookmarkListView{
                 ForEach(vm.bookmarkList,id:\.self){ result in
                     NavigationLink {
                         WorkView(contentsId: result.contentsID)
-                            .environmentObject(vmAuth)
+                           
                             .navigationBarBackButtonHidden()
                     } label: {
                         VStack{

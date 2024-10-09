@@ -22,9 +22,10 @@ struct ReviewDetailsView: View {
     @State var menu = false
     @State var delete = false
     @Environment(\.dismiss) var dismiss
+    @StateObject var vmAuth = AuthViewModel()
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @StateObject var vmReport = ReportViewModel()
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     
     var body: some View {
         VStack(spacing: 0){
@@ -53,7 +54,6 @@ struct ReviewDetailsView: View {
             ZStack{
                 Color.white.ignoresSafeArea()
                 OtherProfileView(id: vm.review?.userID ?? 0)
-                    .environmentObject(vmAuth)
             }
             
         }
@@ -140,7 +140,6 @@ extension ReviewDetailsView{
                         NavigationLink {
                             WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
                                 .navigationBarBackButtonHidden()
-                                .environmentObject(vmAuth)
                         } label: {
                             Text("수정하기")
                         }
@@ -225,7 +224,6 @@ extension ReviewDetailsView{
                 NavigationLink {
                     WorkView(contentsId:review.contentsID)
                         .navigationBarBackButtonHidden()
-                        .environmentObject(vmAuth)
                 } label: {
                     HStack{
                         KFImageView(image: review.contentsPosterPath.getImadImage(),width: 30,height:40)

@@ -36,7 +36,7 @@ struct CommentRowView: View {
     
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     
     var body: some View {
         VStack{
@@ -100,7 +100,7 @@ struct CommentRowView: View {
             ZStack{
                 Color.white.ignoresSafeArea()
                 OtherProfileView(id: comment.userID)
-                    .environmentObject(vmAuth)
+                   
             }
             
         }
@@ -196,7 +196,7 @@ extension CommentRowView{
                     NavigationLink {
                         CommentDetailsView(postingId: postingId, parentsId: comment.commentID, reported: comment.reported)
                             .navigationBarBackButtonHidden()
-                            .environmentObject(vmAuth)
+                           
                     } label: {
                         Text("댓글 \(comment.childCnt)개 보기")
                     }

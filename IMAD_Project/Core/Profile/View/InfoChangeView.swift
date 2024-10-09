@@ -28,7 +28,7 @@ struct InfoChangeView: View {
     
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = CheckDataViewModel()
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel()
     var currentDate :Int{
         
         let date = Date()

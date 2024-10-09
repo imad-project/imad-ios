@@ -20,7 +20,7 @@ struct SearchView: View {
     @Binding var back:Bool
     @StateObject var vmWork = WorkViewModel(workInfo: nil, bookmarkList: [])
     @StateObject var vm = SearchViewModel()
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel()
     
     var body: some View {
         VStack(alignment: .leading,spacing: 0){
@@ -54,7 +54,6 @@ struct SearchView: View {
                     }
                 }
             }
-            .environmentObject(vmAuth)
             .navigationBarBackButtonHidden()
         }
     }

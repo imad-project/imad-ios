@@ -9,9 +9,9 @@ import SwiftUI
 import SwiftUIWave
 struct RegisterTabView: View {
     
-
+    @StateObject var vmAuth = AuthViewModel()
     @State var constent = true
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     
     var body: some View {
         ZStack(alignment:.bottomTrailing){
@@ -19,20 +19,20 @@ struct RegisterTabView: View {
             TabView(selection: $vmAuth.selection) {
                 NicknameSelectView()
                     .tag(RegisterFilter.nickname)
-                    .environmentObject(vmAuth)
+                   
                     .ignoresSafeArea()
                 GenderSelectView()
                     .tag(RegisterFilter.gender)
-                    .environmentObject(vmAuth)
+                   
                 AgeSelectView()
                     .tag(RegisterFilter.age)
-                    .environmentObject(vmAuth)
+                   
                 SelectGenreView()
                     .tag(RegisterFilter.genre)
-                    .environmentObject(vmAuth)
+                   
                 ProfileSelectView()
                     .tag(RegisterFilter.profile)
-                    .environmentObject(vmAuth)
+                   
             }
             .ignoresSafeArea()
             .tabViewStyle(.page(indexDisplayMode: .never))
