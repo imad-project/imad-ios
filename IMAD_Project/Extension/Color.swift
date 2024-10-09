@@ -14,4 +14,5 @@ extension Color{
     static let indigoNotPrimary = Color("indigoNotPrimary")
     static let whiteYellow = Color("whiteYellow")
     static let antiPrimary = Color("antiPrimary")
+    static let white1 = Color("white0.1")
 }

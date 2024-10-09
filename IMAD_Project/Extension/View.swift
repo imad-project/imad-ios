@@ -30,12 +30,24 @@ extension View{
         }
     }
     @ViewBuilder
+    func conditionAppear(_ condition:Bool)-> some View{
+        if condition {
+            self
+        }
+    }
+    @ViewBuilder
     func onAppearOnDisAppear(_ appear:@escaping()->(),_ disAppear:@escaping()->()) -> some View{
         self
             .onAppear(perform: appear)
             .onDisappear(perform: disAppear)
     }
-
+    @ViewBuilder
+    func background(_ color:Color) ->some View{
+        ZStack{
+            color.ignoresSafeArea()
+            self
+        }
+    }
     func isWidth()->Bool{
         UIDevice.current.orientation.isLandscape
     }
@@ -52,4 +64,5 @@ extension View{
     func haptics(_ style:UIImpactFeedbackGenerator.FeedbackStyle){
         UIImpactFeedbackGenerator(style: style).impactOccurred()
     }
+   
 }
