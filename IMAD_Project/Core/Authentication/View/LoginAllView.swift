@@ -117,7 +117,7 @@ struct LoginAllView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             LoginAllView()
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+                .environmentObject(AuthViewModel())
         }
     }
 }

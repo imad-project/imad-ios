@@ -11,7 +11,7 @@ struct ContentView: View {
     
     @State var isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch") //온보딩
     @State var flashOn = true
-    @StateObject var vm = AuthViewModel(user: nil)
+    @StateObject var vm = AuthViewModel()
     
     var body: some View {
         ZStack {
@@ -19,7 +19,7 @@ struct ContentView: View {
                 SplashView(off: $flashOn)
             }else{
                 if isFirstLaunch{
-                    if let user = vm.user?.data{
+                    if let user = UserInfoCache.instance.user?.data{
                         if user.role == "GUEST"{
                             RegisterTabView().environmentObject(vm)
                         }else{

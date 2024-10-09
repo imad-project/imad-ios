@@ -235,6 +235,7 @@
 		D6C763872C2C3B3B00BCD37B /* WorkGenre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */; };
 		D6C763892C2E898A00BCD37B /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763882C2E898A00BCD37B /* ListView.swift */; };
 		D6CE82E42CB654780092243D /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CE82E32CB654780092243D /* Logo.swift */; };
+		D6CE82E72CB65BD70092243D /* UserInfoCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CE82E62CB65BD70092243D /* UserInfoCache.swift */; };
 		D6D974B92C3B9A8200BCBF49 /* GetTokenInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974B82C3B9A8200BCBF49 /* GetTokenInterceptor.swift */; };
 		D6D974BB2C3BA09D00BCBF49 /* ProfileImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974BA2C3BA09D00BCBF49 /* ProfileImageRouter.swift */; };
 		D6D974BD2C3BA13B00BCBF49 /* ProfileImageApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974BC2C3BA13B00BCBF49 /* ProfileImageApiService.swift */; };
@@ -492,6 +493,7 @@
 		D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkGenre.swift; sourceTree = "<group>"; };
 		D6C763882C2E898A00BCD37B /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		D6CE82E32CB654780092243D /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
+		D6CE82E62CB65BD70092243D /* UserInfoCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCache.swift; sourceTree = "<group>"; };
 		D6D974B82C3B9A8200BCBF49 /* GetTokenInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTokenInterceptor.swift; sourceTree = "<group>"; };
 		D6D974BA2C3BA09D00BCBF49 /* ProfileImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageRouter.swift; sourceTree = "<group>"; };
 		D6D974BC2C3BA13B00BCBF49 /* ProfileImageApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageApiService.swift; sourceTree = "<group>"; };
@@ -1217,6 +1219,7 @@
 		D608EF7B2CA152C500C4FCE7 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
+				D6CE82E52CB65BC90092243D /* Auth */,
 				D608EF882CA23EA800C4FCE7 /* CacheManager */,
 				D608EF7D2CA152E000C4FCE7 /* Ranking */,
 			);
@@ -1482,6 +1485,14 @@
 				D6CE82E32CB654780092243D /* Logo.swift */,
 			);
 			path = Image;
+			sourceTree = "<group>";
+		};
+		D6CE82E52CB65BC90092243D /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				D6CE82E62CB65BD70092243D /* UserInfoCache.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		D6D974BE2C3BA49900BCBF49 /* ViewModel */ = {
@@ -1753,6 +1764,7 @@
 				8115A6562A85D7DC00B7C3FE /* MovieTypeFilter.swift in Sources */,
 				812CDE9629DE9CD50003B993 /* CommunityFilter.swift in Sources */,
 				81C2649A2A137D2900405B01 /* LoginAllView.swift in Sources */,
+				D6CE82E72CB65BD70092243D /* UserInfoCache.swift in Sources */,
 				817B60D22A237248000099A9 /* CheckDataViewModel.swift in Sources */,
 				D60AD1EA2C294DA900C9C27B /* RecommendTVResponse.swift in Sources */,
 				D60AD1F22C29549600C9C27B /* GenreRecommendResponse.swift in Sources */,

@@ -31,7 +31,7 @@ struct ProfileView: View {
     
     
     var authProvider:String{
-        if let user = vmAuth.user?.data{
+        if let user = UserInfoCache.instance.user?.data{
             
             switch user.authProvider{
             case "IMAD":
@@ -60,7 +60,7 @@ struct ProfileView: View {
             else{
                 header
                 ScrollView(showsIndicators: false){
-                    if let user = vmAuth.user?.data{
+                    if let user = UserInfoCache.instance.user?.data{
                         LazyVStack(pinnedViews: [.sectionHeaders]){
                             VStack(spacing: 0){
                                 VStack(spacing: 0){
@@ -138,7 +138,7 @@ struct ProfileView: View {
             vmAuth.logout(tokenExpired: true)
         }
         .onReceive(vmProfile.profileChanged) {
-            vmAuth.user?.data?.profileImage = vmProfile.url
+            UserInfoCache.instance.user?.data?.profileImage = vmProfile.url
             loading = false
         }
     }
@@ -148,7 +148,7 @@ struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             ProfileView(vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail),vmWork:WorkViewModel(workInfo: nil, bookmarkList: CustomData.instance.bookmarkList))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+                .environmentObject(AuthViewModel())
         }
     }
 }
@@ -177,7 +177,7 @@ extension ProfileView{
             Button {
                 profileSelect = true
             } label: {
-                ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "",widthHeigt: 60)
+                ProfileImageView(imagePath: UserInfoCache.instance.user?.data?.profileImage ?? "",widthHeigt: 60)
                     .overlay(alignment:.bottomTrailing){
                         Circle()
                             .foregroundColor(.black.opacity(0.7))
@@ -221,10 +221,10 @@ extension ProfileView{
             }
             VStack(alignment: .leading,spacing: 0) {
                 HStack(spacing:0){
-                    Text(vmAuth.user?.data?.nickname ?? "")
+                    Text(UserInfoCache.instance.user?.data?.nickname ?? "")
                         .font(.title3)
                         .bold()
-                    Image(vmAuth.user?.data?.gender ?? "")
+                    Image(UserInfoCache.instance.user?.data?.gender ?? "")
                         .resizable()
                         .frame(width: 20,height: 25)
                 }
@@ -232,7 +232,7 @@ extension ProfileView{
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding(.top,2)
-                Text("\(vmAuth.user?.data?.birthYear ?? 0)년생")
+                Text("\(UserInfoCache.instance.user?.data?.birthYear ?? 0)년생")
                     .font(.subheadline)
                 
                 
@@ -407,7 +407,7 @@ extension ProfileView{
         .presentationDetents([.fraction(0.3)])
     }
     func isCondition(profile:ProfileFilter)->Bool{
-        guard let profileImage = vmAuth.user?.data?.profileImage else {return false}
+        guard let profileImage = UserInfoCache.instance.user?.data?.profileImage else {return false}
         guard profileImage.contains("default_profile_image") else {return false}
         return ProfileFilter.allCases.first(where: {$0.num == profileImage.getImageCode()}) == profile
     }

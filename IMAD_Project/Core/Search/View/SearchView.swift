@@ -64,7 +64,7 @@ struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             SearchView(backMode: true, postingMode: true, back: .constant(false),vm: SearchViewModel(work: CustomData.instance.workList))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+                .environmentObject(AuthViewModel())
         }
     }
 }

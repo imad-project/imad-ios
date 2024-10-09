@@ -108,7 +108,7 @@ struct CommunityPostView: View {
                                     self.back = false
                                 }
                             }
-                            return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                            return Alert(title: Text("경고"),message: Text("이 게시물은 \(UserInfoCache.instance.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
                         }
                         
                     }
@@ -170,7 +170,7 @@ struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             CommunityPostView(reported: true, postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.instance.community, communityList: []))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+                .environmentObject(AuthViewModel())
         }
     }
 }
@@ -247,7 +247,7 @@ extension CommunityPostView{
         HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
-                    if community.userNickname != vmAuth.user?.data?.nickname{
+                    if community.userNickname != UserInfoCache.instance.user?.data?.nickname{
                         Button {
                             profile = true
                         } label: {
@@ -499,7 +499,7 @@ extension CommunityPostView{
         VStack{
             Divider()
             HStack{
-                ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "", widthHeigt: 40)
+                ProfileImageView(imagePath: UserInfoCache.instance.user?.data?.profileImage ?? "", widthHeigt: 40)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,textLimit: 400, font:.GmarketSansTTFMedium(14), text: $reviewText)
                     .focused($reply)
                     .padding(10)

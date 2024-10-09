@@ -77,7 +77,7 @@ struct ReviewDetailsView: View {
                 let out = Alert.Button.default(Text("나가기")){
                     dismiss()
                 }
-                return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                return Alert(title: Text("경고"),message: Text("이 게시물은 \(UserInfoCache.instance.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
             }
             
         }
@@ -94,7 +94,7 @@ struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             ReviewDetailsView(goWork: true, reviewId: 1, reported: true,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+                .environmentObject(AuthViewModel())
         }
     }
 }
@@ -178,7 +178,7 @@ extension ReviewDetailsView{
             HStack{
                 VStack(alignment: .leading) {
                     HStack{
-                        if review.userNickname == vmAuth.user?.data?.nickname{
+                        if review.userNickname == UserInfoCache.instance.user?.data?.nickname{
                             ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
                         }else{
                             Button {

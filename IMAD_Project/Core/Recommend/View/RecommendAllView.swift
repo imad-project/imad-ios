@@ -156,6 +156,6 @@ extension RecommendAllView{
 
 #Preview {
     RecommendAllView(contentsId:1, type: .trendTv)
-        .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        .environmentObject(AuthViewModel())
 }
 

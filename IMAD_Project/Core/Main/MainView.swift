@@ -29,7 +29,7 @@ struct MainView: View {
             Color.white
             ScrollView(showsIndicators: false){
                 VStack(alignment:.leading,spacing:5){
-                    if let user = vmAuth.user?.data{
+                    if let user = UserInfoCache.instance.user?.data{
                         titleView(user: user)
                         trendView
                         if let review = vm.popular?.review,let posting = vm.popular?.posting{
@@ -75,7 +75,7 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             MainView(vm:RankingViewModel())
-                .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+                .environmentObject(AuthViewModel())
         }
     }
 }

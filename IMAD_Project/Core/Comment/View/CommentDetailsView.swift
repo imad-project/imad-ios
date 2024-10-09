@@ -73,7 +73,7 @@ struct CommentDetailsView: View {
 struct CommentDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         CommentDetailsView(postingId: 1, parentsId: 12,reported: true, vm: CommentViewModel(comment: CustomData.instance.comment, replys: CustomData.instance.commentList))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            .environmentObject(AuthViewModel())
     }
 }
 
@@ -103,7 +103,7 @@ extension CommentDetailsView{
             }
             Divider()
             HStack{
-                ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "", widthHeigt: 30)
+                ProfileImageView(imagePath: UserInfoCache.instance.user?.data?.profileImage ?? "", widthHeigt: 30)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
                     .focused($reply)
                     .padding(10)

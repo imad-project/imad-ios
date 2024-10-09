@@ -81,7 +81,8 @@ struct ProfileSelectView: View {
 
 struct ProfileSelectView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileSelectView().environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        ProfileSelectView()
+            .environmentObject(AuthViewModel())
     }
 }
 extension ProfileSelectView{

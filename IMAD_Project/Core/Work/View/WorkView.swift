@@ -98,7 +98,7 @@ struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             WorkView(vmReview: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail), vm: WorkViewModel(workInfo: CustomData.instance.workInfo,bookmarkList: CustomData.instance.bookmarkList))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+                .environmentObject(AuthViewModel())
         }
     }
 }
@@ -254,7 +254,7 @@ extension WorkView{
                             .navigationBarBackButtonHidden()
                     } label: {
                         HStack(spacing: 0){
-                            Text(vmAuth.user?.data?.nickname ?? "")
+                            Text(UserInfoCache.instance.user?.data?.nickname ?? "")
                                 .bold()
                                 .padding(.leading)
                                 .font(.subheadline)

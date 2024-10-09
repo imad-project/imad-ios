@@ -110,13 +110,13 @@ struct CommentRowView: View {
 
 #Preview {
     CommentRowView(filter: .detailsComment ,postingId:0, reported: false, deleted: false, comment:CustomData.instance.comment,reply: .constant(CustomData.instance.comment), commentFocus: FocusState<Bool>().projectedValue,vmComment: CommentViewModel(comment: nil, replys: CustomData.instance.commentList))
-        .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        .environmentObject(AuthViewModel())
 }
 
 extension CommentRowView{
     var profileView:some View{
         HStack{
-            if comment.userNickname == vmAuth.user?.data?.nickname{
+            if comment.userNickname == UserInfoCache.instance.user?.data?.nickname{
                 ProfileImageView(imagePath: comment.userProfileImage, widthHeigt: 20)
             }else{
                 Button {
@@ -365,7 +365,8 @@ extension CommentRowView{
             }
             .onEnded{ _ in
                 withAnimation(.spring()){
-                    if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{
+                    if let nickname = 
+                        UserInfoCache.instance.user?.data?.nickname,nickname == comment.userNickname{
                         if currentDragOffstY < -100{
                             statingOffsetY = -200
                         }else if currentDragOffstY > 100{

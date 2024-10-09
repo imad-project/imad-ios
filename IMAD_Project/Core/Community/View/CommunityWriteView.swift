@@ -75,7 +75,7 @@ struct CommunityWriteView_Previews: PreviewProvider {
     static var previews: some View {
         CommunityWriteView(contentsId: 1, contents: (CustomData.instance.movieList.first!,"asdasd"), goMain: .constant(true),vm: CommunityViewModel(community:nil, communityList: []))
             .environment(\.colorScheme, .light)
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            .environmentObject(AuthViewModel())
     }
 }
 extension CommunityWriteView{

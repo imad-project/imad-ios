@@ -67,7 +67,7 @@ struct MyCommunityListView: View {
 struct MyCommunityListView_Previews: PreviewProvider {
     static var previews: some View {
         MyCommunityListView(writeType: .myselfLike,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
-            .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
+            .environmentObject(AuthViewModel())
     }
 }
 

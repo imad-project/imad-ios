@@ -55,7 +55,7 @@ struct ReviewListRowView: View {
 struct ReviewListRowView_Previews: PreviewProvider {
     static var previews: some View {
         ReviewListRowView(review: CustomData.instance.review, my: true)
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            .environmentObject(AuthViewModel())
     }
 }
 extension ReviewListRowView{

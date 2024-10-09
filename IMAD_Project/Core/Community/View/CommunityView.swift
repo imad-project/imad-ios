@@ -67,7 +67,7 @@ struct CommunityView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             CommunityView(vm: CommunityViewModel(community:CustomData.instance.community, communityList: CustomData.instance.communityList))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+                .environmentObject(AuthViewModel())
         }
         
     }

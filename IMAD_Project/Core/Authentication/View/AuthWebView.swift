@@ -110,6 +110,6 @@ struct WebView: UIViewRepresentable {
 struct AuthWebView_Previews: PreviewProvider {
     static var previews: some View {
         AuthWebView(filter: .kakao, failed: .constant(false))
-            .environmentObject(AuthViewModel(user: UserInfo(status: 200,data: CustomData.instance.user, message: "")))
+            .environmentObject(AuthViewModel())
     }
 }

@@ -101,7 +101,7 @@ struct GenreSelectView: View {
             }
         }
         .onAppear{
-            guard let data = vmAuth.user?.data else {return}
+            guard let data = UserInfoCache.instance.user?.data else {return}
             switch genreType {
             case .tv:
                 for genre in data.tvGenre {
@@ -123,5 +123,5 @@ struct GenreSelectView: View {
 
 #Preview {
     GenreSelectView(genreType: .tv, dismiss: .constant(false))
-        .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        .environmentObject(AuthViewModel())
 }

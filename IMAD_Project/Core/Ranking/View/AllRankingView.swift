@@ -31,7 +31,7 @@ struct AllRankingView: View {
 
 #Preview {
     AllRankingView(filter: .all,vm:RankingViewModel())
-        .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        .environmentObject(AuthViewModel())
 }
 
 extension AllRankingView{

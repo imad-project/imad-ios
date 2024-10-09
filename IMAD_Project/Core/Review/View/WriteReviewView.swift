@@ -96,7 +96,7 @@ struct WriteReviewView: View {
 struct WriteReviewView_Previews: PreviewProvider {
     static var previews: some View {
         WriteReviewView(id: 1, image: CustomData.instance.movieList.first!, workName: "카지노", gradeAvg: 9.5, reviewId: nil,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            .environmentObject(AuthViewModel())
     }
 }
 

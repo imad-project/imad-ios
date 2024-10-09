@@ -24,7 +24,7 @@ struct CommunitySearchView: View {
     @State var category:CommunityFilter = .all
     
     @Environment(\.dismiss) var dismiss
-    @StateObject var vmAuth = AuthViewModel(user: nil)
+    @StateObject var vmAuth = AuthViewModel()
     
     var body: some View {
         VStack(alignment: .leading){
@@ -104,7 +104,7 @@ struct CommunitySearchView: View {
 struct CommunitySearchView_Previews: PreviewProvider {
     static var previews: some View {
         CommunitySearchView(vm:CommunityViewModel(community: nil, communityList: CustomData.instance.communityList))
-            .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
+            .environmentObject(AuthViewModel())
     }
 }
 extension CommunitySearchView{

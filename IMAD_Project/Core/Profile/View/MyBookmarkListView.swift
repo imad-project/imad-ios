@@ -47,7 +47,7 @@ struct MyBookmarkListView: View {
 struct MyBookmarkListView_Previews: PreviewProvider {
     static var previews: some View {
         MyBookmarkListView(vm: WorkViewModel(workInfo: CustomData.instance.workInfo,bookmarkList: CustomData.instance.bookmarkList))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            .environmentObject(AuthViewModel())
     }
 }
 extension MyBookmarkListView{

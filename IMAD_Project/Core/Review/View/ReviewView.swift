@@ -70,7 +70,7 @@ struct ReviewView: View {
 struct ReviewView_Previews: PreviewProvider {
     static var previews: some View {
         ReviewView(id: 1,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            .environmentObject(AuthViewModel())
     }
 }
 

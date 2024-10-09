@@ -40,7 +40,7 @@ struct GenderSelectView: View {
 struct GenderSelectView_Previews: PreviewProvider {
     static var previews: some View {
         GenderSelectView()
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            .environmentObject(AuthViewModel())
     }
 }
 extension GenderSelectView{
