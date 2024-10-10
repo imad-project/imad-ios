@@ -63,7 +63,11 @@ extension OnBoardingTabView{
     var nextButtonView:some View{
         CustomConfirmButton(text: page == 0 ? "다음" : "시작", color: .white, textColor: .customIndigo) {
             withAnimation(.linear){
-                page == 0 ? page = 1 : UserDefaults.standard.set(true, forKey: "isFirstLaunch")
+                guard page == 1 else {
+                    page = 1
+                    return
+                }
+                UserDefaults.standard.set(true, forKey: "isFirstLaunch")
                 isFirstLaunch = true
             }
         }

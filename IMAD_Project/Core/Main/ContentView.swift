@@ -42,7 +42,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ContentView()
+            ContentView(vm:AuthViewModel(user: UserInfoCache.instance.user))
         }
     }
 }
