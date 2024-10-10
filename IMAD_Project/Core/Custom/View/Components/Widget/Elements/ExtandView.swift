@@ -41,6 +41,6 @@ struct ExtandView: View {
 
 struct ExtandView_Previews: PreviewProvider {
     static var previews: some View {
-        ExtandView(text: CustomData.instance.dummyString)
+        ExtandView(text: CustomData.dummyString)
     }
 }

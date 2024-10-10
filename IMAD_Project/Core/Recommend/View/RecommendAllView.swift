@@ -11,7 +11,7 @@ struct RecommendAllView: View {
     var contentsId:Int?
     @State var type:RecommendListType
     @StateObject var vm = RecommendViewModel()
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     @Environment(\.dismiss) var dismiss
     
    
@@ -155,6 +155,6 @@ extension RecommendAllView{
 
 #Preview {
     RecommendAllView(contentsId:1, type: .trendTv)
-        .environmentObject(AuthViewModel())
+       
 }
 

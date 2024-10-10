@@ -13,7 +13,7 @@ struct MyCommunityListView: View {
     @State var community:CommunityDetailsListResponse? = nil
     @State var goPosting = false
     @State var like = true
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @Environment(\.dismiss) var dismiss
     
@@ -66,8 +66,8 @@ struct MyCommunityListView: View {
 
 struct MyCommunityListView_Previews: PreviewProvider {
     static var previews: some View {
-        MyCommunityListView(writeType: .myselfLike,vm: CommunityViewModel(community:CustomData.instance.community,communityList: CustomData.instance.communityList))
-            .environmentObject(AuthViewModel())
+        MyCommunityListView(writeType: .myselfLike,vm: CommunityViewModel(community:CustomData.community,communityList: CustomData.communityList))
+           
     }
 }
 

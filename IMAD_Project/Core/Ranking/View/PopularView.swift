@@ -13,8 +13,8 @@ struct PopularView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
 
        
-    var review:PopularReviewResponse?
-    var posting:PopularPostingResponse?
+    var review:ReadReviewResponse?
+    var posting:CommunityResponse?
     
     var body: some View {
         ZStack{
@@ -84,7 +84,6 @@ extension PopularView{
 
 #Preview {
     HStack(spacing: 10){
-        PopularView(review: CustomData.instance.popularReview)
-        PopularView(review: CustomData.instance.popularReview)
+        PopularView(review: CustomData.review!)
     }
 }

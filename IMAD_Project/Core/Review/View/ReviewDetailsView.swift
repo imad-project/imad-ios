@@ -22,7 +22,7 @@ struct ReviewDetailsView: View {
     @State var menu = false
     @State var delete = false
     @Environment(\.dismiss) var dismiss
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @StateObject var vmReport = ReportViewModel()
     
@@ -77,7 +77,7 @@ struct ReviewDetailsView: View {
                 let out = Alert.Button.default(Text("나가기")){
                     dismiss()
                 }
-                return Alert(title: Text("경고"),message: Text("이 게시물은 \(UserInfoCache.instance.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                return Alert(title: Text("경고"),message: Text("이 게시물은 \(UserInfoCache.instance.user?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
             }
             
         }
@@ -93,8 +93,8 @@ struct ReviewDetailsView: View {
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ReviewDetailsView(goWork: true, reviewId: 1, reported: true,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
-                .environmentObject(AuthViewModel())
+            ReviewDetailsView(goWork: true, reviewId: 1, reported: true,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
+               
         }
     }
 }
@@ -177,7 +177,7 @@ extension ReviewDetailsView{
             HStack{
                 VStack(alignment: .leading) {
                     HStack{
-                        if review.userNickname == UserInfoCache.instance.user?.data?.nickname{
+                        if review.userNickname == UserInfoCache.instance.user?.nickname{
                             ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
                         }else{
                             Button {

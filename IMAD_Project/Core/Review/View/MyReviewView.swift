@@ -10,7 +10,7 @@ import SwiftUI
 struct MyReviewView: View {
     let writeType:WriteTypeFilter
     @State var like = true
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @Environment(\.dismiss) var dismiss
     
@@ -58,8 +58,8 @@ struct MyReviewView: View {
 
 struct MyReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        MyReviewView(writeType: .myselfLike,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
-            .environmentObject(AuthViewModel())
+        MyReviewView(writeType: .myselfLike,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
+           
     }
 }
 

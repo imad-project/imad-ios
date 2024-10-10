@@ -14,7 +14,7 @@ struct ProfileChangeView: View {
     @State var delete = false
     @State var logout = false
     
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     @Environment(\.dismiss) var dismiss
     
     
@@ -23,7 +23,7 @@ struct ProfileChangeView: View {
                    header
                         List{
                             Group{
-                                if let user = UserInfoCache.instance.user?.data{
+                                if let user = UserInfoCache.instance.user{
                                     navigatoionChangeView(view: InfoChangeView(title: "닉네임", password: false, text:user.nickname ?? ""), text: "닉네임 변경")
                                     navigatoionChangeView(view: InfoChangeView(title: "성별", password: false,gender: user.gender ?? ""), text: "성별 변경")
                                     navigatoionChangeView(view: InfoChangeView(title: "나이", password: false,age: user.birthYear), text: "나이 변경")
@@ -62,7 +62,7 @@ struct ProfileChangeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ProfileChangeView()
-                .environmentObject(AuthViewModel())
+               
         }
         
     }
@@ -111,7 +111,7 @@ extension ProfileChangeView{
             primaryButton: .cancel(Text("취소")),
             secondaryButton: .destructive(delete ? Text("탈퇴") : Text("로그아웃"), action: {
                 if delete{
-                    if let authProvier = UserInfoCache.instance.user?.data?.authProvider{
+                    if let authProvier = UserInfoCache.instance.user?.authProvider{
                         switch authProvier{
                         case "KAKAO":
                             vmAuth.delete(authProvier: "kakao")

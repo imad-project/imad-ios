@@ -28,7 +28,7 @@ struct InfoChangeView: View {
     
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = CheckDataViewModel()
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     var currentDate :Int{
         
         let date = Date()
@@ -106,7 +106,7 @@ struct InfoChangeView_Previews: PreviewProvider {
     static var previews: some View {
         
         InfoChangeView(title: "닉네임", password: false, text: "quarang")
-            .environmentObject(AuthViewModel())
+           
     }
 }
 

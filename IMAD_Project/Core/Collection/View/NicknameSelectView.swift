@@ -43,7 +43,7 @@ struct NicknameSelectView: View {
 
 struct NicknameSelectView_Previews: PreviewProvider {
     static var previews: some View {
-        NicknameSelectView().environmentObject(AuthViewModel())
+        NicknameSelectView().environmentObject(AuthViewModel(user:nil))
     }
 }
 

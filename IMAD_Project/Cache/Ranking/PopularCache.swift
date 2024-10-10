@@ -8,6 +8,6 @@
 import Foundation
 
 struct PopularCache:Codable{
-    var review:PopularReviewResponse?
-    var posting:PopularPostingResponse?
+    var review:ReadReviewResponse?
+    var posting:CommunityResponse?
 }

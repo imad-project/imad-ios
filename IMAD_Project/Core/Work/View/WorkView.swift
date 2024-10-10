@@ -23,7 +23,7 @@ struct WorkView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var vmReview = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vm = WorkViewModel(workInfo: nil,bookmarkList: [])
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         ZStack(alignment: .topLeading){
@@ -49,11 +49,11 @@ struct WorkView: View {
         }
         .foregroundColor(.white)
         .onAppear {
-            if let contentsId{
-                vm.getWorkInfo(contentsId: contentsId)
-            }else if let id, let type{
-                vm.getWorkInfo(id: id, type: type)
-            }
+//            if let contentsId{
+//                vm.getWorkInfo(contentsId: contentsId)
+//            }else if let id, let type{
+//                vm.getWorkInfo(id: id, type: type)
+//            }
         }
         .onDisappear{
             KingfisherManager.shared.cache.clearMemoryCache()
@@ -94,8 +94,8 @@ struct WorkView: View {
 struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            WorkView(vmReview: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail), vm: WorkViewModel(workInfo: CustomData.instance.workInfo,bookmarkList: CustomData.instance.bookmarkList))
-                .environmentObject(AuthViewModel())
+            WorkView(vmReview: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList), vm: WorkViewModel(workInfo: CustomData.workInfo,bookmarkList: CustomData.bookmarkList))
+               
         }
     }
 }
@@ -250,7 +250,7 @@ extension WorkView{
                             .navigationBarBackButtonHidden()
                     } label: {
                         HStack(spacing: 0){
-                            Text(UserInfoCache.instance.user?.data?.nickname ?? "")
+                            Text(UserInfoCache.instance.user?.nickname ?? "")
                                 .bold()
                                 .padding(.leading)
                                 .font(.subheadline)

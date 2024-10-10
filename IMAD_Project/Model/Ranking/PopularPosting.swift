@@ -9,6 +9,6 @@ import Foundation
 
 struct PopularPosting:Codable{
     let status: Int
-    var data: PopularPostingResponse?
+    var data: CommunityResponse?
     let message: String
 }

@@ -11,7 +11,7 @@ struct AllRankingView: View {
     @State var filter:RankingFilter
     @State var type:TypeFilter = .all
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm = RankingViewModel()
+    @StateObject var vm = RankingViewModel(ranking: nil, popular: nil)
     
     var body: some View {
         VStack(spacing: 0){
@@ -29,8 +29,8 @@ struct AllRankingView: View {
 }
 
 #Preview {
-    AllRankingView(filter: .all,vm:RankingViewModel())
-        .environmentObject(AuthViewModel())
+    AllRankingView(filter: .all,vm:RankingViewModel(ranking: nil, popular: nil))
+       
 }
 
 extension AllRankingView{

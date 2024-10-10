@@ -22,7 +22,7 @@ struct CommunityView: View {
     @State var workInfo:CommunityDetailsListResponse?
     
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         VStack(spacing: 0){
@@ -38,7 +38,7 @@ struct CommunityView: View {
             listUpdate(category: tab.num)
         }
         .onAppear{
-            listUpdate(category: communityTab.num)
+//            listUpdate(category: communityTab.num)
         }
         .navigationDestination(isPresented: $goWork) {
             if let workInfo{
@@ -60,14 +60,16 @@ struct CommunityView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
+        .onAppear{
+            print(CustomData.communityList)
+        }
     }
 }
 
 struct CommunityView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            CommunityView(vm: CommunityViewModel(community:CustomData.instance.community, communityList: CustomData.instance.communityList))
-                .environmentObject(AuthViewModel())
+            CommunityView(vm: CommunityViewModel(community:CustomData.community, communityList: CustomData.communityList))
         }
         
     }

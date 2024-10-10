@@ -50,8 +50,8 @@ struct MyScrapListView: View {
 
 struct MyScrapListView_Previews: PreviewProvider {
     static var previews: some View {
-        MyScrapListView(vm: ScrapViewModel(scrapList: CustomData.instance.scrapList))
-            .environmentObject(AuthViewModel())
+        MyScrapListView(vm: ScrapViewModel(scrapList: CustomData.scrapList))
+           
     }
 }
 

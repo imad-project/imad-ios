@@ -32,7 +32,7 @@ struct AgeSelectView: View {
 struct AgeSelectView_Previews: PreviewProvider {
     static var previews: some View {
         AgeSelectView()
-            .environmentObject(AuthViewModel())
+           
     }
 }
 extension AgeSelectView{

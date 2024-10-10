@@ -39,7 +39,7 @@ struct MenuTabView: View {
 struct MenuTabView_Previews: PreviewProvider {
     static var previews: some View {
         MenuTabView()
-            .environmentObject(AuthViewModel())
+           
     }
 }
 
@@ -66,7 +66,7 @@ extension MenuTabView{
                                     Image(systemName: item.name)
                                         .font(.GmarketSansTTFBold(20))
                                 }else{
-                                    ProfileImageView(imagePath: UserInfoCache.instance.user?.data?.profileImage ?? "",widthHeigt: 30)
+                                    ProfileImageView(imagePath: UserInfoCache.instance.user?.profileImage ?? "",widthHeigt: 30)
                                         .padding(.top,5)
                                 }
                             }

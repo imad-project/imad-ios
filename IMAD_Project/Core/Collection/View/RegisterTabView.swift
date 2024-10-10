@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftUIWave
 struct RegisterTabView: View {
     
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     @State var constent = true
     
     
@@ -55,7 +55,7 @@ struct RegisterTabView: View {
 struct RegisterTabView_Previews: PreviewProvider {
     static var previews: some View {
         RegisterTabView()
-        .environmentObject(AuthViewModel())
+       
     }
 }
 

@@ -91,7 +91,7 @@ struct OtherProfileView: View {
 
 #Preview {
     OtherProfileView(id: 1)
-        .environmentObject(AuthViewModel())
+       
 }
 
 extension OtherProfileView{

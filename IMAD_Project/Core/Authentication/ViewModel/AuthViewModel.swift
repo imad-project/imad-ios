@@ -16,6 +16,7 @@ final class AuthViewModel:ObservableObject{
     
     @Published var selection:RegisterFilter = .nickname     //탭뷰
     @Published var patchUser:PatchUserInfo = PatchUserInfo(user: nil)
+    @Published var user:UserResponse? = nil
     @Published var message = ""
     
     var success = PassthroughSubject<(),Never>()
@@ -24,6 +25,9 @@ final class AuthViewModel:ObservableObject{
     var loginSuccess = PassthroughSubject<String,Never>()
     var cancelable = Set<AnyCancellable>()
     
+    init(user:UserResponse?){
+        self.user = user
+    }
     func register(email:String,password:String,authProvider:String){
         AuthApiService.register(email: email, password: password,authProvider:authProvider)
             .sink{ completion in
@@ -38,7 +42,8 @@ final class AuthViewModel:ObservableObject{
             .sink { completion in
                 print(completion)
             } receiveValue: { [weak self] user in
-                UserInfoCache.instance.user = user
+                UserInfoCache.instance.user = user.data
+                self?.user = UserInfoCache.instance.user
                 self?.loginSuccess.send(user.message)
             }.store(in: &cancelable)
     }
@@ -47,7 +52,8 @@ final class AuthViewModel:ObservableObject{
             .sink { completion in
                 ErrorManager.instance.actionErrorMessage(completion: completion, success: {}, failed: {self.logout(tokenExpired: true)})
             } receiveValue: { [weak self] user in
-                UserInfoCache.instance.user = user
+                UserInfoCache.instance.user = user.data
+                self?.user = UserInfoCache.instance.user
                 self?.patchUser = PatchUserInfo(user: user.data)
             }.store(in: &cancelable)
     }
@@ -56,7 +62,8 @@ final class AuthViewModel:ObservableObject{
             .sink { completion in
                 ErrorManager.instance.actionErrorMessage(completion: completion, success: {}, failed: {self.logout(tokenExpired: true)})
             } receiveValue: { [weak self] user in
-                UserInfoCache.instance.user = user
+                UserInfoCache.instance.user = user.data
+                self?.user = UserInfoCache.instance.user
                 self?.patchUser = PatchUserInfo(user: user.data)
             }.store(in: &cancelable)
     }
@@ -64,6 +71,7 @@ final class AuthViewModel:ObservableObject{
         print("로그아웃 및 토큰 삭제")
         message = ""
         UserInfoCache.instance.user = nil
+        user = nil
         patchUser = PatchUserInfo(user: nil)
         selection = .nickname
         UserDefaultManager.shared.clearAll()

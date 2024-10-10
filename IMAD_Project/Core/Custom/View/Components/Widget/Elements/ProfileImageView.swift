@@ -40,6 +40,6 @@ struct ProfileImageView: View {
 
 struct ProfileImageView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileImageView(work: 1, imagePath: CustomData.instance.profileImage,widthHeigt: 30)
+        ProfileImageView(work: 1, imagePath: CustomData.profileImage,widthHeigt: 30)
     }
 }

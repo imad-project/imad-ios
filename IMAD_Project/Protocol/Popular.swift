@@ -27,9 +27,9 @@ protocol Popular{
 
 class PopularReviewClass:Popular{
     var popularFilter:PopularFilter = .review
-    let review:PopularReviewResponse
+    let review:ReadReviewResponse
     
-    required init(review: PopularReviewResponse) {
+    required init(review: ReadReviewResponse) {
         self.review = review
     }
     func contentsTitle() -> String {
@@ -64,24 +64,24 @@ class PopularReviewClass:Popular{
 
 class PopularPostingClass:Popular{
     var popularFilter: PopularFilter = .community
-    let posting:PopularPostingResponse
+    let posting:CommunityResponse
     
-    required init(posting:PopularPostingResponse) {
+    required init(posting:CommunityResponse) {
         self.posting = posting
     }
     
     func contentsTitle() -> String {
-        return posting.contentsTitle ?? ""
+        return posting.contentsTitle
     }
     func backdrop() -> String{
-        return posting.contentsBackdropPath ?? ""
+        return posting.contentsBackdropPath
     }
     func title() -> String {
-        return posting.title ?? ""
+        return posting.title
     }
     
     func userProfile() -> String {
-        return posting.userProfileImage ?? ""
+        return posting.userProfileImage
     }
     func spoiler() -> Bool{
         return posting.spoiler
@@ -91,7 +91,7 @@ class PopularPostingClass:Popular{
     }
     
     func poster() -> String {
-        return posting.contentsPosterPath ?? ""
+        return posting.contentsPosterPath
     }
     
     func contents() -> String {

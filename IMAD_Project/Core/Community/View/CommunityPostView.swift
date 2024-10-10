@@ -37,7 +37,7 @@ struct CommunityPostView: View {
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var vmScrap = ScrapViewModel(scrapList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     let startingOffset: CGFloat = UIScreen.main.bounds.height/2
     @State private var currentOffset:CGFloat = 0
@@ -108,7 +108,7 @@ struct CommunityPostView: View {
                                     self.back = false
                                 }
                             }
-                            return Alert(title: Text("경고"),message: Text("이 게시물은 \(UserInfoCache.instance.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                            return Alert(title: Text("경고"),message: Text("이 게시물은 \(UserInfoCache.instance.user?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
                         }
                         
                     }
@@ -162,15 +162,14 @@ struct CommunityPostView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
-        
     }
 }
 
 struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            CommunityPostView(reported: true, postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.instance.community, communityList: []))
-                .environmentObject(AuthViewModel())
+            CommunityPostView(reported: true, postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.community, communityList: []))
+               
         }
     }
 }
@@ -189,7 +188,7 @@ extension CommunityPostView{
             Group{
                 Button {
                     vm.community?.scrapStatus = !community.scrapStatus
-                    community.scrapStatus ? vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0) : vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
+                    community.scrapStatus ? vmScrap.deleteScrap(scrapId: vm.community?.scrapID ?? 0) : vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
                 } label: {
                     Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
                 }
@@ -247,7 +246,7 @@ extension CommunityPostView{
         HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
-                    if community.userNickname != UserInfoCache.instance.user?.data?.nickname{
+                    if community.userNickname != UserInfoCache.instance.user?.nickname{
                         Button {
                             profile = true
                         } label: {
@@ -440,7 +439,7 @@ extension CommunityPostView{
                 if endOffset == -startingOffset + 100{
                     collection
                 }
-                if let comments = community.commentListResponse?.commentDetailsResponseList,comments.isEmpty{
+                if let comments = community.commentListResponse?.detailsList,comments.isEmpty{
                     Group{
                         Image(systemName: "ellipsis.message")
                             .font(.largeTitle)
@@ -499,7 +498,7 @@ extension CommunityPostView{
         VStack{
             Divider()
             HStack{
-                ProfileImageView(imagePath: UserInfoCache.instance.user?.data?.profileImage ?? "", widthHeigt: 40)
+                ProfileImageView(imagePath: UserInfoCache.instance.user?.profileImage ?? "", widthHeigt: 40)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,textLimit: 400, font:.GmarketSansTTFMedium(14), text: $reviewText)
                     .focused($reply)
                     .padding(10)

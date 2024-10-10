@@ -11,7 +11,7 @@ struct ContentView: View {
     
     @State var isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch") //온보딩
     @State var flashOn = true
-    @StateObject var vm = AuthViewModel()
+    @StateObject var vm = AuthViewModel(user:nil)
     
     var body: some View {
         ZStack {
@@ -19,7 +19,7 @@ struct ContentView: View {
                 SplashView(off: $flashOn)
             }else{
                 if isFirstLaunch{
-                    if let user = UserInfoCache.instance.user?.data{
+                    if let user = vm.user{
                         if user.role == "GUEST"{
                             RegisterTabView()
                         }else{
@@ -27,7 +27,6 @@ struct ContentView: View {
                         }
                     }else{
                         LoginAllView()
-                           .ignoresSafeArea(.keyboard)
                     }
                 }else{
                     OnBoardingTabView(isFirstLaunch: $isFirstLaunch)

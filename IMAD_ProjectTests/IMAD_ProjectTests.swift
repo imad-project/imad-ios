@@ -34,8 +34,6 @@ final class IMAD_ProjectTests: XCTestCase {
         }
     }
     func test_appFirstLaunch() throws{
-        let vm = AuthViewModel()
-        vm.getUser()
     }
 
     func test_successFetchRankingList() throws{

@@ -9,5 +9,5 @@ import Foundation
 
 class UserInfoCache{
     static let instance = UserInfoCache()
-    var user:UserInfo?
+    var user:UserResponse?
 }

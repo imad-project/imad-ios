@@ -18,9 +18,9 @@ struct MainView: View {
     let initValue = [WorkGenre](repeating: TVWorkGenre(tvGenre: RecommendTVResponse(id: 0, name: "", posterPath: "", backdropPath: "", genreIds: [])), count: 10)
     
     @State var ranking:RankingFilter = .all
-    @StateObject var vm = RankingViewModel()
+    @StateObject var vm = RankingViewModel(ranking: nil, popular: nil)
     @StateObject var vmRecommend = RecommendViewModel()
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     @State var trend = false
     
@@ -29,7 +29,7 @@ struct MainView: View {
             Color.white
             ScrollView(showsIndicators: false){
                 VStack(alignment:.leading,spacing:5){
-                    if let user = UserInfoCache.instance.user?.data{
+                    if let user = vmAuth.user{
                         titleView(user: user)
                         trendView
                         if let review = vm.popular?.review,let posting = vm.popular?.posting{
@@ -57,16 +57,16 @@ struct MainView: View {
                 vm.getPopularPosting()
             }
         }
-        .progress(vmRecommend.recommendAll != nil)
+//        .progress(vmRecommend.recommendAll != nil)
         .ignoresSafeArea(edges:.bottom)
         .onReceive(vmRecommend.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
         .onAppear {
-            vmRecommend.fetchAllRecommend()
-            vm.getRanking(ranking: RankingCache(id: "allall", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: []))
-            vm.getPopularReview()
-            vm.getPopularPosting()
+//            vmRecommend.fetchAllRecommend()
+//            vm.getRanking(ranking: RankingCache(id: "allall", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: []))
+//            vm.getPopularReview()
+//            vm.getPopularPosting()
         }
     }
 }
@@ -74,8 +74,7 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            MainView(vm:RankingViewModel())
-                .environmentObject(AuthViewModel())
+            MainView(vm:RankingViewModel(ranking: nil, popular: nil),vmAuth:AuthViewModel(user:CustomData.user))
         }
     }
 }
@@ -405,7 +404,7 @@ extension MainView{
             }
         }
     }
-    func todayView(review:PopularReviewResponse,community:PopularPostingResponse) ->some View{
+    func todayView(review:ReadReviewResponse,community:CommunityResponse) ->some View{
         HStack(spacing:10){
             NavigationLink {
                 ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)

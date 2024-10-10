@@ -79,7 +79,7 @@ struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             RegisterView(login: .constant(true))
-                .environmentObject(AuthViewModel())
+               
         }
         
     }

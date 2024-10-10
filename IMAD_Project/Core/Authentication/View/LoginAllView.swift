@@ -28,7 +28,7 @@ struct LoginAllView: View{
     @State var domain = EmailFilter.gmail
     
     @State var loading = false
-    @EnvironmentObject var vm:AuthViewModel
+    @StateObject var vm = AuthViewModel(user:nil)
     
     
     var body: some View {
@@ -113,7 +113,7 @@ struct LoginAllView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             LoginAllView()
-                .environmentObject(AuthViewModel())
+               
         }
     }
 }

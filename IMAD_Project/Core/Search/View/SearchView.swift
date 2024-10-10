@@ -20,7 +20,7 @@ struct SearchView: View {
     @Binding var back:Bool
     @StateObject var vmWork = WorkViewModel(workInfo: nil, bookmarkList: [])
     @StateObject var vm = SearchViewModel()
-    @StateObject var vmAuth = AuthViewModel()
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         VStack(alignment: .leading,spacing: 0){
@@ -62,8 +62,8 @@ struct SearchView: View {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            SearchView(backMode: true, postingMode: true, back: .constant(false),vm: SearchViewModel(work: CustomData.instance.workList))
-                .environmentObject(AuthViewModel())
+            SearchView(backMode: true, postingMode: true, back: .constant(false),vm: SearchViewModel(work: CustomData.workList))
+               
         }
     }
 }

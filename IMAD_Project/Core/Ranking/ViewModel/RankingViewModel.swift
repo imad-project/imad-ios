@@ -19,6 +19,11 @@ class RankingViewModel:ObservableObject{
     @Published var ranking:RankingCache? = nil
     @Published var popular:PopularCache? = PopularCache(review: nil,posting: nil)
 
+    init(ranking: RankingCache? = nil, popular: PopularCache? = nil) {
+        self.ranking = ranking
+        self.popular = popular
+    }
+    
     func getRanking(ranking:RankingCache){
         if let data = rankingManager.cachedData(key: ranking.id),Date().timeDifference(previousTime: rankingManager.timeStamp[ranking.id], curruntTime: Date()) <= 300{
             self.ranking = data
