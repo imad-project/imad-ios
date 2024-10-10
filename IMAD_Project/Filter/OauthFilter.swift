@@ -13,6 +13,7 @@ enum OauthFilter:String,CaseIterable{
     case naver
     case kakao
     case google
+    case none
     
     var color:Color{
         switch self{
@@ -24,6 +25,8 @@ enum OauthFilter:String,CaseIterable{
             return Color("kakao").opacity(0.7)
         case .google:
             return Color.white
+        case .none :
+            return Color.black
         }
     }
     var textColor:Color{
@@ -35,6 +38,8 @@ enum OauthFilter:String,CaseIterable{
         case .kakao:
             return Color.black
         case .google:
+            return Color.black
+        case .none :
             return Color.black
         }
     }
@@ -48,13 +53,15 @@ enum OauthFilter:String,CaseIterable{
             return "카카오로 계속하기"
         case .google:
             return "Google로 계속하기"
+        case .none :
+            return ""
         }
     }
     var authProvierName:String{
         switch self{
         case .Apple:
             return "apple"
-        case .google,.kakao,.naver:
+        case .google,.kakao,.naver,.none:
             return rawValue
         }
     }

@@ -22,7 +22,7 @@ struct RegisterView: View {
     
     @Binding var login:Bool
     @StateObject var vmCheck = CheckDataViewModel()
-    @EnvironmentObject var vm:AuthViewModel
+    @StateObject var vm = AuthViewModel(user: nil)
     
     @Environment(\.dismiss) var dismiss
     

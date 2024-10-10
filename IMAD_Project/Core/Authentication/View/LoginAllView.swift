@@ -10,102 +10,49 @@ import Alamofire
 import AuthenticationServices
 
 struct LoginAllView: View{
-    
 
-    @State var oathFilter = OauthFilter(rawValue: "")
-    @State var register = false
-    
-    @State var id = ""
-    @State var password = ""
-    
-    @State var success = false
-    @State var failed = false
-    @State var msg = ""
-    
-    @State var kakao = false
-    @State var naver = false
-    @State var google = false
-    @State var domain = EmailFilter.gmail
-    
-    @State var loading = false
+    @State var isOnAlert = false                    //알림 표시
+    @State var alertMessage = ""                    //알림에 표시될 메세지
+    @State var loginFailed = false                  //로그인 실패 시
+    @State var loginFilter:OauthFilter = .none      //로그인 및 회원가입 필터
+    @State var showRegisterView = false             //로그인 및 회원가입 모달 생성
+    @State var email = ""                           //이메일 텍스트
+    @State var password = ""                        //패스워트 텍스트
+    @State var domain = EmailFilter.gmail           //이메일 도메인
+    @State var loading = false                      //로딩 유무
     @StateObject var vm = AuthViewModel(user:nil)
     
-    
     var body: some View {
-        ZStack{
-            Color.white.ignoresSafeArea()
-            ScrollView{
-                VStack(spacing: 0){
-                    Text("환영합니다")
-                        .font(.GmarketSansTTFMedium(30))
-                        .bold()
-                        .foregroundColor(.customIndigo)
-                        .padding(.top,20)
-                        .frame(maxWidth: .infinity)
-                        .padding(.bottom,50)
-                    VStack(alignment: .leading){
-                        emailView
-                        passwordView
-                        authView
-                    }
-                    .padding(.vertical)
-                    .padding(10)
-                    .onTapGesture {
-                        UIApplication.shared.endEditing()
-                    }
-                    divderView.padding(.top,50)
-                    loginButtonView.padding(.top)
+        ScrollView(showsIndicators:false){
+            VStack(spacing: 0){
+                titleView
+                VStack(alignment: .leading){
+                    emailView
+                    passwordView
+                    authView
                 }
-                .foregroundColor(.gray)
-                
-            }
-            if loading{
-                CustomProgressView()
+                .padding(.vertical)
+                .padding(10)
+                divderView
+                loginButtonView
             }
         }
-        .onReceive(vm.loginSuccess){ value in
-            success = true
-            msg = value
+        .backgroundColor(.white)
+        .progress(!loading)
+        .onTapGesture { UIApplication.shared.endEditing() }                 //키보드 닫기
+        .onReceive(vm.loginSuccess){ excuteAlert(true, $0)}                 //로그인 성공 시
+        .onChange(of:loginFailed){ excuteAlert($0, "로그인이 실패했습니다.") }    //소셜 로그인 실패 시
+        .alert(isPresented: $isOnAlert){ alert }                            //로그인 성패 알림
+        .sheet(isPresented: $showRegisterView){
+            RegisterView(login: $showRegisterView)
+                .conditionAppear(loginFilter == .none)
+            AuthWebView(filter: .naver,failed: $loginFailed)
+                .conditionAppear(loginFilter == .naver)
+            AuthWebView(filter: .kakao,failed: $loginFailed)
+                .conditionAppear(loginFilter == .kakao)
+            AuthWebView(filter: .google,failed: $loginFailed)
+                .conditionAppear(loginFilter == .google)
         }
-        .onChange(of: failed){ value in
-            success = value
-            msg = "로그인이 실패했습니다."
-        }
-        .alert(isPresented: $success){
-            Alert(title: Text(msg),dismissButton: .cancel(Text("확인")){
-                loading = false
-            })
-        }
-        .sheet(isPresented: $register) {
-            RegisterView(login: $register)
-                .navigationBarBackButtonHidden(true)
-                .onDisappear{
-                    loading = false
-                }
-        }
-        .sheet(isPresented: $naver){
-            AuthWebView(filter: .naver,failed: $failed)
-                .ignoresSafeArea()
-                .onDisappear{
-                    loading = false
-                }
-        }
-        .sheet(isPresented:$kakao){
-            AuthWebView(filter: .kakao,failed: $failed)
-                .ignoresSafeArea()
-                .onDisappear{
-                    loading = false
-                }
-        }
-        .sheet(isPresented:$google){
-            AuthWebView(filter: .google,failed: $failed)
-                .ignoresSafeArea()
-                .onDisappear{
-                    loading = false
-                }
-        }
-        .ignoresSafeArea(.keyboard)
-        
     }
 }
 
@@ -113,42 +60,60 @@ struct LoginAllView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             LoginAllView()
-               
         }
     }
 }
 
 extension LoginAllView{
+    func excuteAlert(_ isOnAlert:Bool,_ message:String){
+        self.isOnAlert = isOnAlert
+        self.alertMessage = message
+    }
+    var alert:Alert{
+        let text = Text(alertMessage)
+        let button = Alert.Button.cancel(Text("확인")){ loading = false }
+        return Alert(title:text,dismissButton:button)
+    }
+    var titleView:some View{
+        Text("환영합니다")
+            .font(.GmarketSansTTFMedium(30))
+            .bold()
+            .foregroundColor(.customIndigo)
+            .padding(.top,20)
+            .frame(maxWidth: .infinity)
+            .padding(.bottom,50)
+    }
     var emailView:some View{
-        VStack(alignment: .leading){
+        VStack(alignment: .leading,spacing:5){
             Text("이메일")
                 .font(.GmarketSansTTFMedium(15))
                 .foregroundColor(.customIndigo)
-            Group{
-                HStack{
-                    VStack{
-                        CustomTextField(password: false, image: "person.fill", placeholder: "입력..", color: Color.gray, text: $id)
-                            .keyboardType(.emailAddress)
-                            .padding(.vertical,5)
-                        Divider()
-                            .frame(height: 1)
-                            .background(Color.customIndigo)
+            HStack{
+                VStack{
+                    CustomTextField(password: false, image: "person.fill", placeholder: "입력..", color: Color.gray, text: $email)
+                        .keyboardType(.emailAddress)
+                        .padding(.vertical,5)
+                    Divider()
+                        .frame(height: 1)
+                        .background(Color.customIndigo)
+                }
+                Text("@").padding(.leading)
+                Picker("", selection: $domain) {
+                    ForEach(EmailFilter.allCases,id:\.self){ item in
+                        Text(item.domain)
                     }
-                    Text("@").padding(.leading)
-                    Picker("", selection: $domain) {
-                        ForEach(EmailFilter.allCases,id:\.self){ item in
-                            Text(item.domain)
-                        }
-                    }.accentColor(.black)
-                        .frame(maxWidth: .infinity)
-                }.padding(.top,5)
-            }.padding(.leading)
-                .padding(.vertical,5)
+                }
+                .accentColor(.black)
+                .frame(maxWidth: .infinity)
+            }
+            .padding(.leading)
+            .padding(.bottom,5)
         }
     }
     var passwordView:some View{
         VStack(alignment: .leading) {
-            Text("비밀번호").font(.GmarketSansTTFMedium(15))
+            Text("비밀번호")
+                .font(.GmarketSansTTFMedium(15))
                 .foregroundColor(.customIndigo)
             Group{
                 CustomTextField(password: true, image: "lock.fill", placeholder: "입력..", color: Color.gray, text: $password)
@@ -157,18 +122,20 @@ extension LoginAllView{
                     .frame(height: 1)
                     .background(Color.customIndigo)
                     .padding(.bottom,30)
-            }.padding(.horizontal)
-                .padding(.vertical,5)
+            }
+            .padding(.horizontal)
+            .padding(.vertical,5)
         }
     }
     var authView:some View{
         VStack{
             CustomConfirmButton(text: "로그인", color: .customIndigo, textColor: .white) {
-                vm.login(email: "\(id)@\(domain.domain)", password: password.sha256())    //SHA256
+                vm.login(email: "\(email)@\(domain.domain)", password: password.sha256())
                 loading = true
             }
             CustomConfirmButton(text: "회원가입", color: .customIndigo.opacity(0.5), textColor: .white) {
-                register = true
+                showRegisterView = true
+                loginFilter = .none
             }
         }
     }
@@ -188,9 +155,10 @@ extension LoginAllView{
                     .frame(height: 1)
                     .background(Color.customIndigo)
             }
-        }.padding(.horizontal)
+        }
+        .padding(.horizontal)
+        .padding(.top,50)
     }
-    
     var loginButtonView:some View{
         VStack{
             appleLoginButton
@@ -198,33 +166,23 @@ extension LoginAllView{
                     loginButton(item: .Apple)
                         .allowsHitTesting(false)
                 }
-            ForEach(OauthFilter.allCases.filter{$0 != .Apple},id:\.rawValue){ item in
+            ForEach(OauthFilter.allCases.filter{$0 != .Apple && $0 != .none},id:\.rawValue){ item in
                 Button {
-                    switch item{
-                    case .Apple:
-                        return
-                    case .naver:
-                        naver = true
-                    case .kakao:
-                        kakao = true
-                    case .google:
-                        google = true
-                    }
-                    loading = true
+                    showRegisterView = true
+                    loginFilter = item
                 } label: {
                     loginButton(item: item)
-                }.shadow(color:.gray.opacity(0.3),radius: 3)
+                }
+                .shadow(color:.gray.opacity(0.3),radius: 3)
             }
-        }.padding(.horizontal)
+        }
+        .padding(.horizontal)
+        .padding(.top)
     }
     var appleLoginButton:some View{
         SignInWithAppleButton(
-            onRequest: { request in
-                request.requestedScopes = [.fullName, .email,]
-            },
-            onCompletion: { result in
-                vm.appleLogin(result: result)
-            }
+            onRequest: { $0.requestedScopes = [.fullName, .email,] },
+            onCompletion: { vm.appleLogin(result: $0) }
         )
         .frame(height:50)
         .cornerRadius(10)
@@ -235,19 +193,13 @@ extension LoginAllView{
             .foregroundColor(item.color)
             .overlay {
                 HStack{
-                    if item == .naver{
-                        Image(item.rawValue)
-                            .resizable()
-                            .frame(width: 35,height: 35)
-                            .offset(x:-5)
-                    }else{
-                        Image(item.rawValue)
-                            .resizable()
-                            .frame(width: 25,height: 25)
-                    }
-                    
+                    Image(item.rawValue)
+                        .resizable()
+                        .frame(width:item == .naver ? 35 : 25,height:item == .naver ? 35:25)
+                        .offset(x:item == .naver ? 0:-5)
                     Spacer()
-                }.padding()
+                }
+                .padding()
             }
             .overlay{
                 Text("\(item.text)")

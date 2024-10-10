@@ -13,16 +13,16 @@ struct OnBoardingView: View {
     let image:String
     let height:CGFloat
     var body: some View {
-            VStack(alignment: .leading,spacing: 45){
-                Spacer()
-                titleView
-                descriptView
-                Spacer()
-                imageView
-                Spacer()
-            }
-            .padding(.horizontal,20)
-            .foregroundColor(.white)
+        VStack(alignment: .leading,spacing: 45){
+            Spacer()
+            titleView
+            descriptView
+            Spacer()
+            imageView
+            Spacer()
+        }
+        .padding(.horizontal,20)
+        .foregroundColor(.white)
     }
 }
 
