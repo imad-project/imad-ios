@@ -91,14 +91,9 @@ extension LoginAllView{
                 .font(.GmarketSansTTFMedium(15))
                 .foregroundColor(.customIndigo)
             HStack{
-                VStack{
-                    CustomTextField(password: false, image: "person.fill", placeholder: "입력..", color: Color.gray,style: .capsule, text: $email)
-                        .keyboardType(.emailAddress)
-                        .padding(.vertical,5)
-                    Divider()
-                        .frame(height: 1)
-                        .background(Color.customIndigo)
-                }
+                CustomTextField(password: false, image: "person.fill", placeholder: "입력..", color: Color.gray,style: .line, text: $email)
+                    .keyboardType(.emailAddress)
+                    .padding(.vertical,5)
                 Text("@").padding(.leading)
                 Picker("", selection: $domain) {
                     ForEach(EmailFilter.allCases,id:\.self){ item in
@@ -117,16 +112,9 @@ extension LoginAllView{
             Text("비밀번호")
                 .font(.GmarketSansTTFMedium(15))
                 .foregroundColor(.customIndigo)
-            Group{
-                CustomTextField(password: true, image: "lock.fill", placeholder: "입력..",color: Color.gray, style:.capsule, text: $password)
-                    .padding(.top,5)
-                Divider()
-                    .frame(height: 1)
-                    .background(Color.customIndigo)
-                    .padding(.bottom,30)
-            }
-            .padding(.horizontal)
-            .padding(.vertical,5)
+            CustomTextField(password: true, image: "lock.fill", placeholder: "입력..",color: Color.gray, style:.line, text: $password)
+                .padding(.horizontal)
+                .padding(.vertical,20)
         }
     }
     var authView:some View{
