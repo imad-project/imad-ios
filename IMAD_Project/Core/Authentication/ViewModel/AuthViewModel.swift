@@ -17,10 +17,9 @@ final class AuthViewModel:ObservableObject{
     @Published var selection:RegisterFilter = .nickname     //탭뷰
     @Published var patchUser:PatchUserInfo = PatchUserInfo(user: nil)
     @Published var user:UserResponse? = nil
-    @Published var message = ""
     var success = PassthroughSubject<(),Never>()
     
-    var registerSuccess = PassthroughSubject<Bool,Never>()
+    var registerResultEvent = PassthroughSubject<(success:Bool,message:String),Never>()
     var loginSuccess = PassthroughSubject<String,Never>()
     var cancelable = Set<AnyCancellable>()
     
@@ -32,8 +31,7 @@ final class AuthViewModel:ObservableObject{
             .sink{ completion in
                 print(completion)
             } receiveValue: { [weak self] noData in
-                self?.message = noData.message
-                self?.registerSuccess.send((200..<300)~=noData.status ? true : false)
+                self?.registerResultEvent.send(((200..<300)~=noData.status ? true : false, noData.message))
             }.store(in: &cancelable)
     }
     func login(email:String,password:String){
@@ -65,7 +63,7 @@ final class AuthViewModel:ObservableObject{
     }
     func logout(tokenExpired:Bool){
         print("로그아웃 및 토큰 삭제")
-        message = ""
+//        alertMessage = ""
         user = nil
         patchUser = PatchUserInfo(user: nil)
         selection = .nickname
@@ -76,7 +74,7 @@ final class AuthViewModel:ObservableObject{
             .sink { completion in
                 ErrorManager.instance.actionErrorMessage(completion: completion, success: {}, failed: {self.logout(tokenExpired: true)})
             } receiveValue: { [weak self] noData in
-                self?.message = noData.message
+//                self?.alertMessage = noData.message
             }.store(in: &cancelable)
     }
     func passwordChange(old:String,new:String){
@@ -84,7 +82,7 @@ final class AuthViewModel:ObservableObject{
             .sink { completion in
                 ErrorManager.instance.actionErrorMessage(completion: completion, success: {}, failed: {self.logout(tokenExpired: true)})
             } receiveValue: { [weak self] noData in
-                self?.message = noData.message
+//                self?.alertMessage = noData.message
             }.store(in: &cancelable)
     }
     func appleLogin(result: Result<ASAuthorization, any Error>){

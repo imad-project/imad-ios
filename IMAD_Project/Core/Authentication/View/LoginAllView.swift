@@ -20,7 +20,7 @@ struct LoginAllView: View{
     @State var password = ""                        //패스워트 텍스트
     @State var domain = EmailFilter.gmail           //이메일 도메인
     @State var loading = false                      //로딩 유무
-    @EnvironmentObject var vm:AuthViewModel
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         ScrollView(showsIndicators:false){
@@ -40,7 +40,7 @@ struct LoginAllView: View{
         .backgroundColor(.white)
         .progress(!loading)
         .onTapGesture { UIApplication.shared.endEditing() }                 //키보드 닫기
-        .onReceive(vm.loginSuccess){ excuteAlert(true, $0)}                 //로그인 성공 시
+        .onReceive(vmAuth.loginSuccess){ excuteAlert(true, $0)}             //로그인 성공 시
         .onChange(of:loginFailed){ excuteAlert($0, "로그인이 실패했습니다.") }    //소셜 로그인 실패 시
         .alert(isPresented: $isOnAlert){ alert }                            //로그인 성패 알림
         .sheet(isPresented: $showRegisterView){
@@ -53,7 +53,7 @@ struct LoginAllView: View{
             AuthWebView(filter: .google,failed: $loginFailed)
                 .conditionAppear(loginFilter == .google)
         }
-        .environmentObject(vm)
+        .environmentObject(vmAuth)
     }
 }
 
@@ -92,7 +92,7 @@ extension LoginAllView{
                 .foregroundColor(.customIndigo)
             HStack{
                 VStack{
-                    CustomTextField(password: false, image: "person.fill", placeholder: "입력..", color: Color.gray, text: $email)
+                    CustomTextField(password: false, image: "person.fill", placeholder: "입력..", color: Color.gray,style: .capsule, text: $email)
                         .keyboardType(.emailAddress)
                         .padding(.vertical,5)
                     Divider()
@@ -118,7 +118,7 @@ extension LoginAllView{
                 .font(.GmarketSansTTFMedium(15))
                 .foregroundColor(.customIndigo)
             Group{
-                CustomTextField(password: true, image: "lock.fill", placeholder: "입력..", color: Color.gray, text: $password)
+                CustomTextField(password: true, image: "lock.fill", placeholder: "입력..",color: Color.gray, style:.capsule, text: $password)
                     .padding(.top,5)
                 Divider()
                     .frame(height: 1)
@@ -132,7 +132,7 @@ extension LoginAllView{
     var authView:some View{
         VStack{
             CustomConfirmButton(text: "로그인", color: .customIndigo, textColor: .white) {
-                vm.login(email: "\(email)@\(domain.domain)", password: password.sha256())
+                vmAuth.login(email: "\(email)@\(domain.domain)", password: password.sha256())
                 loading = true
             }
             CustomConfirmButton(text: "회원가입", color: .customIndigo.opacity(0.5), textColor: .white) {
@@ -184,7 +184,7 @@ extension LoginAllView{
     var appleLoginButton:some View{
         SignInWithAppleButton(
             onRequest: { $0.requestedScopes = [.fullName, .email,] },
-            onCompletion: { vm.appleLogin(result: $0) }
+            onCompletion: { vmAuth.appleLogin(result: $0) }
         )
         .frame(height:50)
         .cornerRadius(10)

@@ -242,6 +242,7 @@
 		D6D974C62C3BB2D400BCBF49 /* ProfileImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974C52C3BB2D400BCBF49 /* ProfileImageResponse.swift */; };
 		D6D974C92C3D20CF00BCBF49 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974C82C3D20CF00BCBF49 /* Font.swift */; };
 		D6D974CB2C3D7CE900BCBF49 /* AllRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974CA2C3D7CE900BCBF49 /* AllRankingView.swift */; };
+		D6EAAA702CB9042E001C9BD5 /* RegisterCheckFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EAAA6F2CB9042E001C9BD5 /* RegisterCheckFilter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -498,6 +499,7 @@
 		D6D974C52C3BB2D400BCBF49 /* ProfileImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageResponse.swift; sourceTree = "<group>"; };
 		D6D974C82C3D20CF00BCBF49 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D6D974CA2C3D7CE900BCBF49 /* AllRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRankingView.swift; sourceTree = "<group>"; };
+		D6EAAA6F2CB9042E001C9BD5 /* RegisterCheckFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCheckFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -989,6 +991,7 @@
 				D60AD20F2C29943C00C9C27B /* TypeFilter.swift */,
 				D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */,
 				D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */,
+				D6EAAA6F2CB9042E001C9BD5 /* RegisterCheckFilter.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1815,6 +1818,7 @@
 				8103094129D1BDEF0021717B /* IMAD_ProjectApp.swift in Sources */,
 				8124CB3A29F0175F00B446D5 /* SearchView.swift in Sources */,
 				D60AD2182C29B64300C9C27B /* RecommendTVList.swift in Sources */,
+				D6EAAA702CB9042E001C9BD5 /* RegisterCheckFilter.swift in Sources */,
 				818CF7FA2A20AAE500BABA1F /* AgeSelectView.swift in Sources */,
 				81BB11022A061198005654AA /* AuthRouter.swift in Sources */,
 				818B073E2B0DA1EE0013C426 /* ScrapViewModel.swift in Sources */,
