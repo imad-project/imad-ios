@@ -243,6 +243,7 @@
 		D6D974C92C3D20CF00BCBF49 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974C82C3D20CF00BCBF49 /* Font.swift */; };
 		D6D974CB2C3D7CE900BCBF49 /* AllRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974CA2C3D7CE900BCBF49 /* AllRankingView.swift */; };
 		D6EAAA702CB9042E001C9BD5 /* RegisterCheckFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EAAA6F2CB9042E001C9BD5 /* RegisterCheckFilter.swift */; };
+		D6EAAA722CB90A39001C9BD5 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EAAA712CB90A39001C9BD5 /* WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -500,6 +501,7 @@
 		D6D974C82C3D20CF00BCBF49 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D6D974CA2C3D7CE900BCBF49 /* AllRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRankingView.swift; sourceTree = "<group>"; };
 		D6EAAA6F2CB9042E001C9BD5 /* RegisterCheckFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCheckFilter.swift; sourceTree = "<group>"; };
+		D6EAAA712CB90A39001C9BD5 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1144,6 +1146,7 @@
 				81C264992A137D2900405B01 /* LoginAllView.swift */,
 				81C264962A137CFF00405B01 /* RegisterView.swift */,
 				81C2648F2A135F8900405B01 /* AuthWebView.swift */,
+				D6EAAA712CB90A39001C9BD5 /* WebView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1839,6 +1842,7 @@
 				8154B1EA2ADE78A500AD2F83 /* CommunitySearchView.swift in Sources */,
 				81F2592F2AB073BB00C54668 /* ReviewApiService.swift in Sources */,
 				8154B1EC2AE0DA7000AD2F83 /* CommentRouter.swift in Sources */,
+				D6EAAA722CB90A39001C9BD5 /* WebView.swift in Sources */,
 				D6CE82E92CB8A58D0092243D /* NavigationTestView.swift in Sources */,
 				81E2F8AA2A8F4FDD003E53DC /* CertificationFilter.swift in Sources */,
 				8115A6582A8A166200B7C3FE /* TVGenreFilter.swift in Sources */,

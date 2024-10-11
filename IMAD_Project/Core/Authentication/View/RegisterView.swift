@@ -164,15 +164,8 @@ extension RegisterView{
     }
     func registerAction(){
         switch isVaildInfo(){
-        case .emptyInfomation,
-            .emailFormatError,
-            .passwordFormatError,
-            .passwordMismatch,
-            .notConfirmDuplicate,
-            .changedEmail:
-            excuteAlert((false,isVaildInfo().message))
-        case .success:
-            vmAuth.register(email: "\(email)@\(domain.domain)", password: password.sha256(), authProvider: "IMAD")
+        case .success:vmAuth.register(email: "\(email)@\(domain.domain)", password: password.sha256(), authProvider: "IMAD")
+        default:excuteAlert((false,isVaildInfo().message))
         }
     }
 }
