@@ -216,7 +216,7 @@ extension WriteReviewView{
     }
     var titleView:some View{
         HStack{
-            CustomTextField(password: false, image: "", placeholder: "제목..", color: .customIndigo.opacity(0.5),textLimit: 15, text: $title)
+            CustomTextField(password: false, image: "", placeholder: "제목..", color: .customIndigo.opacity(0.5), style: .capsule,textLimit: 15, text: $title)
             Text("\(title.count)/25")
                 .foregroundStyle(.black)
                 .font(.subheadline)

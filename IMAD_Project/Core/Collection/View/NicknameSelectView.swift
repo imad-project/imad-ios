@@ -22,16 +22,16 @@ struct NicknameSelectView: View {
                 guideView
                 checkEmailView
                 CustomConfirmButton(text: "다음", color: .customIndigo.opacity(0.5),textColor:.white) {
-                    if vmCheck.possible{
-                        withAnimation(.linear){
-                            vm.selection = .gender
-                        }
-                    }else if vm.patchUser.nickname != temp{
-                        vmCheck.showMessage(message: "닉네임이 변경 되었습니다. 중복확인을 다시 해주세요", possible: false)
-                    }
-                    else{
-                        vmCheck.showMessage(message: "닉네임 중복확인을 해주세요", possible: false)
-                    }
+//                    if vmCheck.possible{
+//                        withAnimation(.linear){
+//                            vm.selection = .gender
+//                        }
+//                    }else if vm.patchUser.nickname != temp{
+//                        vmCheck.showMessage(message: "닉네임이 변경 되었습니다. 중복확인을 다시 해주세요", possible: false)
+//                    }
+//                    else{
+//                        vmCheck.showMessage(message: "닉네임 중복확인을 해주세요", possible: false)
+//                    }
                 }
                 Spacer()
             }.padding()
@@ -63,7 +63,7 @@ extension NicknameSelectView{
                 .padding(.top,20)
                 .font(.GmarketSansTTFMedium(12))
             HStack{
-                CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, textLimit: 10, text: $vm.patchUser.nickname)
+                CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, style: .capsule, textLimit: 10, text: $vm.patchUser.nickname)
                     .padding()
                     .background(Color.gray.opacity(0.5))
                     .cornerRadius(20)
@@ -75,7 +75,7 @@ extension NicknameSelectView{
                     {
                         vmCheck.checkNickname(nickname: vm.patchUser.nickname)
                     }else{
-                        vmCheck.showMessage(message: "닉네임을 제대로 입력해주세요!",possible: false)
+//                        vmCheck.showMessage(message: "닉네임을 제대로 입력해주세요!",possible: false)
                     }
                     temp = vm.patchUser.nickname
                 } label: {
@@ -91,10 +91,10 @@ extension NicknameSelectView{
                 }
                 
             }
-            Text(vmCheck.message)
-                .foregroundColor(vmCheck.possible ? .green : .red)
-                .font(.GmarketSansTTFMedium(12))
-                .padding(.horizontal)
+//            Text(vmCheck.message)
+//                .foregroundColor(vmCheck.possible ? .green : .red)
+//                .font(.GmarketSansTTFMedium(12))
+//                .padding(.horizontal)
         }
         
     }

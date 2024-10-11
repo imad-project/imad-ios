@@ -499,7 +499,7 @@ extension CommunityPostView{
             Divider()
             HStack{
                 ProfileImageView(imagePath: vmAuth.user?.profileImage ?? "", widthHeigt: 40)
-                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,textLimit: 400, font:.GmarketSansTTFMedium(14), text: $reviewText)
+                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,style: .capsule, textLimit: 400, font:.GmarketSansTTFMedium(14), text: $reviewText)
                     .focused($reply)
                     .padding(10)
                     .background{

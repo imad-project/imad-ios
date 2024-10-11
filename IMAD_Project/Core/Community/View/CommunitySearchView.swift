@@ -116,7 +116,7 @@ extension CommunitySearchView{
     }
     var searchView:some View{
         HStack{
-            CustomTextField(password: false, image: "magnifyingglass", placeholder: "게시물을 검색해 주세요..", color:.gray, text: $text)
+            CustomTextField(password: false, image: "magnifyingglass", placeholder: "게시물을 검색해 주세요..", color:.gray,style:.none, text: $text)
                 .padding(15)
                 .background(Color.gray.opacity(0.2).cornerRadius(50))
                 .padding(.leading,10)

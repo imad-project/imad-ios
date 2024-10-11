@@ -256,7 +256,7 @@ extension CommentRowView{
     }
     var modifyView:some View{
         HStack{
-            CustomTextField(password: false, image: nil, placeholder: "댓글입력..", color: .black, textLimit: 400, text: $text)
+            CustomTextField(password: false, image: nil, placeholder: "댓글입력..", color: .black, style:.none, textLimit: 400, text: $text)
                 .focused($focus)
             Button {
                 if text.isEmpty{

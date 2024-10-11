@@ -129,7 +129,7 @@ extension CommunityWriteView{
     var titleView:some View{
         VStack(alignment: .trailing){
             HStack{
-                CustomTextField(password: false, image: "", placeholder: "제목을 입력해 주세요..", color: .black.opacity(0.7),textLimit: 25, text: $title)
+                CustomTextField(password: false, image: "", placeholder: "제목을 입력해 주세요..", color: .black.opacity(0.7), style: .capsule,textLimit: 25, text: $title)
                 Text("\(title.count)/25")
                     .font(.subheadline)
             }

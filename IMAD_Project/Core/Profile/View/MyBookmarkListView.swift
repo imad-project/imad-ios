@@ -17,7 +17,7 @@ struct MyBookmarkListView: View {
         NavigationView {
             VStack(alignment: .leading){
                 header
-                CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $text)
+                CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray,style: .capsule, text: $text)
                     .padding()
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(50)

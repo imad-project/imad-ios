@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State var isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch") //온보딩
     @State var flashOn = true
-    @StateObject var vm = AuthViewModel(user:nil)
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         ZStack {
@@ -18,7 +18,7 @@ struct ContentView: View {
                 SplashView(off: $flashOn)
             }else{
                 if isFirstLaunch{
-                    if let user = vm.user{
+                    if let user = vmAuth.user{
                         if user.role == "GUEST"{
                             RegisterTabView()
                         }else{
@@ -32,15 +32,15 @@ struct ContentView: View {
                 }
             }
         }
-        .onAppear{ vm.getUser() }
-        .environmentObject(vm)
+        .onAppear{ vmAuth.getUser() }
+        .environmentObject(vmAuth)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ContentView(vm:AuthViewModel(user: CustomData.user))
+            ContentView(vmAuth:AuthViewModel(user: CustomData.user))
         }
     }
 }

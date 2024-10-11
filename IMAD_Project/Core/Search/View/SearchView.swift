@@ -84,11 +84,7 @@ extension SearchView{
         .padding([.horizontal,.top],10)
     }
     var searchBar:some View{
-        CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $vm.searchText)
-            .padding()
-            .background(Color.gray.opacity(0.2))
-            .cornerRadius(50)
-            .padding(10)
+        CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray.opacity(0.2), style: .capsule, text: $vm.searchText)
     }
     var filter:some View{
         Picker("", selection: $vm.type) {
