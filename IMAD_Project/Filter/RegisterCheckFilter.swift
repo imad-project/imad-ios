@@ -9,7 +9,6 @@ import Foundation
 
 enum RegisterCheckFilter{
     case emptyInfomation
-    case emailFormatError
     case passwordFormatError
     case passwordMismatch
     case notConfirmDuplicate
@@ -20,8 +19,6 @@ enum RegisterCheckFilter{
         switch self{
         case .emptyInfomation:
             return "입력하지 않은 정보가 있습니다!"
-        case .emailFormatError:
-            return "유효하지 않은 이메일입니다!"
         case .passwordFormatError:
             return "비밀번호는 영문 대,소문자, 숫자, 특수문자만 허용되며 8~20자 사이여야 합니다!"
         case .passwordMismatch:

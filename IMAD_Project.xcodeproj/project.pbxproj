@@ -244,6 +244,8 @@
 		D6D974CB2C3D7CE900BCBF49 /* AllRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974CA2C3D7CE900BCBF49 /* AllRankingView.swift */; };
 		D6EAAA702CB9042E001C9BD5 /* RegisterCheckFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EAAA6F2CB9042E001C9BD5 /* RegisterCheckFilter.swift */; };
 		D6EAAA722CB90A39001C9BD5 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EAAA712CB90A39001C9BD5 /* WebView.swift */; };
+		D6EAAA742CB93E09001C9BD5 /* NickNameCheckFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EAAA732CB93E09001C9BD5 /* NickNameCheckFilter.swift */; };
+		D6EAAA762CB945EC001C9BD5 /* EmailCheckFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EAAA752CB945EC001C9BD5 /* EmailCheckFilter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -502,6 +504,8 @@
 		D6D974CA2C3D7CE900BCBF49 /* AllRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRankingView.swift; sourceTree = "<group>"; };
 		D6EAAA6F2CB9042E001C9BD5 /* RegisterCheckFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCheckFilter.swift; sourceTree = "<group>"; };
 		D6EAAA712CB90A39001C9BD5 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		D6EAAA732CB93E09001C9BD5 /* NickNameCheckFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameCheckFilter.swift; sourceTree = "<group>"; };
+		D6EAAA752CB945EC001C9BD5 /* EmailCheckFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailCheckFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -994,6 +998,8 @@
 				D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */,
 				D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */,
 				D6EAAA6F2CB9042E001C9BD5 /* RegisterCheckFilter.swift */,
+				D6EAAA752CB945EC001C9BD5 /* EmailCheckFilter.swift */,
+				D6EAAA732CB93E09001C9BD5 /* NickNameCheckFilter.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1696,6 +1702,7 @@
 				817919DB2B4C08210084779B /* RankingFilter.swift in Sources */,
 				81BB11092A061772005654AA /* AuthApiService.swift in Sources */,
 				81C2649C2A13B73600405B01 /* UserRouter.swift in Sources */,
+				D6EAAA742CB93E09001C9BD5 /* NickNameCheckFilter.swift in Sources */,
 				810453A72B025A930062B4B6 /* ExtandView.swift in Sources */,
 				81C731302AF66D4F0076D230 /* NoDataResponse.swift in Sources */,
 				811536D42A173EED003F8273 /* Data.swift in Sources */,
@@ -1856,6 +1863,7 @@
 				D60AD1EC2C2952DB00C9C27B /* AllRecommend.swift in Sources */,
 				818B07382B0D9DFF0013C426 /* Scrap.swift in Sources */,
 				D60AD2092C295D9300C9C27B /* RecommendApiService.swift in Sources */,
+				D6EAAA762CB945EC001C9BD5 /* EmailCheckFilter.swift in Sources */,
 				811762292B2CB7D6009AE845 /* Profile.swift in Sources */,
 				81DB1FCA29E6C2E2002C0840 /* GenderSelectView.swift in Sources */,
 				81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */,

@@ -11,8 +11,10 @@ import PhotosUI
 struct NicknameSelectView: View {
     
     @State var temp = ""
+    @State var duplicationResult = (possible:false,message:"")  //중복확인 가능 유무
+    @State var duplicateConfirm = false
     @StateObject var vmCheck = CheckDataViewModel()
-    @EnvironmentObject var vm:AuthViewModel
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         ZStack{
@@ -22,22 +24,14 @@ struct NicknameSelectView: View {
                 guideView
                 checkEmailView
                 CustomConfirmButton(text: "다음", color: .customIndigo.opacity(0.5),textColor:.white) {
-//                    if vmCheck.possible{
-//                        withAnimation(.linear){
-//                            vm.selection = .gender
-//                        }
-//                    }else if vm.patchUser.nickname != temp{
-//                        vmCheck.showMessage(message: "닉네임이 변경 되었습니다. 중복확인을 다시 해주세요", possible: false)
-//                    }
-//                    else{
-//                        vmCheck.showMessage(message: "닉네임 중복확인을 해주세요", possible: false)
-//                    }
+                   nextAction()
                 }
                 Spacer()
             }.padding()
         }
         .ignoresSafeArea()
         .foregroundColor(.customIndigo)
+        .onReceive(vmCheck.checkResultEvent){ excuteDuplication($0) }
     }
 }
 
@@ -48,6 +42,10 @@ struct NicknameSelectView_Previews: PreviewProvider {
 }
 
 extension NicknameSelectView{
+    func excuteDuplication(_ event:(Bool,String)){
+        duplicationResult = event
+        duplicateConfirm = true
+    }
     var guideView:some View{
         VStack(alignment: .leading,spacing: 5){
             Text("닉네임을 설정해주세요")
@@ -59,25 +57,13 @@ extension NicknameSelectView{
     }
     var checkEmailView:some View{
         VStack(alignment: .leading){
-            Text("\(vm.patchUser.nickname.count)/10글자")
+            Text("\(vmAuth.patchUser.nickname.count)/10글자")
                 .padding(.top,20)
                 .font(.GmarketSansTTFMedium(12))
             HStack{
-                CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, style: .capsule, textLimit: 10, text: $vm.patchUser.nickname)
-                    .padding()
-                    .background(Color.gray.opacity(0.5))
-                    .cornerRadius(20)
+                CustomTextField(password: false, image: "person", placeholder: "입력..", color: .gray, style: .rounded, textLimit: 10, text: $vmAuth.patchUser.nickname)
                 Button {
-                    let pattern = "^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]+$"
-                    let condition = vm.patchUser.nickname.range(of: pattern, options: .regularExpression) != nil
-                    
-                    if vm.patchUser.nickname != "" && vm.patchUser.nickname.count > 1 && !vm.patchUser.nickname.contains(" ") && condition
-                    {
-                        vmCheck.checkNickname(nickname: vm.patchUser.nickname)
-                    }else{
-//                        vmCheck.showMessage(message: "닉네임을 제대로 입력해주세요!",possible: false)
-                    }
-                    temp = vm.patchUser.nickname
+                    duplicationAction()
                 } label: {
                     Text("중복확인")
                         .font(.GmarketSansTTFMedium(15))
@@ -89,14 +75,41 @@ extension NicknameSelectView{
                         }
                         .cornerRadius(20)
                 }
-                
             }
-//            Text(vmCheck.message)
-//                .foregroundColor(vmCheck.possible ? .green : .red)
-//                .font(.GmarketSansTTFMedium(12))
-//                .padding(.horizontal)
+            Text(duplicationResult.message)
+                .foregroundColor(duplicationResult.possible ? .green : .red)
+                .font(.GmarketSansTTFMedium(12))
+                .padding(.horizontal)
         }
-        
     }
-    
+    func isVaildInfo()->NicknameCheckFilter{
+        let pattern = "^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,10}+$"
+        let nickNameRegex = NSPredicate(format: "SELF MATCHES %@", pattern)
+        
+        if vmAuth.patchUser.nickname.isEmpty{
+            return .emptyInfomation
+        }else if !nickNameRegex.evaluate(with: vmAuth.patchUser.nickname){
+            return .nicknameFormatError
+        }else if !duplicateConfirm{
+            return .notConfirmDuplicate
+        }else if vmAuth.patchUser.nickname != temp{
+            return .changedEmail
+        }else{
+            return .success
+        }
+    }
+    func duplicationAction(){
+        switch isVaildInfo(){
+        case .changedEmail,.notConfirmDuplicate,.success:
+            vmCheck.checkNickname(nickname: vmAuth.patchUser.nickname)
+            temp = vmAuth.patchUser.nickname
+        default:duplicationResult = (false,isVaildInfo().message)
+        }
+    }
+    func nextAction(){
+        switch isVaildInfo(){
+        case .success: withAnimation(.linear){  vmAuth.selection = .gender }
+        default:duplicationResult = (false,isVaildInfo().message)
+        }
+    }
 }
