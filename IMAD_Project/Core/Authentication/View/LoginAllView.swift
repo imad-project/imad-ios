@@ -20,7 +20,7 @@ struct LoginAllView: View{
     @State var password = ""                        //패스워트 텍스트
     @State var domain = EmailFilter.gmail           //이메일 도메인
     @State var loading = false                      //로딩 유무
-    @StateObject var vm = AuthViewModel(user:nil)
+    @EnvironmentObject var vm:AuthViewModel
     
     var body: some View {
         ScrollView(showsIndicators:false){
@@ -44,7 +44,7 @@ struct LoginAllView: View{
         .onChange(of:loginFailed){ excuteAlert($0, "로그인이 실패했습니다.") }    //소셜 로그인 실패 시
         .alert(isPresented: $isOnAlert){ alert }                            //로그인 성패 알림
         .sheet(isPresented: $showRegisterView){
-            RegisterView(login: $showRegisterView)
+            RegisterView()
                 .conditionAppear(loginFilter == .none)
             AuthWebView(filter: .naver,failed: $loginFailed)
                 .conditionAppear(loginFilter == .naver)
@@ -53,6 +53,7 @@ struct LoginAllView: View{
             AuthWebView(filter: .google,failed: $loginFailed)
                 .conditionAppear(loginFilter == .google)
         }
+        .environmentObject(vm)
     }
 }
 
@@ -60,6 +61,7 @@ struct LoginAllView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             LoginAllView()
+                .environmentObject(AuthViewModel(user: CustomData.user))
         }
     }
 }

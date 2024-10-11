@@ -77,7 +77,7 @@ struct ReviewDetailsView: View {
                 let out = Alert.Button.default(Text("나가기")){
                     dismiss()
                 }
-                return Alert(title: Text("경고"),message: Text("이 게시물은 \(UserInfoCache.instance.user?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
             }
             
         }
@@ -177,7 +177,7 @@ extension ReviewDetailsView{
             HStack{
                 VStack(alignment: .leading) {
                     HStack{
-                        if review.userNickname == UserInfoCache.instance.user?.nickname{
+                        if review.userNickname == vmAuth.user?.nickname{
                             ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
                         }else{
                             Button {

@@ -12,7 +12,7 @@ struct MenuTabView: View {
     
     @State var tab:TabFilter = .home
     @State var tabInfo:CGFloat = 0
-    
+    @StateObject var vm = AuthViewModel(user: nil)
     var body: some View {
         
         VStack(spacing: 0){
@@ -66,7 +66,7 @@ extension MenuTabView{
                                     Image(systemName: item.name)
                                         .font(.GmarketSansTTFBold(20))
                                 }else{
-                                    ProfileImageView(imagePath: UserInfoCache.instance.user?.profileImage ?? "",widthHeigt: 30)
+                                    ProfileImageView(imagePath: vm.user?.profileImage ?? "",widthHeigt: 30)
                                         .padding(.top,5)
                                 }
                             }

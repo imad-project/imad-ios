@@ -10,55 +10,40 @@ import SwiftUIWave
 
 struct RegisterView: View {
     
-    
-    
     @State var email = ""
     @State var password = ""
     @State var passwordConfirm = ""
+    
+    
     @State var success = false
     @State var notRegex = false
     
     @State var temp = ""
     
-    @Binding var login:Bool
     @StateObject var vmCheck = CheckDataViewModel()
-    @StateObject var vm = AuthViewModel(user: nil)
+    @EnvironmentObject var vm:AuthViewModel
     
     @Environment(\.dismiss) var dismiss
     
-
+    
     @State var domain = EmailFilter.gmail
     
     var body: some View {
         ZStack(alignment: .bottomTrailing){
-            Color.white.ignoresSafeArea()
             WaveImage(color: .customIndigo, height: .low, speed: .slow, amplitude: .low)
             VStack(alignment: .leading,spacing: 0){
-                Text("회원가입하기")
-                    .font(.GmarketSansTTFMedium(25))
-                    .bold()
-                    .foregroundColor(.customIndigo)
-                    .padding(.vertical,30)
-                    .padding(.bottom,50)
-                    .frame(maxWidth: .infinity)
-                Group{
-                   emailView
-                   duplicationView
-                    passwordView
-                }
+                titleView
+                emailView
+                duplicationView
+                passwordView
                 registerButtonView
                 Spacer()
             }
             .foregroundColor(.customIndigo)
-            Image("watch")
-                .resizable()
-                .frame(width: 150,height: 100)
-                .padding()
         }
+        .background(.white)
         .ignoresSafeArea(.keyboard)
-        .onTapGesture {
-            UIApplication.shared.endEditing()
-        }
+        .onTapGesture { UIApplication.shared.endEditing() }
         .onReceive(vm.registerSuccess) { value in
             notRegex = true
             success = value
@@ -78,14 +63,23 @@ struct RegisterView: View {
 struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
-            RegisterView(login: .constant(true))
-               
+            RegisterView()
+            
         }
         
     }
 }
 
 extension RegisterView{
+    var titleView:some View{
+        Text("회원가입하기")
+            .font(.GmarketSansTTFMedium(25))
+            .bold()
+            .foregroundColor(.customIndigo)
+            .padding(.vertical,30)
+            .padding(.bottom,50)
+            .frame(maxWidth: .infinity)
+    }
     var emailView:some View{
         VStack(alignment: .leading) {
             Text("이메일").font(.GmarketSansTTFMedium(15))
@@ -141,16 +135,16 @@ extension RegisterView{
                 .font(.GmarketSansTTFMedium(15))
                 .padding(.top,5)
             CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.gray, text: $password)
-               .foregroundColor(.customIndigo)
+                .foregroundColor(.customIndigo)
             Divider()
-            .frame(height: 1)
-            .background(Color.customIndigo)
+                .frame(height: 1)
+                .background(Color.customIndigo)
             Text("비밀번호 확인").font(.GmarketSansTTFMedium(15))
             CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.gray, text: $passwordConfirm) .foregroundColor(.customIndigo)
             Divider()
-            .frame(height: 1)
-            .background(Color.customIndigo)
-            .padding(.bottom,40)
+                .frame(height: 1)
+                .background(Color.customIndigo)
+                .padding(.bottom,40)
         }
         .padding(.horizontal,15)
     }
@@ -158,7 +152,7 @@ extension RegisterView{
         CustomConfirmButton(text: "회원가입", color: .customIndigo, textColor: .white) {
             registerCheck()
         }
-       
+        
         .padding(.horizontal,15)
     }
     func isVaildInfo()->Int{

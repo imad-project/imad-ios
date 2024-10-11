@@ -103,7 +103,7 @@ extension CommentDetailsView{
             }
             Divider()
             HStack{
-                ProfileImageView(imagePath: UserInfoCache.instance.user?.profileImage ?? "", widthHeigt: 30)
+                ProfileImageView(imagePath: vmAuth.user?.profileImage ?? "", widthHeigt: 30)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
                     .focused($reply)
                     .padding(10)

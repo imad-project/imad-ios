@@ -108,7 +108,7 @@ struct CommunityPostView: View {
                                     self.back = false
                                 }
                             }
-                            return Alert(title: Text("경고"),message: Text("이 게시물은 \(UserInfoCache.instance.user?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                            return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
                         }
                         
                     }
@@ -246,7 +246,7 @@ extension CommunityPostView{
         HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
-                    if community.userNickname != UserInfoCache.instance.user?.nickname{
+                    if community.userNickname != vmAuth.user?.nickname{
                         Button {
                             profile = true
                         } label: {
@@ -498,7 +498,7 @@ extension CommunityPostView{
         VStack{
             Divider()
             HStack{
-                ProfileImageView(imagePath: UserInfoCache.instance.user?.profileImage ?? "", widthHeigt: 40)
+                ProfileImageView(imagePath: vmAuth.user?.profileImage ?? "", widthHeigt: 40)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,textLimit: 400, font:.GmarketSansTTFMedium(14), text: $reviewText)
                     .focused($reply)
                     .padding(10)

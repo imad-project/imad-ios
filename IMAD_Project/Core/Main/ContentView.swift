@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @State var isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch") //온보딩
     @State var flashOn = true
     @StateObject var vm = AuthViewModel(user:nil)
@@ -33,16 +32,15 @@ struct ContentView: View {
                 }
             }
         }
-        .onAppear{
-            vm.getUser()
-        }
+        .onAppear{ vm.getUser() }
+        .environmentObject(vm)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ContentView(vm:AuthViewModel(user: UserInfoCache.instance.user))
+            ContentView(vm:AuthViewModel(user: CustomData.user))
         }
     }
 }

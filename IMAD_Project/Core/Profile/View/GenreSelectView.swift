@@ -101,7 +101,7 @@ struct GenreSelectView: View {
             }
         }
         .onAppear{
-            guard let data = UserInfoCache.instance.user else {return}
+            guard let data = vmAuth.user else {return}
             switch genreType {
             case .tv:
                 for genre in data.tvGenre {

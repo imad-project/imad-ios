@@ -250,7 +250,7 @@ extension WorkView{
                             .navigationBarBackButtonHidden()
                     } label: {
                         HStack(spacing: 0){
-                            Text(UserInfoCache.instance.user?.nickname ?? "")
+                            Text(vmAuth.user?.nickname ?? "")
                                 .bold()
                                 .padding(.leading)
                                 .font(.subheadline)
