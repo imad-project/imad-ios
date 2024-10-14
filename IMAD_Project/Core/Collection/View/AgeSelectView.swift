@@ -8,23 +8,17 @@
 import SwiftUI
 
 struct AgeSelectView: View {
-    @EnvironmentObject var vm:AuthViewModel
-    
-    
-    
+    @EnvironmentObject var vmAuth:AuthViewModel
     var body: some View {
-        ZStack{
-            Color.white.ignoresSafeArea()
-            VStack(alignment: .leading,spacing: 5){
-                guideView
-                pickerView
-                CustomConfirmButton(text: "다음", color: .customIndigo.opacity(0.5),textColor:.white) {
-                    withAnimation(.linear){
-                        vm.selection = .genre
-                    }
-                }
-            }.padding()
+        VStack(alignment: .leading,spacing: 5){
+            guideView
+            pickerView
+            CustomConfirmButton(text: "다음", color: .customIndigo.opacity(0.5),textColor:.white) {
+                withAnimation(.linear){ vmAuth.selection = .genre }
+            }
         }
+        .padding()
+        .background(.white)
         .foregroundColor(.customIndigo)
     }
 }
@@ -32,25 +26,23 @@ struct AgeSelectView: View {
 struct AgeSelectView_Previews: PreviewProvider {
     static var previews: some View {
         AgeSelectView()
-           
+            .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
 extension AgeSelectView{
     var guideView:some View{
         VStack(alignment: .leading,spacing: 5){
-            
             Text("나이를 설정해주세요")
                 .font(.GmarketSansTTFMedium(20))
                 .bold()
             Text("나이 정보는, 보다 정확하고 맞춤형 작품 추천을 위해 수집함을 안내드립니다.")
                 .font(.GmarketSansTTFMedium(15))
-            
         }
     }
     var pickerView:some View{
         HStack{
             Spacer()
-            Picker("", selection: $vm.patchUser.age) {
+            Picker("", selection: $vmAuth.patchUser.age) {
                 ForEach(1900...Int().currentDate, id: \.self) {
                     Text("\($0)")
                 }

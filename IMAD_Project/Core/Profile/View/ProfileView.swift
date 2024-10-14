@@ -16,7 +16,7 @@ struct ProfileView: View {
     @StateObject var vmProfile = ProfileImageViewModel()
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vmWork = WorkViewModel(workInfo: nil,bookmarkList: [])
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     @State var profileSelect = false
     @State var gallery = false
@@ -115,7 +115,7 @@ struct ProfileView: View {
                 .background(Color.gray.opacity(0.1))
             }
         }
-        
+       
         .foregroundColor(.customIndigo)
         .colorScheme(.light)
         .sheet(isPresented: $tv) {
@@ -137,10 +137,11 @@ struct ProfileView: View {
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
-        .onReceive(vmProfile.profileChanged) {
+        .onReceive(vmProfile.isSuccessProfileChanged) {
             vmAuth.user?.profileImage = vmProfile.url
             loading = false
         }
+        .environmentObject(vmAuth)
     }
 }
 
@@ -161,7 +162,7 @@ extension ProfileView{
             Spacer()
             NavigationLink {
                 ProfileChangeView()
-                   
+                    .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             } label: {
                 Image(systemName: "gearshape.fill")

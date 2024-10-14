@@ -12,7 +12,7 @@ struct MenuTabView: View {
     
     @State var tab:TabFilter = .home
     @State var tabInfo:CGFloat = 0
-    @StateObject var vm = AuthViewModel(user: nil)
+    @EnvironmentObject var vm:AuthViewModel
     var body: some View {
         
         VStack(spacing: 0){
@@ -29,6 +29,7 @@ struct MenuTabView: View {
             }
             menu
         }
+        .environmentObject(vm)
         .ignoresSafeArea(.keyboard)
         .onAppear{
             UITabBar.appearance().isHidden = true   //탭바 숨김
@@ -39,7 +40,7 @@ struct MenuTabView: View {
 struct MenuTabView_Previews: PreviewProvider {
     static var previews: some View {
         MenuTabView()
-           
+            .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
 

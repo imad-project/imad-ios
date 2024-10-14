@@ -10,8 +10,8 @@ import Combine
 
 class ProfileImageViewModel:ObservableObject{
     
-    var failed = PassthroughSubject<(),Never>()
-    var profileChanged = PassthroughSubject<(),Never>()
+    var isFailedProfileChanged = PassthroughSubject<(alert:Bool,message:String),Never>()
+    var isSuccessProfileChanged = PassthroughSubject<(),Never>()
     var cancelable = Set<AnyCancellable>()
     
     @Published var url = ""
@@ -21,14 +21,10 @@ class ProfileImageViewModel:ObservableObject{
     func fetchProfileImageCustom(image:Data){
         ProfileImageApiService.fetchProfileImageCustom(image: image)
             .sink { completion in
-                print(completion)
-                switch completion{
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.failed.send()
-                case .finished:
-                    self.profileChanged.send()
-                    print(completion)
+                ErrorManager.instance.actionErrorMessage(completion: completion) {
+                    self.isSuccessProfileChanged.send()
+                } failed: {
+                    self.isFailedProfileChanged.send((true,"프로필 사진 업로드에 실패했습니다."))
                 }
             } receiveValue: { [weak self] noData in
                 self?.url = noData.data?.url ?? ""
@@ -37,13 +33,10 @@ class ProfileImageViewModel:ObservableObject{
     func fetchProfileImageDefault(image:String){
         ProfileImageApiService.fetchProfileImageDefault(image: image)
             .sink { completion in
-                switch completion{
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.failed.send()
-                case .finished:
-                    self.profileChanged.send()
-                    print(completion)
+                ErrorManager.instance.actionErrorMessage(completion: completion) {
+                    self.isSuccessProfileChanged.send()
+                } failed: {
+                    self.isFailedProfileChanged.send((true,"프로필 사진 업로드에 실패했습니다."))
                 }
             } receiveValue: { [weak self] noData in
                 self?.url = noData.data?.url ?? ""

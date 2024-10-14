@@ -19,6 +19,7 @@ struct RegisterView: View {
     @State var tempEmail = ""                                   //중복확인 후 이메일 수정을 방지하는 변수
     @State var domain = EmailFilter.gmail                       //이메일 도메인
     
+    @Environment(\.dismiss) var dismiss
     @StateObject var vmCheck = CheckDataViewModel()
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -58,7 +59,10 @@ extension RegisterView{
         let text = Text(registerResult.success ? "성공":"실패")
         let message = Text(registerResult.message)
         let button = Alert.Button.default(Text("확인")){
-            if registerResult.success{ vmAuth.getUser() }
+            if registerResult.success{
+                vmAuth.getUser()
+                dismiss()
+            }
         }
         return Alert(title: text,message:message,dismissButton:button)
     }
@@ -169,7 +173,8 @@ extension RegisterView{
     }
     func registerAction(){
         switch isVaildRegisterInfo(){
-        case .success:vmAuth.register(email: "\(email)@\(domain.domain)", password: password.sha256(), authProvider: "IMAD")
+        case .success:
+            vmAuth.register(email: "\(email)@\(domain.domain)", password: password.sha256(), authProvider: "IMAD")
         default:excuteAlert((false,isVaildRegisterInfo().message))
         }
     }

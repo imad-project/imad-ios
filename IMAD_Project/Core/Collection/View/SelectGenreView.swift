@@ -13,31 +13,25 @@ struct SelectGenreView: View {
     @EnvironmentObject var vm:AuthViewModel
     
     var body: some View {
-        ZStack{
-            VStack{
-                ScrollView(showsIndicators: false){
-                    LazyVStack(pinnedViews: [.sectionHeaders]) {
-                        Section(header:guideView){
-                            VStack(alignment: .leading){
-                                movieGenreView
-                                tvGenreView
-                            } .padding(.top)
-                            
-                        }
-                    }
-                    
-                    
-                }
-                .frame(height: UIScreen.main.bounds.height/1.5)
-                CustomConfirmButton(text: "다음", color: .customIndigo.opacity(0.5),textColor:.white) {
-                    withAnimation(.linear){
-                        vm.selection = .profile
+        VStack{
+            ScrollView(showsIndicators: false){
+                LazyVStack(pinnedViews: [.sectionHeaders]) {
+                    Section(header:guideView){
+                        VStack(alignment: .leading){
+                            movieGenreView
+                            tvGenreView
+                        } 
+                        .padding(.top)
                     }
                 }
-                .padding(.horizontal)
-                .padding(.top,30)
-                Spacer()
             }
+            .frame(height: UIScreen.main.bounds.height/1.5)
+            CustomConfirmButton(text: "다음", color: .customIndigo.opacity(0.5),textColor:.white) {
+                withAnimation(.linear){ vm.selection = .profile }
+            }
+            .padding(.horizontal)
+            .padding(.top,30)
+            Spacer()
         }
         .foregroundColor(.customIndigo)
         .ignoresSafeArea()
@@ -47,7 +41,7 @@ struct SelectGenreView: View {
 struct SelectGenreView_Previews: PreviewProvider {
     static var previews: some View {
         SelectGenreView()
-           
+            .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
 
@@ -69,11 +63,11 @@ extension SelectGenreView{
                     .bold()
                     .font(.GmarketSansTTFMedium(12))
             }
-        }.padding(.horizontal)
+        }
+        .padding(.horizontal)
             .padding(.top,100)
             .padding(.vertical,20)
             .background(Color.white)
-        
     }
     var movieGenreView:some View{
         VStack(alignment: .leading) {

@@ -14,7 +14,7 @@ struct ProfileChangeView: View {
     @State var delete = false
     @State var logout = false
     
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @EnvironmentObject var vmAuth:AuthViewModel
     @Environment(\.dismiss) var dismiss
     
     
@@ -50,6 +50,7 @@ struct ProfileChangeView: View {
                     
                     
                 }
+                .environmentObject(vmAuth)
                 .background(Color.gray.opacity(0.1).ignoresSafeArea())
         .foregroundColor(.black)
         .alert(isPresented: $logout) {
@@ -62,7 +63,7 @@ struct ProfileChangeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ProfileChangeView()
-               
+                .environmentObject(AuthViewModel(user: CustomData.user))
         }
         
     }

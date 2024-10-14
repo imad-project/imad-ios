@@ -18,12 +18,15 @@ struct ContentView: View {
                 SplashView(off: $flashOn)
             }else{
                 if isFirstLaunch{
-                    if let user = vmAuth.user{
-                        if user.role == "GUEST"{
-                            RegisterTabView()
-                        }else{
-                            MenuTabView()
-                        }
+                    if var user = vmAuth.user{
+//                        Group{
+                            if user.role == "GUEST"{
+                                RegisterTabView()
+                            }else{
+                                MenuTabView()
+                            }
+//                        }
+//                        .onChange(of: user){ print($0) }
                     }else{
                         LoginAllView()
                     }
@@ -33,6 +36,7 @@ struct ContentView: View {
             }
         }
         .onAppear{ vmAuth.getUser() }
+        
         .environmentObject(vmAuth)
     }
 }
