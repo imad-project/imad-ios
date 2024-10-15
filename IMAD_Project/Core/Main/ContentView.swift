@@ -18,15 +18,12 @@ struct ContentView: View {
                 SplashView(off: $flashOn)
             }else{
                 if isFirstLaunch{
-                    if var user = vmAuth.user{
-//                        Group{
+                    if let user = vmAuth.user{
                             if user.role == "GUEST"{
                                 RegisterTabView()
                             }else{
                                 MenuTabView()
                             }
-//                        }
-//                        .onChange(of: user){ print($0) }
                     }else{
                         LoginAllView()
                     }

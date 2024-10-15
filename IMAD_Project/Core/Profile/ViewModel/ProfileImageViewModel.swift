@@ -34,7 +34,9 @@ class ProfileImageViewModel:ObservableObject{
         ProfileImageApiService.fetchProfileImageDefault(image: image)
             .sink { completion in
                 ErrorManager.instance.actionErrorMessage(completion: completion) {
-                    self.isSuccessProfileChanged.send()
+                    DispatchQueue.main.async{
+                        self.isSuccessProfileChanged.send()
+                    }
                 } failed: {
                     self.isFailedProfileChanged.send((true,"프로필 사진 업로드에 실패했습니다."))
                 }
