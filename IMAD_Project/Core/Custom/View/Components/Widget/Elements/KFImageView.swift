@@ -16,7 +16,7 @@ struct KFImageView: View {
     var body: some View {
         Group{
             if !image.isEmpty{
-                KFImage(URL(string:image))
+                KFImage(URL(string:image.getImadImage()))
                     .resizable()
                     .placeholder{
                         NoImageView()
@@ -43,7 +43,7 @@ struct KFImageView: View {
 
 struct KFImageView_Previews: PreviewProvider {
     static var previews: some View {
-        KFImageView(image: "https://image.tmdb.org/t/p/original",width: 200,height: 300)
+        KFImageView(image: CustomData.workInfo?.posterPath ?? "",width: 200,height: 300)
     }
 }
 
