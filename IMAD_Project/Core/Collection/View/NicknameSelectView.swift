@@ -43,7 +43,7 @@ struct NicknameSelectView_Previews: PreviewProvider {
 
 extension NicknameSelectView{
     var alert:Alert{
-        let title = Text("낙네임을 제대로 설정 해주세요!")
+        let title = Text("닉네임을 제대로 설정 해주세요!")
         let button = Alert.Button.cancel(Text("확인"), action: {
             withAnimation(.linear){ vmAuth.selection = .nickname }})
         return Alert(title: title,dismissButton: button)
