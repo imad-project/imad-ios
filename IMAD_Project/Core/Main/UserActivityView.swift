@@ -8,11 +8,79 @@
 import SwiftUI
 
 struct UserActivityView: View {
+    let list:[RecommendListType] = [.activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie]
+    @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil)
+    @EnvironmentObject var vmAuth:AuthViewModel
+    var listIsEmpty:Bool{
+        !vmRecommend.workList(.activityMovie).list.isEmpty ||
+        !vmRecommend.workList(.activityTv).list.isEmpty ||
+        !vmRecommend.workList(.activityAnimationTv).list.isEmpty ||
+        !vmRecommend.workList(.activityAnimationMovie).list.isEmpty
+    }
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading){
+            if listIsEmpty{
+                titleView
+                ScrollView(.horizontal,showsIndicators: false) {
+                    HStack{
+                        ListView(items:list){ posterView($0) }
+                    }
+                    .padding(.horizontal)
+                }
+            }
+        }.padding(.vertical)
     }
 }
 
 #Preview {
-    UserActivityView()
+    UserActivityView(vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll))
+        .background(.white)
+        .environmentObject(AuthViewModel(user: CustomData.user))
+}
+
+extension UserActivityView{
+    var titleView:some View{
+        HStack{
+            Text("\(vmAuth.user?.nickname ?? "")님을 위한 작품")
+                .fontWeight(.black)
+                .font(.custom("GmarketSansTTFMedium", size: 20))
+                .foregroundColor(.customIndigo)
+            Spacer()
+        }
+        .padding(.bottom,5)
+        .padding(.horizontal)
+    }
+    @ViewBuilder
+    func posterView(_ work:RecommendListType) -> some View{
+        let list = vmRecommend.workList(work).list
+        if !list.isEmpty{
+            VStack(alignment: .leading){
+                Text("\(work.name)")
+                NavigationLink {
+                    RecommendAllView(title: work.name, type: work)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    GridView(room: 2, imageList: list.prefix(4).map{$0.posterPath() ?? ""})
+                        .frame(width: 180,height: 240)
+                        .overlay{
+                            Color.black.opacity(0.3)
+                            HStack{
+                                Text("전체보기")
+                                Image(systemName: "chevron.right")
+                            }
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity,alignment: .trailing)
+                            .frame(maxHeight: .infinity,alignment: .bottom)
+                            .padding(5)
+                        }
+                        .cornerRadius(10)
+                }
+            }
+            .shadow(radius: 1)
+            .font(.GmarketSansTTFBold(isPad() ? 22.5 : 17.5))
+            .foregroundColor(.black)
+            .padding(.vertical,1)
+        }
+        
+    }
 }
