@@ -49,11 +49,11 @@ struct WorkView: View {
         }
         .foregroundColor(.white)
         .onAppear {
-//            if let contentsId{
-//                vm.getWorkInfo(contentsId: contentsId)
-//            }else if let id, let type{
-//                vm.getWorkInfo(id: id, type: type)
-//            }
+            if let contentsId{
+                vm.getWorkInfo(contentsId: contentsId)
+            }else if let id, let type{
+                vm.getWorkInfo(id: id, type: type)
+            }
         }
         .onDisappear{
             KingfisherManager.shared.cache.clearMemoryCache()

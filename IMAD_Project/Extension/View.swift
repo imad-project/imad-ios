@@ -55,6 +55,29 @@ extension View{
             self
         }
     }
+    @ViewBuilder
+    func textTitleView(_ text:String) -> some View{
+        HStack{
+            Text(text)
+                .fontWeight(.black)
+                .font(.custom("GmarketSansTTFMedium", size: 20))
+                .foregroundColor(.customIndigo)
+            Spacer()
+        }
+        .padding(.bottom,5)
+    }
+    @ViewBuilder
+    func allView(_ view: some View) -> some View{
+        NavigationLink {
+            view
+                .navigationBarBackButtonHidden()
+        } label: {
+            Text("전체보기")
+                .font(.GmarketSansTTFMedium(isPad() ? 15 : 12))
+                .fontWeight(.regular)
+                .foregroundColor(.customIndigo)
+        }
+    }
     func isWidth()->Bool{
         UIDevice.current.orientation.isLandscape
     }

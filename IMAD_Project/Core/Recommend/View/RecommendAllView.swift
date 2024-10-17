@@ -9,8 +9,9 @@ import SwiftUI
 
 struct RecommendAllView: View {
     var contentsId:Int?
+    let title:String
     @State var type:RecommendListType
-    @StateObject var vm = RecommendViewModel()
+    @StateObject var vm = RecommendViewModel(recommendAll: nil)
     @StateObject var vmAuth = AuthViewModel(user:nil)
     @Environment(\.dismiss) var dismiss
     
@@ -21,7 +22,7 @@ struct RecommendAllView: View {
             titleView
             contentView
         }
-        .progress(!vm.workList(type: type).isEmpty)
+        .progress(!vm.workList(type).list.isEmpty)
         .onAppearOnDisAppear({
             request(contentsId: contentsId ?? 0)
         },{
@@ -68,7 +69,7 @@ extension RecommendAllView{
         }
     }
     var headerView:some View{
-        HeaderView(backIcon: "chevron.left", text: type.title){
+        HeaderView(backIcon: "chevron.left", text: "xXzX"){
             dismiss()
         }
         .padding(10)
@@ -96,7 +97,7 @@ extension RecommendAllView{
         }
     }
     var listView:some View{
-        ListView(items: vm.workList(type: type)) { work in
+        ListView(items: vm.workList(type).list) { work in
             NavigationLink {
                 WorkView(id: work.id(),type: work.genreType.rawValue)
                     .navigationBarBackButtonHidden()
@@ -154,7 +155,7 @@ extension RecommendAllView{
 
 
 #Preview {
-    RecommendAllView(contentsId:1, type: .trendTv)
+    RecommendAllView(contentsId:1, title: "hh", type: .trendTv)
        
 }
 

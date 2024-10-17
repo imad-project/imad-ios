@@ -230,6 +230,12 @@
 		D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */; };
 		D69E05F52C5BAA19003610CD /* AutoSizingFlowLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69E05F42C5BAA19003610CD /* AutoSizingFlowLayoutView.swift */; };
 		D69E05F82C5BAB01003610CD /* HeightPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69E05F72C5BAB01003610CD /* HeightPreferenceKey.swift */; };
+		D6A111882CBE04360027F75F /* LinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A111872CBE04360027F75F /* LinearGradient.swift */; };
+		D6A1118A2CBE4FDB0027F75F /* WorkRecommandListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A111892CBE4FDB0027F75F /* WorkRecommandListView.swift */; };
+		D6A1118C2CBF45100027F75F /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A1118B2CBF45100027F75F /* GridView.swift */; };
+		D6A1118E2CBFAAF40027F75F /* TodayPopularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A1118D2CBFAAF30027F75F /* TodayPopularView.swift */; };
+		D6A111902CBFE0340027F75F /* UserActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A1118F2CBFE0340027F75F /* UserActivityView.swift */; };
+		D6A111922CBFE8E10027F75F /* RankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A111912CBFE8E10027F75F /* RankingView.swift */; };
 		D6C763872C2C3B3B00BCD37B /* WorkGenre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */; };
 		D6C763892C2E898A00BCD37B /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763882C2E898A00BCD37B /* ListView.swift */; };
 		D6CE82E42CB654780092243D /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CE82E32CB654780092243D /* Logo.swift */; };
@@ -490,6 +496,12 @@
 		D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendListType.swift; sourceTree = "<group>"; };
 		D69E05F42C5BAA19003610CD /* AutoSizingFlowLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizingFlowLayoutView.swift; sourceTree = "<group>"; };
 		D69E05F72C5BAB01003610CD /* HeightPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightPreferenceKey.swift; sourceTree = "<group>"; };
+		D6A111872CBE04360027F75F /* LinearGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearGradient.swift; sourceTree = "<group>"; };
+		D6A111892CBE4FDB0027F75F /* WorkRecommandListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkRecommandListView.swift; sourceTree = "<group>"; };
+		D6A1118B2CBF45100027F75F /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		D6A1118D2CBFAAF30027F75F /* TodayPopularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayPopularView.swift; sourceTree = "<group>"; };
+		D6A1118F2CBFE0340027F75F /* UserActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserActivityView.swift; sourceTree = "<group>"; };
+		D6A111912CBFE8E10027F75F /* RankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingView.swift; sourceTree = "<group>"; };
 		D6C763862C2C3B3B00BCD37B /* WorkGenre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkGenre.swift; sourceTree = "<group>"; };
 		D6C763882C2E898A00BCD37B /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		D6CE82E32CB654780092243D /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
@@ -950,6 +962,10 @@
 				8103094229D1BDEF0021717B /* ContentView.swift */,
 				81A1ECDF29DACB720001A366 /* SplashView.swift */,
 				81A1ECE429DC3FA30001A366 /* MainView.swift */,
+				D6A111892CBE4FDB0027F75F /* WorkRecommandListView.swift */,
+				D6A1118D2CBFAAF30027F75F /* TodayPopularView.swift */,
+				D6A1118F2CBFE0340027F75F /* UserActivityView.swift */,
+				D6A111912CBFE8E10027F75F /* RankingView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -968,6 +984,7 @@
 				D6D974C82C3D20CF00BCBF49 /* Font.swift */,
 				D62967A92C575D210059A15B /* CGSize.swift */,
 				D608EF752C9C1A0600C4FCE7 /* Date.swift */,
+				D6A111872CBE04360027F75F /* LinearGradient.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1489,6 +1506,7 @@
 			isa = PBXGroup;
 			children = (
 				D6CE82E32CB654780092243D /* Logo.swift */,
+				D6A1118B2CBF45100027F75F /* GridView.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -1678,6 +1696,7 @@
 				81C1EB852AB4397600FB265D /* OrderFilter.swift in Sources */,
 				81588D4A2AFDDB0500E19F8D /* WriterFilter.swift in Sources */,
 				817B60CF2A2370C1000099A9 /* CheckApiService.swift in Sources */,
+				D6A111882CBE04360027F75F /* LinearGradient.swift in Sources */,
 				8115A65E2A8F30F700B7C3FE /* Work.swift in Sources */,
 				81A285F52AAC5CC300703C55 /* MovieBackgroundView.swift in Sources */,
 				81DB1FCF29E6D34F002C0840 /* NicknameSelectView.swift in Sources */,
@@ -1738,8 +1757,10 @@
 				817B60D42A237436000099A9 /* Validation.swift in Sources */,
 				D6D974B92C3B9A8200BCBF49 /* GetTokenInterceptor.swift in Sources */,
 				819D499E2A933A5C008B7BFE /* Network.swift in Sources */,
+				D6A1118A2CBE4FDB0027F75F /* WorkRecommandListView.swift in Sources */,
 				D69E05F82C5BAB01003610CD /* HeightPreferenceKey.swift in Sources */,
 				81CFEAD42B9A048B0081183B /* AppleLoginTestView.swift in Sources */,
+				D6A111902CBFE0340027F75F /* UserActivityView.swift in Sources */,
 				D6C763892C2E898A00BCD37B /* ListView.swift in Sources */,
 				D60AD1FB2C29576000C9C27B /* TrendRecommend.swift in Sources */,
 				818B073C2B0D9EAE0013C426 /* ScrapListResponse.swift in Sources */,
@@ -1752,6 +1773,7 @@
 				81BB11042A061457005654AA /* ApiClient.swift in Sources */,
 				817860122A2992D6004639F6 /* ContriesFilter.swift in Sources */,
 				D60AD2012C29577E00C9C27B /* GenreRecommend.swift in Sources */,
+				D6A1118C2CBF45100027F75F /* GridView.swift in Sources */,
 				D60AD1FF2C29577200C9C27B /* ActivityRecommend.swift in Sources */,
 				81588D572AFE73B600E19F8D /* CommunityDetailsList.swift in Sources */,
 				81F259372AB0892300C54668 /* ReadReview.swift in Sources */,
@@ -1779,6 +1801,7 @@
 				819C506E2A0F467B0008F4A5 /* UserDefaultManager.swift in Sources */,
 				817BBB3A29EED13400E1CBA6 /* InfoChangeView.swift in Sources */,
 				D69455C52C4A9467004CDFC9 /* ReportViewModel.swift in Sources */,
+				D6A1118E2CBFAAF40027F75F /* TodayPopularView.swift in Sources */,
 				D62967AA2C575D210059A15B /* CGSize.swift in Sources */,
 				8128C1262AE6333F0032D310 /* CommentListReponse.swift in Sources */,
 				D64C4C8B2C37B6FF0097B2FD /* CustomImagePicker.swift in Sources */,
@@ -1842,6 +1865,7 @@
 				8128C12A2AE6374C0032D310 /* CommentList.swift in Sources */,
 				8115A6642A8F38A800B7C3FE /* WorkViewModel.swift in Sources */,
 				81C1EB812AB400AB00FB265D /* ReadReviewList.swift in Sources */,
+				D6A111922CBFE8E10027F75F /* RankingView.swift in Sources */,
 				D69455D32C4C77C5004CDFC9 /* PDFUIView.swift in Sources */,
 				81FF75B02AF8CE7600DB1AC2 /* ScoreView.swift in Sources */,
 				D654FBD22BA146FA00AF307E /* Popular.swift in Sources */,

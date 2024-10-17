@@ -100,14 +100,4 @@ extension WorkRecommandListView{
             }
         }
     }
-    func textTitleView(_ text:String) -> some View{
-        HStack{
-            Text(text)
-                .fontWeight(.black)
-                .font(.custom("GmarketSansTTFMedium", size: 20))
-                .foregroundColor(.customIndigo)
-            Spacer()
-        }
-        .padding(.bottom,5)
-    }
 }

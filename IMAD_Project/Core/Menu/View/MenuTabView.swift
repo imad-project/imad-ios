@@ -13,8 +13,8 @@ struct MenuTabView: View {
     @State var tab:TabFilter = .home
     @State var tabInfo:CGFloat = 0
     @EnvironmentObject var vm:AuthViewModel
+    
     var body: some View {
-        
         VStack(spacing: 0){
             TabView(selection: $tab){
                 MainView()
@@ -25,26 +25,23 @@ struct MenuTabView: View {
                     .tag(TabFilter.notification)
                 ProfileView()
                     .tag(TabFilter.profile)
-                
             }
+            .tabViewStyle(.page(indexDisplayMode: .never))
             menu
         }
         .environmentObject(vm)
         .ignoresSafeArea(.keyboard)
-        .onAppear{
-            UITabBar.appearance().isHidden = true   //탭바 숨김
-        }
+        .onAppear{ UITabBar.appearance().isHidden = true } //탭바 숨김
     }
 }
 
 struct MenuTabView_Previews: PreviewProvider {
     static var previews: some View {
         MenuTabView()
+            .environment(\.colorScheme,.light)
             .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
-
-
 
 extension MenuTabView{
     @MainActor
@@ -54,7 +51,6 @@ extension MenuTabView{
                 GeometryReader{ geo in
                     let minX = geo.frame(in: .global).minX
                     let mid = geo.frame(in: .local)
-                   
                     Button {
                         withAnimation(.easeIn(duration: 0.2)){
                             tabInfo = minX
@@ -63,7 +59,7 @@ extension MenuTabView{
                     } label: {
                         VStack(spacing: 5) {
                             Group{
-                                if item.name != ""{
+                                if !item.name.isEmpty{
                                     Image(systemName: item.name)
                                         .font(.GmarketSansTTFBold(20))
                                 }else{
@@ -74,14 +70,11 @@ extension MenuTabView{
                             .position(x:mid.midX,y:mid.midY-15)
                             Text(item.menu)
                                 .font(.GmarketSansTTFMedium(10))
-                                
                         }
                         .padding(.top)
                     }
                     .onAppear{
-                        if item == tab{
-                            self.tabInfo = minX
-                        }
+                        if item == tab{ self.tabInfo = minX }
                     }
                 }
                 .frame(width: 50,height: 70)
@@ -94,7 +87,6 @@ extension MenuTabView{
                 .frame(width: 50,height: 3)
                 .offset(x:tabInfo,y:-35)
         }
-        
     }
 }
 
