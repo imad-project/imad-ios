@@ -19,8 +19,7 @@ struct GridView: View {
             ForEach(list,id: \.self){ columns in
                 HStack(spacing:0){
                     ForEach(columns,id: \.self){ row in
-                        KFImage(URL(string: row))
-                            .resizable()
+                        KFImageView(image: row)
                     }
                 }
             }
