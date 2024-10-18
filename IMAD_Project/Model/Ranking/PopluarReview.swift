@@ -9,6 +9,6 @@ import Foundation
 
 struct PopluarReview:Codable{
     let status: Int
-    var data: PopularReviewResponse?
+    var data: ReadReviewResponse?
     let message: String
 }

@@ -24,7 +24,7 @@ struct CommunitySearchView: View {
     @State var category:CommunityFilter = .all
     
     @Environment(\.dismiss) var dismiss
-    @StateObject var vmAuth = AuthViewModel(user: nil)
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         VStack(alignment: .leading){
@@ -68,7 +68,7 @@ struct CommunitySearchView: View {
         .navigationDestination(isPresented: $goCommunity){
             if let community{
                 CommunityPostView(reported: community.reported, postingId: community.postingID, back: $goCommunity)
-                    .environmentObject(vmAuth)
+                   
                     .navigationBarBackButtonHidden()
             }
         }
@@ -103,8 +103,8 @@ struct CommunitySearchView: View {
 
 struct CommunitySearchView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunitySearchView(vm:CommunityViewModel(community: nil, communityList: CustomData.instance.communityList))
-            .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
+        CommunitySearchView(vm:CommunityViewModel(community: nil, communityList: CustomData.communityList))
+           
     }
 }
 extension CommunitySearchView{
@@ -116,7 +116,7 @@ extension CommunitySearchView{
     }
     var searchView:some View{
         HStack{
-            CustomTextField(password: false, image: "magnifyingglass", placeholder: "게시물을 검색해 주세요..", color:.gray, text: $text)
+            CustomTextField(password: false, image: "magnifyingglass", placeholder: "게시물을 검색해 주세요..", color:.gray,style:.none, text: $text)
                 .padding(15)
                 .background(Color.gray.opacity(0.2).cornerRadius(50))
                 .padding(.leading,10)

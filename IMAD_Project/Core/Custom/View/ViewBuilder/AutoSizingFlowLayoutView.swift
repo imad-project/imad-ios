@@ -84,7 +84,7 @@ public struct AutoSizingFlowLayoutView<Data, Content: View>: View {
         var name:String
         var age:Int
     }
-    var array = [
+    let array = [
         A(name: "철수", age: 12),
         A(name: "짱짱짱짱짱구", age: 25),
         A(name: "철수", age: 12),

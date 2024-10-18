@@ -22,7 +22,7 @@ struct CommunityView: View {
     @State var workInfo:CommunityDetailsListResponse?
     
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         VStack(spacing: 0){
@@ -38,27 +38,30 @@ struct CommunityView: View {
             listUpdate(category: tab.num)
         }
         .onAppear{
-            listUpdate(category: communityTab.num)
+//            listUpdate(category: communityTab.num)
         }
         .navigationDestination(isPresented: $goWork) {
             if let workInfo{
                 CommunityPostView(reported: workInfo.reported, postingId: workInfo.postingID, back: $goWork)
                     .navigationBarBackButtonHidden()
-                    .environmentObject(vmAuth)
+                   
             }
         }
         .navigationDestination(isPresented: $search){
             SearchView(backMode: false, postingMode: true, back: $search)
-                .environmentObject(vmAuth)
+               
                 .navigationBarBackButtonHidden()
         }
         .navigationDestination(isPresented: $searchView) {
             CommunitySearchView()
-                .environmentObject(vmAuth)
+               
                 .navigationBarBackButtonHidden()
         }
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
+        }
+        .onAppear{
+            print(CustomData.communityList)
         }
     }
 }
@@ -66,8 +69,7 @@ struct CommunityView: View {
 struct CommunityView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            CommunityView(vm: CommunityViewModel(community:CustomData.instance.community, communityList: CustomData.instance.communityList))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            CommunityView(vm: CommunityViewModel(community:CustomData.community, communityList: CustomData.communityList))
         }
         
     }

@@ -21,9 +21,9 @@ struct WorkView: View {
     @State var showMyRevie = false
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vmAuth:AuthViewModel//
     @StateObject var vmReview = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vm = WorkViewModel(workInfo: nil,bookmarkList: [])
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         ZStack(alignment: .topLeading){
@@ -54,9 +54,9 @@ struct WorkView: View {
             }else if let id, let type{
                 vm.getWorkInfo(id: id, type: type)
             }
-            vm.getBookmark(page: vm.currentPage)
         }
         .onDisappear{
+            KingfisherManager.shared.cache.clearMemoryCache()
             vmReview.reviewList.removeAll()
         }
         .onReceive(vm.success){ contentsId in
@@ -77,18 +77,15 @@ struct WorkView: View {
         }
         .navigationDestination(isPresented: $writeReview) {
             WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", workName: vm.workInfo?.title ??  vm.workInfo?.name ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
-                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
             CommunityWriteView(contentsId: vm.workInfo?.contentsId ?? 0,contents:(vm.workInfo?.posterPath?.getImadImage() ?? "", vm.workInfo?.name ?? vm.workInfo?.title ?? "") , goMain: $writeCommunity)
-                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden(true)
         }
         
         .navigationDestination(isPresented: $showMyRevie) {
             ReviewDetailsView(goWork: false, reviewId: vm.workInfo?.reviewId ?? 0, reported: false)
-                .environmentObject(vmAuth)
                 .navigationBarBackButtonHidden()
         }
     }
@@ -97,8 +94,8 @@ struct WorkView: View {
 struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            WorkView(vmReview: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail), vm: WorkViewModel(workInfo: CustomData.instance.workInfo,bookmarkList: CustomData.instance.bookmarkList))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            WorkView(vmReview: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList), vm: WorkViewModel(workInfo: CustomData.workInfo,bookmarkList: CustomData.bookmarkList))
+               
         }
     }
 }
@@ -250,11 +247,10 @@ extension WorkView{
                 if let myReviewId = vm.workInfo?.reviewId{
                     NavigationLink {
                         ReviewDetailsView(goWork: false, reviewId: myReviewId, reported: false)
-                            .environmentObject(vmAuth)
                             .navigationBarBackButtonHidden()
                     } label: {
                         HStack(spacing: 0){
-                            Text(vmAuth.user?.data?.nickname ?? "")
+                            Text(vmAuth.user?.nickname ?? "")
                                 .bold()
                                 .padding(.leading)
                                 .font(.subheadline)
@@ -277,7 +273,6 @@ extension WorkView{
                             if let work = vm.workInfo{
                                 WriteReviewView(id: work.contentsId, image: work.posterPath?.getImadImage() ?? "", workName: work.title ?? work.name ?? "", gradeAvg: work.imadScore ?? 0, reviewId: nil)
                                     .navigationBarBackButtonHidden()
-                                    .environmentObject(vmAuth)
                             }
                             
                         } label: {
@@ -306,19 +301,16 @@ extension WorkView{
             ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
                 NavigationLink {
                     ReviewDetailsView(goWork: false, reviewId: review.reviewID, reported: review.reported)
-                        .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
                     ReviewListRowView(review: review, my: false)
                         .background(Color.white)
                         .cornerRadius(10)
-                        .environmentObject(vmAuth)
                 }
             }
             if vmReview.reviewList.count > 2 {
                 NavigationLink {
                     ReviewView(id: vm.workInfo?.contentsId ?? 0)
-                        .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
                     HStack{

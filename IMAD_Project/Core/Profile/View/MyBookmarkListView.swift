@@ -7,7 +7,7 @@ struct MyBookmarkListView: View {
     let columns = [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = WorkViewModel(workInfo: nil, bookmarkList: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var list:[BookmarkListResponse]{
         return vm.bookmarkList.filter({$0.contentsTitle.contains(text)})
@@ -17,7 +17,7 @@ struct MyBookmarkListView: View {
         NavigationView {
             VStack(alignment: .leading){
                 header
-                CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $text)
+                CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray,style: .capsule, text: $text)
                     .padding()
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(50)
@@ -46,8 +46,8 @@ struct MyBookmarkListView: View {
 
 struct MyBookmarkListView_Previews: PreviewProvider {
     static var previews: some View {
-        MyBookmarkListView(vm: WorkViewModel(workInfo: CustomData.instance.workInfo,bookmarkList: CustomData.instance.bookmarkList))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        MyBookmarkListView(vm: WorkViewModel(workInfo: CustomData.workInfo,bookmarkList: CustomData.bookmarkList))
+           
     }
 }
 extension MyBookmarkListView{
@@ -71,7 +71,7 @@ extension MyBookmarkListView{
                 ForEach(vm.bookmarkList,id:\.self){ result in
                     NavigationLink {
                         WorkView(contentsId: result.contentsID)
-                            .environmentObject(vmAuth)
+                           
                             .navigationBarBackButtonHidden()
                     } label: {
                         VStack{

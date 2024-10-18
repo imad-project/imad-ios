@@ -10,9 +10,7 @@ import Alamofire
 
 enum RankingRouter:URLRequestConvertible{
    
-    case all(page:Int,type:String)
-    case week(page:Int,type:String)
-    case month(page:Int,type:String)
+    case ranking(endPoint:String,page:Int,mediaType:String)
     case popularPosting
     case popularReivew
    
@@ -25,12 +23,8 @@ enum RankingRouter:URLRequestConvertible{
     }
     var endPoint:String{
         switch self{
-        case .week:
-            return "/api/ranking/weekly"
-        case .month:
-            return "/api/ranking/monthly"
-        case .all:
-            return "/api/ranking/alltime"
+        case let .ranking(endPoint,_,_):
+            return "/api/ranking/\(endPoint)"
         case .popularReivew:
             return "/api/popular/review"
         case .popularPosting:
@@ -39,17 +33,7 @@ enum RankingRouter:URLRequestConvertible{
     }
     var parameters:Parameters{
         switch self{
-        case let .week(page, type):
-            var parms =  Parameters()
-            parms["page"] = page
-            parms["type"] = type
-            return parms
-        case let .month(page, type):
-            var parms =  Parameters()
-            parms["page"] = page
-            parms["type"] = type
-            return parms
-        case let .all(page, type):
+        case let .ranking(_,page, type):
             var parms =  Parameters()
             parms["page"] = page
             parms["type"] = type

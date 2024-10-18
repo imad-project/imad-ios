@@ -10,94 +10,86 @@ import SwiftUIWave
 
 struct RegisterView: View {
     
-    
-    
-    @State var email = ""
-    @State var password = ""
-    @State var passwordConfirm = ""
-    @State var success = false
-    @State var notRegex = false
-    
-    @State var temp = ""
-    
-    @Binding var login:Bool
-    @StateObject var vmCheck = CheckDataViewModel()
-    @EnvironmentObject var vm:AuthViewModel
+    @State var email = ""                                       //이메일 텍스트
+    @State var password = ""                                    //패스워드 텍스트
+    @State var passwordConfirm = ""                             //패스워드 확인 텍스트
+    @State var isOnAlert = false                                //알림 표시
+    @State var registerResult = (success:false,message:"")      //회원가입 성공 유무
+    @State var duplicationResult = (possible:false,message:"")  //중복확인 가능 유무
+    @State var tempEmail = ""                                   //중복확인 후 이메일 수정을 방지하는 변수
+    @State var domain = EmailFilter.gmail                       //이메일 도메인
     
     @Environment(\.dismiss) var dismiss
-    
-
-    @State var domain = EmailFilter.gmail
+    @StateObject var vmCheck = CheckDataViewModel()
+    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         ZStack(alignment: .bottomTrailing){
-            Color.white.ignoresSafeArea()
             WaveImage(color: .customIndigo, height: .low, speed: .slow, amplitude: .low)
             VStack(alignment: .leading,spacing: 0){
-                Text("회원가입하기")
-                    .font(.GmarketSansTTFMedium(25))
-                    .bold()
-                    .foregroundColor(.customIndigo)
-                    .padding(.vertical,30)
-                    .padding(.bottom,50)
-                    .frame(maxWidth: .infinity)
-                Group{
-                   emailView
-                   duplicationView
-                    passwordView
-                }
+                titleView
+                emailView
+                duplicationView
+                passwordView
                 registerButtonView
                 Spacer()
             }
             .foregroundColor(.customIndigo)
-            Image("watch")
-                .resizable()
-                .frame(width: 150,height: 100)
-                .padding()
         }
+        .background(.white)
         .ignoresSafeArea(.keyboard)
-        .onTapGesture {
-            UIApplication.shared.endEditing()
-        }
-        .onReceive(vm.registerSuccess) { value in
-            notRegex = true
-            success = value
-        }
-        .alert(isPresented: $notRegex) {
-            Alert(title: Text(success ? "성공":"오류"),message: Text(vm.message),dismissButton: .default(Text("확인")){
-                if success{
-                    vm.selection = .nickname
-                    vm.getUser()
-                }
-            })
-        }
+        .onTapGesture { UIApplication.shared.endEditing() }
+        .onReceive(vmAuth.registerResultEvent){excuteAlert($0)}
+        .onReceive(vmCheck.checkResultEvent){excuteDuplication($0)}
+        .alert(isPresented: $isOnAlert){ alert }
     }
-    
 }
 
 struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
-            RegisterView(login: .constant(true))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            RegisterView()
+                .environmentObject(AuthViewModel(user: CustomData.user))
         }
-        
     }
 }
 
 extension RegisterView{
+    var alert:Alert{
+        let text = Text(registerResult.success ? "성공":"실패")
+        let message = Text(registerResult.message)
+        let button = Alert.Button.default(Text("확인")){
+            if registerResult.success{
+                vmAuth.getUser()
+                dismiss()
+            }
+        }
+        return Alert(title: text,message:message,dismissButton:button)
+    }
+    func excuteAlert(_ event:(Bool,String)){
+        registerResult = event
+        isOnAlert = true
+    }
+    func excuteDuplication(_ event:(Bool,String)){
+        duplicationResult = event
+    }
+    var titleView:some View{
+        Text("회원가입하기")
+            .font(.GmarketSansTTFMedium(25))
+            .bold()
+            .foregroundColor(.customIndigo)
+            .padding(.vertical,30)
+            .padding(.bottom,50)
+            .frame(maxWidth: .infinity)
+    }
     var emailView:some View{
         VStack(alignment: .leading) {
-            Text("이메일").font(.GmarketSansTTFMedium(15))
+            Text("이메일")
+                .font(.GmarketSansTTFMedium(15))
             HStack{
-                VStack{
-                    CustomTextField(password: false, image: "envelope.fill", placeholder: "입력", color: Color.gray, text: $email)
-                        .keyboardType(.emailAddress)
-                        .padding(.vertical,3)
-                    Divider()
-                        .frame(height: 1)
-                        .background(Color.customIndigo)
-                }
+                CustomTextField(password: false, image: "envelope.fill", placeholder: "입력", color: Color.gray, style: .line, text: $email)
+                    .keyboardType(.emailAddress)
+                    .padding(.vertical,3)
                 Text("@")
                     .padding(.leading)
                     .font(.GmarketSansTTFMedium(15))
@@ -108,21 +100,17 @@ extension RegisterView{
                 }
                 .accentColor(.black)
             }
-        }.padding(.leading,15)
+        }
+        .padding(.leading,15)
     }
     var duplicationView:some View{
         HStack{
-            Text(vmCheck.message)
-                .foregroundColor(vmCheck.possible ? .green:.red)
+            Text(duplicationResult.message)
+                .foregroundColor(duplicationResult.possible ? .green:.red)
                 .font(.GmarketSansTTFMedium(12))
             Spacer()
             Button {
-                if email != ""{
-                    vmCheck.checkEmail(email: "\(email)@\(domain.domain)")
-                }else{
-                    vmCheck.showMessage(message: "이메일을 제대로 입력해주세요!",possible: false)
-                }
-                temp = "\(email)@\(domain.domain)"
+                duplicationAction()
             } label: {
                 Text("중복확인")
                     .cornerRadius(20)
@@ -139,75 +127,63 @@ extension RegisterView{
         VStack(alignment: .leading,spacing: 20) {
             Text("비밀번호")
                 .font(.GmarketSansTTFMedium(15))
-                .padding(.top,5)
-            CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.gray, text: $password)
-               .foregroundColor(.customIndigo)
-            Divider()
-            .frame(height: 1)
-            .background(Color.customIndigo)
+            CustomTextField(password: true, image: "lock", placeholder: "입력", color: Color.gray, style: .line,  text: $password)
             Text("비밀번호 확인").font(.GmarketSansTTFMedium(15))
-            CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.gray, text: $passwordConfirm) .foregroundColor(.customIndigo)
-            Divider()
-            .frame(height: 1)
-            .background(Color.customIndigo)
-            .padding(.bottom,40)
+            CustomTextField(password: true, image: "lock.fill", placeholder: "입력", color: Color.gray, style: .line, text: $passwordConfirm)
         }
+        .padding(.top,5)
+        .padding(.bottom,40)
         .padding(.horizontal,15)
     }
     var registerButtonView:some View{
         CustomConfirmButton(text: "회원가입", color: .customIndigo, textColor: .white) {
-            registerCheck()
+            registerAction()
         }
-       
         .padding(.horizontal,15)
     }
-    func isVaildInfo()->Int{
-        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        
+    func isVaildRegisterInfo()->RegisterCheckFilter{
         let passwordRegex = "[A-Za-z0-9!_@$%^&+=]{8,20}"
         let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
         
         if email.isEmpty || password.isEmpty || passwordConfirm.isEmpty{
-            return 1
-        }else if !emailPredicate.evaluate(with: "\(email)@\(domain.domain)"){
-            return 2
+            return .emptyInfomation
         }else if !passwordPredicate.evaluate(with: password){
-            return 3
+            return .passwordFormatError
         }else if password != passwordConfirm{
-            return 4
-        }else if vmCheck.message == ""{
-            return 5
-        }else if temp != "\(email)@\(domain.domain)"{
-            return 6
-        }
-        else{
-            return 0
+            return .passwordMismatch
+        }else if duplicationResult.message.isEmpty{
+            return .notConfirmDuplicate
+        }else if tempEmail != "\(email)@\(domain.domain)"{
+            return .changedEmail
+        }else{
+            return .success
         }
     }
-    func registerCheck(){
-        switch isVaildInfo(){
-        case 1:
-            vm.message = "입력하지 않은 정보가 있습니다!"
-            return notRegex = true
-        case 2:
-            vm.message = "유효하지 않은 이메일입니다!"
-            return notRegex = true
-        case 3:
-            vm.message = "비밀번호는 영문 대,소문자, 숫자, 특수문자만 허용되며 8~20자 사이여야 합니다!"
-            return notRegex = true
-        case 4:
-            vm.message = "비밀번호가 일치하지 않습니다!"
-            return notRegex = true
-        case 5:
-            vm.message = "이메일 중복확인을 해주세요!"
-            return notRegex = true
-        case 6:
-            vm.message = "이메일이 변경되었습니다. 중복확인을 다시 해주세요!"
-            return notRegex = true
-        default:
-            return vm.register(email: "\(email)@\(domain.domain)", password: password.sha256(), authProvider: "IMAD") //SHA256
+    func isVaildEmailInfo()->EmailCheckFilter{
+        let emailRegex = "[A-Z0-9a-z._%+-]{3,}"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        
+        if email.isEmpty{
+            return .emptyInfomation
+        }else if !emailPredicate.evaluate(with: email){
+            return .emailFormatError
+        }else{
+            return .success
         }
+    }
+    func registerAction(){
+        switch isVaildRegisterInfo(){
+        case .success:
+            vmAuth.register(email: "\(email)@\(domain.domain)", password: password.sha256(), authProvider: "IMAD")
+        default:excuteAlert((false,isVaildRegisterInfo().message))
+        }
+    }
+    func duplicationAction(){
+        switch isVaildEmailInfo(){
+        case .success:vmCheck.checkEmail(email: "\(email)@\(domain.domain)")
+        default:duplicationResult = (false,isVaildEmailInfo().message)
+        }
+        tempEmail = "\(email)@\(domain.domain)"
     }
 }
 

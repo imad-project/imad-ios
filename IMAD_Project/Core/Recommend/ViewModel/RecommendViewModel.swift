@@ -12,6 +12,9 @@ class RecommendViewModel:ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
     var refreschTokenExpired = PassthroughSubject<(),Never>()
+    let recommendnManager = RecommendCacheManager.instance
+    let errorManager = ErrorManager.instance
+    
     @Published var currentPage = 1
     @Published var maxPage = 0
     
@@ -21,50 +24,61 @@ class RecommendViewModel:ObservableObject{
     @Published var recommendImad:([WorkGenre],[WorkGenre]) = ([],[])
     @Published var recommendActivity:[WorkGenre] = []
     
-    func workList(type:RecommendListType) -> [WorkGenre]{
+    init(recommendAll:AllRecommendResponse?) {
+        self.recommendAll = recommendAll
+    }
+    func workList(_ type:RecommendListType)->(list:[WorkGenre],contentsId:Int?){
         switch type{
         case .genreTv:
-            return recommendGenre.0
+            let data = recommendAll?.preferredGenreRecommendationTv
+            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
         case .genreMovie:
-            return recommendGenre.1
+            let data = recommendAll?.preferredGenreRecommendationMovie
+            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
         case .trendTv:
-            return recommendTrend.0
+            let data = recommendAll?.trendRecommendationTv
+            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
         case .trendMovie:
-            return recommendTrend.1
-        case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:
-            return recommendActivity
+            let data = recommendAll?.trendRecommendationMovie
+            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+        case .activityTv:
+            let data = recommendAll?.userActivityRecommendationTv
+            return (data?.results.prefix(5).map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+        case .activityAnimationTv:
+            let data = recommendAll?.userActivityRecommendationTvAnimation
+            return (data?.results.prefix(5).map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+        case .activityMovie:
+            let data = recommendAll?.userActivityRecommendationMovie
+            return (data?.results.prefix(5).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+        case .activityAnimationMovie:
+            let data = recommendAll?.userActivityRecommendationMovieAnimation
+            return (data?.results.prefix(5).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
         case .imadTv:
-            return recommendImad.0
+            let data = recommendAll?.popularRecommendationTv
+            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
         case .imadMovie:
-            return recommendImad.1
+            let data = recommendAll?.popularRecommendationMovie
+            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
         }
     }
     func fetchAllRecommend(){
-        RecommendApiService.all()
-            .sink { completion in
-                print(completion)
-                switch completion{
-                case .finished:
-                    print(completion)
-                case let .failure(error):
-                    print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
-                }
-            } receiveValue: { [weak self] work in
-                self?.recommendAll = work.data
-            }.store(in: &cancelable)
-        
+        if let data = recommendnManager.cachedData(key: "AllRecommand"),Date().timeDifference(previousTime: recommendnManager.timeStamp, curruntTime: Date()) <= 300{
+            self.recommendAll = data
+        }else{
+            RecommendApiService.all()
+                .sink { completion in
+                    self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })
+                } receiveValue: { [weak self] work in
+                    guard let data = work.data else {return}
+                    self?.recommendAll = data
+                    self?.recommendnManager.updateData(key: "AllRecommand", data: data)
+                }.store(in: &cancelable)
+        }
     }
     func fetchTrendRecommend(page:Int){
         RecommendApiService.trend(page: page)
             .sink { completion in
-                switch completion{
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
-                case .finished:
-                    print(completion)
-                }
+                self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })
                 self.currentPage = page
             } receiveValue: { [weak self] work in
                 var tvList:[WorkGenre] = []
@@ -79,13 +93,7 @@ class RecommendViewModel:ObservableObject{
     func fetchGenreRecommend(page:Int){
         RecommendApiService.genre(page: page)
             .sink { completion in
-                switch completion{
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
-                case .finished:
-                    print(completion)
-                }
+                self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })
                 self.currentPage = page
             } receiveValue: { [weak self] work in
                 var tvList:[WorkGenre] = []
@@ -100,13 +108,7 @@ class RecommendViewModel:ObservableObject{
     func fetchImadRecommend(page:Int){
         RecommendApiService.imad(page: page)
             .sink { completion in
-                switch completion{
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
-                case .finished:
-                    print(completion)
-                }
+                self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })
                 self.currentPage = page
             } receiveValue: { [weak self] work in
                 var tvList:[WorkGenre] = []
@@ -121,13 +123,7 @@ class RecommendViewModel:ObservableObject{
     func fetchActivityRecommend(page:Int,contentsId:Int){
         RecommendApiService.activity(page: page, contentsId: contentsId)
             .sink { completion in
-                switch completion{
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
-                case .finished:
-                    print(completion)
-                }
+                self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })
                 self.currentPage = page
             } receiveValue: { [weak self] work in
                 var list:[WorkGenre] = []

@@ -11,7 +11,6 @@ import Kingfisher
 struct ReviewListRowView: View {
     let review:ReadReviewResponse
     let my:Bool
-    @EnvironmentObject var vm:AuthViewModel
     var body: some View {
         VStack(alignment: .leading){
             profileAndDateView
@@ -24,7 +23,6 @@ struct ReviewListRowView: View {
             if my{
                 NavigationLink {
                     WorkView(contentsId:review.contentsID)
-                        .environmentObject(vm)
                         .navigationBarBackButtonHidden()
                 } label: {
                     HStack{
@@ -54,8 +52,8 @@ struct ReviewListRowView: View {
 
 struct ReviewListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewListRowView(review: CustomData.instance.review, my: true)
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        ReviewListRowView(review: CustomData.review!, my: true)
+           
     }
 }
 extension ReviewListRowView{

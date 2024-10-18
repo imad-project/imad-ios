@@ -34,15 +34,12 @@ struct ProfileImageView: View {
                         .shadow(color:ProfileFilter.allCases.first(where: {$0.num == imagePath.getImageCode()})?.color ?? .clear,radius: 1)
                 }
             }
-            .onAppear{
-                print(imagePath.getImadImage())
-            }
     }
    
 }
 
 struct ProfileImageView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileImageView(work: 1, imagePath: CustomData.instance.profileImage,widthHeigt: 30)
+        ProfileImageView(work: 1, imagePath: CustomData.profileImage,widthHeigt: 30)
     }
 }

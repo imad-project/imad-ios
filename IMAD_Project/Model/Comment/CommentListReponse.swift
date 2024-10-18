@@ -8,13 +8,13 @@
 import Foundation
 
 struct CommentListResponse:Codable,Hashable {
-    var commentDetailsResponseList: [CommentResponse]
+    let detailsList: [CommentResponse]
     let totalElements, totalPages, pageNumber, numberOfElements: Int
     let sizeOfPage, sortDirection: Int
     let sortProperty: String
 
     enum CodingKeys: String, CodingKey {
-        case commentDetailsResponseList = "details_list"
+        case detailsList = "details_list"
         case totalElements = "total_elements"
         case totalPages = "total_pages"
         case pageNumber = "page_number"

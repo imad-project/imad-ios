@@ -15,39 +15,32 @@ struct MenuTabView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        
         VStack(spacing: 0){
             TabView(selection: $tab){
                 MainView()
-                    .environmentObject(vmAuth)
                     .tag(TabFilter.home)
                 CommunityView()
-                    .environmentObject(vmAuth)
                     .tag(TabFilter.community)
                 SearchView(backMode: true, postingMode: false, back: .constant(false))
                     .tag(TabFilter.notification)
                 ProfileView()
                     .tag(TabFilter.profile)
-                    .environmentObject(vmAuth)
-                
             }
             menu
         }
+        .environmentObject(vmAuth)
         .ignoresSafeArea(.keyboard)
-        .onAppear{
-            UITabBar.appearance().isHidden = true   //탭바 숨김
-        }
+        .onAppear{ UITabBar.appearance().isHidden = true } //탭바 숨김
     }
 }
 
 struct MenuTabView_Previews: PreviewProvider {
     static var previews: some View {
         MenuTabView()
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            .environment(\.colorScheme,.light)
+            .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
-
-
 
 extension MenuTabView{
     @MainActor
@@ -57,7 +50,6 @@ extension MenuTabView{
                 GeometryReader{ geo in
                     let minX = geo.frame(in: .global).minX
                     let mid = geo.frame(in: .local)
-                   
                     Button {
                         withAnimation(.easeIn(duration: 0.2)){
                             tabInfo = minX
@@ -66,25 +58,22 @@ extension MenuTabView{
                     } label: {
                         VStack(spacing: 5) {
                             Group{
-                                if item.name != ""{
+                                if !item.name.isEmpty{
                                     Image(systemName: item.name)
                                         .font(.GmarketSansTTFBold(20))
                                 }else{
-                                    ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "",widthHeigt: 30)
+                                    ProfileImageView(imagePath: vmAuth.user?.profileImage ?? "",widthHeigt: 30)
                                         .padding(.top,5)
                                 }
                             }
                             .position(x:mid.midX,y:mid.midY-15)
                             Text(item.menu)
                                 .font(.GmarketSansTTFMedium(10))
-                                
                         }
                         .padding(.top)
                     }
                     .onAppear{
-                        if item == tab{
-                            self.tabInfo = minX
-                        }
+                        if item == tab{ self.tabInfo = minX }
                     }
                 }
                 .frame(width: 50,height: 70)
@@ -97,7 +86,6 @@ extension MenuTabView{
                 .frame(width: 50,height: 3)
                 .offset(x:tabInfo,y:-35)
         }
-        
     }
 }
 

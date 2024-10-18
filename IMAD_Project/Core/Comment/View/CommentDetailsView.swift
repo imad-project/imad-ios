@@ -22,7 +22,7 @@ struct CommentDetailsView: View {
     @State var replyWrite:CommentResponse?
     
     @StateObject var vm = CommentViewModel(comment: nil, replys: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -37,7 +37,7 @@ struct CommentDetailsView: View {
                         VStack{
                             ForEach(vm.replys,id:\.self) { item in
                                 CommentRowView(filter: .detailsComment, postingId: postingId, reported: item.reported, deleted: item.removed, comment: item,reply:$replyWrite,commentFocus: $reply)
-                                    .environmentObject(vmAuth)
+                                   
                                 if vm.replys.last == item,vm.maxPage > vm.currentPage{
                                     ProgressView()
                                         .onAppear{
@@ -72,8 +72,8 @@ struct CommentDetailsView: View {
 
 struct CommentDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentDetailsView(postingId: 1, parentsId: 12,reported: true, vm: CommentViewModel(comment: CustomData.instance.comment, replys: CustomData.instance.commentList))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        CommentDetailsView(postingId: 1, parentsId: 12,reported: true, vm: CommentViewModel(comment: CustomData.comment, replys: CustomData.commentList))
+           
     }
 }
 
@@ -103,8 +103,8 @@ extension CommentDetailsView{
             }
             Divider()
             HStack{
-                ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "", widthHeigt: 30)
-                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black, text: $reviewText)
+                ProfileImageView(imagePath: vmAuth.user?.profileImage ?? "", widthHeigt: 30)
+                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,style:.none, text: $reviewText)
                     .focused($reply)
                     .padding(10)
                     .background{

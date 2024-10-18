@@ -41,7 +41,7 @@ struct WorkInfoView: View {
 struct WorkInfoView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView{
-            WorkInfoView(work: CustomData.instance.workInfo)
+            WorkInfoView(work: CustomData.workInfo!)
         }
     }
 }

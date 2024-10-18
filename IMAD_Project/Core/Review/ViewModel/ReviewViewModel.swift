@@ -8,8 +8,7 @@
 import Foundation
 import Combine
 
-//@MainActor
-class ReviewViewModel:ObservableObject{
+final class ReviewViewModel:ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()

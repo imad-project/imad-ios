@@ -23,12 +23,15 @@ struct ProfileChangeView: View {
                    header
                         List{
                             Group{
-                                navigatoionChangeView(view: InfoChangeView(title: "닉네임", password: false, text:vmAuth.user?.data?.nickname ?? ""), text: "닉네임 변경")
-                                navigatoionChangeView(view: InfoChangeView(title: "성별", password: false,gender: vmAuth.user?.data?.gender ?? ""), text: "성별 변경")
-                                navigatoionChangeView(view: InfoChangeView(title: "나이", password: false,age: vmAuth.user?.data?.birthYear ?? 0), text: "나이 변경")
-                                if vmAuth.user?.data?.authProvider == "IMAD"{
-                                    navigatoionChangeView(view: InfoChangeView(title: "비밀번호", password: true), text: "비밀번호 변경")
+                                if let user = vmAuth.user{
+                                    navigatoionChangeView(view: InfoChangeView(title: "닉네임", password: false, text:user.nickname ?? ""), text: "닉네임 변경")
+                                    navigatoionChangeView(view: InfoChangeView(title: "성별", password: false,gender: user.gender ?? ""), text: "성별 변경")
+                                    navigatoionChangeView(view: InfoChangeView(title: "나이", password: false,age: user.birthYear), text: "나이 변경")
+                                    if user.authProvider == "IMAD"{
+                                        navigatoionChangeView(view: InfoChangeView(title: "비밀번호", password: true), text: "비밀번호 변경")
+                                    }
                                 }
+                                
                                 actionButtonView(action: {
                                     logout = true
                                     delete = false
@@ -47,6 +50,7 @@ struct ProfileChangeView: View {
                     
                     
                 }
+                .environmentObject(vmAuth)
                 .background(Color.gray.opacity(0.1).ignoresSafeArea())
         .foregroundColor(.black)
         .alert(isPresented: $logout) {
@@ -59,7 +63,7 @@ struct ProfileChangeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ProfileChangeView()
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+                .environmentObject(AuthViewModel(user: CustomData.user))
         }
         
     }
@@ -88,7 +92,7 @@ extension ProfileChangeView{
     func navigatoionChangeView(view:some View,text:String) -> some View{
         NavigationLink {
             view
-                .environmentObject(vmAuth)
+               
                 .navigationBarBackButtonHidden()
         } label: {
             Text(text)
@@ -108,7 +112,7 @@ extension ProfileChangeView{
             primaryButton: .cancel(Text("취소")),
             secondaryButton: .destructive(delete ? Text("탈퇴") : Text("로그아웃"), action: {
                 if delete{
-                    if let authProvier = vmAuth.user?.data?.authProvider{
+                    if let authProvier = vmAuth.user?.authProvider{
                         switch authProvier{
                         case "KAKAO":
                             vmAuth.delete(authProvier: "kakao")

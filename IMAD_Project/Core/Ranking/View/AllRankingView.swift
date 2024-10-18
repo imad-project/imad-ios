@@ -11,8 +11,8 @@ struct AllRankingView: View {
     @State var filter:RankingFilter
     @State var type:TypeFilter = .all
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm = RankingViewModel(rankingList:[])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vm = RankingViewModel(ranking: nil, popular: nil)
+    
     var body: some View {
         VStack(spacing: 0){
             header
@@ -22,18 +22,15 @@ struct AllRankingView: View {
             }
         }
         .onAppear{
-            listUpdate(page: 1, type: type.rawValue)
-        }
-        .onDisappear{
-            vm.rankingList.removeAll()
+            vm.getRanking(ranking: RankingCache(id: filter.rawValue + type.rawValue, rankingType: filter, mediaType: type, maxPage: 1, currentPage: 1, list: []))
         }
         .foregroundColor(.black)
     }
 }
 
 #Preview {
-    AllRankingView(filter: .all,vm:RankingViewModel(rankingList:CustomData.instance.rankingList))
-        .environmentObject(AuthViewModel(user: UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+    AllRankingView(filter: .all,vm:RankingViewModel(ranking: nil, popular: nil))
+       
 }
 
 extension AllRankingView{
@@ -52,9 +49,9 @@ extension AllRankingView{
         HStack{
             ForEach(RankingFilter.allCases,id:\.self) { ranking in
                 Button {
-                    vm.rankingList.removeAll()
-                    filter = ranking
-                    listUpdate(page: 1, type: type.rawValue)
+                    self.filter = ranking
+                    let ranking = RankingCache(id: ranking.rawValue + type.rawValue, rankingType: ranking, mediaType: type, maxPage: 1, currentPage: 1, list: [])
+                    vm.getRanking(ranking: ranking)
                 } label: {
                     Text(ranking.name)
                         .font(.GmarketSansTTFMedium(17))
@@ -77,8 +74,8 @@ extension AllRankingView{
                     ForEach(TypeFilter.allCases,id:\.self){ type in
                         Button {
                             self.type = type
-                            listUpdate(page: 1, type: type.rawValue)
-                            vm.rankingList.removeAll()
+                            let ranking = RankingCache(id: filter.rawValue + type.rawValue, rankingType: filter, mediaType: type, maxPage: 1, currentPage: 1, list: [])
+                            vm.getRanking(ranking: ranking)
                         } label: {
                             Text(type.name)
                                 .font(.GmarketSansTTFMedium(12))
@@ -101,50 +98,54 @@ extension AllRankingView{
                 .padding(10)
         }
     }
+    @ViewBuilder
     var contentsView:some View{
-        ForEach(vm.rankingList,id:\.self){ rank in
-            NavigationLink {
-                WorkView(contentsId: rank.contentsID)
-                    .environmentObject(vmAuth)
-                    .navigationBarBackButtonHidden()
-            } label: {
-                HStack(spacing:0){
-                    KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
-                    VStack(alignment: .leading){
-                        HStack{
-                            Text("\(rank.ranking)")
-                                .font(.GmarketSansTTFMedium(15))
-                                .bold()
-                            Text(rank.title)
-                                .frame(width: 100,alignment: .leading)
-                                .lineLimit(1)
-                                .font(.GmarketSansTTFMedium(12))
+        if let list = vm.ranking?.list{
+            ForEach(list,id:\.self){ rank in
+                NavigationLink {
+                    WorkView(contentsId: rank.contentsID)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    HStack(spacing:0){
+                        KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
+                        VStack(alignment: .leading){
+                            HStack{
+                                Text("\(rank.ranking)")
+                                    .font(.GmarketSansTTFMedium(15))
+                                    .bold()
+                                Text(rank.title)
+                                    .frame(width: 100,alignment: .leading)
+                                    .lineLimit(1)
+                                    .font(.GmarketSansTTFMedium(12))
+                            }
+                            .foregroundColor(.black)
+                            .padding(.bottom,3)
+                            HStack{
+                                rankUpdateView(rank: rank.rankingChanged)
+                                Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                            }
+                            
                         }
-                        .foregroundColor(.black)
-                        .padding(.bottom,3)
-                        HStack{
-                            rankUpdateView(rank: rank.rankingChanged)
-                            Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
-                                .font(.caption)
-                                .foregroundStyle(.gray)
-                        }
-                        
+                        .padding(.horizontal,10)
+                        Spacer()
+                        ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
+                            .padding(.trailing)
                     }
-                    .padding(.horizontal,10)
-                    Spacer()
-                    ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
-                        .padding(.trailing)
+                }
+                .cornerRadius(5)
+                .padding(.leading,10)
+                if list.last == rank,let ranking = vm.ranking, ranking.maxPage > ranking.currentPage{
+                    ProgressView()
+                        .onAppear{
+                            guard let ranking  = vm.ranking else {return}
+                            vm.getRankingNextPage(nextPage: ranking.currentPage + 1, ranking: ranking)
+                        }
                 }
             }
-            .cornerRadius(5)
-            .padding(.leading,10)
-            if vm.rankingList.last == rank,vm.maxPage > vm.currentPage{
-                ProgressView()
-                    .onAppear{
-                        listUpdate(page: vm.currentPage + 1, type:type.rawValue)
-                    }
-            }
         }
+        
     }
     func rankUpdateView(rank:Int?) -> some View{
         HStack(spacing:2){
@@ -159,16 +160,6 @@ extension AllRankingView{
             }else{
                 Text("-").foregroundColor(.gray)
             }
-        }
-    }
-    func listUpdate(page:Int,type:String){
-        switch filter{
-        case .all:
-            vm.getAllRanking(page: page, type: type)
-        case .week:
-            vm.getWeekRanking(page: page, type: type)
-        case .month:
-            vm.getMonthRanking(page: page, type: type)
         }
     }
 }

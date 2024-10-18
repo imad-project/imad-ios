@@ -26,10 +26,10 @@ struct WriteReviewView: View {
     @State var animation = false
     @State var animation1 = true
     @State var error = false
-    
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     
     
     var body: some View {
@@ -95,8 +95,8 @@ struct WriteReviewView: View {
 
 struct WriteReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        WriteReviewView(id: 1, image: CustomData.instance.movieList.first!, workName: "카지노", gradeAvg: 9.5, reviewId: nil,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+        WriteReviewView(id: 1, image: CustomData.workImage, workName: "카지노", gradeAvg: 9.5, reviewId: nil,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
+           
     }
 }
 
@@ -216,7 +216,7 @@ extension WriteReviewView{
     }
     var titleView:some View{
         HStack{
-            CustomTextField(password: false, image: "", placeholder: "제목..", color: .customIndigo.opacity(0.5),textLimit: 15, text: $title)
+            CustomTextField(password: false, image: "", placeholder: "제목..", color: .customIndigo.opacity(0.5), style: .capsule,textLimit: 15, text: $title)
             Text("\(title.count)/25")
                 .foregroundStyle(.black)
                 .font(.subheadline)

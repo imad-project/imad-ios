@@ -33,8 +33,9 @@ final class IMAD_ProjectTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-    func testAAA() throws{
-        print("asdasdasd")
+    func test_appFirstLaunch() throws{
     }
 
+    func test_successFetchRankingList() throws{
+    }
 }

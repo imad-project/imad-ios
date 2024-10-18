@@ -8,52 +8,39 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @State var isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch") //온보딩
-
-    @State var delete = false
-    @State var alert = false
-    @State var splash = false
-    @State var login = false
-    @StateObject var vm = AuthViewModel(user: nil)
+    @State var flashOn = true
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         ZStack {
-            if splash{
+            if flashOn{
+                SplashView(off: $flashOn)
+            }else{
                 if isFirstLaunch{
-                    if let user = vm.user?.data{
+                    if let user = vmAuth.user{
                         if user.role == "GUEST"{
-                            RegisterTabView().environmentObject(vm)
-                        }else{ 
-                            MenuTabView().environmentObject(vm)
+                            RegisterTabView()
+                        }else{
+                            MenuTabView()
                         }
                     }else{
                         LoginAllView()
-                           .environmentObject(vm)
-                           .ignoresSafeArea(.keyboard)
                     }
                 }else{
                     OnBoardingTabView(isFirstLaunch: $isFirstLaunch)
                 }
-            }else{
-                SplashView()
             }
         }
-        .onAppear{
-            vm.getUser()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                withAnimation(.easeOut(duration: 1.5)){
-                    splash = true
-                }
-            }
-        }
+        .onAppear{ vmAuth.getUser() }
+        .environmentObject(vmAuth)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ContentView()
+            ContentView(vmAuth:AuthViewModel(user: CustomData.user))
         }
     }
 }

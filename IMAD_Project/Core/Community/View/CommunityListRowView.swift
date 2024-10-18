@@ -47,7 +47,7 @@ struct CommunityListRowView: View {
 
 struct CommunityListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityListRowView(community:CustomData.instance.communityDetails)
+        CommunityListRowView(community:CustomData.communityDetails!)
             .background(.gray)
     }
 }

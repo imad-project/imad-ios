@@ -28,7 +28,7 @@ struct InfoChangeView: View {
     
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = CheckDataViewModel()
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     var currentDate :Int{
         
         let date = Date()
@@ -106,7 +106,7 @@ struct InfoChangeView_Previews: PreviewProvider {
     static var previews: some View {
         
         InfoChangeView(title: "닉네임", password: false, text: "quarang")
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+           
     }
 }
 
@@ -180,7 +180,7 @@ extension InfoChangeView{
         VStack(alignment: .leading){
             HStack{
                 VStack{
-                    CustomTextField(password: password, image: nil, placeholder: title + placeHolder, color: .black.opacity(0.5), text: text)
+                    CustomTextField(password: password, image: nil, placeholder: title + placeHolder, color: .black.opacity(0.5), style: .capsule, text: text)
                         .padding(.top,10)
                     Divider()
                         .background(Color.black)
@@ -192,7 +192,7 @@ extension InfoChangeView{
                     
                     if text.wrappedValue.isEmpty || text.wrappedValue.count < 2 || text.wrappedValue.contains(" ") || !condition || text.wrappedValue.count > 10
                     {
-                        vm.showMessage(message: "닉네임은 2~10 글자 사이여야 하며, 특수문자와 공백을 포함할 수 없습니다.", possible: false)
+//                        vm.showMessage(message: "닉네임은 2~10 글자 사이여야 하며, 특수문자와 공백을 포함할 수 없습니다.", possible: false)
                     }else{
                         vm.checkNickname(nickname: text.wrappedValue)
                         checkText = text.wrappedValue
@@ -208,9 +208,9 @@ extension InfoChangeView{
                         }
                 }
             }
-            Text(vm.message)
-                .font(.GmarketSansTTFMedium(12))
-                .foregroundColor(vm.possible ? .green : .red)
+//            Text(vm.message)
+//                .font(.GmarketSansTTFMedium(12))
+//                .foregroundColor(vm.possible ? .green : .red)
         }
        .padding(.horizontal)
     }
@@ -219,7 +219,7 @@ extension InfoChangeView{
                 Text("기존 비밀번호")
                     .font(.GmarketSansTTFMedium(15))
                     .padding(.vertical,10)
-                CustomTextField(password: password, image: nil, placeholder: title, color: .black.opacity(0.5), text: $old)
+                CustomTextField(password: password, image: nil, placeholder: title, color: .black.opacity(0.5), style: .capsule, text: $old)
                     .padding(.horizontal,5)
                 
                 Divider()
@@ -249,7 +249,7 @@ extension InfoChangeView{
             if checkText == text{
                 vmAuth.patchUser.nickname = text
             }else{
-                vm.showMessage(message: "닉네임이 변경 되었습니다. 중복확인을 다시 시도해 주세요.", possible: false)
+//                $vm.showMessage(message: "닉네임이 변경 되었습니다. 중복확인을 다시 시도해 주세요.", possible: false)
             }
         case "성별":
             vmAuth.patchUser.gender = gender

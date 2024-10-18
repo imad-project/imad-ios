@@ -36,7 +36,7 @@ struct CommentRowView: View {
     
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user: nil)
     
     var body: some View {
         VStack{
@@ -100,7 +100,7 @@ struct CommentRowView: View {
             ZStack{
                 Color.white.ignoresSafeArea()
                 OtherProfileView(id: comment.userID)
-                    .environmentObject(vmAuth)
+                   
             }
             
         }
@@ -109,14 +109,14 @@ struct CommentRowView: View {
 }
 
 #Preview {
-    CommentRowView(filter: .detailsComment ,postingId:0, reported: false, deleted: false, comment:CustomData.instance.comment,reply: .constant(CustomData.instance.comment), commentFocus: FocusState<Bool>().projectedValue,vmComment: CommentViewModel(comment: nil, replys: CustomData.instance.commentList))
-        .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+    CommentRowView(filter: .detailsComment ,postingId:0, reported: false, deleted: false, comment:CustomData.comment!,reply: .constant(CustomData.comment), commentFocus: FocusState<Bool>().projectedValue,vmComment: CommentViewModel(comment: nil, replys: CustomData.commentList))
+       
 }
 
 extension CommentRowView{
     var profileView:some View{
         HStack{
-            if comment.userNickname == vmAuth.user?.data?.nickname{
+            if comment.userNickname == vmAuth.user?.nickname{
                 ProfileImageView(imagePath: comment.userProfileImage, widthHeigt: 20)
             }else{
                 Button {
@@ -196,7 +196,7 @@ extension CommentRowView{
                     NavigationLink {
                         CommentDetailsView(postingId: postingId, parentsId: comment.commentID, reported: comment.reported)
                             .navigationBarBackButtonHidden()
-                            .environmentObject(vmAuth)
+                           
                     } label: {
                         Text("댓글 \(comment.childCnt)개 보기")
                     }
@@ -256,7 +256,7 @@ extension CommentRowView{
     }
     var modifyView:some View{
         HStack{
-            CustomTextField(password: false, image: nil, placeholder: "댓글입력..", color: .black, textLimit: 400, text: $text)
+            CustomTextField(password: false, image: nil, placeholder: "댓글입력..", color: .black, style:.none, textLimit: 400, text: $text)
                 .focused($focus)
             Button {
                 if text.isEmpty{
@@ -365,7 +365,8 @@ extension CommentRowView{
             }
             .onEnded{ _ in
                 withAnimation(.spring()){
-                    if let nickname = vmAuth.user?.data?.nickname,nickname == comment.userNickname{
+                    if let nickname = 
+                        vmAuth.user?.nickname,nickname == comment.userNickname{
                         if currentDragOffstY < -100{
                             statingOffsetY = -200
                         }else if currentDragOffstY > 100{

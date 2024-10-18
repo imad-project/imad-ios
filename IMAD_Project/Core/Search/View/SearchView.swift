@@ -20,7 +20,7 @@ struct SearchView: View {
     @Binding var back:Bool
     @StateObject var vmWork = WorkViewModel(workInfo: nil, bookmarkList: [])
     @StateObject var vm = SearchViewModel()
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         VStack(alignment: .leading,spacing: 0){
@@ -54,7 +54,6 @@ struct SearchView: View {
                     }
                 }
             }
-            .environmentObject(vmAuth)
             .navigationBarBackButtonHidden()
         }
     }
@@ -63,8 +62,8 @@ struct SearchView: View {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            SearchView(backMode: true, postingMode: true, back: .constant(false),vm: SearchViewModel(work: CustomData.instance.workList))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            SearchView(backMode: true, postingMode: true, back: .constant(false),vm: SearchViewModel(work: CustomData.workList))
+               
         }
     }
 }
@@ -85,11 +84,7 @@ extension SearchView{
         .padding([.horizontal,.top],10)
     }
     var searchBar:some View{
-        CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray, text: $vm.searchText)
-            .padding()
-            .background(Color.gray.opacity(0.2))
-            .cornerRadius(50)
-            .padding(10)
+        CustomTextField(password: false, image: "magnifyingglass", placeholder: "작품을 검색해주세요 .. ", color: .gray.opacity(0.2), style: .capsule, text: $vm.searchText)
     }
     var filter:some View{
         Picker("", selection: $vm.type) {

@@ -22,9 +22,10 @@ struct ReviewDetailsView: View {
     @State var menu = false
     @State var delete = false
     @Environment(\.dismiss) var dismiss
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @StateObject var vmReport = ReportViewModel()
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     
     var body: some View {
         VStack(spacing: 0){
@@ -53,7 +54,6 @@ struct ReviewDetailsView: View {
             ZStack{
                 Color.white.ignoresSafeArea()
                 OtherProfileView(id: vm.review?.userID ?? 0)
-                    .environmentObject(vmAuth)
             }
             
         }
@@ -77,7 +77,7 @@ struct ReviewDetailsView: View {
                 let out = Alert.Button.default(Text("나가기")){
                     dismiss()
                 }
-                return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
             }
             
         }
@@ -93,8 +93,8 @@ struct ReviewDetailsView: View {
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ReviewDetailsView(goWork: true, reviewId: 1, reported: true,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            ReviewDetailsView(goWork: true, reviewId: 1, reported: true,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
+               
         }
     }
 }
@@ -140,7 +140,6 @@ extension ReviewDetailsView{
                         NavigationLink {
                             WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
                                 .navigationBarBackButtonHidden()
-                                .environmentObject(vmAuth)
                         } label: {
                             Text("수정하기")
                         }
@@ -178,7 +177,7 @@ extension ReviewDetailsView{
             HStack{
                 VStack(alignment: .leading) {
                     HStack{
-                        if review.userNickname == vmAuth.user?.data?.nickname{
+                        if review.userNickname == vmAuth.user?.nickname{
                             ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
                         }else{
                             Button {
@@ -225,7 +224,6 @@ extension ReviewDetailsView{
                 NavigationLink {
                     WorkView(contentsId:review.contentsID)
                         .navigationBarBackButtonHidden()
-                        .environmentObject(vmAuth)
                 } label: {
                     HStack{
                         KFImageView(image: review.contentsPosterPath.getImadImage(),width: 30,height:40)

@@ -10,9 +10,10 @@ import SwiftUI
 struct MyReviewView: View {
     let writeType:WriteTypeFilter
     @State var like = true
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     
     func profileMode(next:Bool)->(){
         switch writeType{
@@ -57,8 +58,8 @@ struct MyReviewView: View {
 
 struct MyReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        MyReviewView(writeType: .myselfLike,vm: ReviewViewModel(review:CustomData.instance.review,reviewList: CustomData.instance.reviewDetail))
-            .environmentObject(AuthViewModel(user: UserInfo(status: 1, message: "")))
+        MyReviewView(writeType: .myselfLike,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
+           
     }
 }
 
@@ -89,11 +90,11 @@ extension MyReviewView{
                         VStack{
                             NavigationLink {
                                 ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)
-                                    .environmentObject(vmAuth)
+                                   
                                     .navigationBarBackButtonHidden()
                             } label: {
                                 ReviewListRowView(review: review, my: true)
-                                    .environmentObject(vmAuth)
+                                   
                             }
                             if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
                                 ProgressView()

@@ -9,55 +9,26 @@ import SwiftUI
 import Kingfisher
 
 struct PopularView: View {
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    @Environment(\.verticalSizeClass) var verticalSizeClass
-
-       
-    var review:PopularReviewResponse?
-    var posting:PopularPostingResponse?
+    
+    var review:ReadReviewResponse?
+    var posting:CommunityResponse?
     
     var body: some View {
-        ZStack{
-            if let popular{
-                    KFImageView(image:popular.backdrop().getImadImage())
-                    Color.clear
-                        .background(Material.thin)
-                        .colorScheme(.dark)
-                    VStack(alignment: .leading,spacing:isPad() ? 10 : 5){
-                        Text(today)
-                            .font(.GmarketSansTTFBold(isPad() ? 15 : 10))
-                        Text(popular.title())
-                            .font(.GmarketSansTTFMedium(isPad() ? 20 : 10))
-                        if popular.spoiler(){
-                            Text("스포")
-                                .font(.GmarketSansTTFMedium(isPad() ? 12.5 : 7.5))
-                                .padding(5)
-                                .padding(.horizontal,3)
-                                .background(Capsule().stroke(lineWidth: 1))
-                        }
-                        Spacer()
-                        HStack(alignment: .bottom){
-                            HStack{
-                                KFImageView(image:popular.poster().getImadImage(),width: isPad() ? 50 : 30 ,height: isPad() ? 70 : 40)
-                                    .cornerRadius(3)
-                                Text(popular.contentsTitle())
-                                    .font(.GmarketSansTTFMedium(isPad() ? 20 : 10))
-                                    .opacity(0.7)
-                            }
-                            Spacer()
-                            HStack{
-                                ProfileImageView(imagePath: popular.userProfile(), widthHeigt:isPad() ? 30 : 25 )
-                                Text(popular.userName())
-                                    .font(.GmarketSansTTFMedium(isPad() ? 15 : 12))
-                            }
-                        }
-                    }
-                    .foregroundColor(.white)
-                    .padding(isPad() ? 20 : 10)
+        if let popular{
+            HStack{
+                VStack(alignment: .leading,spacing:isPad() ? 15 : 10){
+                    headerView(popular)
+                    contentsView(popular)
+                }
+                KFImageView(image: popular.poster().getImadImage(),width: frame.height - 40)
+                    .cornerRadius(5)
             }
+            .padding(10)
+            .frame(frame)
+            .background(.gray.opacity(0.2))
+            .cornerRadius(10)
+            .foregroundColor(.black)
         }
-        .frame(frame)
-        .cornerRadius(10)
         
     }
 }
@@ -72,19 +43,41 @@ extension PopularView{
         }
         return popular
     }
-    var today:String{
-        review != nil ? "오늘의 리뷰🥇" : "오늘의 게시물🥇"
-    }
     var frame: CGSize {
-        let width = mainWidth/2 - 15
-        let height = isWidth() ? (isPad() ? mainHeight/3 : mainHeight/4) : mainHeight/6
+        let width:CGFloat = mainWidth < 400 ? mainWidth - 35 : mainWidth/1.5 - 15
+        let height:CGFloat = isPad() ? 150 : 100
         return CGSize(width: width, height: height)
+    }
+    func headerView(_ popular:Popular)->some View{
+        HStack{
+            ProfileImageView(imagePath: popular.userProfile(), widthHeigt:isPad() ? 30 : 18)
+            Text(popular.userName())
+                .font(.GmarketSansTTFMedium(isPad() ? 18 : 12))
+            Spacer()
+            if popular.spoiler(){
+                Text("스포일러")
+                    .font(.GmarketSansTTFMedium(isPad() ? 12 : 7.5))
+                    .padding(isPad() ? 5 : 2.5)
+                    .padding(.horizontal,3)
+                    .background(Capsule().stroke(lineWidth: 1))
+            }
+        }
+    }
+    func contentsView(_ popular:Popular)->some View{
+        VStack(alignment: .leading,spacing:isPad() ? 15 : 10){
+            Text(popular.title())
+                .font(.GmarketSansTTFMedium(isPad() ? 25 : 17.5))
+            Spacer()
+            Text(popular.contentsTitle())
+                .font(.GmarketSansTTFMedium(isPad() ? 20 : 12.5))
+                .opacity(0.7)
+        }
     }
 }
 
 #Preview {
     HStack(spacing: 10){
-        PopularView(review: CustomData.instance.popularReview)
-        PopularView(review: CustomData.instance.popularReview)
+        PopularView(review: CustomData.review!)
+            .background(Color.white.frame(width: 1000, height:1000))
     }
 }

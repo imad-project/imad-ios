@@ -37,7 +37,7 @@ struct CommunityPostView: View {
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var vmScrap = ScrapViewModel(scrapList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     let startingOffset: CGFloat = UIScreen.main.bounds.height/2
     @State private var currentOffset:CGFloat = 0
@@ -108,7 +108,7 @@ struct CommunityPostView: View {
                                     self.back = false
                                 }
                             }
-                            return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.data?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                            return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
                         }
                         
                     }
@@ -123,7 +123,7 @@ struct CommunityPostView: View {
                             ZStack{
                                 Color.white.ignoresSafeArea()
                                 OtherProfileView(id: community.userID)
-                                    .environmentObject(vmAuth)
+                                   
                             }
                             
                         }
@@ -155,22 +155,21 @@ struct CommunityPostView: View {
             if let community = vm.community{
                 let category = CommunityFilter.allCases.first(where: {$0.num == community.category})!
                 CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, contents: (community.contentsPosterPath.getImadImage(),community.contentsTitle) ,category:category, spoiler: community.spoiler, text:community.content ?? "", title: community.title, goMain: .constant(true))
-                    .environmentObject(vmAuth)
+                   
                     .navigationBarBackButtonHidden()
             }
         }
         .onReceive(vm.refreschTokenExpired){
             vmAuth.logout(tokenExpired: true)
         }
-        
     }
 }
 
 struct ComminityPostView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            CommunityPostView(reported: true, postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.instance.community, communityList: []))
-                .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+            CommunityPostView(reported: true, postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.community, communityList: []))
+               
         }
     }
 }
@@ -189,7 +188,7 @@ extension CommunityPostView{
             Group{
                 Button {
                     vm.community?.scrapStatus = !community.scrapStatus
-                    community.scrapStatus ? vmScrap.deleteScrap(scrapId: vm.community?.scrapId ?? 0) : vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
+                    community.scrapStatus ? vmScrap.deleteScrap(scrapId: vm.community?.scrapID ?? 0) : vmScrap.writeScrap(postingId: vm.community?.postingID ?? 0)
                 } label: {
                     Image(systemName:community.scrapStatus ? "bookmark.fill" : "bookmark")
                 }
@@ -247,7 +246,7 @@ extension CommunityPostView{
         HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
-                    if community.userNickname != vmAuth.user?.data?.nickname{
+                    if community.userNickname != vmAuth.user?.nickname{
                         Button {
                             profile = true
                         } label: {
@@ -296,7 +295,7 @@ extension CommunityPostView{
             }
             NavigationLink {
                 WorkView(contentsId:community.contentsID)
-                    .environmentObject(vmAuth)
+                   
                     .navigationBarBackButtonHidden()
             } label: {
                 HStack{
@@ -440,7 +439,7 @@ extension CommunityPostView{
                 if endOffset == -startingOffset + 100{
                     collection
                 }
-                if let comments = community.commentListResponse?.commentDetailsResponseList,comments.isEmpty{
+                if let comments = community.commentListResponse?.detailsList,comments.isEmpty{
                     Group{
                         Image(systemName: "ellipsis.message")
                             .font(.largeTitle)
@@ -484,7 +483,7 @@ extension CommunityPostView{
     var comment:some View{
         ForEach(vmComment.replys,id: \.self){ comment in
             CommentRowView(filter: .postComment, postingId: postingId, reported: comment.reported, deleted: comment.removed, comment: comment,reply:.constant(nil), commentFocus: $reply)
-                .environmentObject(vmAuth)
+               
             if vmComment.replys.last == comment,vmComment.maxPage > vmComment.currentPage{
                 ProgressView()
                     .onAppear{
@@ -499,8 +498,8 @@ extension CommunityPostView{
         VStack{
             Divider()
             HStack{
-                ProfileImageView(imagePath: vmAuth.user?.data?.profileImage ?? "", widthHeigt: 40)
-                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,textLimit: 400, font:.GmarketSansTTFMedium(14), text: $reviewText)
+                ProfileImageView(imagePath: vmAuth.user?.profileImage ?? "", widthHeigt: 40)
+                CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,style: .capsule, textLimit: 400, font:.GmarketSansTTFMedium(14), text: $reviewText)
                     .focused($reply)
                     .padding(10)
                     .background{

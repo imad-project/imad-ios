@@ -29,7 +29,7 @@ struct CommunityWriteView: View {
     @Binding var goMain:Bool
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         
@@ -65,7 +65,7 @@ struct CommunityWriteView: View {
             .navigationDestination(isPresented: $showCommunity.0) {
                 CommunityPostView(reported: false, postingId: showCommunity.1,back: $goMain)
                     .navigationBarBackButtonHidden()
-                    .environmentObject(vmAuth)
+                   
             }
         
     }
@@ -73,9 +73,9 @@ struct CommunityWriteView: View {
 
 struct CommunityWriteView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityWriteView(contentsId: 1, contents: (CustomData.instance.movieList.first!,"asdasd"), goMain: .constant(true),vm: CommunityViewModel(community:nil, communityList: []))
+        CommunityWriteView(contentsId: 1, contents: (CustomData.workImage,"asdasd"), goMain: .constant(true),vm: CommunityViewModel(community:nil, communityList: []))
             .environment(\.colorScheme, .light)
-            .environmentObject(AuthViewModel(user:UserInfo(status: 1,data: CustomData.instance.user, message: "")))
+           
     }
 }
 extension CommunityWriteView{
@@ -129,7 +129,7 @@ extension CommunityWriteView{
     var titleView:some View{
         VStack(alignment: .trailing){
             HStack{
-                CustomTextField(password: false, image: "", placeholder: "제목을 입력해 주세요..", color: .black.opacity(0.7),textLimit: 25, text: $title)
+                CustomTextField(password: false, image: "", placeholder: "제목을 입력해 주세요..", color: .black.opacity(0.7), style: .capsule,textLimit: 25, text: $title)
                 Text("\(title.count)/25")
                     .font(.subheadline)
             }

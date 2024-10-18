@@ -104,7 +104,7 @@ class CommentViewModel:ObservableObject{
             } receiveValue: { [weak self] response in
                 guard let data = response.data else {return}
                 self?.totalOfElements = data.totalElements
-                self?.replys.append(contentsOf: data.commentDetailsResponseList)
+                self?.replys.append(contentsOf: data.detailsList)
                 self?.maxPage = data.totalPages
             }.store(in: &cancelable)
 
