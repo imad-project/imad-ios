@@ -30,12 +30,18 @@ struct RankingView: View {
                 let cell:CGFloat = isWidth() ? 627.5 : 327.5
                 withAnimation {
                     if gesture.translation.width < -50{
-                        if endOffset > -cell * 2{
+                        if endOffset > -cell{
                             endOffset -= cell
+                        }else if endOffset == -cell{
+                            endOffset -= cell
+                            endOffset += (mainWidth-cell)+5
                         }
                     }
                     if gesture.translation.width > 50{
                         if endOffset < 0{
+                            if endOffset == (-cell*2)+mainWidth-cell+5{
+                                endOffset -= mainWidth-cell+5
+                            }
                             endOffset += cell
                         }
                     }

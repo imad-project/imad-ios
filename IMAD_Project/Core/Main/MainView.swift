@@ -10,6 +10,7 @@ import Kingfisher
 
 
 struct MainView: View {
+    @State var workBackground = ""
     @State var trend = false
     @StateObject var vmRanking = RankingViewModel(ranking: nil, popular: PopularCache(review: nil,posting: nil))
     @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil)
@@ -21,6 +22,7 @@ struct MainView: View {
                 if let user = vmAuth.user{
                     titleView(user: user)
                     trendView
+                    trendWorkView()
                     TodayPopularView(review: vmRanking.popular?.review, posting: vmRanking.popular?.posting)
                     RankingView()
                     UserActivityView()
@@ -68,17 +70,17 @@ extension MainView{
             .padding(.bottom)
             .padding(.top,10)
     }
-    func trendWorkView(_ list:[WorkGenre]?) ->some View{
-        TabView{
-            ListView(items: list ?? []){ work in
-                NavigationLink {
-                    WorkView(id: work.id(),type: work.genreType.rawValue)
-                        .navigationBarBackButtonHidden()
-                } label: {
-                    ZStack{
-                        KFImageView(image: work.backdropPath() ?? "")
-                        Color.clear
-                            .background(Material.ultraThin)
+    func trendWorkView() ->some View{
+        ZStack{
+            KFImageView(image: workBackground)
+            Color.clear
+                .background(Material.ultraThin)
+            TabView{
+                ListView(items:trend ? vmRecommend.workList(.trendTv).list : vmRecommend.workList(.trendMovie).list){ work in
+                    NavigationLink {
+                        WorkView(id: work.id(),type: work.genreType.rawValue)
+                            .navigationBarBackButtonHidden()
+                    } label: {
                         VStack{
                             KFImageView(image: work.posterPath() ?? "",width:isPad() ? 300 : 175,height: isPad() ? 370 : 240)
                                 .cornerRadius(5)
@@ -93,8 +95,14 @@ extension MainView{
                         .foregroundColor(.white)
                         .padding()
                         .padding(.bottom)
+                        .onAppearOnDisAppear({
+                            withAnimation {
+                                workBackground = work.backdropPath() ?? ""
+                            }
+                        },{
+                            KingfisherManager.shared.cache.clearMemoryCache()
+                        })
                     }
-                    .onDisappear{ KingfisherManager.shared.cache.clearMemoryCache() }
                 }
             }
         }
@@ -134,7 +142,6 @@ extension MainView{
             }
             .padding(.horizontal,10)
             .foregroundColor(.customIndigo)
-            trendWorkView(trend ? vmRecommend.workList(.trendTv).list : vmRecommend.workList(.trendMovie).list)
         }
     }
     func listUpdate(_ refresh:Bool){

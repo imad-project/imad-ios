@@ -27,11 +27,11 @@ class ErrorManager{
         DispatchQueue.global(qos: .background).async{
             switch completion{
             case .finished:
+                DispatchQueue.main.async { success() }
                 print(completion)
-                success()
             case let .failure(error):
                 print(error.localizedDescription)
-                failed()
+                DispatchQueue.main.async { failed() }
             }
         }
     }

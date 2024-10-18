@@ -16,32 +16,18 @@ struct WorkRecommandListView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     @EnvironmentObject var vmRecommend:RecommendViewModel
     
+    var list:[WorkGenre]{
+        vmRecommend.workList(filter).list
+    }
     var body: some View {
         VStack{
-            let list = vmRecommend.workList(filter).list
             if !list.isEmpty{
                 HStack(alignment:.bottom){
                     textTitleView(title)
                     allView(RecommendAllView(title: title, type: filter))
                 }
                 .padding(.horizontal,10)
-                
-                VStack{
-                    HStack{
-                        ForEach(0..<list.count/2,id: \.self) { index in
-                            workView(list[index])
-                        }
-                    }
-                    HStack{
-                        ForEach(list.count/2..<list.count,id: \.self) { index in
-                            workView(list[index])
-                        }
-                    }
-                }
-                .highPriorityGesture(drag)
-                .offset(x:draggedOffset)
-                .padding(.horizontal,10)
-                .frame(width: mainWidth,alignment: .leading)
+                workListView
             }
         }
     }
@@ -99,5 +85,23 @@ extension WorkRecommandListView{
                 .frame(width: 130)
             }
         }
+    }
+    var workListView:some View{
+        VStack{
+            HStack{
+                ForEach(0..<list.count/2,id: \.self) { index in
+                    workView(list[index])
+                }
+            }
+            HStack{
+                ForEach(list.count/2..<list.count,id: \.self) { index in
+                    workView(list[index])
+                }
+            }
+        }
+        .highPriorityGesture(drag)
+        .offset(x:draggedOffset)
+        .padding(.horizontal,10)
+        .frame(width: mainWidth,alignment: .leading)
     }
 }

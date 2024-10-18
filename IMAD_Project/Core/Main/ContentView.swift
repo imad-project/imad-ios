@@ -19,11 +19,11 @@ struct ContentView: View {
             }else{
                 if isFirstLaunch{
                     if let user = vmAuth.user{
-                            if user.role == "GUEST"{
-                                RegisterTabView()
-                            }else{
-                                MenuTabView()
-                            }
+                        if user.role == "GUEST"{
+                            RegisterTabView()
+                        }else{
+                            MenuTabView()
+                        }
                     }else{
                         LoginAllView()
                     }
@@ -33,7 +33,6 @@ struct ContentView: View {
             }
         }
         .onAppear{ vmAuth.getUser() }
-        
         .environmentObject(vmAuth)
     }
 }

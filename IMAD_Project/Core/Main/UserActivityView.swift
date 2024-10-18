@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserActivityView: View {
     let list:[RecommendListType] = [.activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie]
-    @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil)
+    @EnvironmentObject var vmRecommend:RecommendViewModel
     @EnvironmentObject var vmAuth:AuthViewModel
     var listIsEmpty:Bool{
         !vmRecommend.workList(.activityMovie).list.isEmpty ||
@@ -33,8 +33,9 @@ struct UserActivityView: View {
 }
 
 #Preview {
-    UserActivityView(vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll))
+    UserActivityView()
         .background(.white)
+        .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll))
         .environmentObject(AuthViewModel(user: CustomData.user))
 }
 

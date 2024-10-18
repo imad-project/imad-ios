@@ -123,7 +123,6 @@
 		81A1ECE329DC207F0001A366 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECE229DC207F0001A366 /* Color.swift */; };
 		81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECE429DC3FA30001A366 /* MainView.swift */; };
 		81A1ECE729DC40D50001A366 /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECE629DC40D50001A366 /* CustomData.swift */; };
-		81A1ECEA29DC44370001A366 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 81A1ECE929DC44370001A366 /* Kingfisher */; };
 		81A1ECF229DD3BBC0001A366 /* MenuTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF129DD3BBC0001A366 /* MenuTabView.swift */; };
 		81A1ECF929DD6BE70001A366 /* TabFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1ECF829DD6BE70001A366 /* TabFilter.swift */; };
 		81A285F52AAC5CC300703C55 /* MovieBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A285F42AAC5CC300703C55 /* MovieBackgroundView.swift */; };
@@ -226,6 +225,7 @@
 		D69455CF2C4BC1A5004CDFC9 /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CE2C4BC1A5004CDFC9 /* OtherProfileView.swift */; };
 		D69455D12C4BE376004CDFC9 /* UseConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D02C4BE376004CDFC9 /* UseConditionView.swift */; };
 		D69455D32C4C77C5004CDFC9 /* PDFUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */; };
+		D69BADBD2CC1F3F4004DCF64 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D69BADBC2CC1F3F4004DCF64 /* Kingfisher */; };
 		D69CC5C02C32944B0053E5A1 /* RecommendAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */; };
 		D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */; };
 		D69E05F52C5BAA19003610CD /* AutoSizingFlowLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69E05F42C5BAA19003610CD /* AutoSizingFlowLayoutView.swift */; };
@@ -525,9 +525,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D69BADBD2CC1F3F4004DCF64 /* Kingfisher in Frameworks */,
 				81189AD72B9AB04C007BC146 /* Alamofire in Frameworks */,
 				8199DD9E2B15C50600FBE14D /* SwiftUIWave in Frameworks */,
-				81A1ECEA29DC44370001A366 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1561,9 +1561,9 @@
 			);
 			name = IMAD_Project;
 			packageProductDependencies = (
-				81A1ECE929DC44370001A366 /* Kingfisher */,
 				8199DD9D2B15C50600FBE14D /* SwiftUIWave */,
 				81189AD62B9AB04C007BC146 /* Alamofire */,
+				D69BADBC2CC1F3F4004DCF64 /* Kingfisher */,
 			);
 			productName = IMAD_Project;
 			productReference = 8103093D29D1BDEF0021717B /* IMAD_Project.app */;
@@ -1638,9 +1638,9 @@
 			);
 			mainGroup = 8103093429D1BDEF0021717B;
 			packageReferences = (
-				81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				81BB10FD2A061054005654AA /* XCRemoteSwiftPackageReference "Alamofire" */,
 				8199DD9C2B15C50600FBE14D /* XCRemoteSwiftPackageReference "SwiftUIWave" */,
+				D69BADBB2CC1F3F4004DCF64 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 8103093E29D1BDEF0021717B /* Products */;
 			projectDirPath = "";
@@ -2285,20 +2285,20 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
 		81BB10FD2A061054005654AA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.0;
+			};
+		};
+		D69BADBB2CC1F3F4004DCF64 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -2314,9 +2314,9 @@
 			package = 8199DD9C2B15C50600FBE14D /* XCRemoteSwiftPackageReference "SwiftUIWave" */;
 			productName = SwiftUIWave;
 		};
-		81A1ECE929DC44370001A366 /* Kingfisher */ = {
+		D69BADBC2CC1F3F4004DCF64 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81A1ECE829DC44370001A366 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			package = D69BADBB2CC1F3F4004DCF64 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
