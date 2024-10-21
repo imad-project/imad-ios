@@ -11,10 +11,10 @@ import Alamofire
 enum RecommendRouter:URLRequestConvertible{
     
     case all
-    case genre(page:Int)
+    case genre(page:Int,type:String)
     case activity(page:Int,contentsId:Int)
-    case imad(page:Int)
-    case trend(page:Int)
+    case imad(page:Int,type:String,category:String)
+    case trend(page:Int,type:String)
     
     var baseURL:URL{
         return URL(string: ApiClient.baseURL)!
@@ -35,22 +35,26 @@ enum RecommendRouter:URLRequestConvertible{
     var parameters:Parameters{
         switch self{
         case .all: return Parameters()
-        case let .genre(page):
+        case let .genre(page,type):
             var params = Parameters()
             params["page"] = page
+            params["type"] = type
             return params
         case let .activity(page,contentsId):
             var params = Parameters()
             params["contents_id"] = contentsId
             params["page"] = page
             return params
-        case let .imad(page):
+        case let .imad(page,type,category):
             var params = Parameters()
             params["page"] = page
+            params["type"] = type
+            params["category"] = category
             return params
-        case let .trend(page):
+        case let .trend(page,type):
             var params = Parameters()
             params["page"] = page
+            params["type"] = type
             return params
         }
     }
