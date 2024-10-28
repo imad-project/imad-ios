@@ -35,7 +35,9 @@ struct KFImageView: View {
         }
         .frame(width: width,height: height)
         .shadow(radius: 1)
-            
+        .onDisappear{
+            KingfisherManager.shared.cache.clearMemoryCache()
+        }
             
             
     }

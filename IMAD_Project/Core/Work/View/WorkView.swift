@@ -56,7 +56,6 @@ struct WorkView: View {
             }
         }
         .onDisappear{
-            KingfisherManager.shared.cache.clearMemoryCache()
             vmReview.reviewList.removeAll()
         }
         .onReceive(vm.success){ contentsId in

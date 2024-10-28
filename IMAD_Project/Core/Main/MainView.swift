@@ -99,13 +99,11 @@ extension MainView{
                         .foregroundColor(.white)
                         .padding()
                         .padding(.bottom)
-                        .onAppearOnDisAppear({
+                        .onAppear{
                             withAnimation {
                                 workBackground = work.backdropPath() ?? ""
                             }
-                        },{
-                            KingfisherManager.shared.cache.clearMemoryCache()
-                        })
+                        }
                     }
                 }
             }
