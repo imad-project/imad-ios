@@ -227,6 +227,8 @@
 		D69455D32C4C77C5004CDFC9 /* PDFUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */; };
 		D69BADBD2CC1F3F4004DCF64 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D69BADBC2CC1F3F4004DCF64 /* Kingfisher */; };
 		D69BADBF2CC25124004DCF64 /* ImadRecommendFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69BADBE2CC25124004DCF64 /* ImadRecommendFilter.swift */; };
+		D69BADC52CCF641C004DCF64 /* TVWorkGenre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69BADC42CCF641C004DCF64 /* TVWorkGenre.swift */; };
+		D69BADC72CCF6430004DCF64 /* MovieWorkGenre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69BADC62CCF6430004DCF64 /* MovieWorkGenre.swift */; };
 		D69CC5C02C32944B0053E5A1 /* RecommendAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */; };
 		D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */; };
 		D69E05F52C5BAA19003610CD /* AutoSizingFlowLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69E05F42C5BAA19003610CD /* AutoSizingFlowLayoutView.swift */; };
@@ -494,6 +496,8 @@
 		D69455D02C4BE376004CDFC9 /* UseConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseConditionView.swift; sourceTree = "<group>"; };
 		D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFUIView.swift; sourceTree = "<group>"; };
 		D69BADBE2CC25124004DCF64 /* ImadRecommendFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImadRecommendFilter.swift; sourceTree = "<group>"; };
+		D69BADC42CCF641C004DCF64 /* TVWorkGenre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVWorkGenre.swift; sourceTree = "<group>"; };
+		D69BADC62CCF6430004DCF64 /* MovieWorkGenre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieWorkGenre.swift; sourceTree = "<group>"; };
 		D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendAllView.swift; sourceTree = "<group>"; };
 		D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendListType.swift; sourceTree = "<group>"; };
 		D69E05F42C5BAA19003610CD /* AutoSizingFlowLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizingFlowLayoutView.swift; sourceTree = "<group>"; };
@@ -580,6 +584,7 @@
 				D69455D82C4C7A46004CDFC9 /* PDF */,
 				D64C4C822C352B070097B2FD /* Font */,
 				D654FBD02BA146E500AF307E /* Protocol */,
+				D69BADC32CCF6402004DCF64 /* Class */,
 				819C506C2A0F465F0008F4A5 /* Manager */,
 				819C50692A0E3E450008F4A5 /* Test */,
 				81BB10FC2A05F706005654AA /* API */,
@@ -1489,6 +1494,15 @@
 			path = PDF;
 			sourceTree = "<group>";
 		};
+		D69BADC32CCF6402004DCF64 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				D69BADC42CCF641C004DCF64 /* TVWorkGenre.swift */,
+				D69BADC62CCF6430004DCF64 /* MovieWorkGenre.swift */,
+			);
+			path = Class;
+			sourceTree = "<group>";
+		};
 		D69CC5BE2C32943A0053E5A1 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1755,6 +1769,7 @@
 				81F3566E2AF21F1D00A46A6D /* MyBookmarkListView.swift in Sources */,
 				81B1848C2AFB5D6000CCDBEC /* PatchUserInfo.swift in Sources */,
 				818B07332B0D96310013C426 /* ScrapRouter.swift in Sources */,
+				D69BADC52CCF641C004DCF64 /* TVWorkGenre.swift in Sources */,
 				D64C4C8E2C37BE4E0097B2FD /* CropView.swift in Sources */,
 				D608EF762C9C1A0600C4FCE7 /* Date.swift in Sources */,
 				817B60D42A237436000099A9 /* Validation.swift in Sources */,
@@ -1875,6 +1890,7 @@
 				8131C55A2AFA0AA4006B761D /* ReadReviewResponse.swift in Sources */,
 				8154B1EA2ADE78A500AD2F83 /* CommunitySearchView.swift in Sources */,
 				81F2592F2AB073BB00C54668 /* ReviewApiService.swift in Sources */,
+				D69BADC72CCF6430004DCF64 /* MovieWorkGenre.swift in Sources */,
 				8154B1EC2AE0DA7000AD2F83 /* CommentRouter.swift in Sources */,
 				D6EAAA722CB90A39001C9BD5 /* WebView.swift in Sources */,
 				D6CE82E92CB8A58D0092243D /* NavigationTestView.swift in Sources */,
