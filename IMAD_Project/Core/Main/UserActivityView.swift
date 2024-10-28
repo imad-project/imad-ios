@@ -28,14 +28,15 @@ struct UserActivityView: View {
                     .padding(.horizontal)
                 }
             }
-        }.padding(.vertical)
+        }
+        .padding(.vertical)
     }
 }
 
 #Preview {
     UserActivityView()
         .background(.white)
-        .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll))
+        .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: []))
         .environmentObject(AuthViewModel(user: CustomData.user))
 }
 
@@ -54,11 +55,13 @@ extension UserActivityView{
     @ViewBuilder
     func posterView(_ work:RecommendListType) -> some View{
         let list = vmRecommend.workList(work).list
+        let contentsId = vmRecommend.workList(work).contentsId
         if !list.isEmpty{
             VStack(alignment: .leading){
                 Text("\(work.name)")
                 NavigationLink {
-                    RecommendAllView(title: work.name, type: work)
+                    RecommendAllView(contentsId:contentsId,title: work.name, type: work)
+                        .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
                     GridView(room: 2, imageList: list.prefix(4).map{$0.posterPath() ?? ""})

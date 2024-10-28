@@ -19,13 +19,11 @@ class RecommendViewModel:ObservableObject{
     @Published var maxPage = 0
     
     @Published var recommendAll:AllRecommendResponse? = nil
-    @Published var recommendTrend:([WorkGenre],[WorkGenre]) = ([],[])
-    @Published var recommendGenre:([WorkGenre],[WorkGenre]) = ([],[])
-    @Published var recommendImad:([WorkGenre],[WorkGenre]) = ([],[])
-    @Published var recommendActivity:[WorkGenre] = []
+    @Published var recommendList:[WorkGenre] = []
     
-    init(recommendAll:AllRecommendResponse?) {
+    init(recommendAll:AllRecommendResponse?,recommendList:[WorkGenre]) {
         self.recommendAll = recommendAll
+        self.recommendList = recommendList
     }
     func workList(_ type:RecommendListType)->(list:[WorkGenre],contentsId:Int?){
         switch type{
@@ -53,10 +51,16 @@ class RecommendViewModel:ObservableObject{
         case .activityAnimationMovie:
             let data = recommendAll?.userActivityRecommendationMovieAnimation
             return (data?.results.prefix(5).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
-        case .imadTv:
+        case .topRateTv:
+            let data = recommendAll?.topRatedRecommendationTv
+            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+        case .topRateMovie:
+            let data = recommendAll?.topRatedRecommendationMovie
+            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+        case .popluarTv:
             let data = recommendAll?.popularRecommendationTv
             return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
-        case .imadMovie:
+        case .popluarMovie:
             let data = recommendAll?.popularRecommendationMovie
             return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
         }
@@ -75,73 +79,81 @@ class RecommendViewModel:ObservableObject{
                 }.store(in: &cancelable)
         }
     }
-    func fetchTrendRecommend(page:Int){
-        RecommendApiService.trend(page: page)
+    func fetchTrendRecommend(page:Int,type:WorkGenreType){
+        RecommendApiService.trend(page: page,type: type.rawValue)
             .sink { completion in
                 self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })
                 self.currentPage = page
             } receiveValue: { [weak self] work in
-                var tvList:[WorkGenre] = []
-                var movieList:[WorkGenre] = []
-                (work.data?.trendRecommendationTv?.results ?? []).forEach{tvList.append(TVWorkGenre(tvGenre: $0))}
-                (work.data?.trendRecommendationMovie?.results ?? []).forEach{movieList.append(MovieWorkGenre(movieGenre: $0))}
-                self?.recommendTrend.0.append(contentsOf:tvList)
-                self?.recommendTrend.1.append(contentsOf:movieList)
-                self?.maxPage = work.data?.trendRecommendationTv?.totalPages ?? 1
+                switch type{
+                case .tv: 
+                    self?.recommendList += work.data?.trendRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? []
+                    self?.maxPage = work.data?.trendRecommendationTv?.totalPages ?? 0
+                case .movie:
+                    self?.recommendList += work.data?.trendRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? []
+                    self?.maxPage = work.data?.trendRecommendationMovie?.totalPages ?? 0
+                }
             }.store(in: &cancelable)
     }
-    func fetchGenreRecommend(page:Int){
-        RecommendApiService.genre(page: page)
+    func fetchGenreRecommend(page:Int,type:WorkGenreType){
+        RecommendApiService.genre(page: page,type: type.rawValue)
             .sink { completion in
                 self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })
                 self.currentPage = page
             } receiveValue: { [weak self] work in
-                var tvList:[WorkGenre] = []
-                var movieList:[WorkGenre] = []
-                (work.data?.preferredGenreRecommendationTv?.results ?? []).forEach{tvList.append(TVWorkGenre(tvGenre: $0))}
-                (work.data?.preferredGenreRecommendationMovie?.results ?? []).forEach{movieList.append(MovieWorkGenre(movieGenre: $0))}
-                self?.recommendGenre.0.append(contentsOf:tvList)
-                self?.recommendGenre.1.append(contentsOf:movieList)
-                self?.maxPage = work.data?.preferredGenreRecommendationTv?.totalPages ?? 1
+                switch type{
+                case .tv: 
+                    self?.recommendList += work.data?.preferredGenreRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? []
+                    self?.maxPage = work.data?.preferredGenreRecommendationTv?.totalPages ?? 0
+                case .movie:
+                    self?.recommendList += work.data?.preferredGenreRecommendationMovie?.results.map{MovieWorkGenre(movieGenre: $0)} ?? []
+                    self?.maxPage = work.data?.preferredGenreRecommendationMovie?.totalPages ?? 0
+                }
             }.store(in: &cancelable)
     }
-    func fetchImadRecommend(page:Int){
-        RecommendApiService.imad(page: page)
+    func fetchImadRecommend(page:Int,type:WorkGenreType,category:ImadRecommendFilter){
+        RecommendApiService.imad(page: page,type: type.rawValue,category: category.rawValue)
             .sink { completion in
                 self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })
                 self.currentPage = page
             } receiveValue: { [weak self] work in
-                var tvList:[WorkGenre] = []
-                var movieList:[WorkGenre] = []
-                (work.data?.popularRecommendationTv?.results ?? []).forEach{tvList.append(TVWorkGenre(tvGenre: $0))}
-                (work.data?.popularRecommendationMovie?.results ?? []).forEach{movieList.append(MovieWorkGenre(movieGenre: $0))}
-                self?.recommendImad.0.append(contentsOf:tvList)
-                self?.recommendImad.1.append(contentsOf:movieList)
-                self?.maxPage = work.data?.popularRecommendationTv?.totalPages ?? 1
+                switch (type,category){
+                case (.tv,.popular):
+                    self?.recommendList += work.data?.popularRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? []
+                    self?.maxPage = work.data?.popularRecommendationTv?.totalPages ?? 0
+                case (.tv,.topRated):
+                    self?.recommendList += work.data?.topRatedRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? []
+                    self?.maxPage = work.data?.topRatedRecommendationTv?.totalPages ?? 0
+                case (.movie,.popular):
+                    self?.recommendList += work.data?.popularRecommendationMovie?.results.map{MovieWorkGenre(movieGenre: $0)} ?? []
+                    self?.maxPage = work.data?.popularRecommendationMovie?.totalPages ?? 0
+                case (.movie,.topRated):
+                    self?.recommendList += work.data?.topRatedRecommendationMovie?.results.map{MovieWorkGenre(movieGenre: $0)} ?? []
+                    self?.maxPage = work.data?.topRatedRecommendationMovie?.totalPages ?? 0
+                }
             }.store(in: &cancelable)
     }
-    func fetchActivityRecommend(page:Int,contentsId:Int){
+    func fetchActivityRecommend(page:Int,contentsId:Int,type:RecommendListType){
         RecommendApiService.activity(page: page, contentsId: contentsId)
             .sink { completion in
                 self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })
                 self.currentPage = page
             } receiveValue: { [weak self] work in
-                var list:[WorkGenre] = []
-                if let result = work.data?.userActivityRecommendationTv{
-                    result.results.forEach{list.append(TVWorkGenre(tvGenre: $0))}
-                    self?.maxPage = result.totalPages
-                }else if let result = work.data?.userActivityRecommendationMovie{
-                    result.results.forEach{list.append(MovieWorkGenre(movieGenre: $0))}
-                    self?.maxPage = result.totalPages
-                }else if let result = work.data?.userActivityRecommendationTvAnimation{
-                    result.results.forEach{list.append(TVWorkGenre(tvGenre: $0))}
-                    self?.maxPage = result.totalPages
-                }else if let result = work.data?.userActivityRecommendationMovieAnimation{
-                    result.results.forEach{list.append(MovieWorkGenre(movieGenre: $0))}
-                    self?.maxPage = result.totalPages
+                switch type{
+                case .activityTv:
+                    self?.recommendList += work.data?.userActivityRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? []
+                    self?.maxPage = work.data?.userActivityRecommendationTv?.totalPages ?? 0
+                case .activityMovie:
+                    self?.recommendList += work.data?.userActivityRecommendationMovie?.results.map{MovieWorkGenre(movieGenre: $0)} ?? []
+                    self?.maxPage = work.data?.userActivityRecommendationMovie?.totalPages ?? 0
+                case .activityAnimationTv:
+                    self?.recommendList += work.data?.userActivityRecommendationTvAnimation?.results.map{TVWorkGenre(tvGenre: $0)} ?? []
+                    self?.maxPage = work.data?.userActivityRecommendationTvAnimation?.totalPages ?? 0
+                case .activityAnimationMovie:
+                    self?.recommendList += work.data?.userActivityRecommendationMovieAnimation?.results.map{MovieWorkGenre(movieGenre: $0)} ?? []
+                    self?.maxPage = work.data?.userActivityRecommendationMovieAnimation?.totalPages ?? 0
+                default:break
                 }
-                self?.recommendActivity.append(contentsOf: list)
-                
             }.store(in: &cancelable)
     }
 }

@@ -35,8 +35,8 @@ struct WorkRecommandListView: View {
 #Preview {
     NavigationView{
         ScrollView(showsIndicators: false){
-            WorkRecommandListView(title: "ㅇㅇㅇㅇ", filter: .imadTv)
-                .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll))
+            WorkRecommandListView(title: "ㅇㅇㅇㅇ", filter: .genreTv)
+                .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: []))
                 .environmentObject(AuthViewModel(user: CustomData.user))
         }
     }
@@ -67,7 +67,7 @@ extension WorkRecommandListView{
     }
     func workView(_ work:WorkGenre)->some View{
         NavigationLink {
-            WorkView(id: work.id(),type: filter.type.rawValue)
+            WorkView(id: work.id,type: filter.type.rawValue)
                 .navigationBarBackButtonHidden()
         } label: {
             VStack(spacing:5){

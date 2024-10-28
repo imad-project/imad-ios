@@ -226,6 +226,7 @@
 		D69455D12C4BE376004CDFC9 /* UseConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D02C4BE376004CDFC9 /* UseConditionView.swift */; };
 		D69455D32C4C77C5004CDFC9 /* PDFUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */; };
 		D69BADBD2CC1F3F4004DCF64 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D69BADBC2CC1F3F4004DCF64 /* Kingfisher */; };
+		D69BADBF2CC25124004DCF64 /* ImadRecommendFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69BADBE2CC25124004DCF64 /* ImadRecommendFilter.swift */; };
 		D69CC5C02C32944B0053E5A1 /* RecommendAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */; };
 		D69CC5C22C32949A0053E5A1 /* RecommendListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */; };
 		D69E05F52C5BAA19003610CD /* AutoSizingFlowLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69E05F42C5BAA19003610CD /* AutoSizingFlowLayoutView.swift */; };
@@ -492,6 +493,7 @@
 		D69455CE2C4BC1A5004CDFC9 /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
 		D69455D02C4BE376004CDFC9 /* UseConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseConditionView.swift; sourceTree = "<group>"; };
 		D69455D22C4C77C5004CDFC9 /* PDFUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFUIView.swift; sourceTree = "<group>"; };
+		D69BADBE2CC25124004DCF64 /* ImadRecommendFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImadRecommendFilter.swift; sourceTree = "<group>"; };
 		D69CC5BF2C32944B0053E5A1 /* RecommendAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendAllView.swift; sourceTree = "<group>"; };
 		D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendListType.swift; sourceTree = "<group>"; };
 		D69E05F42C5BAA19003610CD /* AutoSizingFlowLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizingFlowLayoutView.swift; sourceTree = "<group>"; };
@@ -1017,6 +1019,7 @@
 				D6EAAA6F2CB9042E001C9BD5 /* RegisterCheckFilter.swift */,
 				D6EAAA752CB945EC001C9BD5 /* EmailCheckFilter.swift */,
 				D6EAAA732CB93E09001C9BD5 /* NickNameCheckFilter.swift */,
+				D69BADBE2CC25124004DCF64 /* ImadRecommendFilter.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1367,8 +1370,8 @@
 			isa = PBXGroup;
 			children = (
 				D64C4C8A2C37B6FE0097B2FD /* CustomImagePicker.swift */,
-				D6C763882C2E898A00BCD37B /* ListView.swift */,
 				D69E05F42C5BAA19003610CD /* AutoSizingFlowLayoutView.swift */,
+				D6C763882C2E898A00BCD37B /* ListView.swift */,
 			);
 			path = ViewBuilder;
 			sourceTree = "<group>";
@@ -1881,6 +1884,7 @@
 				811981C92AF91C2400952ED2 /* WorkInfoView.swift in Sources */,
 				D6CE82E42CB654780092243D /* Logo.swift in Sources */,
 				D608EF7F2CA152F000C4FCE7 /* RankingCache.swift in Sources */,
+				D69BADBF2CC25124004DCF64 /* ImadRecommendFilter.swift in Sources */,
 				8115A6452A83940800B7C3FE /* WorkRouter.swift in Sources */,
 				D60AD2122C29B39F00C9C27B /* RecommendMovieResponse.swift in Sources */,
 				81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */,
@@ -2085,7 +2089,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = IMAD_Project/IMAD_Project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_ASSET_PATHS = "\"IMAD_Project/Preview Content\"";
 				DEVELOPMENT_TEAM = N676ZFA7W8;
 				ENABLE_PREVIEWS = YES;
@@ -2102,7 +2106,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "quarang.IMAD-Project";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2123,7 +2127,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = IMAD_Project/IMAD_Project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_ASSET_PATHS = "\"IMAD_Project/Preview Content\"";
 				DEVELOPMENT_TEAM = N676ZFA7W8;
 				ENABLE_PREVIEWS = YES;
@@ -2140,7 +2144,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "quarang.IMAD-Project";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+enum ImadRecommendFilter:String{
+    case popular
+    case topRated = "top_rated"
+}

@@ -13,7 +13,7 @@ enum WorkGenreType:String{
 
 protocol WorkGenre{
     var genreType:WorkGenreType { get }
-    func id() -> Int
+    var id:Int { get }
     func name()->String?
     func title()->String?
     func genreId() -> [Int]?
@@ -23,12 +23,14 @@ protocol WorkGenre{
 
 class TVWorkGenre:WorkGenre{
     
+    
+    
     var genreType: WorkGenreType = .tv
     var tvGenre:RecommendTVResponse
     required init(tvGenre:RecommendTVResponse) {
         self.tvGenre = tvGenre
     }
-    func id() -> Int {
+    var id: Int{
         return tvGenre.id
     }
     func name()->String?{
@@ -53,7 +55,7 @@ class MovieWorkGenre:WorkGenre{
     required init(movieGenre:RecommendMovieResponse) {
         self.movieGenre = movieGenre
     }
-    func id() -> Int {
+    var id: Int{
         return movieGenre.id
     }
     func name()->String?{

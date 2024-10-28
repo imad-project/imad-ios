@@ -13,7 +13,7 @@ struct MainView: View {
     @State var workBackground = ""
     @State var trend = false
     @StateObject var vmRanking = RankingViewModel(ranking: nil, popular: PopularCache(review: nil,posting: nil))
-    @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil)
+    @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil, recommendList: [])
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -28,11 +28,14 @@ struct MainView: View {
                     UserActivityView()
                     WorkRecommandListView(title:"이런 장르 영화 어때요?", filter: .genreMovie)
                     WorkRecommandListView(title:"\(user.nickname ?? "")님을 위한 시리즈", filter: .genreTv)
-                    WorkRecommandListView(title:"아이매드 엄선 영화", filter: .imadMovie)
-                    WorkRecommandListView(title:"전 세계 사람들이 선택한 시리즈", filter: .imadTv)
+                    WorkRecommandListView(title:"어머! 이건 꼭 봐야 해", filter: .popluarTv)
+                    WorkRecommandListView(title:"아이매드 엄선 영화", filter: .popluarMovie)
+                    WorkRecommandListView(title: "전 세계 사람들이 선택한 시리즈", filter: .topRateTv)
+                    WorkRecommandListView(title: "좋은반응을 얻은 영화", filter: .topRateMovie)
                 }
             }
         }
+        
         .background(.white)
         .refreshable {listUpdate(true) }
         .progress(vmRecommend.recommendAll != nil)
@@ -41,6 +44,7 @@ struct MainView: View {
         .onAppear { listUpdate(false) }
         .environmentObject(vmRanking)
         .environmentObject(vmRecommend)
+        .environmentObject(vmAuth)
     }
 }
 
@@ -49,7 +53,7 @@ struct MainView_Previews: PreviewProvider {
         NavigationStack{
             let rankingCache = RankingCache(id: "a", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: CustomData.rankingList)
             let popularCache = PopularCache(review: CustomData.review,posting: CustomData.community)
-            MainView(vmRanking:RankingViewModel(ranking:rankingCache, popular: popularCache),vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll))
+            MainView(vmRanking:RankingViewModel(ranking:rankingCache, popular: popularCache),vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: []))
                 .environmentObject(AuthViewModel(user:CustomData.user))
                 .environment(\.colorScheme, .light)
         }
@@ -78,7 +82,7 @@ extension MainView{
             TabView{
                 ListView(items:trend ? vmRecommend.workList(.trendTv).list : vmRecommend.workList(.trendMovie).list){ work in
                     NavigationLink {
-                        WorkView(id: work.id(),type: work.genreType.rawValue)
+                        WorkView(id: work.id,type: work.genreType.rawValue)
                             .navigationBarBackButtonHidden()
                     } label: {
                         VStack{
