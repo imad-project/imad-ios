@@ -71,13 +71,13 @@ extension WorkRecommandListView{
                 .navigationBarBackButtonHidden()
         } label: {
             VStack(spacing:5){
-                KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 130,height: 180)
+                KFImageView(image: work.posterPath?.getImadImage() ?? "",width: 130,height: 180)
                     .cornerRadius(5)
                 Group{
-                    Text((filter.type == .tv ? work.name() : work.title()) ?? "")
+                    Text((filter.type == .tv ? work.name : work.title) ?? "")
                         .font(.GmarketSansTTFMedium(12))
                         .foregroundColor(.black)
-                    Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" : work.genreId()?.transMovieGenreCode() ?? "")
+                    Text(work.genreType == .tv ? work.genreId?.transTvGenreCode() ?? "" : work.genreId?.transMovieGenreCode() ?? "")
                         .font(.GmarketSansTTFMedium(9))
                         .foregroundColor(.gray)
                 }

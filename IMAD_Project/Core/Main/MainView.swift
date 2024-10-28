@@ -86,13 +86,13 @@ extension MainView{
                             .navigationBarBackButtonHidden()
                     } label: {
                         VStack{
-                            KFImageView(image: work.posterPath() ?? "",width:isPad() ? 300 : 175,height: isPad() ? 370 : 240)
+                            KFImageView(image: work.posterPath ?? "",width:isPad() ? 300 : 175,height: isPad() ? 370 : 240)
                                 .cornerRadius(5)
-                            Text(trend ? work.name() ?? "" : work.title() ?? "")
+                            Text(trend ? work.name ?? "" : work.title ?? "")
                                 .bold()
                                 .font(.GmarketSansTTFMedium(isPad() ? 20 :15))
                                 .lineLimit(1)
-                            Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" : work.genreId()?.transMovieGenreCode() ?? "")
+                            Text(work.genreType == .tv ? work.genreId?.transTvGenreCode() ?? "" : work.genreId?.transMovieGenreCode() ?? "")
                                 .font(.GmarketSansTTFMedium(isPad() ? 17.5 :12))
                                 .lineLimit(1)
                         }
@@ -101,7 +101,7 @@ extension MainView{
                         .padding(.bottom)
                         .onAppear{
                             withAnimation {
-                                workBackground = work.backdropPath() ?? ""
+                                workBackground = work.backdropPath ?? ""
                             }
                         }
                     }

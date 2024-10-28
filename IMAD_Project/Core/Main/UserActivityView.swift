@@ -64,7 +64,7 @@ extension UserActivityView{
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
-                    GridView(room: 2, imageList: list.prefix(4).map{$0.posterPath() ?? ""})
+                    GridView(room: 2, imageList: list.prefix(4).map{$0.posterPath ?? ""})
                         .frame(width: 180,height: 240)
                         .overlay{
                             Color.black.opacity(0.3)

@@ -89,15 +89,15 @@ extension RecommendAllView{
                             .navigationBarBackButtonHidden()
                     } label: {
                         HStack{
-                            KFImageView(image: work.posterPath()?.getImadImage() ?? "",width: 120,height: 160)
+                            KFImageView(image: work.posterPath?.getImadImage() ?? "",width: 120,height: 160)
                                 .cornerRadius(5)
                                 .padding(.vertical)
                             VStack(alignment: .leading,spacing:10){
-                                Text(work.genreType == .tv ?  work.name() ?? "" : work.title() ?? "")
+                                Text(work.genreType == .tv ?  work.name ?? "" : work.title ?? "")
                                     .bold()
                                     .font(.GmarketSansTTFMedium(17))
                                     .foregroundColor(.white)
-                                Text(work.genreType == .tv ? work.genreId()?.transTvGenreCode() ?? "" :work.genreId()?.transMovieGenreCode() ?? "")
+                                Text(work.genreType == .tv ? work.genreId?.transTvGenreCode() ?? "" :work.genreId?.transMovieGenreCode() ?? "")
                                     .font(.GmarketSansTTFMedium(13))
                                     .foregroundColor(.white.opacity(0.7))
                             }
@@ -105,7 +105,7 @@ extension RecommendAllView{
                         }
                         .padding(.horizontal)
                         .background{
-                            KFImageView(image: work.backdropPath()?.getImadImage() ?? "")
+                            KFImageView(image: work.backdropPath?.getImadImage() ?? "")
                                 .overlay(Material.thin)
                                 .environment(\.colorScheme,.dark)
                         }
