@@ -8,7 +8,6 @@
 import SwiftUI
 import Kingfisher
 
-
 struct MainView: View {
     @State var workBackground = ""
     @State var trend = false
@@ -18,7 +17,7 @@ struct MainView: View {
     
     var body: some View {
         ScrollView(showsIndicators: false){
-            VStack(alignment:.leading,spacing:5){
+            LazyVStack(alignment:.leading,spacing:5){
                 if let user = vmAuth.user{
                     titleView(user: user)
                     trendView
@@ -35,7 +34,6 @@ struct MainView: View {
                 }
             }
         }
-        
         .background(.white)
         .refreshable {listUpdate(true) }
         .progress(vmRecommend.recommendAll != nil)
@@ -103,6 +101,9 @@ extension MainView{
                             withAnimation {
                                 workBackground = work.backdropPath ?? ""
                             }
+                        }
+                        .onDisappear{
+                            KingfisherManager.shared.cache.clearCache()
                         }
                     }
                 }
