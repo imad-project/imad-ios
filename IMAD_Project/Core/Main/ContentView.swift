@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ContentView: View {
     @State var isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch") //온보딩
@@ -32,7 +33,10 @@ struct ContentView: View {
                 }
             }
         }
-        .onAppear{ vmAuth.getUser() }
+        .onAppear{ 
+            vmAuth.getUser()
+            KingfisherManager.shared.cache.memoryStorage.config.totalCostLimit = 200 * 1024 * 1024
+        }
         .environmentObject(vmAuth)
     }
 }

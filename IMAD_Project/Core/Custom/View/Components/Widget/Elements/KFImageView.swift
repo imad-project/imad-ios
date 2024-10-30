@@ -18,6 +18,10 @@ struct KFImageView: View {
             if !image.isEmpty{
                 KFImage(URL(string:image.getImadImage()))
                     .resizable()
+                    .cancelOnDisappear(true)
+                    .cacheMemoryOnly(false)
+                    .fade(duration: 0.1)
+                    .setProcessor(processor)
                     .placeholder{
                         NoImageView()
                     }
@@ -30,17 +34,17 @@ struct KFImageView: View {
                 }
                 .padding(.bottom)
                 .background(.gray.opacity(0.1))
-                    
             }
         }
         .frame(width: width,height: height)
         .shadow(radius: 1)
-        .onDisappear{
-            KingfisherManager.shared.cache.clearMemoryCache()
-        }
-            
-            
     }
+    var processor:ImageProcessor{
+        width != nil && height != nil
+                      ? ResizingImageProcessor(referenceSize: CGSize(width: width!, height: height!))
+                      : DefaultImageProcessor()
+    }
+    
 }
 
 struct KFImageView_Previews: PreviewProvider {

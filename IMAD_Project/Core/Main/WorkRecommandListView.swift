@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct WorkRecommandListView: View {
     @State var draggedOffset:CGFloat = 0
@@ -30,6 +31,7 @@ struct WorkRecommandListView: View {
                 workListView
             }
         }
+        .padding(.bottom,10)
     }
 }
 #Preview {
@@ -43,28 +45,6 @@ struct WorkRecommandListView: View {
 }
 
 extension WorkRecommandListView{
-    var drag:some Gesture{
-        DragGesture()
-            .onChanged { gesture in
-                draggedOffset = endOffset + gesture.translation.width/2
-            }
-            .onEnded { gesture in
-                let cell = 137.5
-                withAnimation {
-                    if gesture.translation.width < -50{
-                        if endOffset > -cell * 7{
-                            endOffset -= cell
-                        }
-                    }
-                    if gesture.translation.width > 50{
-                        if endOffset < 0{
-                            endOffset += cell
-                        }
-                    }
-                    draggedOffset = endOffset
-                }
-            }
-    }
     func workView(_ work:WorkGenre)->some View{
         NavigationLink {
             WorkView(id: work.id,type: filter.type.rawValue)
@@ -87,21 +67,13 @@ extension WorkRecommandListView{
         }
     }
     var workListView:some View{
-        VStack{
-            HStack{
-                ForEach(0..<list.count/2,id: \.self) { index in
+        ScrollView(.horizontal,showsIndicators: false){
+            LazyHGrid(rows: [GridItem(),GridItem()]){
+                ForEach(0..<list.count,id: \.self) { index in
                     workView(list[index])
                 }
             }
-            HStack{
-                ForEach(list.count/2..<list.count,id: \.self) { index in
-                    workView(list[index])
-                }
-            }
+            .padding(.horizontal,10)
         }
-        .highPriorityGesture(drag)
-        .offset(x:draggedOffset)
-        .padding(.horizontal,10)
-        .frame(width: mainWidth,alignment: .leading)
     }
 }

@@ -74,7 +74,7 @@ extension MainView{
     }
     func trendWorkView() ->some View{
         ZStack{
-            KFImageView(image: workBackground)
+            KFImageView(image: workBackground,width: trendFrame.width,height: trendFrame.height)
             Color.clear
                 .background(Material.ultraThin)
             TabView{

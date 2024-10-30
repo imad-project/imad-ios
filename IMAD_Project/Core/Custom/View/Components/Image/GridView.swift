@@ -15,11 +15,14 @@ struct GridView: View {
         imageList.chunks(ofCount: room)
     }
     var body: some View {
-        VStack(spacing:0){
-            ForEach(list,id: \.self){ columns in
-                HStack(spacing:0){
-                    ForEach(columns,id: \.self){ row in
-                        KFImageView(image: row)
+        GeometryReader { geo in
+            let size = geo.size
+            VStack(spacing:0){
+                ForEach(list,id: \.self){ columns in
+                    HStack(spacing:0){
+                        ForEach(columns,id: \.self){ row in
+                            KFImageView(image: row,width: size.width/CGFloat(room),height: size.height/CGFloat(room))
+                        }
                     }
                 }
             }
