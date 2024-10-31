@@ -49,10 +49,18 @@ extension RecommendAllView{
     }
     var headerView:some View{
         HeaderView(backIcon: "chevron.left", text: title){  dismiss() }
-        .padding(10)
+            .padding(10)
     }
     var titleView:some View{
-            HStack{
+        HStack{
+            if contentsId != nil{
+                Text("추천 리스트")
+                    .foregroundColor(.customIndigo)
+                    .bold()
+                    .font(.GmarketSansTTFMedium(20))
+                    .padding(10)
+                    .frame(maxWidth: .infinity,alignment: .leading)
+            }else{
                 ForEach(type.option,id: \.self){ type in
                     Button {
                         vmRecommend.recommendList.removeAll()
@@ -79,6 +87,8 @@ extension RecommendAllView{
                     
                 }
             }
+            
+        }
     }
     var listView:some View{
         ScrollView{
