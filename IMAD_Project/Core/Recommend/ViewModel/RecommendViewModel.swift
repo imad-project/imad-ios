@@ -41,16 +41,16 @@ class RecommendViewModel:ObservableObject{
             return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
         case .activityTv:
             let data = recommendAll?.userActivityRecommendationTv
-            return (data?.results.prefix(5).map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results.prefix(8).map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
         case .activityAnimationTv:
             let data = recommendAll?.userActivityRecommendationTvAnimation
-            return (data?.results.prefix(5).map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results.prefix(8).map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
         case .activityMovie:
             let data = recommendAll?.userActivityRecommendationMovie
-            return (data?.results.prefix(5).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results.prefix(8).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
         case .activityAnimationMovie:
             let data = recommendAll?.userActivityRecommendationMovieAnimation
-            return (data?.results.prefix(5).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results.prefix(8).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
         case .topRateTv:
             let data = recommendAll?.topRatedRecommendationTv
             return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)

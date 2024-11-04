@@ -8,11 +8,16 @@
 import Foundation
 
 extension Array {
-    func chunks(ofCount chunkSize: Int) -> [[Element]] {
+    func maintenanceChunks(ofCount chunkSize: Int) -> [[Element]] {
         stride(from: 0, to: count, by: chunkSize).map { startIndex in
             let endIndex = Swift.min(startIndex + chunkSize, count)
             return Array(self[startIndex..<endIndex])
         }
+    }
+    func chunks(ofCount chunkSize: Int) -> [[Element]] {
+        let firstHalf = Array(self[0..<chunkSize])
+        let secondHalf = Array(self[chunkSize..<chunkSize*2])
+        return [firstHalf,secondHalf]
     }
 }
 extension Array<Int>{

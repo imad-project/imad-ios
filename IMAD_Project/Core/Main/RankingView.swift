@@ -15,7 +15,7 @@ struct RankingView: View {
     
     var body: some View {
         VStack(alignment:.leading,spacing:5){
-            if let list = vmRanking.ranking?.list.chunks(ofCount: 3){
+            if let list = vmRanking.ranking?.list.maintenanceChunks(ofCount: 3){
                 filter
                 rankingView(list)
             }
