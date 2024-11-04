@@ -12,7 +12,7 @@ struct MainView: View {
     @State var workBackground = ""
     @State var trend = false
     @StateObject var vmRanking = RankingViewModel(ranking: nil, popular: PopularCache(review: nil,posting: nil))
-    @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil, recommendList: [])
+    @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil, recommendList: nil)
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
@@ -51,7 +51,7 @@ struct MainView_Previews: PreviewProvider {
         NavigationStack{
             let rankingCache = RankingCache(id: "a", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: CustomData.rankingList)
             let popularCache = PopularCache(review: CustomData.review,posting: CustomData.community)
-            MainView(vmRanking:RankingViewModel(ranking:rankingCache, popular: popularCache),vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: []))
+            MainView(vmRanking:RankingViewModel(ranking:rankingCache, popular: popularCache),vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
                 .environmentObject(AuthViewModel(user:CustomData.user))
                 .environment(\.colorScheme, .light)
         }
@@ -149,11 +149,11 @@ extension MainView{
     }
     func listUpdate(_ refresh:Bool){
         if refresh{
-            RecommendCacheManager.instance.storage.removeAll()
+            RecommendCacheManager.instance.recommendAllOfStorage.removeAll()
             RankingCacheManager.instance.storage.removeAll()
             PopularCacheManager.instance.storage.removeAll()
         }
-        vmRecommend.fetchAllRecommend()
+        vmRecommend.getAllRecommend()
         vmRanking.getRanking(ranking: RankingCache(id: "allall", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: []))
         vmRanking.getPopularReview()
         vmRanking.getPopularPosting()

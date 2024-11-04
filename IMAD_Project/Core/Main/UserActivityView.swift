@@ -36,7 +36,7 @@ struct UserActivityView: View {
 #Preview {
     UserActivityView()
         .background(.white)
-        .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: []))
+        .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
         .environmentObject(AuthViewModel(user: CustomData.user))
 }
 
