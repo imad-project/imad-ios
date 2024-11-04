@@ -60,7 +60,7 @@ extension UserActivityView{
             VStack(alignment: .leading){
                 Text("\(work.name)")
                 NavigationLink {
-                    RecommendAllView(contentsId:contentsId,title: work.name, type: work)
+                    AllRecommendView(contentsId:contentsId,title: work.name, type: work)
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {

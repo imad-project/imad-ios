@@ -24,8 +24,8 @@ struct WorkRecommandListView: View {
         VStack{
             if !list.isEmpty{
                 HStack(alignment:.bottom){
-                    textTitleView(title)
-                    allView(RecommendAllView(title: title, type: filter))
+                    textTitleView(filter.title)
+                    allView(AllRecommendView(type: filter))
                 }
                 .padding(.horizontal,10)
                 workListView

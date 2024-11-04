@@ -141,7 +141,7 @@ extension MainView{
                         .opacity(trend ? 1.0 : 0.5)
                 }
                 Spacer()
-                allView(RecommendAllView(title: "인기\(trend ? "영화" : "시리즈")", type: trend ? .trendTv : .trendMovie))
+                allView(AllRecommendView(type: trend ? .trendTv : .trendMovie))
             }
             .padding(.horizontal,10)
             .foregroundColor(.customIndigo)
