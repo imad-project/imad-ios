@@ -29,6 +29,14 @@ enum RecommendListType:CaseIterable{
         case .activityAnimationMovie :"애니메이션 영화"
         }
     }
+    var endPoint:String{
+        switch self{
+        case .genreTv,.genreMovie:"genre"
+        case .trendTv,.trendMovie:"trend"
+        case .topRateTv,.topRateMovie,.popluarTv,.popluarMovie:"imad"
+        case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:"activity"
+        }
+    }
     var type:WorkGenreType{
         switch self{
         case .genreTv,.topRateTv,.popluarTv,.trendTv,.activityTv,.activityAnimationTv: return .tv
