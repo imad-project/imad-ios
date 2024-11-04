@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct RecommendCache{
+    var id:String
+    var maxPage:Int
+    var currentPage:Int
+    var list:[WorkGenre]
+}
