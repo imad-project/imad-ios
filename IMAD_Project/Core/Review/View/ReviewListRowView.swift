@@ -80,8 +80,10 @@ extension ReviewListRowView{
     }
     var contentView:some View{
         VStack(alignment: .leading,spacing:3) {
-            Text(review.title)
-                .font(.GmarketSansTTFMedium(17))
+            if !review.spoiler{
+                Text(review.title)
+                    .font(.GmarketSansTTFMedium(17))
+            }
             HStack{
                 Text(review.spoiler ? "스포일러가\n포함된 리뷰입니다." : review.content)
                     .font(.system(size: 16))

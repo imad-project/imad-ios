@@ -65,8 +65,10 @@ extension PopularView{
     }
     func contentsView(_ popular:Popular)->some View{
         VStack(alignment: .leading,spacing:isPad() ? 15 : 10){
-            Text(popular.title())
-                .font(.GmarketSansTTFMedium(isPad() ? 25 : 17.5))
+            if !popular.spoiler(){
+                Text(popular.title())
+                    .font(.GmarketSansTTFMedium(isPad() ? 25 : 17.5))
+            }
             Spacer()
             Text(popular.contentsTitle())
                 .font(.GmarketSansTTFMedium(isPad() ? 20 : 12.5))
