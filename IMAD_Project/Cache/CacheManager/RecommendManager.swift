@@ -13,19 +13,32 @@ class RecommendCacheManager{
     private let lock = NSLock()
     private init(){}
     
-    var storage = [String:AllRecommendResponse]()
-    var timeStamp = Date()
+    var recommendAllOfStorage = [String:AllRecommendResponse]()
+    var recommendListOfStorage = [String:RecommendCache]()
+    var timeStamp = [String:Date]()
     
-    func cachedData(key:String)->AllRecommendResponse?{
-        guard let data = storage[key] else { return nil }
-        return data
+    func recommendAllOfCachedData(key:String)->AllRecommendResponse?{
+        return recommendAllOfStorage[key]
     }
-    
-    func updateData(key:String,data:AllRecommendResponse?){
-        self.lock.lock()
-        guard let data else {return}
-        timeStamp = Date()
-        storage.updateValue(data, forKey: key)
-        self.lock.unlock()
+    func recommendListOfCachedData(key:String)->RecommendCache?{
+        return recommendListOfStorage[key]
+    }
+    func recommendAllOfUpdateData(key:String,data:AllRecommendResponse?){
+        DispatchQueue.global(qos:.background).async {
+            self.lock.lock()
+            guard let data else {return}
+            self.timeStamp[key] = Date()
+            self.recommendAllOfStorage.updateValue(data, forKey: key)
+            self.lock.unlock()
+        }
+    }
+    func recommendListOfUpdateData(key:String,data:RecommendCache?){
+        DispatchQueue.global(qos:.background).async {
+            self.lock.lock()
+            guard let data else {return}
+            self.timeStamp[key] = Date()
+            self.recommendListOfStorage.updateValue(data, forKey: key)
+            self.lock.unlock()
+        }
     }
 }

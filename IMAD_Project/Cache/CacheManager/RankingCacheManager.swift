@@ -21,10 +21,12 @@ class RankingCacheManager{
     }
     
     func updateData(data:RankingCache?){
-        self.lock.lock()
-        guard let data else {return}
-        timeStamp[data.id] = Date()
-        storage.updateValue(data, forKey: data.id)
-        self.lock.unlock()
+        DispatchQueue.global(qos:.background).async {
+            self.lock.lock()
+            guard let data else {return}
+            self.timeStamp[data.id] = Date()
+            self.storage.updateValue(data, forKey: data.id)
+            self.lock.unlock()
+        }
     }
 }

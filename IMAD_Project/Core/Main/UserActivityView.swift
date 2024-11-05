@@ -20,49 +20,43 @@ struct UserActivityView: View {
     var body: some View {
         VStack(alignment: .leading){
             if listIsEmpty{
-                titleView
+                textTitleView("\(vmAuth.user?.nickname ?? "")님을 위한 작품")
+                    .padding(.leading,10)
                 ScrollView(.horizontal,showsIndicators: false) {
                     HStack{
                         ListView(items:list){ posterView($0) }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal,10)
                 }
             }
-        }.padding(.vertical)
+        }
+        .padding(.vertical)
+        .padding(.top)
     }
 }
 
 #Preview {
     UserActivityView()
         .background(.white)
-        .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll))
+        .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
         .environmentObject(AuthViewModel(user: CustomData.user))
 }
 
 extension UserActivityView{
-    var titleView:some View{
-        HStack{
-            Text("\(vmAuth.user?.nickname ?? "")님을 위한 작품")
-                .fontWeight(.black)
-                .font(.custom("GmarketSansTTFMedium", size: 20))
-                .foregroundColor(.customIndigo)
-            Spacer()
-        }
-        .padding(.bottom,5)
-        .padding(.horizontal)
-    }
     @ViewBuilder
     func posterView(_ work:RecommendListType) -> some View{
         let list = vmRecommend.workList(work).list
+        let contentsId = vmRecommend.workList(work).contentsId
         if !list.isEmpty{
             VStack(alignment: .leading){
                 Text("\(work.name)")
                 NavigationLink {
-                    RecommendAllView(title: work.name, type: work)
+                    AllRecommendView(contentsId:contentsId,title: work.name, type: work)
+                        .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
-                    GridView(room: 2, imageList: list.prefix(4).map{$0.posterPath() ?? ""})
-                        .frame(width: 180,height: 240)
+                    GridView(maintenanceRate:!isPad(), room:isPad() ? 4:2, imageList: list.prefix(isPad() ? 8 : 4).map{$0.posterPath ?? ""})
+                        .frame(width:isPad() ? 360:180,height: 240)
                         .overlay{
                             Color.black.opacity(0.3)
                             HStack{

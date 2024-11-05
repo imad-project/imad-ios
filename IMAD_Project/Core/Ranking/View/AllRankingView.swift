@@ -139,7 +139,6 @@ extension AllRankingView{
                 if list.last == rank,let ranking = vm.ranking, ranking.maxPage > ranking.currentPage{
                     ProgressView()
                         .onAppear{
-                            guard let ranking  = vm.ranking else {return}
                             vm.getRankingNextPage(nextPage: ranking.currentPage + 1, ranking: ranking)
                         }
                 }

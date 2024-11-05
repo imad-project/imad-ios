@@ -14,23 +14,26 @@ struct TodayPopularView: View {
     
     @State var currentOffset:CGFloat = .zero
     @State var endOffset:CGFloat = .zero
-    @State private var viewSize: CGFloat = .zero
+    @State private var viewSize: CGFloat = UIScreen.main.bounds.size.width
     @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
-        ZStack{
-            if let review,let posting {
-                HStack(spacing:10){
-                    reviewView(review)
-                    postingView(posting)
+        GeometryReader { geo in
+            ZStack{
+                if let review,let posting {
+                    HStack(spacing:10){
+                        reviewView(review)
+                        postingView(posting)
+                    }
+                    .padding(.horizontal,10)
+                    .padding(.vertical)
                 }
-                .padding(.horizontal,10)
-                .padding(.vertical)
             }
+            .onChange(of: geo.size) { viewSize = $0.width }
         }
-        .offset(x:currentOffset)
-        .highPriorityGesture(gesture)
-        .frame(width: mainWidth,alignment: .leading)
+        .offset(x:isWidth() ? 0:currentOffset)
+        .highPriorityGesture(isWidth() ? nil:gesture)
+        .frame(width: viewSize,height: isPad() ? 170 : 120,alignment: .leading)
         .environmentObject(vmAuth)
     }
 }
@@ -47,7 +50,7 @@ extension TodayPopularView{
             .onChanged { gesture in
                 currentOffset = endOffset + gesture.translation.width/2
             }.onEnded { gesture in
-                let width:CGFloat = mainWidth < 400 ? mainWidth - 35 : mainWidth - mainWidth/1.5
+                let width:CGFloat = viewSize < 400 ? viewSize - 35 : viewSize - viewSize/1.5
                 withAnimation {
                     if gesture.translation.width < -50{
                         if endOffset > -width{

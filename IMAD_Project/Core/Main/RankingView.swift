@@ -11,15 +11,20 @@ struct RankingView: View {
     @State var draggedOffset:CGFloat = 0
     @State var endOffset:CGFloat = 0
     @State var ranking:RankingFilter = .all
+    @State private var screenSize: CGSize = UIScreen.main.bounds.size
     @EnvironmentObject var vmRanking:RankingViewModel
     
     var body: some View {
-        VStack(alignment:.leading,spacing:5){
-            if let list = vmRanking.ranking?.list.chunks(ofCount: 3){
-                filter
-                rankingView(list)
+        GeometryReader { geometry in
+            VStack(alignment:.leading,spacing:5){
+                if let list = vmRanking.ranking?.list.maintenanceChunks(ofCount: 3){
+                    filter
+                    rankingView(list)
+                }
             }
+            .onChange(of: geometry.size) { screenSize = $0 }
         }
+        .frame(height: isPad() ? 420:300)
     }
     var drag:some Gesture{
         DragGesture()
@@ -27,7 +32,7 @@ struct RankingView: View {
                 draggedOffset = endOffset + gesture.translation.width/2
             }
             .onEnded { gesture in
-                let cell:CGFloat = isWidth() ? 627.5 : 327.5
+                let cell:CGFloat = isPad() ? 577.5:327.5
                 withAnimation {
                     if gesture.translation.width < -50{
                         if endOffset > -cell{
@@ -71,11 +76,11 @@ struct RankingView: View {
                             }
                         }
                         .foregroundColor(.customIndigo)
-                        .frame(width: 60,height: 25)
+                        .frame(width:isPad() ? 120:60,height:isPad() ? 35: 25)
                         .padding(.vertical,5)
                         .overlay {
                             Text(ranking.name)
-                                .font(.custom("GmarketSansTTFMedium", size: 11))
+                                .font(.GmarketSansTTFMedium(isPad() ? 17:11))
                                 .foregroundColor(self.ranking == ranking ? .white : .customIndigo)
                         }
                     }
@@ -111,33 +116,33 @@ struct RankingView: View {
                                 .navigationBarBackButtonHidden()
                         } label: {
                             HStack(spacing:0){
-                                KFImageView(image: rank.posterPath.getImadImage(),width: 60,height: 75).cornerRadius(5)
+                                KFImageView(image: rank.posterPath.getImadImage(),width: isPad() ? 80:60,height:isPad() ? 110:75).cornerRadius(5)
                                     .shadow(radius: 1)
                                 VStack(alignment: .leading){
                                     HStack{
                                         Text("\(rank.ranking)")
-                                            .font(.GmarketSansTTFMedium(15))
+                                            .font(.GmarketSansTTFMedium(isPad() ? 20:15))
                                             .bold()
                                         Text(rank.title)
                                             .frame(width: 100,alignment: .leading)
                                             .lineLimit(1)
-                                            .font(.GmarketSansTTFMedium(12))
+                                            .font(.GmarketSansTTFMedium(isPad() ? 18:12))
                                     }
                                     .foregroundColor(.black)
                                     .padding(.bottom,3)
                                     HStack{
                                         rankUpdateView(rank: rank.rankingChanged)
                                         Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
-                                            .font(.caption)
+                                            .font(isPad() ? .subheadline:.caption)
                                             .foregroundStyle(.gray)
                                     }
                                 }
                                 .padding(.horizontal,10)
                                 Spacer()
-                                ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
+                                ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: isPad() ? .subheadline:.caption, widthHeight: isPad() ? 70:50)
                                     .padding(.trailing)
                             }
-                            .frame(width: isWidth() ? 600 : 300,height: 75)
+                            .frame(width:isPad() ? (isWidth() ? mainWidth/3 - 25 : 550):300,height: isPad() ? 110:75)
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(5)
                             .padding(.horizontal,10)
@@ -147,9 +152,9 @@ struct RankingView: View {
                 
             }
         }
-        .frame(width: mainWidth,alignment: .leading)
+        .frame(width:screenSize.width,alignment: .leading)
         .offset(x:draggedOffset)
-        .highPriorityGesture(drag)
+        .highPriorityGesture(isWidth() ? nil : drag)
     }
 }
 

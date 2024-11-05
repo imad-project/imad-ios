@@ -19,62 +19,15 @@ class RecommendApiService{
             .validate(statusCode: 200..<300)
             .publishDecodable(type:AllRecommend.self)
             .value()
-            .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message)")
-                return receivedValue.self
-            }
             .eraseToAnyPublisher()
     }
-    static func genre(page:Int) -> AnyPublisher<GenreRecommend,AFError>{
-        print("장르 기반 작품 추천 api 호출")
+    static func list<T:Decodable>(page:Int,type:String,contentsId:Int? = nil,category:String? = nil,recommendListType:RecommendListType) -> AnyPublisher<T,AFError>{
+        print("\(recommendListType.endPoint) 작품 추천 api 호출")
         return ApiClient.shared.session
-            .request(RecommendRouter.genre(page: page),interceptor: interseptor)
+            .request(RecommendRouter.list(page: page, type: type, contentsId: contentsId, category: category, recommendListType: recommendListType),interceptor: interseptor)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type:GenreRecommend.self)
+            .publishDecodable(type:T.self)
             .value()
-            .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message)")
-                return receivedValue.self
-            }
-            .eraseToAnyPublisher()
-    }
-    static func activity(page:Int,contentsId:Int) -> AnyPublisher<ActivityRecommend,AFError>{
-        print("활동 기반 작품 추천 api 호출")
-        return ApiClient.shared.session
-            .request(RecommendRouter.activity(page: page,contentsId:contentsId),interceptor: interseptor)
-            .validate(statusCode: 200..<300)
-            .publishDecodable(type:ActivityRecommend.self)
-            .value()
-            .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message)")
-                return receivedValue.self
-            }
-            .eraseToAnyPublisher()
-    }
-    static func imad(page:Int) -> AnyPublisher<ImadRecommend,AFError>{
-        print("Imad 작품 추천 api 호출")
-        return ApiClient.shared.session
-            .request(RecommendRouter.imad(page: page),interceptor: interseptor)
-            .validate(statusCode: 200..<300)
-            .publishDecodable(type:ImadRecommend.self)
-            .value()
-            .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message)")
-                return receivedValue.self
-            }
-            .eraseToAnyPublisher()
-    }
-    static func trend(page:Int) -> AnyPublisher<TrendRecommend,AFError>{
-        print("대세 작품 추천 api 호출")
-        return ApiClient.shared.session
-            .request(RecommendRouter.trend(page: page),interceptor: interseptor)
-            .validate(statusCode: 200..<300)
-            .publishDecodable(type:TrendRecommend.self)
-            .value()
-            .map{ receivedValue in
-                print("결과 메세지  : \(receivedValue.message)")
-                return receivedValue.self
-            }
             .eraseToAnyPublisher()
     }
 }
