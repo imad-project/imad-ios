@@ -11,6 +11,7 @@ import Kingfisher
 struct MainView: View {
     @State var workBackground = ""
     @State var trend = false
+    @State private var screenSize: CGSize = UIScreen.main.bounds.size
     @StateObject var vmRanking = RankingViewModel(ranking: nil, popular: PopularCache(review: nil,posting: nil))
     @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil, recommendList: nil)
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -21,7 +22,7 @@ struct MainView: View {
                 if let user = vmAuth.user{
                     titleView(user: user)
                     trendView
-                    trendWorkView()
+                    trendWorkView
                     TodayPopularView(review: vmRanking.popular?.review, posting: vmRanking.popular?.posting)
                     RankingView()
                     UserActivityView()
@@ -59,11 +60,6 @@ struct MainView_Previews: PreviewProvider {
 }
 
 extension MainView{
-    var trendFrame: CGSize {
-        let width:CGFloat = mainWidth
-        let height:CGFloat = isPad() ? 500 : 350
-        return CGSize(width: width, height: height)
-    }
     func titleView(user:UserResponse) -> some View{
         Text((user.nickname ?? "") + "님 환영합니다")
             .font(.GmarketSansTTFMedium(isPad() ? 30 : 25))
@@ -72,11 +68,8 @@ extension MainView{
             .padding(.bottom)
             .padding(.top,10)
     }
-    func trendWorkView() ->some View{
-        ZStack{
-            KFImageView(image: workBackground,width: trendFrame.width,height: trendFrame.height)
-            Color.clear
-                .background(Material.ultraThin)
+    var trendWorkView:some View{
+        GeometryReader { geometry in
             TabView{
                 ListView(items:trend ? vmRecommend.workList(.trendTv).list : vmRecommend.workList(.trendMovie).list){ work in
                     NavigationLink {
@@ -108,8 +101,17 @@ extension MainView{
                     }
                 }
             }
+            .background{
+                ZStack{
+                    KFImageView(image: workBackground)
+                    Color.clear
+                        .background(Material.ultraThin)
+                    
+                }
+            }
+            .onChange(of: geometry.size){ screenSize = $0 }
         }
-        .frame(trendFrame)
+        .frame(height:isPad() ? 500 : 350)
         .tabViewStyle(.page)
         .colorScheme(.dark)
     }

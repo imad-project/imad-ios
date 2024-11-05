@@ -11,15 +11,20 @@ struct RankingView: View {
     @State var draggedOffset:CGFloat = 0
     @State var endOffset:CGFloat = 0
     @State var ranking:RankingFilter = .all
+    @State private var screenSize: CGSize = UIScreen.main.bounds.size
     @EnvironmentObject var vmRanking:RankingViewModel
     
     var body: some View {
-        VStack(alignment:.leading,spacing:5){
-            if let list = vmRanking.ranking?.list.maintenanceChunks(ofCount: 3){
-                filter
-                rankingView(list)
+        GeometryReader { geometry in
+            VStack(alignment:.leading,spacing:5){
+                if let list = vmRanking.ranking?.list.maintenanceChunks(ofCount: 3){
+                    filter
+                    rankingView(list)
+                }
             }
+            .onChange(of: geometry.size) { screenSize = $0 }
         }
+        .frame(height:300)
     }
     var drag:some Gesture{
         DragGesture()
@@ -137,7 +142,7 @@ struct RankingView: View {
                                 ScoreView(score: rank.imadScore ?? 0, color: .customIndigo, font: .caption, widthHeight: 50)
                                     .padding(.trailing)
                             }
-                            .frame(width: isWidth() ? 600 : 300,height: 75)
+                            .frame(width:isPad() ? mainWidth/3 - 25:300,height: 75)
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(5)
                             .padding(.horizontal,10)
@@ -147,9 +152,9 @@ struct RankingView: View {
                 
             }
         }
-        .frame(width: mainWidth,alignment: .leading)
+        .frame(width:screenSize.width,alignment: .leading)
         .offset(x:draggedOffset)
-        .highPriorityGesture(drag)
+        .highPriorityGesture(isPad() ? nil : drag)
     }
 }
 
