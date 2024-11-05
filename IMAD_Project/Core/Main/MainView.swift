@@ -62,7 +62,7 @@ struct MainView_Previews: PreviewProvider {
 extension MainView{
     func titleView(user:UserResponse) -> some View{
         Text((user.nickname ?? "") + "님 환영합니다")
-            .font(.GmarketSansTTFMedium(isPad() ? 30 : 25))
+            .font(.GmarketSansTTFMedium(isPad() ? 40 : 25))
             .fontWeight(.black)
             .padding(.horizontal,10)
             .padding(.bottom)
@@ -121,7 +121,7 @@ extension MainView{
             HStack{
                 Text("인기작품")
                     .fontWeight(.black)
-                    .font(.GmarketSansTTFMedium(isPad() ? 22 : 20))
+                    .font(.GmarketSansTTFMedium(isPad() ? 30 : 20))
                     .foregroundColor(.customIndigo)
                 Button {
                     withAnimation(.default){
@@ -129,7 +129,7 @@ extension MainView{
                     }
                 } label: {
                     Text("영화")
-                        .font(.GmarketSansTTFMedium(15))
+                        .font(.GmarketSansTTFMedium(isPad() ? 23: 15))
                         .opacity(trend ? 0.5 : 1.0)
                 }
                 Text(" l ").foregroundColor(.gray)
@@ -139,7 +139,7 @@ extension MainView{
                     }
                 } label: {
                     Text("시리즈")
-                        .font(.GmarketSansTTFMedium(15))
+                        .font(.GmarketSansTTFMedium(isPad() ? 23: 15))
                         .opacity(trend ? 1.0 : 0.5)
                 }
                 Spacer()

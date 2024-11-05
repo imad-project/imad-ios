@@ -20,16 +20,18 @@ struct UserActivityView: View {
     var body: some View {
         VStack(alignment: .leading){
             if listIsEmpty{
-                titleView
+                textTitleView("\(vmAuth.user?.nickname ?? "")님을 위한 작품")
+                    .padding(.leading,10)
                 ScrollView(.horizontal,showsIndicators: false) {
                     HStack{
                         ListView(items:list){ posterView($0) }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal,10)
                 }
             }
         }
         .padding(.vertical)
+        .padding(.top)
     }
 }
 
@@ -41,17 +43,6 @@ struct UserActivityView: View {
 }
 
 extension UserActivityView{
-    var titleView:some View{
-        HStack{
-            Text("\(vmAuth.user?.nickname ?? "")님을 위한 작품")
-                .fontWeight(.black)
-                .font(.custom("GmarketSansTTFMedium", size: 20))
-                .foregroundColor(.customIndigo)
-            Spacer()
-        }
-        .padding(.bottom,5)
-        .padding(.horizontal)
-    }
     @ViewBuilder
     func posterView(_ work:RecommendListType) -> some View{
         let list = vmRecommend.workList(work).list
@@ -64,7 +55,7 @@ extension UserActivityView{
                         .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
-                    GridView(maintenanceRate:!isPad(), room: 4, imageList: list.prefix(isPad() ? 8 : 4).map{$0.posterPath ?? ""})
+                    GridView(maintenanceRate:!isPad(), room:isPad() ? 4:2, imageList: list.prefix(isPad() ? 8 : 4).map{$0.posterPath ?? ""})
                         .frame(width:isPad() ? 360:180,height: 240)
                         .overlay{
                             Color.black.opacity(0.3)

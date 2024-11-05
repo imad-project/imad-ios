@@ -60,7 +60,7 @@ extension View{
         HStack{
             Text(text)
                 .fontWeight(.black)
-                .font(.custom("GmarketSansTTFMedium", size: 20))
+                .font(.GmarketSansTTFMedium(isPad() ? 30 : 20))
                 .foregroundColor(.customIndigo)
             Spacer()
         }
@@ -73,7 +73,7 @@ extension View{
                 .navigationBarBackButtonHidden()
         } label: {
             Text("전체보기")
-                .font(.GmarketSansTTFMedium(isPad() ? 15 : 12))
+                .font(.GmarketSansTTFMedium(isPad() ? 18 : 14))
                 .fontWeight(.regular)
                 .foregroundColor(.customIndigo)
         }
