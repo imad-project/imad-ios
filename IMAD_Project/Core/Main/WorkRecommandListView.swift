@@ -11,7 +11,6 @@ import Kingfisher
 struct WorkRecommandListView: View {
     @State var draggedOffset:CGFloat = 0
     @State var endOffset:CGFloat = 0
-    let title:String
     let filter:RecommendListType
     let workItems = [ GridItem(.fixed(220)), GridItem(.fixed(220))]
     @EnvironmentObject var vmAuth:AuthViewModel
@@ -37,8 +36,8 @@ struct WorkRecommandListView: View {
 #Preview {
     NavigationView{
         ScrollView(showsIndicators: false){
-            WorkRecommandListView(title: "ㅇㅇㅇㅇ", filter: .genreTv)
-                .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: []))
+            WorkRecommandListView(filter: .genreTv)
+                .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
                 .environmentObject(AuthViewModel(user: CustomData.user))
         }
     }

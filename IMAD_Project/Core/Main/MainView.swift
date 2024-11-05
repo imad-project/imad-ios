@@ -25,12 +25,12 @@ struct MainView: View {
                     TodayPopularView(review: vmRanking.popular?.review, posting: vmRanking.popular?.posting)
                     RankingView()
                     UserActivityView()
-                    WorkRecommandListView(title:"이런 장르 영화 어때요?", filter: .genreMovie)
-                    WorkRecommandListView(title:"\(user.nickname ?? "")님을 위한 시리즈", filter: .genreTv)
-                    WorkRecommandListView(title:"어머! 이건 꼭 봐야 해", filter: .popluarTv)
-                    WorkRecommandListView(title:"아이매드 엄선 영화", filter: .popluarMovie)
-                    WorkRecommandListView(title: "전 세계 사람들이 선택한 시리즈", filter: .topRateTv)
-                    WorkRecommandListView(title: "좋은반응을 얻은 영화", filter: .topRateMovie)
+                    WorkRecommandListView(filter: .genreMovie)
+                    WorkRecommandListView(filter: .genreTv)
+                    WorkRecommandListView(filter: .popluarTv)
+                    WorkRecommandListView(filter: .popluarMovie)
+                    WorkRecommandListView(filter: .topRateTv)
+                    WorkRecommandListView(filter: .topRateMovie)
                 }
             }
         }
