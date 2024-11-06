@@ -8,13 +8,15 @@
 import Foundation
 import SwiftUI
 
-enum OauthFilter:String,CaseIterable{
+enum OauthFilter:String,Identifiable,CaseIterable{
     case Apple
     case naver
     case kakao
     case google
     case none
-    
+    var id:UUID{
+        UUID(uuidString: self.rawValue) ?? UUID()
+    }
     var color:Color{
         switch self{
         case .Apple:
