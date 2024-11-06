@@ -14,8 +14,7 @@ struct LoginAllView: View{
     @State var isOnAlert = false                    //알림 표시
     @State var alertMessage = ""                    //알림에 표시될 메세지
     @State var loginFailed = false                  //로그인 실패 시
-    @State var loginFilter:OauthFilter = .none      //로그인 및 회원가입 필터
-    @State var showRegisterView = false             //로그인 및 회원가입 모달 생성
+    @State var loginFilter:OauthFilter? = nil      //로그인 및 회원가입 필터
     @State var email = ""                           //이메일 텍스트
     @State var password = ""                        //패스워트 텍스트
     @State var domain = EmailFilter.gmail           //이메일 도메인
@@ -37,21 +36,17 @@ struct LoginAllView: View{
                 loginButtonView
             }
         }
-        .backgroundColor(.white)
+        .backgroundColor{Color.white.onTapGesture { UIApplication.shared.endEditing() }}
         .progress(!loading)
-        .onTapGesture { UIApplication.shared.endEditing() }                 //키보드 닫기
         .onReceive(vmAuth.loginSuccess){ excuteAlert(true, $0)}             //로그인 성공 시
         .onChange(of:loginFailed){ excuteAlert($0, "로그인이 실패했습니다.") }    //소셜 로그인 실패 시
         .alert(isPresented: $isOnAlert){ alert }                            //로그인 성패 알림
-        .sheet(isPresented: $showRegisterView){
-            RegisterView()
-                .conditionAppear(loginFilter == .none)
-            AuthWebView(filter: .naver,failed: $loginFailed)
-                .conditionAppear(loginFilter == .naver)
-            AuthWebView(filter: .kakao,failed: $loginFailed)
-                .conditionAppear(loginFilter == .kakao)
-            AuthWebView(filter: .google,failed: $loginFailed)
-                .conditionAppear(loginFilter == .google)
+        .sheet(item: $loginFilter) { filter in
+            if filter == .none{
+                RegisterView()
+            }else{
+                AuthWebView(filter: filter,failed: $loginFailed)
+            }
         }
         .environmentObject(vmAuth)
     }
@@ -124,8 +119,7 @@ extension LoginAllView{
                 loading = true
             }
             CustomConfirmButton(text: "회원가입", color: .customIndigo.opacity(0.5), textColor: .white) {
-                showRegisterView = true
-                loginFilter = .none
+                loginFilter = OauthFilter.none
             }
         }
     }
@@ -158,7 +152,6 @@ extension LoginAllView{
                 }
             ForEach(OauthFilter.allCases.filter{$0 != .Apple && $0 != .none},id:\.rawValue){ item in
                 Button {
-                    showRegisterView = true
                     loginFilter = item
                 } label: {
                     loginButton(item: item)
@@ -170,10 +163,9 @@ extension LoginAllView{
         .padding(.top)
     }
     var appleLoginButton:some View{
-        SignInWithAppleButton(
-            onRequest: { $0.requestedScopes = [.fullName, .email,] },
-            onCompletion: { vmAuth.appleLogin(result: $0) }
-        )
+        SignInWithAppleButton {
+            $0.requestedScopes = [.fullName, .email,]
+        } onCompletion: { vmAuth.appleLogin(result: $0) }
         .frame(height:50)
         .cornerRadius(10)
     }

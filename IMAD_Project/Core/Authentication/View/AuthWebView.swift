@@ -33,6 +33,7 @@ struct AuthWebView: View {
             Color.white
             filter.color
         }
+        .ignoresSafeArea()
         .onAppear {
             // 로드될 페이지 설정
             let url = URL(string: "\(ApiClient.baseURL)\(endPoint)\(filter.authProvierName)")!
