@@ -12,7 +12,7 @@ struct AllRecommendView: View {
     @State var title:String = ""
     @State var type:RecommendListType
     @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil,recommendList: nil)
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var user = UserInfoManager.instance
     @Environment(\.dismiss) var dismiss
     
     
@@ -27,9 +27,7 @@ struct AllRecommendView: View {
             request(page:1,getNextPage:false,type,contentsId:contentsId ?? 0,cache:RecommendCache(id: type.rawValue, maxPage:1,currentPage:1,list:[]))
             title = type.title
         },{ vmRecommend.recommendList = nil})
-        .onReceive(vmRecommend.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
-        }
+        
     }
     
 }
@@ -70,7 +68,7 @@ extension AllRecommendView{
                                 self.type = type
                             }
                             vmRecommend.recommendList = nil
-                            title = (type == .genreTv ? vmAuth.user?.nickname ?? "" : "") + type.title
+                            title = (type == .genreTv ? user.cache?.nickname ?? "" : "") + type.title
                             request(page:1,getNextPage:false,type,contentsId:0,cache:RecommendCache(id: type.rawValue, maxPage:1,currentPage:1,list:[]))
                         }
                     } label: {
