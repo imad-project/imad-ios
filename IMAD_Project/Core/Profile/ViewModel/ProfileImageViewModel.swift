@@ -19,19 +19,20 @@ class ProfileImageViewModel:ObservableObject{
     @Published var defaultImage:ProfileFilter = .indigo
     
     func fetchProfileImageCustom(image:Data){
-        ProfileImageApiService.fetchProfileImageCustom(image: image)
+        ProfileImageApiService.fetchProfileCustomImage(image: image)
             .sink { completion in
                 ErrorManager.instance.actionErrorMessage(completion: completion) {
                     self.isSuccessProfileChanged.send()
                 } failed: {
                     self.isFailedProfileChanged.send((true,"프로필 사진 업로드에 실패했습니다."))
                 }
-            } receiveValue: { [weak self] noData in
-                self?.url = noData.data?.url ?? ""
+            } receiveValue: { [weak self] data in
+                guard let data = data.data else {return}
+                self?.url = data.url
             }.store(in: &cancelable)
     }
     func fetchProfileImageDefault(image:String){
-        ProfileImageApiService.fetchProfileImageDefault(image: image)
+        ProfileImageApiService.fetchProfileDefaultImage(image: image)
             .sink { completion in
                 ErrorManager.instance.actionErrorMessage(completion: completion) {
                     DispatchQueue.main.async{
@@ -40,8 +41,9 @@ class ProfileImageViewModel:ObservableObject{
                 } failed: {
                     self.isFailedProfileChanged.send((true,"프로필 사진 업로드에 실패했습니다."))
                 }
-            } receiveValue: { [weak self] noData in
-                self?.url = noData.data?.url ?? ""
+            } receiveValue: { [weak self] data in
+                guard let data = data.data else {return}
+                self?.url = data.url
             }.store(in: &cancelable)
     }
 }
