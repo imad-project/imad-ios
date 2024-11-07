@@ -24,7 +24,7 @@ struct CommunitySearchView: View {
     @State var category:CommunityFilter = .all
     
     @Environment(\.dismiss) var dismiss
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @StateObject var user = UserInfoManager.instance
     
     var body: some View {
         VStack(alignment: .leading){
@@ -95,9 +95,6 @@ struct CommunitySearchView: View {
         .foregroundColor(.customIndigo)
         .background(Color.white.ignoresSafeArea())
         .navigationBarBackButtonHidden()
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
-        }
     }
 }
 

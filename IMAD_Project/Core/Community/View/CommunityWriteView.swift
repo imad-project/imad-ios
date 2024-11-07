@@ -29,7 +29,7 @@ struct CommunityWriteView: View {
     @Binding var goMain:Bool
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @StateObject var user = UserInfoManager.instance
     
     var body: some View {
         
@@ -55,9 +55,6 @@ struct CommunityWriteView: View {
         .foregroundColor(.black)
             .onReceive(vm.wrtiesuccess){ postingId in
                 showCommunity = (true,postingId)
-            }
-            .onReceive(vm.refreschTokenExpired){
-                vmAuth.logout(tokenExpired: true)
             }
             .onReceive(vm.success){
                 dismiss()

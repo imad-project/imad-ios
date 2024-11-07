@@ -13,7 +13,7 @@ struct MyCommunityListView: View {
     @State var community:CommunityDetailsListResponse? = nil
     @State var goPosting = false
     @State var like = true
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @StateObject var user = UserInfoManager.instance
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @Environment(\.dismiss) var dismiss
     
@@ -52,9 +52,6 @@ struct MyCommunityListView: View {
         .onDisappear{
             vm.currentPage = 1
             vm.communityList.removeAll()
-        }
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
         }
         .navigationDestination(isPresented: $goPosting){
             CommunityPostView(reported: community?.reported ?? false, postingId: community?.postingID ?? 0, back: $goPosting)
