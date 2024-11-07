@@ -20,7 +20,7 @@ struct SearchView: View {
     @Binding var back:Bool
     @StateObject var vmWork = WorkViewModel(workInfo: nil, bookmarkList: [])
     @StateObject var vm = SearchViewModel()
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @StateObject var user = UserInfoManager.instance
     
     var body: some View {
         VStack(alignment: .leading,spacing: 0){
@@ -34,9 +34,6 @@ struct SearchView: View {
         }
         .foregroundColor(.black)
         .background(Color.white)
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
-        }
         .onTapGesture {
             UIApplication.shared.endEditing()
         }

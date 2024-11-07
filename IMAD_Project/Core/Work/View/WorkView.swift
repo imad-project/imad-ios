@@ -20,10 +20,11 @@ struct WorkView: View {
     @State var writeCommunity = false
     @State var showMyRevie = false
     
+    
     @Environment(\.dismiss) var dismiss
+    @StateObject var user = UserInfoManager.instance
     @StateObject var vmReview = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vm = WorkViewModel(workInfo: nil,bookmarkList: [])
-    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var body: some View {
         ZStack(alignment: .topLeading){
@@ -61,9 +62,6 @@ struct WorkView: View {
         .onReceive(vm.success){ contentsId in
             guard let contentsId else {return}
             vmReview.readReviewList(id: contentsId, page: 1, sort: "createdDate", order: 0)
-        }
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
         }
         .alert(isPresented: $written) {
             let no = Alert.Button.default(Text("아니오")) {}
@@ -249,7 +247,7 @@ extension WorkView{
                             .navigationBarBackButtonHidden()
                     } label: {
                         HStack(spacing: 0){
-                            Text(vmAuth.user?.nickname ?? "")
+                            Text(user.cache?.nickname ?? "")
                                 .bold()
                                 .padding(.leading)
                                 .font(.subheadline)
