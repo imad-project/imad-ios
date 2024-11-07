@@ -16,7 +16,7 @@ struct ProfileView: View {
     @StateObject var vmProfile = ProfileImageViewModel()
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vmWork = WorkViewModel(workInfo: nil,bookmarkList: [])
-    @StateObject var vmAuth = AuthViewModel(user: nil)
+    @StateObject var user = UserInfoManager.instance
     
     @State var profileSelect = false
     @State var gallery = false
@@ -31,8 +31,7 @@ struct ProfileView: View {
     
     
     var authProvider:String{
-        if let user = vmAuth.user{
-            
+        if let user = user.cache{
             switch user.authProvider{
             case "IMAD":
                 return "아이매드 회원"
@@ -60,7 +59,7 @@ struct ProfileView: View {
             else{
                 header
                 ScrollView(showsIndicators: false){
-                    if let user = vmAuth.user{
+                    if let user = user.cache{
                         LazyVStack(pinnedViews: [.sectionHeaders]){
                             VStack(spacing: 0){
                                 VStack(spacing: 0){
@@ -84,8 +83,8 @@ struct ProfileView: View {
                                 VStack(spacing:0){
                                     VStack(alignment: .leading) {
                                         Text("내 반응").font(.custom("GmarketSansTTFMedium", size: 15))
-                                        navigationListRowView(view: MyReviewView(writeType: .myselfLike).environmentObject(vmAuth), image: "star.leadinghalf.filled", text: "리뷰")
-                                        navigationListRowView(view: MyCommunityListView(writeType: .myselfLike).environmentObject(vmAuth), image: "note.text", text: "게시물")
+                                        navigationListRowView(view: MyReviewView(writeType: .myselfLike), image: "star.leadinghalf.filled", text: "리뷰")
+                                        navigationListRowView(view: MyCommunityListView(writeType: .myselfLike), image: "note.text", text: "게시물")
                                     }
                                     .padding()
                                     .background(Color.white)
@@ -134,21 +133,17 @@ struct ProfileView: View {
         .onDisappear{
             vmWork.bookmarkList.removeAll()
         }
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
-        }
         .onReceive(vmProfile.isSuccessProfileChanged) {
-            vmAuth.user?.profileImage = vmProfile.url
+            user.cache?.profileImage = vmProfile.url
             loading = false
         }
-//        .environmentObject(vmAuth)
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ProfileView(vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList),vmWork:WorkViewModel(workInfo: nil, bookmarkList: CustomData.bookmarkList),vmAuth:AuthViewModel(user: nil))
+            ProfileView(vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList),vmWork:WorkViewModel(workInfo: nil, bookmarkList: CustomData.bookmarkList))
                
         }
     }
@@ -162,7 +157,6 @@ extension ProfileView{
             Spacer()
             NavigationLink {
                 ProfileChangeView()
-                    .environmentObject(vmAuth)
                     .navigationBarBackButtonHidden()
             } label: {
                 Image(systemName: "gearshape.fill")
@@ -178,7 +172,7 @@ extension ProfileView{
             Button {
                 profileSelect = true
             } label: {
-                ProfileImageView(imagePath: vmAuth.user?.profileImage ?? "",widthHeigt: 60)
+                ProfileImageView(imagePath: user.cache?.profileImage ?? "",widthHeigt: 60)
                     .overlay(alignment:.bottomTrailing){
                         Circle()
                             .foregroundColor(.black.opacity(0.7))
@@ -222,10 +216,10 @@ extension ProfileView{
             }
             VStack(alignment: .leading,spacing: 0) {
                 HStack(spacing:0){
-                    Text(vmAuth.user?.nickname ?? "")
+                    Text(user.cache?.nickname ?? "")
                         .font(.title3)
                         .bold()
-                    Image(vmAuth.user?.gender ?? "")
+                    Image(user.cache?.gender ?? "")
                         .resizable()
                         .frame(width: 20,height: 25)
                 }
@@ -233,7 +227,7 @@ extension ProfileView{
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding(.top,2)
-                Text("\(vmAuth.user?.birthYear ?? 0)년생")
+                Text("\(user.cache?.birthYear ?? 0)년생")
                     .font(.subheadline)
                 
                 
@@ -408,7 +402,7 @@ extension ProfileView{
         .presentationDetents([.fraction(0.3)])
     }
     func isCondition(profile:ProfileFilter)->Bool{
-        guard let profileImage = vmAuth.user?.profileImage else {return false}
+        guard let profileImage = user.cache?.profileImage else {return false}
         guard profileImage.contains("default_profile_image") else {return false}
         return ProfileFilter.allCases.first(where: {$0.num == profileImage.getImageCode()}) == profile
     }

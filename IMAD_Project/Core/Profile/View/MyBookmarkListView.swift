@@ -7,7 +7,6 @@ struct MyBookmarkListView: View {
     let columns = [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = WorkViewModel(workInfo: nil, bookmarkList: [])
-    @StateObject var vmAuth = AuthViewModel(user:nil)
     
     var list:[BookmarkListResponse]{
         return vm.bookmarkList.filter({$0.contentsTitle.contains(text)})
@@ -36,9 +35,6 @@ struct MyBookmarkListView: View {
             .onDisappear{
                 vm.currentPage = 1
                 vm.bookmarkList.removeAll()
-            }
-            .onReceive(vm.refreschTokenExpired){
-                vmAuth.logout(tokenExpired: true)
             }
         }
     }
