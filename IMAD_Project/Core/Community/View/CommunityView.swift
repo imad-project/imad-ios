@@ -42,7 +42,7 @@ struct CommunityView: View {
         }
         .navigationDestination(isPresented: $goWork) {
             if let workInfo{
-                CommunityPostView(reported: workInfo.reported, postingId: workInfo.postingID, back: $goWork)
+                PostingDetailsView(reported: workInfo.reported, postingId: workInfo.postingID, back: $goWork)
                     .navigationBarBackButtonHidden()
                    
             }
@@ -53,7 +53,7 @@ struct CommunityView: View {
                 .navigationBarBackButtonHidden()
         }
         .navigationDestination(isPresented: $searchView) {
-            CommunitySearchView()
+            SearchPostingView()
                 .navigationBarBackButtonHidden()
         }
     }

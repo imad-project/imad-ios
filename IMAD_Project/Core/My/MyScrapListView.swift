@@ -40,7 +40,7 @@ struct MyScrapListView: View {
             vm.scrapList.removeAll()
         }
         .navigationDestination(isPresented: $goPosting){
-            CommunityPostView(reported: false, postingId: scrap?.postingID ?? 0, back: $goPosting)
+            PostingDetailsView(reported: false, postingId: scrap?.postingID ?? 0, back: $goPosting)
                
                 .navigationBarBackButtonHidden()
         }

@@ -23,7 +23,7 @@ struct MenuTabView: View {
                     .tag(TabFilter.community)
                 SearchView(backMode: true, postingMode: false, back: .constant(false))
                     .tag(TabFilter.notification)
-                ProfileView()
+                UserProfileView()
                     .tag(TabFilter.profile)
             }
             menu

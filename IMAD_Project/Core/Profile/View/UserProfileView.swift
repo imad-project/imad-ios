@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct ProfileView: View {
+struct UserProfileView: View {
     
     @State var imageCode:ProfileFilter = .indigo
     
@@ -67,7 +67,7 @@ struct ProfileView: View {
                                     Divider()
                                     HStack{
                                         myInfoView(view:
-                                                    MyReviewView(writeType: .myself)
+                                                    MyReviewListView(writeType: .myself)
                                            ,
                                                    image: "star.bubble",
                                                    text: "내 리뷰", count: vmWork.profileInfo?.myReviewCnt ?? 0)
@@ -83,7 +83,7 @@ struct ProfileView: View {
                                 VStack(spacing:0){
                                     VStack(alignment: .leading) {
                                         Text("내 반응").font(.custom("GmarketSansTTFMedium", size: 15))
-                                        navigationListRowView(view: MyReviewView(writeType: .myselfLike), image: "star.leadinghalf.filled", text: "리뷰")
+                                        navigationListRowView(view: MyReviewListView(writeType: .myselfLike), image: "star.leadinghalf.filled", text: "리뷰")
                                         navigationListRowView(view: MyCommunityListView(writeType: .myselfLike), image: "note.text", text: "게시물")
                                     }
                                     .padding()
@@ -118,12 +118,12 @@ struct ProfileView: View {
         .foregroundColor(.customIndigo)
         .colorScheme(.light)
         .sheet(isPresented: $tv) {
-            GenreSelectView(genreType: .tv, dismiss: $tv)
+            UpdateGenreView(genreType: .tv, dismiss: $tv)
                
                 .presentationDetents([.fraction(0.7)])
         }
         .sheet(isPresented: $movie) {
-            GenreSelectView(genreType: .movie, dismiss: $movie)
+            UpdateGenreView(genreType: .movie, dismiss: $movie)
                
                 .presentationDetents([.fraction(0.7)])
         }
@@ -140,23 +140,23 @@ struct ProfileView: View {
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
+struct UserProfileView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ProfileView(vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList),vmWork:WorkViewModel(workInfo: nil, bookmarkList: CustomData.bookmarkList))
+            UserProfileView(vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList),vmWork:WorkViewModel(workInfo: nil, bookmarkList: CustomData.bookmarkList))
                
         }
     }
 }
 
-extension ProfileView{
+extension UserProfileView{
     var header:some View{
         HStack{
             Text("프로필")
                 .font(.custom("GmarketSansTTFMedium", size: 25)).bold()
             Spacer()
             NavigationLink {
-                ProfileChangeView()
+                ChangeInformationView()
                     .navigationBarBackButtonHidden()
             } label: {
                 Image(systemName: "gearshape.fill")

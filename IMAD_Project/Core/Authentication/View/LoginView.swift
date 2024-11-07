@@ -1,5 +1,5 @@
 //
-//  LoginAllView.swift
+//  LoginView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/05/16.
@@ -9,7 +9,7 @@ import SwiftUI
 import Alamofire
 import AuthenticationServices
 
-struct LoginAllView: View{
+struct LoginView: View{
 
     @State var isOnAlert = false                    //알림 표시
     @State var alertMessage = ""                    //알림에 표시될 메세지
@@ -51,15 +51,15 @@ struct LoginAllView: View{
     }
 }
 
-struct LoginAllView_Previews: PreviewProvider {
+struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            LoginAllView(vmAuth:AuthViewModel(user: CustomData.user))
+            LoginView(vmAuth:AuthViewModel(user: CustomData.user))
         }
     }
 }
 
-extension LoginAllView{
+extension LoginView{
     func excuteAlert(_ isOnAlert:Bool,_ message:String){
         self.isOnAlert = isOnAlert
         self.alertMessage = message

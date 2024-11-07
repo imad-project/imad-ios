@@ -1,5 +1,5 @@
 //
-//  ProfileSelectView.swift
+//  SelectProfileView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/04/12.
@@ -8,7 +8,7 @@
 import SwiftUI
 import PhotosUI
 
-struct NicknameSelectView: View {
+struct SelectNicknameView: View {
     
     @State var temp = ""
     @State var duplicationResult = (possible:false,message:"")  //중복확인 가능 유무
@@ -35,13 +35,13 @@ struct NicknameSelectView: View {
     }
 }
 
-struct NicknameSelectView_Previews: PreviewProvider {
+struct SelectNicknameView_Previews: PreviewProvider {
     static var previews: some View {
-        NicknameSelectView().environmentObject(AuthViewModel(user:nil))
+        SelectNicknameView().environmentObject(AuthViewModel(user:nil))
     }
 }
 
-extension NicknameSelectView{
+extension SelectNicknameView{
     var alert:Alert{
         let title = Text("닉네임을 제대로 설정 해주세요!")
         let button = Alert.Button.cancel(Text("확인"), action: {

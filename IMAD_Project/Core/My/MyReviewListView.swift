@@ -1,5 +1,5 @@
 //
-//  MyReviewView.swift
+//  MyReviewListView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/04/19.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MyReviewView: View {
+struct MyReviewListView: View {
     let writeType:WriteTypeFilter
     @State var like = true
     @StateObject var user = UserInfoManager.instance
@@ -53,14 +53,14 @@ struct MyReviewView: View {
     }
 }
 
-struct MyReviewView_Previews: PreviewProvider {
+struct MyReviewListView_Previews: PreviewProvider {
     static var previews: some View {
-        MyReviewView(writeType: .myselfLike,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
+        MyReviewListView(writeType: .myselfLike,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
            
     }
 }
 
-extension MyReviewView{
+extension MyReviewListView{
     var header:some View{
         VStack{
             HeaderView(backIcon: "chevron.left", text: writeType == .myself ? "내 리뷰" : "내 리뷰 반응"){

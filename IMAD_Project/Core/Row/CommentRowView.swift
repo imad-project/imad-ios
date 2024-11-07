@@ -99,7 +99,7 @@ struct CommentRowView: View {
         .sheet(isPresented: $profile){
             ZStack{
                 Color.white.ignoresSafeArea()
-                OtherProfileView(id: comment.userID)
+                OtherUsersProfileView(id: comment.userID)
                    
             }
             
@@ -138,7 +138,7 @@ extension CommentRowView{
         .padding(.bottom,10)
     }
     
-    func infoChangeView(image:String,text:String,color:Color,x:CGFloat,action:@escaping ()->()) -> some View{
+    func informationDetailsView(image:String,text:String,color:Color,x:CGFloat,action:@escaping ()->()) -> some View{
         Button(action: action){
             VStack{
                 Image(systemName: image)
@@ -160,7 +160,7 @@ extension CommentRowView{
     var settingView:some View{
         HStack{
             if comment.author{
-                infoChangeView(image: "square.and.pencil", text: "수정", color: .customIndigo.opacity(0.6), x: 200){
+                informationDetailsView(image: "square.and.pencil", text: "수정", color: .customIndigo.opacity(0.6), x: 200){
                     withAnimation(.spring()){
                         statingOffsetY = 0
                         focus = true
@@ -168,7 +168,7 @@ extension CommentRowView{
                         text = comment.content ?? ""
                     }
                 }
-                infoChangeView(image: "trash", text: "삭제", color: .red, x: 195) {
+                informationDetailsView(image: "trash", text: "삭제", color: .red, x: 195) {
                     withAnimation(.spring()){
                         self.deleted = true
                         statingOffsetY = 0
@@ -176,7 +176,7 @@ extension CommentRowView{
                     }
                 }
             }else {
-                infoChangeView(image: "exclamationmark.square", text: "신고", color: .yellow, x: 90) {
+                informationDetailsView(image: "exclamationmark.square", text: "신고", color: .yellow, x: 90) {
                     if reported{
                         reportSuccess = true
                         message = "이미 신고가 접숙된 댓/답글입니다."

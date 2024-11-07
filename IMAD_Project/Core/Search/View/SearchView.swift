@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SearchView: View {
     let backMode:Bool
-    let postingMode:Bool    //MARK: true -> CommunityWriteView / false -> WorkView
+    let postingMode:Bool    //MARK: true -> CreatePostingView / false -> WorkView
     let columns =  [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
   
     @State var contentsId:Int?
@@ -45,7 +45,7 @@ struct SearchView: View {
             Group{
                 if let work{
                     if postingMode{
-                        CommunityWriteView(contentsId: contentsId,  contents: (work.posterPath?.getImadImage() ?? "",work.title == nil ? work.name ?? "" : work.title ?? ""), goMain: $back)
+                        CreatePostingView(contentsId: contentsId,  contents: (work.posterPath?.getImadImage() ?? "",work.title == nil ? work.name ?? "" : work.title ?? ""), goMain: $back)
                     }else{
                         WorkView(id:work.id,type: work.mediaType)
                     }

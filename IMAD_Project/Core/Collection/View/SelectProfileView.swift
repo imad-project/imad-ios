@@ -1,5 +1,5 @@
 //
-//  ProfileSelectView.swift
+//  SelectProfileView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/05/26.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileSelectView: View {
+struct SelectProfileView: View {
     
     
     // - 알람 메세지 혹은 로딩 화면 관련
@@ -35,13 +35,13 @@ struct ProfileSelectView: View {
     }
 }
 
-struct ProfileSelectView_Previews: PreviewProvider {
+struct SelectProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileSelectView()
+        SelectProfileView()
             .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
-extension ProfileSelectView{
+extension SelectProfileView{
     var alert:Alert{
         let title = Text("오류")
         let message = Text(faildProfileImageUpload.message)

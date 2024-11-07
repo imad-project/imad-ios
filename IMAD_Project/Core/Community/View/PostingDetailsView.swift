@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct CommunityPostView: View {
+struct PostingDetailsView: View {
     
     @State var reported:Bool = false
     let postingId:Int
@@ -122,7 +122,7 @@ struct CommunityPostView: View {
                         .sheet(isPresented: $profile){
                             ZStack{
                                 Color.white.ignoresSafeArea()
-                                OtherProfileView(id: community.userID)
+                                OtherUsersProfileView(id: community.userID)
                                    
                             }
                             
@@ -154,7 +154,7 @@ struct CommunityPostView: View {
         .navigationDestination(isPresented: $modify) {
             if let community = vm.community{
                 let category = CommunityFilter.allCases.first(where: {$0.num == community.category})!
-                CommunityWriteView(contentsId: community.contentsID, postingId: community.postingID, contents: (community.contentsPosterPath.getImadImage(),community.contentsTitle) ,category:category, spoiler: community.spoiler, text:community.content ?? "", title: community.title, goMain: .constant(true))
+                CreatePostingView(contentsId: community.contentsID, postingId: community.postingID, contents: (community.contentsPosterPath.getImadImage(),community.contentsTitle) ,category:category, spoiler: community.spoiler, text:community.content ?? "", title: community.title, goMain: .constant(true))
                    
                     .navigationBarBackButtonHidden()
             }
@@ -162,16 +162,16 @@ struct CommunityPostView: View {
     }
 }
 
-struct ComminityPostView_Previews: PreviewProvider {
+struct PostingDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            CommunityPostView(reported: true, postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.community, communityList: []))
+            PostingDetailsView(reported: true, postingId: 1,back: .constant(true), vm: CommunityViewModel(community: CustomData.community, communityList: []))
                
         }
     }
 }
 
-extension CommunityPostView{
+extension PostingDetailsView{
     func header(community:CommunityResponse) ->some View{
         HStack{
             HeaderView(backIcon: "chevron.left", text:CommunityFilter.allCases.first(where:{$0.num == community.category})!.name){

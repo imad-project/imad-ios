@@ -21,12 +21,12 @@ struct ContentView: View {
                 if isFirstLaunch{
                     if let user = user.cache{
                         if user.role == "GUEST"{
-                            RegisterTabView()
+                            UpdateUserProfileView()
                         }else{
                             MenuTabView()
                         }
                     }else{
-                        LoginAllView()
+                        LoginView()
                     }
                 }else{
                     OnBoardingTabView(isFirstLaunch: $isFirstLaunch)

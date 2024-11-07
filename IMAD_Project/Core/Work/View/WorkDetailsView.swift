@@ -1,5 +1,5 @@
 //
-//  WorkInfoView.swift
+//  WorkDetailsView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/06/02.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct WorkInfoView: View {
+struct WorkDetailsView: View {
     let work:WorkResponse
     @State var detail:Season?
     @State var isExtend = false
@@ -38,15 +38,15 @@ struct WorkInfoView: View {
     }
 }
 
-struct WorkInfoView_Previews: PreviewProvider {
+struct WorkDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView{
-            WorkInfoView(work: CustomData.workInfo!)
+            WorkDetailsView(work: CustomData.workInfo!)
         }
     }
 }
 
-extension WorkInfoView{
+extension WorkDetailsView{
     var title:some View{
         VStack(alignment: .leading,spacing: 10){
             Text("원재")

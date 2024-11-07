@@ -50,7 +50,7 @@ struct ReviewDetailsView: View {
         .sheet(isPresented: $profile){
             ZStack{
                 Color.white.ignoresSafeArea()
-                OtherProfileView(id: vm.review?.userID ?? 0)
+                OtherUsersProfileView(id: vm.review?.userID ?? 0)
             }
             
         }
@@ -135,7 +135,7 @@ extension ReviewDetailsView{
                     
                     .confirmationDialog("", isPresented: $menu,actions: {
                         NavigationLink {
-                            WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
+                            CreateReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
                                 .navigationBarBackButtonHidden()
                         } label: {
                             Text("수정하기")

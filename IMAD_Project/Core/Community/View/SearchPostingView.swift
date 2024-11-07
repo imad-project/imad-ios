@@ -1,5 +1,5 @@
 //
-//  CommunitySearchView.swift
+//  SearchPostingView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/10/17.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CommunitySearchView: View {
+struct SearchPostingView: View {
     
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     
@@ -67,7 +67,7 @@ struct CommunitySearchView: View {
         }
         .navigationDestination(isPresented: $goCommunity){
             if let community{
-                CommunityPostView(reported: community.reported, postingId: community.postingID, back: $goCommunity)
+                PostingDetailsView(reported: community.reported, postingId: community.postingID, back: $goCommunity)
                    
                     .navigationBarBackButtonHidden()
             }
@@ -98,13 +98,13 @@ struct CommunitySearchView: View {
     }
 }
 
-struct CommunitySearchView_Previews: PreviewProvider {
+struct SearchPostingView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunitySearchView(vm:CommunityViewModel(community: nil, communityList: CustomData.communityList))
+        SearchPostingView(vm:CommunityViewModel(community: nil, communityList: CustomData.communityList))
            
     }
 }
-extension CommunitySearchView{
+extension SearchPostingView{
     var header:some View{
         HeaderView(backIcon: "chevron.left", text: "커뮤니티 검색"){
             dismiss()

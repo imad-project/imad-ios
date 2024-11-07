@@ -14,7 +14,7 @@ struct CommunityListRowView: View {
             VStack(alignment: .leading,spacing: 0) {
                 
                firstView
-                workInfoView
+                workDetailsView
                 HStack{
                     if community.commentCnt == -1{
                         Text(community.createdAt.relativeTime()).foregroundColor(.customIndigo.opacity(0.7))
@@ -75,7 +75,7 @@ extension CommunityListRowView{
         .font(.caption)
             .padding(.bottom)
     }
-    var workInfoView:some View{
+    var workDetailsView:some View{
         VStack(alignment: .leading,spacing: 5) {
             Text(community.contentsTitle ?? "")
                 .font(.GmarketSansTTFMedium(12))

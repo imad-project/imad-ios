@@ -1,5 +1,5 @@
 //
-//  ProfileChangeView.swift
+//  ChangeInformationView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/04/18.
@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 import PhotosUI
 
-struct ProfileChangeView: View {
+struct ChangeInformationView: View {
     
     @State var delete = false
     @State var logout = false
@@ -24,11 +24,11 @@ struct ProfileChangeView: View {
                         List{
                             Group{
                                 if let user = vmAuth.user{
-                                    navigatoionChangeView(view: InfoChangeView(title: "닉네임", password: false, text:user.nickname ?? ""), text: "닉네임 변경")
-                                    navigatoionChangeView(view: InfoChangeView(title: "성별", password: false,gender: user.gender ?? ""), text: "성별 변경")
-                                    navigatoionChangeView(view: InfoChangeView(title: "나이", password: false,age: user.birthYear), text: "나이 변경")
+                                    navigatoionChangeView(view: InformationDetailsView(title: "닉네임", password: false, text:user.nickname ?? ""), text: "닉네임 변경")
+                                    navigatoionChangeView(view: InformationDetailsView(title: "성별", password: false,gender: user.gender ?? ""), text: "성별 변경")
+                                    navigatoionChangeView(view: InformationDetailsView(title: "나이", password: false,age: user.birthYear), text: "나이 변경")
                                     if user.authProvider == "IMAD"{
-                                        navigatoionChangeView(view: InfoChangeView(title: "비밀번호", password: true), text: "비밀번호 변경")
+                                        navigatoionChangeView(view: InformationDetailsView(title: "비밀번호", password: true), text: "비밀번호 변경")
                                     }
                                 }
                                 
@@ -59,17 +59,17 @@ struct ProfileChangeView: View {
     }
 }
 
-struct ProfileChangeView_Previews: PreviewProvider {
+struct ChangeInformationView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ProfileChangeView(vmAuth:AuthViewModel(user: CustomData.user))
+            ChangeInformationView(vmAuth:AuthViewModel(user: CustomData.user))
 //                .environmentObject(AuthViewModel(user: CustomData.user))
         }
         
     }
 }
 
-extension ProfileChangeView{
+extension ChangeInformationView{
     var header:some View{
         VStack(spacing:0){
             HStack{

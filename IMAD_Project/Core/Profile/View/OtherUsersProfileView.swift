@@ -1,5 +1,5 @@
 //
-//  OtherProfileView.swift
+//  OtherUsersProfileView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 7/20/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OtherProfileView: View {
+struct OtherUsersProfileView: View {
     
     let id:Int
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
@@ -90,11 +90,11 @@ struct OtherProfileView: View {
 }
 
 #Preview {
-    OtherProfileView(id: 1)
+    OtherUsersProfileView(id: 1)
        
 }
 
-extension OtherProfileView{
+extension OtherUsersProfileView{
     func myInfoView(image:String,text:String,count:Int) -> some View{
         VStack(spacing:10){
             HStack{

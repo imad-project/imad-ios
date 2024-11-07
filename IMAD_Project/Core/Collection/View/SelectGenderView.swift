@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GenderSelectView: View {
+struct SelectGenderView: View {
     
     @EnvironmentObject var vmAuth:AuthViewModel
     
@@ -15,8 +15,8 @@ struct GenderSelectView: View {
         VStack(alignment: .leading,spacing: 5){
             guideView
             VStack{
-                genderSelectView(gender: "MALE")
-                genderSelectView(gender: "FEMALE")
+                SelectGenderView(gender: "MALE")
+                SelectGenderView(gender: "FEMALE")
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical)
@@ -30,13 +30,13 @@ struct GenderSelectView: View {
     }
 }
 
-struct GenderSelectView_Previews: PreviewProvider {
+struct SelectGenderView_Previews: PreviewProvider {
     static var previews: some View {
-        GenderSelectView()
+        SelectGenderView()
             .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
-extension GenderSelectView{
+extension SelectGenderView{
     var alert:Alert{
         let title = Text("성별을 제대로 설정 해주세요!")
         let button = Alert.Button.cancel(Text("확인"), action: { withAnimation(.linear){ vmAuth.selection = .gender }})
@@ -51,7 +51,7 @@ extension GenderSelectView{
                 .font(.GmarketSansTTFMedium(15))
         }
     }
-    func genderSelectView(gender:String) -> some View{
+    func SelectGenderView(gender:String) -> some View{
         Button {
             vmAuth.patchUser.gender = gender
             vmAuth.check.gender = false

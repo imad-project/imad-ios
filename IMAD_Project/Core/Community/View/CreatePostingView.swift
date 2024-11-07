@@ -1,5 +1,5 @@
 //
-//  CommunityWriteView.swift
+//  CreatePostingView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/06/02.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct CommunityWriteView: View {
+struct CreatePostingView: View {
     
     //MARK: 초기 변수/상수
     var contentsId:Int?  //게시물 등록
@@ -60,7 +60,7 @@ struct CommunityWriteView: View {
                 dismiss()
             }
             .navigationDestination(isPresented: $showCommunity.0) {
-                CommunityPostView(reported: false, postingId: showCommunity.1,back: $goMain)
+                PostingDetailsView(reported: false, postingId: showCommunity.1,back: $goMain)
                     .navigationBarBackButtonHidden()
                    
             }
@@ -68,14 +68,14 @@ struct CommunityWriteView: View {
     }
 }
 
-struct CommunityWriteView_Previews: PreviewProvider {
+struct CreatePostingView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityWriteView(contentsId: 1, contents: (CustomData.workImage,"asdasd"), goMain: .constant(true),vm: CommunityViewModel(community:nil, communityList: []))
+        CreatePostingView(contentsId: 1, contents: (CustomData.workImage,"asdasd"), goMain: .constant(true),vm: CommunityViewModel(community:nil, communityList: []))
             .environment(\.colorScheme, .light)
            
     }
 }
-extension CommunityWriteView{
+extension CreatePostingView{
     var header:some View{
         HStack{
             HStack{

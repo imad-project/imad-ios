@@ -1,5 +1,5 @@
 //
-//  GenreSelectView.swift
+//  SelectGenreView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 12/15/23.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct GenreSelectView: View {
+struct UpdateGenreView: View {
     let genreType:GenreType
     @State var collection:[Genre] = []
     @Binding var dismiss:Bool
@@ -122,6 +122,6 @@ struct GenreSelectView: View {
 }
 
 #Preview {
-    GenreSelectView(genreType: .tv, dismiss: .constant(false))
+    UpdateGenreView(genreType: .tv, dismiss: .constant(false))
        
 }

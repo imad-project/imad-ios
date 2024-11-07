@@ -74,7 +74,7 @@ extension TodayPopularView{
     }
     func postingView(_ posting:CommunityResponse)->some View{
         NavigationLink {
-            CommunityPostView(reported: posting.reported, postingId:posting.postingID,main: true,back: .constant(false))
+            PostingDetailsView(reported: posting.reported, postingId:posting.postingID,main: true,back: .constant(false))
                 .navigationBarBackButtonHidden()
         } label: {
             PopularView(posting: posting)

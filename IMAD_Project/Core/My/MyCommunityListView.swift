@@ -54,7 +54,7 @@ struct MyCommunityListView: View {
             vm.communityList.removeAll()
         }
         .navigationDestination(isPresented: $goPosting){
-            CommunityPostView(reported: community?.reported ?? false, postingId: community?.postingID ?? 0, back: $goPosting)
+            PostingDetailsView(reported: community?.reported ?? false, postingId: community?.postingID ?? 0, back: $goPosting)
                
                 .navigationBarBackButtonHidden()
         }

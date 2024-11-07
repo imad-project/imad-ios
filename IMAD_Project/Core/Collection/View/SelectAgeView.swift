@@ -1,5 +1,5 @@
 //
-//  AgeSelectView.swift
+//  SelectAgeView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/05/26.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AgeSelectView: View {
+struct SelectAgeView: View {
     @EnvironmentObject var vmAuth:AuthViewModel
     var body: some View {
         VStack(alignment: .leading,spacing: 5){
@@ -23,13 +23,13 @@ struct AgeSelectView: View {
     }
 }
 
-struct AgeSelectView_Previews: PreviewProvider {
+struct SelectAgeView_Previews: PreviewProvider {
     static var previews: some View {
-        AgeSelectView()
+        SelectAgeView()
             .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
-extension AgeSelectView{
+extension SelectAgeView{
     var guideView:some View{
         VStack(alignment: .leading,spacing: 5){
             Text("나이를 설정해주세요")

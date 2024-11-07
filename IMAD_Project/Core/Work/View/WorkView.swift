@@ -39,7 +39,7 @@ struct WorkView: View {
                     collection
                     VStack{
                         if let work = vm.workInfo{
-                            WorkInfoView(work: work)
+                            WorkDetailsView(work: work)
                         }
                         reviewList
                     }
@@ -73,11 +73,11 @@ struct WorkView: View {
                          primaryButton: no, secondaryButton: yes)
         }
         .navigationDestination(isPresented: $writeReview) {
-            WriteReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", workName: vm.workInfo?.title ??  vm.workInfo?.name ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
+            CreateReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", workName: vm.workInfo?.title ??  vm.workInfo?.name ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
                 .navigationBarBackButtonHidden(true)
         }
         .navigationDestination(isPresented: $writeCommunity) {
-            CommunityWriteView(contentsId: vm.workInfo?.contentsId ?? 0,contents:(vm.workInfo?.posterPath?.getImadImage() ?? "", vm.workInfo?.name ?? vm.workInfo?.title ?? "") , goMain: $writeCommunity)
+            CreatePostingView(contentsId: vm.workInfo?.contentsId ?? 0,contents:(vm.workInfo?.posterPath?.getImadImage() ?? "", vm.workInfo?.name ?? vm.workInfo?.title ?? "") , goMain: $writeCommunity)
                 .navigationBarBackButtonHidden(true)
         }
         
@@ -268,7 +268,7 @@ extension WorkView{
                             .font(.subheadline)
                         NavigationLink {
                             if let work = vm.workInfo{
-                                WriteReviewView(id: work.contentsId, image: work.posterPath?.getImadImage() ?? "", workName: work.title ?? work.name ?? "", gradeAvg: work.imadScore ?? 0, reviewId: nil)
+                                CreateReviewView(id: work.contentsId, image: work.posterPath?.getImadImage() ?? "", workName: work.title ?? work.name ?? "", gradeAvg: work.imadScore ?? 0, reviewId: nil)
                                     .navigationBarBackButtonHidden()
                             }
                             

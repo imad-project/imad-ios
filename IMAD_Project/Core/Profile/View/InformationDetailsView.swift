@@ -1,5 +1,5 @@
 //
-//  InfoChangeView.swift
+//  InformationDetailsView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/04/18.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct InfoChangeView: View {
+struct InformationDetailsView: View {
     
     let title:String
     let password:Bool
@@ -102,16 +102,16 @@ struct InfoChangeView: View {
     }
 }
 
-struct InfoChangeView_Previews: PreviewProvider {
+struct InformationDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         
-        InfoChangeView(title: "닉네임", password: false, text: "quarang")
+        InformationDetailsView(title: "닉네임", password: false, text: "quarang")
            
     }
 }
 
 
-extension InfoChangeView{
+extension InformationDetailsView{
     var header:some View{
         VStack{
             HStack{

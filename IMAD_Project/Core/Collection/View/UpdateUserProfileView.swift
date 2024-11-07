@@ -1,5 +1,5 @@
 //
-//  RegisterTabView.swift
+//  UpdateUserProfileView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/04/13.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 import SwiftUIWave
-struct RegisterTabView: View {
+struct UpdateUserProfileView: View {
     
     @EnvironmentObject var vmAuth:AuthViewModel
     @State var constent = true
@@ -15,15 +15,15 @@ struct RegisterTabView: View {
     var body: some View {
         ZStack(alignment:.bottomTrailing){
             TabView(selection: $vmAuth.selection) {
-                NicknameSelectView()
+                SelectNicknameView()
                     .tag(RegisterFilter.nickname)
-                GenderSelectView()
+                SelectGenderView()
                     .tag(RegisterFilter.gender)
-                AgeSelectView()
+                SelectAgeView()
                     .tag(RegisterFilter.age)
                 SelectGenreView()
                     .tag(RegisterFilter.genre)
-                ProfileSelectView()
+                SelectProfileView()
                     .tag(RegisterFilter.profile)
             }
             .ignoresSafeArea()
@@ -40,14 +40,14 @@ struct RegisterTabView: View {
     }
 }
 
-struct RegisterTabView_Previews: PreviewProvider {
+struct UpdateUserProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterTabView()
+        UpdateUserProfileView()
             .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
 
-extension RegisterTabView{
+extension UpdateUserProfileView{
     var tabViewbar:some View{
         HStack{
             ForEach(RegisterFilter.allCases,id:\.self){ sel in

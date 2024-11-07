@@ -1,5 +1,5 @@
 //
-//  WriteReviewView.swift
+//  CreateReviewView.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 2023/04/19.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct WriteReviewView: View {
+struct CreateReviewView: View {
     
     let id:Int
     let image:String
@@ -89,15 +89,15 @@ struct WriteReviewView: View {
     }
 }
 
-struct WriteReviewView_Previews: PreviewProvider {
+struct CreateReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        WriteReviewView(id: 1, image: CustomData.workImage, workName: "카지노", gradeAvg: 9.5, reviewId: nil,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
+        CreateReviewView(id: 1, image: CustomData.workImage, workName: "카지노", gradeAvg: 9.5, reviewId: nil,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
            
     }
 }
 
 
-extension WriteReviewView{
+extension CreateReviewView{
     var header:some View{
         HStack{
             HStack{

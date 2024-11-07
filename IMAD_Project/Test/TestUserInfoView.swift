@@ -47,11 +47,6 @@ struct ChildView: View {
     }
 }
 
-struct LoginView: View {
-    var body: some View {
-        Text("Please log in.")
-    }
-}
 #Preview {
     TestUserInfoView()
 }
