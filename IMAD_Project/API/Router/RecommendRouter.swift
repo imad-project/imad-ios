@@ -29,7 +29,7 @@ enum RecommendRouter:URLRequestConvertible{
     var parameters:Parameters{
         switch self{
         case .all: return Parameters()
-        case let .list(page, type, contentsId, category, recommendListType):
+        case let .list(page,type,contentsId,category,_):
             var params = Parameters()
             params["page"] = page
             params["type"] = type

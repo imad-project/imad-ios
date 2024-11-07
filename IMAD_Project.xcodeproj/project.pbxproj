@@ -219,6 +219,8 @@
 		D65FFFEA2CD0705100D28C97 /* TestKFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65FFFE92CD0705100D28C97 /* TestKFImageView.swift */; };
 		D67CB99B2CD32DB1009FA805 /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67CB99A2CD32DB1009FA805 /* NetworkResponse.swift */; };
 		D67CB99D2CD35889009FA805 /* RecommendCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67CB99C2CD35889009FA805 /* RecommendCache.swift */; };
+		D67F4E352CDB3F7A0000D285 /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67F4E342CDB3F7A0000D285 /* UserInfoManager.swift */; };
+		D67F4E392CDB4DE90000D285 /* TestUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67F4E382CDB4DE90000D285 /* TestUserInfoView.swift */; };
 		D69455C02C48F81E004CDFC9 /* ReportRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455BF2C48F81E004CDFC9 /* ReportRouter.swift */; };
 		D69455C22C48FB0B004CDFC9 /* ReportApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455C12C48FB0B004CDFC9 /* ReportApiService.swift */; };
 		D69455C52C4A9467004CDFC9 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455C42C4A9467004CDFC9 /* ReportViewModel.swift */; };
@@ -492,6 +494,8 @@
 		D65FFFE92CD0705100D28C97 /* TestKFImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestKFImageView.swift; sourceTree = "<group>"; };
 		D67CB99A2CD32DB1009FA805 /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
 		D67CB99C2CD35889009FA805 /* RecommendCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCache.swift; sourceTree = "<group>"; };
+		D67F4E342CDB3F7A0000D285 /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
+		D67F4E382CDB4DE90000D285 /* TestUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserInfoView.swift; sourceTree = "<group>"; };
 		D69455BF2C48F81E004CDFC9 /* ReportRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRouter.swift; sourceTree = "<group>"; };
 		D69455C12C48FB0B004CDFC9 /* ReportApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportApiService.swift; sourceTree = "<group>"; };
 		D69455C42C4A9467004CDFC9 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
@@ -902,6 +906,7 @@
 				81CFEAD32B9A048B0081183B /* AppleLoginTestView.swift */,
 				D6CE82E82CB8A58D0092243D /* NavigationTestView.swift */,
 				D65FFFE92CD0705100D28C97 /* TestKFImageView.swift */,
+				D67F4E382CDB4DE90000D285 /* TestUserInfoView.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -1278,6 +1283,7 @@
 		D608EF882CA23EA800C4FCE7 /* CacheManager */ = {
 			isa = PBXGroup;
 			children = (
+				D67F4E342CDB3F7A0000D285 /* UserInfoManager.swift */,
 				D608EF772C9C3D5800C4FCE7 /* RecommendManager.swift */,
 				D608EF842CA182F300C4FCE7 /* PopularCacheManager.swift */,
 				D608EF792C9C425600C4FCE7 /* RankingCacheManager.swift */,
@@ -1647,7 +1653,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					8103093C29D1BDEF0021717B = {
 						CreatedOnToolsVersion = 14.2;
@@ -1869,11 +1875,13 @@
 				D61D2A812C381E6C00ED74F6 /* UIImage.swift in Sources */,
 				81588D592AFE743900E19F8D /* CommunityDetailsListResponse.swift in Sources */,
 				81588D5B2AFE767500E19F8D /* AddCommentResponse.swift in Sources */,
+				D67F4E352CDB3F7A0000D285 /* UserInfoManager.swift in Sources */,
 				8124CB3529EFB16A00B446D5 /* WriteReviewView.swift in Sources */,
 				81F259392AB09A4300C54668 /* UpdateReview.swift in Sources */,
 				81372A812AFB7E3000870331 /* Int.swift in Sources */,
 				D608EF7A2C9C425600C4FCE7 /* RankingCacheManager.swift in Sources */,
 				819D499C2A933A3F008B7BFE /* Credit.swift in Sources */,
+				D67F4E392CDB4DE90000D285 /* TestUserInfoView.swift in Sources */,
 				817919D32B4BDFC80084779B /* RankingResponseList.swift in Sources */,
 				817919D72B4BE2400084779B /* RankingViewModel.swift in Sources */,
 				819AA9ED2ACD3CEC0048CF7B /* BookmarkListResponse.swift in Sources */,
