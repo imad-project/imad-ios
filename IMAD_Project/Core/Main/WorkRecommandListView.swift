@@ -13,7 +13,6 @@ struct WorkRecommandListView: View {
     @State var endOffset:CGFloat = 0
     let filter:RecommendListType
     let workItems = [ GridItem(.fixed(220)), GridItem(.fixed(220))]
-    @EnvironmentObject var vmAuth:AuthViewModel
     @EnvironmentObject var vmRecommend:RecommendViewModel
     
     var list:[WorkGenre]{
@@ -38,7 +37,6 @@ struct WorkRecommandListView: View {
         ScrollView(showsIndicators: false){
             WorkRecommandListView(filter: .genreTv)
                 .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
-                .environmentObject(AuthViewModel(user: CustomData.user))
         }
     }
 }

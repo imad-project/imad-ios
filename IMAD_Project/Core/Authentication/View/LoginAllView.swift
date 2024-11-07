@@ -19,7 +19,7 @@ struct LoginAllView: View{
     @State var password = ""                        //패스워트 텍스트
     @State var domain = EmailFilter.gmail           //이메일 도메인
     @State var loading = false                      //로딩 유무
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user: nil)
     
     var body: some View {
         ScrollView(showsIndicators:false){
@@ -48,15 +48,13 @@ struct LoginAllView: View{
                 AuthWebView(filter: filter,failed: $loginFailed)
             }
         }
-        .environmentObject(vmAuth)
     }
 }
 
 struct LoginAllView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            LoginAllView()
-                .environmentObject(AuthViewModel(user: CustomData.user))
+            LoginAllView(vmAuth:AuthViewModel(user: CustomData.user))
         }
     }
 }

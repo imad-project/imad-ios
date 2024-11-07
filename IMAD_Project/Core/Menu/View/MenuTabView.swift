@@ -12,7 +12,7 @@ struct MenuTabView: View {
     
     @State var tab:TabFilter = .home
     @State var tabInfo:CGFloat = 0
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var user = UserInfoManager.instance
     
     var body: some View {
         VStack(spacing: 0){
@@ -28,7 +28,6 @@ struct MenuTabView: View {
             }
             menu
         }
-        .environmentObject(vmAuth)
         .ignoresSafeArea(.keyboard)
         .onAppear{ UITabBar.appearance().isHidden = true } //탭바 숨김
     }
@@ -38,7 +37,6 @@ struct MenuTabView_Previews: PreviewProvider {
     static var previews: some View {
         MenuTabView()
             .environment(\.colorScheme,.light)
-            .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
 
@@ -62,7 +60,7 @@ extension MenuTabView{
                                     Image(systemName: item.name)
                                         .font(.GmarketSansTTFBold(20))
                                 }else{
-                                    ProfileImageView(imagePath: vmAuth.user?.profileImage ?? "",widthHeigt: 30)
+                                    ProfileImageView(imagePath:user.cache?.profileImage ?? "",widthHeigt: 30)
                                         .padding(.top,5)
                                 }
                             }

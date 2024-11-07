@@ -9,8 +9,9 @@ import SwiftUI
 
 struct UserActivityView: View {
     let list:[RecommendListType] = [.activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie]
+    @StateObject var user = UserInfoManager.instance
     @EnvironmentObject var vmRecommend:RecommendViewModel
-    @EnvironmentObject var vmAuth:AuthViewModel
+    
     var listIsEmpty:Bool{
         !vmRecommend.workList(.activityMovie).list.isEmpty ||
         !vmRecommend.workList(.activityTv).list.isEmpty ||
@@ -20,7 +21,7 @@ struct UserActivityView: View {
     var body: some View {
         VStack(alignment: .leading){
             if listIsEmpty{
-                textTitleView("\(vmAuth.user?.nickname ?? "")님을 위한 작품")
+                textTitleView("\(user.cache?.nickname ?? "")님을 위한 작품")
                     .padding(.leading,10)
                 ScrollView(.horizontal,showsIndicators: false) {
                     HStack{
@@ -39,7 +40,6 @@ struct UserActivityView: View {
     UserActivityView()
         .background(.white)
         .environmentObject(RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
-        .environmentObject(AuthViewModel(user: CustomData.user))
 }
 
 extension UserActivityView{
@@ -52,7 +52,6 @@ extension UserActivityView{
                 Text("\(work.name)")
                 NavigationLink {
                     AllRecommendView(contentsId:contentsId,title: work.name, type: work)
-                        .environmentObject(vmAuth)
                         .navigationBarBackButtonHidden()
                 } label: {
                     GridView(maintenanceRate:!isPad(), room:isPad() ? 4:2, imageList: list.prefix(isPad() ? 8 : 4).map{$0.posterPath ?? ""})

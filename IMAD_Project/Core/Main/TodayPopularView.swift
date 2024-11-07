@@ -15,7 +15,6 @@ struct TodayPopularView: View {
     @State var currentOffset:CGFloat = .zero
     @State var endOffset:CGFloat = .zero
     @State private var viewSize: CGFloat = UIScreen.main.bounds.size.width
-    @EnvironmentObject var vmAuth:AuthViewModel
     
     var body: some View {
         GeometryReader { geo in
@@ -34,14 +33,12 @@ struct TodayPopularView: View {
         .offset(x:isWidth() ? 0:currentOffset)
         .highPriorityGesture(isWidth() ? nil:gesture)
         .frame(width: viewSize,height: isPad() ? 170 : 120,alignment: .leading)
-        .environmentObject(vmAuth)
     }
 }
 
 #Preview {
     TodayPopularView(review: CustomData.review, posting: CustomData.community)
         .background(.white)
-        .environmentObject(AuthViewModel(user: CustomData.user))
 }
 
 extension TodayPopularView{

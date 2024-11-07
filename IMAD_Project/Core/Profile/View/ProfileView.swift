@@ -16,7 +16,7 @@ struct ProfileView: View {
     @StateObject var vmProfile = ProfileImageViewModel()
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vmWork = WorkViewModel(workInfo: nil,bookmarkList: [])
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var vmAuth = AuthViewModel(user: nil)
     
     @State var profileSelect = false
     @State var gallery = false
@@ -141,14 +141,14 @@ struct ProfileView: View {
             vmAuth.user?.profileImage = vmProfile.url
             loading = false
         }
-        .environmentObject(vmAuth)
+//        .environmentObject(vmAuth)
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ProfileView(vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList),vmWork:WorkViewModel(workInfo: nil, bookmarkList: CustomData.bookmarkList))
+            ProfileView(vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList),vmWork:WorkViewModel(workInfo: nil, bookmarkList: CustomData.bookmarkList),vmAuth:AuthViewModel(user: nil))
                
         }
     }

@@ -14,12 +14,12 @@ struct MainView: View {
     @State private var screenSize: CGSize = UIScreen.main.bounds.size
     @StateObject var vmRanking = RankingViewModel(ranking: nil, popular: PopularCache(review: nil,posting: nil))
     @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil, recommendList: nil)
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var user = UserInfoManager.instance
     
     var body: some View {
         ScrollView(showsIndicators: false){
             LazyVStack(alignment:.leading,spacing:5){
-                if let user = vmAuth.user{
+                if let user = user.cache{
                     titleView(user: user)
                     trendView
                     trendWorkView
@@ -39,11 +39,9 @@ struct MainView: View {
         .refreshable {listUpdate(true) }
         .progress(vmRecommend.recommendAll != nil)
         .ignoresSafeArea(edges:.bottom)
-        .onReceive(vmRecommend.refreschTokenExpired){ vmAuth.logout(tokenExpired: true) }
         .onAppear { listUpdate(false) }
         .environmentObject(vmRanking)
         .environmentObject(vmRecommend)
-        .environmentObject(vmAuth)
     }
 }
 
@@ -52,8 +50,7 @@ struct MainView_Previews: PreviewProvider {
         NavigationStack{
             let rankingCache = RankingCache(id: "a", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: CustomData.rankingList)
             let popularCache = PopularCache(review: CustomData.review,posting: CustomData.community)
-            MainView(vmRanking:RankingViewModel(ranking:rankingCache, popular: popularCache),vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
-                .environmentObject(AuthViewModel(user:CustomData.user))
+            MainView(vmRanking:RankingViewModel(ranking:rankingCache, popular: popularCache), vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
                 .environment(\.colorScheme, .light)
         }
     }
