@@ -36,7 +36,7 @@ struct CommentRowView: View {
     
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var vmComment = CommentViewModel(comment: nil, replys: [])
-    @StateObject var vmAuth = AuthViewModel(user: nil)
+    @StateObject var user = UserInfoManager.instance
     
     var body: some View {
         VStack{
@@ -116,7 +116,7 @@ struct CommentRowView: View {
 extension CommentRowView{
     var profileView:some View{
         HStack{
-            if comment.userNickname == vmAuth.user?.nickname{
+            if comment.userNickname == user.cache?.nickname{
                 ProfileImageView(imagePath: comment.userProfileImage, widthHeigt: 20)
             }else{
                 Button {
@@ -366,7 +366,7 @@ extension CommentRowView{
             .onEnded{ _ in
                 withAnimation(.spring()){
                     if let nickname = 
-                        vmAuth.user?.nickname,nickname == comment.userNickname{
+                        user.cache?.nickname,nickname == comment.userNickname{
                         if currentDragOffstY < -100{
                             statingOffsetY = -200
                         }else if currentDragOffstY > 100{

@@ -22,7 +22,7 @@ struct CommentDetailsView: View {
     @State var replyWrite:CommentResponse?
     
     @StateObject var vm = CommentViewModel(comment: nil, replys: [])
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @StateObject var user = UserInfoManager.instance
     
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -59,9 +59,6 @@ struct CommentDetailsView: View {
         .onAppear{
             vm.readComment(commentId: parentsId)
             vm.readComments(postingId: postingId, commentType: 1, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue, parentId: parentsId)
-        }
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
         }
         .onReceive(vm.success){
             vm.replys.removeAll()
@@ -103,7 +100,7 @@ extension CommentDetailsView{
             }
             Divider()
             HStack{
-                ProfileImageView(imagePath: vmAuth.user?.profileImage ?? "", widthHeigt: 30)
+                ProfileImageView(imagePath:user.cache?.profileImage ?? "", widthHeigt: 30)
                 CustomTextField(password: false, image: nil, placeholder: "댓글을 달아주세요 .. ", color: .black,style:.none, text: $reviewText)
                     .focused($reply)
                     .padding(10)
