@@ -10,7 +10,7 @@ import SwiftUI
 struct MyReviewView: View {
     let writeType:WriteTypeFilter
     @State var like = true
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @StateObject var user = UserInfoManager.instance
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @Environment(\.dismiss) var dismiss
     
@@ -49,9 +49,6 @@ struct MyReviewView: View {
         .onDisappear{
             vm.currentPage = 1
             vm.reviewList.removeAll()
-        }
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
         }
     }
 }

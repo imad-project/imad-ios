@@ -15,7 +15,6 @@ struct ReviewView: View {
     @State var order:OrderFilter = .ascending   //오름차순 - 0,내림차순 - 1
     
     @Environment(\.dismiss) var dismiss
-    @StateObject var vmAuth = AuthViewModel(user:nil)
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     
     var body: some View {
@@ -53,9 +52,6 @@ struct ReviewView: View {
         .onChange(of: order){ newValue in   //오름/내림차순 바뀔 시
             initializingArr()
             vm.readReviewList(id: id, page: vm.currentPage, sort: sort.rawValue, order: newValue.rawValue)
-        }
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
         }
         .onDisappear{
            initializingArr()

@@ -22,7 +22,7 @@ struct ReviewDetailsView: View {
     @State var menu = false
     @State var delete = false
     @Environment(\.dismiss) var dismiss
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @StateObject var user = UserInfoManager.instance
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @StateObject var vmReport = ReportViewModel()
     
@@ -47,9 +47,6 @@ struct ReviewDetailsView: View {
             }
         }
         .progress(vm.review != nil)
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
-        }
         .sheet(isPresented: $profile){
             ZStack{
                 Color.white.ignoresSafeArea()
@@ -77,7 +74,7 @@ struct ReviewDetailsView: View {
                 let out = Alert.Button.default(Text("나가기")){
                     dismiss()
                 }
-                return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                return Alert(title: Text("경고"),message: Text("이 게시물은 \(user.cache?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
             }
             
         }
@@ -177,7 +174,7 @@ extension ReviewDetailsView{
             HStack{
                 VStack(alignment: .leading) {
                     HStack{
-                        if review.userNickname == vmAuth.user?.nickname{
+                        if review.userNickname == user.cache?.nickname{
                             ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
                         }else{
                             Button {

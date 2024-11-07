@@ -26,7 +26,6 @@ struct WriteReviewView: View {
     @State var animation = false
     @State var animation1 = true
     @State var error = false
-    @StateObject var vmAuth = AuthViewModel(user:nil)
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @Environment(\.dismiss) var dismiss
     
@@ -82,9 +81,6 @@ struct WriteReviewView: View {
         }
         .onReceive(vm.success){
             dismiss()
-        }
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
         }
         .foregroundColor(.white).ignoresSafeArea(edges:.bottom)
         .onTapGesture {
