@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WriteReviewResponse:Codable,Hashable{
+struct CreateReviewResponse:Codable,Hashable{
     var id:Int
     enum CodingKeys:String, CodingKey{
         case id = "review_id"

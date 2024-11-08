@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ReadReviewResponse:Codable,Hashable{
+struct ReviewResponse:Codable,Hashable{
     let reviewID:Int
     let contentsID: Int
     let contentsTitle:String

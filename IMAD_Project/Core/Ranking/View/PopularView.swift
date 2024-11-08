@@ -10,7 +10,7 @@ import Kingfisher
 
 struct PopularView: View {
     
-    var review:ReadReviewResponse?
+    var review:ReviewResponse?
     var posting:PostingResponse?
     
     var body: some View {

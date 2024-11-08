@@ -1236,7 +1236,7 @@ class CustomData{
         """
         return decoding(data)
     }                            //작품정보 리스트
-    static var reviewDetailList:[ReadReviewResponse]{
+    static var reviewDetailList:[ReviewResponse]{
         let data = """
         [
             {
@@ -1306,7 +1306,7 @@ class CustomData{
         """
         return decoding(data)
     }                  //리뷰 리스트 아이템
-    static var review:ReadReviewResponse?{
+    static var review:ReviewResponse?{
         let data = """
         {
             "review_id": 1,

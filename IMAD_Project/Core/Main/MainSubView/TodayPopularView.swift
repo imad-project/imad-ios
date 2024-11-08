@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TodayPopularView: View {
     
-    let review:ReadReviewResponse?
+    let review:ReviewResponse?
     let posting:PostingResponse?
     
     @State var currentOffset:CGFloat = .zero
@@ -63,7 +63,7 @@ extension TodayPopularView{
                 }
             }
     }
-    func reviewView(_ review:ReadReviewResponse)->some View{
+    func reviewView(_ review:ReviewResponse)->some View{
         NavigationLink {
             ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)
                 .navigationBarBackButtonHidden()

@@ -97,7 +97,7 @@ struct ReviewDetailsView_Previews: PreviewProvider {
 }
 
 extension ReviewDetailsView{
-    func header(review:ReadReviewResponse) ->some View{
+    func header(review:ReviewResponse) ->some View{
         VStack{
             HStack{
                 HeaderView(backIcon: "chevron.left", text: "리뷰"){
@@ -169,7 +169,7 @@ extension ReviewDetailsView{
         
     }
     
-    func workInfoView(review:ReadReviewResponse)->some View{
+    func workInfoView(review:ReviewResponse)->some View{
         VStack(alignment: .leading) {
             HStack{
                 VStack(alignment: .leading) {
@@ -212,7 +212,7 @@ extension ReviewDetailsView{
         }
         .padding(10)
     }
-    func contentAndLikeView(review:ReadReviewResponse) -> some View{
+    func contentAndLikeView(review:ReviewResponse) -> some View{
         VStack(alignment: .leading){
             Text(review.content)
                 .font(.subheadline)
@@ -241,7 +241,7 @@ extension ReviewDetailsView{
         }
         .padding(.horizontal,10)
     }
-    func likeStatusView(review:ReadReviewResponse) -> some View{
+    func likeStatusView(review:ReviewResponse) -> some View{
         HStack{
             Button {
                 vm.like(review: review)

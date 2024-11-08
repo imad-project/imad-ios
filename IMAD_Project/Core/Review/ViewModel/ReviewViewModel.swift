@@ -14,8 +14,8 @@ final class ReviewViewModel:ObservableObject{
     var success = PassthroughSubject<(),Never>()
     var refreschTokenExpired = PassthroughSubject<(),Never>()
     
-    @Published var review:ReadReviewResponse?
-    @Published var reviewList:[ReadReviewResponse] = []  //리뷰 리스트
+    @Published var review:ReviewResponse?
+    @Published var reviewList:[ReviewResponse] = []  //리뷰 리스트
     
     
     @Published var currentPage = 1
@@ -23,7 +23,7 @@ final class ReviewViewModel:ObservableObject{
     
     @Published var error = ""
     
-    init(review:ReadReviewResponse?,reviewList:[ReadReviewResponse]){
+    init(review:ReviewResponse?,reviewList:[ReviewResponse]){
         self.review = review
         self.reviewList = reviewList
     }
@@ -70,7 +70,7 @@ final class ReviewViewModel:ObservableObject{
                 self.currentPage = page
             } receiveValue: { [weak self] review in
                 if let data = review.data{
-                    self?.reviewList.append(contentsOf: data.reviewDetailsResponseList)
+                    self?.reviewList.append(contentsOf: data.detailList)
                     self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
@@ -132,7 +132,7 @@ final class ReviewViewModel:ObservableObject{
                 self.currentPage = page
             } receiveValue: { [weak self] data in
                 if let data = data.data{
-                    self?.reviewList.append(contentsOf: data.reviewDetailsResponseList)
+                    self?.reviewList.append(contentsOf: data.detailList)
                     self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
@@ -151,13 +151,13 @@ final class ReviewViewModel:ObservableObject{
                 self.currentPage = page
             } receiveValue: { [weak self] data in
                 if let data = data.data{
-                    self?.reviewList.append(contentsOf: data.reviewDetailsResponseList)
+                    self?.reviewList.append(contentsOf: data.detailList)
                     self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
 
     }
-    func like(review:ReadReviewResponse){
+    func like(review:ReviewResponse){
         if review.likeStatus < 1{
             if review.likeStatus < 0{
                 self.review?.dislikeCnt -= 1
@@ -172,7 +172,7 @@ final class ReviewViewModel:ObservableObject{
             self.likeReview(id: review.reviewID, status: 0)
         }
     }
-    func disLike(review:ReadReviewResponse){
+    func disLike(review:ReviewResponse){
         if review.likeStatus > -1{
             if review.likeStatus > 0{
                 self.review?.likeCnt -= 1

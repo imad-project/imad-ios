@@ -27,9 +27,9 @@ protocol Popular{
 
 class PopularReviewClass:Popular{
     var popularFilter:PopularFilter = .review
-    let review:ReadReviewResponse
+    let review:ReviewResponse
     
-    required init(review: ReadReviewResponse) {
+    required init(review:ReviewResponse) {
         self.review = review
     }
     func contentsTitle() -> String {

@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct ReviewListRowView: View {
-    let review:ReadReviewResponse
+    let review:ReviewResponse
     let my:Bool
     var body: some View {
         VStack(alignment: .leading){

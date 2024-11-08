@@ -23,7 +23,7 @@ struct MyReviewListView: View {
             return vm.myLikeReviewList(page: next ? vm.currentPage + 1 : vm.currentPage, likeStatus: like ? 1 : -1)
         }
     }
-    var reviewList:[ReadReviewResponse]{
+    var reviewList:[ReviewResponse]{
         switch writeType{
         case .myself:
             return vm.reviewList
