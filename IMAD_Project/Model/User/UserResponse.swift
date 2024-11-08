@@ -21,7 +21,6 @@ struct UserResponse:Codable{
     let authProvider:String
     let role:String
     
-    
     enum CodingKeys:String,CodingKey{
         case email
         case nickname

@@ -13,12 +13,12 @@ enum AuthApiService{
     
     static let intercept = BaseIntercept()
     
-    static func login(email:String,password:String) -> AnyPublisher<UserInfo,AFError>{
+    static func login(email:String,password:String) -> AnyPublisher<NetworkResponse<UserResponse>,AFError>{
         print("로그인 api 호출")
         return ApiClient.shared.session
             .request(AuthRouter.login(email: email, password: password))
             .response{let _ = UserDefaultManager.shared.checkToken(response: $0.response)}
-            .publishDecodable(type: UserInfo.self)
+            .publishDecodable(type: NetworkResponse<UserResponse>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지 : \(receivedValue.message)")
