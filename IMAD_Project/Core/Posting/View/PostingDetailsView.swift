@@ -436,7 +436,7 @@ extension PostingDetailsView{
                 if endOffset == -startingOffset + 100{
                     collection
                 }
-                if let comments = community.commentListResponse?.detailsList,comments.isEmpty{
+                if let comments = community.commentListResponse?.detailList,comments.isEmpty{
                     Group{
                         Image(systemName: "ellipsis.message")
                             .font(.largeTitle)

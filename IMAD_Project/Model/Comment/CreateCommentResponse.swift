@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AddCommentIdResponse:Codable{
+struct CreateCommentResponse:Codable{
     var commentId:Int
     enum CodingKeys:String,CodingKey{
         case commentId = "comment_id"

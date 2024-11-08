@@ -20,7 +20,7 @@ struct PostingResponse:Codable,Hashable{
     var likeStatus:Int
     let createdAt,modifiedAt:String
     let commentCnt:Int
-    var commentListResponse:CommentListResponse?
+    var commentListResponse:NetworkListResponse<CommentResponse>?
     let scrapID:Int?
     var author:Bool?
     var scrapStatus,spoiler,reported:Bool
