@@ -13,12 +13,12 @@ class ScrapApiService{
     
     static let interceptor = BaseIntercept()
     
-    static func readScrap(page:Int)->AnyPublisher<Scrap,AFError>{
+    static func readScrap(page:Int)->AnyPublisher<NetworkResponse<NetworkListResponse<ScrapResponse>>,AFError>{
         print("스크랩 조회 api 호출")
         return ApiClient.shared.session
             .request(ScrapRouter.read(page: page),interceptor: interceptor)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: Scrap.self)
+            .publishDecodable(type: NetworkResponse<NetworkListResponse<ScrapResponse>>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")

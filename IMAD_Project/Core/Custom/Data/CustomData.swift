@@ -1332,7 +1332,7 @@ class CustomData{
         """
         return decoding(data)
     }                             //스크랩 리스트
-    static var scrapList:[ScrapListResponse]{
+    static var scrapList:[ScrapResponse]{
         let data = """
         [
             {

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MyScrapListView: View {
     
-    @State var scrap:ScrapListResponse? = nil
+    @State var scrap:ScrapResponse? = nil
     @State var goPosting = false
     @StateObject var vm = ScrapViewModel(scrapList: [])
     @Environment(\.dismiss) var dismiss
@@ -76,7 +76,7 @@ extension MyScrapListView{
             Divider()
         }
     }
-    func scrapListRowView(scrap:ScrapListResponse) -> some View{
+    func scrapListRowView(scrap:ScrapResponse) -> some View{
         Button {
             self.scrap = scrap
             self.goPosting = true

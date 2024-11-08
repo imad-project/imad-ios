@@ -10,14 +10,14 @@ import Combine
 
 class ScrapViewModel:ObservableObject{
     
-    @Published var scrapList:[ScrapListResponse] = []
+    @Published var scrapList:[ScrapResponse] = []
     @Published var currentPage = 1
     @Published var maxPage = 1
     
     var cancel = Set<AnyCancellable>()
     
     
-    init(scrapList:[ScrapListResponse]) {
+    init(scrapList:[ScrapResponse]) {
         self.scrapList = scrapList
     }
     

@@ -96,9 +96,7 @@
 		818206FB2AF8BB70004A7B21 /* KFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818206FA2AF8BB70004A7B21 /* KFImageView.swift */; };
 		818B07332B0D96310013C426 /* ScrapRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B07322B0D96310013C426 /* ScrapRouter.swift */; };
 		818B07352B0D9D560013C426 /* ScrapApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B07342B0D9D560013C426 /* ScrapApiService.swift */; };
-		818B07382B0D9DFF0013C426 /* Scrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B07372B0D9DFF0013C426 /* Scrap.swift */; };
-		818B073A2B0D9E3A0013C426 /* ScrapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B07392B0D9E3A0013C426 /* ScrapList.swift */; };
-		818B073C2B0D9EAE0013C426 /* ScrapListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B073B2B0D9EAE0013C426 /* ScrapListResponse.swift */; };
+		818B073C2B0D9EAE0013C426 /* ScrapResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B073B2B0D9EAE0013C426 /* ScrapResponse.swift */; };
 		818B073E2B0DA1EE0013C426 /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B073D2B0DA1EE0013C426 /* ScrapViewModel.swift */; };
 		818B07402B0DA4CA0013C426 /* MyScrapListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818B073F2B0DA4CA0013C426 /* MyScrapListView.swift */; };
 		818CF7EF2A20764C00BABA1F /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818CF7EE2A20764C00BABA1F /* OnBoardingView.swift */; };
@@ -359,9 +357,7 @@
 		818206FA2AF8BB70004A7B21 /* KFImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KFImageView.swift; sourceTree = "<group>"; };
 		818B07322B0D96310013C426 /* ScrapRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapRouter.swift; sourceTree = "<group>"; };
 		818B07342B0D9D560013C426 /* ScrapApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapApiService.swift; sourceTree = "<group>"; };
-		818B07372B0D9DFF0013C426 /* Scrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scrap.swift; sourceTree = "<group>"; };
-		818B07392B0D9E3A0013C426 /* ScrapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapList.swift; sourceTree = "<group>"; };
-		818B073B2B0D9EAE0013C426 /* ScrapListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapListResponse.swift; sourceTree = "<group>"; };
+		818B073B2B0D9EAE0013C426 /* ScrapResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapResponse.swift; sourceTree = "<group>"; };
 		818B073D2B0DA1EE0013C426 /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
 		818B073F2B0DA4CA0013C426 /* MyScrapListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapListView.swift; sourceTree = "<group>"; };
 		818CF7EE2A20764C00BABA1F /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
@@ -843,9 +839,7 @@
 		818B07362B0D9DED0013C426 /* Scrap */ = {
 			isa = PBXGroup;
 			children = (
-				818B07372B0D9DFF0013C426 /* Scrap.swift */,
-				818B07392B0D9E3A0013C426 /* ScrapList.swift */,
-				818B073B2B0D9EAE0013C426 /* ScrapListResponse.swift */,
+				818B073B2B0D9EAE0013C426 /* ScrapResponse.swift */,
 			);
 			path = Scrap;
 			sourceTree = "<group>";
@@ -1790,7 +1784,7 @@
 				81CFEAD42B9A048B0081183B /* AppleLoginTestView.swift in Sources */,
 				D6A111902CBFE0340027F75F /* UserActivityView.swift in Sources */,
 				D6C763892C2E898A00BCD37B /* ListView.swift in Sources */,
-				818B073C2B0D9EAE0013C426 /* ScrapListResponse.swift in Sources */,
+				818B073C2B0D9EAE0013C426 /* ScrapResponse.swift in Sources */,
 				8154B1EE2AE0DB9800AD2F83 /* CommentApiService.swift in Sources */,
 				818B07402B0DA4CA0013C426 /* MyScrapListView.swift in Sources */,
 				81FF75AE2AF8C4DE00DB1AC2 /* ProfileImageView.swift in Sources */,
@@ -1869,7 +1863,6 @@
 				817919D72B4BE2400084779B /* RankingViewModel.swift in Sources */,
 				819AA9ED2ACD3CEC0048CF7B /* BookmarkListResponse.swift in Sources */,
 				8115A6672A8F3B3E00B7C3FE /* String.swift in Sources */,
-				818B073A2B0D9E3A0013C426 /* ScrapList.swift in Sources */,
 				D6D974CB2C3D7CE900BCBF49 /* AllRankingView.swift in Sources */,
 				81DB1FD629E7D03B002C0840 /* KeyBoard.swift in Sources */,
 				81B184902AFB615000CCDBEC /* CustomConfirmButton.swift in Sources */,
@@ -1911,7 +1904,6 @@
 				D69BADBF2CC25124004DCF64 /* ImadRecommendFilter.swift in Sources */,
 				8115A6452A83940800B7C3FE /* WorkRouter.swift in Sources */,
 				81A1ECE529DC3FA30001A366 /* MainView.swift in Sources */,
-				818B07382B0D9DFF0013C426 /* Scrap.swift in Sources */,
 				D60AD2092C295D9300C9C27B /* RecommendApiService.swift in Sources */,
 				D6EAAA762CB945EC001C9BD5 /* EmailCheckFilter.swift in Sources */,
 				811762292B2CB7D6009AE845 /* Profile.swift in Sources */,

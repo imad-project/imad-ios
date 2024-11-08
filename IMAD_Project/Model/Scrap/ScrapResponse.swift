@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ScrapListResponse:Codable,Hashable{
+struct ScrapResponse:Codable,Hashable{
     let scrapID, userID: Int
     let userNickname: String
     let userProfileImage:String
