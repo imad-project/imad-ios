@@ -8,10 +8,10 @@
 import Foundation
 
 struct ActivityRecommendResponse:Codable{
-    var userActivityRecommendationTv:RecommendTVList?
-    var userActivityRecommendationMovie:RecommendMovieList?
-    var userActivityRecommendationTvAnimation:RecommendTVList?
-    var userActivityRecommendationMovieAnimation : RecommendMovieList?
+    var userActivityRecommendationTv:NetworkWorkListResponse<RecommendResponse>?
+    var userActivityRecommendationMovie:NetworkWorkListResponse<RecommendResponse>?
+    var userActivityRecommendationTvAnimation:NetworkWorkListResponse<RecommendResponse>?
+    var userActivityRecommendationMovieAnimation:NetworkWorkListResponse<RecommendResponse>?
     
     enum CodingKeys: String, CodingKey {
         case userActivityRecommendationTv = "user_activity_recommendation_tv"

@@ -12,12 +12,12 @@ import Combine
 class RecommendApiService{
     static let interseptor = BaseIntercept()
     
-    static func all() -> AnyPublisher<AllRecommend,AFError>{
+    static func all() -> AnyPublisher<NetworkResponse<AllRecommendResponse>,AFError>{
         print("전체 작품 추천 api 호출")
         return ApiClient.shared.session
             .request(RecommendRouter.all,interceptor: interseptor)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type:AllRecommend.self)
+            .publishDecodable(type:NetworkResponse<AllRecommendResponse>.self)
             .value()
             .eraseToAnyPublisher()
     }

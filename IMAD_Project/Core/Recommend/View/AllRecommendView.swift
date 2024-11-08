@@ -98,11 +98,11 @@ extension AllRecommendView{
             LazyVStack(spacing:0){
                 ListView(items:vmRecommend.recommendList?.list ?? []) { work in
                     NavigationLink {
-                        WorkView(id: work.id,type: work.genreType.rawValue)
+                        WorkView(id:work.id,type:work.genreType.rawValue)
                             .navigationBarBackButtonHidden()
                     } label: {
                         HStack{
-                            KFImageView(image: work.posterPath?.getImadImage() ?? "",width: 120,height: 160)
+                            KFImageView(image:work.posterPath?.getImadImage() ?? "",width: 120,height: 160)
                                 .cornerRadius(5)
                                 .padding(.vertical)
                             VStack(alignment: .leading,spacing:10){
@@ -110,7 +110,7 @@ extension AllRecommendView{
                                     .bold()
                                     .font(.GmarketSansTTFMedium(17))
                                     .foregroundColor(.white)
-                                Text(work.genreType == .tv ? work.genreId?.transTvGenreCode() ?? "" :work.genreId?.transMovieGenreCode() ?? "")
+                                Text(work.genreType == .tv ? work.genreIds?.transTvGenreCode() ?? "" :work.genreIds?.transMovieGenreCode() ?? "")
                                     .font(.GmarketSansTTFMedium(13))
                                     .foregroundColor(.white.opacity(0.7))
                             }
@@ -137,8 +137,8 @@ extension AllRecommendView{
 
 
 #Preview {
-    let list = CustomData.recommandAll?.userActivityRecommendationTv?.results.map({TVWorkGenre(tvGenre: $0)}) ?? []
-    let cache = RecommendCache(id: "", maxPage: 1, currentPage: 1, list: list)
+//    let list = CustomData.recommandAll?.userActivityRecommendationTv?.results.map({TVWorkGenre(tvGenre: $0)}) ?? []
+    let cache = RecommendCache(id: "", maxPage: 1, currentPage: 1, list: [])
     return AllRecommendView(contentsId:1,type: .genreTv,vmRecommend: RecommendViewModel(recommendAll: nil, recommendList:cache))
         .environmentObject(AuthViewModel(user: CustomData.user))
         .background(.white)

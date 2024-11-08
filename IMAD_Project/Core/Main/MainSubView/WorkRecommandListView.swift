@@ -15,7 +15,7 @@ struct WorkRecommandListView: View {
     let workItems = [ GridItem(.fixed(220)), GridItem(.fixed(220))]
     @EnvironmentObject var vmRecommend:RecommendViewModel
     
-    var list:[WorkGenre]{
+    var list:[RecommendResponse]{
         vmRecommend.workList(filter).list
     }
     var body: some View {
@@ -42,7 +42,7 @@ struct WorkRecommandListView: View {
 }
 
 extension WorkRecommandListView{
-    func workView(_ work:WorkGenre)->some View{
+    func workView(_ work:RecommendResponse)->some View{
         NavigationLink {
             WorkView(id: work.id,type: filter.type.rawValue)
                 .navigationBarBackButtonHidden()
@@ -54,7 +54,7 @@ extension WorkRecommandListView{
                     Text((filter.type == .tv ? work.name : work.title) ?? "")
                         .font(.GmarketSansTTFMedium(isPad() ? 20:12))
                         .foregroundColor(.black)
-                    Text(work.genreType == .tv ? work.genreId?.transTvGenreCode() ?? "" : work.genreId?.transMovieGenreCode() ?? "")
+                    Text(work.genreType == .tv ? work.genreIds?.transTvGenreCode() ?? "" : work.genreIds?.transMovieGenreCode() ?? "")
                         .font(.GmarketSansTTFMedium(isPad() ? 15:9))
                         .foregroundColor(.gray)
                 }

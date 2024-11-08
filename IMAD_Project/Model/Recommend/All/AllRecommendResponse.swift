@@ -8,19 +8,19 @@
 import Foundation
 
 
-struct AllRecommendResponse: Codable {
-    var preferredGenreRecommendationTv: RecommendTVList?
-    var preferredGenreRecommendationMovie: RecommendMovieList?
-    var userActivityRecommendationTv: RecommendTVList?
-    var userActivityRecommendationMovie:RecommendMovieList?
-    var userActivityRecommendationTvAnimation: RecommendTVList?
-    var userActivityRecommendationMovieAnimation: RecommendMovieList?
-    var popularRecommendationTv: RecommendTVList?
-    var popularRecommendationMovie: RecommendMovieList?
-    var topRatedRecommendationTv: RecommendTVList?
-    var topRatedRecommendationMovie: RecommendMovieList?
-    var trendRecommendationTv: RecommendTVList?
-    var trendRecommendationMovie: RecommendMovieList?
+struct AllRecommendResponse:Codable {
+    var preferredGenreRecommendationTv:NetworkWorkListResponse<RecommendResponse>?
+    var preferredGenreRecommendationMovie:NetworkWorkListResponse<RecommendResponse>?
+    var userActivityRecommendationTv:NetworkWorkListResponse<RecommendResponse>?
+    var userActivityRecommendationMovie:NetworkWorkListResponse<RecommendResponse>?
+    var userActivityRecommendationTvAnimation:NetworkWorkListResponse<RecommendResponse>?
+    var userActivityRecommendationMovieAnimation:NetworkWorkListResponse<RecommendResponse>?
+    var popularRecommendationTv:NetworkWorkListResponse<RecommendResponse>?
+    var popularRecommendationMovie:NetworkWorkListResponse<RecommendResponse>?
+    var topRatedRecommendationTv:NetworkWorkListResponse<RecommendResponse>?
+    var topRatedRecommendationMovie:NetworkWorkListResponse<RecommendResponse>?
+    var trendRecommendationTv:NetworkWorkListResponse<RecommendResponse>?
+    var trendRecommendationMovie:NetworkWorkListResponse<RecommendResponse>?
     
     enum CodingKeys: String, CodingKey {
         case preferredGenreRecommendationTv = "preferred_genre_recommendation_tv"

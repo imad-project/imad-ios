@@ -80,7 +80,7 @@ extension MainView{
                                 .bold()
                                 .font(.GmarketSansTTFMedium(isPad() ? 20 :15))
                                 .lineLimit(1)
-                            Text(work.genreType == .tv ? work.genreId?.transTvGenreCode() ?? "" : work.genreId?.transMovieGenreCode() ?? "")
+                            Text(work.genreType == .tv ? work.genreIds?.transTvGenreCode() ?? "" : work.genreIds?.transMovieGenreCode() ?? "")
                                 .font(.GmarketSansTTFMedium(isPad() ? 17.5 :12))
                                 .lineLimit(1)
                         }

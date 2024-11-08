@@ -7,16 +7,24 @@
 
 import Foundation
 
-struct RecommendTVResponse: Codable,Hashable {
-    let id: Int
-    let name: String
-    let posterPath: String?
+struct RecommendResponse: Codable,Hashable {
+    
+    let id:Int
+    var name:String?
+    var title:String?
+    let posterPath:String?
     let backdropPath:String?
     let genreIds:[Int]?
     
+    var displayTitle: String {
+            return name ?? title ?? "" 
+        }
+    var genreType:WorkGenreType{
+        return name != nil ? .tv : .movie
+    }
 
     enum CodingKeys: String, CodingKey {
-        case id, name
+        case id, name,title
         case posterPath = "poster_path"
         case backdropPath = "backdrop_path"
         case genreIds = "genre_ids"

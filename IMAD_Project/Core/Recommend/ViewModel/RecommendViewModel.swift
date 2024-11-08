@@ -25,44 +25,44 @@ class RecommendViewModel:ObservableObject{
         self.recommendAll = recommendAll
         self.recommendList = recommendList
     }
-    func workList(_ type:RecommendListType)->(list:[WorkGenre],contentsId:Int?){
+    func workList(_ type:RecommendListType)->(list:[RecommendResponse],contentsId:Int?){
         switch type{
         case .genreTv:
             let data = recommendAll?.preferredGenreRecommendationTv
-            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .genreMovie:
             let data = recommendAll?.preferredGenreRecommendationMovie
-            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .trendTv:
             let data = recommendAll?.trendRecommendationTv
-            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .trendMovie:
             let data = recommendAll?.trendRecommendationMovie
-            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .activityTv:
             let data = recommendAll?.userActivityRecommendationTv
-            return (data?.results.prefix(8).map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .activityAnimationTv:
             let data = recommendAll?.userActivityRecommendationTvAnimation
-            return (data?.results.prefix(8).map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .activityMovie:
             let data = recommendAll?.userActivityRecommendationMovie
-            return (data?.results.prefix(8).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .activityAnimationMovie:
             let data = recommendAll?.userActivityRecommendationMovieAnimation
-            return (data?.results.prefix(8).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .topRateTv:
             let data = recommendAll?.topRatedRecommendationTv
-            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .topRateMovie:
             let data = recommendAll?.topRatedRecommendationMovie
-            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .popluarTv:
             let data = recommendAll?.popularRecommendationTv
-            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .popluarMovie:
             let data = recommendAll?.popularRecommendationMovie
-            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         }
     }
     func getAllRecommend(){
@@ -114,10 +114,10 @@ class RecommendViewModel:ObservableObject{
             cache.currentPage = page
             switch type.type{
             case .tv:
-                cache.list = (getPageMode ? cache.list : []) + (response.trendRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.trendRecommendationTv?.results ?? [])
                 cache.maxPage = response.trendRecommendationTv?.totalPages ?? 0
             case .movie:
-                cache.list = (getPageMode ? cache.list : []) + (response.trendRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.trendRecommendationMovie?.results ?? [])
                 cache.maxPage = response.trendRecommendationMovie?.totalPages ?? 0
             }
             return cache
@@ -129,10 +129,10 @@ class RecommendViewModel:ObservableObject{
             cache.currentPage = page
             switch type.type{
             case .tv:
-                cache.list = (getPageMode ? cache.list : []) + (response.preferredGenreRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.preferredGenreRecommendationTv?.results ?? [])
                 cache.maxPage = response.preferredGenreRecommendationTv?.totalPages ?? 0
             case .movie:
-                cache.list = (getPageMode ? cache.list : []) + (response.preferredGenreRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.preferredGenreRecommendationMovie?.results ?? [])
                 cache.maxPage = response.preferredGenreRecommendationMovie?.totalPages ?? 0
             }
             return cache
@@ -144,16 +144,16 @@ class RecommendViewModel:ObservableObject{
             cache.currentPage = page
             switch (type.type,category){
             case (.tv,.popular):
-                cache.list = (getPageMode ? cache.list : []) + (response.popularRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.popularRecommendationTv?.results ?? [])
                 cache.maxPage = response.popularRecommendationTv?.totalPages ?? 0
             case (.tv,.topRated):
-                cache.list = (getPageMode ? cache.list : []) + (response.topRatedRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.topRatedRecommendationTv?.results ?? [])
                 cache.maxPage = response.topRatedRecommendationTv?.totalPages ?? 0
             case (.movie,.popular):
-                cache.list = (getPageMode ? cache.list : []) + (response.popularRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.popularRecommendationMovie?.results ?? [])
                 cache.maxPage = response.popularRecommendationMovie?.totalPages ?? 0
             case (.movie,.topRated):
-                cache.list = (getPageMode ? cache.list : []) + (response.topRatedRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.topRatedRecommendationMovie?.results ?? [])
                 cache.maxPage = response.topRatedRecommendationMovie?.totalPages ?? 0
             }
             return cache
@@ -164,16 +164,16 @@ class RecommendViewModel:ObservableObject{
             var cache = cache
             switch type{
             case .activityTv:
-                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationTv?.results ?? [])
                 cache.maxPage = response.userActivityRecommendationTv?.totalPages ?? 0
             case .activityMovie:
-                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationMovie?.results ?? [])
                 cache.maxPage = response.userActivityRecommendationMovie?.totalPages ?? 0
             case .activityAnimationTv:
-                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationTvAnimation?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationTvAnimation?.results ?? [])
                 cache.maxPage = response.userActivityRecommendationTvAnimation?.totalPages ?? 0
             case .activityAnimationMovie:
-                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationMovieAnimation?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationMovieAnimation?.results ?? [])
                 cache.maxPage = response.userActivityRecommendationMovieAnimation?.totalPages ?? 0
             default:break
             }
