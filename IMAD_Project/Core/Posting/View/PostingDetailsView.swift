@@ -172,7 +172,7 @@ struct PostingDetailsView_Previews: PreviewProvider {
 }
 
 extension PostingDetailsView{
-    func header(community:CommunityResponse) ->some View{
+    func header(community:PostingResponse) ->some View{
         HStack{
             HeaderView(backIcon: "chevron.left", text:CommunityFilter.allCases.first(where:{$0.num == community.category})!.name){
                 if let main,main {
@@ -192,7 +192,7 @@ extension PostingDetailsView{
                 .padding(.horizontal,10)
                 
                 Button {
-                    if community.author{
+                    if let author = community.author,author{
                         menu.toggle()
                     }else{
                         report.toggle()
@@ -239,7 +239,7 @@ extension PostingDetailsView{
             }
         }.padding(10)
     }
-    func workInfoView(community:CommunityResponse) ->some View{
+    func workInfoView(community:PostingResponse) ->some View{
         HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
@@ -282,7 +282,7 @@ extension PostingDetailsView{
         .padding(.top,10)
         .padding(.horizontal,10)
     }
-    func communityinfoView(community:CommunityResponse) ->some View{
+    func communityinfoView(community:PostingResponse) ->some View{
         VStack{
             HStack{
                 Text(community.content ?? "")
@@ -312,7 +312,7 @@ extension PostingDetailsView{
         .padding(.horizontal,10)
         .padding(.bottom)
     }
-    func likeStatusView(community:CommunityResponse) ->some View{
+    func likeStatusView(community:PostingResponse) ->some View{
         VStack{
             HStack{
                 Button {
@@ -419,7 +419,7 @@ extension PostingDetailsView{
         }.padding(.horizontal,10)
         
     }
-    func commentView(community:CommunityResponse) ->some View{
+    func commentView(community:PostingResponse) ->some View{
         VStack{
             Capsule()
                 .frame(width: 100,height: 5)
@@ -535,7 +535,7 @@ extension PostingDetailsView{
         .padding(.bottom,25)
         .background(Color.white)
     }
-    func likePosting(community:CommunityResponse){
+    func likePosting(community:PostingResponse){
         guard let like = vm.community?.likeStatus else {return}
         if like < 1{
             if like < 0{
@@ -551,7 +551,7 @@ extension PostingDetailsView{
             vm.like(postingId: vm.community?.postingID ?? 0, status: 0)
         }
     }
-    func disLikePosting(community:CommunityResponse){
+    func disLikePosting(community:PostingResponse){
         guard let like = vm.community?.likeStatus else {return}
         if like > -1{
             if like > 0{

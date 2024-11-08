@@ -39,12 +39,12 @@ class RankingApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func popluarPosting() -> AnyPublisher<NetworkResponse<CommunityResponse>,AFError>{
+    static func popluarPosting() -> AnyPublisher<NetworkResponse<PostingResponse>,AFError>{
      print("오늘의 게시물 api 호출")
         return ApiClient.shared.session
             .request(RankingRouter.popularPosting,interceptor: interseptor)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type:NetworkResponse<CommunityResponse>.self)
+            .publishDecodable(type:NetworkResponse<PostingResponse>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")

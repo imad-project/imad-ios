@@ -64,9 +64,9 @@ class PopularReviewClass:Popular{
 
 class PopularPostingClass:Popular{
     var popularFilter: PopularFilter = .community
-    let posting:CommunityResponse
+    let posting:PostingResponse
     
-    required init(posting:CommunityResponse) {
+    required init(posting:PostingResponse) {
         self.posting = posting
     }
     
@@ -74,7 +74,7 @@ class PopularPostingClass:Popular{
         return posting.contentsTitle
     }
     func backdrop() -> String{
-        return posting.contentsBackdropPath
+        return posting.contentsBackdropPath ?? ""
     }
     func title() -> String {
         return posting.title

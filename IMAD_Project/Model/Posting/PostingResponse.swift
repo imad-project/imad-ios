@@ -7,20 +7,23 @@
 
 import Foundation
 
-struct CommunityResponse:Codable,Hashable{
-    let postingID, contentsID: Int
-    let contentsTitle, contentsPosterPath, contentsBackdropPath: String
-    let userID: Int
+struct PostingResponse:Codable,Hashable{
+    let postingID,contentsID:Int
+    let contentsTitle,contentsPosterPath:String
+    var contentsBackdropPath:String?
+    let userID:Int
     let userNickname:String?
-    let userProfileImage, title:String
-    let content: String?
-    var category, viewCnt, likeCnt, dislikeCnt: Int
-    var likeStatus: Int
-    let createdAt, modifiedAt: String
-    let commentCnt: Int
-    var commentListResponse: CommentListResponse?
-    let scrapID: Int?
-    var scrapStatus, author, spoiler,reported: Bool
+    let userProfileImage,title:String
+    var content:String?
+    var category:Int?
+    var viewCnt,likeCnt,dislikeCnt: Int
+    var likeStatus:Int
+    let createdAt,modifiedAt:String
+    let commentCnt:Int
+    var commentListResponse:CommentListResponse?
+    let scrapID:Int?
+    var author:Bool?
+    var scrapStatus,spoiler,reported:Bool
     
     enum CodingKeys: String, CodingKey {
         case postingID = "posting_id"
@@ -42,6 +45,6 @@ struct CommunityResponse:Codable,Hashable{
         case commentListResponse = "comment_list_response"
         case scrapID = "scrap_id"
         case scrapStatus = "scrap_status"
-        case author, spoiler,reported
+        case author,spoiler,reported
     }
 }

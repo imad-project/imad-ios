@@ -10,7 +10,7 @@ import SwiftUI
 struct MyCommunityListView: View {
     let writeType:WriteTypeFilter
     
-    @State var community:CommunityDetailsListResponse? = nil
+    @State var community:PostingResponse? = nil
     @State var goPosting = false
     @State var like = true
     @StateObject var user = UserInfoManager.instance
@@ -26,7 +26,7 @@ struct MyCommunityListView: View {
             return vm.myLikeCommunity(page: next ? vm.currentPage + 1 : vm.currentPage, likeStatus: like ? 1 : -1)
         }
     }
-    var communityList:[CommunityDetailsListResponse]{
+    var communityList:[PostingResponse]{
         switch writeType{
         case .myself:
             return vm.communityList
@@ -155,7 +155,7 @@ extension MyCommunityListView{
             Spacer()
         }
     }
-    func communityListRowView(community:CommunityDetailsListResponse) -> some View{
+    func communityListRowView(community:PostingResponse) -> some View{
         Button {
             self.community = community
             self.goPosting = true

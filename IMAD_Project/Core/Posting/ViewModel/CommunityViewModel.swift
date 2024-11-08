@@ -15,8 +15,8 @@ class CommunityViewModel:ObservableObject{
     @Published var maxPage = 1
     @Published var totalOfElements = 0
     
-    @Published var community:CommunityResponse?
-    @Published var communityList:[CommunityDetailsListResponse] = []
+    @Published var community:PostingResponse?
+    @Published var communityList:[PostingResponse] = []
     
     var refreschTokenExpired = PassthroughSubject<(),Never>()
     var wrtiesuccess = PassthroughSubject<Int,Never>()
@@ -25,13 +25,13 @@ class CommunityViewModel:ObservableObject{
     var cancelable = Set<AnyCancellable>()
 
     
-    init(community: CommunityResponse?, communityList: [CommunityDetailsListResponse]) {
+    init(community: PostingResponse?, communityList: [PostingResponse]) {
         self.community = community
         self.communityList = communityList
     }
     
     func writeCommunity(contentsId:Int,title:String,content:String,category:Int,spoiler:Bool){
-        CommunityApiService.writeCommunity(contentsId: contentsId, title: title, content: content, category: category, spoiler: spoiler)
+        PostingApiService.writeCommunity(contentsId: contentsId, title: title, content: content, category: category, spoiler: spoiler)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -47,7 +47,7 @@ class CommunityViewModel:ObservableObject{
 
     }
     func readCommunityList(page:Int,category:Int){
-        CommunityApiService.readAllCommunityList(page: page,category:category)
+        PostingApiService.readAllCommunityList(page: page,category:category)
             .sink { completion in
                 print(completion)
                 switch completion{
@@ -60,7 +60,7 @@ class CommunityViewModel:ObservableObject{
                 self.currentPage = page
             } receiveValue: { [weak self] response in
                 if let data = response.data{
-                    self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.communityList.append(contentsOf: data.detailList)
                     self?.totalOfElements = data.totalElements
                     self?.maxPage = data.totalPages
                 }
@@ -68,7 +68,7 @@ class CommunityViewModel:ObservableObject{
 
     }
     func readListConditionsAll(searchType:Int,query:String,page:Int,sort:String,order:Int,category:Int){
-        CommunityApiService.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order,category: category)
+        PostingApiService.readListConditionsAll(searchType:searchType,query:query,page:page,sort:sort,order:order,category: category)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -80,14 +80,14 @@ class CommunityViewModel:ObservableObject{
                 self.currentPage = page
             } receiveValue: { [weak self] response in
                 if let data = response.data{
-                    self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.communityList.append(contentsOf: data.detailList)
                     self?.totalOfElements = data.totalElements
                     self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
     }
     func readDetailCommunity(postingId:Int){
-        CommunityApiService.readPosting(postingId: postingId)
+        PostingApiService.readPosting(postingId: postingId)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -101,7 +101,7 @@ class CommunityViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func like(postingId:Int,status:Int){
-        CommunityApiService.postingLike(postingId: postingId, status: status)
+        PostingApiService.postingLike(postingId: postingId, status: status)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -113,7 +113,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { _ in }.store(in: &cancelable)
     }
     func modifyCommunity(postingId:Int,title:String,content:String,category:Int,spoiler:Bool){
-        CommunityApiService.modifyCommunity(postingId: postingId, title: title, content: content, category: category, spoiler: spoiler)
+        PostingApiService.modifyCommunity(postingId: postingId, title: title, content: content, category: category, spoiler: spoiler)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -128,7 +128,7 @@ class CommunityViewModel:ObservableObject{
 
     }
     func deleteCommunity(postingId:Int){
-        CommunityApiService.deletePosting(postingId: postingId)
+        PostingApiService.deletePosting(postingId: postingId)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -140,7 +140,7 @@ class CommunityViewModel:ObservableObject{
             } receiveValue: { _ in }.store(in: &cancelable)
     }
     func myCommunity(page:Int){
-        CommunityApiService.myCommunity(page: page)
+        PostingApiService.myCommunity(page: page)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -152,14 +152,14 @@ class CommunityViewModel:ObservableObject{
                 self.currentPage = page
             } receiveValue: { [weak self] response in
                 if let data = response.data{
-                    self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.communityList.append(contentsOf: data.detailList)
                     self?.totalOfElements = data.totalElements
                     self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
     }
     func myLikeCommunity(page:Int,likeStatus:Int){
-        CommunityApiService.myLikeCommunity(page: page,likeStatus: likeStatus)
+        PostingApiService.myLikeCommunity(page: page,likeStatus: likeStatus)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -171,7 +171,7 @@ class CommunityViewModel:ObservableObject{
                 self.currentPage = page
             } receiveValue: { [weak self] response in
                 if let data = response.data{
-                    self?.communityList.append(contentsOf: data.postingDetailsResponseList)
+                    self?.communityList.append(contentsOf: data.detailList)
                     self?.totalOfElements = data.totalElements
                     self?.maxPage = data.totalPages
                 }

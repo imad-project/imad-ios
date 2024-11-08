@@ -11,7 +11,7 @@ struct SearchPostingView: View {
     
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     
-    @State var community:CommunityDetailsListResponse?
+    @State var community:PostingResponse?
     @State var sortButton = false
     @State var orderButton = false
     @State var typeButton = false

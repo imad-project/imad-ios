@@ -82,7 +82,7 @@ class CustomData{
         """
         return decoding(data)
     }                               //댓글
-    static var community:CommunityResponse?{
+    static var community:PostingResponse?{
         let data = """
         {
                 "posting_id": 7,
@@ -177,7 +177,7 @@ class CustomData{
         """
         return decoding(data)
     }                           //게시물
-    static var communityList:[CommunityDetailsListResponse]{
+    static var communityList:[PostingResponse]{
         let data = """
         [
             {
@@ -294,7 +294,7 @@ class CustomData{
         """
         return decoding(data)
     }           //게시물 리스트
-    static var communityDetails:CommunityDetailsListResponse?{
+    static var communityDetails:PostingResponse?{
         let data = """
         {
             "posting_id": 7,

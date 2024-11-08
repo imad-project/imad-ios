@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommunityListRowView: View {
-    let community:CommunityDetailsListResponse
+    let community:PostingResponse
     var body: some View {
         HStack{
             VStack(alignment: .leading,spacing: 0) {
@@ -34,7 +34,7 @@ struct CommunityListRowView: View {
                 
             }
             Spacer()
-            KFImageView(image: community.contentsPosterPath?.getImadImage() ?? "",width: 80,height: 100)
+            KFImageView(image: community.contentsPosterPath.getImadImage(),width: 80,height: 100)
                 .cornerRadius(5)
                 .shadow(radius: 1)
                 .padding(.leading)
@@ -77,7 +77,7 @@ extension CommunityListRowView{
     }
     var workDetailsView:some View{
         VStack(alignment: .leading,spacing: 5) {
-            Text(community.contentsTitle ?? "")
+            Text(community.contentsTitle)
                 .font(.GmarketSansTTFMedium(12))
                 .lineLimit(1)
                 .fontWeight(.bold)

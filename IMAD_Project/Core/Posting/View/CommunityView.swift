@@ -19,7 +19,7 @@ struct CommunityView: View {
     
     @State var goWork = false
     @State var sort:SortFilter = .createdDate
-    @State var workInfo:CommunityDetailsListResponse?
+    @State var workInfo:PostingResponse?
     
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])
     @StateObject var user = UserInfoManager.instance

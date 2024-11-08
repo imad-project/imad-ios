@@ -10,7 +10,7 @@ import SwiftUI
 struct TodayPopularView: View {
     
     let review:ReadReviewResponse?
-    let posting:CommunityResponse?
+    let posting:PostingResponse?
     
     @State var currentOffset:CGFloat = .zero
     @State var endOffset:CGFloat = .zero
@@ -72,7 +72,7 @@ extension TodayPopularView{
                 .shadow(radius: 1)
         }
     }
-    func postingView(_ posting:CommunityResponse)->some View{
+    func postingView(_ posting:PostingResponse)->some View{
         NavigationLink {
             PostingDetailsView(reported: posting.reported, postingId:posting.postingID,main: true,back: .constant(false))
                 .navigationBarBackButtonHidden()

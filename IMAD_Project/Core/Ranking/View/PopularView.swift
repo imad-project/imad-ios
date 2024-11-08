@@ -11,7 +11,7 @@ import Kingfisher
 struct PopularView: View {
     
     var review:ReadReviewResponse?
-    var posting:CommunityResponse?
+    var posting:PostingResponse?
     
     var body: some View {
         if let popular{
