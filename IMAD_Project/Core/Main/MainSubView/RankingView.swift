@@ -106,7 +106,7 @@ struct RankingView: View {
             }
         }
     }
-    func rankingView(_ list:[[RankingResponseList]])->some View{
+    func rankingView(_ list:[[RankingResponse]])->some View{
         HStack{
             ForEach(list.prefix(3),id:\.self){ columns in
                 VStack{

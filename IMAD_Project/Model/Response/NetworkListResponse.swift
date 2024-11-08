@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NetworkPostListResponse<T:Codable>:Codable{
+struct NetworkListResponse<T:Codable>:Codable{
     var detailList: [T]
     let totalElements, totalPages, pageNumber, numberOfElements: Int
     let sizeOfPage, sortDirection: Int

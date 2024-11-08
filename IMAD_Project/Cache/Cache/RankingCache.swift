@@ -13,5 +13,5 @@ struct RankingCache{
     var mediaType:TypeFilter
     var maxPage:Int
     var currentPage:Int
-    var list:[RankingResponseList]
+    var list:[RankingResponse]
 }

@@ -322,7 +322,7 @@ class CustomData{
         return decoding(data)
     }         //게시물 리스트 아이템
     static var commentList:[CommentResponse]{
-    let data = """
+        let data = """
     [
             {
                 "comment_id": 22,
@@ -380,9 +380,9 @@ class CustomData{
             }
     ]
     """
-    return decoding(data)
-}                          //댓글 리스트
-    static var rankingList:[RankingResponseList]{
+        return decoding(data)
+    }                          //댓글 리스트
+    static var rankingList:[RankingResponse]{
         let data = """
         [
             {
