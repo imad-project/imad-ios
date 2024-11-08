@@ -77,12 +77,12 @@ class CommentApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func like(commentId:Int,likeStatus:Int)-> AnyPublisher<NoDataResponse,AFError>{
+    static func like(commentId:Int,likeStatus:Int)-> AnyPublisher<NetworkResponse<Int>,AFError>{
         print("댓글 좋아요/싫어요 api호출")
         return ApiClient.shared.session
             .request(CommentRouter.like(commentId: commentId, likeStatus: likeStatus),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: NoDataResponse.self)
+            .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")

@@ -26,12 +26,12 @@ class ScrapApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func writeScrap(postingId:Int)->AnyPublisher<NoDataResponse,AFError>{
+    static func writeScrap(postingId:Int)->AnyPublisher<NetworkResponse<Int>,AFError>{
         print("스크랩 등록 api 호출")
         return ApiClient.shared.session
             .request(ScrapRouter.write(postingId: postingId),interceptor: interceptor)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: NoDataResponse.self)
+            .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")
@@ -39,12 +39,12 @@ class ScrapApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func deleteScrap(scrapId:Int)->AnyPublisher<NoDataResponse,AFError>{
+    static func deleteScrap(scrapId:Int)->AnyPublisher<NetworkResponse<Int>,AFError>{
         print("스크랩 삭제 api 호출")
         return ApiClient.shared.session
             .request(ScrapRouter.delete(scrapId:scrapId),interceptor: interceptor)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: NoDataResponse.self)
+            .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")

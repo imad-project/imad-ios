@@ -52,12 +52,12 @@ enum ReviewApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func reviewDelete(id:Int) -> AnyPublisher<NoDataResponse,AFError>{
+    static func reviewDelete(id:Int) -> AnyPublisher<NetworkResponse<Int>,AFError>{
         print("리뷰삭제 api호출")
         return ApiClient.shared.session
             .request(ReviewRouter.delete(id: id),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: NoDataResponse.self)
+            .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")
@@ -78,12 +78,12 @@ enum ReviewApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func reviewLike(id:Int,status:Int) -> AnyPublisher<NoDataResponse,AFError>{
+    static func reviewLike(id:Int,status:Int) -> AnyPublisher<NetworkResponse<Int>,AFError>{
         print("리뷰 좋아요/싫어요 api 호출")
         return ApiClient.shared.session
             .request(ReviewRouter.like(id: id, status: status),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: NoDataResponse.self)
+            .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")

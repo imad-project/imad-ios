@@ -65,12 +65,12 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func postingLike(postingId:Int,status:Int) -> AnyPublisher<NoDataResponse,AFError>{
+    static func postingLike(postingId:Int,status:Int) -> AnyPublisher<NetworkResponse<Int>,AFError>{
         print("게시물 좋아요/싫어요 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.like(postingId: postingId, status: status),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: NoDataResponse.self)
+            .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")
@@ -91,12 +91,12 @@ class CommunityApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func deletePosting(postingId:Int) -> AnyPublisher<NoDataResponse,AFError>{
+    static func deletePosting(postingId:Int) -> AnyPublisher<NetworkResponse<Int>,AFError>{
         print("게시물 삭제 api호출")
         return ApiClient.shared.session
             .request(CommunityRouter.delete(postingId: postingId),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: NoDataResponse.self)
+            .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")

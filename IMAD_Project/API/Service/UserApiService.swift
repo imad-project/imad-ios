@@ -53,12 +53,12 @@ enum UserApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func passwordChange(old:String,new:String)-> AnyPublisher<NoDataResponse,AFError>{
+    static func passwordChange(old:String,new:String)-> AnyPublisher<NetworkResponse<Int>,AFError>{
         print("비밀번호변경 api 호출")
         return ApiClient.shared.session
             .request(UserRouter.passwordChange(old: old, new: new),interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: NoDataResponse.self)
+            .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")

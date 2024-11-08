@@ -148,7 +148,6 @@
 		81C731292AF51B260076D230 /* TokenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C731282AF51B260076D230 /* TokenRouter.swift */; };
 		81C7312B2AF6183C0076D230 /* TokenApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C7312A2AF6183C0076D230 /* TokenApiService.swift */; };
 		81C7312D2AF66CF40076D230 /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C7312C2AF66CF40076D230 /* UserResponse.swift */; };
-		81C731302AF66D4F0076D230 /* NoDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C7312F2AF66D4F0076D230 /* NoDataResponse.swift */; };
 		81CFEAD42B9A048B0081183B /* AppleLoginTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CFEAD32B9A048B0081183B /* AppleLoginTestView.swift */; };
 		81DB1FB529E51CCE002C0840 /* SettingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FB429E51CCE002C0840 /* SettingFilter.swift */; };
 		81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC129E56D1E002C0840 /* CustomTextField.swift */; };
@@ -409,7 +408,6 @@
 		81C731282AF51B260076D230 /* TokenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRouter.swift; sourceTree = "<group>"; };
 		81C7312A2AF6183C0076D230 /* TokenApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenApiService.swift; sourceTree = "<group>"; };
 		81C7312C2AF66CF40076D230 /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
-		81C7312F2AF66D4F0076D230 /* NoDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataResponse.swift; sourceTree = "<group>"; };
 		81CFEAD32B9A048B0081183B /* AppleLoginTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginTestView.swift; sourceTree = "<group>"; };
 		81DB1FB429E51CCE002C0840 /* SettingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingFilter.swift; sourceTree = "<group>"; };
 		81DB1FC129E56D1E002C0840 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -720,7 +718,6 @@
 				D60AD1E62C294D0500C9C27B /* Recommend */,
 				817919CF2B4BDF6B0084779B /* Ranking */,
 				818B07362B0D9DED0013C426 /* Scrap */,
-				81C731322AF6700C0076D230 /* NoData */,
 				81C7312E2AF66D210076D230 /* Token */,
 				8154B1D52ADA5FDA00AD2F83 /* Community */,
 				8154B1E42ADE2F4900AD2F83 /* Comment */,
@@ -1014,9 +1011,9 @@
 		81BB10FC2A05F706005654AA /* API */ = {
 			isa = PBXGroup;
 			children = (
-				81BB110A2A0617A8005654AA /* Intercept */,
 				81BB11032A061457005654AA /* ApiClient.swift */,
 				81BB11052A0614D1005654AA /* ApiLogger.swift */,
+				81BB110A2A0617A8005654AA /* Intercept */,
 				81BB11002A061186005654AA /* Router */,
 				81BB11072A061752005654AA /* Service */,
 			);
@@ -1101,14 +1098,6 @@
 				81BB110F2A061E42005654AA /* Token.swift */,
 			);
 			path = Token;
-			sourceTree = "<group>";
-		};
-		81C731322AF6700C0076D230 /* NoData */ = {
-			isa = PBXGroup;
-			children = (
-				81C7312F2AF66D4F0076D230 /* NoDataResponse.swift */,
-			);
-			path = NoData;
 			sourceTree = "<group>";
 		};
 		81C731332AF671D00076D230 /* Data */ = {
@@ -1212,14 +1201,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		D6078AD42CDD8F3200236E50 /* ListResponse */ = {
-			isa = PBXGroup;
-			children = (
-				D60AD1E92C294DA900C9C27B /* RecommendResponse.swift */,
-			);
-			path = ListResponse;
-			sourceTree = "<group>";
-		};
 		D608EF7B2CA152C500C4FCE7 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
@@ -1253,7 +1234,7 @@
 		D60AD1E62C294D0500C9C27B /* Recommend */ = {
 			isa = PBXGroup;
 			children = (
-				D6078AD42CDD8F3200236E50 /* ListResponse */,
+				D60AD1E92C294DA900C9C27B /* RecommendResponse.swift */,
 				D60AD20A2C295DFA00C9C27B /* All */,
 				D60AD1F02C29547200C9C27B /* Trend */,
 				D60AD1EF2C29546C00C9C27B /* Imad */,
@@ -1745,7 +1726,6 @@
 				81C2649C2A13B73600405B01 /* UserRouter.swift in Sources */,
 				D6EAAA742CB93E09001C9BD5 /* NickNameCheckFilter.swift in Sources */,
 				810453A72B025A930062B4B6 /* ExtandView.swift in Sources */,
-				81C731302AF66D4F0076D230 /* NoDataResponse.swift in Sources */,
 				811536D42A173EED003F8273 /* Data.swift in Sources */,
 				D60AD20C2C295E0A00C9C27B /* AllRecommendResponse.swift in Sources */,
 				817919C82B4BADC30084779B /* CustomTextEditor.swift in Sources */,
