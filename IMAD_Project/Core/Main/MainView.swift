@@ -59,7 +59,7 @@ struct MainView_Previews: PreviewProvider {
 extension MainView{
     func titleView(user:UserResponse) -> some View{
         Text((user.nickname ?? "") + "님 환영합니다")
-            .font(.GmarketSansTTFMedium(isPad() ? 40 : 25))
+            .font(.GmarketSansTTFMedium(isPad ? 40 : 25))
             .fontWeight(.black)
             .padding(.horizontal,10)
             .padding(.bottom)
@@ -74,14 +74,14 @@ extension MainView{
                             .navigationBarBackButtonHidden()
                     } label: {
                         VStack{
-                            KFImageView(image: work.posterPath ?? "",width:isPad() ? 300 : 175,height: isPad() ? 370 : 240)
+                            KFImageView(image: work.posterPath ?? "",width:isPad ? 300 : 175,height: isPad ? 370 : 240)
                                 .cornerRadius(5)
                             Text(trend ? work.name ?? "" : work.title ?? "")
                                 .bold()
-                                .font(.GmarketSansTTFMedium(isPad() ? 20 :15))
+                                .font(.GmarketSansTTFMedium(isPad ? 20 :15))
                                 .lineLimit(1)
                             Text(work.genreType == .tv ? work.genreIds?.transTvGenreCode() ?? "" : work.genreIds?.transMovieGenreCode() ?? "")
-                                .font(.GmarketSansTTFMedium(isPad() ? 17.5 :12))
+                                .font(.GmarketSansTTFMedium(isPad ? 17.5 :12))
                                 .lineLimit(1)
                         }
                         .foregroundColor(.white)
@@ -108,7 +108,7 @@ extension MainView{
             }
             .onChange(of: geometry.size){ screenSize = $0 }
         }
-        .frame(height:isPad() ? 500 : 350)
+        .frame(height:isPad ? 500 : 350)
         .tabViewStyle(.page)
         .colorScheme(.dark)
     }
@@ -118,7 +118,7 @@ extension MainView{
             HStack{
                 Text("인기작품")
                     .fontWeight(.black)
-                    .font(.GmarketSansTTFMedium(isPad() ? 30 : 20))
+                    .font(.GmarketSansTTFMedium(isPad ? 30 : 20))
                     .foregroundColor(.customIndigo)
                 Button {
                     withAnimation(.default){
@@ -126,7 +126,7 @@ extension MainView{
                     }
                 } label: {
                     Text("영화")
-                        .font(.GmarketSansTTFMedium(isPad() ? 23: 15))
+                        .font(.GmarketSansTTFMedium(isPad ? 23: 15))
                         .opacity(trend ? 0.5 : 1.0)
                 }
                 Text(" l ").foregroundColor(.gray)
@@ -136,7 +136,7 @@ extension MainView{
                     }
                 } label: {
                     Text("시리즈")
-                        .font(.GmarketSansTTFMedium(isPad() ? 23: 15))
+                        .font(.GmarketSansTTFMedium(isPad ? 23: 15))
                         .opacity(trend ? 1.0 : 0.5)
                 }
                 Spacer()

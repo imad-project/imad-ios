@@ -30,9 +30,9 @@ struct TodayPopularView: View {
             }
             .onChange(of: geo.size) { viewSize = $0.width }
         }
-        .offset(x:isWidth() ? 0:currentOffset)
-        .highPriorityGesture(isWidth() ? nil:gesture)
-        .frame(width: viewSize,height: isPad() ? 170 : 120,alignment: .leading)
+        .offset(x:isWidth ? 0:currentOffset)
+        .highPriorityGesture(isWidth ? nil:gesture)
+        .frame(width: viewSize,height: isPad ? 170 : 120,alignment: .leading)
     }
 }
 

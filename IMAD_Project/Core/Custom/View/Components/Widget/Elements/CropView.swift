@@ -172,7 +172,7 @@ struct CropView: View {
     @MainActor
     func dismissEvent(){
         let renderer = ImageRenderer(content: imageView(true))
-        renderer.proposedSize = .init(CGSize(width: isPad() ? 500 : mainWidth, height: isPad() ? 500 : mainWidth))
+        renderer.proposedSize = .init(CGSize(width: isPad ? 500 : mainWidth, height: isPad ? 500 : mainWidth))
         if let image = renderer.uiImage{
             onCrop(image,true)
         }else{

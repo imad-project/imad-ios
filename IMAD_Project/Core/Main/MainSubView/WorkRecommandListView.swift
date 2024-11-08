@@ -48,18 +48,18 @@ extension WorkRecommandListView{
                 .navigationBarBackButtonHidden()
         } label: {
             VStack(spacing:5){
-                KFImageView(image: work.posterPath?.getImadImage() ?? "",width: isPad() ? 200:130,height: isPad() ? 260:180)
+                KFImageView(image: work.posterPath?.getImadImage() ?? "",width: isPad ? 200:130,height: isPad ? 260:180)
                     .cornerRadius(5)
                 Group{
                     Text((filter.type == .tv ? work.name : work.title) ?? "")
-                        .font(.GmarketSansTTFMedium(isPad() ? 20:12))
+                        .font(.GmarketSansTTFMedium(isPad ? 20:12))
                         .foregroundColor(.black)
                     Text(work.genreType == .tv ? work.genreIds?.transTvGenreCode() ?? "" : work.genreIds?.transMovieGenreCode() ?? "")
-                        .font(.GmarketSansTTFMedium(isPad() ? 15:9))
+                        .font(.GmarketSansTTFMedium(isPad ? 15:9))
                         .foregroundColor(.gray)
                 }
                 .lineLimit(1)
-                .frame(width: isPad() ? 200:130)
+                .frame(width: isPad ? 200:130)
             }
         }
     }

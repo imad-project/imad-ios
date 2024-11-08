@@ -54,8 +54,8 @@ extension UserActivityView{
                     AllRecommendView(contentsId:contentsId,title: work.name, type: work)
                         .navigationBarBackButtonHidden()
                 } label: {
-                    GridView(maintenanceRate:!isPad(), room:isPad() ? 4:2, imageList: list.prefix(isPad() ? 8 : 4).map{$0.posterPath ?? ""})
-                        .frame(width:isPad() ? 360:180,height: 240)
+                    GridView(maintenanceRate:!isPad, room:isPad ? 4:2, imageList: list.prefix(isPad ? 8 : 4).map{$0.posterPath ?? ""})
+                        .frame(width:isPad ? 360:180,height: 240)
                         .overlay{
                             Color.black.opacity(0.3)
                             HStack{
@@ -71,7 +71,7 @@ extension UserActivityView{
                 }
             }
             .shadow(radius: 1)
-            .font(.GmarketSansTTFBold(isPad() ? 22.5 : 17.5))
+            .font(.GmarketSansTTFBold(isPad ? 22.5 : 17.5))
             .foregroundColor(.black)
             .padding(.vertical,1)
         }

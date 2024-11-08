@@ -9,7 +9,6 @@ import Foundation
 
 extension Date{
     func timeDifference(previousTime:Date?,curruntTime:Date)->Double{
-        
         guard let previousTime else {return 0}
         return curruntTime.timeIntervalSince(previousTime)
     }
