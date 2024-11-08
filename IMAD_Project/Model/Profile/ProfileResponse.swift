@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct ProfileResponse:Codable{
+struct ProfileResponse:Codable,Hashable{
     let userID: Int
     let userNickname: String
     var userProfileImage:String?
     let myReviewCnt, myPostingCnt, myScrapCnt: Int
-    let bookmarkListResponse: BookmarkResponse
+    let bookmarkListResponse: NetworkListResponse<BookmarkResponse>
 
     enum CodingKeys: String, CodingKey {
         case userID = "user_id"

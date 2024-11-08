@@ -479,7 +479,7 @@ class CustomData{
         """
         return decoding(data)
     }                      //랭킹 리스트
-    static var bookmarkList:[BookmarkListResponse]{
+    static var bookmarkList:[BookmarkResponse]{
         let data = """
         [
             {

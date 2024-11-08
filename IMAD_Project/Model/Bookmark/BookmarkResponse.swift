@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BookmarkListResponse: Codable,Hashable {
+struct BookmarkResponse: Codable,Hashable {
     let bookmarkID, userID, contentsID: Int
     let contentsTitle,contentsPosterPath:String
     let createdDate: String

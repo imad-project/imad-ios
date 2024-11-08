@@ -8,7 +8,7 @@ struct MyBookmarkListView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = WorkViewModel(workInfo: nil, bookmarkList: [])
     
-    var list:[BookmarkListResponse]{
+    var list:[BookmarkResponse]{
         return vm.bookmarkList.filter({$0.contentsTitle.contains(text)})
     }
     
