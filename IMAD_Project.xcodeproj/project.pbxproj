@@ -114,7 +114,7 @@
 		81BB110C2A0617B8005654AA /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB110B2A0617B8005654AA /* BaseInterceptor.swift */; };
 		81BB11102A061E42005654AA /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB110F2A061E42005654AA /* Token.swift */; };
 		81BB11142A0622AC005654AA /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB11132A0622AC005654AA /* AuthViewModel.swift */; };
-		81C0DC5F2A14D01D0022A3EE /* ProfileFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */; };
+		81C0DC5F2A14D01D0022A3EE /* ProfileImageColorCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C0DC5E2A14D01D0022A3EE /* ProfileImageColorCategory.swift */; };
 		81C1EB7D2AB3581E00FB265D /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB7C2AB3581E00FB265D /* ReviewView.swift */; };
 		81C1EB832AB4332600FB265D /* SortFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB822AB4332600FB265D /* SortFilter.swift */; };
 		81C1EB852AB4397600FB265D /* OrderFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB842AB4397600FB265D /* OrderFilter.swift */; };
@@ -347,7 +347,7 @@
 		81BB110F2A061E42005654AA /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		81BB11132A0622AC005654AA /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		81BB11292A0642E8005654AA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilter.swift; sourceTree = "<group>"; };
+		81C0DC5E2A14D01D0022A3EE /* ProfileImageColorCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageColorCategory.swift; sourceTree = "<group>"; };
 		81C1EB7C2AB3581E00FB265D /* ReviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		81C1EB822AB4332600FB265D /* SortFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortFilter.swift; sourceTree = "<group>"; };
 		81C1EB842AB4397600FB265D /* OrderFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilter.swift; sourceTree = "<group>"; };
@@ -888,7 +888,7 @@
 				81A1ECF829DD6BE70001A366 /* TabCategory.swift */,
 				812CDE9529DE9CD50003B993 /* CommunityCategory.swift */,
 				81C264932A1376AE00405B01 /* OauthCategory.swift */,
-				81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */,
+				81C0DC5E2A14D01D0022A3EE /* ProfileImageColorCategory.swift */,
 				818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */,
 				81AFC7202A25A11E00051F59 /* EmailFilter.swift */,
 				817860112A2992D6004639F6 /* ContriesFilter.swift */,
@@ -1696,7 +1696,7 @@
 				81A1ECF229DD3BBC0001A366 /* MenuTabView.swift in Sources */,
 				811762272B2CB51B009AE845 /* ProfileResponse.swift in Sources */,
 				818206FB2AF8BB70004A7B21 /* KFImageView.swift in Sources */,
-				81C0DC5F2A14D01D0022A3EE /* ProfileFilter.swift in Sources */,
+				81C0DC5F2A14D01D0022A3EE /* ProfileImageColorCategory.swift in Sources */,
 				D6D974C92C3D20CF00BCBF49 /* Font.swift in Sources */,
 				D69455C22C48FB0B004CDFC9 /* ReportApiService.swift in Sources */,
 				D608EF832CA1806F00C4FCE7 /* ErrorManager.swift in Sources */,

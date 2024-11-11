@@ -84,7 +84,7 @@ extension SelectProfileView{
         ScrollView(.horizontal,showsIndicators: false){
             HStack{
                 selectProfileButton
-                ForEach(ProfileFilter.allCases,id: \.rawValue){ profile in
+                ForEach(ProfileImageColorCategory.allCases,id: \.rawValue){ profile in
                     Button {
                         vmProfile.defaultImage = profile
                         vmProfile.customImage = nil

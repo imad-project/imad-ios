@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum ProfileFilter:String, CaseIterable{
+enum ProfileImageColorCategory:String, CaseIterable{
     case none
     case indigo
     case yellow
@@ -16,7 +16,6 @@ enum ProfileFilter:String, CaseIterable{
     case pink
     case blue
     case red
-    
     var num:Int{
         switch self{
         case .none:
@@ -33,7 +32,6 @@ enum ProfileFilter:String, CaseIterable{
             return 5
         case .red:
             return 6
-
         }
     }
     var color:Color{

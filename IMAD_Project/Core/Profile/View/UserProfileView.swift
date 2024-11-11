@@ -10,7 +10,7 @@ import Kingfisher
 
 struct UserProfileView: View {
     
-    @State var imageCode:ProfileFilter = .indigo
+    @State var imageCode:ProfileImageColorCategory = .indigo
     
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @StateObject var vmProfile = ProfileImageViewModel()
@@ -359,7 +359,7 @@ extension UserProfileView{
                     .foregroundColor(.black)
                 ScrollView(.horizontal,showsIndicators: false){
                     HStack{
-                        ForEach(ProfileFilter.allCases,id: \.rawValue){ profile in
+                        ForEach(ProfileImageColorCategory.allCases,id: \.rawValue){ profile in
                             if profile != .none{
                                 Button {
                                     if !isCondition(profile:profile){
@@ -397,9 +397,9 @@ extension UserProfileView{
         }
         .presentationDetents([.fraction(0.3)])
     }
-    func isCondition(profile:ProfileFilter)->Bool{
+    func isCondition(profile:ProfileImageColorCategory)->Bool{
         guard let profileImage = user.cache?.profileImage else {return false}
         guard profileImage.contains("default_profile_image") else {return false}
-        return ProfileFilter.allCases.first(where: {$0.num == profileImage.getImageCode()}) == profile
+        return ProfileImageColorCategory.allCases.first(where: {$0.num == profileImage.getImageCode()}) == profile
     }
 }

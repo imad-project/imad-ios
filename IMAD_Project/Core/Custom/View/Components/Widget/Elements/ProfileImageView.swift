@@ -31,7 +31,7 @@ struct ProfileImageView: View {
                 if imagePath.contains("default_profile_image"){
                     Circle()
                         .foregroundColor(.white)
-                        .shadow(color:ProfileFilter.allCases.first(where: {$0.num == imagePath.getImageCode()})?.color ?? .clear,radius: 1)
+                        .shadow(color:ProfileImageColorCategory.allCases.first(where: {$0.num == imagePath.getImageCode()})?.color ?? .clear,radius: 1)
                 }
             }
     }

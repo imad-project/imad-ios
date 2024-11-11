@@ -16,7 +16,7 @@ class ProfileImageViewModel:ObservableObject{
     
     @Published var url = ""
     @Published var customImage:Data?
-    @Published var defaultImage:ProfileFilter = .indigo
+    @Published var defaultImage:ProfileImageColorCategory = .indigo
     
     func fetchProfileImageCustom(image:Data){
         ProfileImageApiService.fetchProfileCustomImage(image: image)
