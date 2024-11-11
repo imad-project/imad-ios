@@ -9,94 +9,51 @@ import Foundation
 
 
 enum PopularFilter{
-    case review,community
-}
-
+    case review,posting
+}=
 protocol Popular{
-    var popularFilter:PopularFilter { get }
-    func contentsTitle() -> String
-    func title() -> String
-    func spoiler() -> Bool
-    func userProfile() -> String
-    func userName() -> String
-    func poster() -> String
-    func backdrop() -> String
-    func contents() -> String
-    
+    var popularFilter:PopularFilter{ get }
+    var contentsTitle:String{ get }
+    var title:String{ get }
+    var spoiler:Bool{ get }
+    var userProfile:String{ get }
+    var userName:String{ get }
+    var poster:String{ get }
+    var backdrop:String{ get }
+    var contents:String{ get }
 }
-
-class PopularReviewClass:Popular{
-    var popularFilter:PopularFilter = .review
-    let review:ReviewResponse
-    
-    required init(review:ReviewResponse) {
+class PopularResponse:Popular{
+    var review:ReviewResponse?
+    var posting:PostingResponse?
+    required init(review:ReviewResponse? = nil,posting:PostingResponse? = nil) {
         self.review = review
-    }
-    func contentsTitle() -> String {
-        return review.contentsTitle
-    }
-    func backdrop() -> String{
-        return review.contentsBackdropPath
-    }
-    func title() -> String {
-        return review.title
-    }
-    func spoiler() -> Bool{
-        return review.spoiler
-    }
-    func userProfile() -> String {
-        return review.userProfileImage
-    }
-    
-    func userName() -> String {
-        return review.userNickname
-    }
-    
-    func poster() -> String {
-        return review.contentsPosterPath
-    }
-    
-    func contents() -> String {
-        return review.content
-    }
-    
-}
-
-class PopularPostingClass:Popular{
-    var popularFilter: PopularFilter = .community
-    let posting:PostingResponse
-    
-    required init(posting:PostingResponse) {
         self.posting = posting
     }
-    
-    func contentsTitle() -> String {
-        return posting.contentsTitle
+    var popularFilter: PopularFilter{
+        review != nil ? .review : .posting
     }
-    func backdrop() -> String{
-        return posting.contentsBackdropPath ?? ""
+    var contentsTitle:String {
+        return review?.contentsTitle ?? posting?.contentsTitle ?? ""
     }
-    func title() -> String {
-        return posting.title
+    var backdrop:String{
+        return review?.contentsBackdropPath ?? posting?.contentsBackdropPath ?? ""
     }
-    
-    func userProfile() -> String {
-        return posting.userProfileImage
+    var title:String {
+        return review?.title ?? posting?.title ?? ""
     }
-    func spoiler() -> Bool{
-        return posting.spoiler
+    var spoiler:Bool{
+        return review?.spoiler ?? posting?.spoiler ?? false
     }
-    func userName() -> String {
-        return posting.userNickname ?? ""
+    var userProfile:String {
+        return review?.userProfileImage ?? review?.userProfileImage ?? ""
     }
-    
-    func poster() -> String {
-        return posting.contentsPosterPath
+    var userName:String {
+        return review?.userNickname ?? posting?.userNickname ?? ""
     }
-    
-    func contents() -> String {
-        return posting.content ?? ""
+    var poster:String {
+        return review?.contentsPosterPath ?? posting?.contentsPosterPath ?? ""
     }
-    
-    
+    var contents:String {
+        return review?.content ?? posting?.content ?? ""
+    }
 }

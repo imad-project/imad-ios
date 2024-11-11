@@ -37,7 +37,7 @@ enum RecommendListType:String,CaseIterable{
         case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:"activity"
         }
     }
-    var type:WorkGenreType{
+    var type:GenreType{
         switch self{
         case .genreTv,.topRateTv,.popluarTv,.trendTv,.activityTv,.activityAnimationTv: return .tv
         case .genreMovie,.topRateMovie,.popluarMovie,.trendMovie,.activityMovie,.activityAnimationMovie: return .movie

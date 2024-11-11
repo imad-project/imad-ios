@@ -19,7 +19,7 @@ struct RecommendResponse: Codable,Hashable {
     var displayTitle: String {
             return name ?? title ?? "" 
         }
-    var genreType:WorkGenreType{
+    var genreType:GenreType{
         return name != nil ? .tv : .movie
     }
 

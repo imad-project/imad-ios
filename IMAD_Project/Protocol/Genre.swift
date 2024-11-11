@@ -1,37 +1,35 @@
+////
+////  Genre.swift
+////  IMAD_Project
+////
+////  Created by 유영웅 on 3/13/24.
+////
 //
-//  Genre.swift
-//  IMAD_Project
+//import Foundation
 //
-//  Created by 유영웅 on 3/13/24.
 //
-
-import Foundation
-
-
-enum GenreType{
+enum GenreType:String{
     case tv,movie
 }
-
 protocol Genre{
-    var genreType:GenreType { get }
-    func selectName() -> String
-    func selectImage() -> String
-    func selectCode() -> Int
+    var genreType:GenreType{ get }
+    var selectName:String{ get }
+    var selectImage:String{ get }
+    var selectCode:Int{ get }
 }
-
 class TVGenre:Genre{
     var genreType: GenreType = .tv
     var tvGenre:TVGenreFilter
     required init(tvGenre:TVGenreFilter) {
         self.tvGenre = tvGenre
     }
-    func selectName() -> String {
+    var selectName:String {
         return tvGenre.name
     }
-    func selectImage() -> String {
+    var selectImage:String {
         return tvGenre.image
     }
-    func selectCode() -> Int {
+    var selectCode:Int {
         return tvGenre.rawValue
     }
 }
@@ -41,13 +39,13 @@ class MovieGenre:Genre{
     required init(movieGenre:MovieGenreFilter) {
         self.movieGenre = movieGenre
     }
-    func selectName() -> String {
+    var selectName:String {
         return movieGenre.name
     }
-    func selectImage() -> String {
+    var selectImage:String {
         return movieGenre.image
     }
-    func selectCode() -> Int {
+    var selectCode:Int {
         return movieGenre.rawValue
     }
 }

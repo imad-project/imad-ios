@@ -119,13 +119,9 @@ struct UserProfileView: View {
         .colorScheme(.light)
         .sheet(isPresented: $tv) {
             UpdateGenreView(genreType: .tv, dismiss: $tv)
-               
-                .presentationDetents([.fraction(0.7)])
         }
         .sheet(isPresented: $movie) {
             UpdateGenreView(genreType: .movie, dismiss: $movie)
-               
-                .presentationDetents([.fraction(0.7)])
         }
         .onAppear{
             vmWork.getProfile(page: 1)

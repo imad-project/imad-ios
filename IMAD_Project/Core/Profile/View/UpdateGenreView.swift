@@ -13,6 +13,7 @@ struct UpdateGenreView: View {
     @State var collection:[Genre] = []
     @Binding var dismiss:Bool
     @StateObject var vmAuth = AuthViewModel(user:nil)
+    @StateObject var user = UserInfoManager.instance
     
     var genreList:[Genre]{
         switch genreType {
@@ -43,12 +44,12 @@ struct UpdateGenreView: View {
                 AutoSizingFlowLayoutView(items: collection) { genre in
                     Button {
                         withAnimation {
-                            collection = collection.filter{$0.selectCode() != genre.selectCode()}
+                            collection = collection.filter{$0.selectCode != genre.selectCode}
                         }
                     } label: {
                         HStack{
-                            Text(genre.selectImage())
-                            Text(genre.selectName())
+                            Text(genre.selectImage)
+                            Text(genre.selectName)
                         }
                         .font(.GmarketSansTTFMedium(12))
                         .padding(7.5)
@@ -67,16 +68,16 @@ struct UpdateGenreView: View {
                 AutoSizingFlowLayoutView(items: genreList) { genre in
                     Button {
                         withAnimation {
-                            if (collection.first(where: {$0.selectCode() == genre.selectCode()}) != nil){
-                                collection = collection.filter({$0.selectCode() != genre.selectCode()})
+                            if (collection.first(where: {$0.selectCode == genre.selectCode}) != nil){
+                                collection = collection.filter({$0.selectCode != genre.selectCode})
                             }else{
                                 collection.append(genre)
                             }
                         }
                     } label: {
                         HStack{
-                            Text(genre.selectImage())
-                            Text(genre.selectName())
+                            Text(genre.selectImage)
+                            Text(genre.selectName)
                             
                         }
                         .font(.GmarketSansTTFMedium(12))
@@ -90,9 +91,9 @@ struct UpdateGenreView: View {
                 CustomConfirmButton(text: "완료", color: .customIndigo, textColor: .white) {
                     switch genreType {
                     case .tv:
-                        vmAuth.patchUser.tvGenre = collection.map({$0.selectCode()})
+                        vmAuth.patchUser.tvGenre = collection.map({$0.selectCode})
                     case .movie:
-                        vmAuth.patchUser.movieGenre = collection.map({$0.selectCode()})
+                        vmAuth.patchUser.movieGenre = collection.map({$0.selectCode})
                     }
                     vmAuth.patchUserInfo()
                     dismiss = false
@@ -101,16 +102,15 @@ struct UpdateGenreView: View {
             }
         }
         .onAppear{
-            guard let data = vmAuth.user else {return}
             switch genreType {
             case .tv:
-                for genre in data.tvGenre {
+                for genre in user.cache?.tvGenre ?? []{
                     if let tvGenre = TVGenreFilter(rawValue: genre){
                         collection.append(TVGenre(tvGenre: tvGenre))
                     }
                 }
             case .movie:
-                for genre in data.movieGenre {
+                for genre in user.cache?.movieGenre ?? []{
                     if let movieGenre = MovieGenreFilter(rawValue: genre) {
                         collection.append(MovieGenre(movieGenre: movieGenre))
                     }

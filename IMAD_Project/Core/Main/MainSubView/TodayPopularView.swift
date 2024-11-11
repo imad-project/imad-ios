@@ -68,7 +68,7 @@ extension TodayPopularView{
             ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)
                 .navigationBarBackButtonHidden()
         } label: {
-            PopularView(review: review)
+            PopularView(popular:PopularResponse(review: review))
                 .shadow(radius: 1)
         }
     }
@@ -77,7 +77,7 @@ extension TodayPopularView{
             PostingDetailsView(reported: posting.reported, postingId:posting.postingID,main: true,back: .constant(false))
                 .navigationBarBackButtonHidden()
         } label: {
-            PopularView(posting: posting)
+            PopularView(popular:PopularResponse(posting:posting))
                 .shadow(radius: 1)
         }
     }
