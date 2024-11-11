@@ -7,13 +7,10 @@
 
 import Foundation
 
-enum RegisterFilter:CaseIterable{
-    
+enum RegisterCategory:CaseIterable{
     case nickname
     case gender
     case age
     case genre
     case profile
-    
-    
 }

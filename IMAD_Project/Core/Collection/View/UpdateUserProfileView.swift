@@ -16,15 +16,15 @@ struct UpdateUserProfileView: View {
         ZStack(alignment:.bottomTrailing){
             TabView(selection: $vmAuth.selection) {
                 SelectNicknameView()
-                    .tag(RegisterFilter.nickname)
+                    .tag(RegisterCategory.nickname)
                 SelectGenderView()
-                    .tag(RegisterFilter.gender)
+                    .tag(RegisterCategory.gender)
                 SelectAgeView()
-                    .tag(RegisterFilter.age)
+                    .tag(RegisterCategory.age)
                 SelectGenreView()
-                    .tag(RegisterFilter.genre)
+                    .tag(RegisterCategory.genre)
                 SelectProfileView()
-                    .tag(RegisterFilter.profile)
+                    .tag(RegisterCategory.profile)
             }
             .ignoresSafeArea()
             .tabViewStyle(.page(indexDisplayMode: .never))
@@ -50,7 +50,7 @@ struct UpdateUserProfileView_Previews: PreviewProvider {
 extension UpdateUserProfileView{
     var tabViewbar:some View{
         HStack{
-            ForEach(RegisterFilter.allCases,id:\.self){ sel in
+            ForEach(RegisterCategory.allCases,id:\.self){ sel in
                 let condition = sel == vmAuth.selection
                 RoundedRectangle(cornerRadius: condition ? 5:20)
                     .frame(width: condition ? 20 : 10,height: 10)
