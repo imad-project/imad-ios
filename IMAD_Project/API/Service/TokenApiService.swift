@@ -17,7 +17,7 @@ enum TokenApiService{
             ApiClient.shared.session
                 .request(TokenRouter.token,interceptor: intercept)
                 .response{
-                    completion(UserDefaultManager.shared.checkToken(response: $0.response))
+                    completion(TokenManager.shared.checkToken(response: $0.response))
                 }
             
         }

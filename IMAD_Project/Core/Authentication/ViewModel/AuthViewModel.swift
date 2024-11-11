@@ -73,7 +73,7 @@ final class AuthViewModel:ObservableObject{
 //        user = nil
 //        patchUser = PatchUserInfo(user: nil)
         selection = .nickname
-        UserDefaultManager.shared.clearAll()
+        TokenManager.shared.clearAll()
     }
     func delete(authProvier:String){
         AuthApiService.delete(authProvier:authProvier)

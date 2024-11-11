@@ -17,7 +17,7 @@ enum AuthApiService{
         print("로그인 api 호출")
         return ApiClient.shared.session
             .request(AuthRouter.login(email: email, password: password))
-            .response{let _ = UserDefaultManager.shared.checkToken(response: $0.response)}
+            .response{let _ = TokenManager.shared.checkToken(response: $0.response)}
             .publishDecodable(type: NetworkResponse<UserResponse>.self)
             .value()
             .map{ receivedValue in
@@ -31,7 +31,7 @@ enum AuthApiService{
         print("회원가입 api 호출")
         return ApiClient.shared.session
             .request(AuthRouter.register(email: email, password: password,authProvider:authProvider))
-            .response{let _ = UserDefaultManager.shared.checkToken(response: $0.response)}
+            .response{let _ = TokenManager.shared.checkToken(response: $0.response)}
             .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
@@ -59,7 +59,7 @@ enum AuthApiService{
         ApiClient.shared.session
             .request(AuthRouter.appleLogin(state: state, code: authorizationCode, user: userIdentity, idToken: idToken))
             .response{ response in
-                 compleion(UserDefaultManager.shared.checkToken(response: response.response))
+                 compleion(TokenManager.shared.checkToken(response: response.response))
             }
     }
 }

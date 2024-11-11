@@ -8,9 +8,9 @@
 import Foundation
 import Alamofire
 
-class UserDefaultManager{
+class TokenManager{
   
-    static let shared = UserDefaultManager()    //싱글톤
+    static let shared = TokenManager()    //싱글톤
     
     enum Key:String,CaseIterable{
         case refreshToken,accessToken
@@ -44,7 +44,7 @@ class UserDefaultManager{
         }
         
         if !accessToken.isEmpty,!refreshToken.isEmpty{
-            UserDefaultManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
+            TokenManager.shared.setToken(accessToken: accessToken, refreshToken: refreshToken)
             return true     //토큰저장 성공했으니 받은 토큰으로 정보 재요청
         }else{
             return false    //토큰 저장 실패했으니 요청을 멈추고 초기화면으로 돌아감
