@@ -85,7 +85,7 @@ extension SearchView{
     }
     var filter:some View{
         Picker("", selection: $vm.type) {
-            ForEach(MovieTypeFilter.allCases,id:\.self){ text in
+            ForEach(WorkTypeCategory.allCases,id:\.self){ text in
                 Text(text.name)
             }
         }

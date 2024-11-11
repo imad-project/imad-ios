@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MovieTypeFilter:String,CaseIterable{
+enum WorkTypeCategory:String,CaseIterable{
     case multi
     case tv
     case movie
