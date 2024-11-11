@@ -17,7 +17,7 @@ struct LoginView: View{
     @State var loginFilter:OauthCategory? = nil      //로그인 및 회원가입 필터
     @State var email = ""                           //이메일 텍스트
     @State var password = ""                        //패스워트 텍스트
-    @State var domain = EmailFilter.gmail           //이메일 도메인
+    @State var domain = EmailDomainCategory.gmail           //이메일 도메인
     @State var loading = false                      //로딩 유무
     @StateObject var vmAuth = AuthViewModel(user: nil)
     
@@ -89,7 +89,7 @@ extension LoginView{
                     .padding(.vertical,5)
                 Text("@").padding(.leading)
                 Picker("", selection: $domain) {
-                    ForEach(EmailFilter.allCases,id:\.self){ item in
+                    ForEach(EmailDomainCategory.allCases,id:\.self){ item in
                         Text(item.domain)
                     }
                 }

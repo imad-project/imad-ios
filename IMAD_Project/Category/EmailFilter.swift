@@ -7,14 +7,13 @@
 
 import Foundation
 
-enum EmailFilter:CaseIterable{
+enum EmailDomainCategory:CaseIterable{
     case gmail
     case naver
     case hanmail
     case daum
     case outlook
     case nate
-    
     var domain:String{
         switch self{
         case .gmail:

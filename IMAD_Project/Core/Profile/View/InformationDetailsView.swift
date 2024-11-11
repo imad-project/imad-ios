@@ -15,7 +15,7 @@ struct InformationDetailsView: View {
     @State var old = ""
     @State var text = ""
     @State var passwordConfirm:String = ""
-    @State var domain:EmailFilter = .gmail
+    @State var domain:EmailDomainCategory = .gmail
     
     @State var age = 0
     @State var gender = ""

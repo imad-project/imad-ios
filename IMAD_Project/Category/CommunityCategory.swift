@@ -12,7 +12,6 @@ enum CommunityCategory:CaseIterable{
     case free
     case question
     case debate
-    
     var name:String {
         switch self{
         case .all:

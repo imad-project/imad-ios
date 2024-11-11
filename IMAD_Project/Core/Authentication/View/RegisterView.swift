@@ -17,7 +17,7 @@ struct RegisterView: View {
     @State var registerResult = (success:false,message:"")      //회원가입 성공 유무
     @State var duplicationResult = (possible:false,message:"")  //중복확인 가능 유무
     @State var tempEmail = ""                                   //중복확인 후 이메일 수정을 방지하는 변수
-    @State var domain = EmailFilter.gmail                       //이메일 도메인
+    @State var domain = EmailDomainCategory.gmail                       //이메일 도메인
     
     @Environment(\.dismiss) var dismiss
     @StateObject var vmCheck = CheckDataViewModel()
@@ -94,7 +94,7 @@ extension RegisterView{
                     .padding(.leading)
                     .font(.GmarketSansTTFMedium(15))
                 Picker("", selection: $domain) {
-                    ForEach(EmailFilter.allCases,id:\.self){ item in
+                    ForEach(EmailDomainCategory.allCases,id:\.self){ item in
                         Text(item.domain)
                     }
                 }

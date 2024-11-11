@@ -12,7 +12,6 @@ enum TabCategory:String,CaseIterable{
     case community
     case notification
     case profile
-    
     var name:String {
         switch self{
         case .home:
