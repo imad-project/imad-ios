@@ -120,7 +120,7 @@
 		81C1EB852AB4397600FB265D /* OrderFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB842AB4397600FB265D /* OrderFilter.swift */; };
 		81C1EB872AB43A6000FB265D /* ReviewListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C1EB862AB43A6000FB265D /* ReviewListRowView.swift */; };
 		81C264902A135F8900405B01 /* AuthWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2648F2A135F8900405B01 /* AuthWebView.swift */; };
-		81C264942A1376AE00405B01 /* OauthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C264932A1376AE00405B01 /* OauthFilter.swift */; };
+		81C264942A1376AE00405B01 /* OauthCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C264932A1376AE00405B01 /* OauthCategory.swift */; };
 		81C264972A137CFF00405B01 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C264962A137CFF00405B01 /* RegisterView.swift */; };
 		81C2649A2A137D2900405B01 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C264992A137D2900405B01 /* LoginView.swift */; };
 		81C2649C2A13B73600405B01 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2649B2A13B73600405B01 /* UserRouter.swift */; };
@@ -129,7 +129,6 @@
 		81C7312B2AF6183C0076D230 /* TokenApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C7312A2AF6183C0076D230 /* TokenApiService.swift */; };
 		81C7312D2AF66CF40076D230 /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C7312C2AF66CF40076D230 /* UserResponse.swift */; };
 		81CFEAD42B9A048B0081183B /* AppleLoginTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CFEAD32B9A048B0081183B /* AppleLoginTestView.swift */; };
-		81DB1FB529E51CCE002C0840 /* SettingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FB429E51CCE002C0840 /* SettingFilter.swift */; };
 		81DB1FC229E56D1E002C0840 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC129E56D1E002C0840 /* CustomTextField.swift */; };
 		81DB1FCA29E6C2E2002C0840 /* SelectGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FC929E6C2E2002C0840 /* SelectGenderView.swift */; };
 		81DB1FCF29E6D34F002C0840 /* SelectNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB1FCE29E6D34F002C0840 /* SelectNicknameView.swift */; };
@@ -354,7 +353,7 @@
 		81C1EB842AB4397600FB265D /* OrderFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilter.swift; sourceTree = "<group>"; };
 		81C1EB862AB43A6000FB265D /* ReviewListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewListRowView.swift; sourceTree = "<group>"; };
 		81C2648F2A135F8900405B01 /* AuthWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthWebView.swift; sourceTree = "<group>"; };
-		81C264932A1376AE00405B01 /* OauthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OauthFilter.swift; sourceTree = "<group>"; };
+		81C264932A1376AE00405B01 /* OauthCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OauthCategory.swift; sourceTree = "<group>"; };
 		81C264962A137CFF00405B01 /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		81C264992A137D2900405B01 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		81C2649B2A13B73600405B01 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
@@ -363,7 +362,6 @@
 		81C7312A2AF6183C0076D230 /* TokenApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenApiService.swift; sourceTree = "<group>"; };
 		81C7312C2AF66CF40076D230 /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
 		81CFEAD32B9A048B0081183B /* AppleLoginTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginTestView.swift; sourceTree = "<group>"; };
-		81DB1FB429E51CCE002C0840 /* SettingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingFilter.swift; sourceTree = "<group>"; };
 		81DB1FC129E56D1E002C0840 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		81DB1FC929E6C2E2002C0840 /* SelectGenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderView.swift; sourceTree = "<group>"; };
 		81DB1FCE29E6D34F002C0840 /* SelectNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNicknameView.swift; sourceTree = "<group>"; };
@@ -889,8 +887,7 @@
 			children = (
 				81A1ECF829DD6BE70001A366 /* TabCategory.swift */,
 				812CDE9529DE9CD50003B993 /* CommunityCategory.swift */,
-				81DB1FB429E51CCE002C0840 /* SettingFilter.swift */,
-				81C264932A1376AE00405B01 /* OauthFilter.swift */,
+				81C264932A1376AE00405B01 /* OauthCategory.swift */,
 				81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */,
 				818CF7FD2A21B7E000BABA1F /* RegisterFilter.swift */,
 				81AFC7202A25A11E00051F59 /* EmailFilter.swift */,
@@ -1626,7 +1623,7 @@
 				D654FBD62BA15AF800AF307E /* GuestInterceptor.swift in Sources */,
 				D6078AD12CDD88BC00236E50 /* NetworkListResponse.swift in Sources */,
 				819D49A82A9383BA008B7BFE /* NoImageView.swift in Sources */,
-				81C264942A1376AE00405B01 /* OauthFilter.swift in Sources */,
+				81C264942A1376AE00405B01 /* OauthCategory.swift in Sources */,
 				8154B1DD2ADACAB600AD2F83 /* CommunityViewModel.swift in Sources */,
 				81407A702B2C2E16006550AF /* FactoryTestView.swift in Sources */,
 				8115A6622A8F320B00B7C3FE /* Array.swift in Sources */,
@@ -1656,7 +1653,6 @@
 				81C264972A137CFF00405B01 /* RegisterView.swift in Sources */,
 				819D499A2A9338AD008B7BFE /* Season.swift in Sources */,
 				D60AD1F72C29551600C9C27B /* ImadRecommendResponse.swift in Sources */,
-				81DB1FB529E51CCE002C0840 /* SettingFilter.swift in Sources */,
 				81C7312D2AF66CF40076D230 /* UserResponse.swift in Sources */,
 				D69E05F52C5BAA19003610CD /* AutoSizingFlowLayoutView.swift in Sources */,
 				81C2649E2A13B7AA00405B01 /* UserApiService.swift in Sources */,

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum OauthFilter:String,Identifiable,CaseIterable{
+enum OauthCategory:String,Identifiable,CaseIterable{
     case Apple
     case naver
     case kakao

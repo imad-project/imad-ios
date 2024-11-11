@@ -14,7 +14,7 @@ struct LoginView: View{
     @State var isOnAlert = false                    //알림 표시
     @State var alertMessage = ""                    //알림에 표시될 메세지
     @State var loginFailed = false                  //로그인 실패 시
-    @State var loginFilter:OauthFilter? = nil      //로그인 및 회원가입 필터
+    @State var loginFilter:OauthCategory? = nil      //로그인 및 회원가입 필터
     @State var email = ""                           //이메일 텍스트
     @State var password = ""                        //패스워트 텍스트
     @State var domain = EmailFilter.gmail           //이메일 도메인
@@ -117,7 +117,7 @@ extension LoginView{
                 loading = true
             }
             CustomConfirmButton(text: "회원가입", color: .customIndigo.opacity(0.5), textColor: .white) {
-                loginFilter = OauthFilter.none
+                loginFilter = OauthCategory.none
             }
         }
     }
@@ -148,7 +148,7 @@ extension LoginView{
                     loginButton(item: .Apple)
                         .allowsHitTesting(false)
                 }
-            ForEach(OauthFilter.allCases.filter{$0 != .Apple && $0 != .none},id:\.rawValue){ item in
+            ForEach(OauthCategory.allCases.filter{$0 != .Apple && $0 != .none},id:\.rawValue){ item in
                 Button {
                     loginFilter = item
                 } label: {
@@ -167,7 +167,7 @@ extension LoginView{
         .frame(height:50)
         .cornerRadius(10)
     }
-    func loginButton(item:OauthFilter) -> some View{
+    func loginButton(item:OauthCategory) -> some View{
         RoundedRectangle(cornerRadius: 10)
             .frame(height: 55)
             .foregroundColor(item.color)
