@@ -12,7 +12,7 @@ struct WorkDetailsView: View {
     let work:WorkResponse
     @State var detail:Season?
     @State var isExtend = false
-    @StateObject var vm = ContriesFilter()
+    @StateObject var category = ContriesCategory()
     
     
     var body: some View {
@@ -77,7 +77,7 @@ extension WorkDetailsView{
                     .fontWeight(.semibold)
                 HStack{
                     if let countries = work.productionCountries,countries != []{
-                        ForEach(Array(vm.contriesData).filter({countries.contains($0.key)}),id:\.key){ key,value in
+                        ForEach(Array(category.contriesData).filter({countries.contains($0.key)}),id:\.key){ key,value in
                             Text(value)
                         }
                     }

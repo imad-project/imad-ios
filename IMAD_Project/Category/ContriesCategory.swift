@@ -12,8 +12,7 @@ enum CountryKey: String {
     case englishName = "english_name"
     case nativeName = "native_name"
 }
-
-class ContriesFilter:ObservableObject{
+class ContriesCategory:ObservableObject{
     
     @Published var contriesData:[String: String] = [:]
     @Published var nativename = [String]()
@@ -1291,7 +1290,6 @@ class ContriesFilter:ObservableObject{
                     contriesData.forEach { dic in
                         if dic.key == CountryKey.nativeName.rawValue{
                             nativename.append(dic.value)
-
                         }
                     }
                 } else {
@@ -1304,6 +1302,4 @@ class ContriesFilter:ObservableObject{
             print("JSON 데이터를 Data로 변환할 수 없습니다.")
         }
     }
-    
-    
 }
