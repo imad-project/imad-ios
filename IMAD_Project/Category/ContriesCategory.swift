@@ -11,14 +11,12 @@ enum CountryKey: String {
     case iso31661 = "iso_3166_1"
     case englishName = "english_name"
     case nativeName = "native_name"
-    // 필요한 다른 키값들을 추가로 선언할 수 있습니다.
 }
 
 class ContriesFilter:ObservableObject{
     
     @Published var contriesData:[String: String] = [:]
     @Published var nativename = [String]()
-    // JSON 데이터를 가져오는 함수
     init(){
         fetchDataFromURL()
     }
@@ -1284,10 +1282,7 @@ class ContriesFilter:ObservableObject{
             """
         if let jsonData = contries.data(using: .utf8) {
             do {
-                // JSON 데이터를 파싱하여 배열로 읽어옴
                 if let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
-
-                    // 각 항목을 순회하면서 "iso_3166_1"을 key로, "native_name"을 value로 저장
                     for item in jsonArray {
                         if let iso3166 = item["iso_3166_1"] as? String, let nativeName = item["native_name"] as? String {
                             contriesData[iso3166] = nativeName
@@ -1308,16 +1303,6 @@ class ContriesFilter:ObservableObject{
         } else {
             print("JSON 데이터를 Data로 변환할 수 없습니다.")
         }
-        //        let data = contries.publisher
-//        let data = contries.data(using: .utf8)!
-//
-//
-//        do {
-//            contriesData = try JSONSerialization.jsonObject(with: data, options: []) as! [String: String]
-//        } catch {
-//            print("Error: \(error.localizedDescription)")
-//        }
-        
     }
     
     
