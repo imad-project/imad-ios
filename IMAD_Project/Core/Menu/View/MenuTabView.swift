@@ -10,7 +10,7 @@ import Kingfisher
 
 struct MenuTabView: View {
     
-    @State var tab:TabFilter = .home
+    @State var tab:TabCategory = .home
     @State var tabInfo:CGFloat = 0
     @StateObject var user = UserInfoManager.instance
     
@@ -18,13 +18,13 @@ struct MenuTabView: View {
         VStack(spacing: 0){
             TabView(selection: $tab){
                 MainView()
-                    .tag(TabFilter.home)
+                    .tag(TabCategory.home)
                 CommunityView()
-                    .tag(TabFilter.community)
+                    .tag(TabCategory.community)
                 SearchView(backMode: true, postingMode: false, back: .constant(false))
-                    .tag(TabFilter.notification)
+                    .tag(TabCategory.notification)
                 UserProfileView()
-                    .tag(TabFilter.profile)
+                    .tag(TabCategory.profile)
             }
             menu
         }
@@ -44,7 +44,7 @@ extension MenuTabView{
     @MainActor
     var menu: some View {
         HStack{
-            ForEach(TabFilter.allCases,id:\.self){ item in
+            ForEach(TabCategory.allCases,id:\.self){ item in
                 GeometryReader{ geo in
                     let minX = geo.frame(in: .global).minX
                     let mid = geo.frame(in: .local)

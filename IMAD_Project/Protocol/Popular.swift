@@ -10,7 +10,7 @@ import Foundation
 
 enum PopularFilter{
     case review,posting
-}=
+}
 protocol Popular{
     var popularFilter:PopularFilter{ get }
     var contentsTitle:String{ get }
