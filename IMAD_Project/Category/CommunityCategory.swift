@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CommunityFilter:CaseIterable{
+enum CommunityCategory:CaseIterable{
     case all
     case free
     case question

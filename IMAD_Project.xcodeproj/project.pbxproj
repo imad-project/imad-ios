@@ -38,7 +38,7 @@
 		8124CB3A29F0175F00B446D5 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124CB3929F0175F00B446D5 /* SearchView.swift */; };
 		8128C12C2AEA3DCD0032D310 /* CommentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8128C12B2AEA3DCD0032D310 /* CommentDetailsView.swift */; };
 		812CDE9429DE92000003B993 /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9329DE92000003B993 /* CommunityView.swift */; };
-		812CDE9629DE9CD50003B993 /* CommunityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9529DE9CD50003B993 /* CommunityFilter.swift */; };
+		812CDE9629DE9CD50003B993 /* CommunityCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9529DE9CD50003B993 /* CommunityCategory.swift */; };
 		812CDEA029DEAA850003B993 /* CommunityListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812CDE9F29DEAA850003B993 /* CommunityListRowView.swift */; };
 		812EF9D329E1B5E700CE19DA /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EF9D229E1B5E700CE19DA /* UserProfileView.swift */; };
 		812F62B32B3FED3E00AC8DF3 /* CommentRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F62B22B3FED3E00AC8DF3 /* CommentRowView.swift */; };
@@ -272,7 +272,7 @@
 		8124CB3929F0175F00B446D5 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		8128C12B2AEA3DCD0032D310 /* CommentDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailsView.swift; sourceTree = "<group>"; };
 		812CDE9329DE92000003B993 /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
-		812CDE9529DE9CD50003B993 /* CommunityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilter.swift; sourceTree = "<group>"; };
+		812CDE9529DE9CD50003B993 /* CommunityCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCategory.swift; sourceTree = "<group>"; };
 		812CDE9F29DEAA850003B993 /* CommunityListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityListRowView.swift; sourceTree = "<group>"; };
 		812EF9D229E1B5E700CE19DA /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		812F62B22B3FED3E00AC8DF3 /* CommentRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRowView.swift; sourceTree = "<group>"; };
@@ -511,7 +511,7 @@
 				D69E05F62C5BAAE7003610CD /* PreferenceKey */,
 				D69455D82C4C7A46004CDFC9 /* PDF */,
 				D64C4C822C352B070097B2FD /* Font */,
-				81A1ECEB29DD1F8D0001A366 /* Filter */,
+				81A1ECEB29DD1F8D0001A366 /* Category */,
 				D654FBD02BA146E500AF307E /* Protocol */,
 				D69BADC32CCF6402004DCF64 /* BluePrint */,
 				819C506C2A0F465F0008F4A5 /* Manager */,
@@ -884,11 +884,11 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		81A1ECEB29DD1F8D0001A366 /* Filter */ = {
+		81A1ECEB29DD1F8D0001A366 /* Category */ = {
 			isa = PBXGroup;
 			children = (
 				81A1ECF829DD6BE70001A366 /* TabCategory.swift */,
-				812CDE9529DE9CD50003B993 /* CommunityFilter.swift */,
+				812CDE9529DE9CD50003B993 /* CommunityCategory.swift */,
 				81DB1FB429E51CCE002C0840 /* SettingFilter.swift */,
 				81C264932A1376AE00405B01 /* OauthFilter.swift */,
 				81C0DC5E2A14D01D0022A3EE /* ProfileFilter.swift */,
@@ -914,7 +914,7 @@
 				D6EAAA732CB93E09001C9BD5 /* NickNameCheckFilter.swift */,
 				D69BADBE2CC25124004DCF64 /* ImadRecommendFilter.swift */,
 			);
-			path = Filter;
+			path = Category;
 			sourceTree = "<group>";
 		};
 		81A1ECEF29DD3B840001A366 /* Menu */ = {
@@ -1691,7 +1691,7 @@
 				817860212A29ECA7004639F6 /* CreatePostingView.swift in Sources */,
 				D62967B62C57AC670059A15B /* HeaderView.swift in Sources */,
 				8115A6562A85D7DC00B7C3FE /* MovieTypeFilter.swift in Sources */,
-				812CDE9629DE9CD50003B993 /* CommunityFilter.swift in Sources */,
+				812CDE9629DE9CD50003B993 /* CommunityCategory.swift in Sources */,
 				81C2649A2A137D2900405B01 /* LoginView.swift in Sources */,
 				817B60D22A237248000099A9 /* CheckDataViewModel.swift in Sources */,
 				D60AD1EA2C294DA900C9C27B /* RecommendResponse.swift in Sources */,

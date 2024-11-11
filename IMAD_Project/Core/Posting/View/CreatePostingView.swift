@@ -19,7 +19,7 @@ struct CreatePostingView: View {
     @State var loading = false
     
     //MARK: 게시물 작성/수정
-    @State var category:CommunityFilter = .free
+    @State var category:CommunityCategory = .free
     @State var spoiler = false
     @State var text = ""
     @State var title = ""
@@ -140,7 +140,7 @@ extension CreatePostingView{
         HStack{
             VStack(alignment: .leading){
                 Picker("",selection: $category){
-                    ForEach(CommunityFilter.allCases,id: \.self){ item in
+                    ForEach(CommunityCategory.allCases,id: \.self){ item in
                         if item != .all{
                             Text(item.name)
                                 .tag(item)

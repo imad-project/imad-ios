@@ -11,7 +11,7 @@ import Kingfisher
 
 struct CommunityView: View {
     
-    @State var communityTab:CommunityFilter = .all
+    @State var communityTab:CommunityCategory = .all
     @State var tabInfo:CGFloat = 0
     @State var searchView = false
     @State var search = false
@@ -97,7 +97,7 @@ extension CommunityView{
     }
     var category:some View{
         HStack{
-            ForEach(CommunityFilter.allCases,id:\.self){ item in
+            ForEach(CommunityCategory.allCases,id:\.self){ item in
                 GeometryReader{ geo in
                     let minX = geo.frame(in: .global).minX
                     Button {
@@ -110,7 +110,7 @@ extension CommunityView{
                             .font(.GmarketSansTTFMedium(15))
                     }
                     .onAppear{
-                        if item == CommunityFilter.allCases.first{
+                        if item == CommunityCategory.allCases.first{
                             self.tabInfo = minX
                         }
                     }

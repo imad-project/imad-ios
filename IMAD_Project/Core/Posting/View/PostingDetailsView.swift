@@ -153,7 +153,7 @@ struct PostingDetailsView: View {
         }
         .navigationDestination(isPresented: $modify) {
             if let community = vm.community{
-                let category = CommunityFilter.allCases.first(where: {$0.num == community.category})!
+                let category = CommunityCategory.allCases.first(where: {$0.num == community.category})!
                 CreatePostingView(contentsId: community.contentsID, postingId: community.postingID, contents: (community.contentsPosterPath.getImadImage(),community.contentsTitle) ,category:category, spoiler: community.spoiler, text:community.content ?? "", title: community.title, goMain: .constant(true))
                    
                     .navigationBarBackButtonHidden()
@@ -174,7 +174,7 @@ struct PostingDetailsView_Previews: PreviewProvider {
 extension PostingDetailsView{
     func header(community:PostingResponse) ->some View{
         HStack{
-            HeaderView(backIcon: "chevron.left", text:CommunityFilter.allCases.first(where:{$0.num == community.category})!.name){
+            HeaderView(backIcon: "chevron.left", text:CommunityCategory.allCases.first(where:{$0.num == community.category})!.name){
                 if let main,main {
                     dismiss()
                 }else{

@@ -21,7 +21,7 @@ struct SearchPostingView: View {
     @State var sort:SortFilter = .createdDate
     @State var order:OrderFilter = .descending
     @State var type:SearchTypeFilter = .titleContents
-    @State var category:CommunityFilter = .all
+    @State var category:CommunityCategory = .all
     
     @Environment(\.dismiss) var dismiss
     @StateObject var user = UserInfoManager.instance
@@ -154,7 +154,7 @@ extension SearchPostingView{
                 } label: {}
             case "category":
                 Picker(selection: $category) {
-                    ForEach(CommunityFilter.allCases,id:\.self){ category in
+                    ForEach(CommunityCategory.allCases,id:\.self){ category in
                         Text(category.name)
                     }
                 } label: {}
