@@ -502,11 +502,10 @@
 		8103093F29D1BDEF0021717B /* IMAD_Project */ = {
 			isa = PBXGroup;
 			children = (
+				D68A528B2CE3225B0084D8AB /* Assets */,
 				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
 				D608EF7B2CA152C500C4FCE7 /* Cache */,
 				D69E05F62C5BAAE7003610CD /* PreferenceKey */,
-				D69455D82C4C7A46004CDFC9 /* PDF */,
-				D64C4C822C352B070097B2FD /* Font */,
 				D68A52822CE1F0880084D8AB /* Filter */,
 				81A1ECEB29DD1F8D0001A366 /* Category */,
 				D654FBD02BA146E500AF307E /* Pactory */,
@@ -517,7 +516,6 @@
 				81A1ECE129DC20730001A366 /* Extension */,
 				812CDEA129DEAE6D0003B993 /* Model */,
 				812CDE9129DE91CD0003B993 /* Core */,
-				8103094429D1BDF00021717B /* Assets.xcassets */,
 				8103094629D1BDF00021717B /* Preview Content */,
 				81BB11292A0642E8005654AA /* Config.xcconfig */,
 				81EE0B432B4161DF00A58E5F /* IMAD-Project-info.plist */,
@@ -1434,6 +1432,16 @@
 				D69455CA2C4A9CFD004CDFC9 /* ReportCategory.swift */,
 			);
 			path = Box;
+			sourceTree = "<group>";
+		};
+		D68A528B2CE3225B0084D8AB /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				8103094429D1BDF00021717B /* Assets.xcassets */,
+				D64C4C822C352B070097B2FD /* Font */,
+				D69455D82C4C7A46004CDFC9 /* PDF */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		D69455C32C4A945E004CDFC9 /* Report */ = {
