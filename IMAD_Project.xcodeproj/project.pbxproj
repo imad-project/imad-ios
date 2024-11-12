@@ -502,8 +502,8 @@
 		8103093F29D1BDEF0021717B /* IMAD_Project */ = {
 			isa = PBXGroup;
 			children = (
+				D68A528C2CE323170084D8AB /* Project */,
 				D68A528B2CE3225B0084D8AB /* Assets */,
-				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
 				D608EF7B2CA152C500C4FCE7 /* Cache */,
 				D69E05F62C5BAAE7003610CD /* PreferenceKey */,
 				D68A52822CE1F0880084D8AB /* Filter */,
@@ -517,9 +517,6 @@
 				812CDEA129DEAE6D0003B993 /* Model */,
 				812CDE9129DE91CD0003B993 /* Core */,
 				8103094629D1BDF00021717B /* Preview Content */,
-				81BB11292A0642E8005654AA /* Config.xcconfig */,
-				81EE0B432B4161DF00A58E5F /* IMAD-Project-info.plist */,
-				D60A53802C61E81B001F73F2 /* Documentation.docc */,
 			);
 			path = IMAD_Project;
 			sourceTree = "<group>";
@@ -1442,6 +1439,17 @@
 				D69455D82C4C7A46004CDFC9 /* PDF */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		D68A528C2CE323170084D8AB /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				D60A53802C61E81B001F73F2 /* Documentation.docc */,
+				81EE0B432B4161DF00A58E5F /* IMAD-Project-info.plist */,
+				81BB11292A0642E8005654AA /* Config.xcconfig */,
+				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
+			);
+			path = Project;
 			sourceTree = "<group>";
 		};
 		D69455C32C4A945E004CDFC9 /* Report */ = {
