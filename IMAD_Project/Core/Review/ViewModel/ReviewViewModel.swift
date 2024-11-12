@@ -29,7 +29,7 @@ final class ReviewViewModel:ObservableObject{
     }
     
     func writeReview(contentsId:Int,title:String,content:String,score:Double,spoiler:Bool){
-        ReviewApiService.reviewWrite(id: contentsId, title: title, content: content, score: score, spoiler: spoiler)
+        ReviewApiService.createReview(id: contentsId, title: title, content: content, score: score, spoiler: spoiler)
             .sink {completion in
                 switch completion{
                 case .failure(let error):
@@ -43,7 +43,7 @@ final class ReviewViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func readReview(id:Int){
-        ReviewApiService.reviewRead(id: id)
+        ReviewApiService.readReview(id: id)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -58,7 +58,7 @@ final class ReviewViewModel:ObservableObject{
     }
     
     func readReviewList(id:Int,page:Int,sort:String,order:Int){
-        ReviewApiService.reviewReadList(id: id, page: page, sort: sort, order: order)
+        ReviewApiService.readReviewList(id: id, page: page, sort: sort, order: order)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -76,7 +76,7 @@ final class ReviewViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func updateReview(reviewId:Int,title:String,content:String,score:Double,spoiler:Bool){
-        ReviewApiService.reviewUpdate(id: reviewId, title: title, content: content, score: score, spoiler: spoiler)
+        ReviewApiService.updateReview(id: reviewId, title: title, content: content, score: score, spoiler: spoiler)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -90,7 +90,7 @@ final class ReviewViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func deleteReview(id:Int){
-        ReviewApiService.reviewDelete(id: id)
+        ReviewApiService.deleteReview(id: id)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -106,7 +106,7 @@ final class ReviewViewModel:ObservableObject{
    
     
     func likeReview(id:Int,status:Int){
-        ReviewApiService.reviewLike(id: id, status: status)
+        ReviewApiService.updateReviewLike(id: id, status: status)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
@@ -120,7 +120,7 @@ final class ReviewViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func myReviewList(page:Int){
-        ReviewApiService.myReview(page: page)
+        ReviewApiService.readMyReviewList(page: page)
             .sink {  completion in
                 switch completion{
                 case .failure(let error):
@@ -139,7 +139,7 @@ final class ReviewViewModel:ObservableObject{
 
     }
     func myLikeReviewList(page:Int,likeStatus:Int){
-        ReviewApiService.myLikeReview(page: page,likeStatus: likeStatus)
+        ReviewApiService.readMyLikeReviewList(page: page,likeStatus: likeStatus)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
