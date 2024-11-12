@@ -7,12 +7,11 @@
 
 import Foundation
 
-enum SearchTypeFilter:CaseIterable{
+enum SearchCategory:CaseIterable{
     case titleContents
     case title
     case contents
     case writer
-    
     var name:String{
         switch self{
         case .titleContents:

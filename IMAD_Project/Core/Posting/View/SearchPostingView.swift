@@ -20,7 +20,7 @@ struct SearchPostingView: View {
     @State var goCommunity = false
     @State var sort:SortCategory = .createdDate
     @State var order:OrderCategory = .descending
-    @State var type:SearchTypeFilter = .titleContents
+    @State var type:SearchCategory = .titleContents
     @State var category:CommunityCategory = .all
     
     @Environment(\.dismiss) var dismiss
@@ -136,7 +136,7 @@ extension SearchPostingView{
             switch type{
             case "search":
                 Picker(selection: $type) {
-                    ForEach(SearchTypeFilter.allCases,id:\.self){ type in
+                    ForEach(SearchCategory.allCases,id:\.self){ type in
                         Text(type.name)
                     }
                 } label: {}
