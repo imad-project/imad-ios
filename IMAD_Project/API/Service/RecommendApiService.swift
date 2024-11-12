@@ -21,10 +21,10 @@ class RecommendApiService{
             .value()
             .eraseToAnyPublisher()
     }
-    static func list<T:Decodable>(page:Int,type:String,contentsId:Int? = nil,category:String? = nil,recommendListType:RecommendListType) -> AnyPublisher<T,AFError>{
-        print("\(recommendListType.endPoint) 작품 추천 api 호출")
+    static func list<T:Decodable>(page:Int,type:String,contentsId:Int? = nil,category:String? = nil,recommendCategory:RecommendCategory) -> AnyPublisher<T,AFError>{
+        print("\(recommendCategory.endPoint) 작품 추천 api 호출")
         return ApiClient.shared.session
-            .request(RecommendRouter.list(page: page, type: type, contentsId: contentsId, category: category, recommendListType: recommendListType),interceptor: interseptor)
+            .request(RecommendRouter.list(page: page, type: type, contentsId: contentsId, category: category, recommendCateogry: recommendCategory),interceptor: interseptor)
             .validate(statusCode: 200..<300)
             .publishDecodable(type:T.self)
             .value()

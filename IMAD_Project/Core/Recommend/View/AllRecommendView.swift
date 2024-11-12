@@ -10,7 +10,7 @@ import SwiftUI
 struct AllRecommendView: View {
     var contentsId:Int?
     @State var title:String = ""
-    @State var type:RecommendListType
+    @State var type:RecommendCategory
     @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil,recommendList: nil)
     @StateObject var user = UserInfoManager.instance
     @Environment(\.dismiss) var dismiss
@@ -33,7 +33,7 @@ struct AllRecommendView: View {
 }
 
 extension AllRecommendView{
-    func request(page:Int,getNextPage:Bool,_ type:RecommendListType,category:ImadRecommendFilter? = nil,contentsId:Int? = nil,cache:RecommendCache){
+    func request(page:Int,getNextPage:Bool,_ type:RecommendCategory,category:ImadRecommendFilter? = nil,contentsId:Int? = nil,cache:RecommendCache){
         switch type{
         case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:
             vmRecommend.getActivityRecommend(page:page,getNextPage:getNextPage,contentsId:contentsId ?? 0, type:type,cache:cache)
