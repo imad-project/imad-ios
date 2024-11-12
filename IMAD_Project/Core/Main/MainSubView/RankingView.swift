@@ -132,7 +132,7 @@ struct RankingView: View {
                                     .padding(.bottom,3)
                                     HStack{
                                         rankUpdateView(rank: rank.rankingChanged)
-                                        Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
+                                        Text(WorkTypeCategory.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
                                             .font(isPad ? .subheadline:.caption)
                                             .foregroundStyle(.gray)
                                     }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AllRankingView: View {
     @State var filter:RankingCategory
-    @State var type:TypeFilter = .all
+    @State var type:WorkTypeCategory = .all
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = RankingViewModel(ranking: nil, popular: nil)
     
@@ -71,7 +71,7 @@ extension AllRankingView{
     var typeFilterView:some View{
         ScrollView(.horizontal){
                 HStack{
-                    ForEach(TypeFilter.allCases,id:\.self){ type in
+                    ForEach(WorkTypeCategory.allCases,id:\.self){ type in
                         Button {
                             self.type = type
                             let ranking = RankingCache(id: filter.rawValue + type.rawValue, rankingType: filter, mediaType: type, maxPage: 1, currentPage: 1, list: [])
@@ -122,7 +122,7 @@ extension AllRankingView{
                             .padding(.bottom,3)
                             HStack{
                                 rankUpdateView(rank: rank.rankingChanged)
-                                Text(TypeFilter.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
+                                Text(WorkTypeCategory.allCases.first(where: {$0.query == rank.contentsType})?.name ?? "")
                                     .font(.caption)
                                     .foregroundStyle(.gray)
                             }

@@ -135,7 +135,7 @@ extension WorkView{
                 VStack(alignment: .leading){
                     HStack(alignment: .bottom){
                         VStack(alignment: .leading) {
-                            Text(TypeFilter.allCases.first(where:{$0.query == vm.workInfo?.contentsType ?? ""})?.name ?? "")
+                            Text(WorkTypeCategory.allCases.first(where:{$0.query == vm.workInfo?.contentsType ?? ""})?.name ?? "")
                                 .padding(2)
                                 .padding(.horizontal,7)
                                 .background(RoundedRectangle(cornerRadius: 2)

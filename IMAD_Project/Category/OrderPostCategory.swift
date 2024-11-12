@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum OrderCategory:Int,CaseIterable{
+enum OrderPostCategory:Int,CaseIterable{
     case ascending = 0
     case descending = 1
     var name:String{

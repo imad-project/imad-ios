@@ -17,8 +17,8 @@ struct PostingDetailsView: View {
     @State var menu = false
     @State var modify = false
     @State var commentSheet = true
-    @State var sort:SortCategory = .createdDate
-    @State var order:OrderCategory = .ascending
+    @State var sort:SortPostCategory = .createdDate
+    @State var order:OrderPostCategory = .ascending
     
     @StateObject var vmReport = ReportViewModel()
     @State var noReport = false
@@ -373,7 +373,7 @@ extension PostingDetailsView{
     var collection:some View{
         VStack(alignment: .leading){
             HStack{
-                ForEach(SortCategory.allCases.filter({$0 != .score}),id:\.self){ sort in
+                ForEach(SortPostCategory.allCases.filter({$0 != .score}),id:\.self){ sort in
                     Button {
                         guard self.sort != sort else { return }
                         self.sort = sort

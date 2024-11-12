@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SortCategory:String,CaseIterable{
+enum SortPostCategory:String,CaseIterable{
     case score
     case createdDate
     case likeCnt

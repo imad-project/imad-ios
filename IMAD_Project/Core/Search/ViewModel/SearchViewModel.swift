@@ -20,7 +20,7 @@ class SearchViewModel:ObservableObject{
     
     @Published var searchText = ""
     @Published var work:[WorkListResponse] = []
-    @Published var type:WorkTypeCategory = .multi
+    @Published var type:TypePostCategory = .multi
     @Published var currentPage = 1
     @Published var maxPage = 0
     
@@ -51,7 +51,7 @@ class SearchViewModel:ObservableObject{
         self.currentPage = 1
         self.maxPage = 0
     }
-    func searchWork(query:String,type:WorkTypeCategory,page:Int){
+    func searchWork(query:String,type:TypePostCategory,page:Int){
         WorkApiService.workSearch(query: query, type: type.rawValue, page: page)
             .sink { completion in
                 switch completion{

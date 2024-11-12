@@ -11,8 +11,8 @@ struct ReviewView: View {
     
     let id:Int
     
-    @State var sort:SortCategory = .createdDate //정렬기준
-    @State var order:OrderCategory = .ascending   //오름차순 - 0,내림차순 - 1
+    @State var sort:SortPostCategory = .createdDate //정렬기준
+    @State var order:OrderPostCategory = .ascending   //오름차순 - 0,내림차순 - 1
     
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
@@ -83,7 +83,7 @@ extension ReviewView{
                 HStack{
                     Group{
                         Picker("", selection: $sort) {
-                            ForEach(SortCategory.allCases,id:\.self){
+                            ForEach(SortPostCategory.allCases,id:\.self){
                                 Text($0.name).font(.system(size: 20))
                                 
                             }
@@ -98,7 +98,7 @@ extension ReviewView{
                             
                         }
                         Picker("", selection: $order) {
-                            ForEach(OrderCategory.allCases,id:\.self){
+                            ForEach(OrderPostCategory.allCases,id:\.self){
                                 Text($0.name)
                             }
                         }
