@@ -10,7 +10,7 @@ import SwiftUI
 struct AllRecommendView: View {
     var contentsId:Int?
     @State var title:String = ""
-    @State var type:RecommendCategory
+    @State var type:RecommendFilter
     @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil,recommendList: nil)
     @StateObject var user = UserInfoManager.instance
     @Environment(\.dismiss) var dismiss
@@ -33,7 +33,7 @@ struct AllRecommendView: View {
 }
 
 extension AllRecommendView{
-    func request(page:Int,getNextPage:Bool,_ type:RecommendCategory,category:ImadRecommendFilter? = nil,contentsId:Int? = nil,cache:RecommendCache){
+    func request(page:Int,getNextPage:Bool,_ type:RecommendFilter,category:ImadRecommendFilter? = nil,contentsId:Int? = nil,cache:RecommendCache){
         switch type{
         case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:
             vmRecommend.getActivityRecommend(page:page,getNextPage:getNextPage,contentsId:contentsId ?? 0, type:type,cache:cache)
@@ -137,7 +137,6 @@ extension AllRecommendView{
 
 
 #Preview {
-//    let list = CustomData.recommandAll?.userActivityRecommendationTv?.results.map({TVWorkGenre(tvGenre: $0)}) ?? []
     let cache = RecommendCache(id: "", maxPage: 1, currentPage: 1, list: [])
     return AllRecommendView(contentsId:1,type: .genreTv,vmRecommend: RecommendViewModel(recommendAll: nil, recommendList:cache))
         .environmentObject(AuthViewModel(user: CustomData.user))

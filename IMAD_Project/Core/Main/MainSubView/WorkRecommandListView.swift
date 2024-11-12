@@ -11,7 +11,7 @@ import Kingfisher
 struct WorkRecommandListView: View {
     @State var draggedOffset:CGFloat = 0
     @State var endOffset:CGFloat = 0
-    let filter:RecommendCategory
+    let filter:RecommendFilter
     let workItems = [ GridItem(.fixed(220)), GridItem(.fixed(220))]
     @EnvironmentObject var vmRecommend:RecommendViewModel
     

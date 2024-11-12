@@ -25,7 +25,7 @@ class RecommendViewModel:ObservableObject{
         self.recommendAll = recommendAll
         self.recommendList = recommendList
     }
-    func workList(_ type:RecommendCategory)->(list:[RecommendResponse],contentsId:Int?){
+    func workList(_ type:RecommendFilter)->(list:[RecommendResponse],contentsId:Int?){
         switch type{
         case .genreTv:
             let data = recommendAll?.preferredGenreRecommendationTv
@@ -72,7 +72,7 @@ class RecommendViewModel:ObservableObject{
             fetchAllRecommend()
         }
     }
-    func getTrendRecommend(page:Int,getNextPage:Bool,type:RecommendCategory,cache:RecommendCache){
+    func getTrendRecommend(page:Int,getNextPage:Bool,type:RecommendFilter,cache:RecommendCache){
         if getNextPage{
             self.getTrendRecommend(page:page,type:type,cache:cache,getPageMode:true)
         }else{
@@ -81,7 +81,7 @@ class RecommendViewModel:ObservableObject{
             }
         }
     }
-    func getGenreRecommend(page:Int,getNextPage:Bool,type:RecommendCategory,cache:RecommendCache){
+    func getGenreRecommend(page:Int,getNextPage:Bool,type:RecommendFilter,cache:RecommendCache){
         if getNextPage{
             self.getGenreRecommend(page:page,type:type,cache:cache,getPageMode:true)
         }else{
@@ -90,7 +90,7 @@ class RecommendViewModel:ObservableObject{
             }
         }
     }
-    func getImadRecommend(page:Int,getNextPage:Bool,category:ImadRecommendFilter,type:RecommendCategory,cache:RecommendCache){
+    func getImadRecommend(page:Int,getNextPage:Bool,category:ImadRecommendFilter,type:RecommendFilter,cache:RecommendCache){
         if getNextPage{
             self.getImadRecommend(page:page,type:type,category:category,cache:cache,getPageMode:true)
         }else{
@@ -99,7 +99,7 @@ class RecommendViewModel:ObservableObject{
             }
         }
     }
-    func getActivityRecommend(page:Int,getNextPage:Bool,contentsId:Int,type:RecommendCategory,cache:RecommendCache){
+    func getActivityRecommend(page:Int,getNextPage:Bool,contentsId:Int,type:RecommendFilter,cache:RecommendCache){
         if getNextPage{
             self.getActivityRecommend(page:page,type:type,contentsId:contentsId,cache:cache,getPageMode:true)
         }else{
@@ -108,7 +108,7 @@ class RecommendViewModel:ObservableObject{
             }
         }
     }
-    private func getTrendRecommend(page:Int,type:RecommendCategory,cache:RecommendCache,getPageMode:Bool){
+    private func getTrendRecommend(page:Int,type:RecommendFilter,cache:RecommendCache,getPageMode:Bool){
         self.fetchRecommend(page:page,type:type,cache: cache){ (response:TrendRecommendResponse,cache) in
             var cache = cache
             cache.currentPage = page
@@ -123,7 +123,7 @@ class RecommendViewModel:ObservableObject{
             return cache
         }
     }
-    private func getGenreRecommend(page:Int,type:RecommendCategory,cache:RecommendCache,getPageMode:Bool){
+    private func getGenreRecommend(page:Int,type:RecommendFilter,cache:RecommendCache,getPageMode:Bool){
         self.fetchRecommend(page:page,type:type,cache: cache){ (response:GenreRecommendResponse,cache) in
             var cache = cache
             cache.currentPage = page
@@ -138,7 +138,7 @@ class RecommendViewModel:ObservableObject{
             return cache
         }
     }
-    private func getImadRecommend(page:Int,type:RecommendCategory,category:ImadRecommendFilter,cache:RecommendCache,getPageMode:Bool){
+    private func getImadRecommend(page:Int,type:RecommendFilter,category:ImadRecommendFilter,cache:RecommendCache,getPageMode:Bool){
         fetchRecommend(page:page,type:type,category:category.rawValue,cache: cache){ (response:ImadRecommendResponse,cache) in
             var cache = cache
             cache.currentPage = page
@@ -159,7 +159,7 @@ class RecommendViewModel:ObservableObject{
             return cache
         }
     }
-    private func getActivityRecommend(page:Int,type:RecommendCategory,contentsId:Int,cache:RecommendCache,getPageMode:Bool){
+    private func getActivityRecommend(page:Int,type:RecommendFilter,contentsId:Int,cache:RecommendCache,getPageMode:Bool){
         fetchRecommend(page:page,type:type,contentId:contentsId,cache: cache){ (response:ActivityRecommendResponse,cache) in
             var cache = cache
             switch type{
@@ -190,7 +190,7 @@ class RecommendViewModel:ObservableObject{
                 self?.recommendManager.recommendAllOfUpdateData(key:"AllRecommand", data: data)
             }.store(in: &cancelable)
     }
-    private func fetchRecommend<T:Codable>(page:Int,type:RecommendCategory,category:String? = nil,contentId:Int? = nil,cache:RecommendCache,copletion:@escaping(T,RecommendCache)->(RecommendCache)){
+    private func fetchRecommend<T:Codable>(page:Int,type:RecommendFilter,category:String? = nil,contentId:Int? = nil,cache:RecommendCache,copletion:@escaping(T,RecommendCache)->(RecommendCache)){
         RecommendApiService.list(page: page,type:type.type.rawValue,contentsId:contentId,category: category,recommendCategory:type)
             .sink { completion in
                 self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })

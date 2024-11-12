@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UserActivityView: View {
-    let list:[RecommendCategory] = [.activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie]
+    let list:[RecommendFilter] = [.activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie]
     @StateObject var user = UserInfoManager.instance
     @EnvironmentObject var vmRecommend:RecommendViewModel
     
@@ -44,7 +44,7 @@ struct UserActivityView: View {
 
 extension UserActivityView{
     @ViewBuilder
-    func posterView(_ work:RecommendCategory) -> some View{
+    func posterView(_ work:RecommendFilter) -> some View{
         let list = vmRecommend.workList(work).list
         let contentsId = vmRecommend.workList(work).contentsId
         if !list.isEmpty{

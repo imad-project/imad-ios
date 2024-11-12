@@ -12,7 +12,6 @@ enum SortPostCategory:String,CaseIterable{
     case createdDate
     case likeCnt
     case dislikeCnt
-    
     var name:String{
         switch self{
         case .score:

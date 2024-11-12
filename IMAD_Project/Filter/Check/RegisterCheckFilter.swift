@@ -14,7 +14,6 @@ enum RegisterCheckFilter{
     case notConfirmDuplicate
     case changedEmail
     case success
-    
     var message:String{
         switch self{
         case .emptyInfomation:

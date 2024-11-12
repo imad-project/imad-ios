@@ -11,7 +11,6 @@ enum EmailCheckFilter{
     case emptyInfomation
     case emailFormatError
     case success
-    
     var message:String{
         switch self{
         case .emptyInfomation:

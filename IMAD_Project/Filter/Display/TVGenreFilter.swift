@@ -24,7 +24,6 @@ enum TVGenreFilter: Int,CaseIterable {
     case talk = 10767
     case warPolitics = 10768
     case western = 37
-    
     var name: String {
         switch self {
         case .actionAdventure: return "액션&어드벤쳐"

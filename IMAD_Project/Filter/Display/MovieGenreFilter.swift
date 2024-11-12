@@ -27,7 +27,6 @@ enum MovieGenreFilter: Int,CaseIterable {
     case thriller = 53
     case war = 10752
     case western = 37
-    
     var name: String {
         switch self {
         case .action: return "액션"

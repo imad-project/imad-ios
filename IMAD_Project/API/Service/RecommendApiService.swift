@@ -21,7 +21,7 @@ class RecommendApiService{
             .value()
             .eraseToAnyPublisher()
     }
-    static func list<T:Decodable>(page:Int,type:String,contentsId:Int? = nil,category:String? = nil,recommendCategory:RecommendCategory) -> AnyPublisher<T,AFError>{
+    static func list<T:Decodable>(page:Int,type:String,contentsId:Int? = nil,category:String? = nil,recommendCategory:RecommendFilter) -> AnyPublisher<T,AFError>{
         print("\(recommendCategory.endPoint) 작품 추천 api 호출")
         return ApiClient.shared.session
             .request(RecommendRouter.list(page: page, type: type, contentsId: contentsId, category: category, recommendCateogry: recommendCategory),interceptor: interseptor)

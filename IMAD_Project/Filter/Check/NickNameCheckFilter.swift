@@ -13,7 +13,6 @@ enum NicknameCheckFilter{
     case notConfirmDuplicate
     case changedNickname
     case success
-    
     var message:String{
         switch self{
         case .emptyInfomation:

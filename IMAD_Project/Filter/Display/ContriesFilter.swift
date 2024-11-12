@@ -12,7 +12,7 @@ enum CountryKey: String {
     case englishName = "english_name"
     case nativeName = "native_name"
 }
-class ContriesCategory:ObservableObject{
+class ContriesFilter:ObservableObject{
     
     @Published var contriesData:[String: String] = [:]
     @Published var nativename = [String]()

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RecommendCategory:String,CaseIterable{
+enum RecommendFilter:String,CaseIterable{
     case genreTv
     case genreMovie
     case trendTv
@@ -20,7 +20,6 @@ enum RecommendCategory:String,CaseIterable{
     case topRateMovie
     case popluarTv
     case popluarMovie
-    
     var name:String{
         switch self{
         case .genreTv,.trendTv,.topRateTv,.popluarTv,.activityTv: "시리즈"
@@ -43,7 +42,7 @@ enum RecommendCategory:String,CaseIterable{
         case .genreMovie,.topRateMovie,.popluarMovie,.trendMovie,.activityMovie,.activityAnimationMovie: return .movie
         }
     }
-    var option:[RecommendCategory]{
+    var option:[RecommendFilter]{
         switch self{
         case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:
             return [self]

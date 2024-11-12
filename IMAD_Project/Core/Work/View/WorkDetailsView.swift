@@ -12,7 +12,7 @@ struct WorkDetailsView: View {
     let work:WorkResponse
     @State var detail:Season?
     @State var isExtend = false
-    @StateObject var category = ContriesCategory()
+    @StateObject var category = ContriesFilter()
     
     
     var body: some View {

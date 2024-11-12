@@ -14,7 +14,7 @@ import AuthenticationServices
 final class AuthViewModel:ObservableObject{
     
     
-    @Published var selection:RegisterCategory = .nickname     //탭뷰
+    @Published var selection:RegisterFilter = .nickname     //탭뷰
     @Published var check = (nickname:false,gender:false)
     @Published var patchUser:PatchUserInfo = PatchUserInfo(user: nil)
     @Published var user:UserResponse? = nil
