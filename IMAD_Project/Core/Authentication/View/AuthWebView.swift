@@ -7,7 +7,7 @@ struct AuthWebView: View {
     let webView: WKWebView = WKWebView()
     let webViewDelegate = WebViewDelegate()
     
-    let filter: OauthFilter
+    let filter: OauthCategory
     @State var loginMode = false
     @Binding var failed:Bool
     @EnvironmentObject var vm: AuthViewModel

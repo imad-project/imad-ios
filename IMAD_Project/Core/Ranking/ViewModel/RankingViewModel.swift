@@ -31,7 +31,7 @@ class RankingViewModel:ObservableObject{
             fetchRanking(page: 1, ranking: ranking) { response,ranking in
                 var ranking = ranking
                 ranking.maxPage = response.totalPages
-                ranking.list = response.detailsList
+                ranking.list = response.detailList
                 return ranking
             }
         }
@@ -39,7 +39,7 @@ class RankingViewModel:ObservableObject{
     func getRankingNextPage(nextPage:Int,ranking:RankingCache){
         fetchRanking(page: nextPage, ranking: ranking) { response,ranking in
             var ranking = ranking
-            ranking.list.append(contentsOf: response.detailsList)
+            ranking.list.append(contentsOf: response.detailList)
             ranking.currentPage = nextPage
             return ranking
         }
@@ -58,7 +58,7 @@ class RankingViewModel:ObservableObject{
             fetchPopularPosting()
         }
     }
-    private func fetchRanking(page:Int,ranking:RankingCache,completion:@escaping (RankingResponse,RankingCache)->(RankingCache)){
+    private func fetchRanking(page:Int,ranking:RankingCache,completion:@escaping (NetworkListResponse<RankingResponse>,RankingCache)->(RankingCache)){
         RankingApiService.ranking(endPoint: ranking.rankingType, page: page, mediaType: ranking.mediaType.rawValue)
             .sink { completion in
                 self.errorManager.showErrorMessage(completion: completion)

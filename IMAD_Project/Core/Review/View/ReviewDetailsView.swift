@@ -22,7 +22,7 @@ struct ReviewDetailsView: View {
     @State var menu = false
     @State var delete = false
     @Environment(\.dismiss) var dismiss
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @StateObject var user = UserInfoManager.instance
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
     @StateObject var vmReport = ReportViewModel()
     
@@ -47,13 +47,10 @@ struct ReviewDetailsView: View {
             }
         }
         .progress(vm.review != nil)
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
-        }
         .sheet(isPresented: $profile){
             ZStack{
                 Color.white.ignoresSafeArea()
-                OtherProfileView(id: vm.review?.userID ?? 0)
+                OtherUsersProfileView(id: vm.review?.userID ?? 0)
             }
             
         }
@@ -77,7 +74,7 @@ struct ReviewDetailsView: View {
                 let out = Alert.Button.default(Text("나가기")){
                     dismiss()
                 }
-                return Alert(title: Text("경고"),message: Text("이 게시물은 \(vmAuth.user?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
+                return Alert(title: Text("경고"),message: Text("이 게시물은 \(user.cache?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
             }
             
         }
@@ -100,7 +97,7 @@ struct ReviewDetailsView_Previews: PreviewProvider {
 }
 
 extension ReviewDetailsView{
-    func header(review:ReadReviewResponse) ->some View{
+    func header(review:ReviewResponse) ->some View{
         VStack{
             HStack{
                 HeaderView(backIcon: "chevron.left", text: "리뷰"){
@@ -138,7 +135,7 @@ extension ReviewDetailsView{
                     
                     .confirmationDialog("", isPresented: $menu,actions: {
                         NavigationLink {
-                            WriteReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
+                            CreateReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
                                 .navigationBarBackButtonHidden()
                         } label: {
                             Text("수정하기")
@@ -172,12 +169,12 @@ extension ReviewDetailsView{
         
     }
     
-    func workInfoView(review:ReadReviewResponse)->some View{
+    func workInfoView(review:ReviewResponse)->some View{
         VStack(alignment: .leading) {
             HStack{
                 VStack(alignment: .leading) {
                     HStack{
-                        if review.userNickname == vmAuth.user?.nickname{
+                        if review.userNickname == user.cache?.nickname{
                             ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
                         }else{
                             Button {
@@ -215,7 +212,7 @@ extension ReviewDetailsView{
         }
         .padding(10)
     }
-    func contentAndLikeView(review:ReadReviewResponse) -> some View{
+    func contentAndLikeView(review:ReviewResponse) -> some View{
         VStack(alignment: .leading){
             Text(review.content)
                 .font(.subheadline)
@@ -244,7 +241,7 @@ extension ReviewDetailsView{
         }
         .padding(.horizontal,10)
     }
-    func likeStatusView(review:ReadReviewResponse) -> some View{
+    func likeStatusView(review:ReviewResponse) -> some View{
         HStack{
             Button {
                 vm.like(review: review)

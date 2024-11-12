@@ -44,7 +44,7 @@ class WebViewDelegate: NSObject, WKNavigationDelegate {
         }
         decisionHandler(.allow)
         if (200...300) ~= httpResponse.statusCode{
-            if UserDefaultManager.shared.checkToken(response: httpResponse) {
+            if TokenManager.shared.checkToken(response: httpResponse) {
                 success.send()
             }
         }

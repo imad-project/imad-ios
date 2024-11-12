@@ -15,20 +15,10 @@ public extension String {
         }
         return ""
     }
-    
-    func base64() -> String {
-        if let strData = self.data(using: .utf8) {
-            return strData.base64EncodedString()
-        }
-        
-        return ""
-    }
-    
     func getImadImage() -> String{
         return "https://image.tmdb.org/t/p" + "/original" + self
     }
     func translationKorean() -> String{
-  
         switch self{
         case "Producer":
             return "프로듀서"
@@ -45,12 +35,10 @@ public extension String {
         default:
             return "기타"
         }
-        
     }
     func relativeTime() -> String {
         let currentDate = Date()
         let calendar = Calendar.current
-
         
         let inputDate = self.toDate()
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: inputDate, to: currentDate)
@@ -80,7 +68,6 @@ public extension String {
             let character = self[index]
             let number = Int(String(character))!
             return number
-           
     }
     func getImageURL()->String{
         "https://\(Bundle.main.infoDictionary?["IMAGE_PATH"] ?? "")\(self)"

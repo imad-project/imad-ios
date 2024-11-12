@@ -15,7 +15,7 @@ class UserViewModel:ObservableObject{
     @Published var profile:ProfileResponse? = nil
     @Published var currentPage = 1
     @Published var maxPage = 1
-    @Published var bookmarkList:[BookmarkListResponse] = []
+    @Published var bookmarkList:[BookmarkResponse] = []
     
     func fetchProfile(id:Int,page:Int){
         UserApiService.otheruUser(id: id)
@@ -31,7 +31,7 @@ class UserViewModel:ObservableObject{
             } receiveValue: { [weak self] profile in
                 if let data = profile.data{
                     self?.profile = data
-                    self?.bookmarkList.append(contentsOf: data.bookmarkListResponse.bookmarkDetailsList)
+                    self?.bookmarkList.append(contentsOf:data.bookmarkListResponse.detailList)
                     self?.maxPage = data.bookmarkListResponse.totalPages
                 }
             }.store(in: &cancelable)

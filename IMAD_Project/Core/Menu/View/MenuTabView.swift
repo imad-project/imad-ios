@@ -10,25 +10,24 @@ import Kingfisher
 
 struct MenuTabView: View {
     
-    @State var tab:TabFilter = .home
+    @State var tab:TabCategory = .home
     @State var tabInfo:CGFloat = 0
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var user = UserInfoManager.instance
     
     var body: some View {
         VStack(spacing: 0){
             TabView(selection: $tab){
                 MainView()
-                    .tag(TabFilter.home)
+                    .tag(TabCategory.home)
                 CommunityView()
-                    .tag(TabFilter.community)
+                    .tag(TabCategory.community)
                 SearchView(backMode: true, postingMode: false, back: .constant(false))
-                    .tag(TabFilter.notification)
-                ProfileView()
-                    .tag(TabFilter.profile)
+                    .tag(TabCategory.notification)
+                UserProfileView()
+                    .tag(TabCategory.profile)
             }
             menu
         }
-        .environmentObject(vmAuth)
         .ignoresSafeArea(.keyboard)
         .onAppear{ UITabBar.appearance().isHidden = true } //탭바 숨김
     }
@@ -38,7 +37,6 @@ struct MenuTabView_Previews: PreviewProvider {
     static var previews: some View {
         MenuTabView()
             .environment(\.colorScheme,.light)
-            .environmentObject(AuthViewModel(user: CustomData.user))
     }
 }
 
@@ -46,7 +44,7 @@ extension MenuTabView{
     @MainActor
     var menu: some View {
         HStack{
-            ForEach(TabFilter.allCases,id:\.self){ item in
+            ForEach(TabCategory.allCases,id:\.self){ item in
                 GeometryReader{ geo in
                     let minX = geo.frame(in: .global).minX
                     let mid = geo.frame(in: .local)
@@ -62,7 +60,7 @@ extension MenuTabView{
                                     Image(systemName: item.name)
                                         .font(.GmarketSansTTFBold(20))
                                 }else{
-                                    ProfileImageView(imagePath: vmAuth.user?.profileImage ?? "",widthHeigt: 30)
+                                    ProfileImageView(imagePath:user.cache?.profileImage ?? "",widthHeigt: 30)
                                         .padding(.top,5)
                                 }
                             }

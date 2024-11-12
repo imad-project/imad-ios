@@ -14,12 +14,12 @@ struct MainView: View {
     @State private var screenSize: CGSize = UIScreen.main.bounds.size
     @StateObject var vmRanking = RankingViewModel(ranking: nil, popular: PopularCache(review: nil,posting: nil))
     @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil, recommendList: nil)
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var user = UserInfoManager.instance
     
     var body: some View {
         ScrollView(showsIndicators: false){
             LazyVStack(alignment:.leading,spacing:5){
-                if let user = vmAuth.user{
+                if let user = user.cache{
                     titleView(user: user)
                     trendView
                     trendWorkView
@@ -39,11 +39,9 @@ struct MainView: View {
         .refreshable {listUpdate(true) }
         .progress(vmRecommend.recommendAll != nil)
         .ignoresSafeArea(edges:.bottom)
-        .onReceive(vmRecommend.refreschTokenExpired){ vmAuth.logout(tokenExpired: true) }
         .onAppear { listUpdate(false) }
         .environmentObject(vmRanking)
         .environmentObject(vmRecommend)
-        .environmentObject(vmAuth)
     }
 }
 
@@ -52,8 +50,7 @@ struct MainView_Previews: PreviewProvider {
         NavigationStack{
             let rankingCache = RankingCache(id: "a", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: CustomData.rankingList)
             let popularCache = PopularCache(review: CustomData.review,posting: CustomData.community)
-            MainView(vmRanking:RankingViewModel(ranking:rankingCache, popular: popularCache),vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
-                .environmentObject(AuthViewModel(user:CustomData.user))
+            MainView(vmRanking:RankingViewModel(ranking:rankingCache, popular: popularCache), vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
                 .environment(\.colorScheme, .light)
         }
     }
@@ -62,7 +59,7 @@ struct MainView_Previews: PreviewProvider {
 extension MainView{
     func titleView(user:UserResponse) -> some View{
         Text((user.nickname ?? "") + "님 환영합니다")
-            .font(.GmarketSansTTFMedium(isPad() ? 40 : 25))
+            .font(.GmarketSansTTFMedium(isPad ? 40 : 25))
             .fontWeight(.black)
             .padding(.horizontal,10)
             .padding(.bottom)
@@ -77,14 +74,14 @@ extension MainView{
                             .navigationBarBackButtonHidden()
                     } label: {
                         VStack{
-                            KFImageView(image: work.posterPath ?? "",width:isPad() ? 300 : 175,height: isPad() ? 370 : 240)
+                            KFImageView(image: work.posterPath ?? "",width:isPad ? 300 : 175,height: isPad ? 370 : 240)
                                 .cornerRadius(5)
                             Text(trend ? work.name ?? "" : work.title ?? "")
                                 .bold()
-                                .font(.GmarketSansTTFMedium(isPad() ? 20 :15))
+                                .font(.GmarketSansTTFMedium(isPad ? 20 :15))
                                 .lineLimit(1)
-                            Text(work.genreType == .tv ? work.genreId?.transTvGenreCode() ?? "" : work.genreId?.transMovieGenreCode() ?? "")
-                                .font(.GmarketSansTTFMedium(isPad() ? 17.5 :12))
+                            Text(work.genreType == .tv ? work.genreIds?.transTvGenreCode() ?? "" : work.genreIds?.transMovieGenreCode() ?? "")
+                                .font(.GmarketSansTTFMedium(isPad ? 17.5 :12))
                                 .lineLimit(1)
                         }
                         .foregroundColor(.white)
@@ -111,7 +108,7 @@ extension MainView{
             }
             .onChange(of: geometry.size){ screenSize = $0 }
         }
-        .frame(height:isPad() ? 500 : 350)
+        .frame(height:isPad ? 500 : 350)
         .tabViewStyle(.page)
         .colorScheme(.dark)
     }
@@ -121,7 +118,7 @@ extension MainView{
             HStack{
                 Text("인기작품")
                     .fontWeight(.black)
-                    .font(.GmarketSansTTFMedium(isPad() ? 30 : 20))
+                    .font(.GmarketSansTTFMedium(isPad ? 30 : 20))
                     .foregroundColor(.customIndigo)
                 Button {
                     withAnimation(.default){
@@ -129,7 +126,7 @@ extension MainView{
                     }
                 } label: {
                     Text("영화")
-                        .font(.GmarketSansTTFMedium(isPad() ? 23: 15))
+                        .font(.GmarketSansTTFMedium(isPad ? 23: 15))
                         .opacity(trend ? 0.5 : 1.0)
                 }
                 Text(" l ").foregroundColor(.gray)
@@ -139,7 +136,7 @@ extension MainView{
                     }
                 } label: {
                     Text("시리즈")
-                        .font(.GmarketSansTTFMedium(isPad() ? 23: 15))
+                        .font(.GmarketSansTTFMedium(isPad ? 23: 15))
                         .opacity(trend ? 1.0 : 0.5)
                 }
                 Spacer()

@@ -25,44 +25,44 @@ class RecommendViewModel:ObservableObject{
         self.recommendAll = recommendAll
         self.recommendList = recommendList
     }
-    func workList(_ type:RecommendListType)->(list:[WorkGenre],contentsId:Int?){
+    func workList(_ type:RecommendFilter)->(list:[RecommendResponse],contentsId:Int?){
         switch type{
         case .genreTv:
             let data = recommendAll?.preferredGenreRecommendationTv
-            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .genreMovie:
             let data = recommendAll?.preferredGenreRecommendationMovie
-            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .trendTv:
             let data = recommendAll?.trendRecommendationTv
-            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .trendMovie:
             let data = recommendAll?.trendRecommendationMovie
-            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .activityTv:
             let data = recommendAll?.userActivityRecommendationTv
-            return (data?.results.prefix(8).map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .activityAnimationTv:
             let data = recommendAll?.userActivityRecommendationTvAnimation
-            return (data?.results.prefix(8).map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .activityMovie:
             let data = recommendAll?.userActivityRecommendationMovie
-            return (data?.results.prefix(8).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .activityAnimationMovie:
             let data = recommendAll?.userActivityRecommendationMovieAnimation
-            return (data?.results.prefix(8).map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .topRateTv:
             let data = recommendAll?.topRatedRecommendationTv
-            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .topRateMovie:
             let data = recommendAll?.topRatedRecommendationMovie
-            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .popluarTv:
             let data = recommendAll?.popularRecommendationTv
-            return (data?.results.map{ TVWorkGenre(tvGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         case .popluarMovie:
             let data = recommendAll?.popularRecommendationMovie
-            return (data?.results.map{ MovieWorkGenre(movieGenre: $0) } ?? [],data?.contentsID)
+            return (data?.results ?? [],data?.contentsID)
         }
     }
     func getAllRecommend(){
@@ -72,7 +72,7 @@ class RecommendViewModel:ObservableObject{
             fetchAllRecommend()
         }
     }
-    func getTrendRecommend(page:Int,getNextPage:Bool,type:RecommendListType,cache:RecommendCache){
+    func getTrendRecommend(page:Int,getNextPage:Bool,type:RecommendFilter,cache:RecommendCache){
         if getNextPage{
             self.getTrendRecommend(page:page,type:type,cache:cache,getPageMode:true)
         }else{
@@ -81,7 +81,7 @@ class RecommendViewModel:ObservableObject{
             }
         }
     }
-    func getGenreRecommend(page:Int,getNextPage:Bool,type:RecommendListType,cache:RecommendCache){
+    func getGenreRecommend(page:Int,getNextPage:Bool,type:RecommendFilter,cache:RecommendCache){
         if getNextPage{
             self.getGenreRecommend(page:page,type:type,cache:cache,getPageMode:true)
         }else{
@@ -90,7 +90,7 @@ class RecommendViewModel:ObservableObject{
             }
         }
     }
-    func getImadRecommend(page:Int,getNextPage:Bool,category:ImadRecommendFilter,type:RecommendListType,cache:RecommendCache){
+    func getImadRecommend(page:Int,getNextPage:Bool,category:ImadRecommendFilter,type:RecommendFilter,cache:RecommendCache){
         if getNextPage{
             self.getImadRecommend(page:page,type:type,category:category,cache:cache,getPageMode:true)
         }else{
@@ -99,7 +99,7 @@ class RecommendViewModel:ObservableObject{
             }
         }
     }
-    func getActivityRecommend(page:Int,getNextPage:Bool,contentsId:Int,type:RecommendListType,cache:RecommendCache){
+    func getActivityRecommend(page:Int,getNextPage:Bool,contentsId:Int,type:RecommendFilter,cache:RecommendCache){
         if getNextPage{
             self.getActivityRecommend(page:page,type:type,contentsId:contentsId,cache:cache,getPageMode:true)
         }else{
@@ -108,72 +108,72 @@ class RecommendViewModel:ObservableObject{
             }
         }
     }
-    private func getTrendRecommend(page:Int,type:RecommendListType,cache:RecommendCache,getPageMode:Bool){
+    private func getTrendRecommend(page:Int,type:RecommendFilter,cache:RecommendCache,getPageMode:Bool){
         self.fetchRecommend(page:page,type:type,cache: cache){ (response:TrendRecommendResponse,cache) in
             var cache = cache
             cache.currentPage = page
             switch type.type{
             case .tv:
-                cache.list = (getPageMode ? cache.list : []) + (response.trendRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.trendRecommendationTv?.results ?? [])
                 cache.maxPage = response.trendRecommendationTv?.totalPages ?? 0
             case .movie:
-                cache.list = (getPageMode ? cache.list : []) + (response.trendRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.trendRecommendationMovie?.results ?? [])
                 cache.maxPage = response.trendRecommendationMovie?.totalPages ?? 0
             }
             return cache
         }
     }
-    private func getGenreRecommend(page:Int,type:RecommendListType,cache:RecommendCache,getPageMode:Bool){
+    private func getGenreRecommend(page:Int,type:RecommendFilter,cache:RecommendCache,getPageMode:Bool){
         self.fetchRecommend(page:page,type:type,cache: cache){ (response:GenreRecommendResponse,cache) in
             var cache = cache
             cache.currentPage = page
             switch type.type{
             case .tv:
-                cache.list = (getPageMode ? cache.list : []) + (response.preferredGenreRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.preferredGenreRecommendationTv?.results ?? [])
                 cache.maxPage = response.preferredGenreRecommendationTv?.totalPages ?? 0
             case .movie:
-                cache.list = (getPageMode ? cache.list : []) + (response.preferredGenreRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.preferredGenreRecommendationMovie?.results ?? [])
                 cache.maxPage = response.preferredGenreRecommendationMovie?.totalPages ?? 0
             }
             return cache
         }
     }
-    private func getImadRecommend(page:Int,type:RecommendListType,category:ImadRecommendFilter,cache:RecommendCache,getPageMode:Bool){
+    private func getImadRecommend(page:Int,type:RecommendFilter,category:ImadRecommendFilter,cache:RecommendCache,getPageMode:Bool){
         fetchRecommend(page:page,type:type,category:category.rawValue,cache: cache){ (response:ImadRecommendResponse,cache) in
             var cache = cache
             cache.currentPage = page
             switch (type.type,category){
             case (.tv,.popular):
-                cache.list = (getPageMode ? cache.list : []) + (response.popularRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.popularRecommendationTv?.results ?? [])
                 cache.maxPage = response.popularRecommendationTv?.totalPages ?? 0
             case (.tv,.topRated):
-                cache.list = (getPageMode ? cache.list : []) + (response.topRatedRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.topRatedRecommendationTv?.results ?? [])
                 cache.maxPage = response.topRatedRecommendationTv?.totalPages ?? 0
             case (.movie,.popular):
-                cache.list = (getPageMode ? cache.list : []) + (response.popularRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.popularRecommendationMovie?.results ?? [])
                 cache.maxPage = response.popularRecommendationMovie?.totalPages ?? 0
             case (.movie,.topRated):
-                cache.list = (getPageMode ? cache.list : []) + (response.topRatedRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.topRatedRecommendationMovie?.results ?? [])
                 cache.maxPage = response.topRatedRecommendationMovie?.totalPages ?? 0
             }
             return cache
         }
     }
-    private func getActivityRecommend(page:Int,type:RecommendListType,contentsId:Int,cache:RecommendCache,getPageMode:Bool){
+    private func getActivityRecommend(page:Int,type:RecommendFilter,contentsId:Int,cache:RecommendCache,getPageMode:Bool){
         fetchRecommend(page:page,type:type,contentId:contentsId,cache: cache){ (response:ActivityRecommendResponse,cache) in
             var cache = cache
             switch type{
             case .activityTv:
-                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationTv?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationTv?.results ?? [])
                 cache.maxPage = response.userActivityRecommendationTv?.totalPages ?? 0
             case .activityMovie:
-                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationMovie?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationMovie?.results ?? [])
                 cache.maxPage = response.userActivityRecommendationMovie?.totalPages ?? 0
             case .activityAnimationTv:
-                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationTvAnimation?.results.map{TVWorkGenre(tvGenre: $0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationTvAnimation?.results ?? [])
                 cache.maxPage = response.userActivityRecommendationTvAnimation?.totalPages ?? 0
             case .activityAnimationMovie:
-                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationMovieAnimation?.results.map{MovieWorkGenre(movieGenre:$0)} ?? [])
+                cache.list = (getPageMode ? cache.list : []) + (response.userActivityRecommendationMovieAnimation?.results ?? [])
                 cache.maxPage = response.userActivityRecommendationMovieAnimation?.totalPages ?? 0
             default:break
             }
@@ -190,8 +190,8 @@ class RecommendViewModel:ObservableObject{
                 self?.recommendManager.recommendAllOfUpdateData(key:"AllRecommand", data: data)
             }.store(in: &cancelable)
     }
-    private func fetchRecommend<T:Codable>(page:Int,type:RecommendListType,category:String? = nil,contentId:Int? = nil,cache:RecommendCache,copletion:@escaping(T,RecommendCache)->(RecommendCache)){
-        RecommendApiService.list(page: page,type:type.type.rawValue,contentsId:contentId,category: category,recommendListType:type)
+    private func fetchRecommend<T:Codable>(page:Int,type:RecommendFilter,category:String? = nil,contentId:Int? = nil,cache:RecommendCache,copletion:@escaping(T,RecommendCache)->(RecommendCache)){
+        RecommendApiService.list(page: page,type:type.type.rawValue,contentsId:contentId,category: category,recommendCategory:type)
             .sink { completion in
                 self.errorManager.actionErrorMessage(completion: completion, failed: { self.refreschTokenExpired.send() })
                 self.currentPage = page

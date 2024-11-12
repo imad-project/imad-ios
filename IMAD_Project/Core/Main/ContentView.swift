@@ -12,21 +12,21 @@ struct ContentView: View {
     @State var isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch") //온보딩
     @State var flashOn = true
     @StateObject var vmAuth = AuthViewModel(user:nil)
-    
+    @StateObject var user = UserInfoManager.instance
     var body: some View {
         ZStack {
             if flashOn{
                 SplashView(off: $flashOn)
             }else{
                 if isFirstLaunch{
-                    if let user = vmAuth.user{
+                    if let user = user.cache{
                         if user.role == "GUEST"{
-                            RegisterTabView()
+                            UpdateUserProfileView()
                         }else{
                             MenuTabView()
                         }
                     }else{
-                        LoginAllView()
+                        LoginView()
                     }
                 }else{
                     OnBoardingTabView(isFirstLaunch: $isFirstLaunch)
@@ -34,10 +34,9 @@ struct ContentView: View {
             }
         }
         .onAppear{ 
-            vmAuth.getUser()
+            if user.cache == nil{ vmAuth.getUser() }
             KingfisherManager.shared.cache.memoryStorage.config.totalCostLimit = 200 * 1024 * 1024
         }
-        .environmentObject(vmAuth)
     }
 }
 

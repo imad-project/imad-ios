@@ -1,5 +1,5 @@
 //
-//  RankingResponse.swift
+//  RankingResponseList.swift
 //  IMAD_Project
 //
 //  Created by 유영웅 on 1/8/24.
@@ -7,20 +7,22 @@
 
 import Foundation
 
-struct RankingResponse: Codable{
-    var detailsList: [RankingResponseList]
-    let totalElements, totalPages, pageNumber, numberOfElements: Int
-    let sizeOfPage, sortDirection: Int
-    let sortProperty: String
+struct RankingResponse: Codable,Hashable {
+    let id = UUID()
+    let contentsID: Int
+    let contentsType: String
+    let imadScore: Double?
+    let title, posterPath: String
+    let ranking:Int
+    let rankingChanged: Int?
     
     enum CodingKeys: String, CodingKey {
-        case detailsList = "details_list"
-        case totalElements = "total_elements"
-        case totalPages = "total_pages"
-        case pageNumber = "page_number"
-        case numberOfElements = "number_of_elements"
-        case sizeOfPage = "size_of_page"
-        case sortDirection = "sort_direction"
-        case sortProperty = "sort_property"
+        case contentsID = "contents_id"
+        case contentsType = "contents_type"
+        case imadScore = "imad_score"
+        case title
+        case posterPath = "poster_path"
+        case ranking
+        case rankingChanged = "ranking_changed"
     }
 }

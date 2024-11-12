@@ -11,7 +11,7 @@ import Alamofire
 enum RecommendRouter:URLRequestConvertible{
     
     case all
-    case list(page:Int,type:String,contentsId:Int?,category:String?,recommendListType:RecommendListType)
+    case list(page:Int,type:String,contentsId:Int?,category:String?,recommendCateogry:RecommendFilter)
     
     var baseURL:URL{
         return URL(string: ApiClient.baseURL)!
@@ -29,7 +29,7 @@ enum RecommendRouter:URLRequestConvertible{
     var parameters:Parameters{
         switch self{
         case .all: return Parameters()
-        case let .list(page, type, contentsId, category, recommendListType):
+        case let .list(page,type,contentsId,category,_):
             var params = Parameters()
             params["page"] = page
             params["type"] = type

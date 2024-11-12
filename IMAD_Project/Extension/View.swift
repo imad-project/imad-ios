@@ -60,7 +60,7 @@ extension View{
         HStack{
             Text(text)
                 .fontWeight(.black)
-                .font(.GmarketSansTTFMedium(isPad() ? 30 : 20))
+                .font(.GmarketSansTTFMedium(isPad ? 30 : 20))
                 .foregroundColor(.customIndigo)
             Spacer()
         }
@@ -73,26 +73,21 @@ extension View{
                 .navigationBarBackButtonHidden()
         } label: {
             Text("전체보기")
-                .font(.GmarketSansTTFMedium(isPad() ? 18 : 14))
+                .font(.GmarketSansTTFMedium(isPad ? 18 : 14))
                 .fontWeight(.regular)
                 .foregroundColor(.customIndigo)
         }
     }
-    func isWidth()->Bool{
+    var isWidth:Bool{
         UIDevice.current.orientation.isLandscape
     }
-    
     var mainWidth:CGFloat{
         UIScreen.main.bounds.width
     }
     var mainHeight:CGFloat{
         UIScreen.main.bounds.height
     }
-    func isPad()->Bool{
+    var isPad:Bool{
         UIDevice.current.userInterfaceIdiom == .pad
     }
-    func haptics(_ style:UIImpactFeedbackGenerator.FeedbackStyle){
-        UIImpactFeedbackGenerator(style: style).impactOccurred()
-    }
-   
 }

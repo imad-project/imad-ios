@@ -13,12 +13,12 @@ enum AuthApiService{
     
     static let intercept = BaseIntercept()
     
-    static func login(email:String,password:String) -> AnyPublisher<UserInfo,AFError>{
+    static func login(email:String,password:String) -> AnyPublisher<NetworkResponse<UserResponse>,AFError>{
         print("로그인 api 호출")
         return ApiClient.shared.session
             .request(AuthRouter.login(email: email, password: password))
-            .response{let _ = UserDefaultManager.shared.checkToken(response: $0.response)}
-            .publishDecodable(type: UserInfo.self)
+            .response{let _ = TokenManager.shared.checkToken(response: $0.response)}
+            .publishDecodable(type: NetworkResponse<UserResponse>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지 : \(receivedValue.message)")
@@ -27,12 +27,12 @@ enum AuthApiService{
             .eraseToAnyPublisher()
     }
     
-    static func register(email:String,password:String,authProvider:String) -> AnyPublisher<NoDataResponse,AFError>{
+    static func register(email:String,password:String,authProvider:String) -> AnyPublisher<NetworkResponse<Int>,AFError>{
         print("회원가입 api 호출")
         return ApiClient.shared.session
             .request(AuthRouter.register(email: email, password: password,authProvider:authProvider))
-            .response{let _ = UserDefaultManager.shared.checkToken(response: $0.response)}
-            .publishDecodable(type: NoDataResponse.self)
+            .response{let _ = TokenManager.shared.checkToken(response: $0.response)}
+            .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지 : \(receivedValue.message)")
@@ -41,12 +41,12 @@ enum AuthApiService{
             .eraseToAnyPublisher()
     }
     
-    static func delete(authProvier:String) -> AnyPublisher<NoDataResponse,AFError>{
+    static func delete(authProvier:String) -> AnyPublisher<NetworkResponse<Int>,AFError>{
         print("회원탈퇴 api 호출")
         return ApiClient.shared.session
             .request(authProvier != "IMAD" ? AuthRouter.oauthDelete(authProvider:authProvier) : AuthRouter.delete,interceptor: intercept)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: NoDataResponse.self)
+            .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")
@@ -59,7 +59,7 @@ enum AuthApiService{
         ApiClient.shared.session
             .request(AuthRouter.appleLogin(state: state, code: authorizationCode, user: userIdentity, idToken: idToken))
             .response{ response in
-                 compleion(UserDefaultManager.shared.checkToken(response: response.response))
+                 compleion(TokenManager.shared.checkToken(response: response.response))
             }
     }
 }

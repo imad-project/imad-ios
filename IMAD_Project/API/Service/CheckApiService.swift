@@ -13,11 +13,11 @@ enum CheckApiService{
     
     static var intercept = BaseIntercept()
     
-    static func checkEmail(email:String) -> AnyPublisher<Validation,AFError>{
+    static func checkEmail(email:String) -> AnyPublisher<NetworkResponse<ValidationResponse>,AFError>{
         print("email중복검사 api 호출")
         return ApiClient.shared.session
             .request(CheckRouter.checkEmail(email: email))
-            .publishDecodable(type: Validation.self)
+            .publishDecodable(type:NetworkResponse<ValidationResponse>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")
@@ -25,11 +25,11 @@ enum CheckApiService{
             }
             .eraseToAnyPublisher()
     }
-    static func checkNickname(nickname:String) -> AnyPublisher<Validation,AFError>{
+    static func checkNickname(nickname:String) -> AnyPublisher<NetworkResponse<ValidationResponse>,AFError>{
         print("닉네임 중복검사 api 호출")
         return ApiClient.shared.session
             .request(CheckRouter.checkNickname(nickname: nickname))
-            .publishDecodable(type: Validation.self)
+            .publishDecodable(type:NetworkResponse<ValidationResponse>.self)
             .value()
             .map{ receivedValue in
                 print("결과 메세지  : \(receivedValue.message)")

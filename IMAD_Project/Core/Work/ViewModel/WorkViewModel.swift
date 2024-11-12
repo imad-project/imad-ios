@@ -12,7 +12,7 @@ import Combine
 class WorkViewModel:ObservableObject{
     
     @Published var workInfo:WorkResponse? = nil
-    @Published var bookmarkList:[BookmarkListResponse] = []
+    @Published var bookmarkList:[BookmarkResponse] = []
     @Published var profileInfo:ProfileResponse? = nil
     
     @Published var currentPage = 1
@@ -23,7 +23,7 @@ class WorkViewModel:ObservableObject{
     var success = PassthroughSubject<Int?,Never>()  // 작품정보 불러오기 성공 후 contentsId 불러오기 위함
     var cancelable = Set<AnyCancellable>()
     
-    init(workInfo:WorkResponse?,bookmarkList:[BookmarkListResponse] ){
+    init(workInfo:WorkResponse?,bookmarkList:[BookmarkResponse] ){
         self.workInfo = workInfo
         self.bookmarkList = bookmarkList
     }
@@ -73,7 +73,7 @@ class WorkViewModel:ObservableObject{
                 self.currentPage = page
             } receiveValue: { [weak self] bookmark in
                 if let data = bookmark.data{
-                    self?.bookmarkList.append(contentsOf: data.bookmarkDetailsList)
+                    self?.bookmarkList.append(contentsOf: data.detailList)
                     self?.maxPage = data.totalPages
                 }
             }.store(in: &cancelable)
@@ -117,7 +117,7 @@ class WorkViewModel:ObservableObject{
             } receiveValue: { [weak self] profile in
                 if let data = profile.data{
                     self?.profileInfo = data
-                    self?.bookmarkList.append(contentsOf: data.bookmarkListResponse.bookmarkDetailsList)
+                    self?.bookmarkList.append(contentsOf: data.bookmarkListResponse.detailList)
                     self?.maxPage = data.bookmarkListResponse.totalPages
                 }
             }.store(in: &cancelable)

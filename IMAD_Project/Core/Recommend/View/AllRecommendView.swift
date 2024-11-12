@@ -10,9 +10,9 @@ import SwiftUI
 struct AllRecommendView: View {
     var contentsId:Int?
     @State var title:String = ""
-    @State var type:RecommendListType
+    @State var type:RecommendFilter
     @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil,recommendList: nil)
-    @EnvironmentObject var vmAuth:AuthViewModel
+    @StateObject var user = UserInfoManager.instance
     @Environment(\.dismiss) var dismiss
     
     
@@ -27,15 +27,13 @@ struct AllRecommendView: View {
             request(page:1,getNextPage:false,type,contentsId:contentsId ?? 0,cache:RecommendCache(id: type.rawValue, maxPage:1,currentPage:1,list:[]))
             title = type.title
         },{ vmRecommend.recommendList = nil})
-        .onReceive(vmRecommend.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
-        }
+        
     }
     
 }
 
 extension AllRecommendView{
-    func request(page:Int,getNextPage:Bool,_ type:RecommendListType,category:ImadRecommendFilter? = nil,contentsId:Int? = nil,cache:RecommendCache){
+    func request(page:Int,getNextPage:Bool,_ type:RecommendFilter,category:ImadRecommendFilter? = nil,contentsId:Int? = nil,cache:RecommendCache){
         switch type{
         case .activityTv,.activityMovie,.activityAnimationTv,.activityAnimationMovie:
             vmRecommend.getActivityRecommend(page:page,getNextPage:getNextPage,contentsId:contentsId ?? 0, type:type,cache:cache)
@@ -70,7 +68,7 @@ extension AllRecommendView{
                                 self.type = type
                             }
                             vmRecommend.recommendList = nil
-                            title = (type == .genreTv ? vmAuth.user?.nickname ?? "" : "") + type.title
+                            title = (type == .genreTv ? user.cache?.nickname ?? "" : "") + type.title
                             request(page:1,getNextPage:false,type,contentsId:0,cache:RecommendCache(id: type.rawValue, maxPage:1,currentPage:1,list:[]))
                         }
                     } label: {
@@ -100,11 +98,11 @@ extension AllRecommendView{
             LazyVStack(spacing:0){
                 ListView(items:vmRecommend.recommendList?.list ?? []) { work in
                     NavigationLink {
-                        WorkView(id: work.id,type: work.genreType.rawValue)
+                        WorkView(id:work.id,type:work.genreType.rawValue)
                             .navigationBarBackButtonHidden()
                     } label: {
                         HStack{
-                            KFImageView(image: work.posterPath?.getImadImage() ?? "",width: 120,height: 160)
+                            KFImageView(image:work.posterPath?.getImadImage() ?? "",width: 120,height: 160)
                                 .cornerRadius(5)
                                 .padding(.vertical)
                             VStack(alignment: .leading,spacing:10){
@@ -112,7 +110,7 @@ extension AllRecommendView{
                                     .bold()
                                     .font(.GmarketSansTTFMedium(17))
                                     .foregroundColor(.white)
-                                Text(work.genreType == .tv ? work.genreId?.transTvGenreCode() ?? "" :work.genreId?.transMovieGenreCode() ?? "")
+                                Text(work.genreType == .tv ? work.genreIds?.transTvGenreCode() ?? "" :work.genreIds?.transMovieGenreCode() ?? "")
                                     .font(.GmarketSansTTFMedium(13))
                                     .foregroundColor(.white.opacity(0.7))
                             }
@@ -139,8 +137,7 @@ extension AllRecommendView{
 
 
 #Preview {
-    let list = CustomData.recommandAll?.userActivityRecommendationTv?.results.map({TVWorkGenre(tvGenre: $0)}) ?? []
-    let cache = RecommendCache(id: "", maxPage: 1, currentPage: 1, list: list)
+    let cache = RecommendCache(id: "", maxPage: 1, currentPage: 1, list: [])
     return AllRecommendView(contentsId:1,type: .genreTv,vmRecommend: RecommendViewModel(recommendAll: nil, recommendList:cache))
         .environmentObject(AuthViewModel(user: CustomData.user))
         .background(.white)

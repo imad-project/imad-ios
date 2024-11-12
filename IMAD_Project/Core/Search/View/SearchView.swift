@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SearchView: View {
     let backMode:Bool
-    let postingMode:Bool    //MARK: true -> CommunityWriteView / false -> WorkView
+    let postingMode:Bool    //MARK: true -> CreatePostingView / false -> WorkView
     let columns =  [GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())]
   
     @State var contentsId:Int?
@@ -20,7 +20,7 @@ struct SearchView: View {
     @Binding var back:Bool
     @StateObject var vmWork = WorkViewModel(workInfo: nil, bookmarkList: [])
     @StateObject var vm = SearchViewModel()
-    @StateObject var vmAuth = AuthViewModel(user:nil)
+    @StateObject var user = UserInfoManager.instance
     
     var body: some View {
         VStack(alignment: .leading,spacing: 0){
@@ -34,9 +34,6 @@ struct SearchView: View {
         }
         .foregroundColor(.black)
         .background(Color.white)
-        .onReceive(vm.refreschTokenExpired){
-            vmAuth.logout(tokenExpired: true)
-        }
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
@@ -48,7 +45,7 @@ struct SearchView: View {
             Group{
                 if let work{
                     if postingMode{
-                        CommunityWriteView(contentsId: contentsId,  contents: (work.posterPath?.getImadImage() ?? "",work.title == nil ? work.name ?? "" : work.title ?? ""), goMain: $back)
+                        CreatePostingView(contentsId: contentsId,  contents: (work.posterPath?.getImadImage() ?? "",work.title == nil ? work.name ?? "" : work.title ?? ""), goMain: $back)
                     }else{
                         WorkView(id:work.id,type: work.mediaType)
                     }
@@ -88,7 +85,7 @@ extension SearchView{
     }
     var filter:some View{
         Picker("", selection: $vm.type) {
-            ForEach(MovieTypeFilter.allCases,id:\.self){ text in
+            ForEach(WorkTypeCategory.allCases,id:\.self){ text in
                 Text(text.name)
             }
         }

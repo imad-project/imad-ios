@@ -18,8 +18,9 @@ final class AuthViewModel:ObservableObject{
     @Published var check = (nickname:false,gender:false)
     @Published var patchUser:PatchUserInfo = PatchUserInfo(user: nil)
     @Published var user:UserResponse? = nil
-    var success = PassthroughSubject<(),Never>()
     
+    let userInfoInstance = UserInfoManager.instance
+    var success = PassthroughSubject<(),Never>()
     var registerResultEvent = PassthroughSubject<(success:Bool,message:String),Never>()
     var loginSuccess = PassthroughSubject<String,Never>()
     var cancelable = Set<AnyCancellable>()
@@ -40,6 +41,7 @@ final class AuthViewModel:ObservableObject{
             .sink { completion in
                 print(completion)
             } receiveValue: { [weak self] user in
+                self?.userInfoInstance.dataUpdate(data: user.data)
                 self?.user = user.data
                 self?.loginSuccess.send(user.message)
             }.store(in: &cancelable)
@@ -49,6 +51,7 @@ final class AuthViewModel:ObservableObject{
             .sink { completion in
                 ErrorManager.instance.actionErrorMessage(completion: completion, success: {}, failed: {self.logout(tokenExpired: true)})
             } receiveValue: { [weak self] user in
+                self?.userInfoInstance.dataUpdate(data: user.data)
                 self?.user = user.data
                 self?.patchUser = PatchUserInfo(user: user.data)
             }.store(in: &cancelable)
@@ -58,17 +61,19 @@ final class AuthViewModel:ObservableObject{
             .sink { completion in
                 ErrorManager.instance.actionErrorMessage(completion: completion, success: {}, failed: {self.logout(tokenExpired: true)})
             } receiveValue: { [weak self] user in
+                self?.userInfoInstance.dataUpdate(data: user.data)
                 self?.user = user.data
                 self?.patchUser = PatchUserInfo(user: user.data)
             }.store(in: &cancelable)
     }
     func logout(tokenExpired:Bool){
         print("로그아웃 및 토큰 삭제")
+        self.userInfoInstance.cache = nil
 //        alertMessage = ""
-        user = nil
-        patchUser = PatchUserInfo(user: nil)
+//        user = nil
+//        patchUser = PatchUserInfo(user: nil)
         selection = .nickname
-        UserDefaultManager.shared.clearAll()
+        TokenManager.shared.clearAll()
     }
     func delete(authProvier:String){
         AuthApiService.delete(authProvier:authProvier)

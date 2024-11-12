@@ -82,7 +82,7 @@ class CustomData{
         """
         return decoding(data)
     }                               //댓글
-    static var community:CommunityResponse?{
+    static var community:PostingResponse?{
         let data = """
         {
                 "posting_id": 7,
@@ -177,7 +177,7 @@ class CustomData{
         """
         return decoding(data)
     }                           //게시물
-    static var communityList:[CommunityDetailsListResponse]{
+    static var communityList:[PostingResponse]{
         let data = """
         [
             {
@@ -294,7 +294,7 @@ class CustomData{
         """
         return decoding(data)
     }           //게시물 리스트
-    static var communityDetails:CommunityDetailsListResponse?{
+    static var communityDetails:PostingResponse?{
         let data = """
         {
             "posting_id": 7,
@@ -322,7 +322,7 @@ class CustomData{
         return decoding(data)
     }         //게시물 리스트 아이템
     static var commentList:[CommentResponse]{
-    let data = """
+        let data = """
     [
             {
                 "comment_id": 22,
@@ -380,9 +380,9 @@ class CustomData{
             }
     ]
     """
-    return decoding(data)
-}                          //댓글 리스트
-    static var rankingList:[RankingResponseList]{
+        return decoding(data)
+    }                          //댓글 리스트
+    static var rankingList:[RankingResponse]{
         let data = """
         [
             {
@@ -479,7 +479,7 @@ class CustomData{
         """
         return decoding(data)
     }                      //랭킹 리스트
-    static var bookmarkList:[BookmarkListResponse]{
+    static var bookmarkList:[BookmarkResponse]{
         let data = """
         [
             {
@@ -1236,7 +1236,7 @@ class CustomData{
         """
         return decoding(data)
     }                            //작품정보 리스트
-    static var reviewDetailList:[ReadReviewResponse]{
+    static var reviewDetailList:[ReviewResponse]{
         let data = """
         [
             {
@@ -1306,7 +1306,7 @@ class CustomData{
         """
         return decoding(data)
     }                  //리뷰 리스트 아이템
-    static var review:ReadReviewResponse?{
+    static var review:ReviewResponse?{
         let data = """
         {
             "review_id": 1,
@@ -1332,7 +1332,7 @@ class CustomData{
         """
         return decoding(data)
     }                             //스크랩 리스트
-    static var scrapList:[ScrapListResponse]{
+    static var scrapList:[ScrapResponse]{
         let data = """
         [
             {
