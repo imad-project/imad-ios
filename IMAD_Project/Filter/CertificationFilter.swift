@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 enum CertificationFilter:String,CaseIterable{
-    
     case all = "All"
     case seven = "7"
     case twelve = "12"
@@ -18,7 +17,6 @@ enum CertificationFilter:String,CaseIterable{
     case screening = "Restricted Screening"
     case exempt = "Exempt"
     case none = "NONE"
-    
     var color:Color{
         switch self{
         case .all:
@@ -39,7 +37,6 @@ enum CertificationFilter:String,CaseIterable{
             return Color.black
         }
     }
-    
     var name:String{
         switch self{
         case .all:
@@ -60,5 +57,4 @@ enum CertificationFilter:String,CaseIterable{
             return "미상"
         }
     }
-    
 }

@@ -18,8 +18,8 @@ struct SearchPostingView: View {
     @State var text = ""
     
     @State var goCommunity = false
-    @State var sort:SortFilter = .createdDate
-    @State var order:OrderFilter = .descending
+    @State var sort:SortCategory = .createdDate
+    @State var order:OrderCategory = .descending
     @State var type:SearchTypeFilter = .titleContents
     @State var category:CommunityCategory = .all
     
@@ -142,13 +142,13 @@ extension SearchPostingView{
                 } label: {}
             case "order":
                 Picker(selection: $order) {
-                    ForEach(OrderFilter.allCases,id:\.self){ order in
+                    ForEach(OrderCategory.allCases,id:\.self){ order in
                         Text(order.name)
                     }
                 } label: {}
             case "sort":
                 Picker(selection: $sort) {
-                    ForEach(SortFilter.allCases,id:\.self){ sort in
+                    ForEach(SortCategory.allCases,id:\.self){ sort in
                         Text(sort.name)
                     }
                 } label: {}

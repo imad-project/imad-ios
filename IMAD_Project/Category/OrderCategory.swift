@@ -7,10 +7,9 @@
 
 import Foundation
 
-enum OrderFilter:Int,CaseIterable{
+enum OrderCategory:Int,CaseIterable{
     case ascending = 0
     case descending = 1
-    
     var name:String{
         switch self{
         case .ascending:

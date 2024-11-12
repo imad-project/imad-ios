@@ -17,8 +17,8 @@ struct CommentDetailsView: View {
     @State var reviewText = ""
     
     
-    @State var sort:SortFilter = .createdDate
-    @State var order:OrderFilter = .ascending
+    @State var sort:SortCategory = .createdDate
+    @State var order:OrderCategory = .ascending
     @State var replyWrite:CommentResponse?
     
     @StateObject var vm = CommentViewModel(comment: nil, replys: [])
@@ -179,7 +179,7 @@ extension CommentDetailsView{
                 Divider()
                     .padding(.vertical,5)
                 HStack{
-                    ForEach(SortFilter.allCases,id:\.self){ sort in
+                    ForEach(SortCategory.allCases,id:\.self){ sort in
                         if sort != .score{
                             Button {
                                 self.sort = sort

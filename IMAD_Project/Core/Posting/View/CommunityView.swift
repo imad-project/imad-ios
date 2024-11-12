@@ -18,7 +18,7 @@ struct CommunityView: View {
     @State var searchText = ""
     
     @State var goWork = false
-    @State var sort:SortFilter = .createdDate
+    @State var sort:SortCategory = .createdDate
     @State var workInfo:PostingResponse?
     
     @StateObject var vm = CommunityViewModel(community: nil, communityList: [])

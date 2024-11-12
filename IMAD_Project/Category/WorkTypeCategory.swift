@@ -11,7 +11,6 @@ enum WorkTypeCategory:String,CaseIterable{
     case multi
     case tv
     case movie
-    
     var name:String{
         switch self{
         case .multi:
