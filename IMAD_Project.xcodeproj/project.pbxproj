@@ -68,7 +68,7 @@
 		817919CC2B4BDF1A0084779B /* RankingApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817919CB2B4BDF1A0084779B /* RankingApiService.swift */; };
 		817919D32B4BDFC80084779B /* RankingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817919D22B4BDFC80084779B /* RankingResponse.swift */; };
 		817919D72B4BE2400084779B /* RankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817919D62B4BE2400084779B /* RankingViewModel.swift */; };
-		817919DB2B4C08210084779B /* RankingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817919DA2B4C08210084779B /* RankingFilter.swift */; };
+		817919DB2B4C08210084779B /* RankingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817919DA2B4C08210084779B /* RankingCategory.swift */; };
 		817B60CD2A236F00000099A9 /* CheckRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60CC2A236F00000099A9 /* CheckRouter.swift */; };
 		817B60CF2A2370C1000099A9 /* CheckApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60CE2A2370C1000099A9 /* CheckApiService.swift */; };
 		817B60D22A237248000099A9 /* CheckDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B60D12A237248000099A9 /* CheckDataViewModel.swift */; };
@@ -300,7 +300,7 @@
 		817919CB2B4BDF1A0084779B /* RankingApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingApiService.swift; sourceTree = "<group>"; };
 		817919D22B4BDFC80084779B /* RankingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingResponse.swift; sourceTree = "<group>"; };
 		817919D62B4BE2400084779B /* RankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModel.swift; sourceTree = "<group>"; };
-		817919DA2B4C08210084779B /* RankingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingFilter.swift; sourceTree = "<group>"; };
+		817919DA2B4C08210084779B /* RankingCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCategory.swift; sourceTree = "<group>"; };
 		817B60CC2A236F00000099A9 /* CheckRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckRouter.swift; sourceTree = "<group>"; };
 		817B60CE2A2370C1000099A9 /* CheckApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckApiService.swift; sourceTree = "<group>"; };
 		817B60D12A237248000099A9 /* CheckDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckDataViewModel.swift; sourceTree = "<group>"; };
@@ -895,9 +895,7 @@
 				81C1EB822AB4332600FB265D /* SortCategory.swift */,
 				81C1EB842AB4397600FB265D /* OrderCategory.swift */,
 				8154B1E02ADD10DA00AD2F83 /* SearchCategory.swift */,
-				81588D492AFDDB0500E19F8D /* WriterFilter.swift */,
-				812F62B42B3FEEFB00AC8DF3 /* CommentFilter.swift */,
-				817919DA2B4C08210084779B /* RankingFilter.swift */,
+				817919DA2B4C08210084779B /* RankingCategory.swift */,
 				D60AD20F2C29943C00C9C27B /* TypeFilter.swift */,
 				D69CC5C12C32949A0053E5A1 /* RecommendListType.swift */,
 				D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */,
@@ -1365,6 +1363,8 @@
 		D68A52822CE1F0880084D8AB /* Filter */ = {
 			isa = PBXGroup;
 			children = (
+				81588D492AFDDB0500E19F8D /* WriterFilter.swift */,
+				812F62B42B3FEEFB00AC8DF3 /* CommentFilter.swift */,
 				8115A6572A8A166200B7C3FE /* TVGenreFilter.swift */,
 				8115A6592A8A170700B7C3FE /* MovieGenreFilter.swift */,
 				81E2F8A92A8F4FDD003E53DC /* CertificationFilter.swift */,
@@ -1638,7 +1638,7 @@
 				81C731292AF51B260076D230 /* TokenRouter.swift in Sources */,
 				818F71992B0F00AC008FDA84 /* TestView.swift in Sources */,
 				817919CA2B4BDC1A0084779B /* RankingRouter.swift in Sources */,
-				817919DB2B4C08210084779B /* RankingFilter.swift in Sources */,
+				817919DB2B4C08210084779B /* RankingCategory.swift in Sources */,
 				81BB11092A061772005654AA /* AuthApiService.swift in Sources */,
 				81C2649C2A13B73600405B01 /* UserRouter.swift in Sources */,
 				D6EAAA742CB93E09001C9BD5 /* NickNameCheckFilter.swift in Sources */,

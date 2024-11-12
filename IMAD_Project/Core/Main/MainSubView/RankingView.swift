@@ -10,7 +10,7 @@ import SwiftUI
 struct RankingView: View {
     @State var draggedOffset:CGFloat = 0
     @State var endOffset:CGFloat = 0
-    @State var ranking:RankingFilter = .all
+    @State var ranking:RankingCategory = .all
     @State private var screenSize: CGSize = UIScreen.main.bounds.size
     @EnvironmentObject var vmRanking:RankingViewModel
     
@@ -59,7 +59,7 @@ struct RankingView: View {
         VStack(alignment: .leading,spacing: 0){
             textTitleView("아이매드 차트")
             HStack(spacing: 5){
-                ForEach(RankingFilter.allCases,id:\.self){ ranking in
+                ForEach(RankingCategory.allCases,id:\.self){ ranking in
                     Button {
                         self.ranking = ranking
                         vmRanking.ranking?.id = ranking.rawValue + "all"

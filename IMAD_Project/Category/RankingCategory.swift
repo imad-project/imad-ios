@@ -7,12 +7,10 @@
 
 import Foundation
 
-enum RankingFilter:String,CaseIterable{
-    
+enum RankingCategory:String,CaseIterable{
     case all
     case week
     case month
-    
     var name:String{
         switch self{
         case .week:

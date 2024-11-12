@@ -9,7 +9,7 @@ import Foundation
 
 struct RankingCache{
     var id:String
-    var rankingType:RankingFilter
+    var rankingType:RankingCategory
     var mediaType:TypeFilter
     var maxPage:Int
     var currentPage:Int

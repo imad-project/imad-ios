@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AllRankingView: View {
-    @State var filter:RankingFilter
+    @State var filter:RankingCategory
     @State var type:TypeFilter = .all
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = RankingViewModel(ranking: nil, popular: nil)
@@ -47,7 +47,7 @@ extension AllRankingView{
     }
     var filterView:some View{
         HStack{
-            ForEach(RankingFilter.allCases,id:\.self) { ranking in
+            ForEach(RankingCategory.allCases,id:\.self) { ranking in
                 Button {
                     self.filter = ranking
                     let ranking = RankingCache(id: ranking.rawValue + type.rawValue, rankingType: ranking, mediaType: type, maxPage: 1, currentPage: 1, list: [])

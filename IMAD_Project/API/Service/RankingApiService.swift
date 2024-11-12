@@ -13,7 +13,7 @@ class RankingApiService{
     
     static let interseptor = GuestInterceptor()
     
-    static func ranking(endPoint:RankingFilter,page:Int,mediaType:String) -> AnyPublisher<NetworkResponse<NetworkListResponse<RankingResponse>>,AFError>{
+    static func ranking(endPoint:RankingCategory,page:Int,mediaType:String) -> AnyPublisher<NetworkResponse<NetworkListResponse<RankingResponse>>,AFError>{
         print("\(endPoint.name)랭킹 api 호출")
         return ApiClient.shared.session
             .request(RankingRouter.ranking(endPoint: endPoint.endPoint, page: page, mediaType: mediaType),interceptor: interseptor)
