@@ -16,7 +16,7 @@ enum ReviewApiService{
     static func reviewWrite(id:Int,title:String,content:String,score:Double,spoiler:Bool) -> AnyPublisher<NetworkResponse<CreateReviewResponse>,AFError>{
         print("리뷰작성 api호출")
         return ApiClient.shared.session
-            .request(ReviewRouter.write(id: id, title: title, content: content, score: score, spoiler: spoiler),interceptor: intercept)
+            .request(ReviewRouter.createReview(id: id, title: title, content: content, score: score, spoiler: spoiler),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type:NetworkResponse<CreateReviewResponse>.self)
             .value()
@@ -29,7 +29,7 @@ enum ReviewApiService{
     static func reviewRead(id:Int) -> AnyPublisher<NetworkResponse<ReviewResponse>,AFError>{
         print("리뷰조회 api호출")
         return ApiClient.shared.session
-            .request(ReviewRouter.read(id: id),interceptor: intercept)
+            .request(ReviewRouter.readReview(id: id),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type:NetworkResponse<ReviewResponse>.self)
             .value()
@@ -42,7 +42,7 @@ enum ReviewApiService{
     static func reviewUpdate(id:Int,title:String,content:String,score:Double,spoiler:Bool) -> AnyPublisher<NetworkResponse<Int?>,AFError>{
         print("리뷰수정 api호출")
         return ApiClient.shared.session
-            .request(ReviewRouter.update(id: id, title: title, content: content, score: score, spoiler: spoiler),interceptor: intercept)
+            .request(ReviewRouter.updateReview(id: id, title: title, content: content, score: score, spoiler: spoiler),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: NetworkResponse<Int?>.self)
             .value()
@@ -55,7 +55,7 @@ enum ReviewApiService{
     static func reviewDelete(id:Int) -> AnyPublisher<NetworkResponse<Int>,AFError>{
         print("리뷰삭제 api호출")
         return ApiClient.shared.session
-            .request(ReviewRouter.delete(id: id),interceptor: intercept)
+            .request(ReviewRouter.deleteReview(id: id),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
@@ -68,7 +68,7 @@ enum ReviewApiService{
     static func reviewReadList(id:Int,page:Int,sort:String,order:Int) -> AnyPublisher<NetworkResponse<NetworkListResponse<ReviewResponse>>,AFError>{
         print("리뷰리스트 조회 api 호출")
         return ApiClient.shared.session
-            .request(ReviewRouter.readList(id: id, page: page, sort: sort, order: order),interceptor: intercept)
+            .request(ReviewRouter.readReviewList(id: id, page: page, sort: sort, order: order),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: NetworkResponse<NetworkListResponse<ReviewResponse>>.self)
             .value()
@@ -81,7 +81,7 @@ enum ReviewApiService{
     static func reviewLike(id:Int,status:Int) -> AnyPublisher<NetworkResponse<Int>,AFError>{
         print("리뷰 좋아요/싫어요 api 호출")
         return ApiClient.shared.session
-            .request(ReviewRouter.like(id: id, status: status),interceptor: intercept)
+            .request(ReviewRouter.updateReviewLike(id: id, status: status),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: NetworkResponse<Int>.self)
             .value()
@@ -94,7 +94,7 @@ enum ReviewApiService{
     static func myReview(page:Int) -> AnyPublisher<NetworkResponse<NetworkListResponse<ReviewResponse>>,AFError>{
         print("내 리뷰 리스트 api 호출")
         return ApiClient.shared.session
-            .request(ReviewRouter.myReview(page: page),interceptor: intercept)
+            .request(ReviewRouter.readMyReviewList(page: page),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: NetworkResponse<NetworkListResponse<ReviewResponse>>.self)
             .value()
@@ -107,7 +107,7 @@ enum ReviewApiService{
     static func myLikeReview(page:Int,likeStatus:Int) -> AnyPublisher<NetworkResponse<NetworkListResponse<ReviewResponse>>,AFError>{
         print("내 좋아요/싫어요 리뷰 리스트 api 호출")
         return ApiClient.shared.session
-            .request(ReviewRouter.myLikeReview(page: page,likeStatus:likeStatus),interceptor: intercept)
+            .request(ReviewRouter.readMyLikeReviewList(page: page,likeStatus:likeStatus),interceptor: intercept)
             .validate(statusCode: 200..<300)
             .publishDecodable(type: NetworkResponse<NetworkListResponse<ReviewResponse>>.self)
             .value()

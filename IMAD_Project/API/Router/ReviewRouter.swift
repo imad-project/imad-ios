@@ -9,14 +9,14 @@ import Foundation
 import Alamofire
 
 enum ReviewRouter:URLRequestConvertible{
-    case write(id:Int,title:String,content:String,score:Double,spoiler:Bool)
-    case read(id:Int)
-    case update(id:Int,title:String,content:String,score:Double,spoiler:Bool)
-    case delete(id:Int)
-    case readList(id:Int,page:Int,sort:String,order:Int)
-    case like(id:Int,status:Int)
-    case myReview(page:Int)
-    case myLikeReview(page:Int,likeStatus:Int)
+    case createReview(id:Int,title:String,content:String,score:Double,spoiler:Bool)
+    case readReview(id:Int)
+    case updateReview(id:Int,title:String,content:String,score:Double,spoiler:Bool)
+    case deleteReview(id:Int)
+    case readReviewList(id:Int,page:Int,sort:String,order:Int)
+    case updateReviewLike(id:Int,status:Int)
+    case readMyReviewList(page:Int)
+    case readMyLikeReviewList(page:Int,likeStatus:Int)
     
     var baseUrl:URL{
         return URL(string: ApiClient.baseURL)!
@@ -24,36 +24,36 @@ enum ReviewRouter:URLRequestConvertible{
     
     var endPoint:String{
         switch self{
-        case .write:
+        case .createReview:
             return "/api/review"
-        case  .read(let id),.update(let id,_,_,_,_),.delete(let id):
+        case .readReview(let id),.updateReview(let id,_,_,_,_),.deleteReview(let id):
             return "/api/review/\(id)"
-        case .readList:
+        case .readReviewList:
             return "/api/review/list"
-        case .like(let id,_):
+        case .updateReviewLike(let id,_):
             return "/api/review/like/\(id)"
-        case .myReview:
+        case .readMyReviewList:
             return "api/profile/review/list"
-        case .myLikeReview:
+        case .readMyLikeReviewList:
             return "/api/profile/like/review/list"
         }
     }
     
     var method:HTTPMethod{
         switch self{
-        case .write:
+        case .createReview:
             return .post
-        case .read,.readList,.myReview,.myLikeReview:
+        case .readReview,.readReviewList,.readMyReviewList,.readMyLikeReviewList:
             return .get
-        case .update,.like:
+        case .updateReview,.updateReviewLike:
             return .patch
-        case .delete:
+        case .deleteReview:
             return .delete
         }
     }
     var parameters:Parameters{
         switch self{
-        case let .write(id, title, content, score, spoiler):
+        case let .createReview(id, title, content, score, spoiler):
             var params = Parameters()
             params["contents_id"] = id
             params["title"] = title
@@ -61,14 +61,14 @@ enum ReviewRouter:URLRequestConvertible{
             params["score"] = score
             params["is_spoiler"] = spoiler
             return params
-        case let .readList(id, page, sort, order):
+        case let .readReviewList(id, page, sort, order):
             var params = Parameters()
             params["contents_id"] = id
             params["page"] = page
             params["sort"] = sort
             params["order"] = order
             return params
-        case let .update(id, title, content, score, spoiler):
+        case let .updateReview(id, title, content, score, spoiler):
             var params = Parameters()
             params["contents_id"] = id
             params["title"] = title
@@ -76,15 +76,15 @@ enum ReviewRouter:URLRequestConvertible{
             params["score"] = score
             params["is_spoiler"] = spoiler
             return params
-        case let .like(_,status):
+        case let .updateReviewLike(_,status):
             var params = Parameters()
             params["like_status"] = status
             return params
-        case let .myReview(page):
+        case let .readMyReviewList(page):
             var params = Parameters()
             params["page"] = page
             return params
-        case let .myLikeReview(page,likeStatus):
+        case let .readMyLikeReviewList(page,likeStatus):
             var params = Parameters()
             params["page"] = page
             params["like_status"] = likeStatus
@@ -99,7 +99,7 @@ enum ReviewRouter:URLRequestConvertible{
         var request = URLRequest(url: url)
         request.method = method
         switch self{
-        case .readList,.read,.delete,.myReview,.myLikeReview:
+        case .readReviewList,.readReview,.deleteReview,.readMyReviewList,.readMyLikeReviewList:
             return try URLEncoding(destination: .queryString).encode(request, with: parameters)
         default:
             return try JSONEncoding.default.encode(request, with: parameters)

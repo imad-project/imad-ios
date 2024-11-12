@@ -502,6 +502,8 @@
 		8103093F29D1BDEF0021717B /* IMAD_Project */ = {
 			isa = PBXGroup;
 			children = (
+				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
+				81EE0B432B4161DF00A58E5F /* IMAD-Project-info.plist */,
 				D68A528C2CE323170084D8AB /* Project */,
 				D68A528B2CE3225B0084D8AB /* Assets */,
 				D608EF7B2CA152C500C4FCE7 /* Cache */,
@@ -1445,9 +1447,7 @@
 			isa = PBXGroup;
 			children = (
 				D60A53802C61E81B001F73F2 /* Documentation.docc */,
-				81EE0B432B4161DF00A58E5F /* IMAD-Project-info.plist */,
 				81BB11292A0642E8005654AA /* Config.xcconfig */,
-				8103094029D1BDEF0021717B /* IMAD_ProjectApp.swift */,
 			);
 			path = Project;
 			sourceTree = "<group>";
