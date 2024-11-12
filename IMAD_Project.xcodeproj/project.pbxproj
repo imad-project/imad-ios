@@ -187,7 +187,7 @@
 		D69455C22C48FB0B004CDFC9 /* ReportApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455C12C48FB0B004CDFC9 /* ReportApiService.swift */; };
 		D69455C52C4A9467004CDFC9 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455C42C4A9467004CDFC9 /* ReportViewModel.swift */; };
 		D69455C92C4A9BF6004CDFC9 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455C82C4A9BF6004CDFC9 /* ReportView.swift */; };
-		D69455CB2C4A9CFD004CDFC9 /* ReportFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */; };
+		D69455CB2C4A9CFD004CDFC9 /* ReportCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CA2C4A9CFD004CDFC9 /* ReportCategory.swift */; };
 		D69455CD2C4BAD89004CDFC9 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CC2C4BAD89004CDFC9 /* UserViewModel.swift */; };
 		D69455CF2C4BC1A5004CDFC9 /* OtherUsersProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455CE2C4BC1A5004CDFC9 /* OtherUsersProfileView.swift */; };
 		D69455D12C4BE376004CDFC9 /* UseConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455D02C4BE376004CDFC9 /* UseConditionView.swift */; };
@@ -419,7 +419,7 @@
 		D69455C12C48FB0B004CDFC9 /* ReportApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportApiService.swift; sourceTree = "<group>"; };
 		D69455C42C4A9467004CDFC9 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		D69455C82C4A9BF6004CDFC9 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
-		D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportFilter.swift; sourceTree = "<group>"; };
+		D69455CA2C4A9CFD004CDFC9 /* ReportCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCategory.swift; sourceTree = "<group>"; };
 		D69455CC2C4BAD89004CDFC9 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		D69455CE2C4BC1A5004CDFC9 /* OtherUsersProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUsersProfileView.swift; sourceTree = "<group>"; };
 		D69455D02C4BE376004CDFC9 /* UseConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseConditionView.swift; sourceTree = "<group>"; };
@@ -898,7 +898,7 @@
 				817919DA2B4C08210084779B /* RankingCategory.swift */,
 				D60AD20F2C29943C00C9C27B /* WorkTypeCategory.swift */,
 				D69CC5C12C32949A0053E5A1 /* RecommendCategory.swift */,
-				D69455CA2C4A9CFD004CDFC9 /* ReportFilter.swift */,
+				D69455CA2C4A9CFD004CDFC9 /* ReportCategory.swift */,
 				D6EAAA6F2CB9042E001C9BD5 /* RegisterCheckFilter.swift */,
 				D6EAAA752CB945EC001C9BD5 /* EmailCheckFilter.swift */,
 				D6EAAA732CB93E09001C9BD5 /* NickNameCheckFilter.swift */,
@@ -1762,7 +1762,7 @@
 				8154B1E12ADD10DA00AD2F83 /* SearchCategory.swift in Sources */,
 				8128C12C2AEA3DCD0032D310 /* CommentDetailsView.swift in Sources */,
 				8154B1D92ADA60D800AD2F83 /* CreatePostingResponse.swift in Sources */,
-				D69455CB2C4A9CFD004CDFC9 /* ReportFilter.swift in Sources */,
+				D69455CB2C4A9CFD004CDFC9 /* ReportCategory.swift in Sources */,
 				8115A6642A8F38A800B7C3FE /* WorkViewModel.swift in Sources */,
 				D6A111922CBFE8E10027F75F /* RankingView.swift in Sources */,
 				D69455D32C4C77C5004CDFC9 /* PDFUIView.swift in Sources */,

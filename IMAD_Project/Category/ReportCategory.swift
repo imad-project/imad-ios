@@ -7,14 +7,13 @@
 
 import Foundation
 
-enum ReportFilter:String,CaseIterable{
+enum ReportCategory:String,CaseIterable{
     case wrongInfo = "WRONG_INFO"
     case spam = "SPAM"
     case abusive = "ABUSIVE"
     case inappropriate = "INAPPROPRIATE"
     case coprightViolation = "COPYRIGHT_VIOLATION"
     case other = "OTHER"
-    
     var name:String{
         switch self{
         case .wrongInfo:

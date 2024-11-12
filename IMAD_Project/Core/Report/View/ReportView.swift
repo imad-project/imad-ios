@@ -12,7 +12,7 @@ struct ReportView: View {
     let id:Int              //신고 ID
     let mode:String         //
     @State var other = ""
-    @State var filter = ReportFilter.wrongInfo
+    @State var filter = ReportCategory.wrongInfo
     @EnvironmentObject var vm:ReportViewModel
     @Environment(\.dismiss) var dismiss
     
@@ -34,7 +34,7 @@ extension ReportView{
         .padding(10)
     }
     var listView:some View{
-        ForEach(ReportFilter.allCases,id: \.self){ report in
+        ForEach(ReportCategory.allCases,id: \.self){ report in
             Button {
                 self.filter = report
             } label: {
