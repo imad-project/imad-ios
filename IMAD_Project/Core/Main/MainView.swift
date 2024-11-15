@@ -15,25 +15,28 @@ struct MainView: View {
     @StateObject var vmRanking = RankingViewModel(ranking: nil, popular: PopularCache(review: nil,posting: nil))
     @StateObject var vmRecommend = RecommendViewModel(recommendAll: nil, recommendList: nil)
     @StateObject var user = UserInfoManager.instance
-    
+    @StateObject var view = ViewManager.instance
     var body: some View {
-        ScrollView(showsIndicators: false){
-            LazyVStack(alignment:.leading,spacing:5){
-                if let user = user.cache{
-                    titleView(user: user)
-                    trendView
-                    trendWorkView
-                    TodayPopularView(review: vmRanking.popular?.review, posting: vmRanking.popular?.posting)
-                    RankingView()
-                    UserActivityView()
-                    WorkRecommandListView(filter: .genreMovie)
-                    WorkRecommandListView(filter: .genreTv)
-                    WorkRecommandListView(filter: .popluarTv)
-                    WorkRecommandListView(filter: .popluarMovie)
-                    WorkRecommandListView(filter: .topRateTv)
-                    WorkRecommandListView(filter: .topRateMovie)
+        NavigationStack(path: $view.path){
+            ScrollView(showsIndicators: false){
+                LazyVStack(alignment:.leading,spacing:5){
+                    if let user = user.cache{
+                        titleView(user: user)
+                        trendView
+                        trendWorkView
+                        TodayPopularView(review: vmRanking.popular?.review, posting: vmRanking.popular?.posting)
+                        RankingView()
+                        UserActivityView()
+                        WorkRecommandListView(filter: .genreMovie)
+                        WorkRecommandListView(filter: .genreTv)
+                        WorkRecommandListView(filter: .popluarTv)
+                        WorkRecommandListView(filter: .popluarMovie)
+                        WorkRecommandListView(filter: .topRateTv)
+                        WorkRecommandListView(filter: .topRateMovie)
+                    }
                 }
             }
+            .navigationDestination(for: WorkViewType.self){ view.workView(contentsId: $0.contentsId, id:$0.workId,type:$0.type) }
         }
         .background(.white)
         .refreshable {listUpdate(true) }
@@ -69,9 +72,8 @@ extension MainView{
         GeometryReader { geometry in
             TabView{
                 ListView(items:trend ? vmRecommend.workList(.trendTv).list : vmRecommend.workList(.trendMovie).list){ work in
-                    NavigationLink {
-                        WorkView(id: work.id,type: work.genreType.rawValue)
-                            .navigationBarBackButtonHidden()
+                    Button {
+                        view.move(id: work.id,type: work.genreType.rawValue)
                     } label: {
                         VStack{
                             KFImageView(image: work.posterPath ?? "",width:isPad ? 300 : 175,height: isPad ? 370 : 240)

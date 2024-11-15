@@ -183,6 +183,7 @@
 		D67CB99D2CD35889009FA805 /* RecommendCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67CB99C2CD35889009FA805 /* RecommendCache.swift */; };
 		D67F4E352CDB3F7A0000D285 /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67F4E342CDB3F7A0000D285 /* UserInfoManager.swift */; };
 		D67F4E392CDB4DE90000D285 /* TestUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67F4E382CDB4DE90000D285 /* TestUserInfoView.swift */; };
+		D68A528F2CE5DC6F0084D8AB /* ViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68A528E2CE5DC6F0084D8AB /* ViewManager.swift */; };
 		D69455C02C48F81E004CDFC9 /* ReportRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455BF2C48F81E004CDFC9 /* ReportRouter.swift */; };
 		D69455C22C48FB0B004CDFC9 /* ReportApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455C12C48FB0B004CDFC9 /* ReportApiService.swift */; };
 		D69455C52C4A9467004CDFC9 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69455C42C4A9467004CDFC9 /* ReportViewModel.swift */; };
@@ -415,6 +416,7 @@
 		D67CB99C2CD35889009FA805 /* RecommendCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCache.swift; sourceTree = "<group>"; };
 		D67F4E342CDB3F7A0000D285 /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
 		D67F4E382CDB4DE90000D285 /* TestUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserInfoView.swift; sourceTree = "<group>"; };
+		D68A528E2CE5DC6F0084D8AB /* ViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewManager.swift; sourceTree = "<group>"; };
 		D69455BF2C48F81E004CDFC9 /* ReportRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRouter.swift; sourceTree = "<group>"; };
 		D69455C12C48FB0B004CDFC9 /* ReportApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportApiService.swift; sourceTree = "<group>"; };
 		D69455C42C4A9467004CDFC9 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
@@ -893,6 +895,7 @@
 		81A1ECEF29DD3B840001A366 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				D68A528D2CE5DC570084D8AB /* ViewModel */,
 				812CDE9729DE9EA90003B993 /* View */,
 			);
 			path = Menu;
@@ -1452,6 +1455,14 @@
 			path = Project;
 			sourceTree = "<group>";
 		};
+		D68A528D2CE5DC570084D8AB /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D68A528E2CE5DC6F0084D8AB /* ViewManager.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		D69455C32C4A945E004CDFC9 /* Report */ = {
 			isa = PBXGroup;
 			children = (
@@ -1761,6 +1772,7 @@
 				818B07402B0DA4CA0013C426 /* MyScrapListView.swift in Sources */,
 				81FF75AE2AF8C4DE00DB1AC2 /* ProfileImageView.swift in Sources */,
 				8115A6432A8391BE00B7C3FE /* WorkListResponse.swift in Sources */,
+				D68A528F2CE5DC6F0084D8AB /* ViewManager.swift in Sources */,
 				81C7312B2AF6183C0076D230 /* TokenApiService.swift in Sources */,
 				D608EF872CA1854600C4FCE7 /* PopularCache.swift in Sources */,
 				81BB11042A061457005654AA /* ApiClient.swift in Sources */,

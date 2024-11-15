@@ -6,47 +6,72 @@
 //
 
 import SwiftUI
-//import Combine
 
-// Singleton class
-class AuthManager: ObservableObject {
-    static let shared = AuthManager()
-    @Published var isLoggedIn: Bool = true
+final class AppRootManager: ObservableObject {
     
-    private init() {}
+//    @Published var currentRoot: eAppRoots = .splash
+    @Published var path:[String] = []
+    static let instance = AppRootManager()
+    private init(){}
     
-    func logout() {
-        isLoggedIn = false
-    }
 }
-
-struct TestUserInfoView: View {
-    @StateObject private var authManager = AuthManager.shared
+struct TestUserInfoView:View{
+    @StateObject private var appRootManager = AppRootManager.instance
     
     var body: some View {
-        Group {
-            if authManager.isLoggedIn {
-                ChildView()
-            } else {
-                // 로그인 화면으로 이동
-                LoginView()
+        NavigationStack(path: $appRootManager.path) {
+            Button {
+                appRootManager.path.append("\(V1())")
+            } label: {
+                Text("1")
             }
-        }
-        .animation(.easeInOut, value: authManager.isLoggedIn) // 애니메이션 추가 가능
-    }
-}
-
-struct ChildView: View {
-    var body: some View {
-        VStack {
-            Text("Welcome to Child View!")
-            Button("Logout") {
-                AuthManager.shared.logout()
+            .navigationDestination(for: String.self) { view in
+                switch view{
+                case "\(V1())":V1()
+                case "\(V2())":V2()
+                default:EmptyView()
+                }
             }
+//            .environmentObject(appRootManager)
         }
     }
 }
-
+struct V1:View {
+    @StateObject private var appRootManager = AppRootManager.instance
+    var body: some View {
+//        NavigationStack(path: $appRootManager.path) {
+            Button {
+                appRootManager.path.append("\(V2())")
+            } label: {
+                Text("2")
+            }
+//            .navigationDestination(for: String.self) { view in
+//                switch view{
+//                case "\(V2())":
+//                    V2()
+//                default:
+//                    Text("aaaa").onAppear{print("v3")}
+//                }
+//            }
+//            .environmentObject(appRootManager)
+//        }
+    }
+}
+struct V2:View {
+    @StateObject private var appRootManager = AppRootManager.instance
+    var body: some View {
+//        NavigationStack(path: $appRootManager.path) {
+            Button {
+                appRootManager.path.removeAll()
+            } label: {
+                Text("3")
+            }
+        
+//        }
+    }
+}
 #Preview {
-    TestUserInfoView()
+    NavigationStack{
+        TestUserInfoView()
+    }
 }

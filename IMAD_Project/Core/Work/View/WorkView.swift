@@ -21,10 +21,12 @@ struct WorkView: View {
     @State var showMyRevie = false
     
     
-    @Environment(\.dismiss) var dismiss
+//    @Environment(\.dismiss) var dismiss
+    @StateObject var view = ViewManager.instance
     @StateObject var user = UserInfoManager.instance
     @StateObject var vmReview = ReviewViewModel(review:nil,reviewList: [])
     @StateObject var vm = WorkViewModel(workInfo: nil,bookmarkList: [])
+//    @EnvironmentObject var vmNavigation:NavigationViewModel
     
     var body: some View {
         ZStack(alignment: .topLeading){
@@ -46,8 +48,8 @@ struct WorkView: View {
                 }
                 header
             }
-            
         }
+        .transition(.move(edge: .trailing))
         .foregroundColor(.white)
         .onAppear {
             if let contentsId{
@@ -111,7 +113,11 @@ extension WorkView{
             }
             HStack{
                 Button {
-                    dismiss()
+                    view.path.removeAll()
+//                    dismiss()
+//                    withAnimation{
+//                        vmNavigation.view = nil
+//                    }
                 } label: {
                     Image(systemName: "chevron.left")
                         .bold()

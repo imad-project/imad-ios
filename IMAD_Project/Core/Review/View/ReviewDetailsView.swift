@@ -90,7 +90,7 @@ struct ReviewDetailsView: View {
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ReviewDetailsView(goWork: true, reviewId: 1, reported: true,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
+            ReviewDetailsView(goWork: true, reviewId: 1, reported: false,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
                
         }
     }

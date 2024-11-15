@@ -13,10 +13,9 @@ final class ReviewViewModel:ObservableObject{
     var cancelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()
     var refreschTokenExpired = PassthroughSubject<(),Never>()
-    
+    @Published var user = UserInfoManager.instance
     @Published var review:ReviewResponse?
     @Published var reviewList:[ReviewResponse] = []  //리뷰 리스트
-    
     
     @Published var currentPage = 1
     @Published var maxPage = 0
@@ -27,14 +26,13 @@ final class ReviewViewModel:ObservableObject{
         self.review = review
         self.reviewList = reviewList
     }
-    
-    func writeReview(contentsId:Int,title:String,content:String,score:Double,spoiler:Bool){
+    func createReview(contentsId:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.createReview(id: contentsId, title: title, content: content, score: score, spoiler: spoiler)
             .sink {completion in
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
+                    self.user.cache = nil
                 case .finished:
                     print(completion)
                 }
@@ -48,7 +46,8 @@ final class ReviewViewModel:ObservableObject{
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
+                    self.user.cache = nil
+//                    self.refreschTokenExpired.send()
                 case .finished:
                     print(completion)
                 }
@@ -63,7 +62,7 @@ final class ReviewViewModel:ObservableObject{
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
+                    self.user.cache = nil
                 case .finished:
                     print(completion)
                 }
@@ -81,7 +80,7 @@ final class ReviewViewModel:ObservableObject{
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
+                    self.user.cache = nil
                 case .finished:
                     print(completion)
                 }
@@ -95,7 +94,7 @@ final class ReviewViewModel:ObservableObject{
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
+                    self.user.cache = nil
                 case .finished:
                     print(completion)
                 }
@@ -105,13 +104,13 @@ final class ReviewViewModel:ObservableObject{
     }
    
     
-    func likeReview(id:Int,status:Int){
+    func updateReviewLike(id:Int,status:Int){
         ReviewApiService.updateReviewLike(id: id, status: status)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
+                    self.user.cache = nil
                 case .finished:
                     print(completion)
                 }
@@ -119,13 +118,13 @@ final class ReviewViewModel:ObservableObject{
                 self.success.send()
             }.store(in: &cancelable)
     }
-    func myReviewList(page:Int){
+    func readMyReviewList(page:Int){
         ReviewApiService.readMyReviewList(page: page)
             .sink {  completion in
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
+                    self.user.cache = nil
                 case .finished:
                     print(completion)
                 }
@@ -138,13 +137,13 @@ final class ReviewViewModel:ObservableObject{
             }.store(in: &cancelable)
 
     }
-    func myLikeReviewList(page:Int,likeStatus:Int){
+    func readMyLikeReviewList(page:Int,likeStatus:Int){
         ReviewApiService.readMyLikeReviewList(page: page,likeStatus: likeStatus)
             .sink { completion in
                 switch completion{
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.refreschTokenExpired.send()
+                    self.user.cache = nil
                 case .finished:
                     print(completion)
                 }
@@ -165,11 +164,11 @@ final class ReviewViewModel:ObservableObject{
             self.review?.likeCnt += 1
             
             self.review?.likeStatus = 1
-            self.likeReview(id: review.reviewID, status: 1)
+            self.updateReviewLike(id: review.reviewID, status: 1)
         }else{
             self.review?.likeCnt -= 1
             self.review?.likeStatus = 0
-            self.likeReview(id: review.reviewID, status: 0)
+            self.updateReviewLike(id: review.reviewID, status: 0)
         }
     }
     func disLike(review:ReviewResponse){
@@ -179,11 +178,11 @@ final class ReviewViewModel:ObservableObject{
             }
             self.review?.dislikeCnt += 1
             self.review?.likeStatus = -1
-            self.likeReview(id: review.reviewID, status: -1)
+            self.updateReviewLike(id: review.reviewID, status: -1)
         }else{
             self.review?.likeStatus = 0
             self.review?.dislikeCnt -= 1
-            self.likeReview(id: review.reviewID, status: 0)
+            self.updateReviewLike(id: review.reviewID, status: 0)
         }
     }
 }

@@ -13,6 +13,7 @@ struct WorkRecommandListView: View {
     @State var endOffset:CGFloat = 0
     let filter:RecommendFilter
     let workItems = [ GridItem(.fixed(220)), GridItem(.fixed(220))]
+    @StateObject var view = ViewManager.instance
     @EnvironmentObject var vmRecommend:RecommendViewModel
     
     var list:[RecommendResponse]{
@@ -43,9 +44,8 @@ struct WorkRecommandListView: View {
 
 extension WorkRecommandListView{
     func workView(_ work:RecommendResponse)->some View{
-        NavigationLink {
-            WorkView(id: work.id,type: filter.type.rawValue)
-                .navigationBarBackButtonHidden()
+        Button{
+            view.move(id: work.id,type: filter.type.rawValue)
         } label: {
             VStack(spacing:5){
                 KFImageView(image: work.posterPath?.getImadImage() ?? "",width: isPad ? 200:130,height: isPad ? 260:180)

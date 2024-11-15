@@ -26,6 +26,7 @@ struct CreateReviewView: View {
     @State var animation = false
     @State var animation1 = true
     @State var error = false
+    @StateObject var user = UserInfoManager.instance
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
     @Environment(\.dismiss) var dismiss
     
@@ -80,7 +81,8 @@ struct CreateReviewView: View {
             }
         }
         .onReceive(vm.success){
-            dismiss()
+            user.cache = nil
+//            dismiss()
         }
         .foregroundColor(.white).ignoresSafeArea(edges:.bottom)
         .onTapGesture {
@@ -116,7 +118,7 @@ extension CreateReviewView{
                     if let reviewId{
                         vm.updateReview(reviewId: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
                     }else{
-                        vm.writeReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
+                        vm.createReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
                     }
                 }
             } label: {
@@ -231,7 +233,7 @@ extension CreateReviewView{
                 if let reviewId{
                     vm.updateReview(reviewId: reviewId, title: title, content: text, score: rating, spoiler: spoiler)
                 }else{
-                    vm.writeReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
+                    vm.createReview(contentsId: id, title: title, content: text, score: rating, spoiler: spoiler)
                 }
             }
             .padding([.trailing,.vertical],10)

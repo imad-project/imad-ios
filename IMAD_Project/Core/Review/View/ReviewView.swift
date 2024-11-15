@@ -8,15 +8,11 @@
 import SwiftUI
 
 struct ReviewView: View {
-    
-    let id:Int
-    
-    @State var sort:SortPostCategory = .createdDate //정렬기준
-    @State var order:OrderPostCategory = .ascending   //오름차순 - 0,내림차순 - 1
-    
-    @Environment(\.dismiss) var dismiss
+    let id:Int  //직품ID
+    @State var sort:SortPostCategory = .createdDate //정렬기준 - 평점/날짜/좋아요/싫어요
+    @State var order:OrderPostCategory = .ascending //오름차순 - 0,내림차순 - 1
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
-    
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack(spacing:0){
             filterHeader

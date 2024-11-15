@@ -18,9 +18,9 @@ struct MyReviewListView: View {
     func profileMode(next:Bool)->(){
         switch writeType{
         case .myself:
-            return vm.myReviewList(page: next ? vm.currentPage + 1 : vm.currentPage)
+            return vm.readMyReviewList(page: next ? vm.currentPage + 1 : vm.currentPage)
         case .myselfLike:
-            return vm.myLikeReviewList(page: next ? vm.currentPage + 1 : vm.currentPage, likeStatus: like ? 1 : -1)
+            return vm.readMyLikeReviewList(page: next ? vm.currentPage + 1 : vm.currentPage, likeStatus: like ? 1 : -1)
         }
     }
     var reviewList:[ReviewResponse]{

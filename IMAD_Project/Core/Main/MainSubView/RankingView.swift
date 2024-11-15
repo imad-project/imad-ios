@@ -12,6 +12,7 @@ struct RankingView: View {
     @State var endOffset:CGFloat = 0
     @State var ranking:RankingCategory = .all
     @State private var screenSize: CGSize = UIScreen.main.bounds.size
+    @StateObject var view = ViewManager.instance
     @EnvironmentObject var vmRanking:RankingViewModel
     
     var body: some View {
@@ -111,9 +112,10 @@ struct RankingView: View {
             ForEach(list.prefix(3),id:\.self){ columns in
                 VStack{
                     ForEach(columns,id:\.self){ rank in
-                        NavigationLink {
-                            WorkView(contentsId:rank.contentsID)
-                                .navigationBarBackButtonHidden()
+                        Button {
+                            view.move(contentsId:rank.contentsID)
+//                            WorkView(contentsId:rank.contentsID)
+//                                .navigationBarBackButtonHidden()
                         } label: {
                             HStack(spacing:0){
                                 KFImageView(image: rank.posterPath.getImadImage(),width: isPad ? 80:60,height:isPad ? 110:75).cornerRadius(5)
