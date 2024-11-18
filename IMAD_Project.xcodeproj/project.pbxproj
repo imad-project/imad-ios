@@ -145,6 +145,7 @@
 		81FF75B02AF8CE7600DB1AC2 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FF75AF2AF8CE7600DB1AC2 /* ScoreView.swift */; };
 		D6078AD12CDD88BC00236E50 /* NetworkListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6078AD02CDD88BC00236E50 /* NetworkListResponse.swift */; };
 		D6078AD32CDD8DA800236E50 /* NetworkWorkListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6078AD22CDD8DA800236E50 /* NetworkWorkListResponse.swift */; };
+		D60880682CEB05EC00E27902 /* ViewTypeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60880672CEB05EC00E27902 /* ViewTypeFilter.swift */; };
 		D608EF762C9C1A0600C4FCE7 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608EF752C9C1A0600C4FCE7 /* Date.swift */; };
 		D608EF782C9C3D5800C4FCE7 /* RecommendManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608EF772C9C3D5800C4FCE7 /* RecommendManager.swift */; };
 		D608EF7A2C9C425600C4FCE7 /* RankingCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608EF792C9C425600C4FCE7 /* RankingCacheManager.swift */; };
@@ -378,6 +379,7 @@
 		81FF75AF2AF8CE7600DB1AC2 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		D6078AD02CDD88BC00236E50 /* NetworkListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkListResponse.swift; sourceTree = "<group>"; };
 		D6078AD22CDD8DA800236E50 /* NetworkWorkListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorkListResponse.swift; sourceTree = "<group>"; };
+		D60880672CEB05EC00E27902 /* ViewTypeFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTypeFilter.swift; sourceTree = "<group>"; };
 		D608EF752C9C1A0600C4FCE7 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		D608EF772C9C3D5800C4FCE7 /* RecommendManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendManager.swift; sourceTree = "<group>"; };
 		D608EF792C9C425600C4FCE7 /* RankingCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCacheManager.swift; sourceTree = "<group>"; };
@@ -1373,6 +1375,7 @@
 				812F62B42B3FEEFB00AC8DF3 /* CommentFilter.swift */,
 				81588D492AFDDB0500E19F8D /* WriterFilter.swift */,
 				D69BADBE2CC25124004DCF64 /* ImadRecommendFilter.swift */,
+				D60880672CEB05EC00E27902 /* ViewTypeFilter.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1750,6 +1753,7 @@
 				819D499A2A9338AD008B7BFE /* Season.swift in Sources */,
 				D60AD1F72C29551600C9C27B /* ImadRecommendResponse.swift in Sources */,
 				81C7312D2AF66CF40076D230 /* UserResponse.swift in Sources */,
+				D60880682CEB05EC00E27902 /* ViewTypeFilter.swift in Sources */,
 				D69E05F52C5BAA19003610CD /* AutoSizingFlowLayoutView.swift in Sources */,
 				81C2649E2A13B7AA00405B01 /* UserApiService.swift in Sources */,
 				D60AD1F92C2956A900C9C27B /* TrendRecommendResponse.swift in Sources */,

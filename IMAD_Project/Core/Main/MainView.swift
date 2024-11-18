@@ -36,7 +36,7 @@ struct MainView: View {
                     }
                 }
             }
-            .navigationDestination(for: ViewType.self){view.view(type: $0)}
+            .navigationDestination(for: ViewTypeFilter.self){view.view(type: $0)}
         }
         .background(.white)
         .refreshable {listUpdate(true) }
