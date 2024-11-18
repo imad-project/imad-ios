@@ -36,7 +36,7 @@ struct MainView: View {
                     }
                 }
             }
-            .navigationDestination(for: WorkViewType.self){ view.workView(contentsId: $0.contentsId, id:$0.workId,type:$0.type) }
+            .navigationDestination(for: ViewType.self){view.view(type: $0)}
         }
         .background(.white)
         .refreshable {listUpdate(true) }
@@ -73,7 +73,7 @@ extension MainView{
             TabView{
                 ListView(items:trend ? vmRecommend.workList(.trendTv).list : vmRecommend.workList(.trendMovie).list){ work in
                     Button {
-                        view.move(id: work.id,type: work.genreType.rawValue)
+                        view.move(type:.workViewI(id:work.id,type:work.genreType.rawValue))
                     } label: {
                         VStack{
                             KFImageView(image: work.posterPath ?? "",width:isPad ? 300 : 175,height: isPad ? 370 : 240)

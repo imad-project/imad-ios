@@ -45,7 +45,7 @@ struct WorkRecommandListView: View {
 extension WorkRecommandListView{
     func workView(_ work:RecommendResponse)->some View{
         Button{
-            view.move(id: work.id,type: filter.type.rawValue)
+            view.move(type:.workViewI(id:work.id,type: work.genreType.rawValue))
         } label: {
             VStack(spacing:5){
                 KFImageView(image: work.posterPath?.getImadImage() ?? "",width: isPad ? 200:130,height: isPad ? 260:180)

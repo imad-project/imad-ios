@@ -113,9 +113,7 @@ struct RankingView: View {
                 VStack{
                     ForEach(columns,id:\.self){ rank in
                         Button {
-                            view.move(contentsId:rank.contentsID)
-//                            WorkView(contentsId:rank.contentsID)
-//                                .navigationBarBackButtonHidden()
+                            view.move(type: .workViewC(contentsId: rank.contentsID))
                         } label: {
                             HStack(spacing:0){
                                 KFImageView(image: rank.posterPath.getImadImage(),width: isPad ? 80:60,height:isPad ? 110:75).cornerRadius(5)
