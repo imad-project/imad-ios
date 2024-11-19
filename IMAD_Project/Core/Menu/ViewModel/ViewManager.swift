@@ -25,14 +25,12 @@ class ViewManager:ObservableObject{
     func view(type:ViewTypeFilter) -> some View{
         return Group{
             switch type {
-            case let .workViewC(contentsId):
-                WorkView(contentsId:contentsId)
-            case let .workViewI(id,type):
-                WorkView(id:id,type:type)
-            case let .allRankingView(category):
-                AllRankingView(filter:category)
-            case let .recommendListView(filter,contentsId):
-                AllRecommendView(contentsId:contentsId,type:filter)
+            case let .workViewC(contentsId):WorkView(contentsId:contentsId)
+            case let .workViewI(id,type):WorkView(id:id,type:type)
+            case let .allRankingView(category):AllRankingView(filter:category)
+            case let .recommendListView(filter,contentsId):AllRecommendView(contentsId:contentsId,type:filter)
+            case let .reviewDetailsView(goWork,reviewId):ReviewDetailsView(goWork:goWork,reviewId:reviewId)
+            case let .createReviewView(id,image,workName,gradeAvg,reviewId,title,text,spoiler,rating):CreateReviewView(id:id,image: image, workName: workName,gradeAvg:gradeAvg,reviewId:reviewId,title:title,text:text,spoiler:spoiler,rating:rating)
             }
         }
         .navigationBarBackButtonHidden()

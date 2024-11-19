@@ -23,7 +23,7 @@ class ErrorManager{
             }
         }
     }
-    func actionErrorMessage(completion: Subscribers.Completion<AFError>,success: @escaping()->() = {},failed:@escaping()->() = {}){
+    func actionErrorMessage(completion: Subscribers.Completion<AFError>,success:@escaping()->() = {},failed:@escaping()->() = {}){
         DispatchQueue.global(qos: .background).async{
             switch completion{
             case .finished:
@@ -35,4 +35,6 @@ class ErrorManager{
             }
         }
     }
+   
 }
+
