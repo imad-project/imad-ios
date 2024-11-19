@@ -9,18 +9,19 @@ import Foundation
 
 struct ReviewResponse:Codable,Hashable{
     let reviewID:Int
-    let contentsID: Int
+    let contentsID:Int
     let contentsTitle:String
-    let contentsBackdropPath,contentsPosterPath: String
-    let userID :Int?
-    let userNickname: String
-    let userProfileImage: String
-    let title, content: String
+    let contentsBackdropPath,contentsPosterPath:String
+    let userID:Int?
+    let userNickname:String
+    let userProfileImage:String
+    let title,content:String
     let score:Double
-    var likeCnt, dislikeCnt: Int
-    let createdAt, modifiedAt: String
-    var likeStatus: Int
-    let spoiler,reported: Bool
+    var likeCnt,dislikeCnt:Int
+    let createdAt,modifiedAt:String
+    var likeStatus:Int
+    let spoiler:Bool
+    var reported:Bool
     let author:Bool
 
     enum CodingKeys: String, CodingKey {
