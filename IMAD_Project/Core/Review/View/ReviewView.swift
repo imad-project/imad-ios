@@ -12,14 +12,15 @@ struct ReviewView: View {
     @State var sort:SortPostCategory = .createdDate //정렬기준 - 평점/날짜/좋아요/싫어요
     @State var order:OrderPostCategory = .ascending //오름차순 - 0,내림차순 - 1
     @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
-    @Environment(\.dismiss) var dismiss
+    @StateObject var view = ViewManager.instance
+    
     var body: some View {
         VStack(spacing:0){
             filterHeader
             ScrollView {
                 ForEach(vm.reviewList,id:\.self){ review in
                     NavigationLink {
-                        ReviewDetailsView(goWork: false, reviewId: review.reviewID, reported: review.reported)
+                        ReviewDetailsView(goWork: false, reviewId: review.reviewID)
                             .navigationBarBackButtonHidden()
                     } label: {
                         ReviewListRowView(review: review,my:false)
@@ -74,7 +75,7 @@ extension ReviewView{
         VStack{
             VStack(spacing:10){
                 HeaderView(backIcon: "chevron.left", text: "모든 리뷰"){
-                    dismiss()
+                    view.back()
                 }
                 HStack{
                     Group{

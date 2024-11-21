@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HeaderView: View {
+struct HeaderView:View {
     var backIcon:String?
     let text:String
     var event:(()->())?
@@ -22,7 +22,6 @@ struct HeaderView: View {
                 }
             }
             Text(text)
-                
                 .font(.GmarketSansTTFMedium(25))
             Spacer()
         }

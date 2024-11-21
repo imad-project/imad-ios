@@ -27,8 +27,9 @@ struct CreateReviewView: View {
     @State var animation1 = true
     @State var error = false
     @StateObject var user = UserInfoManager.instance
+    @StateObject var view = ViewManager.instance
     @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
-    @Environment(\.dismiss) var dismiss
+//    @Environment(\.dismiss) var dismiss
     
     
     
@@ -104,7 +105,8 @@ extension CreateReviewView{
         HStack{
             HStack{
                 Button {
-                    dismiss()
+//                    dismiss()
+                    view.back()
                 } label: {
                     Image(systemName: "xmark")
                 }
@@ -226,7 +228,7 @@ extension CreateReviewView{
     var saveView:some View{
         HStack{
             CustomConfirmButton(text: "취소", color: .gray.opacity(0.2), textColor: .black) {
-                dismiss()
+                view.back()
             }
             .padding([.leading,.vertical],10)
             CustomConfirmButton(text:reviewId != nil ? "수정" : "등록", color: .customIndigo.opacity(text != "" && title != "" && rating > 0 ? 1 : 0.5), textColor: .white) {

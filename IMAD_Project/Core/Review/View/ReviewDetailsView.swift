@@ -10,178 +10,132 @@ import Kingfisher
 
 struct ReviewDetailsView: View {
     
-    let goWork:Bool //작품상세정보
-    let reviewId:Int
-    @State var profile = false
-    @State var reported = false
-    @State var reportSuccess = false
-    @State var noReport = false
-    @State var message = ""
-    @State var report = false
-    @State var goReport = false
-    @State var menu = false
-    @State var delete = false
-    @Environment(\.dismiss) var dismiss
-    @StateObject var user = UserInfoManager.instance
-    @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
-    @StateObject var vmReport = ReportViewModel()
+    let goWork:Bool                     //작품상세정보표시 유무
+    let reviewId:Int                    //리뷰ID
     
+    @State var reportSuccess = false    //신고 성공
+    //알림
+    @State var message = ""             //알림 메세지
+    @State var reported = false         //신고 유무
+    //메뉴버튼
+    @State var report = false           //신고하기
+    @State var menu = false             //수정 및 삭제하기
+    @State var delete = false           //삭제하기
+    //뷰
+    @State var sheetReport = false      //신고화면 표시
+    @State var sheetProfile = false     //유저프로필 화면 표시
+    //클래스 인스턴스
+    @StateObject var user = UserInfoManager.instance
+    @StateObject var view = ViewManager.instance
+    @StateObject var vmReview = ReviewViewModel(review: nil, reviewList: [])
+    @StateObject var vmReport = ReportViewModel()
     
     var body: some View {
         VStack(spacing: 0){
-            if !reported{
-                if let review = vm.review{
-                    header(review: review)
-                    ScrollView{
-                        VStack{
-                            Divider()
-                            workInfoView(review: review)
-                            contentAndLikeView(review: review)
-                            Divider()
-                        }
-                        .background(Color.white)
-                        .padding(.top,10)
+            if let review = vmReview.review{
+                header(review: review)
+                ScrollView{
+                    VStack{
+                        Divider()
+                        reviewInfoView(review: review)
+                        contentAndLikeView(review: review)
+                        Divider()
                     }
-                    .background(Color.gray.opacity(0.1))
+                    .background(Color.white)
+                    .padding(.top,10)
                 }
+                .background(Color.gray.opacity(0.1))
             }
         }
-        .progress(vm.review != nil)
-        .sheet(isPresented: $profile){
-            ZStack{
-                Color.white.ignoresSafeArea()
-                OtherUsersProfileView(id: vm.review?.userID ?? 0)
-            }
-            
-        }
-        .background(Color.white)
+        .progress(vmReview.review != nil)
+        .sheet(isPresented:$sheetProfile){ OtherUsersProfileView(id:vmReview.review?.userID ?? 0) }
+        .fullScreenCover(isPresented:$sheetReport){ ReportView(id: reviewId,mode:"review")}
         .foregroundColor(.black)
-        .onAppear{
-            vm.readReview(id: reviewId)
-        }
-        .fullScreenCover(isPresented: $goReport){
-            ReportView(id: reviewId,mode:"review")
-                .environmentObject(vmReport)
-        }
-        .alert(isPresented: $reported){
-            if reportSuccess{
-                return  Alert(title: Text(message),message:message == "정상적으로 신고 접수가 완료되었습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil, dismissButton:  .cancel(Text("확인"), action: {dismiss()}))
-            }else{
-                let confim = Alert.Button.cancel(Text("확인하기")){
-                    reported = false
-                    noReport = true
-                }
-                let out = Alert.Button.default(Text("나가기")){
-                    dismiss()
-                }
-                return Alert(title: Text("경고"),message: Text("이 게시물은 \(user.cache?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?"),primaryButton: confim, secondaryButton: out)
-            }
-            
-        }
+        .background(Color.white1)
+        .onAppear{ vmReview.readReview(id:reviewId) }
+        .environmentObject(vmReport)
+        .alert(isPresented:$reported){ alert }
+        .onReceive(vmReview.reportedReview){ reported = true }
         .onReceive(vmReport.success){ message in
             reportSuccess = true
             reported = true
             self.message = message
         }
-        
     }
 }
 
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ReviewDetailsView(goWork: true, reviewId: 1, reported: false,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
-               
+            ReviewDetailsView(goWork:true,reviewId:1,reported:false,vmReview:ReviewViewModel(review:CustomData.review,reviewList:[]))
         }
     }
 }
 
 extension ReviewDetailsView{
-    func header(review:ReviewResponse) ->some View{
-        VStack{
-            HStack{
-                HeaderView(backIcon: "chevron.left", text: "리뷰"){
-                    dismiss()
-                }
-                Spacer()
-                
-                
-                ZStack{
-                    Button {
-                        if review.author{
-                            menu.toggle()
-                        }else{
-                            report.toggle()
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .font(.title3)
-                    }
-                    .confirmationDialog("",
-                        isPresented: $report,
-                        actions: {
-                            Button("신고하기") {
-                                if noReport{
-                                    message = "이미 신고된 리뷰입니다."
-                                    reportSuccess = true
-                                    reported = true
-                                    print(reportSuccess)
-                                }else{
-                                    goReport = true
-                                }
-                            }
-                        }
-                    )
-                    
-                    .confirmationDialog("", isPresented: $menu,actions: {
-                        NavigationLink {
-                            CreateReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score)
-                                .navigationBarBackButtonHidden()
-                        } label: {
-                            Text("수정하기")
-                        }
-                        Button(role:.destructive){
-                            delete = true
-                        } label: {
-                            Text("삭제하기")
-                        }
-                    },message: {
-                        Text("리뷰 수정하거나 삭제하시겠습니까?")
-                    })
-                    .confirmationDialog("", isPresented: $delete){
-                        Button(role:.destructive){
-                            vm.deleteReview(id: reviewId)
-                            dismiss()
-                        } label: {
-                            Text("삭제")
-                        }
-                        Button("취소", role: .cancel) {}
-                    } message: {
-                        Text("리뷰를 삭제하시겠습니까?")
-                    }
-                }
-            }
-            .padding(10)
-            Divider()
+    @ViewBuilder
+    func menuConfirmationDialog(review:ReviewResponse)->some View{
+        Button {
+            view.move(type:.createReviewView(id: review.contentsID, image:review.contentsPosterPath.getImadImage(), workName: review.contentsTitle, gradeAvg: review.score,reviewId : review.reviewID, title: review.title,text:review.content,spoiler: review.spoiler,rating:review.score))
+        } label: {
+            Text("수정하기")
         }
-        .background(Color.white)
-        
-        
+        Button("삭제하기",role:.destructive){
+            delete = true
+        }
     }
-    
-    func workInfoView(review:ReviewResponse)->some View{
+    @ViewBuilder
+    var reportedConfirmationDialog:some View{
+        Button("신고하기") {
+            if let report = vmReview.review?.reported,report{
+                message = "이미 신고된 리뷰입니다."
+                reportSuccess = true
+                reported = true
+            }else{
+                sheetReport = true
+            }
+        }
+    }
+    @ViewBuilder
+    var deleteConfirmationDialog:some View{
+        Button("삭제",role:.destructive){
+            vmReview.deleteReview(id: reviewId)
+            view.back()
+        }
+        Button("취소",role:.cancel){}
+    }
+    func header(review:ReviewResponse)->some View{
+        HStack{
+            HeaderView(backIcon: "chevron.left", text: "리뷰"){view.back()}
+            Spacer()
+            Button {
+                review.author ? menu.toggle():report.toggle()
+            } label: {
+                Image(systemName: "ellipsis")
+                    .font(.title3)
+            }
+            .confirmationDialog("",isPresented:$report,actions:{reportedConfirmationDialog}){
+                Text("리뷰를 신고하시겠습니까?")
+            }
+            .confirmationDialog("",isPresented:$menu,actions:{menuConfirmationDialog(review:review)}){
+                Text("리뷰 수정하거나 삭제하시겠습니까?")
+            }
+            .confirmationDialog("",isPresented:$delete,actions:{deleteConfirmationDialog}){
+                Text("리뷰를 삭제하시겠습니까?")
+            }
+        }
+        .padding(10)
+        .background(Color.white)
+    }
+    func reviewInfoView(review:ReviewResponse)->some View{
         VStack(alignment: .leading) {
             HStack{
                 VStack(alignment: .leading) {
                     HStack{
-                        if review.userNickname == user.cache?.nickname{
-                            ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
-                        }else{
-                            Button {
-                               profile = true
-                            } label: {
-                                ProfileImageView(imagePath: review.userProfileImage, widthHeigt: 40)
-                            }
+                        Button {
+                            guard review.userNickname == user.cache?.nickname else {return sheetProfile = true}
+                        } label: {
+                            ProfileImageView(imagePath:review.userProfileImage,widthHeigt:40)
                         }
                         VStack(alignment: .leading){
                             Text(review.userNickname)
@@ -190,9 +144,9 @@ extension ReviewDetailsView{
                             Group{
                                 if review.createdAt != review.modifiedAt{
                                     Text("수정됨").bold()
-                                    Text( review.modifiedAt.relativeTime())
+                                    Text(review.modifiedAt.relativeTime())
                                 }else{
-                                    Text( review.createdAt.relativeTime())
+                                    Text(review.createdAt.relativeTime())
                                 }
                             }
                             .foregroundColor(.gray)
@@ -200,8 +154,7 @@ extension ReviewDetailsView{
                             .font(.subheadline)
                         }
                     }
-                    
-                    Text(vm.review?.title ?? "")
+                    Text(vmReview.review?.title ?? "")
                         .font(.GmarketSansTTFMedium(20))
                         .fontWeight(.semibold)
                         .padding(.top,5)
@@ -218,9 +171,8 @@ extension ReviewDetailsView{
                 .font(.subheadline)
                 .padding(.bottom)
             if goWork{
-                NavigationLink {
-                    WorkView(contentsId:review.contentsID)
-                        .navigationBarBackButtonHidden()
+                Button {
+                    view.move(type:.workViewC(contentsId:review.contentsID))
                 } label: {
                     HStack{
                         KFImageView(image: review.contentsPosterPath.getImadImage(),width: 30,height:40)
@@ -233,8 +185,7 @@ extension ReviewDetailsView{
                     }
                     .background(Color.white)
                     .cornerRadius(5)
-                    .shadow(radius: 1)
-                    
+                    .shadow(radius:5)
                 }
             }
             likeStatusView(review: review)
@@ -244,43 +195,60 @@ extension ReviewDetailsView{
     func likeStatusView(review:ReviewResponse) -> some View{
         HStack{
             Button {
-                vm.like(review: review)
+                vmReview.like(review: review)
             } label: {
                 HStack{
                     Image(systemName:"arrowshape.up.fill")
                         .foregroundColor(.white)
                     Text("추천")
                         .font(.GmarketSansTTFMedium(15))
-                    Text("\(vm.review?.likeCnt ?? 0)")
+                    Text("\(vmReview.review?.likeCnt ?? 0)")
                 }
                 .foregroundColor(.white)
                 .frame(height:35)
                 .frame(maxWidth: .infinity)
                 .background{
                     RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.customIndigo.opacity(vm.review?.likeStatus == 1 ? 1 : 0.5))
+                        .foregroundColor(.customIndigo.opacity(vmReview.review?.likeStatus == 1 ? 1 : 0.5))
                 }
             }
             Spacer()
             Button {
-                vm.disLike(review: review)
+                vmReview.disLike(review: review)
             } label: {
                 HStack{
                     Image(systemName:"arrowshape.down.fill")
                         .foregroundColor(.white)
                     Text("비추천")
                         .font(.GmarketSansTTFMedium(15))
-                    Text("\(vm.review?.dislikeCnt ?? 0)")
+                    Text("\(vmReview.review?.dislikeCnt ?? 0)")
                 }
                 .foregroundColor(.white)
                 .frame(height:35)
                 .frame(maxWidth: .infinity)
                 .background{
                     RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.customIndigo.opacity(vm.review?.likeStatus == -1 ? 1 : 0.5))
+                        .foregroundColor(.customIndigo.opacity(vmReview.review?.likeStatus == -1 ? 1 : 0.5))
                 }
             }
         }
         .padding(.vertical)
+    }
+    var alert:Alert{
+        if reportSuccess{
+            let messages = message == "정상적으로 신고 접수가 완료되었습니다." ? Text("최대 24시간 이내로 검토가 진행될 예정입니다.") : nil
+            let action = {
+                if "정상적으로 신고 접수가 완료되었습니다." == message{ view.back() }
+            }
+            return Alert(title:Text(message),message:messages,dismissButton:.cancel(Text("확인"),action:action))
+        }else{
+            let confirm = Alert.Button.cancel(Text("확인하기")){
+                reported = false
+                vmReview.review?.reported = true
+            }
+            let out = Alert.Button.default(Text("나가기")){ view.back() }
+            let message = Text("이 게시물은 \(user.cache?.nickname ?? "")님이 이미 신고한 게시물입니다. 계속하시겠습니까?")
+            return Alert(title:Text("경고"),message:message,primaryButton:confirm,secondaryButton:out)
+        }
     }
 }

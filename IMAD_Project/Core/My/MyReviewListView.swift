@@ -86,7 +86,7 @@ extension MyReviewListView{
                     ForEach(reviewList,id: \.self) { review in
                         VStack{
                             NavigationLink {
-                                ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)
+                                ReviewDetailsView(goWork: true, reviewId: review.reviewID)
                                    
                                     .navigationBarBackButtonHidden()
                             } label: {

@@ -15,6 +15,7 @@ struct TodayPopularView: View {
     @State var currentOffset:CGFloat = .zero
     @State var endOffset:CGFloat = .zero
     @State private var viewSize: CGFloat = UIScreen.main.bounds.size.width
+    @StateObject var view = ViewManager.instance
     
     var body: some View {
         GeometryReader { geo in
@@ -64,16 +65,15 @@ extension TodayPopularView{
             }
     }
     func reviewView(_ review:ReviewResponse)->some View{
-        NavigationLink {
-            ReviewDetailsView(goWork: true, reviewId: review.reviewID, reported: review.reported)
-                .navigationBarBackButtonHidden()
+        Button{
+            view.move(type:.reviewDetailsView(goWork:true,reviewId:review.reviewID))
         } label: {
             PopularView(popular:PopularResponse(review: review))
                 .shadow(radius: 1)
         }
     }
     func postingView(_ posting:PostingResponse)->some View{
-        NavigationLink {
+        NavigationLink{
             PostingDetailsView(reported: posting.reported, postingId:posting.postingID,main: true,back: .constant(false))
                 .navigationBarBackButtonHidden()
         } label: {

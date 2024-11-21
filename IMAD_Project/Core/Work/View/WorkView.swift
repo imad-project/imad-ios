@@ -113,7 +113,7 @@ extension WorkView{
             }
             HStack{
                 Button {
-                    view.path.removeAll()
+                    view.back()
 //                    dismiss()
 //                    withAnimation{
 //                        vmNavigation.view = nil
@@ -249,7 +249,7 @@ extension WorkView{
             VStack{
                 if let myReviewId = vm.workInfo?.reviewId{
                     NavigationLink {
-                        ReviewDetailsView(goWork: false, reviewId: myReviewId, reported: false)
+                        ReviewView(id:vm.workInfo?.contentsId ?? 0)
                             .navigationBarBackButtonHidden()
                     } label: {
                         HStack(spacing: 0){
@@ -302,9 +302,8 @@ extension WorkView{
                     .fontWeight(.medium)
             }
             ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
-                NavigationLink {
-                    ReviewDetailsView(goWork: false, reviewId: review.reviewID, reported: review.reported)
-                        .navigationBarBackButtonHidden()
+                Button {
+                    view.move(type:.reviewDetailsView(goWork:false,reviewId:review.reviewID))
                 } label: {
                     ReviewListRowView(review: review, my: false)
                         .background(Color.white)
