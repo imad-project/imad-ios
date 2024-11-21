@@ -12,10 +12,12 @@ final class ReviewViewModel:ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()
+    var reportedReview = PassthroughSubject<(),Never>()
     var refreschTokenExpired = PassthroughSubject<(),Never>()
     @Published var user = UserInfoManager.instance
     @Published var review:ReviewResponse?
     @Published var reviewList:[ReviewResponse] = []  //리뷰 리스트
+    let errorManager = ErrorManager.instance
     
     @Published var currentPage = 1
     @Published var maxPage = 0
@@ -43,14 +45,7 @@ final class ReviewViewModel:ObservableObject{
     func readReview(id:Int){
         ReviewApiService.readReview(id: id)
             .sink { completion in
-                switch completion{
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.user.cache = nil
-//                    self.refreschTokenExpired.send()
-                case .finished:
-                    print(completion)
-                }
+                self.errorManager.showErrorMessage(completion:completion)
             } receiveValue: { [weak self] review in
                 self?.review = review.data
             }.store(in: &cancelable)
