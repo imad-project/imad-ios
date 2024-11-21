@@ -1078,9 +1078,9 @@
 		81F259322AB0793800C54668 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				81F259282AB05D5B00C54668 /* ReviewDetailsView.swift */,
 				81C1EB7C2AB3581E00FB265D /* ReviewView.swift */,
 				8124CB3429EFB16A00B446D5 /* CreateReviewView.swift */,
-				81F259282AB05D5B00C54668 /* ReviewDetailsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

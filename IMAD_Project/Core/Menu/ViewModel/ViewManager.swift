@@ -17,6 +17,7 @@ class ViewManager:ObservableObject{
         path.removeAll()
     }
     func back(){
+        guard !path.isEmpty else {return}
         path.removeLast()
     }
     func move(type:ViewTypeFilter){
