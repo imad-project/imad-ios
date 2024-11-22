@@ -11,123 +11,99 @@ struct ReviewView: View {
     let id:Int  //직품ID
     @State var sort:SortPostCategory = .createdDate //정렬기준 - 평점/날짜/좋아요/싫어요
     @State var order:OrderPostCategory = .ascending //오름차순 - 0,내림차순 - 1
-    @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
+    @StateObject var vmReview = ReviewViewModel(review:nil,reviewList:nil)
     @StateObject var view = ViewManager.instance
     
     var body: some View {
         VStack(spacing:0){
-            filterHeader
-            ScrollView {
-                ForEach(vm.reviewList,id:\.self){ review in
-                    NavigationLink {
-                        ReviewDetailsView(goWork: false, reviewId: review.reviewID)
-                            .navigationBarBackButtonHidden()
-                    } label: {
-                        ReviewListRowView(review: review,my:false)
-                            .background(Color.white)
-                    }
-                    if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
-                        ProgressView()
-                            .environment(\.colorScheme, .light)
-                            .onAppear{
-                                vm.readReviewList(id: id, page: vm.currentPage + 1, sort: sort.rawValue, order: order.rawValue)
-                            }
-                    }
-                }
-            }
-            .background(Color.gray.opacity(0.1))
+            headerView
+            listView
         }
         .foregroundColor(.black)
         .background(Color.white.ignoresSafeArea())
-        .onAppear{
-            vm.readReviewList(id: id, page: vm.currentPage, sort: sort.rawValue, order: order.rawValue)
-        }
-        .onChange(of: sort){ newValue in    //정렬기준 바뀔 시
-            initializingArr()
-            vm.readReviewList(id: id, page: vm.currentPage, sort: newValue.rawValue, order: order.rawValue)
-        }
-        .onChange(of: order){ newValue in   //오름/내림차순 바뀔 시
-            initializingArr()
-            vm.readReviewList(id: id, page: vm.currentPage, sort: sort.rawValue, order: newValue.rawValue)
-        }
-        .onDisappear{
-           initializingArr()
-        }
+        .onAppear{ vmReview.getReviewList(id:id,page:1,sort:sort.rawValue,order:order.rawValue,review:ReviewCache()) }
+        .onChange(of:sort){ vmReview.getReviewList(id:id,page:1,sort:$0.rawValue,order:order.rawValue,review:ReviewCache()) }
+        .onChange(of:order){ vmReview.getReviewList(id:id,page:1,sort:sort.rawValue,order:$0.rawValue,review:ReviewCache()) }
     }
     
 }
 
 struct ReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewView(id: 1,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
-           
+        return ReviewView(id:1,vmReview:ReviewViewModel(review:CustomData.review,reviewList:ReviewCache(list:CustomData.reviewDetailList)))
     }
 }
 
 extension ReviewView{
-    
-    func initializingArr(){
-        vm.reviewList.removeAll()
-        vm.maxPage = 0
-        vm.currentPage = 1
-    }
-    var filterHeader:some View{
-        VStack{
-            VStack(spacing:10){
-                HeaderView(backIcon: "chevron.left", text: "모든 리뷰"){
-                    view.back()
-                }
-                HStack{
-                    Group{
-                        Picker("", selection: $sort) {
-                            ForEach(SortPostCategory.allCases,id:\.self){
-                                Text($0.name).font(.system(size: 20))
-                                
-                            }
-                        }
-                        .padding(.horizontal,7)
-                        .overlay{
-                            HStack{
-                                Text(sort.name)
-                                Image(systemName: "chevron.up.chevron.down")
-                            }
-                            .modifier(CustomDatePicker())
-                            
-                        }
-                        Picker("", selection: $order) {
-                            ForEach(OrderPostCategory.allCases,id:\.self){
-                                Text($0.name)
-                            }
-                        }
-                        .padding(.horizontal,5)
-                        .overlay{
-                            HStack{
-                                Text(order.name)
-                                Image(systemName: "chevron.up.chevron.down")
-                            }
-                            .modifier(CustomDatePicker())
-                        }
-                    }
-                    Spacer()
-                }
-            }.padding([.horizontal,.top],10)
-            Divider()
+    var headerView:some View{
+        VStack(spacing:10){
+            HeaderView(backIcon: "chevron.left", text: "모든 리뷰"){ view.back() }
+            HStack{
+                pickerView(items:$sort,list:SortPostCategory.allCases,text:sort.name)
+                pickerView(items:$order,list:OrderPostCategory.allCases,text:order.name)
+                Spacer()
+            }
         }
+        .padding([.horizontal,.top],10)
         .background(Color.white)
     }
-    
+    var listView:some View{
+        ScrollView{
+            if let list = vmReview.reviewList{
+                VStack(spacing: 0){
+                    ForEach(list.list,id:\.self){ review in
+                        Divider()
+                        Button {
+                            view.move(type:.reviewDetailsView(goWork:false,reviewId:review.reviewID))
+                        } label: {
+                            ReviewListRowView(review: review,my:false)
+                                .background(Color.white)
+                        }
+                        if list.list.last == review,list.maxPage > list.currentPage{
+                            ProgressView()
+                                .onAppear{
+                                    vmReview.getReviewListNextPage(nextPage:list.currentPage+1,id:list.id,sort:sort.rawValue,order:order.rawValue,review:list)
+                                }
+                        }
+                    }
+                }
+            }
+        }
+        .background(Color.white1)
+    }
+    func pickerView<T:Hashable>(items:Binding<T>,list:[any CaseIterable],text:String)->some View{
+        Picker("", selection:items) {
+            if let sortList = list as? [SortPostCategory]{
+                ForEach(sortList,id:\.self){
+                    Text($0.name).font(.system(size: 20))
+                }
+            }
+            if let orderList = list as? [OrderPostCategory]{
+                ForEach(orderList,id:\.self){
+                    Text($0.name).font(.system(size: 20))
+                }
+            }
+        }
+        .padding(.horizontal,7)
+        .overlay {
+            HStack{
+                Text(text)
+                Image(systemName: "chevron.up.chevron.down")
+            }
+            .modifier(CustomPicker())
+        }
+    }
 }
 
-struct CustomDatePicker:ViewModifier{
+struct CustomPicker:ViewModifier{
     func body(content: Content) -> some View {
         content
             .font(.GmarketSansTTFMedium(12))
-            .padding(5)
+            .padding(1)
             .padding(.horizontal)
             .background(Color.white)
             .cornerRadius(30)
             .shadow(radius: 2)
             .allowsHitTesting(false)
-        
     }
 }
