@@ -14,4 +14,13 @@ struct RankingCache{
     var maxPage:Int
     var currentPage:Int
     var list:[RankingResponse]
+    
+    init(id:String = "",rankingType:RankingCategory = .all,mediaType:WorkTypeCategory = .all,maxPage:Int = 1,currentPage:Int = 1,list:[RankingResponse] = []) {
+        self.id = id
+        self.rankingType = rankingType
+        self.mediaType = mediaType
+        self.maxPage = maxPage
+        self.currentPage = currentPage
+        self.list = list
+    }
 }

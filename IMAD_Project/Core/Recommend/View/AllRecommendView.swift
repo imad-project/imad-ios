@@ -24,7 +24,7 @@ struct AllRecommendView: View {
         }
         .progress(vmRecommend.recommendList != nil)
         .onAppearOnDisAppear({
-            request(page:1,getNextPage:false,type,contentsId:contentsId ?? 0,cache:RecommendCache(id: type.rawValue, maxPage:1,currentPage:1,list:[]))
+            request(page:1,getNextPage:false,type,contentsId:contentsId ?? 0,cache:RecommendCache())
             title = type.title
         },{ vmRecommend.recommendList = nil})
         
@@ -69,7 +69,7 @@ extension AllRecommendView{
                             }
                             vmRecommend.recommendList = nil
                             title = (type == .genreTv ? user.cache?.nickname ?? "" : "") + type.title
-                            request(page:1,getNextPage:false,type,contentsId:0,cache:RecommendCache(id: type.rawValue, maxPage:1,currentPage:1,list:[]))
+                            request(page:1,getNextPage:false,type,contentsId:0,cache:RecommendCache())
                         }
                     } label: {
                         Text(type.name)
@@ -137,9 +137,8 @@ extension AllRecommendView{
 
 
 #Preview {
-    let cache = RecommendCache(id: "", maxPage: 1, currentPage: 1, list: [])
-    return AllRecommendView(contentsId:1,type: .genreTv,vmRecommend: RecommendViewModel(recommendAll: nil, recommendList:cache))
-        .environmentObject(AuthViewModel(user: CustomData.user))
+    return AllRecommendView(contentsId:1,type:.genreTv,vmRecommend: RecommendViewModel(recommendAll:nil,recommendList:RecommendCache()))
+        .environmentObject(AuthViewModel(user:CustomData.user))
         .background(.white)
 }
 

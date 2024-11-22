@@ -159,8 +159,7 @@ struct RankingView: View {
 }
 
 #Preview {
-    let ranking = RankingCache(id: "", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: CustomData.rankingList)
     return RankingView()
         .background(.white)
-        .environmentObject(RankingViewModel(ranking:ranking, popular: nil))
+        .environmentObject(RankingViewModel(ranking:RankingCache(list:CustomData.rankingList), popular: nil))
 }

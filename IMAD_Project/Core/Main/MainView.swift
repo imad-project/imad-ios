@@ -51,9 +51,8 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            let rankingCache = RankingCache(id: "a", rankingType: .all, mediaType: .all, maxPage: 1, currentPage: 1, list: CustomData.rankingList)
             let popularCache = PopularCache(review: CustomData.review,posting: CustomData.community)
-            MainView(vmRanking:RankingViewModel(ranking:rankingCache, popular: popularCache), vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
+            MainView(vmRanking:RankingViewModel(ranking:RankingCache(list:CustomData.rankingList), popular: popularCache), vmRecommend:RecommendViewModel(recommendAll: CustomData.recommandAll, recommendList: nil))
                 .environment(\.colorScheme, .light)
         }
     }
