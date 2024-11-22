@@ -34,12 +34,12 @@ class ReviewCacheManager{
             self.lock.unlock()
         }
     }
-    func reviewListOfUpdateData(data:ReviewCache?){
+    func reviewListOfUpdateData(data:ReviewCache?,key:String){
         DispatchQueue.global(qos:.background).async {
             self.lock.lock()
             guard let data else {return}
-            self.reviewListTimeStamp["\(data.id)"] = Date()
-            self.reviewListStorage.updateValue(data,forKey:"\(data.id)")
+            self.reviewListTimeStamp[key] = Date()
+            self.reviewListStorage.updateValue(data,forKey:key)
             self.lock.unlock()
         }
     }

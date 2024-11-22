@@ -63,7 +63,7 @@ struct WorkView: View {
         }
         .onReceive(vm.success){ contentsId in
             guard let contentsId else {return}
-            vmReview.getReviewList(id:contentsId,page:1,sort:"createdDate",order:0,review:ReviewCache(list:[]))
+            vmReview.getReviewList(id:contentsId,page:1,sort:"createdDate",order:0,review:ReviewCache())
         }
         .alert(isPresented: $written) {
             let no = Alert.Button.default(Text("아니오")){}

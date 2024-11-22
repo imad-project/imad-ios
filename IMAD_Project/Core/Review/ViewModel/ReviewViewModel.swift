@@ -39,8 +39,16 @@ final class ReviewViewModel:ObservableObject{
                 self.success.send()
             }.store(in: &cancelable)
     }
+    
+    func getReview(id:Int){
+        if let data = reviewManager.reviewCachedData(key:"\(id)"),Date().timeDifference(previousTime: reviewManager.reviewTimeStamp["\(id)"],curruntTime:Date()) <= 300{
+            self.review = data
+        }else{
+            fetchReview(id:id)
+        }
+    }
     func getReviewList(id:Int,page:Int,sort:String,order:Int,review:ReviewCache){
-        if let data = reviewManager.reviewListCachedData(key:"\(review.id)"),Date().timeDifference(previousTime: reviewManager.reviewListTimeStamp["\(review.id)"],curruntTime:Date()) <= 300{
+        if let data = reviewManager.reviewListCachedData(key:"\(id)\(sort)\(order)"),Date().timeDifference(previousTime: reviewManager.reviewListTimeStamp["\(id)\(sort)\(order)"],curruntTime:Date()) <= 300{
             self.reviewList = data
         }else{
             fetchReviewList(id:id,page:page,sort:sort,order:order,review:review){ response,review in
@@ -51,14 +59,7 @@ final class ReviewViewModel:ObservableObject{
             }
         }
     }
-    func getReview(id:Int){
-        if let data = reviewManager.reviewCachedData(key:"\(id)"),Date().timeDifference(previousTime: reviewManager.reviewTimeStamp["\(id)"],curruntTime:Date()) <= 300{
-            self.review = data
-        }else{
-            fetchReview(id:id)
-        }
-    }
-    func getReviewNextPage(nextPage:Int,id:Int,sort:String,order:Int,review:ReviewCache){
+    func getReviewListNextPage(nextPage:Int,id:Int,sort:String,order:Int,review:ReviewCache){
         fetchReviewList(id:id,page:nextPage,sort:sort,order:order,review:review){ response,review in
             var review = review
             review.list.append(contentsOf: response.detailList)
@@ -77,13 +78,13 @@ final class ReviewViewModel:ObservableObject{
     }
     
     private func fetchReviewList(id:Int,page:Int,sort:String,order:Int,review:ReviewCache,completion:@escaping(NetworkListResponse<ReviewResponse>,ReviewCache)->(ReviewCache)){
-        ReviewApiService.readReviewList(id: id, page: page, sort: sort, order: order)
+        ReviewApiService.readReviewList(id:id,page:page,sort:sort,order:order)
             .sink { completion in
                 self.errorManager.actionErrorMessage(completion:completion)
             } receiveValue: { [weak self] response in
                 guard let response = response.data else{return}
                 self?.reviewList = completion(response,review)
-                self?.reviewManager.reviewListOfUpdateData(data:self?.reviewList)
+                self?.reviewManager.reviewListOfUpdateData(data:self?.reviewList,key:"\(id)\(sort)\(order)")
             }.store(in: &cancelable)
     }
     func updateReview(reviewId:Int,title:String,content:String,score:Double,spoiler:Bool){
