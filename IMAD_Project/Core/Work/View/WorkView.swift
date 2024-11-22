@@ -310,10 +310,9 @@ extension WorkView{
                         .cornerRadius(10)
                 }
             }
-            if vmReview.reviewList.count > 2 {
-                NavigationLink {
-                    ReviewView(id: vm.workInfo?.contentsId ?? 0)
-                        .navigationBarBackButtonHidden()
+            if vmReview.reviewList?.list.count ?? 0 > 2 {
+                Button {
+                    view.move(type:.reviewView(id:vm.workInfo?.contentsId ?? 0))
                 } label: {
                     HStack{
                         Text("리뷰 \(vm.workInfo?.reviewCnt ?? 0)개 모두보기")
