@@ -27,7 +27,7 @@ struct ReviewDetailsView: View {
     //클래스 인스턴스
     @StateObject var user = UserInfoManager.instance
     @StateObject var view = ViewManager.instance
-    @StateObject var vmReview = ReviewViewModel(review: nil, reviewList: [])
+    @StateObject var vmReview = ReviewViewModel(review:nil,reviewList:nil)
     @StateObject var vmReport = ReportViewModel()
     
     var body: some View {
@@ -52,7 +52,7 @@ struct ReviewDetailsView: View {
         .fullScreenCover(isPresented:$sheetReport){ ReportView(id: reviewId,mode:"review")}
         .foregroundColor(.black)
         .background(Color.white1)
-        .onAppear{ vmReview.readReview(id:reviewId) }
+        .onAppear{ vmReview.getReview(id:reviewId) }
         .environmentObject(vmReport)
         .alert(isPresented:$reported){ alert }
         .onReceive(vmReview.reportedReview){ reported = true }
@@ -67,7 +67,7 @@ struct ReviewDetailsView: View {
 struct ReviewDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ReviewDetailsView(goWork:true,reviewId:1,reported:false,vmReview:ReviewViewModel(review:CustomData.review,reviewList:[]))
+            ReviewDetailsView(goWork:true,reviewId:1,reported:false,vmReview:ReviewViewModel(review:CustomData.review,reviewList:nil))
         }
     }
 }
@@ -185,7 +185,7 @@ extension ReviewDetailsView{
                     }
                     .background(Color.white)
                     .cornerRadius(5)
-                    .shadow(radius:5)
+                    .shadow(radius:1)
                 }
             }
             likeStatusView(review: review)
@@ -225,7 +225,7 @@ extension ReviewDetailsView{
                 }
                 .foregroundColor(.white)
                 .frame(height:35)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth:.infinity)
                 .background{
                     RoundedRectangle(cornerRadius: 10)
                         .foregroundColor(.customIndigo.opacity(vmReview.review?.likeStatus == -1 ? 1 : 0.5))

@@ -14,7 +14,7 @@ struct UserProfileView: View {
     
     let genreColumns = [ GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @StateObject var vmProfile = ProfileImageViewModel()
-    @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
+    @StateObject var vm = ReviewViewModel(review:nil,reviewList:nil)
     @StateObject var vmWork = WorkViewModel(workInfo: nil,bookmarkList: [])
     @StateObject var user = UserInfoManager.instance
     
@@ -139,7 +139,7 @@ struct UserProfileView: View {
 struct UserProfileView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            UserProfileView(vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList),vmWork:WorkViewModel(workInfo: nil, bookmarkList: CustomData.bookmarkList))
+            UserProfileView(vm: ReviewViewModel(review:CustomData.review,reviewList:ReviewCache(id:1,maxPage:1,currentPage:1,list: CustomData.reviewDetailList)),vmWork:WorkViewModel(workInfo: nil, bookmarkList:CustomData.bookmarkList))
                
         }
     }

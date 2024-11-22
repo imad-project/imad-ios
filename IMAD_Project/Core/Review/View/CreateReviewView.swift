@@ -28,7 +28,7 @@ struct CreateReviewView: View {
     @State var error = false
     @StateObject var user = UserInfoManager.instance
     @StateObject var view = ViewManager.instance
-    @StateObject var vm = ReviewViewModel(review:nil,reviewList: [])
+    @StateObject var vm = ReviewViewModel(review:nil,reviewList:nil)
 //    @Environment(\.dismiss) var dismiss
     
     
@@ -94,7 +94,7 @@ struct CreateReviewView: View {
 
 struct CreateReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateReviewView(id: 1, image: CustomData.workImage, workName: "카지노", gradeAvg: 9.5, reviewId: nil,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
+        CreateReviewView(id: 1, image: CustomData.workImage, workName: "카지노", gradeAvg: 9.5, reviewId: nil,vm: ReviewViewModel(review:CustomData.review,reviewList:ReviewCache(id:1,maxPage:1,currentPage:1,list: CustomData.reviewDetailList)))
            
     }
 }

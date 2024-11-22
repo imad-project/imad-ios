@@ -24,7 +24,7 @@ struct WorkView: View {
 //    @Environment(\.dismiss) var dismiss
     @StateObject var view = ViewManager.instance
     @StateObject var user = UserInfoManager.instance
-    @StateObject var vmReview = ReviewViewModel(review:nil,reviewList: [])
+    @StateObject var vmReview = ReviewViewModel(review:nil,reviewList:nil)
     @StateObject var vm = WorkViewModel(workInfo: nil,bookmarkList: [])
 //    @EnvironmentObject var vmNavigation:NavigationViewModel
     
@@ -59,20 +59,16 @@ struct WorkView: View {
             }
         }
         .onDisappear{
-            vmReview.reviewList.removeAll()
+            vmReview.reviewList?.list.removeAll()
         }
         .onReceive(vm.success){ contentsId in
             guard let contentsId else {return}
-            vmReview.readReviewList(id: contentsId, page: 1, sort: "createdDate", order: 0)
+            vmReview.getReviewList(id:contentsId,page:1,sort:"createdDate",order:0,review:ReviewCache(list:[]))
         }
         .alert(isPresented: $written) {
-            let no = Alert.Button.default(Text("아니오")) {}
-            let yes = Alert.Button.cancel(Text("예")) {
-                showMyRevie = true
-            }
-            return Alert(title: Text("리뷰 작성함"),
-                         message: Text("이미 작성한 리뷰가 존재합니다!\n리뷰를 확인하시겠습니까?"),
-                         primaryButton: no, secondaryButton: yes)
+            let no = Alert.Button.default(Text("아니오")){}
+            let yes = Alert.Button.cancel(Text("예")){ showMyRevie = true }
+            return Alert(title:Text("리뷰 작성함"),message:Text("이미 작성한 리뷰가 존재합니다!\n리뷰를 확인하시겠습니까?"),primaryButton:no,secondaryButton:yes)
         }
         .navigationDestination(isPresented: $writeReview) {
             CreateReviewView(id:vm.workInfo?.contentsId ?? 0, image: vm.workInfo?.posterPath?.getImadImage() ?? "", workName: vm.workInfo?.title ??  vm.workInfo?.name ?? "", gradeAvg: vm.workInfo?.imadScore ?? 0,reviewId: nil)
@@ -93,7 +89,7 @@ struct WorkView: View {
 struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            WorkView(vmReview: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList), vm: WorkViewModel(workInfo: CustomData.workInfo,bookmarkList: CustomData.bookmarkList))
+            WorkView(vmReview: ReviewViewModel(review:CustomData.review,reviewList:ReviewCache(id:1,maxPage:1,currentPage:1,list: CustomData.reviewDetailList)), vm: WorkViewModel(workInfo: CustomData.workInfo,bookmarkList: CustomData.bookmarkList))
                
         }
     }
@@ -295,13 +291,13 @@ extension WorkView{
                     .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.customIndigo))
                 }
             }
-            if !vmReview.reviewList.isEmpty{
+            if let list = vmReview.reviewList?.list,!list.isEmpty{
                 Text("리뷰 보기")
                     .padding(.top)
                     .font(.custom("GmarketSansTTFLight", size: 16))
                     .fontWeight(.medium)
             }
-            ForEach(vmReview.reviewList.prefix(2),id:\.self){ review in
+            ForEach((vmReview.reviewList?.list ?? []).prefix(2),id:\.self){ review in
                 Button {
                     view.move(type:.reviewDetailsView(goWork:false,reviewId:review.reviewID))
                 } label: {

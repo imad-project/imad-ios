@@ -208,6 +208,8 @@
 		D6C763892C2E898A00BCD37B /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C763882C2E898A00BCD37B /* ListView.swift */; };
 		D6CE82E42CB654780092243D /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CE82E32CB654780092243D /* Logo.swift */; };
 		D6CE82E92CB8A58D0092243D /* NavigationTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CE82E82CB8A58D0092243D /* NavigationTestView.swift */; };
+		D6D849F82CEF2B6D004D3E6A /* ReviewCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D849F72CEF2B6D004D3E6A /* ReviewCacheManager.swift */; };
+		D6D849FA2CEF2B83004D3E6A /* ReviewCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D849F92CEF2B83004D3E6A /* ReviewCache.swift */; };
 		D6D974B92C3B9A8200BCBF49 /* GetTokenInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974B82C3B9A8200BCBF49 /* GetTokenInterceptor.swift */; };
 		D6D974BB2C3BA09D00BCBF49 /* ProfileImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974BA2C3BA09D00BCBF49 /* ProfileImageRouter.swift */; };
 		D6D974BD2C3BA13B00BCBF49 /* ProfileImageApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D974BC2C3BA13B00BCBF49 /* ProfileImageApiService.swift */; };
@@ -441,6 +443,8 @@
 		D6C763882C2E898A00BCD37B /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		D6CE82E32CB654780092243D /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		D6CE82E82CB8A58D0092243D /* NavigationTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTestView.swift; sourceTree = "<group>"; };
+		D6D849F72CEF2B6D004D3E6A /* ReviewCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCacheManager.swift; sourceTree = "<group>"; };
+		D6D849F92CEF2B83004D3E6A /* ReviewCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCache.swift; sourceTree = "<group>"; };
 		D6D974B82C3B9A8200BCBF49 /* GetTokenInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTokenInterceptor.swift; sourceTree = "<group>"; };
 		D6D974BA2C3BA09D00BCBF49 /* ProfileImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageRouter.swift; sourceTree = "<group>"; };
 		D6D974BC2C3BA13B00BCBF49 /* ProfileImageApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageApiService.swift; sourceTree = "<group>"; };
@@ -1116,6 +1120,7 @@
 				D608EF7E2CA152F000C4FCE7 /* RankingCache.swift */,
 				D608EF862CA1854600C4FCE7 /* PopularCache.swift */,
 				D67CB99C2CD35889009FA805 /* RecommendCache.swift */,
+				D6D849F92CEF2B83004D3E6A /* ReviewCache.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -1127,6 +1132,7 @@
 				D608EF772C9C3D5800C4FCE7 /* RecommendManager.swift */,
 				D608EF842CA182F300C4FCE7 /* PopularCacheManager.swift */,
 				D608EF792C9C425600C4FCE7 /* RankingCacheManager.swift */,
+				D6D849F72CEF2B6D004D3E6A /* ReviewCacheManager.swift */,
 			);
 			path = CacheManager;
 			sourceTree = "<group>";
@@ -1813,6 +1819,7 @@
 				81F2592B2AB0656B00C54668 /* ReviewRouter.swift in Sources */,
 				81F259292AB05D5B00C54668 /* ReviewDetailsView.swift in Sources */,
 				81BB11062A0614D1005654AA /* ApiLogger.swift in Sources */,
+				D6D849F82CEF2B6D004D3E6A /* ReviewCacheManager.swift in Sources */,
 				818CF7FE2A21B7E000BABA1F /* RegisterFilter.swift in Sources */,
 				D69CC5C02C32944B0053E5A1 /* AllRecommendView.swift in Sources */,
 				817B60CD2A236F00000099A9 /* CheckRouter.swift in Sources */,
@@ -1848,6 +1855,7 @@
 				D6D974C62C3BB2D400BCBF49 /* ProfileImageResponse.swift in Sources */,
 				D69455CF2C4BC1A5004CDFC9 /* OtherUsersProfileView.swift in Sources */,
 				D69455CD2C4BAD89004CDFC9 /* UserViewModel.swift in Sources */,
+				D6D849FA2CEF2B83004D3E6A /* ReviewCache.swift in Sources */,
 				8103094129D1BDEF0021717B /* IMAD_ProjectApp.swift in Sources */,
 				8124CB3A29F0175F00B446D5 /* SearchView.swift in Sources */,
 				D6EAAA702CB9042E001C9BD5 /* RegisterCheckFilter.swift in Sources */,

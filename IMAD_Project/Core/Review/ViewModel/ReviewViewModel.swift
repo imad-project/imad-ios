@@ -13,21 +13,18 @@ final class ReviewViewModel:ObservableObject{
     var cancelable = Set<AnyCancellable>()
     var success = PassthroughSubject<(),Never>()
     var reportedReview = PassthroughSubject<(),Never>()
-    var refreschTokenExpired = PassthroughSubject<(),Never>()
-    @Published var user = UserInfoManager.instance
-    @Published var review:ReviewResponse?
-    @Published var reviewList:[ReviewResponse] = []  //리뷰 리스트
+    let reviewManager = ReviewCacheManager.instance
     let errorManager = ErrorManager.instance
     
-    @Published var currentPage = 1
-    @Published var maxPage = 0
+    @Published var user = UserInfoManager.instance
+    @Published var review:ReviewResponse?
+    @Published var reviewList:ReviewCache? = nil
     
-    @Published var error = ""
-    
-    init(review:ReviewResponse?,reviewList:[ReviewResponse]){
+    init(review:ReviewResponse?,reviewList:ReviewCache?){
         self.review = review
         self.reviewList = reviewList
     }
+    
     func createReview(contentsId:Int,title:String,content:String,score:Double,spoiler:Bool){
         ReviewApiService.createReview(id: contentsId, title: title, content: content, score: score, spoiler: spoiler)
             .sink {completion in
@@ -42,31 +39,51 @@ final class ReviewViewModel:ObservableObject{
                 self.success.send()
             }.store(in: &cancelable)
     }
-    func readReview(id:Int){
+    func getReviewList(id:Int,page:Int,sort:String,order:Int,review:ReviewCache){
+        if let data = reviewManager.reviewListCachedData(key:"\(review.id)"),Date().timeDifference(previousTime: reviewManager.reviewListTimeStamp["\(review.id)"],curruntTime:Date()) <= 300{
+            self.reviewList = data
+        }else{
+            fetchReviewList(id:id,page:page,sort:sort,order:order,review:review){ response,review in
+                var review = review
+                review.list = response.detailList
+                review.maxPage = response.totalPages
+                return review
+            }
+        }
+    }
+    func getReview(id:Int){
+        if let data = reviewManager.reviewCachedData(key:"\(id)"),Date().timeDifference(previousTime: reviewManager.reviewTimeStamp["\(id)"],curruntTime:Date()) <= 300{
+            self.review = data
+        }else{
+            fetchReview(id:id)
+        }
+    }
+    func getReviewNextPage(nextPage:Int,id:Int,sort:String,order:Int,review:ReviewCache){
+        fetchReviewList(id:id,page:nextPage,sort:sort,order:order,review:review){ response,review in
+            var review = review
+            review.list.append(contentsOf: response.detailList)
+            review.currentPage = nextPage
+            return review
+        }
+    }
+    private func fetchReview(id:Int){
         ReviewApiService.readReview(id: id)
             .sink { completion in
                 self.errorManager.showErrorMessage(completion:completion)
             } receiveValue: { [weak self] review in
                 self?.review = review.data
+                self?.reviewManager.reviewOfUpdateData(data:review.data)
             }.store(in: &cancelable)
     }
     
-    func readReviewList(id:Int,page:Int,sort:String,order:Int){
+    private func fetchReviewList(id:Int,page:Int,sort:String,order:Int,review:ReviewCache,completion:@escaping(NetworkListResponse<ReviewResponse>,ReviewCache)->(ReviewCache)){
         ReviewApiService.readReviewList(id: id, page: page, sort: sort, order: order)
             .sink { completion in
-                switch completion{
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.user.cache = nil
-                case .finished:
-                    print(completion)
-                }
-                self.currentPage = page
-            } receiveValue: { [weak self] review in
-                if let data = review.data{
-                    self?.reviewList.append(contentsOf: data.detailList)
-                    self?.maxPage = data.totalPages
-                }
+                self.errorManager.actionErrorMessage(completion:completion)
+            } receiveValue: { [weak self] response in
+                guard let response = response.data else{return}
+                self?.reviewList = completion(response,review)
+                self?.reviewManager.reviewListOfUpdateData(data:self?.reviewList)
             }.store(in: &cancelable)
     }
     func updateReview(reviewId:Int,title:String,content:String,score:Double,spoiler:Bool){
@@ -114,41 +131,41 @@ final class ReviewViewModel:ObservableObject{
             }.store(in: &cancelable)
     }
     func readMyReviewList(page:Int){
-        ReviewApiService.readMyReviewList(page: page)
-            .sink {  completion in
-                switch completion{
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.user.cache = nil
-                case .finished:
-                    print(completion)
-                }
-                self.currentPage = page
-            } receiveValue: { [weak self] data in
-                if let data = data.data{
-                    self?.reviewList.append(contentsOf: data.detailList)
-                    self?.maxPage = data.totalPages
-                }
-            }.store(in: &cancelable)
+//        ReviewApiService.readMyReviewList(page: page)
+//            .sink {  completion in
+//                switch completion{
+//                case .failure(let error):
+//                    print(error.localizedDescription)
+//                    self.user.cache = nil
+//                case .finished:
+//                    print(completion)
+//                }
+//                self.currentPage = page
+//            } receiveValue: { [weak self] data in
+//                if let data = data.data{
+//                    self?.reviewList.append(contentsOf: data.detailList)
+//                    self?.maxPage = data.totalPages
+//                }
+//            }.store(in: &cancelable)
 
     }
     func readMyLikeReviewList(page:Int,likeStatus:Int){
-        ReviewApiService.readMyLikeReviewList(page: page,likeStatus: likeStatus)
-            .sink { completion in
-                switch completion{
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.user.cache = nil
-                case .finished:
-                    print(completion)
-                }
-                self.currentPage = page
-            } receiveValue: { [weak self] data in
-                if let data = data.data{
-                    self?.reviewList.append(contentsOf: data.detailList)
-                    self?.maxPage = data.totalPages
-                }
-            }.store(in: &cancelable)
+//        ReviewApiService.readMyLikeReviewList(page: page,likeStatus: likeStatus)
+//            .sink { completion in
+//                switch completion{
+//                case .failure(let error):
+//                    print(error.localizedDescription)
+//                    self.user.cache = nil
+//                case .finished:
+//                    print(completion)
+//                }
+//                self.currentPage = page
+//            } receiveValue: { [weak self] data in
+//                if let data = data.data{
+//                    self?.reviewList.append(contentsOf: data.detailList)
+//                    self?.maxPage = data.totalPages
+//                }
+//            }.store(in: &cancelable)
 
     }
     func like(review:ReviewResponse){

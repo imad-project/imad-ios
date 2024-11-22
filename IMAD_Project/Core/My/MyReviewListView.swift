@@ -11,27 +11,27 @@ struct MyReviewListView: View {
     let writeType:WriteTypeFilter
     @State var like = true
     @StateObject var user = UserInfoManager.instance
-    @StateObject var vm = ReviewViewModel(review: nil, reviewList: [])
+    @StateObject var vm = ReviewViewModel(review: nil, reviewList:nil)
     @Environment(\.dismiss) var dismiss
     
     
     func profileMode(next:Bool)->(){
         switch writeType{
-        case .myself:
-            return vm.readMyReviewList(page: next ? vm.currentPage + 1 : vm.currentPage)
-        case .myselfLike:
-            return vm.readMyLikeReviewList(page: next ? vm.currentPage + 1 : vm.currentPage, likeStatus: like ? 1 : -1)
+        case .myself: return print("")
+            //            return vm.readMyReviewList(page: next ? vm.currentPage + 1 : vm.currentPage)
+        case .myselfLike: return print("")
+            //            return vm.readMyLikeReviewList(page: next ? vm.currentPage + 1 : vm.currentPage, likeStatus: like ? 1 : -1)
         }
     }
     var reviewList:[ReviewResponse]{
         switch writeType{
         case .myself:
-            return vm.reviewList
+            return vm.reviewList?.list ?? []
         case .myselfLike:
             if like{
-                return vm.reviewList.filter({$0.likeStatus == 1})
+                return vm.reviewList?.list.filter({$0.likeStatus == 1}) ?? []
             }else{
-                return vm.reviewList.filter({$0.likeStatus == -1})
+                return vm.reviewList?.list.filter({$0.likeStatus == -1}) ?? []
             }
         }
     }
@@ -47,16 +47,16 @@ struct MyReviewListView: View {
             profileMode(next: false)
         }
         .onDisappear{
-            vm.currentPage = 1
-            vm.reviewList.removeAll()
+            //            vm.currentPage = 1
+            vm.reviewList?.list.removeAll()
         }
     }
 }
 
 struct MyReviewListView_Previews: PreviewProvider {
     static var previews: some View {
-        MyReviewListView(writeType: .myselfLike,vm: ReviewViewModel(review:CustomData.review,reviewList: CustomData.reviewDetailList))
-           
+        MyReviewListView(writeType: .myselfLike,vm: ReviewViewModel(review:CustomData.review,reviewList: ReviewCache(list:CustomData.reviewDetailList)))
+        
     }
 }
 
@@ -79,31 +79,31 @@ extension MyReviewListView{
     
     var item:some View{
         VStack{
-            if vm.reviewList.isEmpty{
-                emptyView
-            }else{
-                ScrollView{
-                    ForEach(reviewList,id: \.self) { review in
-                        VStack{
-                            NavigationLink {
-                                ReviewDetailsView(goWork: true, reviewId: review.reviewID)
-                                   
-                                    .navigationBarBackButtonHidden()
-                            } label: {
-                                ReviewListRowView(review: review, my: true)
-                                   
-                            }
-                            if vm.reviewList.last == review,vm.maxPage > vm.currentPage{
-                                ProgressView()
-                                    .environment(\.colorScheme, .light)
-                                    .onAppear{
-                                        profileMode(next: true)
-                                    }
+            if let list = vm.reviewList?.list{
+                if list.isEmpty{
+                    emptyView
+                }else{
+                    ScrollView{
+                        ForEach(reviewList,id:\.self){ review in
+                            VStack{
+                                NavigationLink {
+                                    ReviewDetailsView(goWork:true,reviewId:review.reviewID)
+                                        .navigationBarBackButtonHidden()
+                                } label: {
+                                    ReviewListRowView(review: review, my: true)
+                                }
+                                if let list = vm.reviewList,list.list.last == review,list.maxPage > list.currentPage{
+                                    ProgressView()
+                                        .environment(\.colorScheme, .light)
+                                        .onAppear{
+                                            profileMode(next: true)
+                                        }
+                                }
                             }
                         }
                     }
+                    .background(Color.gray.opacity(0.1))
                 }
-                .background(Color.gray.opacity(0.1))
             }
         }
     }
@@ -111,7 +111,7 @@ extension MyReviewListView{
         Button {
             withAnimation {
                 self.like = like
-                vm.reviewList.removeAll()
+                vm.reviewList?.list.removeAll()
                 profileMode(next: false)
             }
         } label: {
